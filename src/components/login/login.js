@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
 
 const initial_state = {
   error: "",
@@ -13,6 +13,12 @@ export default class Login extends Component{
 	constructor(props){
     super(props);
     this.state = initial_state;
+  }
+
+  componentDidMount () {
+    if (localStorage.getItem("auction_user_token")){
+			this.props.history.push('/')
+		}
   }
   submitHandler = (event) => {
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/users/sign_in"
@@ -39,6 +45,7 @@ export default class Login extends Component{
         this.setState({message: result.message});
       }
 		}, (error) => {
+      this.props.history.push('/login')
 		});
 		event.preventDefault();
   }
@@ -91,7 +98,7 @@ export default class Login extends Component{
                 </div>
                 <div className="already-user">
                   Not a member?
-                  <a href="signup.html" title="Login Now">Get Stated for FREE</a>
+                  <Link to="sign_up"href="signup.html" title="Login Now">Get Stated for FREE</Link>
                 </div>
                 <div className="imp-note text-center">
                   <h3>Important:</h3>
