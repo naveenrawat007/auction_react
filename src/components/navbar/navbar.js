@@ -36,7 +36,7 @@ export default class Navbar extends Component{
       )
     }else {
       return(
-        <> <Link to='/login' className="red-btn login-btn">Login</Link> <a href="signup.html" className="red-btn register-btn">Register</a>
+        <> <Link to='/login' className="red-btn login-btn">Login</Link> <Link to="/sign_up" className="red-btn register-btn">Register</Link>
         </>
       )
     }
