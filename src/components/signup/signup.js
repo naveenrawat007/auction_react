@@ -80,10 +80,20 @@ export default class Login extends Component{
     }
     if (this.state.user.phone_number === ""){
       user_phone_number_error = "Phone number cant be blank!"
+    }else if (isNaN(this.state.user.phone_number)) {
+      user_phone_number_error = "Phone should be Numeric"
+    }else if (this.state.user.phone_number.length < 10){
+      user_phone_number_error = "Phone number length is small."
+    }else if (this.state.user.phone_number.length > 10) {
+      user_phone_number_error = "Phone number length is too large."
     }
     if (this.state.user.email === ""){
       user_email_error = "email cant be blank!"
+    }else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.user.email)))
+    {
+      user_email_error = "Invalid email!"
     }
+
     if (this.state.user.password === ""){
       user_password_error = "Password cant be blank!"
     }

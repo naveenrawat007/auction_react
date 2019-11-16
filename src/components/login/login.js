@@ -63,9 +63,14 @@ export default class Login extends Component{
     let user_password_error = "";
     if (this.state.user.email === ""){
       user_email_error = "Email cant be blank!"
+    }else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.user.email)))
+    {
+      user_email_error = "Invalid email!"
     }
     if (this.state.user.password === ""){
       user_password_error = "Password cant be blank!"
+    }else if (this.state.user.password.length < 6) {
+      user_password_error = "Password length cannot be less than 6!"
     }
     this.setState({
       user_email_error,
@@ -95,7 +100,7 @@ export default class Login extends Component{
     if (msg === ""){
       return ;
     }else{
-      return (<label className="error-class"> {msg} </label>);
+      return (<span className="error-class"> {msg} </span>);
     }
   }
 	render() {
