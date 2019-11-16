@@ -1,0 +1,98 @@
+/*header*/
+@media (max-width: 575.98px) {
+	.upload-profile-pic img{
+		width: 140px;
+		height: 150px;
+	}
+	.about-option{
+		border: none;
+	}
+	.about-option ul{
+		margin-left: 0px;
+	}
+	.registration{
+		width: 350px;
+	}
+	.registration-in .left-side{
+		display: none;
+	}
+	.register_body{
+		width: 350px;
+		margin: 0 auto;
+	}
+	.custom_container{
+		max-width: 540px;
+	}
+
+}
+@media (min-width: 576px) and (max-width: 767.98px) {
+	.register_body{
+		width: 450px;
+		margin: 0 auto;
+	}
+}
+@media (max-width: 767.98px) {
+	.registration{
+		width: 350px;
+	}
+	.registration-in .left-side{
+		display: none;
+	}
+	.detail_sec{
+		border: 0px;
+		padding-left: 0.5rem !important;
+		margin-bottom: 15px;
+	}
+	.doc_sec{
+		padding-left: 0.5rem !important;
+	}
+	.video-box img{
+		width: 100%;
+	}
+	.map-box img{
+		width: 100%;
+	}
+	.info-box img{
+		width: 100%;
+	}
+
+}
+@media (max-width: 991.98px) {
+	.header	.responsive-nav{
+		flex-direction: row;
+		margin-left: 10px;
+	}
+	nav .navbar-toggler{
+		padding: 1rem 0.75rem;
+	}
+	nav .navbar-toggler i{
+		color: #a2a1a1;
+	}
+	nav .navbar-toggler:focus{
+		outline: none;
+	}
+	.price-grid {
+    float: none;
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+	}
+	.plans-wrap{
+		height: auto;
+	}
+	.pricing-content p{
+		padding-bottom: 30px;
+	}
+	.plans-grid-wrap{
+		position: relative;
+		top: 0;
+		right: 0;
+		left: 0;
+	}
+	.faq-container{
+		padding-top: 0;
+	}
+	.price-gd-top h4{
+		padding: 1em;
+	}
+}
