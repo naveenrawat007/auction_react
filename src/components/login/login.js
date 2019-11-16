@@ -77,16 +77,6 @@ export default class Login extends Component{
         return true;
       }
     });
-
-    if (user_email_error !== "" || user_password_error !== "" ){
-      this.setState({
-        user_email_error,
-        user_password_error,
-      });
-      return false;
-    }else {
-      return true;
-    }
   }
   updateUser = (event) => {
     const{ name, value } = event.target;

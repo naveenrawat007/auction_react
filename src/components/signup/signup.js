@@ -59,19 +59,19 @@ export default class Login extends Component{
   }
   submitHandler = (event) => {
 		event.preventDefault();
-    let formIsValid = this.checkFormValidation()
+    let formIsValid = this.checkFormValidation();
     if (formIsValid){
       this.submitForm()
     }
   }
 
   checkFormValidation = () => {
-    let user_first_name_error: "";
-    let user_last_name_error: "";
-    let user_phone_number_error: "";
-    let user_email_error: "";
-    let user_password_error: "";
-    let user_confirm_password_error: "";
+    let user_first_name_error = "";
+    let user_last_name_error = "";
+    let user_phone_number_error = "";
+    let user_email_error = "";
+    let user_password_error = "";
+    let user_confirm_password_error = "";
     if (this.state.user.first_name === ""){
       user_first_name_error = "First name cant be blank!"
     }
@@ -98,26 +98,12 @@ export default class Login extends Component{
       user_password_error,
       user_confirm_password_error,
     },function () {
-      if (user_first_name_error !== "" || user_last_name_error !== "" || user_phone_number_error !=="" || user_email_error !== "" || user_password_error !== "" || user_confirm_password_error !== "" ){
+      if (user_first_name_error !== "" || user_last_name_error !== "" || user_phone_number_error !== "" || user_email_error !== "" || user_password_error !== "" || user_confirm_password_error !== "" ){
         return false;
       }else {
         return true;
       }
     });
-
-    if (user_first_name_error !== "" || user_last_name_error !== "" || user_phone_number_error !=="" || user_email_error !== "" || user_password_error !== "" || user_confirm_password_error !== "" ){
-      this.setState({
-        user_first_name_error,
-        user_last_name_error,
-        user_phone_number_error,
-        user_email_error,
-        user_password_error,
-        user_confirm_password_error,
-      });
-      return false;
-    }else {
-      return true;
-    }
   }
   updateUser = (event) => {
     const{ name, value } = event.target;
