@@ -7,7 +7,9 @@ const initial_state = {
   user: {
     email: "",
     password: ""
-  }
+  },
+  "user_email_error": "",
+  "user_password_error": "",
 }
 export default class Login extends Component{
 	constructor(props){
@@ -20,7 +22,7 @@ export default class Login extends Component{
 			this.props.history.push('/')
 		}
   }
-  submitHandler = (event) => {
+  submitForm = () => {
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/users/sign_in"
   	fetch(url ,{
 			method: "POST",
@@ -47,7 +49,44 @@ export default class Login extends Component{
 		}, (error) => {
       this.props.history.push('/login')
 		});
-		event.preventDefault();
+  }
+
+  submitHandler = (event) => {
+    event.preventDefault();
+    let formIsValid = this.checkFormValidation()
+    if (formIsValid){
+      this.submitForm()
+    }
+  }
+  checkFormValidation = () => {
+    let user_email_error = "";
+    let user_password_error = "";
+    if (this.state.user.email === ""){
+      user_email_error = "Email cant be blank!"
+    }
+    if (this.state.user.password === ""){
+      user_password_error = "Password cant be blank!"
+    }
+    this.setState({
+      user_email_error,
+      user_password_error,
+    },function () {
+      if (user_email_error !== "" || user_password_error !== "" ){
+        return false;
+      }else {
+        return true;
+      }
+    });
+
+    if (user_email_error !== "" || user_password_error !== "" ){
+      this.setState({
+        user_email_error,
+        user_password_error,
+      });
+      return false;
+    }else {
+      return true;
+    }
   }
   updateUser = (event) => {
     const{ name, value } = event.target;
@@ -56,8 +95,19 @@ export default class Login extends Component{
       ...this.state.user,
       [name]: value
       }
+    },
+    function () {
+      this.checkFormValidation();
     });
 	}
+
+  addErrorMessage = (msg) => {
+    if (msg === ""){
+      return ;
+    }else{
+      return (<label className="error-class"> {msg} </label>);
+    }
+  }
 	render() {
 		return (
       <div className="registration-outer">
@@ -84,10 +134,12 @@ export default class Login extends Component{
                   <div className="form-group">
                     <label>Email</label>
                     <input type="email" name="email" onChange={this.updateUser} autoComplete="false" className="form-control"/>
+                    {this.addErrorMessage(this.state.user_email_error)}
                   </div>
                   <div className="form-group">
                     <label>Password</label>
                     <input type="password" name="password" onChange={this.updateUser} autoComplete="false" className="form-control"/>
+                    {this.addErrorMessage(this.state.user_password_error)}
                   </div>
                   <div className="form-group mb-0">
                     <button className="red-btn submit-btn" type="submit">Login</button>
