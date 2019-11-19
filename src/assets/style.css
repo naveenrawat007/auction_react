@@ -1668,3 +1668,7 @@ input.form-control:focus {
 .terms_main ol li {
   font-size: 0.8rem;
 }
+
+.alert {
+  font-size: 13px;
+}
