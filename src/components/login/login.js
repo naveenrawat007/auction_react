@@ -102,9 +102,31 @@ export default class Login extends Component{
       }
     },
     function () {
-      this.checkFormValidation();
+      this.customCheckFormValidation(name);
     });
 	}
+  customCheckFormValidation = (name) => {
+    let user_email_error = "";
+    let user_password_error = "";
+    if (name === "email") {
+      if (this.state.user.email === ""){
+        user_email_error = "email cant be blank!"
+      }else if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.user.email)))
+      {
+        user_email_error = "Invalid email!"
+      }
+      this.setState({
+        user_email_error
+      });
+    }else if (name === "password") {
+      if (this.state.user.password === ""){
+        user_password_error = "Password cant be blank!"
+      }
+      this.setState({
+        user_password_error
+      });
+    }
+  }
 
   addErrorMessage = (msg) => {
     if (msg === ""){
