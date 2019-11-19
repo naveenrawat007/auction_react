@@ -151,7 +151,7 @@ export default class Login extends Component{
                   </div>
                 </form>
                 <div className="forgot-pwd">
-                  <a href="forgot-password.html">Forgot Password?</a>
+                  <Link to="forgot_password">Forgot Password?</Link>
                 </div>
                 <div className="already-user">
                   Not a member?
