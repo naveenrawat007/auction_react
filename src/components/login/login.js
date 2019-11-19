@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import Alert from 'react-bootstrap/Alert';
 
 const initial_state = {
   error: "",
@@ -8,6 +9,7 @@ const initial_state = {
     email: "",
     password: ""
   },
+  variant: "",
   "user_email_error": "",
   "user_password_error": "",
 }
@@ -40,11 +42,17 @@ export default class Login extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 202) {
-        this.setState({logged_in: true});
+        this.setState({
+          logged_in: true,
+          variant: "success"
+        });
         localStorage.setItem("auction_user_token", result.user.token);
         this.props.history.push('/')
       }else {
-        this.setState({message: result.message});
+        this.setState({
+          message: result.message,
+          variant: "danger"
+        });
       }
 		}, (error) => {
       this.props.history.push('/login')
@@ -156,7 +164,9 @@ export default class Login extends Component{
                 <span>Please login in to your account below.</span>
               </div>
               <div className="registration-form">
-                { this.state.message}
+                {
+                  this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+                }
                 <form onSubmit = {this.submitHandler}>
                   <div className="form-group">
                     <label>Email</label>

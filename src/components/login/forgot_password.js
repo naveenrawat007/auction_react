@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import Alert from 'react-bootstrap/Alert';
 
 const initial_state = {
   error: "",
@@ -7,6 +8,7 @@ const initial_state = {
   user: {
     email: "",
   },
+  "variant": "",
   "user_email_error": "",
 }
 export default class ForgotPassword extends Component{
@@ -38,10 +40,11 @@ export default class ForgotPassword extends Component{
     .then((result) => {
       if (result.status === 200) {
         this.setState({
-          message: result.message
+          message: result.message,
+          variant: "success"
         });
       }else {
-        this.setState({message: result.message});
+        this.setState({message: result.message, variant: "danger"});
       }
 		}, (error) => {
       this.props.history.push('/forgot_password')
@@ -124,7 +127,10 @@ export default class ForgotPassword extends Component{
                 <p>Don't worry! Reseting your password is easy. Just type in the email you registered to AutionMyDeal.com</p>
               </div>
               <div className="registration-form">
-                {this.state.message}
+                {
+                  this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+                }
+
                 <div className="form-group">
                   <label>Email</label>
                   <input type="text" className="form-control" onChange={this.updateUser} name="email"/>

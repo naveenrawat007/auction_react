@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import $ from 'jquery';
 import VerificationModal from './verify_modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser, faEnvelope, faMobileAlt, faLock } from '@fortawesome/free-solid-svg-icons'
+import Alert from 'react-bootstrap/Alert';
 
 const initial_state = {
   error: "",
@@ -54,7 +57,8 @@ export default class Login extends Component{
         localStorage.setItem("auction_user_token", result.user.token);
         $('#verfiyModal').show()
       }else {
-        this.setState({message: result.message});
+        this.setState({message: result.message,
+        variant: "danger"});
       }
 		}, (error) => {
       this.props.history.push('/sign_up')
@@ -236,7 +240,11 @@ export default class Login extends Component{
             <div className="register-head text-center">
               <p>please fill in the form below to register</p>
             </div>
-            { this.state.message}
+            <div>
+              {
+                this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+              }
+            </div>
             <form onSubmit = {this.submitHandler}>
               <div className="signup-code row mx-0">
                 <div className="col-md-6">
@@ -244,7 +252,7 @@ export default class Login extends Component{
                   <div className="input-group mb-2 ">
                     <div className="input-group-prepend">
                       <span className="input-group-text group-box" id="basic-addon1">
-                        <i className="fa fa-user"></i>
+                        <FontAwesomeIcon icon={faUser} />
                       </span>
                     </div>
                     <input type="text" name="first_name" onChange={this.updateUser} autoComplete="off" className="form-control" />
@@ -256,7 +264,7 @@ export default class Login extends Component{
                   <div className="input-group mb-2 ">
                     <div className="input-group-prepend">
                       <span className="input-group-text group-box" id="basic-addon1">
-                        <i className="fa fa-user"></i>
+                        <FontAwesomeIcon icon={faUser} />
                       </span>
                     </div>
                     <input type="text" className="form-control" name="last_name" onChange={this.updateUser} autoComplete="off" />
@@ -268,7 +276,7 @@ export default class Login extends Component{
                   <div className="input-group mb-2">
                     <div className="input-group-prepend">
                       <span className="input-group-text group-box" id="basic-addon1">
-                        <i className="fas fa-envelope"></i>
+                        <FontAwesomeIcon icon={faEnvelope} />
                       </span>
                     </div>
                     <input type="email" className="form-control" name="email" onChange={this.updateUser} autoComplete="off" />
@@ -280,7 +288,7 @@ export default class Login extends Component{
                   <div className="input-group mb-2">
                     <div className="input-group-prepend">
                       <span className="input-group-text group-box" id="basic-addon1">
-                        <i className="fa fa-mobile"></i>
+                        <FontAwesomeIcon icon={faMobileAlt} />
                       </span>
                     </div>
                     <input type="text" className="form-control numeric" name="phone_number" onChange={this.updateUser} maxLength="10" onKeyPress={this.checkNumeric}/>
@@ -292,7 +300,7 @@ export default class Login extends Component{
                   <div className="input-group mb-2">
                     <div className="input-group-prepend">
                       <span className="input-group-text group-box" id="basic-addon1">
-                        <i className="fa fa-lock"></i>
+                        <FontAwesomeIcon icon={faLock} />
                       </span>
                     </div>
                     <input type="password" className="form-control" name="password" onChange={this.updateUser} autoComplete="false" />
@@ -304,7 +312,7 @@ export default class Login extends Component{
                   <div className="input-group mb-2">
                     <div className="input-group-prepend">
                       <span className="input-group-text group-box" id="basic-addon1">
-                        <i className="fa fa-lock"></i>
+                        <FontAwesomeIcon icon={faLock} />
                       </span>
                     </div>
                     <input type="password" className="form-control" name="confirm_password" onChange={this.updateUser} autoComplete="off" />
