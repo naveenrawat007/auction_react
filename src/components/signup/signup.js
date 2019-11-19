@@ -68,6 +68,18 @@ export default class Login extends Component{
     }
   }
 
+  checkNumeric = (e) => {
+    var regex = new RegExp("^[0-9]+$");
+    var str = String.fromCharCode(
+      !e.charCode
+      ? e.which
+      : e.charCode);
+    if (!regex.test(str)) {
+      e.preventDefault();
+      return false;
+    }
+  }
+
   checkFormValidation = () => {
     let user_first_name_error = "";
     let user_last_name_error = "";
@@ -142,9 +154,72 @@ export default class Login extends Component{
       [name]: value
       }
     }, function () {
-      this.checkFormValidation();
+      this.customCheckFormValidation(name);
     });
 	}
+
+  customCheckFormValidation = (name) => {
+    let user_first_name_error = "";
+    let user_last_name_error = "";
+    let user_phone_number_error = "";
+    let user_email_error = "";
+    let user_password_error = "";
+    let user_confirm_password_error = "";
+    if (name === "first_name"){
+      if (this.state.user.first_name === ""){
+        user_first_name_error = "First name cant be blank!"
+      }
+      this.setState({
+        user_first_name_error
+      });
+    }else if (name === "last_name"){
+      if (this.state.user.last_name === ""){
+        user_last_name_error = "Last name cant be blank!"
+      }
+      this.setState({
+        user_last_name_error
+      });
+    }else if (name === "email") {
+      if (this.state.user.email === ""){
+        user_email_error = "email cant be blank!"
+      }else if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.user.email)))
+      {
+        user_email_error = "Invalid email!"
+      }
+      this.setState({
+        user_email_error
+      });
+    }else if (name === "phone_number") {
+      if (this.state.user.phone_number === ""){
+        user_phone_number_error = "Phone number cant be blank!"
+      }else if (isNaN(this.state.user.phone_number)) {
+        user_phone_number_error = "Phone should be Numeric"
+      }else if (this.state.user.phone_number.length < 10){
+        user_phone_number_error = "Phone number length is small."
+      }else if (this.state.user.phone_number.length > 10) {
+        user_phone_number_error = "Phone number length is too large."
+      }
+      this.setState({
+        user_phone_number_error
+      });
+    }else if (name === "password") {
+      if (this.state.user.password === ""){
+        user_password_error = "Password cant be blank!"
+      }
+      this.setState({
+        user_password_error
+      });
+    }else if (name === "confirm_password") {
+      if (this.state.user.confirm_password === ""){
+        user_confirm_password_error = "Confirm Password cant be blank!"
+      }else if (this.state.user.confirm_password !== this.state.user.password) {
+        user_confirm_password_error = "Confirm Password is not matching password!"
+      }
+      this.setState({
+        user_confirm_password_error
+      });
+    }
+  }
 
   addErrorMessage = (msg) => {
     if (msg === ""){
@@ -208,7 +283,7 @@ export default class Login extends Component{
                         <i className="fa fa-mobile"></i>
                       </span>
                     </div>
-                    <input type="text" className="form-control" name="phone_number" onChange={this.updateUser}  />
+                    <input type="text" className="form-control numeric" name="phone_number" onChange={this.updateUser} maxLength="10" onKeyPress={this.checkNumeric}/>
                   </div>
                   {this.addErrorMessage(this.state.user_phone_number_error)}
                 </div>
