@@ -89,7 +89,7 @@ export default class Login extends Component{
     }
     if (this.state.user.email === ""){
       user_email_error = "email cant be blank!"
-    }else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.user.email)))
+    }else if (!(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.state.user.email)))
     {
       user_email_error = "Invalid email!"
     }
@@ -99,6 +99,8 @@ export default class Login extends Component{
     }
     if (this.state.user.confirm_password === ""){
       user_confirm_password_error = "Confirm Password cant be blank!"
+    }else if (this.state.user.password !== this.state.user.password) {
+      user_confirm_password_error = "Confirm Password is not matching password!"
     }
     this.setState({
       user_first_name_error,
@@ -114,6 +116,20 @@ export default class Login extends Component{
         return true;
       }
     });
+
+    if (user_first_name_error !== "" || user_last_name_error !== "" || user_phone_number_error !=="" || user_email_error !== "" || user_password_error !== "" || user_confirm_password_error !== "" ){
+      this.setState({
+        user_first_name_error,
+        user_last_name_error,
+        user_phone_number_error,
+        user_email_error,
+        user_password_error,
+        user_confirm_password_error,
+      });
+      return false;
+    }else {
+      return true;
+    }
   }
   updateUser = (event) => {
     const{ name, value } = event.target;
