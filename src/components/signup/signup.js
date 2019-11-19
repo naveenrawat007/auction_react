@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
+import $ from 'jquery';
+import VerificationModal from './verify_modal';
 
 const initial_state = {
   error: "",
@@ -28,6 +30,7 @@ export default class Login extends Component{
     if (localStorage.getItem("auction_user_token")){
 			this.props.history.push('/')
 		}
+    // $('#verfiyModal').show();
   }
 
   submitForm = () => {
@@ -49,7 +52,7 @@ export default class Login extends Component{
     .then((result) => {
       if (result.status === 201) {
         localStorage.setItem("auction_user_token", result.user.token);
-        this.props.history.push('/login')
+        $('#verfiyModal').show()
       }else {
         this.setState({message: result.message});
       }
@@ -89,7 +92,7 @@ export default class Login extends Component{
     }
     if (this.state.user.email === ""){
       user_email_error = "email cant be blank!"
-    }else if (!(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.state.user.email)))
+    }else if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.user.email)))
     {
       user_email_error = "Invalid email!"
     }
@@ -99,7 +102,7 @@ export default class Login extends Component{
     }
     if (this.state.user.confirm_password === ""){
       user_confirm_password_error = "Confirm Password cant be blank!"
-    }else if (this.state.user.password !== this.state.user.password) {
+    }else if (this.state.user.confirm_password !== this.state.user.password) {
       user_confirm_password_error = "Confirm Password is not matching password!"
     }
     this.setState({
@@ -248,6 +251,7 @@ export default class Login extends Component{
                 </div>
               </div>
             </form>
+            <VerificationModal/>
           </div>
         </div>
       </div>

@@ -63,7 +63,7 @@ export default class Login extends Component{
     let user_password_error = "";
     if (this.state.user.email === ""){
       user_email_error = "Email cant be blank!"
-    }else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.user.email)))
+    }else if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.user.email)))
     {
       user_email_error = "Invalid email!"
     }

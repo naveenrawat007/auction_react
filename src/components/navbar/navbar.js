@@ -25,7 +25,13 @@ export default class Navbar extends Component{
     }).then(res => res.json())
     .then((result) => {
       if (result.status !== 100){
-        this.props.history.push('/login')
+        let path_name = ""
+        path_name = this.props.location.pathname
+        if ((path_name === "/sign_up") || (path_name === "login") ){
+          this.props.history.push(this.props.location.pathname)
+        }else {
+          this.props.history.push('/')
+        }
       }
     })
   }
@@ -66,40 +72,40 @@ export default class Navbar extends Component{
             <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
               <ul className="navbar-nav responsive-nav">
                 <li className="nav-item dropdown">
-                  <a className="nav-link" href="#" data-toggle="dropdown">Buy <i className="fa fa-angle-down fa-lg"  aria-hidden="true"></i></a>
+                  <a className="nav-link" href="/" data-toggle="dropdown">Buy <i className="fa fa-angle-down fa-lg"  aria-hidden="true"></i></a>
                   <div className="dropdown-menu">
-                    <a className="dropdown-item" href="#">Buy</a>
-                    <a className="dropdown-item" href="#">Sell</a>
-                    <a className="dropdown-item" href="#">Help</a>
+                    <a className="dropdown-item" href="/">Buy</a>
+                    <a className="dropdown-item" href="/">Sell</a>
+                    <a className="dropdown-item" href="/">Help</a>
                   </div>
                 </li>
                 <li className="nav-item dropdown">
-                  <a className="nav-link" href="#" data-toggle="dropdown">Sell <i className="fa fa-angle-down fa-lg"  aria-hidden="true"></i></a>
+                  <a className="nav-link" href="/" data-toggle="dropdown">Sell <i className="fa fa-angle-down fa-lg"  aria-hidden="true"></i></a>
                   <div className="dropdown-menu">
-                    <a className="dropdown-item" href="#">Buy</a>
-                    <a className="dropdown-item" href="#">Sell</a>
-                    <a className="dropdown-item" href="#">Help</a>
+                    <a className="dropdown-item" href="/">Buy</a>
+                    <a className="dropdown-item" href="/">Sell</a>
+                    <a className="dropdown-item" href="/">Help</a>
                   </div>
 
 
                 </li>
                 <li className="nav-item dropdown">
-                  <a className="nav-link" href="#" data-toggle="dropdown">Help <i className="fa fa-angle-down fa-lg"  aria-hidden="true"></i></a>
+                  <a className="nav-link" href="/" data-toggle="dropdown">Help <i className="fa fa-angle-down fa-lg"  aria-hidden="true"></i></a>
                   <div className="dropdown-menu">
-                    <a className="dropdown-item" href="#">Buy</a>
-                    <a className="dropdown-item" href="#">Sell</a>
-                    <a className="dropdown-item" href="#">Help</a>
+                    <a className="dropdown-item" href="/">Buy</a>
+                    <a className="dropdown-item" href="/">Sell</a>
+                    <a className="dropdown-item" href="/">Help</a>
                   </div>
                 </li>
 
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
+                  <a className="nav-link" href="/">
                     About us
                   </a>
                 </li>
               </ul>
               <div className="header-reg">
-                <a href="#" className="mx-3"><img src="images/help.png" onMouseOver={ (e) => {this.mouseOverImageChange(e)} } onMouseOut={ (e) => {this.mouseOutImageChange(e)} } border="0" alt=""/></a>
+                <a href="/" className="mx-3"><img src="images/help.png" onMouseOver={ (e) => {this.mouseOverImageChange(e)} } onMouseOut={ (e) => {this.mouseOutImageChange(e)} } border="0" alt=""/></a>
                 { this.login_log_out_div() }
               </div>
             </div>
