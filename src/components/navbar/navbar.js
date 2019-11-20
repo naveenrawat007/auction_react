@@ -47,6 +47,7 @@ export default class Navbar extends Component{
           this.props.history.push('/')
         }
       }else {
+        this.props.history.push('/')
         if (result.user.is_verified === false){
           localStorage.setItem("auction_user_temp_token", result.user.token);
           this.setState({
