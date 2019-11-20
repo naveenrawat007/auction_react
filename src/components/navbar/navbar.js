@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
 import Dropdown from 'react-bootstrap/Dropdown'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 export default class Navbar extends Component{
   handleLogout = () => {
@@ -96,30 +98,34 @@ export default class Navbar extends Component{
             <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
               <ul className="navbar-nav responsive-nav">
                 <li className="nav-item dropdown">
-                  <a className="nav-link" href="/" data-toggle="dropdown">Buy <i className="fa fa-angle-down fa-lg"  aria-hidden="true"></i></a>
-                  <div className="dropdown-menu">
-                    <a className="dropdown-item" href="/">Buy</a>
-                    <a className="dropdown-item" href="/">Sell</a>
-                    <a className="dropdown-item" href="/">Help</a>
-                  </div>
+                  <Dropdown>
+                    <Dropdown.Toggle as={CustomToggle} className="nav-link" >
+                      Buy <FontAwesomeIcon icon={faChevronDown} />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu className="dropdown-menu profile-men" >
+                      <Dropdown.Item to="#">
+                        Live Online Biding
+                      </Dropdown.Item>
+                      <Dropdown.Item to="#">
+                        Coming Soon
+                      </Dropdown.Item>
+                      <Dropdown.Item to="#">
+                        Post Auction
+                      </Dropdown.Item>
+                      <Dropdown.Item to="#">
+                        Pending Property
+                      </Dropdown.Item>
+                      <Dropdown.Item to='#'>
+                        Sold
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </li>
                 <li className="nav-item dropdown">
-                  <a className="nav-link" href="/" data-toggle="dropdown">Sell <i className="fa fa-angle-down fa-lg"  aria-hidden="true"></i></a>
-                  <div className="dropdown-menu">
-                    <a className="dropdown-item" href="/">Buy</a>
-                    <a className="dropdown-item" href="/">Sell</a>
-                    <a className="dropdown-item" href="/">Help</a>
-                  </div>
-
-
+                  <a className="nav-link" href="/" data-toggle="dropdown">Sell </a>
                 </li>
                 <li className="nav-item dropdown">
-                  <a className="nav-link" href="/" data-toggle="dropdown">Help <i className="fa fa-angle-down fa-lg"  aria-hidden="true"></i></a>
-                  <div className="dropdown-menu">
-                    <a className="dropdown-item" href="/">Buy</a>
-                    <a className="dropdown-item" href="/">Sell</a>
-                    <a className="dropdown-item" href="/">Help</a>
-                  </div>
+                  <a className="nav-link" href="/" data-toggle="dropdown">Help </a>
                 </li>
 
                 <li className="nav-item">
@@ -151,7 +157,7 @@ class CustomToggle extends React.Component {
   }
   render() {
     return (
-      <Link to="" onClick={this.handleClick} className="" >
+      <Link to="" onClick={this.handleClick} className="nav-link" >
         {this.props.children}
       </Link>
     );
