@@ -54,7 +54,7 @@ export default class VerificationModal extends Component{
 			method: "put",
 			headers: {
 				"Content-Type": "application/json",
-        "Authorization": localStorage.getItem("auction_user_token"),
+        "Authorization": localStorage.getItem("auction_user_temp_token"),
         "Accept": "application/vnd.auction_backend.v1",
 				"Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Credentials": "*",
