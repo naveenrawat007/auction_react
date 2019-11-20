@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Link, Redirect} from 'react-router-dom'
 import Alert from 'react-bootstrap/Alert';
-import $ from 'jquery';
 const initial_state = {
   user: {
     verification_code: "",
@@ -39,7 +38,7 @@ export default class VerificationModal extends Component{
       if (result.status === 201) {
         localStorage.setItem("auction_user_token", result.user.token);
         this.setState({verified: result.user.is_verified});
-        $('#verfiyModal').hide()
+        this.props.onCheckMethod();
       }else {
         this.setState({message: result.message,variant: "danger"});
       }

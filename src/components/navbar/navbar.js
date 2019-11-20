@@ -7,12 +7,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 export default class Navbar extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      logged_in: false
+    }
+  }
+
   handleLogout = () => {
     localStorage.removeItem("auction_user_token");
     this.props.history.push('/login')
   }
 
-  componentDidMount () {
+  checkTokenMethod = () => {
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/users/check_token"
     fetch(url, {
       method: "GET",
@@ -42,10 +49,22 @@ export default class Navbar extends Component{
       }else {
         if (result.user.is_verified === false){
           localStorage.setItem("auction_user_temp_token", result.user.token);
+          this.setState({
+            logged_in: true
+          });
           $('#verfiyModal').show()
+        }else{
+          this.setState({
+            logged_in: true
+          });
+          $('#verfiyModal').hide()
         }
       }
     })
+  }
+
+  componentDidMount () {
+    this.checkTokenMethod()
   }
   login_log_out_div = () => {
     if (localStorage.getItem("auction_user_token")){
@@ -148,7 +167,7 @@ export default class Navbar extends Component{
             </div>
           </nav>
         </div>
-        <VerificationModal/>
+        <VerificationModal onCheckMethod={this.checkTokenMethod}/>
       </div>
     )
   }
