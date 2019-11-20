@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import $ from 'jquery';
-import VerificationModal from './verify_modal';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faEnvelope, faMobileAlt, faLock } from '@fortawesome/free-solid-svg-icons'
 import Alert from 'react-bootstrap/Alert';
@@ -54,7 +54,7 @@ export default class Login extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 201) {
-        localStorage.setItem("auction_user_token", result.user.token);
+        localStorage.setItem("auction_user_temp_token", result.user.token);
         $('#verfiyModal').show()
       }else {
         this.setState({message: result.message,
@@ -334,7 +334,6 @@ export default class Login extends Component{
                 </div>
               </div>
             </form>
-            <VerificationModal/>
           </div>
         </div>
       </div>

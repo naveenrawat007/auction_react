@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link, Redirect} from 'react-router-dom'
 import Alert from 'react-bootstrap/Alert';
+import $ from 'jquery';
 const initial_state = {
   user: {
     verification_code: "",
@@ -23,7 +24,7 @@ export default class VerificationModal extends Component{
 			method: "put",
 			headers: {
 				"Content-Type": "application/json",
-        "Authorization": localStorage.getItem("auction_user_token"),
+        "Authorization": localStorage.getItem("auction_user_temp_token"),
         "Accept": "application/vnd.auction_backend.v1",
 				"Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Credentials": "*",
@@ -36,7 +37,9 @@ export default class VerificationModal extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 201) {
+        localStorage.setItem("auction_user_token", result.user.token);
         this.setState({verified: result.user.is_verified});
+        $('#verfiyModal').hide()
       }else {
         this.setState({message: result.message,variant: "danger"});
       }

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
 import Dropdown from 'react-bootstrap/Dropdown'
+import VerificationModal from './../signup/verify_modal';
+import $ from 'jquery';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
@@ -36,6 +38,11 @@ export default class Navbar extends Component{
         }
         else {
           this.props.history.push('/')
+        }
+      }else {
+        if (result.user.is_verified === false){
+          localStorage.setItem("auction_user_temp_token", result.user.token);
+          $('#verfiyModal').show()
         }
       }
     })
@@ -141,6 +148,7 @@ export default class Navbar extends Component{
             </div>
           </nav>
         </div>
+        <VerificationModal/>
       </div>
     )
   }
