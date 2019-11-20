@@ -61,7 +61,7 @@ export default class Navbar extends Component{
       )
     }else {
       return(
-        <> <Link to='/login' className="red-btn login-btn">Login</Link> <Link to="/sign_up" className="red-btn register-btn">Register</Link>
+        <> <Link to='/login' className="red-btn login-btn">Login</Link>&nbsp; <Link to="/sign_up" className="red-btn register-btn">Register</Link>
         </>
       )
     }
