@@ -255,6 +255,7 @@ body {
 
 .header .navbar-nav li a {
   color: #1d1d1d;
+  font-size: 15px;
 }
 
 .header .navbar-nav .nav-link {
@@ -1684,9 +1685,9 @@ input.form-control:focus {
 }
 
 .profile-menu{
-    left: 1000px;
-    right: 0px;
-    top: 82%;
+    left: -50px !important;
+    right: 0px !important;
+    top: 0 !important;
 }
 .header-reg .dropdown-menu a{
     color: #1d1d1d;

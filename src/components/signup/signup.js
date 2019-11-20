@@ -92,13 +92,13 @@ export default class Login extends Component{
     let user_password_error = "";
     let user_confirm_password_error = "";
     if (this.state.user.first_name === ""){
-      user_first_name_error = "First name cant be blank!"
+      user_first_name_error = "First name can't be blank!"
     }
     if (this.state.user.last_name === ""){
-      user_last_name_error = "Last name cant be blank!"
+      user_last_name_error = "Last name can't be blank!"
     }
     if (this.state.user.phone_number === ""){
-      user_phone_number_error = "Phone number cant be blank!"
+      user_phone_number_error = "Phone number can't be blank!"
     }else if (isNaN(this.state.user.phone_number)) {
       user_phone_number_error = "Phone should be Numeric"
     }else if (this.state.user.phone_number.length < 10){
@@ -249,7 +249,7 @@ export default class Login extends Component{
               <div className="signup-code row mx-0">
                 <div className="col-md-6">
                   <label className="">First Name</label>
-                  <div className="input-group mb-2 ">
+                  <div className="input-group ">
                     <div className="input-group-prepend">
                       <span className="input-group-text group-box" id="basic-addon1">
                         <FontAwesomeIcon icon={faUser} />
@@ -261,7 +261,7 @@ export default class Login extends Component{
                 </div>
                 <div className="col-md-6">
                   <label className="">Last Name</label>
-                  <div className="input-group mb-2 ">
+                  <div className="input-group">
                     <div className="input-group-prepend">
                       <span className="input-group-text group-box" id="basic-addon1">
                         <FontAwesomeIcon icon={faUser} />
@@ -271,9 +271,9 @@ export default class Login extends Component{
                   </div>
                   {this.addErrorMessage(this.state.user_last_name_error)}
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6 mt-2">
                   <label className="">Email</label>
-                  <div className="input-group mb-2">
+                  <div className="input-group">
                     <div className="input-group-prepend">
                       <span className="input-group-text group-box" id="basic-addon1">
                         <FontAwesomeIcon icon={faEnvelope} />
@@ -283,9 +283,9 @@ export default class Login extends Component{
                   </div>
                   {this.addErrorMessage(this.state.user_email_error)}
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6 mt-2">
                   <label className="">Phone</label>
-                  <div className="input-group mb-2">
+                  <div className="input-group">
                     <div className="input-group-prepend">
                       <span className="input-group-text group-box" id="basic-addon1">
                         <FontAwesomeIcon icon={faMobileAlt} />
@@ -295,9 +295,9 @@ export default class Login extends Component{
                   </div>
                   {this.addErrorMessage(this.state.user_phone_number_error)}
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6 mt-2">
                   <label className="">Password</label>
-                  <div className="input-group mb-2">
+                  <div className="input-group">
                     <div className="input-group-prepend">
                       <span className="input-group-text group-box" id="basic-addon1">
                         <FontAwesomeIcon icon={faLock} />
@@ -307,9 +307,9 @@ export default class Login extends Component{
                   </div>
                   {this.addErrorMessage(this.state.user_password_error)}
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6 mt-2">
                   <label className="">Confirm Password</label>
-                  <div className="input-group mb-2">
+                  <div className="input-group">
                     <div className="input-group-prepend">
                       <span className="input-group-text group-box" id="basic-addon1">
                         <FontAwesomeIcon icon={faLock} />
@@ -319,7 +319,7 @@ export default class Login extends Component{
                   </div>
                   {this.addErrorMessage(this.state.user_confirm_password_error)}
                 </div>
-                <div className="col-md-12 mb-2 text-center">
+                <div className="col-md-12 mt-3 text-center">
                   <button className="red-btn submit-btn my-0 mx-auto" type="submit" data-toggle="modal" data-target="#verfiyModal">Sign Up</button>
                   <div className="already-user">
                     <span>Already registered? </span>

@@ -55,7 +55,7 @@ export default class Navbar extends Component{
             <Dropdown.Toggle as={CustomToggle} >
               <img src="images/user.png" onMouseOver={ (e) => {this.mouseOverUserImageChange(e)}} onMouseOut={ (e) => {this.mouseOutUserImageChange(e)}} border="0" alt=""/>
             </Dropdown.Toggle>
-            <Dropdown.Menu className="dropdown-menu profile-men" >
+            <Dropdown.Menu className="dropdown-menu profile-menu" >
               <Dropdown.Item to="#">
                 My Profile
               </Dropdown.Item>
@@ -109,7 +109,7 @@ export default class Navbar extends Component{
                     <Dropdown.Toggle as={CustomToggle} className="nav-link" >
                       Buy <FontAwesomeIcon icon={faChevronDown} />
                     </Dropdown.Toggle>
-                    <Dropdown.Menu className="dropdown-menu profile-men" >
+                    <Dropdown.Menu className="dropdown-menu " >
                       <Dropdown.Item to="#">
                         Live Online Biding
                       </Dropdown.Item>
