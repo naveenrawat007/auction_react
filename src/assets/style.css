@@ -1682,3 +1682,15 @@ input.form-control:focus {
 .alert {
   font-size: 13px;
 }
+
+.profile-menu{
+    left: 1000px;
+    right: 0px;
+    top: 82%;
+}
+.header-reg .dropdown-menu a{
+    color: #1d1d1d;
+}
+.dropdown-item.active, .dropdown-item:active{
+    background-color: #f8f9fa;
+}

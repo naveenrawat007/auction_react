@@ -43,15 +43,15 @@ export default class Navbar extends Component{
       return(
         <>
           <Dropdown>
-            <Dropdown.Toggle className="btn-profile">
+            <Dropdown.Toggle as={CustomToggle} >
               <img src="images/user.png" onMouseOver={ (e) => {this.mouseOverUserImageChange(e)}} onMouseOut={ (e) => {this.mouseOutUserImageChange(e)}} border="0" alt=""/>
             </Dropdown.Toggle>
-            <Dropdown.Menu className=" profile-menu" >
-              <Dropdown.Item>
-                <Link className="dropdown-item" to="#">My Profile</Link>
+            <Dropdown.Menu className="dropdown-menu profile-men" >
+              <Dropdown.Item to="#">
+                My Profile
               </Dropdown.Item>
-              <Dropdown.Item>
-                <Link to='#' className="dropdown-item" onClick={this.handleLogout} >Logout</Link>
+              <Dropdown.Item to='#' className="dropdown-item" onClick={this.handleLogout}>
+                Logout
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
@@ -137,5 +137,23 @@ export default class Navbar extends Component{
         </div>
       </div>
     )
+  }
+}
+
+class CustomToggle extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick(e) {
+    e.preventDefault();
+    this.props.onClick(e);
+  }
+  render() {
+    return (
+      <Link to="" onClick={this.handleClick} className="" >
+        {this.props.children}
+      </Link>
+    );
   }
 }
