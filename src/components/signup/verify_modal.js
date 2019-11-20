@@ -83,7 +83,7 @@ export default class VerificationModal extends Component{
 
     let user_verification_error = "";
     if (this.state.user.verification_code === ""){
-      user_verification_error = "Code cant be blank!"
+      user_verification_error = "Code can't be blank!"
     }
 
     this.setState({

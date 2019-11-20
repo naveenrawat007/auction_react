@@ -107,17 +107,17 @@ export default class Login extends Component{
       user_phone_number_error = "Phone number length is too large."
     }
     if (this.state.user.email === ""){
-      user_email_error = "email cant be blank!"
+      user_email_error = "Email can't be blank!"
     }else if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.user.email)))
     {
       user_email_error = "Invalid email!"
     }
 
     if (this.state.user.password === ""){
-      user_password_error = "Password cant be blank!"
+      user_password_error = "Password can't be blank!"
     }
     if (this.state.user.confirm_password === ""){
-      user_confirm_password_error = "Confirm Password cant be blank!"
+      user_confirm_password_error = "Confirm Password can't be blank!"
     }else if (this.state.user.confirm_password !== this.state.user.password) {
       user_confirm_password_error = "Confirm Password is not matching password!"
     }
@@ -171,21 +171,21 @@ export default class Login extends Component{
     let user_confirm_password_error = "";
     if (name === "first_name"){
       if (this.state.user.first_name === ""){
-        user_first_name_error = "First name cant be blank!"
+        user_first_name_error = "First name can't be blank!"
       }
       this.setState({
         user_first_name_error
       });
     }else if (name === "last_name"){
       if (this.state.user.last_name === ""){
-        user_last_name_error = "Last name cant be blank!"
+        user_last_name_error = "Last name can't be blank!"
       }
       this.setState({
         user_last_name_error
       });
     }else if (name === "email") {
       if (this.state.user.email === ""){
-        user_email_error = "email cant be blank!"
+        user_email_error = "Email can't be blank!"
       }else if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.user.email)))
       {
         user_email_error = "Invalid email!"
@@ -195,7 +195,7 @@ export default class Login extends Component{
       });
     }else if (name === "phone_number") {
       if (this.state.user.phone_number === ""){
-        user_phone_number_error = "Phone number cant be blank!"
+        user_phone_number_error = "Phone number can't be blank!"
       }else if (isNaN(this.state.user.phone_number)) {
         user_phone_number_error = "Phone should be Numeric"
       }else if (this.state.user.phone_number.length < 10){
@@ -208,14 +208,14 @@ export default class Login extends Component{
       });
     }else if (name === "password") {
       if (this.state.user.password === ""){
-        user_password_error = "Password cant be blank!"
+        user_password_error = "Password can't be blank!"
       }
       this.setState({
         user_password_error
       });
     }else if (name === "confirm_password") {
       if (this.state.user.confirm_password === ""){
-        user_confirm_password_error = "Confirm Password cant be blank!"
+        user_confirm_password_error = "Confirm Password can't be blank!"
       }else if (this.state.user.confirm_password !== this.state.user.password) {
         user_confirm_password_error = "Confirm Password is not matching password!"
       }

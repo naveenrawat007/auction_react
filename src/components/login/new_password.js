@@ -67,10 +67,10 @@ export default class NewPassword extends Component{
     let user_password_error = "";
     let user_confirm_password_error = "";
     if (this.state.user.password === ""){
-      user_password_error = "Password cant be blank!"
+      user_password_error = "Password can't be blank!"
     }
     if (this.state.user.confirm_password === ""){
-      user_confirm_password_error = "Confirm Password cant be blank!"
+      user_confirm_password_error = "Confirm Password can't be blank!"
     }else if (this.state.user.confirm_password !== this.state.user.password) {
       user_confirm_password_error = "Confirm Password is not matching password!"
     }

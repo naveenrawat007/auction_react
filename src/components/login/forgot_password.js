@@ -61,7 +61,7 @@ export default class ForgotPassword extends Component{
   checkFormValidation = () => {
     let user_email_error = "";
     if (this.state.user.email === ""){
-      user_email_error = "Email cant be blank!"
+      user_email_error = "Email can't be blank!"
     }else if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.user.email)))
     {
       user_email_error = "Invalid email!"

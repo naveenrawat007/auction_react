@@ -70,13 +70,13 @@ export default class Login extends Component{
     let user_email_error = "";
     let user_password_error = "";
     if (this.state.user.email === ""){
-      user_email_error = "Email cant be blank!"
+      user_email_error = "Email can't be blank!"
     }else if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.user.email)))
     {
       user_email_error = "Invalid email!"
     }
     if (this.state.user.password === ""){
-      user_password_error = "Password cant be blank!"
+      user_password_error = "Password can't be blank!"
     }else if (this.state.user.password.length < 6) {
       user_password_error = "Password length cannot be less than 6!"
     }
@@ -118,7 +118,7 @@ export default class Login extends Component{
     let user_password_error = "";
     if (name === "email") {
       if (this.state.user.email === ""){
-        user_email_error = "email cant be blank!"
+        user_email_error = "Email can't be blank!"
       }else if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.user.email)))
       {
         user_email_error = "Invalid email!"
@@ -128,7 +128,7 @@ export default class Login extends Component{
       });
     }else if (name === "password") {
       if (this.state.user.password === ""){
-        user_password_error = "Password cant be blank!"
+        user_password_error = "Password can't be blank!"
       }
       this.setState({
         user_password_error
