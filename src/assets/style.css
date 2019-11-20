@@ -1689,6 +1689,9 @@ input.form-control:focus {
     right: 0px !important;
     top: 0 !important;
 }
+.drop-menu{
+  transform: translate3d(-54px, 44px, 0px) !important;
+}
 .header-reg .dropdown-menu a{
     color: #1d1d1d;
 }
