@@ -268,8 +268,18 @@ body {
 
 .header .header-reg {
   margin-left: auto;
+  display: flex;
+  align-items: center;
 }
-
+.dropdown .btn-profile{
+  background-color: transparent;
+  border-color: transparent;
+}
+.dropdown .dropdown-toggle:focus{
+  box-shadow: none !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
 .header .header-reg .login-btn {
   padding: 5px 30px;
   color: #fff !important;

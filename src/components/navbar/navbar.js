@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
+import Dropdown from 'react-bootstrap/Dropdown'
 
 export default class Navbar extends Component{
   handleLogout = () => {
@@ -40,7 +41,21 @@ export default class Navbar extends Component{
   login_log_out_div = () => {
     if (localStorage.getItem("auction_user_token")){
       return(
-        <Link to='#' className="red-btn login-btn" onClick={this.handleLogout} >Logout</Link>
+        <>
+          <Dropdown>
+            <Dropdown.Toggle className="btn-profile">
+              <img src="images/user.png" onMouseOver={ (e) => {this.mouseOverUserImageChange(e)}} onMouseOut={ (e) => {this.mouseOutUserImageChange(e)}} border="0" alt=""/>
+            </Dropdown.Toggle>
+            <Dropdown.Menu className=" profile-menu" >
+              <Dropdown.Item>
+                <Link className="dropdown-item" to="#">My Profile</Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Link to='#' className="dropdown-item" onClick={this.handleLogout} >Logout</Link>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </>
       )
     }else {
       return(
@@ -56,6 +71,13 @@ export default class Navbar extends Component{
 
   mouseOverImageChange = (event) =>{
     event.target.src='images/helphover.png'
+  }
+  mouseOutUserImageChange = (event) =>{
+    event.target.src='images/user.png'
+  }
+
+  mouseOverUserImageChange = (event) =>{
+    event.target.src='images/userhover.png'
   }
 
 
