@@ -27,7 +27,7 @@ export default class Navbar extends Component{
       if (result.status !== 100){
         let path_name = ""
         path_name = this.props.location.pathname
-        if ((path_name === "/sign_up") || (path_name === "login") || (path_name === "/forgot_password") ){
+        if ((path_name === "/sign_up") || (path_name === "/login") || (path_name === "/forgot_password") ){
           this.props.history.push(this.props.location.pathname)
         }else if (path_name === "/new_password") {
         }
