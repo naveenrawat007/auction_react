@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link, Redirect} from 'react-router-dom'
+import Alert from 'react-bootstrap/Alert';
 const initial_state = {
   user: {
     verification_code: "",
@@ -37,7 +38,7 @@ export default class VerificationModal extends Component{
       if (result.status === 201) {
         this.setState({verified: result.user.is_verified});
       }else {
-        this.setState({message: result.message});
+        this.setState({message: result.message,variant: "danger"});
       }
 		}, (error) => {
       this.setState({message: "server error"});
@@ -137,7 +138,9 @@ export default class VerificationModal extends Component{
                 <div className="heading text-center">Verify</div>
                 <p>Enter the Verification code sent on your Email.</p>
                 <form onSubmit = {this.submitHandler}>
-                  {this.state.message}
+                  {
+                    this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+                  }
                   <div className="form-group">
                     <input type="text" name="verification_code" className="enter-code form-control" onChange={this.updateUserCode}/>
                     {this.addErrorMessage(this.state.user_verification_error)}
