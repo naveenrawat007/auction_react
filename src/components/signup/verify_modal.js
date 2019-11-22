@@ -40,7 +40,7 @@ export default class VerificationModal extends Component{
       if (result.status === 201) {
         localStorage.setItem("auction_user_token", result.user.token);
         this.setState({verified: result.user.is_verified});
-        this.props.history.push('/')
+        this.props.history.push('/user')
       }else {
         this.setState({message: result.message,variant: "danger"});
       }
