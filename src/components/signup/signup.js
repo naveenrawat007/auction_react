@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import $ from 'jquery';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faEnvelope, faMobileAlt, faLock } from '@fortawesome/free-solid-svg-icons'
 import Alert from 'react-bootstrap/Alert';
@@ -55,7 +53,7 @@ export default class Login extends Component{
     .then((result) => {
       if (result.status === 201) {
         localStorage.setItem("auction_user_temp_token", result.user.token);
-        $('#verfiyModal').show()
+        this.props.history.push('/verify')
       }else {
         this.setState({message: result.message,
         variant: "danger"});

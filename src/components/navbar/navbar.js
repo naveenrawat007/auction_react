@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
 import Dropdown from 'react-bootstrap/Dropdown'
-import VerificationModal from './../signup/verify_modal';
-import $ from 'jquery';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
@@ -15,6 +13,9 @@ export default class Navbar extends Component{
   }
 
   handleLogout = () => {
+    this.setState({
+      logged_in: false
+    })
     localStorage.removeItem("auction_user_token");
     this.props.history.push('/login')
   }
@@ -53,12 +54,11 @@ export default class Navbar extends Component{
           this.setState({
             logged_in: true
           });
-          $('#verfiyModal').show()
+          this.props.history.push('/verify')
         }else{
           this.setState({
             logged_in: true
           });
-          $('#verfiyModal').hide()
         }
       }
     })
@@ -68,7 +68,7 @@ export default class Navbar extends Component{
     this.checkTokenMethod()
   }
   login_log_out_div = () => {
-    if (localStorage.getItem("auction_user_token")){
+    if (this.state.logged_in === true){
       return(
         <>
           <Dropdown>
@@ -168,7 +168,6 @@ export default class Navbar extends Component{
             </div>
           </nav>
         </div>
-        <VerificationModal onCheckMethod={this.checkTokenMethod}/>
       </div>
     )
   }

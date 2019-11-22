@@ -47,6 +47,7 @@ export default class Login extends Component{
           variant: "success"
         });
         localStorage.setItem("auction_user_token", result.user.token);
+        window.location.href = "/"
         this.props.history.push('/')
       }else {
         this.setState({
