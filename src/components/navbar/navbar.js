@@ -45,7 +45,7 @@ export default class Navbar extends Component{
         }else if (path_name === "/new_password") {
         }
         else {
-          this.props.history.push('/')
+          this.props.history.push('/login')
         }
       }else {
         this.props.history.push('/')
@@ -59,6 +59,7 @@ export default class Navbar extends Component{
           this.setState({
             logged_in: true
           });
+          this.props.history.push('/user')
         }
       }
     })
@@ -67,8 +68,12 @@ export default class Navbar extends Component{
   componentDidMount () {
     this.checkTokenMethod()
   }
+
+  navigateToProfile = () => {
+    this.props.history.push('/user')
+  }
   login_log_out_div = () => {
-    if (this.state.logged_in === true){
+    if (localStorage.getItem("auction_user_token")){
       return(
         <>
           <Dropdown>
@@ -76,10 +81,10 @@ export default class Navbar extends Component{
               <img src="images/user.png" onMouseOver={ (e) => {this.mouseOverUserImageChange(e)}} onMouseOut={ (e) => {this.mouseOutUserImageChange(e)}} border="0" alt=""/>
             </Dropdown.Toggle>
             <Dropdown.Menu className="drop-menu profile-menu" >
-              <Dropdown.Item to="#">
+              <Dropdown.Item onClick={this.navigateToProfile}>
                 My Profile
               </Dropdown.Item>
-              <Dropdown.Item to='#' className="dropdown-item" onClick={this.handleLogout}>
+              <Dropdown.Item className="dropdown-item" onClick={this.handleLogout}>
                 Logout
               </Dropdown.Item>
             </Dropdown.Menu>
