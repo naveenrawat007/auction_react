@@ -56,7 +56,7 @@ export default class NewPassword extends Component{
   }
 
   submitHandler = (event) => {
-
+    console.log(123);
     event.preventDefault();
     let formIsValid = this.checkFormValidation()
     if (formIsValid){
@@ -95,6 +95,28 @@ export default class NewPassword extends Component{
       return true;
     }
   }
+
+  customCheckFormValidation = (name) => {
+    let user_password_error = "";
+    let user_confirm_password_error = "";
+    if (name === "password") {
+      if (this.state.user.password === ""){
+        user_password_error = "Password can't be blank!"
+      }
+      this.setState({
+        user_password_error
+      });
+    }else if (name === "confirm_password") {
+      if (this.state.user.confirm_password === ""){
+        user_confirm_password_error = "Confirm Password can't be blank!"
+      }else if (this.state.user.confirm_password !== this.state.user.password) {
+        user_confirm_password_error = "Confirm Password is not matching password!"
+      }
+      this.setState({
+        user_confirm_password_error
+      });
+    }
+  }
   updateUser = (event) => {
     const{ name, value } = event.target;
     this.setState({
@@ -104,7 +126,7 @@ export default class NewPassword extends Component{
       }
     },
     function () {
-      this.checkFormValidation();
+      this.customCheckFormValidation(name);
     });
 	}
   addErrorMessage = (msg) => {
@@ -137,15 +159,15 @@ export default class NewPassword extends Component{
               </div>
               <div className="registration-form">
                 {this.state.message}
-                <form onClick={this.submitHandler}>
+                <form onSubmit={this.submitHandler}>
                   <div className="form-group">
                     <label>New Password</label>
-                    <input type="password" className="form-control" onChange={this.updateUser} name="password"/>
+                    <input type="password" className="form-control" onChange={this.updateUser} name="password" autoComplete="new-password"/>
                     {this.addErrorMessage(this.state.user_password_error)}
                   </div>
                   <div className="form-group">
                     <label>Confirm password</label>
-                    <input type="password" className="form-control" onChange={this.updateUser} name="confirm_password"/>
+                    <input type="password" className="form-control" onChange={this.updateUser} name="confirm_password" autoComplete="new-password"/>
                     {this.addErrorMessage(this.state.user_confirm_password_error)}
                   </div>
                   <div className="form-group mb-0">

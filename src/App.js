@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Login from './components/login/login.js'
 import SignUp from './components/signup/signup.js'
+import VerificationModal from './components/signup/verify_modal.js'
 import Navbar from './components/navbar/navbar.js'
 import ForgotPassword from './components/login/forgot_password.js'
 import NewPassword from './components/login/new_password.js'
@@ -17,6 +18,7 @@ function App() {
           <Route path="/sign_up" component={SignUp} />
           <Route path="/forgot_password" component={ForgotPassword} />
           <Route path="/new_password" component={NewPassword} />
+          <Route path="/verify" component={VerificationModal} />
         </Switch>
       </BrowserRouter>
     </div>
