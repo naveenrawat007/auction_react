@@ -14,6 +14,7 @@ const initial_state = {
     address: "",
     broker_licence: "",
     realtor_licence: "",
+    old_password: "",
     password: "",
     confirm_password: "",
     type_attr: JSON.parse(process.env.REACT_APP_BACKEND_USER_ATTR)
@@ -26,7 +27,7 @@ const initial_state = {
   user_company_phone_error: "",
   user_address_error: "",
   user_broker_error: "",
-  user_raltor_error: "",
+  user_realtor_error: "",
   user_password_error: "",
   user_confirm_password_error: "",
 }
@@ -124,9 +125,160 @@ export default class Login extends Component{
   }
   submitHandler = (event) => {
 		event.preventDefault();
-    let formIsValid = true//this.checkFormValidation();
+    let formIsValid = this.checkFormValidation();
     if (formIsValid){
       this.submitForm()
+    }
+  }
+
+  checkFormValidation = () => {
+    let user_first_name_error = "";
+    let user_last_name_error = "";
+    let user_email_error = "";
+    let user_phone_number_error = "";
+    let user_company_name_error = "";
+    let user_company_phone_error = "";
+    let user_address_error = "";
+    let user_broker_error = "";
+    let user_realtor_error = "";
+    let user_confirm_password_error = "";
+    if (this.state.user.first_name === ""){
+      user_first_name_error = "First name can't be blank!"
+    }
+    if (this.state.user.last_name === ""){
+      user_last_name_error = "Last name can't be blank!"
+    }
+    if (this.state.user.phone_number === ""){
+      user_phone_number_error = "Phone number can't be blank!"
+    }else if (isNaN(this.state.user.phone_number)) {
+      user_phone_number_error = "Phone should be Numeric"
+    }else if (this.state.user.phone_number.length < 10){
+      user_phone_number_error = "Phone number length is small."
+    }else if (this.state.user.phone_number.length > 10) {
+      user_phone_number_error = "Phone number length is too large."
+    }
+    if (this.state.user.email === ""){
+      user_email_error = "Email can't be blank!"
+    }else if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.user.email)))
+    {
+      user_email_error = "Invalid email!"
+    }
+    if (this.state.user.confirm_password !== this.state.user.password) {
+      user_confirm_password_error = "Confirm Password is not matching password!"
+    }
+    this.setState({
+      user_first_name_error,
+      user_last_name_error,
+      user_email_error,
+      user_phone_number_error,
+      user_company_name_error,
+      user_company_phone_error,
+      user_address_error,
+      user_broker_error,
+      user_realtor_error,
+      user_confirm_password_error
+    },function () {
+      if (user_first_name_error !== "" || user_last_name_error !== "" || user_phone_number_error !== "" || user_email_error !== "" || user_company_name_error !== "" || user_company_phone_error !== "" || user_address_error !== "" || user_confirm_password_error !== "" ){
+        return false;
+      }else {
+        return true;
+      }
+    });
+
+    if (user_first_name_error !== "" || user_last_name_error !== "" || user_phone_number_error !== "" || user_email_error !== "" || user_company_name_error !== "" || user_company_phone_error !== "" || user_address_error !== "" || user_confirm_password_error !== "" ){
+      this.setState({
+        user_first_name_error,
+        user_last_name_error,
+        user_email_error,
+        user_phone_number_error,
+        user_company_name_error,
+        user_company_phone_error,
+        user_address_error,
+        user_broker_error,
+        user_realtor_error,
+        user_confirm_password_error
+      });
+      return false;
+    }else {
+      return true;
+    }
+  }
+
+  customCheckFormValidation = (name) => {
+    let user_first_name_error = "";
+    let user_last_name_error = "";
+    let user_email_error = "";
+    let user_phone_number_error = "";
+    let user_company_name_error = "";
+    let user_company_phone_error = "";
+    let user_address_error = "";
+    let user_broker_error = "";
+    let user_realtor_error = "";
+    let user_confirm_password_error = "";
+    if (name === "first_name"){
+      if (this.state.user.first_name === ""){
+        user_first_name_error = "First name can't be blank!"
+      }
+      this.setState({
+        user_first_name_error
+      });
+    }else if (name === "last_name"){
+      if (this.state.user.last_name === ""){
+        user_last_name_error = "Last name can't be blank!"
+      }
+      this.setState({
+        user_last_name_error
+      });
+    }else if (name === "email") {
+      if (this.state.user.email === ""){
+        user_email_error = "Email can't be blank!"
+      }else if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.user.email)))
+      {
+        user_email_error = "Invalid email!"
+      }
+      this.setState({
+        user_email_error
+      });
+    }else if (name === "phone_number") {
+      if (this.state.user.phone_number === ""){
+        user_phone_number_error = "Phone number can't be blank!"
+      }else if (isNaN(this.state.user.phone_number)) {
+        user_phone_number_error = "Phone should be Numeric"
+      }else if (this.state.user.phone_number.length < 10){
+        user_phone_number_error = "Phone number length is small."
+      }else if (this.state.user.phone_number.length > 10) {
+        user_phone_number_error = "Phone number length is too large."
+      }
+      this.setState({
+        user_phone_number_error
+      });
+    }else if (name === "company_name"){
+      this.setState({
+        user_company_name_error
+      });
+    }else if (name === "company_phone"){
+      this.setState({
+        user_company_phone_error
+      });
+    }else if (name === "realtor_licence"){
+      this.setState({
+        user_realtor_error
+      });
+    }else if (name === "broker_licence"){
+      this.setState({
+        user_broker_error
+      });
+    }else if (name === "address"){
+      this.setState({
+        user_address_error
+      });
+    }else if (name === "confirm_password") {
+      if (this.state.user.confirm_password !== this.state.user.password) {
+        user_confirm_password_error = "Confirm Password is not matching password!"
+      }
+      this.setState({
+        user_confirm_password_error
+      });
     }
   }
 
@@ -138,7 +290,7 @@ export default class Login extends Component{
       [name]: value
       }
     }, function () {
-      // this.customCheckFormValidation(name);
+      this.customCheckFormValidation(name);
     });
 	}
 
@@ -182,36 +334,42 @@ export default class Login extends Component{
                     <div className="form-group">
                       <label>First Name</label>
                       <input type="text" className="form-control" value={this.state.user.first_name} onChange={this.updateUser} name="first_name"/>
+                      {this.addErrorMessage(this.state.user_first_name_error)}
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Last Name</label>
                       <input type="text" className="form-control" value={this.state.user.last_name} onChange={this.updateUser} name="last_name"/>
+                      {this.addErrorMessage(this.state.user_last_name_error)}
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Email</label>
                       <input type="email" className="form-control" value={this.state.user.email} onChange={this.updateUser} name="email"/>
+                      {this.addErrorMessage(this.state.user_email_error)}
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Phone</label>
                       <input type="text" className="form-control" value={this.state.user.phone_number} onChange={this.updateUser} name="phone_number" maxLength="10" onKeyPress={this.checkNumeric}/>
+                      {this.addErrorMessage(this.state.user_phone_number_error)}
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Company Name</label>
                       <input type="text" className="form-control" value={this.state.user.company_name} onChange={this.updateUser} name="company_name"/>
+                      {this.addErrorMessage(this.state.user_company_name_error)}
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Company phone</label>
                       <input type="text" className="form-control" value={this.state.user.company_phone ? this.state.user.company_phone : "" } onChange={this.updateUser} name="company_phone" maxLength="10" onKeyPress={this.checkNumeric}/>
+                      {this.addErrorMessage(this.state.user_company_phone_error)}
                     </div>
                   </div>
                 </div>
@@ -228,20 +386,6 @@ export default class Login extends Component{
             <div className="more-about-you">
               <h3>We'd like to know a little more about you. Tell us about yourself. Select as many as apply: </h3>
               <div className="row">
-                <div className="col-md-4">
-                  <div className="row">
-                    <div className="col-md-10">
-                      <div className="form-group">
-                        <label>Broker license #:</label>
-                        <input type="text" className="form-control" value={this.state.user.broker_licence} name="broker_licence" onChange={this.updateUser}/>
-                      </div>
-                      <div className="form-group">
-                        <label>Realtor license #:</label>
-                        <input type="text" className="form-control" value={this.state.user.realtor_licence} name="realtor_licence" onChange={this.updateUser}/>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 <div className="col-md-8">
                   <div className="about-option">
                     <ul>
@@ -310,8 +454,21 @@ export default class Login extends Component{
                     </ul>
                   </div>
                 </div>
+                <div className="col-md-4">
+                  <div className="row">
+                    <div className="col-md-10">
+                      <div className="form-group">
+                        <label>Broker license #:</label>
+                        <input type="text" className="form-control" value={this.state.user.broker_licence} name="broker_licence" onChange={this.updateUser}/>
+                      </div>
+                      <div className="form-group">
+                        <label>Realtor license #:</label>
+                        <input type="text" className="form-control" value={this.state.user.realtor_licence} name="realtor_licence" onChange={this.updateUser}/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <button type="Submit" className="red-btn update-pwd-btn" onClick={this.submitHandler}> Update profile </button>
               <div className="change-pwd-profile">
                 <h3>Change Password</h3>
                 <div className="row">
@@ -337,7 +494,7 @@ export default class Login extends Component{
               </div>
               <div className="row">
                 <div className="col-md-10">
-                  <input type="button" value="Update Password" className="red-btn update-pwd-btn"/>
+                  <button type="Submit" className="red-btn update-pwd-btn" onClick={this.submitHandler}> Update profile </button>
                 </div>
               </div>
             </div>
