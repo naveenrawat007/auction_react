@@ -73,7 +73,7 @@ export default class Profile extends Component{
             address: result.user.address,
             broker_licence: result.user.broker_licence,
             realtor_licence: result.user.realtor_licence,
-            type_attributes: result.user.type_attributes
+            type_attributes: result.user.type_attributes ? result.user.type_attributes : Object.assign(JSON.parse(process.env.REACT_APP_BACKEND_USER_ATTR_BROKER) , JSON.parse(process.env.REACT_APP_BACKEND_USER_ATTR_REALTOR))
             }
           });
           if (result.is_verified === false){
