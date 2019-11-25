@@ -192,6 +192,16 @@ export default class Profile extends Component{
         user_password_error = "Password is too short!"
       }
     }
+    if (!(document.getElementById('realtor_licence_div').classList.contains("d-none"))){
+      if ((this.state.user.realtor_licence === "") || (this.state.user.realtor_licence === null)){
+        user_realtor_error = "Realtor license no. can't be blank!"
+      }
+    }
+    if (!(document.getElementById('broker_licence_div').classList.contains("d-none"))){
+      if ((this.state.user.broker_licence === "") || ((this.state.user.broker_licence === null))){
+        user_broker_error = "Broker license no. can't be blank!"
+      }
+    }
     this.setState({
       user_first_name_error,
       user_last_name_error,
@@ -205,14 +215,14 @@ export default class Profile extends Component{
       user_confirm_password_error,
       user_password_error
     },function () {
-      if (user_first_name_error !== "" || user_last_name_error !== "" || user_phone_number_error !== "" || user_email_error !== "" || user_company_name_error !== "" || user_company_phone_error !== "" || user_address_error !== "" || user_confirm_password_error !== "" || user_password_error !== "" ){
+      if (user_first_name_error !== "" || user_last_name_error !== "" || user_phone_number_error !== "" || user_email_error !== "" || user_company_name_error !== "" || user_company_phone_error !== "" || user_address_error !== "" || user_confirm_password_error !== "" || user_password_error !== "" || user_broker_error !== ""|| user_realtor_error !== "" ){
         return false;
       }else {
         return true;
       }
     });
 
-    if (user_first_name_error !== "" || user_last_name_error !== "" || user_phone_number_error !== "" || user_email_error !== "" || user_company_name_error !== "" || user_company_phone_error !== "" || user_address_error !== "" || user_confirm_password_error !== "" || user_password_error !== "" ){
+    if (user_first_name_error !== "" || user_last_name_error !== "" || user_phone_number_error !== "" || user_email_error !== "" || user_company_name_error !== "" || user_company_phone_error !== "" || user_address_error !== "" || user_confirm_password_error !== "" || user_password_error !== ""|| user_broker_error !== "" || user_realtor_error !== "" ){
       this.setState({
         user_first_name_error,
         user_last_name_error,
@@ -295,10 +305,20 @@ export default class Profile extends Component{
         user_company_phone_error
       });
     }else if (name === "realtor_licence"){
+      if (!(document.getElementById('realtor_licence_div').classList.contains("d-none"))){
+        if (this.state.user.realtor_licence === ""){
+          user_realtor_error = "Realtor license no. can't be blank!"
+        }
+      }
       this.setState({
         user_realtor_error
       });
     }else if (name === "broker_licence"){
+      if (!(document.getElementById('broker_licence_div').classList.contains("d-none"))){
+        if (this.state.user.broker_licence === ""){
+          user_broker_error = "Broker license no. can't be blank!"
+        }
+      }
       this.setState({
         user_broker_error
       });
@@ -369,23 +389,44 @@ export default class Profile extends Component{
         }
       }
     },function () {
-      this.checkBrokerRealtor()
+      this.checkBrokerRealtor();
+      this.customCheckFormValidation();
     });
   }
 
   checkBrokerRealtor = () => {
     let brokerArray = document.getElementsByClassName('broker')
+    let broker_licence = "";
+    let realtor_licence = "";
     Array.from(brokerArray).forEach((brokerArray) => {
       if(brokerArray.checked){
         document.getElementById('broker_licence_div').classList.remove("d-none");
+        broker_licence = "xyz"
       }
     })
     let realtorArray = document.getElementsByClassName('realtor')
     Array.from(realtorArray).forEach((realtorArray) => {
       if(realtorArray.checked){
         document.getElementById('realtor_licence_div').classList.remove("d-none");
+        realtor_licence = "xyz"
       }
     })
+    if (broker_licence === ""){
+      this.setState({
+        user: {
+        ...this.state.user,
+        broker_licence,
+        }
+      });
+    }
+    if (realtor_licence === ""){
+      this.setState({
+        user: {
+        ...this.state.user,
+        realtor_licence,
+        }
+      });
+    }
   }
 
   checkBrokerLicence = () => {
@@ -520,10 +561,12 @@ export default class Profile extends Component{
                         <div className={this.checkBrokerLicence()} id="broker_licence_div">
                           <label>Broker license #:</label>
                           <input type="text" className="form-control" value={this.state.user.broker_licence ? this.state.user.broker_licence : ""} name="broker_licence" onChange={this.updateUser} autoComplete="false"/>
+                          {this.addErrorMessage(this.state.user_broker_error)}
                         </div>
                         <div className={this.checkRealtorLicence()} id="realtor_licence_div">
                           <label>Realtor license #:</label>
                           <input type="text" className="form-control" value={this.state.user.realtor_licence ? this.state.user.realtor_licence : ""} name="realtor_licence" onChange={this.updateUser} autoComplete="false"/>
+                          {this.addErrorMessage(this.state.user_realtor_error)}
                         </div>
                       </div>
                     </div>
