@@ -17,7 +17,7 @@ const initial_state = {
     old_password: "",
     password: "",
     confirm_password: "",
-    type_attr: JSON.parse(process.env.REACT_APP_BACKEND_USER_ATTR)
+    type_attributes: Object.assign(JSON.parse(process.env.REACT_APP_BACKEND_USER_ATTR_BROKER) , JSON.parse(process.env.REACT_APP_BACKEND_USER_ATTR_REALTOR))
   },
   user_first_name_error: "",
   user_last_name_error: "",
@@ -35,6 +35,7 @@ export default class Profile extends Component{
   _isMounted = false
   componentWillUnmount() {
     this._isMounted = false;
+    clearTimeout(this.clearMessageTimeout);
   }
 	constructor(props){
     super(props);
@@ -72,7 +73,7 @@ export default class Profile extends Component{
             address: result.user.address,
             broker_licence: result.user.broker_licence,
             realtor_licence: result.user.realtor_licence,
-            type_attr: result.user.type_attr
+            type_attributes: result.user.type_attributes
             }
           });
           if (result.is_verified === false){
@@ -122,7 +123,7 @@ export default class Profile extends Component{
           address: result.user.address,
           broker_licence: result.user.broker_licence,
           realtor_licence: result.user.realtor_licence,
-          type_attr: result.user.type_attr
+          type_attributes: result.user.type_attributes
           }
         });
         this.setState({
@@ -140,10 +141,6 @@ export default class Profile extends Component{
 		});
   }
 
-  componentWillUnmount() {
-    clearTimeout(this.clearMessageTimeout);
-  }
-  
   submitHandler = (event) => {
 		event.preventDefault();
     let formIsValid = this.checkFormValidation();
@@ -357,7 +354,64 @@ export default class Profile extends Component{
       return (<span className="error-class"> {msg} </span>);
     }
   }
+
+  updateUserAttr = (event) => {
+    const name = event.target.name;
+    const value = event.target.checked;
+    this.setState({
+      user: {
+      ...this.state.user,
+      type_attributes:
+        {
+        ...this.state.user.type_attributes,
+          [name]: value
+        }
+      }
+    });
+  }
+
+  checkBrokerLicence = () => {
+    let brokerArray = document.getElementsByClassName('broker')
+    let c_name = "form-group d-none"
+    Array.from(brokerArray).forEach((brokerArray) => {
+      if(brokerArray.checked){
+        c_name = "form-group"
+      }
+    })
+    return c_name;
+  }
+  checkReatorLicence = () => {
+    let realtorArray = document.getElementsByClassName('realtor')
+    let c_name = "form-group d-none"
+    Array.from(realtorArray).forEach((realtorArray) => {
+      if(realtorArray.checked){
+        c_name = "form-group"
+      }
+    })
+    return c_name;
+  }
 	render() {
+    const brokerCheckBox = Object.keys(JSON.parse(process.env.REACT_APP_BACKEND_USER_ATTR_BROKER)).map((key, index) => {
+      return (
+        <li key={key}>
+          <label>
+            <input className="checkbox broker" type="checkbox" checked={this.state.user.type_attributes[key]} name={key} onChange={this.updateUserAttr}/>
+            &nbsp;
+            <span>{key}</span>
+          </label>
+        </li>
+      );
+    })
+    const realtorCheckBox = Object.keys(JSON.parse(process.env.REACT_APP_BACKEND_USER_ATTR_REALTOR)).map((key, index) => {
+      return (
+        <li key={key}>
+          <label>
+            <input className="checkbox realtor" type="checkbox" checked={this.state.user.type_attributes[key]} name={key} onChange={this.updateUserAttr}/>
+            <span>{key}</span>
+          </label>
+        </li>
+      );
+    })
 		return (
       <div id="myProfile" className="container px-0 tab-pane active">
         <div className="profile-form">
@@ -435,79 +489,21 @@ export default class Profile extends Component{
                   <div className="col-md-8">
                     <div className="about-option">
                       <ul>
-                        <li>
-                          <label>
-                            <input type="checkbox" />
-                            <span>Investo/Wholesaler</span>
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox"/>
-                            <span>Investo/Flipper</span>
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox"/>
-                            <span>Investo/Landlord</span>
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox"/>
-                            <span>Investo/Rookie</span>
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox"/>
-                            <span>Property/Manager</span>
-                          </label>
-                        </li>
+                        {brokerCheckBox}
                       </ul>
                       <ul>
-                        <li>
-                          <label>
-                            <input type="checkbox"/>
-                            <span>Realtor</span>
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox"/>
-                            <span>Contractor</span>
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox"/>
-                            <span>Private Money Lender</span>
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox"/>
-                            <span>Hard Money Lender</span>
-                          </label>
-                        </li>
-                        <li>
-                          <label>
-                            <input type="checkbox"/>
-                            <span>Real Estate Mentor</span>
-                          </label>
-                        </li>
+                        {realtorCheckBox}
                       </ul>
                     </div>
                   </div>
                   <div className="col-md-4">
                     <div className="row">
                       <div className="col-md-10">
-                        <div className="form-group">
+                        <div className={this.checkBrokerLicence()}>
                           <label>Broker license #:</label>
                           <input type="text" className="form-control" value={this.state.user.broker_licence ? this.state.user.broker_licence : ""} name="broker_licence" onChange={this.updateUser} autoComplete="false"/>
                         </div>
-                        <div className="form-group">
+                        <div className={this.checkReatorLicence()}>
                           <label>Realtor license #:</label>
                           <input type="text" className="form-control" value={this.state.user.realtor_licence ? this.state.user.realtor_licence : ""} name="realtor_licence" onChange={this.updateUser} autoComplete="false"/>
                         </div>
