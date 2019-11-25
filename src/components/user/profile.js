@@ -88,6 +88,7 @@ export default class Profile extends Component{
             this.setState(() => ({message: ""}))
           }, 2000);
         }
+        this.checkBrokerRealtor()
       }
     })
   }
@@ -367,7 +368,24 @@ export default class Profile extends Component{
           [name]: value
         }
       }
+    },function () {
+      this.checkBrokerRealtor()
     });
+  }
+
+  checkBrokerRealtor = () => {
+    let brokerArray = document.getElementsByClassName('broker')
+    Array.from(brokerArray).forEach((brokerArray) => {
+      if(brokerArray.checked){
+        document.getElementById('broker_licence_div').classList.remove("d-none");
+      }
+    })
+    let realtorArray = document.getElementsByClassName('realtor')
+    Array.from(realtorArray).forEach((realtorArray) => {
+      if(realtorArray.checked){
+        document.getElementById('realtor_licence_div').classList.remove("d-none");
+      }
+    })
   }
 
   checkBrokerLicence = () => {
@@ -380,7 +398,7 @@ export default class Profile extends Component{
     })
     return c_name;
   }
-  checkReatorLicence = () => {
+  checkRealtorLicence = () => {
     let realtorArray = document.getElementsByClassName('realtor')
     let c_name = "form-group d-none"
     Array.from(realtorArray).forEach((realtorArray) => {
@@ -395,7 +413,7 @@ export default class Profile extends Component{
       return (
         <li key={key}>
           <label>
-            <input className="checkbox broker" type="checkbox" checked={this.state.user.type_attributes[key]} name={key} onChange={this.updateUserAttr}/>
+            <input className="checkbox broker" type="checkbox" checked={this.state.user.type_attributes[key]} name={key} onChange={this.updateUserAttr} onClick={this.checkBrokerRealtor}/>
             &nbsp;
             <span>{key}</span>
           </label>
@@ -406,7 +424,7 @@ export default class Profile extends Component{
       return (
         <li key={key}>
           <label>
-            <input className="checkbox realtor" type="checkbox" checked={this.state.user.type_attributes[key]} name={key} onChange={this.updateUserAttr}/>
+            <input className="checkbox realtor" type="checkbox" checked={this.state.user.type_attributes[key]} name={key} onChange={this.updateUserAttr} onClick={this.checkBrokerRealtor}/>
             <span>{key}</span>
           </label>
         </li>
@@ -499,11 +517,11 @@ export default class Profile extends Component{
                   <div className="col-md-4">
                     <div className="row">
                       <div className="col-md-10">
-                        <div className={this.checkBrokerLicence()}>
+                        <div className={this.checkBrokerLicence()} id="broker_licence_div">
                           <label>Broker license #:</label>
                           <input type="text" className="form-control" value={this.state.user.broker_licence ? this.state.user.broker_licence : ""} name="broker_licence" onChange={this.updateUser} autoComplete="false"/>
                         </div>
-                        <div className={this.checkReatorLicence()}>
+                        <div className={this.checkRealtorLicence()} id="realtor_licence_div">
                           <label>Realtor license #:</label>
                           <input type="text" className="form-control" value={this.state.user.realtor_licence ? this.state.user.realtor_licence : ""} name="realtor_licence" onChange={this.updateUser} autoComplete="false"/>
                         </div>
