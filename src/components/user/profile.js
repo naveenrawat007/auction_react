@@ -31,12 +31,17 @@ const initial_state = {
   user_password_error: "",
   user_confirm_password_error: "",
 }
-export default class Login extends Component{
+export default class Profile extends Component{
+  _isMounted = false
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 	constructor(props){
     super(props);
     this.state = initial_state;
   }
   componentDidMount () {
+    this._isMounted = true;
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/users/show"
     fetch(url, {
       method: "GET",
@@ -53,27 +58,32 @@ export default class Login extends Component{
       }
     }).then(res => res.json())
     .then((result) => {
-      if (result.status === 200){
-        this.setState({
-          user: {
-          ...this.state.user,
-          first_name: result.user.first_name,
-          last_name: result.user.last_name,
-          email: result.user.email,
-          phone_number: result.user.phone_number,
-          company_name: result.user.company_name,
-          company_phone: result.user.company_phone,
-          address: result.user.address,
-          broker_licence: result.user.broker_licence,
-          realtor_licence: result.user.realtor_licence,
-          type_attr: result.user.type_attr
+      if (this._isMounted){
+        if (result.status === 200){
+          this.setState({
+            user: {
+            ...this.state.user,
+            first_name: result.user.first_name,
+            last_name: result.user.last_name,
+            email: result.user.email,
+            phone_number: result.user.phone_number,
+            company_name: result.user.company_name,
+            company_phone: result.user.company_phone,
+            address: result.user.address,
+            broker_licence: result.user.broker_licence,
+            realtor_licence: result.user.realtor_licence,
+            type_attr: result.user.type_attr
+            }
+          });
+          if (result.is_verified === false){
+            this.props.history.push("/verify");
           }
-        });
-      }else {
-        this.setState({
-          variant: "danger",
-          message: result.message
-        });
+        }else {
+          this.setState({
+            variant: "danger",
+            message: result.message
+          });
+        }
       }
     })
   }
@@ -257,6 +267,11 @@ export default class Login extends Component{
         user_company_name_error
       });
     }else if (name === "company_phone"){
+      if(this.state.user.company_phone !== ""){  
+        if (this.state.user.company_phone.length < 10){
+          user_company_phone_error = "Phone number length is small."
+        }
+      }
       this.setState({
         user_company_phone_error
       });
@@ -317,187 +332,189 @@ export default class Login extends Component{
       <div id="myProfile" className="container px-0 tab-pane active">
         <div className="profile-form">
           <div className="profile-form-in">
-            {
-              this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
-            }
-            <div className="row">
-              <div className="col-md-4">
-                <div className="upload-profile-pic">
-                  <h3>Welcome back,</h3>
-                  <img src="images/default-profile-img.png" alt="user_image"/>
-                </div>
-              </div>
-              <div className="col-md-8 user-info">
-                <h3>Information</h3>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>First Name</label>
-                      <input type="text" className="form-control" value={this.state.user.first_name} onChange={this.updateUser} name="first_name"/>
-                      {this.addErrorMessage(this.state.user_first_name_error)}
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>Last Name</label>
-                      <input type="text" className="form-control" value={this.state.user.last_name} onChange={this.updateUser} name="last_name"/>
-                      {this.addErrorMessage(this.state.user_last_name_error)}
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>Email</label>
-                      <input type="email" className="form-control" value={this.state.user.email} onChange={this.updateUser} name="email"/>
-                      {this.addErrorMessage(this.state.user_email_error)}
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>Phone</label>
-                      <input type="text" className="form-control" value={this.state.user.phone_number} onChange={this.updateUser} name="phone_number" maxLength="10" onKeyPress={this.checkNumeric}/>
-                      {this.addErrorMessage(this.state.user_phone_number_error)}
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>Company Name</label>
-                      <input type="text" className="form-control" value={this.state.user.company_name} onChange={this.updateUser} name="company_name"/>
-                      {this.addErrorMessage(this.state.user_company_name_error)}
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>Company phone</label>
-                      <input type="text" className="form-control" value={this.state.user.company_phone ? this.state.user.company_phone : "" } onChange={this.updateUser} name="company_phone" maxLength="10" onKeyPress={this.checkNumeric}/>
-                      {this.addErrorMessage(this.state.user_company_phone_error)}
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <div className="form-group">
-                      <label>Address</label>
-                      <textarea className="form-control" value={this.state.user.address} onChange={this.updateUser} name="address"></textarea>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="more-about-you">
-              <h3>We'd like to know a little more about you. Tell us about yourself. Select as many as apply: </h3>
+            <form onSubmit={this.submitHandler}>
+              {
+                this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+              }
               <div className="row">
-                <div className="col-md-8">
-                  <div className="about-option">
-                    <ul>
-                      <li>
-                        <label>
-                          <input type="checkbox" />
-                          <span>Investo/Wholesaler</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox"/>
-                          <span>Investo/Flipper</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox"/>
-                          <span>Investo/Landlord</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox"/>
-                          <span>Investo/Rookie</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox"/>
-                          <span>Property/Manager</span>
-                        </label>
-                      </li>
-                    </ul>
-                    <ul>
-                      <li>
-                        <label>
-                          <input type="checkbox"/>
-                          <span>Realtor</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox"/>
-                          <span>Contractor</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox"/>
-                          <span>Private Money Lender</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox"/>
-                          <span>Hard Money Lender</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox"/>
-                          <span>Real Estate Mentor</span>
-                        </label>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
                 <div className="col-md-4">
+                  <div className="upload-profile-pic">
+                    <h3>Welcome back,</h3>
+                    <img src="images/default-profile-img.png" alt="user_image"/>
+                  </div>
+                </div>
+                <div className="col-md-8 user-info">
+                  <h3>Information</h3>
                   <div className="row">
-                    <div className="col-md-10">
+                    <div className="col-md-6">
                       <div className="form-group">
-                        <label>Broker license #:</label>
-                        <input type="text" className="form-control" value={this.state.user.broker_licence} name="broker_licence" onChange={this.updateUser}/>
+                        <label>First Name</label>
+                        <input type="text" className="form-control" value={this.state.user.first_name} onChange={this.updateUser} name="first_name"/>
+                        {this.addErrorMessage(this.state.user_first_name_error)}
                       </div>
+                    </div>
+                    <div className="col-md-6">
                       <div className="form-group">
-                        <label>Realtor license #:</label>
-                        <input type="text" className="form-control" value={this.state.user.realtor_licence} name="realtor_licence" onChange={this.updateUser}/>
+                        <label>Last Name</label>
+                        <input type="text" className="form-control" value={this.state.user.last_name} onChange={this.updateUser} name="last_name"/>
+                        {this.addErrorMessage(this.state.user_last_name_error)}
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>Email</label>
+                        <input type="email" className="form-control" value={this.state.user.email} onChange={this.updateUser} name="email"/>
+                        {this.addErrorMessage(this.state.user_email_error)}
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>Phone</label>
+                        <input type="text" className="form-control" value={this.state.user.phone_number} onChange={this.updateUser} name="phone_number" maxLength="10" onKeyPress={this.checkNumeric}/>
+                        {this.addErrorMessage(this.state.user_phone_number_error)}
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>Company Name</label>
+                        <input type="text" className="form-control" value={this.state.user.company_name ? this.state.user.company_name : ""} onChange={this.updateUser} name="company_name"/>
+                        {this.addErrorMessage(this.state.user_company_name_error)}
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>Company phone</label>
+                        <input type="text" className="form-control" value={this.state.user.company_phone ? this.state.user.company_phone : "" } onChange={this.updateUser} name="company_phone" maxLength="10" onKeyPress={this.checkNumeric}/>
+                        {this.addErrorMessage(this.state.user_company_phone_error)}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label>Address</label>
+                        <textarea className="form-control" value={this.state.user.address ? this.state.user.address : ""} onChange={this.updateUser} name="address"></textarea>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="change-pwd-profile">
-                <h3>Change Password</h3>
+              <div className="more-about-you">
+                <h3>We'd like to know a little more about you. Tell us about yourself. Select as many as apply: </h3>
                 <div className="row">
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <label>Old Password</label>
-                      <input type="text" className="form-control"/>
+                  <div className="col-md-8">
+                    <div className="about-option">
+                      <ul>
+                        <li>
+                          <label>
+                            <input type="checkbox" />
+                            <span>Investo/Wholesaler</span>
+                          </label>
+                        </li>
+                        <li>
+                          <label>
+                            <input type="checkbox"/>
+                            <span>Investo/Flipper</span>
+                          </label>
+                        </li>
+                        <li>
+                          <label>
+                            <input type="checkbox"/>
+                            <span>Investo/Landlord</span>
+                          </label>
+                        </li>
+                        <li>
+                          <label>
+                            <input type="checkbox"/>
+                            <span>Investo/Rookie</span>
+                          </label>
+                        </li>
+                        <li>
+                          <label>
+                            <input type="checkbox"/>
+                            <span>Property/Manager</span>
+                          </label>
+                        </li>
+                      </ul>
+                      <ul>
+                        <li>
+                          <label>
+                            <input type="checkbox"/>
+                            <span>Realtor</span>
+                          </label>
+                        </li>
+                        <li>
+                          <label>
+                            <input type="checkbox"/>
+                            <span>Contractor</span>
+                          </label>
+                        </li>
+                        <li>
+                          <label>
+                            <input type="checkbox"/>
+                            <span>Private Money Lender</span>
+                          </label>
+                        </li>
+                        <li>
+                          <label>
+                            <input type="checkbox"/>
+                            <span>Hard Money Lender</span>
+                          </label>
+                        </li>
+                        <li>
+                          <label>
+                            <input type="checkbox"/>
+                            <span>Real Estate Mentor</span>
+                          </label>
+                        </li>
+                      </ul>
                     </div>
                   </div>
                   <div className="col-md-4">
-                    <div className="form-group">
-                      <label>New Password</label>
-                      <input type="text" className="form-control"/>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="form-group">
-                      <label>Confirm New Password</label>
-                      <input type="text" className="form-control"/>
+                    <div className="row">
+                      <div className="col-md-10">
+                        <div className="form-group">
+                          <label>Broker license #:</label>
+                          <input type="text" className="form-control" value={this.state.user.broker_licence ? this.state.user.broker_licence : ""} name="broker_licence" onChange={this.updateUser} autoComplete="false"/>
+                        </div>
+                        <div className="form-group">
+                          <label>Realtor license #:</label>
+                          <input type="text" className="form-control" value={this.state.user.realtor_licence ? this.state.user.realtor_licence : ""} name="realtor_licence" onChange={this.updateUser} autoComplete="false"/>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="row">
-                <div className="col-md-10">
-                  <button type="Submit" className="red-btn update-pwd-btn" onClick={this.submitHandler}> Update profile </button>
+                <div className="change-pwd-profile">
+                  <h3>Change Password</h3>
+                  <div className="row">
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>Old Password</label>
+                        <input type="password" className="form-control" name="old_password" onChange={this.updateUser} autoComplete="new-password"/>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>New Password</label>
+                        <input type="password" className="form-control" name="password" onChange={this.updateUser} autoComplete="new-password"/>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>Confirm New Password</label>
+                        <input type="password" className="form-control" name="new_password" onChange={this.updateUser} autoComplete="new-password"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-10">
+                    <button type="Submit" className="red-btn update-pwd-btn"> Update profile </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
