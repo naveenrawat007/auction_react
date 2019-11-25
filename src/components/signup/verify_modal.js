@@ -44,9 +44,15 @@ export default class VerificationModal extends Component{
       }else {
         this.setState({message: result.message, variant: "danger"});
       }
+      this.clearMessageTimeout = setTimeout(() => {
+        this.setState(() => ({message: ""}))
+      }, 2000);
 		}, (error) => {
       this.setState({message: "server error"});
 		});
+  }
+  componentWillUnmount() {
+    clearTimeout(this.clearMessageTimeout);
   }
 
   resendVerificationCode = () => {

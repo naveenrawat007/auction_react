@@ -46,9 +46,15 @@ export default class ForgotPassword extends Component{
       }else {
         this.setState({message: result.message, variant: "danger"});
       }
+      this.clearMessageTimeout = setTimeout(() => {
+        this.setState(() => ({message: ""}))
+      }, 2000);
 		}, (error) => {
       this.props.history.push('/forgot_password')
 		});
+  }
+  componentWillUnmount() {
+    clearTimeout(this.clearMessageTimeout);
   }
 
   submitHandler = (event) => {

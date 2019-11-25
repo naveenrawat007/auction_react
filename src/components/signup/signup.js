@@ -59,6 +59,9 @@ export default class Login extends Component{
         this.setState({message: result.message,
         variant: "danger"});
       }
+      this.clearMessageTimeout = setTimeout(() => {
+        this.setState(() => ({message: ""}))
+      }, 2000);
 		}, (error) => {
       this.props.history.push('/sign_up')
 		});
@@ -69,6 +72,9 @@ export default class Login extends Component{
     if (formIsValid){
       this.submitForm()
     }
+  }
+  componentWillUnmount() {
+    clearTimeout(this.clearMessageTimeout);
   }
 
   checkNumeric = (e) => {

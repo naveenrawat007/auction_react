@@ -46,6 +46,9 @@ export default class Login extends Component{
           logged_in: true,
           variant: "success"
         });
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
         localStorage.setItem("auction_user_token", result.user.token);
         // window.location.href = "/"
         this.props.history.push('/user')
@@ -54,12 +57,17 @@ export default class Login extends Component{
           message: result.message,
           variant: "danger"
         });
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
       }
 		}, (error) => {
       this.props.history.push('/login')
 		});
   }
-
+  componentWillUnmount() {
+    clearTimeout(this.clearMessageTimeout);
+  }
   submitHandler = (event) => {
     event.preventDefault();
     let formIsValid = this.checkFormValidation()

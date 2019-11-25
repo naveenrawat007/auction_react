@@ -83,6 +83,9 @@ export default class Profile extends Component{
             variant: "danger",
             message: result.message
           });
+          this.clearMessageTimeout = setTimeout(() => {
+            this.setState(() => ({message: ""}))
+          }, 2000);
         }
       }
     })
@@ -130,9 +133,17 @@ export default class Profile extends Component{
         this.setState({message: result.message,
         variant: "danger"});
       }
+      this.clearMessageTimeout = setTimeout(() => {
+        this.setState(() => ({message: ""}))
+      }, 2000);
 		}, (error) => {
 		});
   }
+
+  componentWillUnmount() {
+    clearTimeout(this.clearMessageTimeout);
+  }
+  
   submitHandler = (event) => {
 		event.preventDefault();
     let formIsValid = this.checkFormValidation();
