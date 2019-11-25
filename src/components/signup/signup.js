@@ -52,6 +52,7 @@ export default class Login extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 201) {
+        this.setState({message: ""})
         localStorage.setItem("auction_user_temp_token", result.user.token);
         this.props.history.push('/verify')
       }else {

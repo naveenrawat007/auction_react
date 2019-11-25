@@ -124,7 +124,7 @@ export default class Profile extends Component{
         });
         this.setState({
           variant: "success",
-          message: "Updated Sucessfully"
+          message: result.message
         });
       }else {
         this.setState({message: result.message,
@@ -152,6 +152,7 @@ export default class Profile extends Component{
     let user_broker_error = "";
     let user_realtor_error = "";
     let user_confirm_password_error = "";
+    let user_password_error = "";
     if (this.state.user.first_name === ""){
       user_first_name_error = "First name can't be blank!"
     }
@@ -174,7 +175,13 @@ export default class Profile extends Component{
       user_email_error = "Invalid email!"
     }
     if (this.state.user.confirm_password !== this.state.user.password) {
-      user_confirm_password_error = "Confirm Password is not matching password!"
+      user_confirm_password_error = "Confirm Password is not matching new password!"
+    }
+
+    if (this.state.user.password !== "") {
+      if (this.state.user.password.length < 6){
+        user_password_error = "Password is too short!"
+      }
     }
     this.setState({
       user_first_name_error,
@@ -186,16 +193,17 @@ export default class Profile extends Component{
       user_address_error,
       user_broker_error,
       user_realtor_error,
-      user_confirm_password_error
+      user_confirm_password_error,
+      user_password_error
     },function () {
-      if (user_first_name_error !== "" || user_last_name_error !== "" || user_phone_number_error !== "" || user_email_error !== "" || user_company_name_error !== "" || user_company_phone_error !== "" || user_address_error !== "" || user_confirm_password_error !== "" ){
+      if (user_first_name_error !== "" || user_last_name_error !== "" || user_phone_number_error !== "" || user_email_error !== "" || user_company_name_error !== "" || user_company_phone_error !== "" || user_address_error !== "" || user_confirm_password_error !== "" || user_password_error !== "" ){
         return false;
       }else {
         return true;
       }
     });
 
-    if (user_first_name_error !== "" || user_last_name_error !== "" || user_phone_number_error !== "" || user_email_error !== "" || user_company_name_error !== "" || user_company_phone_error !== "" || user_address_error !== "" || user_confirm_password_error !== "" ){
+    if (user_first_name_error !== "" || user_last_name_error !== "" || user_phone_number_error !== "" || user_email_error !== "" || user_company_name_error !== "" || user_company_phone_error !== "" || user_address_error !== "" || user_confirm_password_error !== "" || user_password_error !== "" ){
       this.setState({
         user_first_name_error,
         user_last_name_error,
@@ -206,7 +214,8 @@ export default class Profile extends Component{
         user_address_error,
         user_broker_error,
         user_realtor_error,
-        user_confirm_password_error
+        user_confirm_password_error,
+        user_password_error
       });
       return false;
     }else {
@@ -225,6 +234,7 @@ export default class Profile extends Component{
     let user_broker_error = "";
     let user_realtor_error = "";
     let user_confirm_password_error = "";
+    let user_password_error = "";
     if (name === "first_name"){
       if (this.state.user.first_name === ""){
         user_first_name_error = "First name can't be blank!"
@@ -267,7 +277,7 @@ export default class Profile extends Component{
         user_company_name_error
       });
     }else if (name === "company_phone"){
-      if(this.state.user.company_phone !== ""){  
+      if(this.state.user.company_phone !== ""){
         if (this.state.user.company_phone.length < 10){
           user_company_phone_error = "Phone number length is small."
         }
@@ -289,10 +299,19 @@ export default class Profile extends Component{
       });
     }else if (name === "confirm_password") {
       if (this.state.user.confirm_password !== this.state.user.password) {
-        user_confirm_password_error = "Confirm Password is not matching password!"
+        user_confirm_password_error = "Confirm Password is not matching new password!"
       }
       this.setState({
         user_confirm_password_error
+      });
+    }else if (name === "password") {
+      if (this.state.user.password !== "") {
+        if (this.state.user.password.length < 6){
+          user_password_error = "Password is too short!"
+        }
+      }
+      this.setState({
+        user_password_error
       });
     }
   }
@@ -498,12 +517,14 @@ export default class Profile extends Component{
                       <div className="form-group">
                         <label>New Password</label>
                         <input type="password" className="form-control" name="password" onChange={this.updateUser} autoComplete="new-password"/>
+                        {this.addErrorMessage(this.state.user_password_error)}
                       </div>
                     </div>
                     <div className="col-md-4">
                       <div className="form-group">
                         <label>Confirm New Password</label>
-                        <input type="password" className="form-control" name="new_password" onChange={this.updateUser} autoComplete="new-password"/>
+                        <input type="password" className="form-control" name="confirm_password" onChange={this.updateUser} autoComplete="new-password"/>
+                        {this.addErrorMessage(this.state.user_confirm_password_error)}
                       </div>
                     </div>
                   </div>

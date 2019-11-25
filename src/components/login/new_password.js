@@ -56,7 +56,6 @@ export default class NewPassword extends Component{
   }
 
   submitHandler = (event) => {
-    console.log(123);
     event.preventDefault();
     let formIsValid = this.checkFormValidation()
     if (formIsValid){
