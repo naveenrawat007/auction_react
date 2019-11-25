@@ -466,6 +466,7 @@ export default class Profile extends Component{
         <li key={key}>
           <label>
             <input className="checkbox realtor" type="checkbox" checked={this.state.user.type_attributes[key]} name={key} onChange={this.updateUserAttr} onClick={this.checkBrokerRealtor}/>
+            &nbsp;
             <span>{key}</span>
           </label>
         </li>
