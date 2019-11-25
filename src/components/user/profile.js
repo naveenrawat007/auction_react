@@ -557,16 +557,18 @@ export default class Profile extends Component{
                   </div>
                   <div className="col-md-4">
                     <div className="row">
-                      <div className="col-md-10">
-                        <div className={this.checkBrokerLicence()} id="broker_licence_div">
-                          <label>Broker license #:</label>
-                          <input type="text" className="form-control" value={this.state.user.broker_licence ? this.state.user.broker_licence : ""} name="broker_licence" onChange={this.updateUser} autoComplete="false"/>
-                          {this.addErrorMessage(this.state.user_broker_error)}
-                        </div>
-                        <div className={this.checkRealtorLicence()} id="realtor_licence_div">
-                          <label>Realtor license #:</label>
-                          <input type="text" className="form-control" value={this.state.user.realtor_licence ? this.state.user.realtor_licence : ""} name="realtor_licence" onChange={this.updateUser} autoComplete="false"/>
-                          {this.addErrorMessage(this.state.user_realtor_error)}
+                      <div className="licence-div">
+                        <div className="col-md-10">
+                          <div className={this.checkBrokerLicence()} id="broker_licence_div">
+                            <label>Broker license #:</label>
+                            <input type="text" className="form-control" value={this.state.user.broker_licence ? this.state.user.broker_licence : ""} name="broker_licence" onChange={this.updateUser} autoComplete="false"/>
+                            {this.addErrorMessage(this.state.user_broker_error)}
+                          </div>
+                          <div className={this.checkRealtorLicence()} id="realtor_licence_div">
+                            <label>Realtor license #:</label>
+                            <input type="text" className="form-control" value={this.state.user.realtor_licence ? this.state.user.realtor_licence : ""} name="realtor_licence" onChange={this.updateUser} autoComplete="false"/>
+                            {this.addErrorMessage(this.state.user_realtor_error)}
+                          </div>
                         </div>
                       </div>
                     </div>

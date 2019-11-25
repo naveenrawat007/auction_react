@@ -404,7 +404,7 @@ button:focus {
 }
 
 .about-option {
-  border-left: solid 1px #ccc;
+  /* border-left: solid 1px #ccc; */
 }
 
 .about-option ul {
@@ -2154,4 +2154,8 @@ input:checked+.slider:before {
 
 .table.termination_table td:nth-child(6) {
   text-align: center;
+}
+
+.licence-div{
+  border-left: solid 1px #ccc;
 }
