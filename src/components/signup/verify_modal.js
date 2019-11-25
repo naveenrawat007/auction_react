@@ -42,7 +42,7 @@ export default class VerificationModal extends Component{
         this.setState({verified: result.user.is_verified});
         this.props.history.push('/user')
       }else {
-        this.setState({message: result.message,variant: "danger"});
+        this.setState({message: result.message, variant: "danger"});
       }
 		}, (error) => {
       this.setState({message: "server error"});
@@ -68,7 +68,8 @@ export default class VerificationModal extends Component{
     .then((result) => {
       if (result.status === 208) {
         this.setState({
-          message: result.message
+          message: result.message,
+          variant: "success"
         });
       }
 		}, (error) => {
@@ -88,6 +89,8 @@ export default class VerificationModal extends Component{
     let user_verification_error = "";
     if (this.state.user.verification_code === ""){
       user_verification_error = "Code can't be blank!"
+    }else if (this.state.user.verification_code.length < 6) {
+      user_verification_error = "Too short!"
     }
 
     this.setState({
@@ -129,6 +132,17 @@ export default class VerificationModal extends Component{
       return (<span className="error-class"> {msg} </span>);
     }
   }
+  checkNumeric = (e) => {
+    var regex = new RegExp("^[0-9]+$");
+    var str = String.fromCharCode(
+      !e.charCode
+      ? e.which
+      : e.charCode);
+    if (!regex.test(str)) {
+      e.preventDefault();
+      return false;
+    }
+  }
 
 
   render(){
@@ -146,7 +160,7 @@ export default class VerificationModal extends Component{
                     this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
                   }
                   <div className="form-group">
-                    <input type="text" name="verification_code" className="enter-code form-control" onChange={this.updateUserCode}/>
+                    <input type="text" name="verification_code" className="enter-code form-control" onChange={this.updateUserCode} maxLength="6" onKeyPress={this.checkNumeric}/>
                     {this.addErrorMessage(this.state.user_verification_error)}
                   </div>
                   <div className="form-group">
