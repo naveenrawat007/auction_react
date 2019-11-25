@@ -12,6 +12,8 @@ const initial_state = {
     company_name: "",
     company_phone: "",
     address: "",
+    city: "",
+    state: "",
     broker_licence: "",
     realtor_licence: "",
     old_password: "",
@@ -71,6 +73,8 @@ export default class Profile extends Component{
             company_name: result.user.company_name,
             company_phone: result.user.company_phone,
             address: result.user.address,
+            city: result.user.city,
+            state: result.user.state,
             broker_licence: result.user.broker_licence,
             realtor_licence: result.user.realtor_licence,
             type_attributes: result.user.type_attributes ? result.user.type_attributes : Object.assign(JSON.parse(process.env.REACT_APP_BACKEND_USER_ATTR_BROKER) , JSON.parse(process.env.REACT_APP_BACKEND_USER_ATTR_REALTOR))
@@ -538,6 +542,20 @@ export default class Profile extends Component{
                       <div className="form-group">
                         <label>Address</label>
                         <textarea className="form-control" value={this.state.user.address ? this.state.user.address : ""} onChange={this.updateUser} name="address"></textarea>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>City</label>
+                        <input type="text" className="form-control" value={this.state.user.city ? this.state.user.city : ""} onChange={this.updateUser} name="city"/>
+                        {this.addErrorMessage(this.state.user_city_error)}
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>State</label>
+                        <input type="text" className="form-control" value={this.state.user.state ? this.state.user.state : "" } onChange={this.updateUser} name="state" maxLength="10" />
+                        {this.addErrorMessage(this.state.user_state_error)}
                       </div>
                     </div>
                   </div>
