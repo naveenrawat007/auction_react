@@ -544,10 +544,11 @@ export default class Profile extends Component{
               <div className="row">
                 <div className="col-md-4">
                   <div className="upload-profile-pic">
-                    <h3>Welcome back,</h3>
                     <img src={this.state.user_image ? this.state.user_image : "images/default-profile-img.png"} alt="user_image"/>
-                    <input type="file" name="user_image" onChange={this.fileSelectHandler} accept="image/jpeg, image/jpg, image/png "/>
-                    <button onClick={this.updateImage}> Update image </button>
+                    <div className="text-center">
+                      <input type="file" className="d-none" name="user_image" onChange={this.fileSelectHandler} accept="image/jpeg, image/jpg, image/png "/>
+                      <button onClick={this.updateImage}> Update image </button>
+                    </div>
                   </div>
                 </div>
                 <div className="col-md-8 user-info">

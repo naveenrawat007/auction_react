@@ -29,7 +29,16 @@ export default class Sidebar extends Component{
       <div className="profile-setting">
         <div className="container custom_container px-0">
           <div className="row mx-0 profile_row my-5">
-            <div className="col-md-3 side_tab px-0">
+            <div className="col-md-3 user_side_tab side_tab px-0">
+              <div className="account-head">
+                <div className="account-image">
+                  <img src="images/default-profile-img.png" alt="profile"/>
+                </div>
+                <div className="account-data">
+                  <h5>Regal Mantac</h5>
+                  <p className="font-red text-uppercase">Premium User</p>
+                </div>
+              </div>
               <ul className="nav nav-pills" role="tablist">
                 <li className="nav-item">
                   <a className="nav-link active" data-toggle="pill" href="#myProfile">
