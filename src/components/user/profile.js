@@ -4,6 +4,8 @@ import Alert from 'react-bootstrap/Alert';
 const initial_state = {
   error: "",
   message: "",
+  user_image: "",
+  user_new_image: null,
   user: {
     first_name: "",
     last_name: "",
@@ -63,6 +65,9 @@ export default class Profile extends Component{
     .then((result) => {
       if (this._isMounted){
         if (result.status === 200){
+          this.setState({
+            user_image: result.user.user_image
+          });
           this.setState({
             user: {
             ...this.state.user,
@@ -453,6 +458,58 @@ export default class Profile extends Component{
     })
     return c_name;
   }
+
+  fileSelectHandler = (event) => {
+    this.setState({
+      user_new_image: event.target.files[0]
+    });
+  }
+  updateImage = (event) => {
+    if (this.state.user_new_image){
+      event.preventDefault()
+      const fd = new FormData();
+      fd.append('user_image', this.state.user_new_image, this.state.user_new_image.name)
+      let url = process.env.REACT_APP_BACKEND_BASE_URL + "/users/update_image"
+      fetch(url, {
+        method: "PUT",
+        headers: {
+          "Authorization": localStorage.getItem("auction_user_token"),
+          "Accept": "application/vnd.auction_backend.v1",
+          "Access-Control-Allow-Origin": "*",
+  				"Access-Control-Allow-Credentials": "*",
+  				"Access-Control-Expose-Headers": "*",
+  				"Access-Control-Max-Age": "*",
+  				"Access-Control-Allow-Methods": "*",
+  				"Access-Control-Allow-Headers": "*"
+        },
+        body: fd
+      }).then(res => res.json())
+      .then((result)=>{
+        if (result.status === 200) {
+          this.clearMessageTimeout = setTimeout(() => {
+            this.setState(() => ({message: ""}))
+          }, 2000);
+
+          this.setState({
+            user_image: result.user.user_image,
+            message: result.message,
+            variant: "success"
+          });
+        }else {
+          this.clearMessageTimeout = setTimeout(() => {
+            this.setState(() => ({message: ""}))
+          }, 2000);
+
+          this.setState({
+            message: result.message,
+            variant: "danger"
+          });
+        }
+      },(error) => {
+
+  		})
+    }
+  }
 	render() {
     const brokerCheckBox = Object.keys(JSON.parse(process.env.REACT_APP_BACKEND_USER_ATTR_BROKER)).map((key, index) => {
       return (
@@ -488,7 +545,9 @@ export default class Profile extends Component{
                 <div className="col-md-4">
                   <div className="upload-profile-pic">
                     <h3>Welcome back,</h3>
-                    <img src="images/default-profile-img.png" alt="user_image"/>
+                    <img src={this.state.user_image ? this.state.user_image : "images/default-profile-img.png"} alt="user_image"/>
+                    <input type="file" name="user_image" onChange={this.fileSelectHandler} accept="image/jpeg, image/jpg, image/png "/>
+                    <button onClick={this.updateImage}> Update image </button>
                   </div>
                 </div>
                 <div className="col-md-8 user-info">
