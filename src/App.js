@@ -6,6 +6,7 @@ import VerificationModal from './components/signup/verify_modal.js'
 import Navbar from './components/navbar/navbar.js'
 import ForgotPassword from './components/login/forgot_password.js'
 import Sidebar from './components/user/sidebar.js'
+import AdminSidebar from './components/admin/sidebar.js'
 import NewPassword from './components/login/new_password.js'
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
@@ -16,6 +17,7 @@ function App() {
         <Route path='/' component = {Navbar}/>
         <Switch>
           <Route path="/user" component={() => <Sidebar path='user_profile'/>}/>
+          <Route path="/admin" component={() => <AdminSidebar path='users_list'/>}/>
           <Route path="/login" component={Login} />
           <Route path="/sign_up" component={SignUp} />
           <Route path="/forgot_password" component={ForgotPassword} />
