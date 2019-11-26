@@ -366,6 +366,7 @@ body {
 
 .profile-form-in {
   padding: 20px;
+  border-top: 1px solid #dee2e6;
 }
 
 .upload-profile-pic h3 {
@@ -448,6 +449,9 @@ button:focus {
   flex: 0 0 80%;
   max-width: 80%;
 }
+.side_tab {
+  background-color: #37515e;
+}
 
 .profile_row .side_tab .nav {
   flex-direction: column;
@@ -458,11 +462,12 @@ button:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 13px 20px;
+  padding: 8px 20px;
   font-size: 13.5px;
-  border-bottom: 1px solid rgba(193, 193, 193, 0.3);
-  background-color: #f9f7f8;
-  color: #000;
+  border-bottom: 2px solid #36505d;
+  background-color: #334957;
+  color: #fff;
+  font-weight: 500;
   border-radius: 0px;
 }
 
@@ -472,8 +477,8 @@ button:focus {
 
 .profile_row .side_tab .nav-pills .nav-link.active,
 .side_tab .nav-pills .show>.nav-link {
-  background-color: #fff;
-  color: #000;
+  background-color: #b71c1c;
+  color: #fff;
 }
 
 /*signup modal*/
@@ -1174,12 +1179,26 @@ span.badge {
   display: inline-block;
 }
 
+/*admin dashboard */
+.admin_container {
+  padding: 0;
+}
+.admin_container .left_tab {
+  flex: 0 0 18% !important;
+  max-width: 18% !important;
+}
+.admin_container .right_tab {
+  flex: 0 0 82% !important;
+  max-width: 82% !important;
+}
+.tab-container {
+  width: 100%;
+  max-width: 100%;
+}
 /*under review*/
 .under_review {
   background-color: #fff;
   padding: 0px;
-  height: calc(100vh - 200px);
-  overflow-y: auto;
 }
 
 .admin-review {
@@ -1207,12 +1226,13 @@ span.badge {
 
 .table.review_table th {
   font-size: 13px;
-  padding: 12px 10px;
+  padding: 0.75rem 0.40rem;
 }
 
 .table.review_table td {
   vertical-align: middle;
   font-size: 13px;
+  padding: 0.75rem 0.40rem;
 }
 
 .review_table td p {
@@ -1222,23 +1242,59 @@ span.badge {
 }
 
 .table.review_table td:nth-child(1), .table.review_table th:nth-child(1) {
-  width: 35%;
+  width: 2%;
+  border-right: 0px;
 }
 
 .table.review_table td:nth-child(2), .table.review_table th:nth-child(2) {
-  width: 20%;
+  width: 11%;
+  border-left: 0px;
+  padding: 0.35rem 0.40rem;
 }
 
 .table.review_table td:nth-child(3), .table.review_table th:nth-child(3) {
-  width: 15%;
+  width: 8%;
 }
 
 .table.review_table td:nth-child(4), .table.review_table th:nth-child(4) {
-  width: 15%;
+  width: 23%;
 }
 
 .table.review_table td:nth-child(5), .table.review_table th:nth-child(5) {
-  width: 15%;
+  width: 11%;
+}
+.table.review_table td:nth-child(6), .table.review_table th:nth-child(6) {
+  width: 11%;
+}
+.table.review_table td:nth-child(7), .table.review_table th:nth-child(7) {
+  width: 11%;
+}
+.table.review_table td:nth-child(8), .table.review_table th:nth-child(8) {
+  width: 11%;
+}
+.table.review_table td:nth-child(9), .table.review_table th:nth-child(9) {
+  width: 11%;
+}
+.table.review_table td:nth-child(9) {
+  text-align: center;
+}
+.table.bidding_table td:nth-child(6) {
+  text-align: center;
+}
+.table.review_table td .review-btn-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.review-btn-box a {
+  text-decoration: none;
+  color: #000;
+  border: 1px solid #000;
+  padding: 6px 12px;
+}
+.review-btn-box a i {
+  font-size: 16px;
 }
 
 .table td {
@@ -1974,10 +2030,10 @@ a.freems {
   padding-left: 40px !important;
 }
 
-.admin_menu_link {
+/* .admin_menu_link {
   background-color: #f9f7f8 !important;
   color: #000 !important;
-}
+} */
 
 .red-btn.edit_btn {
   padding: 5px 30px;
@@ -2051,6 +2107,7 @@ a.freems {
 
 .table.request_table td:nth-child(5), .table.request_table th:nth-child(5) {
   width: 15%;
+  padding: 0.40rem;
 }
 
 .table.request_table td:nth-child(5) {
@@ -2158,4 +2215,203 @@ input:checked+.slider:before {
 
 .licence-div{
   border-left: solid 1px #ccc;
+}
+/* bid modal */
+.bid_modal .modal-dialog .modal-header, .status_modal .modal-dialog .modal-header {
+  background-color: #064d9d;
+  color: #fff;
+}
+.bid_modal .modal-dialog {
+  max-width: 740px;
+}
+.table.modalbid_table th:nth-child(1) {
+  border-right: 1px solid #dee2e6;
+}
+.table.modalbid_table th:nth-child(2) {
+  border-left: 1px solid #dee2e6;
+}
+.table.modalbid_table td:nth-child(1), .table.modalbid_table th:nth-child(1) {
+  width: 21.5%;
+}
+.table.modalbid_table td:nth-child(2), .table.modalbid_table th:nth-child(2) {
+  width: 15%;
+}
+.table.modalbid_table td:nth-child(3), .table.modalbid_table th:nth-child(3) {
+  width: 21.5%;
+}
+.table.modalbid_table td:nth-child(4), .table.modalbid_table th:nth-child(4) {
+  width: 21.5%;
+}
+.table.modalbid_table td:nth-child(5), .table.modalbid_table th:nth-child(5) {
+  width: 15%;
+}
+/* status Modal */
+.status_modal .modal-dialog {
+  max-width: 600px;
+}
+.status_modal .modal-body .status-list {
+  border-right: 2px solid #dee2e6;
+}
+.status_modal .modal-body .status-list ul li {
+  width: 100%;
+  margin: 2px 0px;
+}
+.status_modal .modal-body .status-list ul li label {
+  font-size: 13px;
+  padding-top: 2.5px;
+}
+.status_modal .modal-body .status-form label {
+  font-size: 13px;
+}
+/* offer table */
+.table.offer_table td:nth-child(7) {
+  text-align: center;
+}
+.btn-blue {
+  background-color: #064d9d;
+  color: #fff;
+}
+.btn-blue:hover {
+  color: #fff;
+}
+/* property status */
+.property_tabs {
+  border-top: 1px solid #dee2e6;
+}
+.property_tabs .nav-link {
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+  border-bottom: 3px solid transparent;
+  border-radius: 0px;
+  padding: 0.6rem 1rem;
+}
+.property_tabs .nav-link.active {
+  background-color: transparent;
+  color: #000;
+  border-bottom: 3px solid #b71c1c;
+}
+.header-admin {
+  background-color: #37515e;
+  padding: 10px 0;
+}
+.header-admin .Administrator-box {
+  display: flex;
+  align-items: center;
+}
+.header-admin .Administrator-box span {
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  line-height: 30px;
+  border-radius: 35px;
+  border: 1px solid #fff;
+  background-color: green;
+  color: #fff;
+  font-weight: 600;
+  font-size: 20px;
+}
+.header-admin .Administrator-box p {
+  font-weight: 600;
+  font-size: 20px;
+  color: #fff;
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+.header-admin .notify-box {
+  display: flex;
+  align-items: center;
+  padding-top: 6px;
+}
+.header-admin .notify-box i {
+  color: #fff;
+  font-size: 22px;
+}
+.header-admin .notify-box p {
+  color: #b71c1c;
+  font-weight: 600;
+  margin-bottom: 0px;
+  font-size: 18px;
+  margin-left: 6px;
+}
+.dashboard-logo {
+  background-color: #fff;
+}
+.dashboard-logo img {
+  width: 400px;
+}
+/*hold table*/
+.table.hold_table td:nth-child(8) {
+  text-align: center;
+}
+.attachement-box {
+  display: flex;
+  align-items: center;
+}
+.attachement-box p {
+  margin-bottom: 0;
+  margin-right: 8px;
+}
+/* user list */
+.user_name_box {
+  display: flex;
+  align-items: center;
+}
+.user_name_box span {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 38px;
+  border-radius: 35px;
+  border: 1px solid #fff;
+  background-color: #99268e;
+  color: #fff;
+  font-weight: 600;
+  font-size: 20px;
+  margin-right: 5px;
+}
+.table.alluser_table td:nth-child(1), .table.alluser_table th:nth-child(1) {
+  width: 2%;
+}
+.table.alluser_table td:nth-child(2), .table.alluser_table th:nth-child(2) {
+  width: 20%;
+}
+.table.alluser_table td:nth-child(3), .table.alluser_table th:nth-child(3) {
+  width: 10%;
+}
+.table.alluser_table td:nth-child(4), .table.alluser_table th:nth-child(4) {
+  width: 10%;
+}
+.table.alluser_table td:nth-child(5), .table.alluser_table th:nth-child(5) {
+  width: 15%;
+}
+.table.alluser_table td:nth-child(6), .table.alluser_table th:nth-child(6) {
+  width: 10%;
+}
+.table.alluser_table td:nth-child(7), .table.alluser_table th:nth-child(7) {
+  width: 13%;
+}
+.table.alluser_table td:nth-child(8), .table.alluser_table th:nth-child(8) {
+  width: 20%;
+}
+.table.alluser_table td:nth-child(4) {
+  text-align: center;
+}
+.table.alluser_table td:nth-child(5) {
+  text-align: center;
+}
+.table.alluser_table td:nth-child(5).timer-user {
+  color: #9d9d9d;
+  font-weight: 500;
+}
+.table.alluser_table td:nth-child(6) {
+  text-align: center;
+  font-weight: 500;
+}
+.admin-btns {
+  padding: 0.375rem 1rem;
+}
+/*view modal*/
+.view-list li a {
+  color: #000;
 }
