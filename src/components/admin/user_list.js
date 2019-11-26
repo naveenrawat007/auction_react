@@ -84,7 +84,7 @@ export default class UserList extends Component{
           <td>
             <div className="user_name_box">
               <span>D</span>
-              <p>{user.first_name + user.last_name}</p>
+              <p>{user.first_name + " "+ user.last_name}</p>
             </div>
           </td>
           <td>{String(user.is_verified)}</td>
