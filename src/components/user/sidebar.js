@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-// import {Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Profile from './profile.js'
 import { faUser, faHome, faPlusCircle, faSearchPlus, faComments, faUnlock, faChevronRight } from '@fortawesome/free-solid-svg-icons'
@@ -11,6 +11,10 @@ export default class Sidebar extends Component{
     this.state = {
       path: props.path
     }
+  }
+  handleLogout = () => {
+    localStorage.removeItem("auction_user_token");
+    window.location.href = "/login"
   }
   renderSwitch = () => {
     switch (this.state.path) {
@@ -59,10 +63,10 @@ export default class Sidebar extends Component{
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" data-toggle="pill" href="#logout">
+                  <Link className="nav-link" data-toggle="pill" onClick={this.handleLogout} to="#">
                     <span><FontAwesomeIcon icon={faUnlock} />  Log out</span>
                     <FontAwesomeIcon icon={faChevronRight} />
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>

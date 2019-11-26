@@ -40,6 +40,11 @@ export default class AdminSidebar extends Component{
       default:
     }
   }
+
+  handleLogout = () => {
+    localStorage.removeItem("auction_user_token");
+    window.location.href = "/login"
+  }
   render(){
     return (
       <div className="profile-setting mt-0">
@@ -125,10 +130,10 @@ export default class AdminSidebar extends Component{
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link main-nav-link" data-toggle="pill" href="#logOut">
+                  <Link className="nav-link main-nav-link" data-toggle="pill" to="#" onClick={this.handleLogout}>
                     <span>Log Out</span>
                     <FontAwesomeIcon icon={faChevronRight} />
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
