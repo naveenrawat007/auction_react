@@ -35,6 +35,12 @@ const initial_state = {
   user_password_error: "",
   user_confirm_password_error: "",
 }
+
+const click_image = function () {
+  document.getElementById('user_profile_image').addEventListener("click", function () {
+    document.getElementById('user_profile_image_input').click();
+  })
+}
 export default class Profile extends Component{
   _isMounted = false
   componentWillUnmount() {
@@ -47,6 +53,7 @@ export default class Profile extends Component{
   }
   componentDidMount () {
     this._isMounted = true;
+    click_image();
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/users/show"
     fetch(url, {
       method: "GET",
@@ -463,6 +470,7 @@ export default class Profile extends Component{
     this.setState({
       user_new_image: event.target.files[0]
     });
+    document.getElementById('user_profile_image').src = URL.createObjectURL(event.target.files[0])
   }
   updateImage = (event) => {
     if (this.state.user_new_image){
@@ -495,6 +503,7 @@ export default class Profile extends Component{
             message: result.message,
             variant: "success"
           });
+          this.props.onImageChange()
         }else {
           this.clearMessageTimeout = setTimeout(() => {
             this.setState(() => ({message: ""}))
@@ -544,10 +553,10 @@ export default class Profile extends Component{
               <div className="row">
                 <div className="col-md-4">
                   <div className="upload-profile-pic">
-                    <img src={this.state.user_image ? this.state.user_image : "images/default-profile-img.png"} alt="user_image"/>
+                    <img id= "user_profile_image" src={this.state.user_image ? this.state.user_image : "images/default-profile-img.png"} alt="user_image"/>
                     <div className="text-center">
-                      <input type="file" className="d-none" name="user_image" onChange={this.fileSelectHandler} accept="image/jpeg, image/jpg, image/png "/>
-                      <button onClick={this.updateImage}> Update image </button>
+                      <input type="file" id= "user_profile_image_input" className="d-none" name="user_image" onChange={this.fileSelectHandler} accept="image/jpeg, image/jpg, image/png "/>
+                      <button onClick={this.updateImage} className="red-btn update-pwd-btn"> Update image </button>
                     </div>
                   </div>
                 </div>

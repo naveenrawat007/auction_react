@@ -5,12 +5,46 @@ import Profile from './profile.js'
 import { faUser, faHome, faPlusCircle, faSearchPlus, faComments, faUnlock, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 export default class Sidebar extends Component{
-
+  _isMounted = false
   constructor(props) {
     super(props);
     this.state = {
-      path: props.path
+      path: props.path,
+      user_image: ""
     }
+  }
+  changeImage = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/users/show"
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*"
+      }
+    }).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        if (result.status === 200){
+          this.setState({
+            user_image: result.user.user_image
+          });
+        }
+      }
+    })
+  }
+  componentDidMount () {
+    this._isMounted = true;
+    this.changeImage()
+  }
+  componentWillUnmount (){
+    this._isMounted = false;
   }
   handleLogout = () => {
     localStorage.removeItem("auction_user_token");
@@ -20,7 +54,7 @@ export default class Sidebar extends Component{
     switch (this.state.path) {
 
       case 'user_profile':
-        return <Profile/>;
+        return <Profile onImageChange={this.changeImage}/>;
       default:
     }
   }
@@ -32,7 +66,7 @@ export default class Sidebar extends Component{
             <div className="col-md-3 user_side_tab side_tab px-0">
               <div className="account-head">
                 <div className="account-image">
-                  <img src="images/default-profile-img.png" alt="profile"/>
+                  <img src={this.state.user_image ? this.state.user_image : "images/default-profile-img.png"} alt="profile"/>
                 </div>
                 <div className="account-data">
                   <h5>Regal Mantac</h5>

@@ -140,6 +140,7 @@ export default class AdminSidebar extends Component{
             <div className="col-md-9 right_tab px-0">
               <div className="row mx-0 dashboard-logo">
                 <div className="col-md-12 py-3">
+                  <img src="images/Under_review.jpg" alt="logo"/>
                 </div>
               </div>
               <div className="tab-content">
