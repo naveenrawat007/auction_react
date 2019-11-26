@@ -8,7 +8,8 @@ export default class Navbar extends Component{
   constructor(props){
     super(props);
     this.state = {
-      logged_in: false
+      logged_in: false,
+      is_admin: false
     }
   }
 
@@ -49,17 +50,24 @@ export default class Navbar extends Component{
         }
       }else {
         this.props.history.push('/')
-        if (result.user.is_verified === false){
-          localStorage.setItem("auction_user_temp_token", result.user.token);
+        if (result.user.is_admin === true){
+          this.props.history.push('/admin')
           this.setState({
-            logged_in: true
+            is_admin: true
           });
-          this.props.history.push('/verify')
-        }else{
-          this.setState({
-            logged_in: true
-          });
-          this.props.history.push('/user')
+        }else {
+          if (result.user.is_verified === false){
+            localStorage.setItem("auction_user_temp_token", result.user.token);
+            this.setState({
+              logged_in: true
+            });
+            this.props.history.push('/verify')
+          }else{
+            this.setState({
+              logged_in: true
+            });
+            this.props.history.push('/user')
+          }
         }
       }
     })
@@ -70,7 +78,11 @@ export default class Navbar extends Component{
   }
 
   navigateToProfile = () => {
-    this.props.history.push('/user')
+    if (this.state.is_admin){
+      this.props.history.push('/admin')
+    }else {
+      this.props.history.push('/user')
+    }
   }
   login_log_out_div = () => {
     if (localStorage.getItem("auction_user_token")){
