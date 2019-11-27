@@ -2469,23 +2469,24 @@ input:checked+.slider:before {
   background-color: #000;
 }
 
-.upload-edit{
-  width: 200px;
-  height: 200px;
-  border-radius: 100%;
-  display: none;
-  position: absolute;
-  margin: 75px auto;
-  text-align: right;
-  border: 1px solid;
-  top: 0;
-  left: 16%;
-  background-color: rgba(0, 0, 0, 0.2);
+.pagination-btn {
+  padding: 4px 10px;
+  color: #000;
+  border-radius: 0px;
+  background-color: #dee2e6;
+  border: 0px;
+  font-weight: 500;
+  font-size: 14px;
 }
-
-.profile-update-icon{
-  position: absolute;
-  top: 47%;
-  left: 45%;
-  right: 45%;
+.pagination-btn.active {
+  color: #fff;
+  background-color: #064d9d;
+}
+.pagination-btn:first-child{
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.pagination-btn:last-child{
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
