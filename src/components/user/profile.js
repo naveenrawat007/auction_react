@@ -473,7 +473,9 @@ export default class Profile extends Component{
     this.setState({
       user_new_image: event.target.files[0]
     });
-    document.getElementById('user_profile_image').src = URL.createObjectURL(event.target.files[0])
+    if (event.target.files[0]){
+      document.getElementById('user_profile_image').src = URL.createObjectURL(event.target.files[0])
+    }
   }
   updateImage = (event) => {
     if (this.state.user_new_image){

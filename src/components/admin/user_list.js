@@ -114,8 +114,8 @@ export default class UserList extends Component{
           <td><input type="checkbox" value="" id="defaultCheck1"/></td>
           <td>
             <div className="user_name_box">
-              <span>{user.first_name[0].toUpperCase()  }</span>
-              <p>{user.first_name + user.last_name}</p>
+              <span>{user.first_name[0].toUpperCase()}</span>
+              <p>{user.first_name + " "+ user.last_name}</p>
             </div>
           </td>
           <td>{String(user.is_verified)}</td>
