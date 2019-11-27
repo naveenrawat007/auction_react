@@ -8,6 +8,10 @@ const initial_state = {
   isLoaded: false,
   users: [],
   search_str: "",
+  current_page: 1,
+  total_pages: 1,
+  page: 1,
+  total_pages_array:[]
 }
 
 
@@ -24,7 +28,7 @@ export default class UserList extends Component{
   }
 
   getUsersList = () => {
-    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/users?search_str=" + this.state.search_str
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/users?search_str=" + this.state.search_str + "&page=" + this.state.page
     fetch(url, {
       method: "GET",
       headers: {
@@ -44,7 +48,16 @@ export default class UserList extends Component{
         if (result.status === 200){
           this.setState({
             isLoaded: true,
-            users: result.users
+            users: result.users,
+            current_page : result.meta.current_page,
+            total_pages : result.meta.total_pages,
+          });
+          let items = []
+          for (let number = 1; number <= this.state.total_pages; number++) {
+            items.push(number)
+          }
+          this.setState({
+            total_pages_array: items,
           });
         }else {
           this.setState({
@@ -75,6 +88,15 @@ export default class UserList extends Component{
       }, 500);
     });
   }
+  refreshList = (event) => {
+    let page_number = event.target.getAttribute("page_number")
+    this.setState({
+      page: page_number
+    }, function () {
+      this.getUsersList();
+    });
+  }
+
 
 	render() {
     const userList = this.state.users.map((user, index) => {
@@ -94,6 +116,11 @@ export default class UserList extends Component{
           <td>{user.phone_number}</td>
           <td>{user.email}</td>
         </tr>
+      );
+    })
+    const pagination = this.state.total_pages_array.map((page, index) => {
+      return (
+        <button key={index} onClick={this.refreshList} page_number={page}>{page}</button>
       );
     })
 		return (
@@ -160,6 +187,7 @@ export default class UserList extends Component{
                         </table>
                       </div>
                     </div>
+                    {pagination}
                   </div>
                 </div>
               </div>
