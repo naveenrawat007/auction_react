@@ -474,7 +474,7 @@ export default class Profile extends Component{
       user_new_image: event.target.files[0]
     });
     if (event.target.files[0]){
-      document.getElementById('user_profile_image').src = URL.createObjectURL(event.target.files[0])
+      document.getElementById('user_profile_image_placeholder').src = URL.createObjectURL(event.target.files[0])
     }
   }
   updateImage = (event) => {
@@ -558,12 +558,16 @@ export default class Profile extends Component{
               <div className="row">
                 <div className="col-md-4">
                   <div className="upload-profile-pic">
-                    <img src={this.state.user_image ? this.state.user_image : "images/default-profile-img.png"} alt="user_image"/>
-                    <div className="text-center">
-                      <input type="file" id= "user_profile_image_input" className="d-none" name="user_image" onChange={this.fileSelectHandler} accept="image/jpeg, image/jpg, image/png "/>
-                      <button onClick={this.updateImage} className="red-btn update-pwd-btn mt-2"> Update image </button> &nbsp;&nbsp;
-                      <button type="button" className="red-btn update-pwd-btn mt-2" id= "user_profile_image"> <FontAwesomeIcon icon={faPencilAlt} className="profile-update-icon" /></button>
+                    <img id="user_profile_image_placeholder" src={this.state.user_image ? this.state.user_image : "images/default-profile-img.png"} alt="user_image"/>
+                    <div className="overlay-edit">
+                      <div className="upload-edit-icon">
+                        <FontAwesomeIcon icon={faPencilAlt} className="profile-update-icon" id= "user_profile_image"/>
+                      </div>
                     </div>
+                  </div>
+                  <div className="text-center">
+                    <input type="file" id= "user_profile_image_input" className="d-none" name="user_image" onChange={this.fileSelectHandler} accept="image/jpeg, image/jpg, image/png "/>
+                    <button onClick={this.updateImage} className="red-btn update-pwd-btn"> Update image </button>
                   </div>
                 </div>
                 <div className="col-md-8 user-info">

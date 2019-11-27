@@ -355,7 +355,7 @@ body {
 }
 
 .upload-profile-pic{
-    margin: 75px 0;
+    margin: 75px 0 25px 0;
 }
 .upload-profile-pic img{
     width: 200px;
@@ -2489,4 +2489,41 @@ input:checked+.slider:before {
 .pagination-btn:last-child{
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+}
+
+.upload-profile-pic {
+  position: relative;
+}
+.upload-profile-pic img{
+  display: block;
+  width: 200px;
+  height: 200px;
+}
+.overlay-edit {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 12.8%;
+  right: 0;
+  height: 200px;
+  width: 200px;
+  opacity: 0;
+  transition: .5s ease;
+  border-radius: 100%;
+  background-color: rgba(0,0,0,0.7);
+}
+.upload-profile-pic:hover .overlay-edit {
+  opacity: 1;
+}
+.upload-edit-icon svg{
+  cursor: pointer;
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
