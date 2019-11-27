@@ -4,6 +4,7 @@ import Login from './components/login/login.js'
 import SignUp from './components/signup/signup.js'
 import VerificationModal from './components/signup/verify_modal.js'
 import Navbar from './components/navbar/navbar.js'
+import Footer from './components/navbar/footer.js'
 import ForgotPassword from './components/login/forgot_password.js'
 import Sidebar from './components/user/sidebar.js'
 import AdminSidebar from './components/admin/sidebar.js'
@@ -24,6 +25,7 @@ function App() {
           <Route path="/new_password" component={NewPassword} />
           <Route path="/verify" component={VerificationModal} />
         </Switch>
+        <Route path='/' component = {Footer}/>
       </BrowserRouter>
     </div>
   );
