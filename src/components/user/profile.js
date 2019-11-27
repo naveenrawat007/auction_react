@@ -556,13 +556,11 @@ export default class Profile extends Component{
               <div className="row">
                 <div className="col-md-4">
                   <div className="upload-profile-pic">
-                    <img id= "user_profile_image" src={this.state.user_image ? this.state.user_image : "images/default-profile-img.png"} alt="user_image"/>
+                    <img src={this.state.user_image ? this.state.user_image : "images/default-profile-img.png"} alt="user_image"/>
                     <div className="text-center">
                       <input type="file" id= "user_profile_image_input" className="d-none" name="user_image" onChange={this.fileSelectHandler} accept="image/jpeg, image/jpg, image/png "/>
-                      <div className="upload-edit" id="user-profile-image-edit">
-                        <FontAwesomeIcon icon={faPencilAlt} className="profile-update-icon" />
-                      </div>
-                      <button onClick={this.updateImage} className="red-btn update-pwd-btn mt-2"> Update image </button>
+                      <button onClick={this.updateImage} className="red-btn update-pwd-btn mt-2"> Update image </button> &nbsp;&nbsp;
+                      <button type="button" className="red-btn update-pwd-btn mt-2" id= "user_profile_image"> <FontAwesomeIcon icon={faPencilAlt} className="profile-update-icon" /></button>
                     </div>
                   </div>
                 </div>
