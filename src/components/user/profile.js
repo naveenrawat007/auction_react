@@ -562,7 +562,7 @@ export default class Profile extends Component{
                       <div className="upload-edit" id="user-profile-image-edit">
                         <FontAwesomeIcon icon={faPencilAlt} className="profile-update-icon" />
                       </div>
-                      <button onClick={this.updateImage} className="red-btn update-pwd-btn"> Update image </button>
+                      <button onClick={this.updateImage} className="red-btn update-pwd-btn mt-2"> Update image </button>
                     </div>
                   </div>
                 </div>
