@@ -2468,3 +2468,24 @@ input:checked+.slider:before {
   border-left: 3px solid #b71c1c;
   background-color: #000;
 }
+
+.upload-edit{
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+  display: none;
+  position: absolute;
+  margin: 75px auto;
+  text-align: right;
+  border: 1px solid;
+  top: 0;
+  left: 16%;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.profile-update-icon{
+  position: absolute;
+  top: 47%;
+  left: 45%;
+  right: 45%;
+}
