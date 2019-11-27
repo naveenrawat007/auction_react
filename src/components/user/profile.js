@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import Alert from 'react-bootstrap/Alert';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+
 const initial_state = {
   error: "",
   message: "",
@@ -556,6 +559,9 @@ export default class Profile extends Component{
                     <img id= "user_profile_image" src={this.state.user_image ? this.state.user_image : "images/default-profile-img.png"} alt="user_image"/>
                     <div className="text-center">
                       <input type="file" id= "user_profile_image_input" className="d-none" name="user_image" onChange={this.fileSelectHandler} accept="image/jpeg, image/jpg, image/png "/>
+                      <div className="upload-edit" id="user-profile-image-edit">
+                        <FontAwesomeIcon icon={faPencilAlt} className="profile-update-icon" />
+                      </div>
                       <button onClick={this.updateImage} className="red-btn update-pwd-btn"> Update image </button>
                     </div>
                   </div>
