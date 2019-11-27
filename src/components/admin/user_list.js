@@ -97,15 +97,24 @@ export default class UserList extends Component{
     });
   }
 
+  checkActiveClass = (number, current_page) => {
+    if (number === current_page ){
+      return("pagination-btn btn active");
+    }else{
+      return("pagination-btn btn");
+    }
+  }
+
 
 	render() {
+    const current_page = this.state.current_page;
     const userList = this.state.users.map((user, index) => {
       return (
         <tr key={index}>
           <td><input type="checkbox" value="" id="defaultCheck1"/></td>
           <td>
             <div className="user_name_box">
-              <span>D</span>
+              <span>{user.first_name[0].toUpperCase()  }</span>
               <p>{user.first_name + user.last_name}</p>
             </div>
           </td>
@@ -120,7 +129,7 @@ export default class UserList extends Component{
     })
     const pagination = this.state.total_pages_array.map((page, index) => {
       return (
-        <button key={index} onClick={this.refreshList} page_number={page}>{page}</button>
+        <button className={this.checkActiveClass(page, current_page)} key={index} onClick={this.refreshList} page_number={page}>{page}</button>
       );
     })
 		return (
@@ -187,7 +196,9 @@ export default class UserList extends Component{
                         </table>
                       </div>
                     </div>
-                    {pagination}
+                    <div className="col-md-12 text-center my-3">
+                      {pagination}
+                    </div>
                   </div>
                 </div>
               </div>
