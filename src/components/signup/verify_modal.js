@@ -11,12 +11,15 @@ const initial_state = {
   message: "",
 }
 export default class VerificationModal extends Component{
+  _isMounted = false
+
   constructor(props){
     super(props);
     this.state = initial_state;
   }
   componentDidMount () {
     $('#verfiyModal').show();
+    this._isMounted = true;
   }
 
   submitForm = () => {
@@ -39,20 +42,29 @@ export default class VerificationModal extends Component{
     .then((result) => {
       if (result.status === 201) {
         localStorage.setItem("auction_user_token", result.user.token);
-        this.setState({verified: result.user.is_verified});
+        if (this._isMounted){
+          this.setState({verified: result.user.is_verified});
+        }
         this.props.history.push('/user')
       }else {
-        this.setState({message: result.message, variant: "danger"});
+        if (this._isMounted){
+          this.setState({message: result.message, variant: "danger"});
+        }
       }
-      this.clearMessageTimeout = setTimeout(() => {
-        this.setState(() => ({message: ""}))
-      }, 2000);
+      if (this._isMounted){
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
+      }
 		}, (error) => {
-      this.setState({message: "server error"});
+      if (this._isMounted){
+        this.setState({message: "server error"});
+      }
 		});
   }
   componentWillUnmount() {
     clearTimeout(this.clearMessageTimeout);
+    this._isMounted = false;
   }
 
   resendVerificationCode = () => {
@@ -73,20 +85,24 @@ export default class VerificationModal extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 208) {
-        this.setState({
-          message: result.message,
-          variant: "success"
-        });
+        if (this._isMounted){
+          this.setState({
+            message: result.message,
+            variant: "success"
+          });
+        }
       }
 		}, (error) => {
 		});
   }
 
   submitHandler = (event) => {
-		event.preventDefault();
-    let formIsValid = this.checkFormValidation();
-    if (formIsValid){
-      this.submitForm()
+    if (this._isMounted){
+  		event.preventDefault();
+      let formIsValid = this.checkFormValidation();
+      if (formIsValid){
+        this.submitForm()
+      }
     }
   }
 
@@ -120,15 +136,17 @@ export default class VerificationModal extends Component{
   }
 
   updateUserCode = (event) => {
-    const{ name, value } = event.target;
-    this.setState({
-      user: {
-      ...this.state.user,
-      [name]: value
-      }
-    }, function () {
-      this.checkFormValidation();
-    });
+    if (this._isMounted){
+      const{ name, value } = event.target;
+      this.setState({
+        user: {
+        ...this.state.user,
+        [name]: value
+        }
+      }, function () {
+        this.checkFormValidation();
+      });
+    }
 	}
 
   addErrorMessage = (msg) => {
