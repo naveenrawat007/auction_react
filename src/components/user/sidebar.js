@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Profile from './profile.js'
 import { faUser, faHome, faPlusCircle, faSearchPlus, faComments, faUnlock, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import NewProperty from './property/new'
 
 export default class Sidebar extends Component{
   _isMounted = false
@@ -51,6 +52,9 @@ export default class Sidebar extends Component{
     this._isMounted = true;
     this.changeImage()
   }
+  componentDidUpdate () {
+    this.changeImage()
+  }
   componentWillUnmount (){
     this._isMounted = false;
   }
@@ -63,6 +67,8 @@ export default class Sidebar extends Component{
 
       case 'user_profile':
         return <Profile onImageChange={this.changeImage}/>;
+      case 'new_property':
+        return <NewProperty/>;
       default:
     }
   }
@@ -84,7 +90,7 @@ export default class Sidebar extends Component{
             <div className="col-md-3 user_side_tab side_tab px-0">
               <div className="account-head">
                 <div className="account-image">
-                  <img src={this.state.user_image ? this.state.user_image : "images/default-profile-img.png"} alt="profile"/>
+                  <img src={this.state.user_image ? this.state.user_image : "/images/default-profile-img.png"} alt="profile"/>
                 </div>
                 <div className="account-data">
                   <h5>{this.userFirstName()} {this.userLastName()}</h5>
@@ -93,16 +99,16 @@ export default class Sidebar extends Component{
               </div>
               <ul className="nav nav-pills" role="tablist">
                 <li className="nav-item">
-                  <a className="nav-link active" data-toggle="pill" href="#myProfile">
+                  <Link to='/user' className="nav-link active" data-toggle="pill" >
                     <span><FontAwesomeIcon icon={faUser} /> My Profile</span>
                     <FontAwesomeIcon icon={faChevronRight} />
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link " data-toggle="pill" href="#myproperties">
+                  <Link to='/user/property/new' className="nav-link " data-toggle="pill" >
                     <span><FontAwesomeIcon icon={faHome} /> My Properties</span>
                     <FontAwesomeIcon icon={faChevronRight} />
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" data-toggle="pill" href="#newproperty">
