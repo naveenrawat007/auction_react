@@ -59,6 +59,9 @@ export default class UserList extends Component{
           this.setState({
             total_pages_array: items,
           });
+        }else if (result.status === 401) {
+          localStorage.removeItem("auction_user_token");
+          window.location.href = "/login"
         }else {
           this.setState({
             variant: "danger",

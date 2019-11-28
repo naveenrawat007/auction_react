@@ -95,9 +95,12 @@ export default class Profile extends Component{
             type_attributes: result.user.type_attributes ? result.user.type_attributes : Object.assign(JSON.parse(process.env.REACT_APP_BACKEND_USER_ATTR_BROKER) , JSON.parse(process.env.REACT_APP_BACKEND_USER_ATTR_REALTOR))
             }
           });
-          if (result.is_verified === false){
-            this.props.history.push("/verify");
+          if (result.user.is_verified === false){
+            window.location.href = '/verify'
           }
+        }else if (result.status === 401) {
+          localStorage.removeItem("auction_user_token");
+          window.location.href = "/login"
         }else {
           this.setState({
             variant: "danger",
@@ -151,6 +154,9 @@ export default class Profile extends Component{
           variant: "success",
           message: result.message
         });
+      }else if (result.status === 401) {
+        localStorage.removeItem("auction_user_token");
+        window.location.href = "/login"
       }else {
         this.setState({message: result.message,
         variant: "danger"});
@@ -510,6 +516,9 @@ export default class Profile extends Component{
             variant: "success"
           });
           this.props.onImageChange()
+        }else if (result.status === 401) {
+          localStorage.removeItem("auction_user_token");
+          window.location.href = "/login"
         }else {
           this.clearMessageTimeout = setTimeout(() => {
             this.setState(() => ({message: ""}))

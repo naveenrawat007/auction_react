@@ -40,6 +40,9 @@ export default class Sidebar extends Component{
             first_name: result.user.first_name,
             last_name: result.user.last_name,
           });
+        }else if (result.status === 401) {
+          localStorage.removeItem("auction_user_token");
+          window.location.href = "/login"
         }
       }
     })
