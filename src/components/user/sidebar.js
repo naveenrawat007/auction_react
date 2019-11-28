@@ -52,9 +52,6 @@ export default class Sidebar extends Component{
     this._isMounted = true;
     this.changeImage()
   }
-  componentDidUpdate () {
-    this.changeImage()
-  }
   componentWillUnmount (){
     this._isMounted = false;
   }
