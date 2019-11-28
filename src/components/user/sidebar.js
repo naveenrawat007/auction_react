@@ -10,7 +10,10 @@ export default class Sidebar extends Component{
     super(props);
     this.state = {
       path: props.path,
-      user_image: ""
+      user_image: "",
+      first_name: "",
+      last_name: "",
+
     }
   }
   changeImage = () => {
@@ -33,7 +36,9 @@ export default class Sidebar extends Component{
       if (this._isMounted){
         if (result.status === 200){
           this.setState({
-            user_image: result.user.user_image
+            user_image: result.user.user_image,
+            first_name: result.user.first_name,
+            last_name: result.user.last_name,
           });
         }
       }
@@ -58,6 +63,16 @@ export default class Sidebar extends Component{
       default:
     }
   }
+  userFirstName = () => {
+    if (this.state.first_name){
+      return (this.state.first_name[0].toUpperCase() + this.state.first_name.slice(1));
+    }
+  }
+  userLastName = () => {
+    if (this.state.last_name){
+      return (this.state.last_name[0].toUpperCase() + this.state.last_name.slice(1));
+    }
+  }
   render(){
     return (
       <div className="profile-setting">
@@ -69,7 +84,7 @@ export default class Sidebar extends Component{
                   <img src={this.state.user_image ? this.state.user_image : "images/default-profile-img.png"} alt="profile"/>
                 </div>
                 <div className="account-data">
-                  <h5>Regal Mantac</h5>
+                  <h5>{this.userFirstName()} {this.userLastName()}</h5>
                   <p className="font-red text-uppercase">Premium User</p>
                 </div>
               </div>

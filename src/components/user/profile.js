@@ -146,6 +146,7 @@ export default class Profile extends Component{
           type_attributes: result.user.type_attributes
           }
         });
+        this.props.onImageChange();
         this.setState({
           variant: "success",
           message: result.message
