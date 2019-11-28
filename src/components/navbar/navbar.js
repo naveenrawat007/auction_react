@@ -112,18 +112,18 @@ export default class Navbar extends Component{
   }
 
   mouseOutImageChange = (event) =>{
-    event.target.src='images/help.png'
+    event.target.src='/images/help.png'
   }
 
   mouseOverImageChange = (event) =>{
-    event.target.src='images/helphover.png'
+    event.target.src='/images/helphover.png'
   }
   mouseOutUserImageChange = (event) =>{
-    event.target.src='images/user.png'
+    event.target.src='/images/user.png'
   }
 
   mouseOverUserImageChange = (event) =>{
-    event.target.src='images/userhover.png'
+    event.target.src='/images/userhover.png'
   }
 
 
