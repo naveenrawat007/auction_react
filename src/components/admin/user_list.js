@@ -93,7 +93,9 @@ export default class UserList extends Component{
     this.setState({
       page: page_number
     }, function () {
-      this.getUsersList();
+      if (parseInt(this.state.page) !== parseInt(this.state.current_page) ){
+        this.getUsersList();
+      }
     });
   }
 
@@ -105,9 +107,24 @@ export default class UserList extends Component{
     }
   }
 
+  getPreviousPage = (current_page) => {
+    if (current_page <= 1){
+      return ("1");
+    }else{
+      return (current_page - 1);
+    }
+  }
+  getNextPage = (current_page, total_pages) => {
+    if (current_page < total_pages){
+      return (current_page + 1);
+    }else{
+      return (total_pages);
+    }
+  }
 
 	render() {
     const current_page = this.state.current_page;
+    const total_pages = this.state.total_pages;
     const userList = this.state.users.map((user, index) => {
       return (
         <tr key={index}>
@@ -132,6 +149,8 @@ export default class UserList extends Component{
         <button className={this.checkActiveClass(page, current_page)} key={index} onClick={this.refreshList} page_number={page}>{page}</button>
       );
     })
+    const prev_page = <> <button className="pagination-btn btn" onClick={this.refreshList} page_number={this.getPreviousPage(current_page)}>Prev</button> </>
+    const next_page = <> <button className="pagination-btn btn" onClick={this.refreshList} page_number={this.getNextPage(current_page, total_pages)}>Next</button> </>
 		return (
       <div id="userList" className="container tab-container px-0 tab-pane active">
         <div className="profile-form">
@@ -197,7 +216,7 @@ export default class UserList extends Component{
                       </div>
                     </div>
                     <div className="col-md-12 text-center my-3">
-                      {pagination}
+                      {prev_page}{pagination}{next_page}
                     </div>
                   </div>
                 </div>
