@@ -17,7 +17,8 @@ function App() {
       <BrowserRouter>
         <Route path='/' component = {Navbar}/>
         <Switch>
-          <Route path="/user" component={() => <Sidebar path='user_profile'/>}/>
+          <Route exact path="/user" component={() => <Sidebar path='user_profile'/>}/>
+          <Route exact path="/user/property/new" component={() => <Sidebar path='new_property'/>}/>
           <Route path="/admin" component={() => <AdminSidebar path='users_list'/>}/>
           <Route path="/login" component={Login} />
           <Route path="/sign_up" component={SignUp} />
