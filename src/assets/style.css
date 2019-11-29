@@ -261,8 +261,22 @@ body {
 .header .navbar-nav .nav-link {
   font-size: 16px;
   font-weight: 500;
+  background-color: transparent;
+  border-color: transparent;
+  color: #000;
 }
-
+.header .navbar-nav .nav-link:active {
+  background-color: transparent;
+  border-color: transparent;
+  color: #000;
+  box-shadow: none !important;
+}
+.header .navbar-nav .nav-link:focus{
+  box-shadow: none;
+}
+.header .navbar-nav .dropdown-toggle::after{
+  display: none;
+}
 .header .navbar-nav .nav-item {
   margin: 0 6px;
 }
@@ -1947,12 +1961,28 @@ a.freems {
 }
 
 .profile-menu{
-    left: -50px !important;
+    left: -100px !important;
     right: 0px !important;
     top: 0 !important;
 }
-.drop-menu{
-  transform: translate3d(-54px, 44px, 0px) !important;
+.header-reg .dropdown button{
+  font-size: 16px;
+  font-weight: 500;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+.header-reg .dropdown button:active {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+.header-reg .dropdown button:focus{
+  box-shadow: none !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+.header-reg .dropdown button.dropdown-toggle::after{
+  display: none;
 }
 .header-reg .dropdown-menu a{
     color: #1d1d1d;

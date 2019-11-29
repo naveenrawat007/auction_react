@@ -92,7 +92,7 @@ export default class Navbar extends Component{
       return(
         <>
           <Dropdown>
-            <Dropdown.Toggle as={CustomToggle} >
+            <Dropdown.Toggle className="nav-link" id="dropdown-basic2">
               <img src="/images/user.png" onMouseOver={ (e) => {this.mouseOverUserImageChange(e)}} onMouseOut={ (e) => {this.mouseOutUserImageChange(e)}} border="0" alt=""/>
             </Dropdown.Toggle>
             <Dropdown.Menu className="drop-menu profile-menu" >
@@ -146,25 +146,15 @@ export default class Navbar extends Component{
               <ul className="navbar-nav responsive-nav">
                 <li className="nav-item dropdown">
                   <Dropdown>
-                    <Dropdown.Toggle as={CustomToggle} className="nav-link" >
+                    <Dropdown.Toggle className="nav-link" id="dropdown-basic1">
                       Buy <FontAwesomeIcon icon={faChevronDown} />
                     </Dropdown.Toggle>
-                    <Dropdown.Menu className="drop-menu " >
-                      <Dropdown.Item to="#">
-                        Live Online Biding
-                      </Dropdown.Item>
-                      <Dropdown.Item to="#">
-                        Coming Soon
-                      </Dropdown.Item>
-                      <Dropdown.Item to="#">
-                        Post Auction
-                      </Dropdown.Item>
-                      <Dropdown.Item to="#">
-                        Pending Property
-                      </Dropdown.Item>
-                      <Dropdown.Item to='#'>
-                        Sold
-                      </Dropdown.Item>
+                    <Dropdown.Menu className="drop-menu">
+                      <Dropdown.Item href="#">Live Online Bidding</Dropdown.Item>
+                      <Dropdown.Item href="#">Coming Soon</Dropdown.Item>
+                      <Dropdown.Item href="#">Post Auction</Dropdown.Item>
+                      <Dropdown.Item href="#">Pending Property</Dropdown.Item>
+                      <Dropdown.Item href="#">Sold</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </li>
@@ -192,9 +182,3 @@ export default class Navbar extends Component{
     )
   }
 }
-
-const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
-  <Link to="#" onClick={e =>{onClick(e);}} className="nav-link" >
-    {children}
-  </Link>
-));
