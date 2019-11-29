@@ -90,7 +90,7 @@ export default class Navbar extends Component{
         <>
           <Dropdown>
             <Dropdown.Toggle as={CustomToggle} >
-              <img src="images/user.png" onMouseOver={ (e) => {this.mouseOverUserImageChange(e)}} onMouseOut={ (e) => {this.mouseOutUserImageChange(e)}} border="0" alt=""/>
+              <img src="/images/user.png" onMouseOver={ (e) => {this.mouseOverUserImageChange(e)}} onMouseOut={ (e) => {this.mouseOutUserImageChange(e)}} border="0" alt=""/>
             </Dropdown.Toggle>
             <Dropdown.Menu className="drop-menu profile-menu" >
               <Dropdown.Item onClick={this.navigateToProfile}>
@@ -133,7 +133,7 @@ export default class Navbar extends Component{
         <div className="container custom_container px-0">
           <nav className="navbar navbar-expand-lg">
             <Link to="/" className="logo">
-              <img src="images/logo.png" alt="Logo"/>
+              <img src="/images/logo.png" alt="Logo"/>
             </Link>
             <button className="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"><i className="fa fa-indent"></i></span>
