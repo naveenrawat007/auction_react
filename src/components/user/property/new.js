@@ -7,6 +7,39 @@ import {Link} from 'react-router-dom';
 const initial_state = {
   error: "",
   message: "",
+  property: {
+    address: "",
+    city: "",
+    state: "",
+    category: "",
+    type: "",
+    bedrooms: "",
+    bathrooms: "",
+    garage: "",
+    area: "",
+    lot_size: "",
+    year_built: "",
+    units: "",
+    stores: "",
+    cap_rate: "",
+    price_per_sq_ft: "",
+    headliner: "",
+    mls_available: "",
+    flooded: "",
+    flood_count: "",
+    estimated_rehab_cost: "",
+    description: "",
+    seller_price: "",
+    buy_now_price: "",
+    auction_started_at: "",
+    auction_length: "",
+    auction_ending_at: "",
+    pay_type: "",
+    title_status: "",
+    seller_pay_type_id: "",
+    show_instructions_type_id: "",
+    youtube_url: ""
+  },
 }
 
 export default class NewProperty extends Component{
@@ -51,6 +84,16 @@ export default class NewProperty extends Component{
     document.getElementById('step4').classList.add('d-none');
   }
 
+  updateProperty = (event) => {
+    const{ name, value } = event.target;
+    this.setState({
+      property: {
+      ...this.state.property,
+      [name]: value
+      }
+    }, function () {
+    });
+  }
 
 	render() {
 		return (
@@ -100,13 +143,13 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Property Address</label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control" name="address" onChange={this.updateProperty}/>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Property Category</label>
-                    <select className="form-control" id="sel1">
+                    <select className="form-control" id="sel1" name="category" onChange={this.updateProperty}>
                       <option></option>
                       <option>Residential</option>
                       <option>Commercial</option>
@@ -117,7 +160,7 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Property Type</label>
-                    <select className="form-control" id="sel1">
+                    <select className="form-control" id="sel1" name="type" onChange={this.updateProperty}>
                       <option></option>
                       <option>Single Family</option>
                       <option>TownHomes \ Condos</option>
@@ -135,105 +178,105 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Bedrooms</label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control" name="bedrooms" onChange={this.updateProperty}/>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Bathrooms</label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control" name="bathrooms" onChange={this.updateProperty}/>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Garage</label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control" name="garage" onChange={this.updateProperty}/>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Area</label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control" name="area" onChange={this.updateProperty}/>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Lot Size</label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control" name="lot_size" onChange={this.updateProperty}/>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Year Built</label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control" name="year_built" onChange={this.updateProperty}/>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Units</label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control" name="units" onChange={this.updateProperty}/>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label>Stories</label>
-                    <input type="text" className="form-control" />
+                    <label>Stores</label>
+                    <input type="text" className="form-control" name="stores" onChange={this.updateProperty}/>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Cap Rate</label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control" name="cap_rate" onChange={this.updateProperty}/>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Price Per SqFt</label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control" name="price_per_sq_ft" onChange={this.updateProperty}/>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Property Headliner</label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control" name="headliner" onChange={this.updateProperty}/>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Is this property on MLS?</label>
-                    <select className="form-control" id="sel1">
+                    <select className="form-control" id="sel1" name="mls_available" onChange={this.updateProperty}>
                       <option></option>
-                      <option>Yes</option>
-                      <option>No</option>
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
                     </select>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Did Property Flooded?</label>
-                    <select className="form-control" id="sel1">
+                    <select className="form-control" id="sel1" name="flooded" onChange={this.updateProperty}>
                       <option></option>
-                      <option>Yes</option>
-                      <option>No</option>
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
                     </select>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>If Flooded</label>
-                    <input type="" name="" placeholder="How many times and how high did the water get inside the property each time." className="form-control" disabled />
+                    <input type="" placeholder="How many times and how high did the water get inside the property each time." className="form-control" disabled name="flood_count" onChange={this.updateProperty}/>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Estimated Rehab Cost</label>
-                    <input type="" name="" className="form-control" />
+                    <input type="" className="form-control" name="estimated_rehab_cost" onChange={this.updateProperty}/>
                   </div>
                 </div>
                 <div className="col-md-12">
                   <div className="form-group">
                     <label>Property Description</label>
-                    <textarea className="form-control" rows="2" id="comment"></textarea>
+                    <textarea className="form-control" rows="2" id="comment" name="description" onChange={this.updateProperty}></textarea>
                   </div>
                 </div>
               </form>
