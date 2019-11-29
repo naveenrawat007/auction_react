@@ -179,7 +179,7 @@ export default class Navbar extends Component{
                 </li>
               </ul>
               <div className="header-reg">
-                <a href="/" className="mx-3"><img src="images/help.png" onMouseOver={ (e) => {this.mouseOverImageChange(e)} } onMouseOut={ (e) => {this.mouseOutImageChange(e)} } border="0" alt=""/></a>
+                <a href="/" className="mx-3"><img src="/images/help.png" onMouseOver={ (e) => {this.mouseOverImageChange(e)} } onMouseOut={ (e) => {this.mouseOutImageChange(e)} } border="0" alt=""/></a>
                 { this.login_log_out_div() }
               </div>
             </div>

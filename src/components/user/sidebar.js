@@ -102,16 +102,16 @@ export default class Sidebar extends Component{
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to='/user/property/new' className="nav-link " data-toggle="pill" >
+                  <Link to='#' className="nav-link " data-toggle="pill" >
                     <span><FontAwesomeIcon icon={faHome} /> My Properties</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" data-toggle="pill" href="#newproperty">
+                  <Link to='/user/property/new' className="nav-link" data-toggle="pill" href="#newproperty">
                     <span><FontAwesomeIcon icon={faPlusCircle} />  Add New Property</span>
                     <FontAwesomeIcon icon={faChevronRight} />
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" data-toggle="pill" href="#watchProperty">
