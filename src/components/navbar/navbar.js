@@ -65,6 +65,11 @@ export default class Navbar extends Component{
             this.setState({
               logged_in: true
             });
+            // let path_name = "";
+            // path_name = this.props.location.pathname
+            // if (path_name === "/"){
+            //   this.props.history.push('/user')
+            // }
           }
         }
       }
@@ -188,20 +193,8 @@ export default class Navbar extends Component{
   }
 }
 
-class CustomToggle extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-    this.handleClick = this.handleClick.bind(this);
-  }
-  handleClick(e) {
-    e.preventDefault();
-    this.props.onClick(e);
-  }
-  render() {
-    return (
-      <Link to="" onClick={this.handleClick} className="nav-link" >
-        {this.props.children}
-      </Link>
-    );
-  }
-}
+const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+  <Link to="#" onClick={e =>{onClick(e);}} className="nav-link" >
+    {children}
+  </Link>
+));
