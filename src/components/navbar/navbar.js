@@ -49,7 +49,6 @@ export default class Navbar extends Component{
           this.props.history.push('/login')
         }
       }else {
-        this.props.history.push('/')
         if (result.user.is_admin === true){
           this.props.history.push('/admin')
           this.setState({
@@ -66,7 +65,6 @@ export default class Navbar extends Component{
             this.setState({
               logged_in: true
             });
-            this.props.history.push('/user')
           }
         }
       }
