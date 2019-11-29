@@ -21,6 +21,37 @@ export default class NewProperty extends Component{
   componentDidMount () {
     this._isMounted = true;
   }
+
+  submitStepOne = () => {
+    document.getElementById('step1').classList.add('d-none');
+    document.getElementById('step2').classList.remove('d-none');
+  }
+
+  backToStepOne = () => {
+    document.getElementById('step1').classList.remove('d-none');
+    document.getElementById('step2').classList.add('d-none');
+  }
+
+  submitStepTwo = () => {
+    document.getElementById('step2').classList.add('d-none');
+    document.getElementById('step3').classList.remove('d-none');
+  }
+
+  backToStepTwo = () => {
+    document.getElementById('step2').classList.remove('d-none');
+    document.getElementById('step3').classList.add('d-none');
+  }
+
+  submitStepThree = () => {
+    document.getElementById('step3').classList.add('d-none');
+    document.getElementById('step4').classList.remove('d-none');
+  }
+  backToStepThree = () => {
+    document.getElementById('step3').classList.remove('d-none');
+    document.getElementById('step4').classList.add('d-none');
+  }
+
+
 	render() {
 		return (
       <div id="newproperty" className="container px-0 tab-pane active">
@@ -207,7 +238,7 @@ export default class NewProperty extends Component{
                 </div>
               </form>
               <div className="col-md-12 text-center my-4">
-                <a href="property-deals-analysis.html" className="red-btn step-btn">Continue</a>
+                <Link to="#" className="red-btn step-btn" onClick={this.submitStepOne}>Continue</Link>
               </div>
             </div>
             <div className="container creation-steps px-0 d-none" id="step2">
@@ -218,7 +249,7 @@ export default class NewProperty extends Component{
                   <div className="progress">
                     <div className="progress-bar"></div>
                   </div>
-                  <a className="bs-wizard-dot" href="#"></a>
+                  <Link className="bs-wizard-dot" to="#"></Link>
                 </div>
                 <div className="col-xs-2 bs-wizard-step  complete current">
                   <div className="text-center bs-wizard-number">2</div>
@@ -226,7 +257,7 @@ export default class NewProperty extends Component{
                   <div className="progress">
                     <div className="progress-bar"></div>
                   </div>
-                  <a className="bs-wizard-dot" href="#"></a>
+                  <Link className="bs-wizard-dot" to="#"></Link>
                 </div>
                 <div className="col-xs-2 bs-wizard-step  disabled ">
                   <div className="text-center bs-wizard-number">3</div>
@@ -234,7 +265,7 @@ export default class NewProperty extends Component{
                   <div className="progress">
                     <div className="progress-bar"></div>
                   </div>
-                  <a className="bs-wizard-dot" href="#"></a>
+                  <Link className="bs-wizard-dot" to="#"></Link>
                 </div>
                 <div className="col-xs-2 bs-wizard-step  disabled ">
                   <div className="text-center bs-wizard-number">4</div>
@@ -242,7 +273,7 @@ export default class NewProperty extends Component{
                   <div className="progress">
                     <div className="progress-bar"></div>
                   </div>
-                  <a href="#" className="bs-wizard-dot"></a>
+                  <Link to="#" className="bs-wizard-dot"></Link>
                 </div>
               </div>
               <div className="col-md-12 text-center pb-4">
@@ -306,8 +337,8 @@ export default class NewProperty extends Component{
                 </div>
               </form>
               <div className="col-md-12 text-center my-4">
-                <a href="my-profileaa.html" className="red-btn step-btn mr-3">Go, Back</a>
-                <a href="property-auction-details.html" className="red-btn step-btn ml-3">Continue</a>
+                <Link to="#" className="red-btn step-btn mr-3" onClick={this.backToStepOne}>Go, Back</Link>
+                <Link to="#" className="red-btn step-btn ml-3" onClick={this.submitStepTwo}>Continue</Link>
               </div>
             </div>
             <div className="container creation-steps px-0 d-none" id="step3">
@@ -318,7 +349,7 @@ export default class NewProperty extends Component{
                   <div className="progress">
                     <div className="progress-bar"></div>
                   </div>
-                  <a className="bs-wizard-dot" href="#"></a>
+                  <Link className="bs-wizard-dot" to="#"></Link>
                 </div>
                 <div className="col-xs-2 bs-wizard-step  complete ">
                   <div className="text-center bs-wizard-number">2</div>
@@ -326,7 +357,7 @@ export default class NewProperty extends Component{
                   <div className="progress">
                     <div className="progress-bar"></div>
                   </div>
-                  <a className="bs-wizard-dot" href="#"></a>
+                  <Link className="bs-wizard-dot" to="#"></Link>
                 </div>
                 <div className="col-xs-2 bs-wizard-step  complete current ">
                   <div className="text-center bs-wizard-number">3</div>
@@ -334,7 +365,7 @@ export default class NewProperty extends Component{
                   <div className="progress">
                     <div className="progress-bar"></div>
                   </div>
-                  <a className="bs-wizard-dot" href="#"></a>
+                  <Link className="bs-wizard-dot" to="#"></Link>
                 </div>
                 <div className="col-xs-2 bs-wizard-step  disabled ">
                   <div className="text-center bs-wizard-number">4</div>
@@ -342,7 +373,7 @@ export default class NewProperty extends Component{
                   <div className="progress">
                     <div className="progress-bar"></div>
                   </div>
-                  <a href="#" className="bs-wizard-dot"></a>
+                  <Link to="#" className="bs-wizard-dot"></Link>
                 </div>
               </div>
               <div className="col-md-12 text-center pb-4">
@@ -442,8 +473,8 @@ export default class NewProperty extends Component{
                 </div>
               </form>
               <div className="col-md-12 text-center my-4">
-                <a href="property-deals-analysis.html" className="red-btn step-btn mr-3">Go, Back</a>
-                <a href="property-upload-photos.html" className="red-btn step-btn">Continue</a>
+                <Link to="#" className="red-btn step-btn mr-3" onClick={this.backToStepTwo}>Go, Back</Link>
+                <Link to="#" className="red-btn step-btn" onClick={this.submitStepThree}>Continue</Link>
               </div>
             </div>
             <div className="container creation-steps px-0 d-none" id= "step4">
@@ -454,7 +485,7 @@ export default class NewProperty extends Component{
                   <div className="progress">
                     <div className="progress-bar"></div>
                   </div>
-                  <a className="bs-wizard-dot" href="#"></a>
+                  <Link className="bs-wizard-dot" to="#"></Link>
                 </div>
                 <div className="col-xs-2 bs-wizard-step  complete ">
                   <div className="text-center bs-wizard-number">2</div>
@@ -462,7 +493,7 @@ export default class NewProperty extends Component{
                   <div className="progress">
                     <div className="progress-bar"></div>
                   </div>
-                  <a className="bs-wizard-dot" href="#"></a>
+                  <Link className="bs-wizard-dot" to="#"></Link>
                 </div>
                 <div className="col-xs-2 bs-wizard-step  complete ">
                   <div className="text-center bs-wizard-number">3</div>
@@ -470,7 +501,7 @@ export default class NewProperty extends Component{
                   <div className="progress">
                     <div className="progress-bar"></div>
                   </div>
-                  <a className="bs-wizard-dot" href="#"></a>
+                  <Link className="bs-wizard-dot" to="#"></Link>
                 </div>
                 <div className="col-xs-2 bs-wizard-step complete current ">
                   <div className="text-center bs-wizard-number">4</div>
@@ -478,7 +509,7 @@ export default class NewProperty extends Component{
                   <div className="progress">
                     <div className="progress-bar"></div>
                   </div>
-                  <a href="#" className="bs-wizard-dot"></a>
+                  <Link to="#" className="bs-wizard-dot"></Link>
                 </div>
               </div>
               <div className="col-md-12 text-center pb-4">
@@ -501,8 +532,8 @@ export default class NewProperty extends Component{
                 </div>
               </form>
               <div className="col-md-12 text-center my-4">
-                <a href="property-auction-details.html" className="red-btn step-btn mr-3">Go, Back</a>
-                <a href="my-profilea.html" className="red-btn step-btn">Submit</a>
+                <Link to="#" className="red-btn step-btn mr-3" onClick={this.backToStepThree}>Go, Back</Link>
+                <Link to="#" className="red-btn step-btn" onClick={this.submitStepThree}>Submit</Link>
               </div>
             </div>
           </div>
