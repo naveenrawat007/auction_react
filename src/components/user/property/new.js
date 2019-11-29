@@ -40,6 +40,37 @@ const initial_state = {
     show_instructions_type_id: "",
     youtube_url: ""
   },
+  property_address_error: "",
+  property_city_error: "",
+  property_state_error: "",
+  property_category_error: "",
+  property_type_error: "",
+  property_bedrooms_error: "",
+  property_bathrooms_error: "",
+  property_garage_error: "",
+  property_area_error: "",
+  property_lot_size_error: "",
+  property_year_built_error: "",
+  property_units_error: "",
+  property_stores_error: "",
+  property_cap_rate_error: "",
+  property_price_per_sq_ft_error: "",
+  property_headliner_error: "",
+  property_mls_available_error: "",
+  property_flooded_error: "",
+  property_flood_count_error: "",
+  property_estimated_rehab_cost_error: "",
+  property_description_error: "",
+  property_seller_price_error: "",
+  property_buy_price_error: "",
+  property_auction_length_error: "",
+  property_auction_started_at_error: "",
+  property_auction_ending_at_error: "",
+  property_pay_type_error: "",
+  property_title_status_error: "",
+  property_seller_pay_type_id_error: "",
+  property_show_instructions_type_id_error: "",
+  property_youtube_url_error: ""
 }
 
 export default class NewProperty extends Component{
@@ -58,6 +89,7 @@ export default class NewProperty extends Component{
   submitStepOne = () => {
     document.getElementById('step1').classList.add('d-none');
     document.getElementById('step2').classList.remove('d-none');
+    this.stepOneValidation()
   }
 
   backToStepOne = () => {
@@ -93,6 +125,127 @@ export default class NewProperty extends Component{
       }
     }, function () {
     });
+  }
+
+  stepOneValidation = () => {
+    let property_address_error = "";
+    let property_city_error = "";
+    let property_state_error = "";
+    let property_category_error = "";
+    let property_type_error = "";
+    let property_bedrooms_error = "";
+    let property_bathrooms_error = "";
+    let property_garage_error = "";
+    let property_area_error = "";
+    let property_lot_size_error = "";
+    let property_year_built_error = "";
+    let property_units_error = "";
+    let property_stores_error = "";
+    let property_cap_rate_error = "";
+    let property_price_per_sq_ft_error = "";
+    let property_headliner_error = "";
+    let property_mls_available_error = "";
+    let property_flooded_error = "";
+    let property_flood_count_error = "";
+    let property_estimated_rehab_cost_error = "";
+    let property_description_error = "";
+
+    if (this.state.property.address === ""){
+      property_address_error = "Property address can't be blank."
+    }
+    if (this.state.property.city === ""){
+      property_city_error = "City can't be blank."
+    }
+    if (this.state.property.state === ""){
+      property_state_error = "State can't be blank."
+    }
+    if (this.state.property.category === ""){
+      property_category_error = "Property category can't be blank."
+    }
+    if (this.state.property.type === ""){
+      property_type_error = "Property Type can't be blank."
+    }
+    if (this.state.property.bedrooms === ""){
+      property_bedrooms_error = "This field can't be blank."
+    }
+    if (this.state.property.bathrooms === ""){
+      property_bathrooms_error = "This field can't be blank."
+    }
+    if (this.state.property.garage === ""){
+      property_garage_error = "This field can't be blank."
+    }
+    if (this.state.property.area === ""){
+      property_area_error = "Area can't be blank."
+    }
+    if (this.state.property.lot_size === ""){
+      property_lot_size_error = "Lot size can't be blank."
+    }if (this.state.property.year_built === ""){
+      property_year_built_error = "Property built year can't be blank."
+    }
+    if (this.state.property.units === ""){
+      property_units_error = "units can't be blank."
+    }
+    if (this.state.property.stores === ""){
+      property_stores_error = "Stores can't be blank."
+    }
+    if (this.state.property.stores === ""){
+      property_cap_rate_error = "Cap Rate can't be blank."
+    }
+    if (this.state.property.price_per_sq_ft === ""){
+      property_price_per_sq_ft_error = "Price per SqFt can't be blank."
+    }
+    if (this.state.property.headliner === ""){
+      property_headliner_error = "Headliner can't be blank."
+    }
+    if (this.state.property.mls_available === ""){
+      property_mls_available_error = "Please select any one."
+    }
+    if (this.state.property.flooded === ""){
+      property_flooded_error = "Please select one."
+    }
+    if (this.state.property.flooded === "true"){
+      if (this.state.property.flood_count === ""){
+        property_flood_count_error = "Flood count cant be blank."
+      }
+    }
+    if (this.state.property.estimated_rehab_cost === ""){
+      property_estimated_rehab_cost_error = "Rehab cost can't be blank."
+    }
+    if (this.state.property.description === ""){
+      property_description_error = "Property description can't be blank."
+    }
+
+    this.setState({
+      property_address_error,
+      property_city_error,
+      property_state_error,
+      property_category_error,
+      property_type_error,
+      property_bedrooms_error,
+      property_bathrooms_error,
+      property_garage_error,
+      property_area_error,
+      property_lot_size_error,
+      property_year_built_error,
+      property_units_error,
+      property_stores_error,
+      property_cap_rate_error,
+      property_price_per_sq_ft_error,
+      property_headliner_error,
+      property_mls_available_error,
+      property_flooded_error,
+      property_flood_count_error,
+      property_estimated_rehab_cost_error,
+      property_description_error,
+    })
+  }
+
+  addErrorMessage = (msg) => {
+    if (msg === ""){
+      return ;
+    }else{
+      return (<span className="error-class"> {msg} </span>);
+    }
   }
 
 	render() {
@@ -144,6 +297,7 @@ export default class NewProperty extends Component{
                   <div className="form-group">
                     <label>Property Address</label>
                     <input type="text" className="form-control" name="address" onChange={this.updateProperty}/>
+                    {this.addErrorMessage(this.state.property_address_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -155,6 +309,21 @@ export default class NewProperty extends Component{
                       <option>Commercial</option>
                       <option>Land</option>
                     </select>
+                    {this.addErrorMessage(this.state.property_category_error)}
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label>City</label>
+                    <input type="text" className="form-control" name="city" onChange={this.updateProperty}/>
+                    {this.addErrorMessage(this.state.property_city_error)}
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label>State</label>
+                    <input type="text" className="form-control" name="state" onChange={this.updateProperty}/>
+                    {this.addErrorMessage(this.state.property_state_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -173,72 +342,84 @@ export default class NewProperty extends Component{
                       <option>Commercial</option>
                       <option>Industrial</option>
                     </select>
+                    {this.addErrorMessage(this.state.property_type_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Bedrooms</label>
                     <input type="text" className="form-control" name="bedrooms" onChange={this.updateProperty}/>
+                    {this.addErrorMessage(this.state.property_bedrooms_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Bathrooms</label>
                     <input type="text" className="form-control" name="bathrooms" onChange={this.updateProperty}/>
+                    {this.addErrorMessage(this.state.property_bathrooms_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Garage</label>
                     <input type="text" className="form-control" name="garage" onChange={this.updateProperty}/>
+                    {this.addErrorMessage(this.state.property_garage_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Area</label>
                     <input type="text" className="form-control" name="area" onChange={this.updateProperty}/>
+                    {this.addErrorMessage(this.state.property_area_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Lot Size</label>
                     <input type="text" className="form-control" name="lot_size" onChange={this.updateProperty}/>
+                    {this.addErrorMessage(this.state.property_lot_size_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Year Built</label>
                     <input type="text" className="form-control" name="year_built" onChange={this.updateProperty}/>
+                    {this.addErrorMessage(this.state.property_year_built_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Units</label>
                     <input type="text" className="form-control" name="units" onChange={this.updateProperty}/>
+                    {this.addErrorMessage(this.state.property_units_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Stores</label>
                     <input type="text" className="form-control" name="stores" onChange={this.updateProperty}/>
+                    {this.addErrorMessage(this.state.property_stores_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Cap Rate</label>
                     <input type="text" className="form-control" name="cap_rate" onChange={this.updateProperty}/>
+                    {this.addErrorMessage(this.state.property_cap_rate_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Price Per SqFt</label>
                     <input type="text" className="form-control" name="price_per_sq_ft" onChange={this.updateProperty}/>
+                    {this.addErrorMessage(this.state.property_price_per_sq_ft_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Property Headliner</label>
                     <input type="text" className="form-control" name="headliner" onChange={this.updateProperty}/>
+                    {this.addErrorMessage(this.state.property_headliner_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -249,6 +430,7 @@ export default class NewProperty extends Component{
                       <option value="true">Yes</option>
                       <option value="false">No</option>
                     </select>
+                    {this.addErrorMessage(this.state.property_mls_available_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -259,24 +441,28 @@ export default class NewProperty extends Component{
                       <option value="true">Yes</option>
                       <option value="false">No</option>
                     </select>
+                    {this.addErrorMessage(this.state.property_flooded_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>If Flooded</label>
-                    <input type="" placeholder="How many times and how high did the water get inside the property each time." className="form-control" disabled name="flood_count" onChange={this.updateProperty}/>
+                    <input type="" placeholder="How many times and how high did the water get inside the property each time." className="form-control" name="flood_count" onChange={this.updateProperty}/>
+                    {this.addErrorMessage(this.state.property_flood_count_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Estimated Rehab Cost</label>
                     <input type="" className="form-control" name="estimated_rehab_cost" onChange={this.updateProperty}/>
+                    {this.addErrorMessage(this.state.property_estimated_rehab_cost_error)}
                   </div>
                 </div>
                 <div className="col-md-12">
                   <div className="form-group">
                     <label>Property Description</label>
                     <textarea className="form-control" rows="2" id="comment" name="description" onChange={this.updateProperty}></textarea>
+                    {this.addErrorMessage(this.state.property_description_error)}
                   </div>
                 </div>
               </form>
