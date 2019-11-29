@@ -65,11 +65,11 @@ export default class Navbar extends Component{
             this.setState({
               logged_in: true
             });
-            // let path_name = "";
-            // path_name = this.props.location.pathname
-            // if (path_name === "/"){
-            //   this.props.history.push('/user')
-            // }
+            let path_name = "";
+            path_name = this.props.location.pathname
+            if (path_name === "/"){
+              this.props.history.push('/user')
+            }
           }
         }
       }
