@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 
 const initial_state = {
+  loaded: false,
   error: "",
   message: "",
   user_image: "",
@@ -76,6 +77,7 @@ export default class Profile extends Component{
       if (this._isMounted){
         if (result.status === 200){
           this.setState({
+            loaded: true,
             user_image: result.user.user_image
           });
           this.setState({
@@ -103,6 +105,7 @@ export default class Profile extends Component{
           window.location.href = "/login"
         }else {
           this.setState({
+            loaded: true,
             variant: "danger",
             message: result.message
           });
@@ -152,13 +155,14 @@ export default class Profile extends Component{
         this.props.onImageChange();
         this.setState({
           variant: "success",
-          message: result.message
+          message: result.message,
+          loaded: true
         });
       }else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
       }else {
-        this.setState({message: result.message,
+        this.setState({loaded: true, message: result.message,
         variant: "danger"});
       }
       this.clearMessageTimeout = setTimeout(() => {
@@ -485,6 +489,9 @@ export default class Profile extends Component{
     }
   }
   updateImage = (event) => {
+    this.setState({
+      loaded: false
+    });
     if (this.state.user_new_image){
       event.preventDefault()
       const fd = new FormData();
@@ -511,6 +518,7 @@ export default class Profile extends Component{
           }, 2000);
 
           this.setState({
+            loaded: true,
             user_image: result.user.user_image,
             message: result.message,
             variant: "success"
@@ -525,6 +533,7 @@ export default class Profile extends Component{
           }, 2000);
 
           this.setState({
+            loaded: true,
             message: result.message,
             variant: "danger"
           });
@@ -560,6 +569,9 @@ export default class Profile extends Component{
 		return (
       <div id="myProfile" className="container px-0 tab-pane active">
         <div className="profile-form">
+          {this.state.loaded ? null : <div className="spinner-grow" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>}
           <div className="profile-form-in">
             <form onSubmit={this.submitHandler}>
               {

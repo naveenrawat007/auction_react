@@ -10,6 +10,7 @@ export default class Sidebar extends Component{
   constructor(props) {
     super(props);
     this.state = {
+      loaded: false,
       path: props.path,
       user_image: "",
       first_name: "",
@@ -42,7 +43,11 @@ export default class Sidebar extends Component{
           }, function () {
             localStorage.setItem("auction_user_name", this.userFirstName() + " " + this.userLastName());
             localStorage.setItem("auction_user_image", this.state.user_image);
+            this.setState({
+              loaded: true
+            });
           });
+
 
         }else if (result.status === 401) {
           localStorage.removeItem("auction_user_token");
@@ -86,7 +91,7 @@ export default class Sidebar extends Component{
   }
 
   checkActive = (current_path) => {
-    if (this.state.path == current_path){
+    if (this.state.path === current_path){
       return "nav-link active"
     }else {
       return "nav-link";
