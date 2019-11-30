@@ -14,7 +14,6 @@ export default class Sidebar extends Component{
       user_image: "",
       first_name: "",
       last_name: "",
-
     }
   }
   changeImage = () => {
@@ -40,7 +39,11 @@ export default class Sidebar extends Component{
             user_image: result.user.user_image,
             first_name: result.user.first_name,
             last_name: result.user.last_name,
+          }, function () {
+            localStorage.setItem("auction_user_name", this.userFirstName() + " " + this.userLastName());
+            localStorage.setItem("auction_user_image", this.state.user_image);
           });
+
         }else if (result.status === 401) {
           localStorage.removeItem("auction_user_token");
           window.location.href = "/login"
@@ -50,7 +53,9 @@ export default class Sidebar extends Component{
   }
   componentDidMount () {
     this._isMounted = true;
-    this.changeImage()
+    if (!(localStorage.getItem("auction_user_image")) || !(localStorage.getItem("auction_user_image"))){
+      this.changeImage()
+    }
   }
   componentWillUnmount (){
     this._isMounted = false;
@@ -79,6 +84,14 @@ export default class Sidebar extends Component{
       return (this.state.last_name[0].toUpperCase() + this.state.last_name.slice(1));
     }
   }
+
+  checkActive = (current_path) => {
+    if (this.state.path == current_path){
+      return "nav-link active"
+    }else {
+      return "nav-link";
+    }
+  }
   render(){
     return (
       <div className="profile-setting">
@@ -87,16 +100,16 @@ export default class Sidebar extends Component{
             <div className="col-md-3 user_side_tab side_tab px-0">
               <div className="account-head">
                 <div className="account-image">
-                  <img src={this.state.user_image ? this.state.user_image : "/images/default-profile-img.png"} alt="profile"/>
+                  <img src={localStorage.getItem("auction_user_image") ? localStorage.getItem("auction_user_image") : "/images/default-profile-img.png"} alt="profile"/>
                 </div>
                 <div className="account-data">
-                  <h5>{this.userFirstName()} {this.userLastName()}</h5>
+                  <h5>{localStorage.getItem("auction_user_name")}</h5>
                   <p className="font-red text-uppercase">Premium User</p>
                 </div>
               </div>
               <ul className="nav nav-pills" role="tablist">
-                <li className="nav-item">
-                  <Link to='/user' className="nav-link active" data-toggle="pill" >
+                <li className="nav-item" >
+                  <Link to='/user' className={this.checkActive("user_profile")} data-toggle="pill" >
                     <span><FontAwesomeIcon icon={faHome} /> Account Overview</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
@@ -108,13 +121,13 @@ export default class Sidebar extends Component{
                   </a>
                 </li>
                 <li className="nav-item">
-                  <Link to='#' className="nav-link " data-toggle="pill" >
+                  <Link to='#' className="nav-link" data-toggle="pill" >
                     <span><FontAwesomeIcon icon={faList} /> My Properties</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to='/user/property/new' className="nav-link" data-toggle="pill" href="#newproperty">
+                  <Link to='/user/property/new' className={this.checkActive("new_property")} data-toggle="pill" href="#newproperty">
                     <span><FontAwesomeIcon icon={faPlusCircle} />  Add New Property</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
