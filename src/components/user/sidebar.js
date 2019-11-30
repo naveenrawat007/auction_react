@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Profile from './profile.js'
-import { faUser, faHome, faPlusCircle, faSearchPlus, faComments, faUnlock, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { faList, faCreditCard, faHome, faPlusCircle, faHeart, faEnvelopeOpenText, faSignOutAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import NewProperty from './property/new'
 
 export default class Sidebar extends Component{
@@ -97,13 +97,19 @@ export default class Sidebar extends Component{
               <ul className="nav nav-pills" role="tablist">
                 <li className="nav-item">
                   <Link to='/user' className="nav-link active" data-toggle="pill" >
-                    <span><FontAwesomeIcon icon={faUser} /> My Profile</span>
+                    <span><FontAwesomeIcon icon={faHome} /> Account Overview</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
                 </li>
                 <li className="nav-item">
+                  <a className="nav-link " data-toggle="pill" href="#availablePlans">
+                    <span><FontAwesomeIcon icon={faCreditCard} /> Available Plans</span>
+                    <FontAwesomeIcon icon={faChevronRight} />
+                  </a>
+                </li>
+                <li className="nav-item">
                   <Link to='#' className="nav-link " data-toggle="pill" >
-                    <span><FontAwesomeIcon icon={faHome} /> My Properties</span>
+                    <span><FontAwesomeIcon icon={faList} /> My Properties</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
                 </li>
@@ -115,20 +121,20 @@ export default class Sidebar extends Component{
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" data-toggle="pill" href="#watchProperty">
-                    <span><FontAwesomeIcon icon={faSearchPlus} />  Watch Property</span>
+                    <span><FontAwesomeIcon icon={faHeart} />  Watch Property</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </a>
                 </li>
 
                 <li className="nav-item">
                   <a className="nav-link" href="chat.html">
-                    <span><FontAwesomeIcon icon={faComments} />  Messages</span>
+                    <span><FontAwesomeIcon icon={faEnvelopeOpenText} />  Messages</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </a>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" data-toggle="pill" onClick={this.handleLogout} to="#">
-                    <span><FontAwesomeIcon icon={faUnlock} />  Log out</span>
+                    <span><FontAwesomeIcon icon={faSignOutAlt} />  Log out</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
                 </li>
