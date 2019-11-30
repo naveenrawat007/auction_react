@@ -20,6 +20,7 @@ const initial_state = {
     address: "",
     city: "",
     state: "",
+    zip_code: "",
     broker_licence: "",
     realtor_licence: "",
     old_password: "",
@@ -92,6 +93,7 @@ export default class Profile extends Component{
             address: result.user.address,
             city: result.user.city,
             state: result.user.state,
+            zip_code: result.user.zip_code,
             broker_licence: result.user.broker_licence,
             realtor_licence: result.user.realtor_licence,
             type_attributes: result.user.type_attributes ? result.user.type_attributes : Object.assign(JSON.parse(process.env.REACT_APP_BACKEND_USER_ATTR_BROKER) , JSON.parse(process.env.REACT_APP_BACKEND_USER_ATTR_REALTOR))
@@ -657,6 +659,13 @@ export default class Profile extends Component{
                         <label>State</label>
                         <input type="text" className="form-control" value={this.state.user.state ? this.state.user.state : "" } onChange={this.updateUser} name="state" maxLength="10" />
                         {this.addErrorMessage(this.state.user_state_error)}
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>Zip</label>
+                        <input type="text" maxLength="6" className="form-control" value={this.state.user.zip_code ? this.state.user.zip_code : ""} onChange={this.updateUser} name="zip_code" onKeyPress={this.checkNumeric}/>
+                        {this.addErrorMessage(this.state.user_zip_code_error)}
                       </div>
                     </div>
                   </div>
