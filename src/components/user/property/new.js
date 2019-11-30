@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom';
 // import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 
 const initial_state = {
+  created: "",
   error: "",
   message: "",
   property: {
@@ -13,7 +14,7 @@ const initial_state = {
     state: "",
     zip_code: "",
     category: "",
-    type: "",
+    p_type: "",
     bedrooms: "",
     bathrooms: "",
     garage: "",
@@ -125,7 +126,7 @@ export default class NewProperty extends Component{
         this.setState({
           property: {
           ...this.state.property,
-          type: result.types[0],
+          p_type: result.types[0],
           category: result.categories[0],
           flooded: false,
           mls_available: false
@@ -154,9 +155,55 @@ export default class NewProperty extends Component{
   submitStepOne = () => {
     let formIsValid = this.stepOneValidation();
     if (formIsValid){
-      document.getElementById('step1').classList.add('d-none');
-      document.getElementById('step2').classList.remove('d-none');
+      if (this.state.created !== true){
+        this.sendStepOneData()
+      }else {
+        this.goToStepTwo()
+      }
+
     }
+  }
+
+  sendStepOneData = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties"
+  	fetch(url ,{
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			},
+			body: JSON.stringify({property: this.state.property}),
+		}).then(res => res.json())
+    .then((result) => {
+      if (result.status === 200) {
+        this.setState({
+          created: true
+        });
+        this.goToStepTwo();
+      }else if (result.status === 401) {
+        localStorage.removeItem("auction_user_token");
+        window.location.href = "/login"
+      }else {
+        this.setState({loaded: true, message: result.message,
+        variant: "danger"});
+      }
+      this.clearMessageTimeout = setTimeout(() => {
+        this.setState(() => ({message: ""}))
+      }, 2000);
+		}, (error) => {
+		});
+  }
+
+  goToStepTwo = () => {
+    document.getElementById('step1').classList.add('d-none');
+    document.getElementById('step2').classList.remove('d-none');
   }
 
   backToStepOne = () => {
@@ -234,7 +281,7 @@ export default class NewProperty extends Component{
     if (this.state.property.category === ""){
       property_category_error = "Property category can't be blank."
     }
-    if (this.state.property.type === ""){
+    if (this.state.property.p_type === ""){
       property_type_error = "Property Type can't be blank."
     }
     if (this.state.property.bedrooms === ""){
@@ -318,6 +365,11 @@ export default class NewProperty extends Component{
         return true;
       }
     })
+    if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stores_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_estimated_rehab_cost_error !== "" || property_description_error !== "" ){
+      return false;
+    }else{
+      return true;
+    }
   }
 
   stepOneCustomValidation = (name) => {
@@ -380,7 +432,7 @@ export default class NewProperty extends Component{
         property_category_error
       });
     }else if (name === "type") {
-      if (this.state.property.type === ""){
+      if (this.state.property.p_type === ""){
         property_type_error = "Property Type can't be blank."
       }
       this.setState({
@@ -608,7 +660,7 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Property Category</label>
-                    <select className="form-control" id="sel1" name="category" onChange={this.updateProperty}>
+                    <select className="form-control" name="category" onChange={this.updateProperty}>
                       {categories}
                     </select>
                     {this.addErrorMessage(this.state.property_category_error)}
@@ -617,7 +669,7 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Property Type</label>
-                    <select className="form-control" id="sel1" name="type" onChange={this.updateProperty}>
+                    <select className="form-control" name="p_type" onChange={this.updateProperty}>
                       {types}
                     </select>
                     {this.addErrorMessage(this.state.property_type_error)}
@@ -703,9 +755,9 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Is this property on MLS?</label>
-                    <select className="form-control"  name="mls_available" onChange={this.updateProperty}>
+                    <select className="form-control" defaultValue="false" name="mls_available" onChange={this.updateProperty}>
                       <option value="true">Yes</option>
-                      <option value="false" selected>No</option>
+                      <option value="false">No</option>
                     </select>
                     {this.addErrorMessage(this.state.property_mls_available_error)}
                   </div>
@@ -713,9 +765,9 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Did Property Flooded?</label>
-                    <select className="form-control"  name="flooded" onChange={this.updateProperty}>
+                    <select className="form-control" defaultValue="false" name="flooded" onChange={this.updateProperty}>
                       <option value="true">Yes</option>
-                      <option value="false" selected>No</option>
+                      <option value="false">No</option>
                     </select>
                     {this.addErrorMessage(this.state.property_flooded_error)}
                   </div>
@@ -820,7 +872,7 @@ export default class NewProperty extends Component{
                   <div className="form-group">
                     <label>Or upload ARV proof</label>
                     <div className="custom-file">
-                      <input type="file" className="custom-file-input" id="customFile"/>
+                      <input type="file" className="custom-file-input"/>
                       <label className="custom-file-label" htmlFor="customFile">Choose file</label>
                     </div>
                   </div>
@@ -835,7 +887,7 @@ export default class NewProperty extends Component{
                   <div className="form-group">
                     <label>Or upload Estimated Rehab Cost</label>
                     <div className="custom-file">
-                      <input type="file" className="custom-file-input" id="customFile"/>
+                      <input type="file" className="custom-file-input" />
                       <label className="custom-file-label" htmlFor="customFile">Choose file</label>
                     </div>
                   </div>
@@ -901,7 +953,7 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Auction Length</label>
-                    <select className="form-control" id="sel1">
+                    <select className="form-control">
                       <option></option>
                       <option>Residential</option>
                       <option>Commercial</option>
@@ -924,7 +976,7 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label htmlFor="sel2">Mutiple select list</label>
-                    <select className="form-control" id="sel2" name="sellist2">
+                    <select className="form-control"  name="sellist2">
                       <option>Cash</option>
                       <option>Line of Credit</option>
                       <option>Owner Finance</option>
