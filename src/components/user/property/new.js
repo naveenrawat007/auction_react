@@ -746,7 +746,7 @@ export default class NewProperty extends Component{
     if (this.state.property.category === "Residential"){
       document.getElementById("bedrooms-input").classList.remove("d-none")
       document.getElementById("bathrooms-input").classList.remove("d-none")
-      document.getElementById("garage-input").classList.add("d-none")
+      document.getElementById("garage-input").classList.remove("d-none")
       document.getElementById("area-input").classList.remove("d-none")
       document.getElementById("lot-input").classList.remove("d-none")
       document.getElementById("year-built-input").classList.remove("d-none")
