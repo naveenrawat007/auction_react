@@ -100,6 +100,57 @@ export default class NewProperty extends Component{
     this._isMounted = true;
     this.setUpStepOne();
     this.checkForCategoryFields();
+    const google = window.google;
+    const input = document.getElementById("autocomplete-address");
+    this.autocomplete = new google.maps.places.Autocomplete(input, {
+      types: ["geocode"],
+      componentRestrictions: { country: "us" }
+    });
+    this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
+  }
+
+  handlePlaceChanged = () => {
+    const place = this.autocomplete.getPlace();
+    let address = "";
+    let city = "";
+    let state = "";
+    let postal_code = "";
+
+    for (let i = 0; i < place.address_components.length; i++) {
+      for (let k = 0; k < place.address_components[i].types.length; k++) {
+        switch (place.address_components[i].types[k]) {
+          case "street_number":
+            address = address + place.address_components[i].long_name;
+            break;
+          case "route":
+            address = address + ", " + place.address_components[i].long_name;
+            break;
+          case "locality":
+            city = place.address_components[i].long_name;
+            break;
+          case "administrative_area_level_1":
+            state = place.address_components[i].long_name;
+            break;
+          case "postal_code":
+            postal_code = place.address_components[i].long_name;
+            break;
+          default:
+        }
+      }
+    }
+    this.setState({
+      property: {
+        ...this.state.property,
+        address: address,
+        city: city,
+        state: state,
+        zip_code: postal_code
+      },
+      property_address_error: "",
+      property_city_error: "",
+      property_state_error: "",
+      property_zip_code_error: "",
+    });
   }
 
   setUpStepOne = () => {
@@ -799,7 +850,7 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Property Address</label>
-                    <input type="text" className="form-control" name="address" onChange={this.updateProperty}/>
+                    <input type="text"  id="autocomplete-address" className="form-control" name="address" onChange={this.updateProperty}/>
                     {this.addErrorMessage(this.state.property_address_error)}
                   </div>
                 </div>
@@ -807,21 +858,21 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>City</label>
-                    <input type="text" className="form-control" name="city" onChange={this.updateProperty}/>
+                    <input type="text" className="form-control" name="city" onChange={this.updateProperty} value={this.state.property.city}/>
                     {this.addErrorMessage(this.state.property_city_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>State</label>
-                    <input type="text" className="form-control" name="state" onChange={this.updateProperty}/>
+                    <input type="text" className="form-control" name="state" onChange={this.updateProperty} value={this.state.property.state}/>
                     {this.addErrorMessage(this.state.property_state_error)}
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Zip code</label>
-                    <input type="text" className="form-control" maxLength="6" name="zip_code" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
+                    <input type="text" className="form-control" maxLength="6" name="zip_code" onChange={this.updateProperty} onKeyPress={this.checkNumeric} value={this.state.property.zip_code}/>
                     {this.addErrorMessage(this.state.property_zip_code_error)}
                   </div>
                 </div>
