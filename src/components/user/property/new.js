@@ -15,22 +15,13 @@ const initial_state = {
     zip_code: "",
     category: "",
     p_type: "",
-    bedrooms: "",
-    bathrooms: "",
-    garage: "",
-    area: "",
-    lot_size: "",
-    year_built: "",
-    units: "",
-    stores: "",
-    cap_rate: "",
-    price_per_sq_ft: "",
     headliner: "",
     mls_available: "",
     flooded: "",
     flood_count: "",
     estimated_rehab_cost: "",
     description: "",
+    id: "",
     seller_price: "",
     buy_now_price: "",
     auction_started_at: "",
@@ -40,9 +31,12 @@ const initial_state = {
     title_status: "",
     seller_pay_type_id: "",
     show_instructions_type_id: "",
-    youtube_url: ""
+    youtube_url: "",
   },
   property_options: {
+    residential_types: [],
+    commercial_types: [],
+    land_types: [],
     types: [],
     categories: [],
     seller_pay_types: {},
@@ -61,7 +55,7 @@ const initial_state = {
   property_lot_size_error: "",
   property_year_built_error: "",
   property_units_error: "",
-  property_stores_error: "",
+  property_stories_error: "",
   property_cap_rate_error: "",
   property_price_per_sq_ft_error: "",
   property_headliner_error: "",
@@ -94,6 +88,7 @@ export default class NewProperty extends Component{
   componentDidMount () {
     this._isMounted = true;
     this.setUpStepOne();
+    this.checkForCategoryFields();
   }
 
   setUpStepOne = () => {
@@ -117,7 +112,10 @@ export default class NewProperty extends Component{
         this.setState({
           property_options: {
             ...this.state.property_options,
-            types: result.types,
+            types: result.residential_types,
+            residential_types: result.residential_types,
+            commercial_types: result.commercial_types,
+            land_types: result.land_types,
             categories: result.categories,
             seller_pay_types: result.seller_pay_types,
             show_instructions_types: result.show_instructions_types,
@@ -126,7 +124,7 @@ export default class NewProperty extends Component{
         this.setState({
           property: {
           ...this.state.property,
-          p_type: result.types[0],
+          p_type: result.residential_types[0],
           category: result.categories[0],
           flooded: false,
           mls_available: false
@@ -186,6 +184,12 @@ export default class NewProperty extends Component{
         this.setState({
           created: true
         });
+        this.setState({
+          property: {
+          ...this.state.property,
+          id: result.property.id,
+          }
+        });
         this.goToStepTwo();
       }else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
@@ -240,15 +244,64 @@ export default class NewProperty extends Component{
     }, function () {
       this.stepOneCustomValidation(name);
       if (name === "flooded"){
-        console.log(this.state.property.flooded);
         if (this.state.property.flooded === "true"){
           document.getElementById('flood_count_input').disabled = false;
+          document.getElementById('flood_count-input').classList.remove("d-none")
         }else{
           this.setState({
-            property_flood_count_error: "" 
+            property_flood_count_error: ""
           });
+          document.getElementById('flood_count-input').classList.add("d-none")
           document.getElementById('flood_count_input').disabled = true;
           document.getElementById('flood_count_input').value = "";
+        }
+      }
+      if (name === "category"){
+        this.checkForCategoryFields();
+        if (this.state.property.category === "Residential"){
+          this.setState({
+            property_options: {
+              ...this.state.property_options,
+              types: this.state.property_options.residential_types,
+            }
+          }, function () {
+            this.setState({
+              property:{
+                ...this.state.property,
+                p_type: this.state.property_options.types[0]
+              }
+            });
+          });
+
+        }else if (this.state.property.category === "Commercial") {
+          this.setState({
+            property_options: {
+              ...this.state.property_options,
+              types: this.state.property_options.commercial_types,
+            }
+          }, function () {
+            this.setState({
+              property:{
+                ...this.state.property,
+                p_type: this.state.property_options.types[0]
+              }
+            });
+          });
+
+        }else if (this.state.property.category === "Land") {
+          this.setState({
+            property_options: {
+              ...this.state.property_options,
+              types: this.state.property_options.land_types,
+            }
+          }, function () {
+            this.setState({
+              property:{
+                ...this.state.property,
+                p_type: this.state.property_options.types[0]
+              }
+            });
+          });
         }
       }
     });
@@ -268,7 +321,7 @@ export default class NewProperty extends Component{
     let property_lot_size_error = "";
     let property_year_built_error = "";
     let property_units_error = "";
-    let property_stores_error = "";
+    let property_stories_error = "";
     let property_cap_rate_error = "";
     let property_price_per_sq_ft_error = "";
     let property_headliner_error = "";
@@ -317,10 +370,10 @@ export default class NewProperty extends Component{
     if (this.state.property.units === ""){
       property_units_error = "units can't be blank."
     }
-    if (this.state.property.stores === ""){
-      property_stores_error = "Stores can't be blank."
+    if (this.state.property.stories === ""){
+      property_stories_error = "Stories can't be blank."
     }
-    if (this.state.property.stores === ""){
+    if (this.state.property.stories === ""){
       property_cap_rate_error = "Cap Rate can't be blank."
     }
     if (this.state.property.price_per_sq_ft === ""){
@@ -361,7 +414,7 @@ export default class NewProperty extends Component{
       property_lot_size_error,
       property_year_built_error,
       property_units_error,
-      property_stores_error,
+      property_stories_error,
       property_cap_rate_error,
       property_price_per_sq_ft_error,
       property_headliner_error,
@@ -371,13 +424,13 @@ export default class NewProperty extends Component{
       property_estimated_rehab_cost_error,
       property_description_error,
     },function () {
-      if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stores_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_estimated_rehab_cost_error !== "" || property_description_error !== "" ){
+      if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_estimated_rehab_cost_error !== "" || property_description_error !== "" ){
         return false;
       }else {
         return true;
       }
     })
-    if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stores_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_estimated_rehab_cost_error !== "" || property_description_error !== "" ){
+    if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_estimated_rehab_cost_error !== "" || property_description_error !== "" ){
       return false;
     }else{
       return true;
@@ -398,7 +451,7 @@ export default class NewProperty extends Component{
     let property_lot_size_error = "";
     let property_year_built_error = "";
     let property_units_error = "";
-    let property_stores_error = "";
+    let property_stories_error = "";
     let property_cap_rate_error = "";
     let property_price_per_sq_ft_error = "";
     let property_headliner_error = "";
@@ -499,15 +552,15 @@ export default class NewProperty extends Component{
       this.setState({
         property_units_error
       });
-    }else if (name === 'stores') {
-      if (this.state.property.stores === ""){
-        property_stores_error = "Stores can't be blank."
+    }else if (name === 'stories') {
+      if (this.state.property.stories === ""){
+        property_stories_error = "Stories can't be blank."
       }
       this.setState({
-        property_stores_error
+        property_stories_error
       });
     }else if (name === 'cap_rate') {
-      if (this.state.property.stores === ""){
+      if (this.state.property.stories === ""){
         property_cap_rate_error = "Cap Rate can't be blank."
       }
       this.setState({
@@ -584,6 +637,57 @@ export default class NewProperty extends Component{
       e.preventDefault();
       return false;
     }
+  }
+
+  checkForCategoryFields = () => {
+    if (this.state.property.category === "Residential"){
+      document.getElementById("bedrooms-input").classList.remove("d-none")
+      document.getElementById("bathrooms-input").classList.remove("d-none")
+      document.getElementById("garage-input").classList.add("d-none")
+      document.getElementById("area-input").classList.remove("d-none")
+      document.getElementById("lot-input").classList.remove("d-none")
+      document.getElementById("year-built-input").classList.remove("d-none")
+      document.getElementById("units-input").classList.add("d-none")
+      document.getElementById("stories-input").classList.add("d-none")
+      document.getElementById("cap_rate-input").classList.add("d-none")
+      document.getElementById("price_per_sq_ft-input").classList.add("d-none")
+    }else if (this.state.property.category === "Commercial") {
+      document.getElementById("bedrooms-input").classList.add("d-none")
+      document.getElementById("bathrooms-input").classList.add("d-none")
+      document.getElementById("garage-input").classList.add("d-none")
+      document.getElementById("area-input").classList.remove("d-none")
+      document.getElementById("lot-input").classList.remove("d-none")
+      document.getElementById("year-built-input").classList.remove("d-none")
+      document.getElementById("units-input").classList.remove("d-none")
+      document.getElementById("stories-input").classList.remove("d-none")
+      document.getElementById("cap_rate-input").classList.remove("d-none")
+      document.getElementById("price_per_sq_ft-input").classList.add("d-none")
+
+    }else if (this.state.property.category === "Land") {
+      document.getElementById("bedrooms-input").classList.add("d-none")
+      document.getElementById("bathrooms-input").classList.add("d-none")
+      document.getElementById("garage-input").classList.add("d-none")
+      document.getElementById("area-input").classList.add("d-none")
+      document.getElementById("lot-input").classList.remove("d-none")
+      document.getElementById("year-built-input").classList.add("d-none")
+      document.getElementById("units-input").classList.add("d-none")
+      document.getElementById("stories-input").classList.add("d-none")
+      document.getElementById("cap_rate-input").classList.add("d-none")
+      document.getElementById("price_per_sq_ft-input").classList.remove("d-none")
+
+    }
+    if (this.state.property.flooded === "true"){
+      document.getElementById('flood_count_input').disabled = false;
+      document.getElementById('flood_count-input').classList.remove("d-none")
+    }else{
+      this.setState({
+        property_flood_count_error: ""
+      });
+      document.getElementById('flood_count-input').classList.add("d-none")
+      document.getElementById('flood_count_input').disabled = true;
+      document.getElementById('flood_count_input').value = "";
+    }
+
   }
 	render() {
     const categories = this.state.property_options.categories.map((value, index) => {
@@ -687,70 +791,70 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_type_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6" id="bedrooms-input">
                   <div className="form-group">
                     <label>Bedrooms</label>
                     <input type="text" className="form-control" name="bedrooms" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
                     {this.addErrorMessage(this.state.property_bedrooms_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6" id="bathrooms-input">
                   <div className="form-group">
                     <label>Bathrooms</label>
                     <input type="text" className="form-control" name="bathrooms" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
                     {this.addErrorMessage(this.state.property_bathrooms_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6" id="garage-input">
                   <div className="form-group">
                     <label>Garage</label>
                     <input type="text" className="form-control" name="garage" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
                     {this.addErrorMessage(this.state.property_garage_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6" id="area-input">
                   <div className="form-group">
                     <label>Area (SqFt)</label>
                     <input type="number" className="form-control" name="area" onChange={this.updateProperty}/>
                     {this.addErrorMessage(this.state.property_area_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6" id="lot-input">
                   <div className="form-group">
                     <label>Lot Size</label>
                     <input type="number" className="form-control" name="lot_size" onChange={this.updateProperty} onKeyPress={this.checkDecimalNumeric}/>
                     {this.addErrorMessage(this.state.property_lot_size_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6" id="year-built-input">
                   <div className="form-group">
                     <label>Year Built</label>
                     <input type="text" className="form-control" name="year_built" onChange={this.updateProperty} onKeyPress={this.checkNumeric} maxLength="4"/>
                     {this.addErrorMessage(this.state.property_year_built_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6" id="units-input">
                   <div className="form-group">
                     <label>Units</label>
                     <input type="text" className="form-control" name="units" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
                     {this.addErrorMessage(this.state.property_units_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6" id="stories-input">
                   <div className="form-group">
-                    <label>Stores</label>
-                    <input type="text" className="form-control" name="stores" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
-                    {this.addErrorMessage(this.state.property_stores_error)}
+                    <label>Stories</label>
+                    <input type="text" className="form-control" name="stories" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
+                    {this.addErrorMessage(this.state.property_stories_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6" id="cap_rate-input">
                   <div className="form-group">
                     <label>Cap Rate</label>
                     <input type="number" className="form-control" name="cap_rate" onChange={this.updateProperty} />
                     {this.addErrorMessage(this.state.property_cap_rate_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6" id="price_per_sq_ft-input">
                   <div className="form-group">
                     <label>Price Per SqFt</label>
                     <input type="text" className="form-control" name="price_per_sq_ft" onChange={this.updateProperty}/>
@@ -784,18 +888,11 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_flooded_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6" id="flood_count-input">
                   <div className="form-group">
                     <label>If Flooded</label>
                     <input type="text" disabled id="flood_count_input" placeholder="How many times and how high did the water get inside the property each time." className="form-control" name="flood_count" onChange={this.updateProperty}/>
                     {this.addErrorMessage(this.state.property_flood_count_error)}
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>Estimated Rehab Cost</label>
-                    <input type="number" className="form-control" name="estimated_rehab_cost" onChange={this.updateProperty}/>
-                    {this.addErrorMessage(this.state.property_estimated_rehab_cost_error)}
                   </div>
                 </div>
                 <div className="col-md-12">
@@ -953,13 +1050,13 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Sellers Asking Price</label>
-                    <input type="text" className="form-control" />
+                    <input type="number" className="form-control" name="seller_price" onChange={this.updateProperty}/>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Buy Now Price</label>
-                    <input type="text" className="form-control" />
+                    <input type="number" className="form-control" name="buy_now_price" onChange={this.updateProperty}/>
                   </div>
                 </div>
                 <div className="col-md-6">
