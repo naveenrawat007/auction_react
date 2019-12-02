@@ -239,6 +239,18 @@ export default class NewProperty extends Component{
       }
     }, function () {
       this.stepOneCustomValidation(name);
+      if (name === "flooded"){
+        console.log(this.state.property.flooded);
+        if (this.state.property.flooded === "true"){
+          document.getElementById('flood_count_input').disabled = false;
+        }else{
+          this.setState({
+            property_flood_count_error: "" 
+          });
+          document.getElementById('flood_count_input').disabled = true;
+          document.getElementById('flood_count_input').value = "";
+        }
+      }
     });
   }
 
@@ -775,7 +787,7 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>If Flooded</label>
-                    <input type="" placeholder="How many times and how high did the water get inside the property each time." className="form-control" name="flood_count" onChange={this.updateProperty}/>
+                    <input type="text" disabled id="flood_count_input" placeholder="How many times and how high did the water get inside the property each time." className="form-control" name="flood_count" onChange={this.updateProperty}/>
                     {this.addErrorMessage(this.state.property_flood_count_error)}
                   </div>
                 </div>
