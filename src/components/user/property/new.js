@@ -9,6 +9,18 @@ const initial_state = {
   error: "",
   message: "",
   property: {
+    bedrooms: "",
+    bathrooms: "",
+    garage: "",
+    area: "",
+    lot_size: "",
+    year_built: "",
+    units: "",
+    stories: "",
+    cap_rate: "",
+    price_per_sq_ft: "",
+
+
     address: "",
     city: "",
     state: "",
@@ -19,7 +31,6 @@ const initial_state = {
     mls_available: "",
     flooded: "",
     flood_count: "",
-    estimated_rehab_cost: "",
     description: "",
     id: "",
     seller_price: "",
@@ -130,6 +141,7 @@ export default class NewProperty extends Component{
           mls_available: false
           }
         });
+        this.checkForCategoryFields();
 
         // this.setState({
         //   variant: "success",
@@ -154,7 +166,52 @@ export default class NewProperty extends Component{
     let formIsValid = this.stepOneValidation();
     if (formIsValid){
       if (this.state.created !== true){
-        this.sendStepOneData()
+        if (this.state.property.category === "Residential"){
+          this.setState({
+            property: {
+            ...this.state.property,
+            residential_attributes: {
+              bedrooms: this.state.property.bedrooms,
+              bathrooms: this.state.property.bathrooms,
+              garage: this.state.property.garage,
+              area: this.state.property.area,
+              lot_size: this.state.property.lot_size,
+              year_built: this.state.property.year_built,
+            }
+            }
+          }, function () {
+            this.sendStepOneData()
+          });
+        }else if (this.state.property.category === "Commercial") {
+          this.setState({
+            property: {
+            ...this.state.property,
+            commercial_attributes: {
+              area: this.state.property.area,
+              lot_size: this.state.property.lot_size,
+              year_built: this.state.property.year_built,
+              units: this.state.property.units,
+              stories: this.state.property.stories,
+              cap_rate: this.state.property.cap_rate,
+            }
+            }
+          }, function () {
+            this.sendStepOneData()
+          });
+        }else if (this.state.property.category === "Land") {
+          this.setState({
+            property: {
+            ...this.state.property,
+            land_attributes: {
+              lot_size: this.state.property.lot_size,
+              price_per_sq_ft: this.state.property.price_per_sq_ft,
+            }
+            }
+          }, function () {
+            this.sendStepOneData()
+          });
+        }
+
       }else {
         this.goToStepTwo()
       }
@@ -328,7 +385,6 @@ export default class NewProperty extends Component{
     let property_mls_available_error = "";
     let property_flooded_error = "";
     let property_flood_count_error = "";
-    let property_estimated_rehab_cost_error = "";
     let property_description_error = "";
 
     if (this.state.property.address === ""){
@@ -349,35 +405,43 @@ export default class NewProperty extends Component{
     if (this.state.property.p_type === ""){
       property_type_error = "Property Type can't be blank."
     }
-    if (this.state.property.bedrooms === ""){
-      property_bedrooms_error = "This field can't be blank."
+    if (this.state.property.category === "Residential"){
+      if (this.state.property.bedrooms === ""){
+        property_bedrooms_error = "This field can't be blank."
+      }
+      if (this.state.property.bathrooms === ""){
+        property_bathrooms_error = "This field can't be blank."
+      }
+      if (this.state.property.garage === ""){
+        property_garage_error = "This field can't be blank."
+      }
     }
-    if (this.state.property.bathrooms === ""){
-      property_bathrooms_error = "This field can't be blank."
-    }
-    if (this.state.property.garage === ""){
-      property_garage_error = "This field can't be blank."
-    }
-    if (this.state.property.area === ""){
-      property_area_error = "Area can't be blank."
+    if ((this.state.property.category === "Residential") || (this.state.property.category === "Commercial")){
+      if (this.state.property.area === ""){
+        property_area_error = "Area can't be blank."
+      }
+      if (this.state.property.year_built === ""){
+        property_year_built_error = "Property built year can't be blank."
+      }
     }
     if (this.state.property.lot_size === ""){
       property_lot_size_error = "Lot size can't be blank."
     }
-    if (this.state.property.year_built === ""){
-      property_year_built_error = "Property built year can't be blank."
+    if (this.state.property.category === "Commercial"){
+      if (this.state.property.units === ""){
+        property_units_error = "units can't be blank."
+      }
+      if (this.state.property.stories === ""){
+        property_stories_error = "Stories can't be blank."
+      }
+      if (this.state.property.cap_rate === ""){
+        property_cap_rate_error = "Cap Rate can't be blank."
+      }
     }
-    if (this.state.property.units === ""){
-      property_units_error = "units can't be blank."
-    }
-    if (this.state.property.stories === ""){
-      property_stories_error = "Stories can't be blank."
-    }
-    if (this.state.property.stories === ""){
-      property_cap_rate_error = "Cap Rate can't be blank."
-    }
-    if (this.state.property.price_per_sq_ft === ""){
-      property_price_per_sq_ft_error = "Price per SqFt can't be blank."
+    if (this.state.property.category === "Land"){
+      if (this.state.property.price_per_sq_ft === ""){
+        property_price_per_sq_ft_error = "Price per SqFt can't be blank."
+      }
     }
     if (this.state.property.headliner === ""){
       property_headliner_error = "Headliner can't be blank."
@@ -392,9 +456,6 @@ export default class NewProperty extends Component{
       if (this.state.property.flood_count === ""){
         property_flood_count_error = "Flood count cant be blank."
       }
-    }
-    if (this.state.property.estimated_rehab_cost === ""){
-      property_estimated_rehab_cost_error = "Rehab cost can't be blank."
     }
     if (this.state.property.description === ""){
       property_description_error = "Property description can't be blank."
@@ -421,16 +482,15 @@ export default class NewProperty extends Component{
       property_mls_available_error,
       property_flooded_error,
       property_flood_count_error,
-      property_estimated_rehab_cost_error,
       property_description_error,
     },function () {
-      if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_estimated_rehab_cost_error !== "" || property_description_error !== "" ){
+      if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_description_error !== "" ){
         return false;
       }else {
         return true;
       }
     })
-    if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_estimated_rehab_cost_error !== "" || property_description_error !== "" ){
+    if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_description_error !== "" ){
       return false;
     }else{
       return true;
@@ -458,7 +518,6 @@ export default class NewProperty extends Component{
     let property_mls_available_error = "";
     let property_flooded_error = "";
     let property_flood_count_error = "";
-    let property_estimated_rehab_cost_error = "";
     let property_description_error = "";
 
     if (name === "address"){
@@ -602,13 +661,6 @@ export default class NewProperty extends Component{
       }
       this.setState({
         property_flood_count_error
-      });
-    }else if (name === 'estimated_rehab_cost') {
-      if (this.state.property.estimated_rehab_cost === ""){
-        property_estimated_rehab_cost_error = "Rehab cost can't be blank."
-      }
-      this.setState({
-        property_estimated_rehab_cost_error
       });
     }else if (name === 'description') {
       if (this.state.property.description === ""){
@@ -857,7 +909,7 @@ export default class NewProperty extends Component{
                 <div className="col-md-6" id="price_per_sq_ft-input">
                   <div className="form-group">
                     <label>Price Per SqFt</label>
-                    <input type="text" className="form-control" name="price_per_sq_ft" onChange={this.updateProperty}/>
+                    <input type="number" className="form-control" name="price_per_sq_ft" onChange={this.updateProperty} />
                     {this.addErrorMessage(this.state.property_price_per_sq_ft_error)}
                   </div>
                 </div>
