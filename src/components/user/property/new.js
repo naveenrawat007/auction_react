@@ -91,6 +91,7 @@ const initial_state = {
 
 const showEstimatedCost = function ()  {
   $('.estimated-cost').focus(function(){
+    console.log(1)
     //open bootsrap modal
     $('#rehabcost-modal').modal({
        show: true
@@ -1062,23 +1063,6 @@ export default class NewProperty extends Component{
                 <h4 className="step-name">Deal Analysis</h4>
               </div>
               <form className="row mx-0 creation-forms">
-                <div class="modal fade" id="rehabcost-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                      </div>
-                      <div class="modal-body">
-                      </div>
-                      <div class="modal-footer">
-                        <span class="error"></span>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button id="submit" type="button" class="btn btn-primary">Submit Cities</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>After Repair Value</label>
@@ -1134,6 +1118,27 @@ export default class NewProperty extends Component{
                   </div>
                 </div>
               </form>
+              <div className="modal fade status_modal" id="rehabcost-modal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div className="modal-dialog  modal-dialog-centered" role="document">
+                  <div className="modal-content">
+                    <div className="modal-header text-center">
+                      <div className="col-md-12 text-center">
+                        <h5 className="mb-0 text-uppercase">Itemized Repairs</h5>
+                      </div>
+                    </div>
+                    <div className="modal-body">
+                      <div className="row mx-0">
+                        <div></div>
+                      </div>
+                      <div className="col-md-12 text-center mt-3">
+                        <span className="error"></span>
+                        <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="submit" type="button" className="btn btn-blue">Submit Cities</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="col-md-12 text-center my-4">
                 <Link to="#" className="red-btn step-btn mr-3" onClick={this.backToStepOne}>Go, Back</Link>
                 <Link to="#" className="red-btn step-btn ml-3" onClick={this.submitStepTwo}>Continue</Link>
