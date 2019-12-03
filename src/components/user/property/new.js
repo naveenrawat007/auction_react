@@ -485,19 +485,73 @@ export default class NewProperty extends Component{
 
   updatePropertyRehabCostAttr = (event) => {
     const{ name, value } = event.target;
-    console.log(name, value);
     this.setState({
       property: {
       ...this.state.property,
         estimated_rehab_cost_attr:{
         ...this.state.property.estimated_rehab_cost_attr,
-          [name]: value
+          [name]: value,
         }
       }
     }, function () {
-
+      if (name === "estimated_ballpark"){
+        this.setState({
+          property: {
+          ...this.state.property,
+          estimated_rehab_cost: this.state.property.estimated_rehab_cost_attr.estimated_ballpark,
+          estimated_rehab_cost_attr:{
+          ...this.state.property.estimated_rehab_cost_attr,
+          roof: "",
+          plumbing: "",
+          foundation: "",
+          kitchen: "",
+          siding: "",
+          bathrooms: "",
+          windows: "",
+          doors: "",
+          landscaping: "",
+          sheetrock: "",
+          garage: "",
+          trim: "",
+          exterior_paint: "",
+          flooring: "",
+          interior_paint: "",
+          trash: "",
+          hvac: "",
+          misc: "",
+          electrical: "",
+          others: "",
+          repair_total: this.state.property.estimated_rehab_cost_attr.estimated_ballpark
+          }
+          }
+        })
+      } else {
+        this.updateEstimatedRehabCost();
+      }
     });
   }
+
+  updateEstimatedRehabCost = () => {
+    const cost_attr = this.state.property.estimated_rehab_cost_attr
+    let total_amount = 0
+    for (const [key, value] of Object.entries(cost_attr)) {
+      if (key !== "repair_total" && key !== "estimated_ballpark"){
+        total_amount += parseFloat(value ? value : 0)
+      }
+    }
+    this.setState({
+      property: {
+      ...this.state.property,
+      estimated_rehab_cost: total_amount,
+      estimated_rehab_cost_attr:{
+      ...this.state.property.estimated_rehab_cost_attr,
+      repair_total: total_amount,
+      estimated_ballpark: ""
+      }
+      }
+    })
+  }
+
 
   stepOneValidation = () => {
     let property_address_error = "";
@@ -1148,18 +1202,22 @@ export default class NewProperty extends Component{
                   <Link to="#" className="bs-wizard-dot"></Link>
                 </div>
               </div>
-              <div className="col-md-12 text-center pb-4">
+              <div className="col-md-12 text-center pb-3">
                 <h6 className="step-number">step 2</h6>
-                <h4 className="step-name">Deal Analysis</h4>
+                <h4 className="step-name mb-0">Deal Analysis</h4>
               </div>
               <div className= "row">
-                <div className="form-group">
-                  <label>Rehab & Flip Deal</label>
-                  <input type="radio" name="deal_analysis_type" checked={this.state.property.deal_analysis_type === "Rehab & Flip Deal" ? true : false} value="Rehab & Flip Deal" className="form-control" onChange = {this.updateProperty} />
+                <div className="col-md-3 offset-md-3">
+                  <div className="form-check">
+                    <input id="rehab-radio-deal" type="radio" name="deal_analysis_type" checked={this.state.property.deal_analysis_type === "Rehab & Flip Deal" ? true : false} value="Rehab & Flip Deal" className="form-check-input" onChange = {this.updateProperty} />
+                    <label htmlFor="rehab-radio-deal">Rehab & Flip Deal</label>
+                  </div>
                 </div>
-                <div className="form-group">
-                  <label>Landlord deal</label>
-                  <input type="radio" name="deal_analysis_type" checked={this.state.property.deal_analysis_type === "Landlord deal" ? true : false} value="Landlord deal" className="form-control" onChange = {this.updateProperty} />
+                <div className="col-md-3">
+                  <div className="form-check">
+                    <input type="radio" name="deal_analysis_type" checked={this.state.property.deal_analysis_type === "Landlord deal" ? true : false} value="Landlord deal" className="form-check-input" onChange = {this.updateProperty} id="landlord-radio-deal"/>
+                    <label htmlFor="landlord-radio-deal">Landlord deal</label>
+                  </div>
                 </div>
               </div>
               <form className="creation-forms">
@@ -1179,7 +1237,7 @@ export default class NewProperty extends Component{
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Estimated Rehab Cost</label>
-                      <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" id="estimated-cost1" onClick={() => {this.setState({
+                      <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} id="estimated-cost1" onClick={() => {this.setState({
                         estimated_cost_modal: true
                       });}}/>
                     </div>
@@ -1204,7 +1262,7 @@ export default class NewProperty extends Component{
                     </div>
                     <div className="form-group">
                       <label>Estimated Rehab Cost</label>
-                      <input type="number" readOnly={true} className="form-control" name="estimated_rehab_cost" onClick={() => {this.setState({
+                      <input type="number" value={this.state.property.estimated_rehab_cost} readOnly={true} className="form-control" name="estimated_rehab_cost" onClick={() => {this.setState({
                         estimated_cost_modal: true
                       });}}/>
                     </div>
@@ -1367,133 +1425,133 @@ export default class NewProperty extends Component{
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Roof</label>
-                            <input type="number" className="form-control" name="roof" onChange={this.updatePropertyRehabCostAttr} />
+                            <input value={this.state.property.estimated_rehab_cost_attr.roof} type="number" className="form-control" name="roof" onChange={this.updatePropertyRehabCostAttr} />
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Plumbing</label>
-                            <input type="number" name="plumbing" className="form-control" onChange={this.updatePropertyRehabCostAttr} />
+                            <input type="number" name="plumbing" className="form-control" value={this.state.property.estimated_rehab_cost_attr.plumbing} onChange={this.updatePropertyRehabCostAttr} />
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Foundation</label>
-                            <input type="number" name="foundation" className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name="foundation" value={this.state.property.estimated_rehab_cost_attr.foundation} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Kitchen</label>
-                            <input type="number" name="kitchen"  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name="kitchen" value={this.state.property.estimated_rehab_cost_attr.kitchen}  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Siding</label>
-                            <input type="number" name="siding" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name="siding" value={this.state.property.estimated_rehab_cost_attr.siding} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Bathrooms</label>
-                            <input type="name" name="bathrooms" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="name" name="bathrooms" value={this.state.property.estimated_rehab_cost_attr.bathrooms} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Windows</label>
-                            <input type="number" name="windows"  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name="windows" value={this.state.property.estimated_rehab_cost_attr.windows}  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Doors</label>
-                            <input type="number" name="doors" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name="doors" value={this.state.property.estimated_rehab_cost_attr.doors} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Landscaping</label>
-                            <input type="number" name="landscaping" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name="landscaping" value={this.state.property.estimated_rehab_cost_attr.landscaping} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Sheetrock</label>
-                            <input type="number" name= "sheetrock" className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name= "sheetrock" value={this.state.property.estimated_rehab_cost_attr.sheetrock} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Garage</label>
-                            <input type="number" name= "garage" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name= "garage" value={this.state.property.estimated_rehab_cost_attr.garage} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Trim</label>
-                            <input type="number" name="trim" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name="trim" value={this.state.property.estimated_rehab_cost_attr.trim} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Exterior Paint</label>
-                            <input type="number" name="exterior_paint" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name="exterior_paint" value={this.state.property.estimated_rehab_cost_attr.exterior_paint} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Flooring</label>
-                            <input type="number" name="flooring" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name="flooring" value={this.state.property.estimated_rehab_cost_attr.flooring} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Interior Paint</label>
-                            <input type="number" name="interior_paint" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name="interior_paint" value={this.state.property.estimated_rehab_cost_attr.interior_paint} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Trash</label>
-                            <input type="number" name="trash" className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name="trash" value={this.state.property.estimated_rehab_cost_attr.trash} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>HVAC</label>
-                            <input type="number" name="hvac" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name="hvac" value={this.state.property.estimated_rehab_cost_attr.hvac} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Misc</label>
-                            <input type="number" name="misc" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name="misc" value={this.state.property.estimated_rehab_cost_attr.misc} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Electrical</label>
-                            <input type="number" name="electrical" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name="electrical" className="form-control" value={this.state.property.estimated_rehab_cost_attr.electrical} onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Others</label>
-                            <input type="number" name="others" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name="others" className="form-control" value={this.state.property.estimated_rehab_cost_attr.others} onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-12 px-0">
                           <div className="form-group">
                             <label>Estimated Ballpark</label>
-                            <input type="number" name="estimated_ballpark" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                            <input type="number" name="estimated_ballpark" value={this.state.property.estimated_rehab_cost_attr.estimated_ballpark} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-12 px-0">
                           <div className="form-group">
                             <label>Repair Total</label>
-                            <input type="number" readOnly={true} name="repair_total" className="form-control" />
+                            <input type="number" value={this.state.property.estimated_rehab_cost_attr.repair_total} readOnly={true} name="repair_total" className="form-control" />
                           </div>
                         </div>
 
