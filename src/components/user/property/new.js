@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import $ from 'jquery'
-import 'bootstrap';
+import Modal from 'react-bootstrap/Modal'
 // import Alert from 'react-bootstrap/Alert';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 
 const initial_state = {
+  estimated_cost_modal: false,
   created: true,
   error: "",
   message: "",
@@ -35,6 +35,69 @@ const initial_state = {
     flood_count: "",
     description: "",
     id: "",
+
+
+    deal_analysis_type: "Rehab & Flip Deal",
+    after_repair_value: "",
+    asking_price: "",
+    estimated_rehab_cost: "",
+    profit_potential: "",
+    estimated_rehab_cost_attr: {
+      roof: "",
+      plumbing: "",
+      foundation: "",
+      kitchen: "",
+      siding: "",
+      bathrooms: "",
+      windows: "",
+      doors: "",
+      landscaping: "",
+      sheetrock: "",
+      garage: "",
+      trim: "",
+      exterior_paint: "",
+      flooring: "",
+      interior_paint: "",
+      trash: "",
+      hvac: "",
+      misc: "",
+      electrical: "",
+      others: "",
+      estimated_ballpark: "",
+    },
+
+    closing_cost: "",
+    short_term_financing_cost: "",
+    total_acquisition_cost: "",
+    taxes_annually: "",
+    insurance_annually: "",
+    amount_financed_percentage: "",
+    amount_financed: "",
+    interest_rate: "",
+    loan_terms: "",
+    principal_interest: "",
+    taxes_monthly: "",
+    insurance_monthly: "",
+    piti_monthly_debt: "",
+    monthly_rent: "",
+    total_gross_yearly_income: "",
+    vacancy_rate: "",
+    adjusted_gross_yearly_income: "",
+    est_annual_management_fees: "",
+    est_annual_operating_fees: "",
+    annual_debt: "",
+    net_operating_income: "",
+    annual_cash_flow: "",
+    monthly_cash_flow: "",
+    total_out_of_pocket: "",
+    roi_cash_percentage: "",
+
+    arv_analysis: "",
+    description_of_repairs: "",
+    arv_proof: "",
+    rehab_cost_proofs: "",
+
+
     seller_price: "",
     buy_now_price: "",
     auction_started_at: "",
@@ -47,6 +110,7 @@ const initial_state = {
     youtube_url: "",
   },
   property_options: {
+    deal_analysis_types: [],
     residential_types: [],
     commercial_types: [],
     land_types: [],
@@ -89,15 +153,6 @@ const initial_state = {
   property_youtube_url_error: ""
 }
 
-const showEstimatedCost = function ()  {
-  $('.estimated-cost').focus(function(){
-    console.log(1)
-    //open bootsrap modal
-    $('#rehabcost-modal').modal({
-       show: true
-    });
-  });
-}
 
 export default class NewProperty extends Component{
   _isMounted = false
@@ -119,7 +174,6 @@ export default class NewProperty extends Component{
       componentRestrictions: { country: "us" }
     });
     this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
-    showEstimatedCost();
   }
 
   handlePlaceChanged = () => {
@@ -754,7 +808,11 @@ export default class NewProperty extends Component{
       return false;
     }
   }
-
+  hideModal = () => {
+    this.setState({
+      estimated_cost_modal: false
+    });
+  }
   checkForCategoryFields = () => {
     if (this.state.property.category === "Residential"){
       document.getElementById("bedrooms-input").classList.remove("d-none")
@@ -1062,6 +1120,16 @@ export default class NewProperty extends Component{
                 <h6 className="step-number">step 2</h6>
                 <h4 className="step-name">Deal Analysis</h4>
               </div>
+              <div className= "row">
+                <div className="form-group">
+                  <label>Rehab & Flip Deal</label>
+                  <input type="radio" name="deal_analysis_type" checked={this.state.property.deal_analysis_type === "Rehab & Flip Deal" ? true : false} value="Rehab & Flip Deal" className="form-control" onChange = {this.updateProperty} />
+                </div>
+                <div className="form-group">
+                  <label>Landlord deal</label>
+                  <input type="radio" name="deal_analysis_type" checked={this.state.property.deal_analysis_type === "Landlord deal" ? true : false} value="Landlord deal" className="form-control" onChange = {this.updateProperty} />
+                </div>
+              </div>
               <form className="row mx-0 creation-forms">
                 <div className="col-md-6">
                   <div className="form-group">
@@ -1072,13 +1140,15 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Sellers Asking Price</label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control" id="temp_id"/>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Estimated Rehab Cost</label>
-                    <input type="text" className="form-control estimated-cost" />
+                    <input type="text" className="form-control estimated-cost" id="estimated-cost1" onClick={() => {this.setState({
+                      estimated_cost_modal: true
+                    });}}/>
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -1105,7 +1175,7 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Description of Repairs</label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control" id="description-of-repairs"/>
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -1118,7 +1188,7 @@ export default class NewProperty extends Component{
                   </div>
                 </div>
               </form>
-              <div className="modal fade status_modal rehab_modal" id="rehabcost-modal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <Modal show={this.state.estimated_cost_modal} onHide={this.hideModal}>
                 <div className="modal-dialog  modal-dialog-centered" role="document">
                   <div className="modal-content">
                     <div className="modal-header text-center">
@@ -1129,7 +1199,7 @@ export default class NewProperty extends Component{
                     <div className="modal-body">
                       <div className="row mx-0">
                         <div className="col-md-12 px-0">
-                          <h6>Please enter estimated rehab numbers or enter a ballpark at the bottom.</h6>  
+                          <h6>Please enter estimated rehab numbers or enter a ballpark at the bottom.</h6>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
@@ -1146,7 +1216,7 @@ export default class NewProperty extends Component{
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Foundation</label>
-                            <input type="text" className="form-control estimated-cost" />
+                            <input type="text" className="form-control " />
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
@@ -1188,7 +1258,7 @@ export default class NewProperty extends Component{
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Sheetrock</label>
-                            <input type="text" className="form-control estimated-cost" />
+                            <input type="text" className="form-control " />
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
@@ -1224,7 +1294,7 @@ export default class NewProperty extends Component{
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Trash</label>
-                            <input type="text" className="form-control estimated-cost" />
+                            <input type="text" className="form-control " />
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
@@ -1267,13 +1337,13 @@ export default class NewProperty extends Component{
                       </div>
                       <div className="col-md-12 text-center mt-3">
                         <span className="error"></span>
-                        <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.hideModal}>Close</button>
                         <button id="submit" type="button" className="btn btn-blue">Submit Cities</button>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Modal>
               <div className="col-md-12 text-center my-4">
                 <Link to="#" className="red-btn step-btn mr-3" onClick={this.backToStepOne}>Go, Back</Link>
                 <Link to="#" className="red-btn step-btn ml-3" onClick={this.submitStepTwo}>Continue</Link>
