@@ -3080,3 +3080,6 @@ font-size: 13px;
 .table.offer_tables td:nth-child(1) .user_name_box p {
 font-weight: 500;
 }
+.rehab_modal .modal-body h6{
+  font-size: 0.95rem;
+}

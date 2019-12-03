@@ -1118,7 +1118,7 @@ export default class NewProperty extends Component{
                   </div>
                 </div>
               </form>
-              <div className="modal fade status_modal" id="rehabcost-modal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div className="modal fade status_modal rehab_modal" id="rehabcost-modal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div className="modal-dialog  modal-dialog-centered" role="document">
                   <div className="modal-content">
                     <div className="modal-header text-center">
@@ -1128,7 +1128,142 @@ export default class NewProperty extends Component{
                     </div>
                     <div className="modal-body">
                       <div className="row mx-0">
-                        <div></div>
+                        <div className="col-md-12 px-0">
+                          <h6>Please enter estimated rehab numbers or enter a ballpark at the bottom.</h6>  
+                        </div>
+                        <div className="col-md-6 pl-0">
+                          <div className="form-group">
+                            <label>Roof</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pr-0">
+                          <div className="form-group">
+                            <label>Plumbing</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pl-0">
+                          <div className="form-group">
+                            <label>Foundation</label>
+                            <input type="text" className="form-control estimated-cost" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pr-0">
+                          <div className="form-group">
+                            <label>Kitchen</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pl-0">
+                          <div className="form-group">
+                            <label>Siding</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pr-0">
+                          <div className="form-group">
+                            <label>Bathrooms</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pl-0">
+                          <div className="form-group">
+                            <label>Windows</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pr-0">
+                          <div className="form-group">
+                            <label>Doors</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pl-0">
+                          <div className="form-group">
+                            <label>Andscaping</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pr-0">
+                          <div className="form-group">
+                            <label>Sheetrock</label>
+                            <input type="text" className="form-control estimated-cost" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pl-0">
+                          <div className="form-group">
+                            <label>Garage</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pr-0">
+                          <div className="form-group">
+                            <label>Trim</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pl-0">
+                          <div className="form-group">
+                            <label>Exterior Paint</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pr-0">
+                          <div className="form-group">
+                            <label>Flooring</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pl-0">
+                          <div className="form-group">
+                            <label>Interior Paint</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pr-0">
+                          <div className="form-group">
+                            <label>Trash</label>
+                            <input type="text" className="form-control estimated-cost" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pl-0">
+                          <div className="form-group">
+                            <label>HVAC</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pr-0">
+                          <div className="form-group">
+                            <label>Misc</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pl-0">
+                          <div className="form-group">
+                            <label>Electrical</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-6 pr-0">
+                          <div className="form-group">
+                            <label>Others</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-12 px-0">
+                          <div className="form-group">
+                            <label>Estimated Ballpark</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+                        <div className="col-md-12 px-0">
+                          <div className="form-group">
+                            <label>Repair Total</label>
+                            <input type="text" className="form-control" />
+                          </div>
+                        </div>
+
                       </div>
                       <div className="col-md-12 text-center mt-3">
                         <span className="error"></span>
