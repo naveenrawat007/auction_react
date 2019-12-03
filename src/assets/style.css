@@ -3083,3 +3083,15 @@ font-weight: 500;
 .rehab_modal .modal-body h6{
   font-size: 0.95rem;
 }
+.spinner-grow{
+  position: absolute;
+  top: 45%;
+}
+.spinner_main{
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+  background-color: Rgba(0,0,0,0.2);
+  height: 100%;
+}
