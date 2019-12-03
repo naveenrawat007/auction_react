@@ -571,9 +571,13 @@ export default class Profile extends Component{
 		return (
       <div id="myProfile" className="container px-0 tab-pane active">
         <div className="profile-form">
-          {this.state.loaded ? null : <div className="spinner-grow" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>}
+          {this.state.loaded ? null :
+          <div className="spinner_main">
+            <div className="spinner-grow" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
+          </div>
+          }
           <div className="profile-form-in">
             <form onSubmit={this.submitHandler}>
               {
