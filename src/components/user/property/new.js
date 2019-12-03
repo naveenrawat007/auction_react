@@ -38,7 +38,7 @@ const initial_state = {
 
 
     deal_analysis_type: "Rehab & Flip Deal",
-    after_repair_value: "",
+    after_rehab_value: "",
     asking_price: "",
     estimated_rehab_cost: "",
     profit_potential: "",
@@ -64,6 +64,7 @@ const initial_state = {
       electrical: "",
       others: "",
       estimated_ballpark: "",
+      repair_total: "",
     },
 
     closing_cost: "",
@@ -479,6 +480,22 @@ export default class NewProperty extends Component{
           });
         }
       }
+    });
+  }
+
+  updatePropertyRehabCostAttr = (event) => {
+    const{ name, value } = event.target;
+    console.log(name, value);
+    this.setState({
+      property: {
+      ...this.state.property,
+        estimated_rehab_cost_attr:{
+        ...this.state.property.estimated_rehab_cost_attr,
+          [name]: value
+        }
+      }
+    }, function () {
+
     });
   }
 
@@ -1149,20 +1166,20 @@ export default class NewProperty extends Component{
                 <div className={this.checkRehabDeal()}>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>After Repair Value</label>
-                      <input type="text" className="form-control" />
+                      <label>After Rehab Value</label>
+                      <input type="number" name="after_rehab_value" className="form-control" onChange={this.updateProperty}/>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Sellers Asking Price</label>
-                      <input type="text" className="form-control" id="temp_id"/>
+                      <input type="number" className="form-control" id="temp_id" name="asking_price" onChange={this.updateProperty} />
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Estimated Rehab Cost</label>
-                      <input type="text" className="form-control estimated-cost" id="estimated-cost1" onClick={() => {this.setState({
+                      <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" id="estimated-cost1" onClick={() => {this.setState({
                         estimated_cost_modal: true
                       });}}/>
                     </div>
@@ -1170,132 +1187,134 @@ export default class NewProperty extends Component{
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Profit Potential</label>
-                      <input type="text" className="form-control" />
+                      <input type="number" name="profit_potential" className="form-control" onChange={this.updateProperty} />
                     </div>
                   </div>
                 </div>
                 <div className = {this.checkLandordDeal()}>
-                  <div class="col-md-6">
+                  <div className="col-md-6">
                     <h5>Deal Analysis</h5>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>After Rehab Value</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" className="form-control" name="after_rehab_value" onChange={this.updateProperty} />
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Purchase/Asking Price</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" className="form-control" name="asking_price" onChange={this.updateProperty}/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Estimated Rehab Cost</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" readOnly={true} className="form-control" name="estimated_rehab_cost" onClick={() => {this.setState({
+                        estimated_cost_modal: true
+                      });}}/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Closing Costs</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" className="form-control" name="closing_cost" onChange={this.updateProperty}/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Short-term Financing Costs</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" className="form-control" name="short_term_financing_cost" onChange={this.updateProperty}/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Total Acquisition Costs</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" readOnly={true} className="form-control" name="total_acquisition_cost"/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Property Taxes Annually</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" className="form-control" name="taxes_annually" onChange={this.updateProperty}/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Insurance Annually</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" onChange={this.updateProperty} className="form-control" name="insurance_annually" />
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div className="col-md-6">
                     <h5>Financing Analysis</h5>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Amount Financed</label>
-                      <div class="row mx-0">
-                        <input type="text" class="form-control col-md-4" />
-                        <input type="text" class="form-control col-md-7 offset-md-1" />
+                      <div className="row mx-0">
+                        <input type="number" className="form-control col-md-4" name="amount_financed_percentage" onChange={this.updateProperty} />
+                        <input type="number" readOnly={true}  className="form-control col-md-7 offset-md-1" name="amount_financed" />
                       </div>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Interest Rate APR</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" className="form-control" name="interest_rate" onChange={this.updateProperty}/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Loan Term in years</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" className="form-control" name="loan_terms" onChange={this.updateProperty}/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Principal Insurace (PI)</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" readOnly={true} className="form-control" name="principal_interest" />
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Monthly Taxes</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" readOnly={true} className="form-control" name="taxes_monthly"/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Monthly Insurance</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" readOnly={true} className="form-control" name="insurance_monthly"/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>PITI Monthly Debt Service</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" readOnly={true} className="form-control" name="piti_monthly_debt"/>
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div className="col-md-6">
                     <h5>Income Analysis</h5>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Total Monthly Rent</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" className="form-control" name="monthly_rent" onChange={this.updateProperty}/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Gross Yearly Income (GYI)</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" readOnly={true} className="form-control" name="total_gross_yearly_income"/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Estimated Vacancy Rate</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" className="form-control" name="vacancy_rate" onChange={this.updateProperty}/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Adjusted Gross Yearly Income</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" readOnly={true} className="form-control" name="adjusted_gross_yearly_income"/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Annual Management Fees</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" className="form-control" name="est_annual_management_fees" onChange={this.updateProperty}/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Annual Operating Costs</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" className="form-control" name="est_annual_operating_fees" onChange={this.updateProperty}/>
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div className="col-md-6">
                     <h5>Cash Flow Analysis</h5>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Annual Debt Service</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" readOnly={true} className="form-control" name="annual_debt"/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Net Operating Income(NOI)</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" readOnly={true} className="form-control" name="net_operating_income" />
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Annual Cash Flow</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" readOnly={true} className="form-control" name="annual_cash_flow"/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Monthly Cash Flow</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" readOnly={true} className="form-control" name="monthly_cash_flow"/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>Total Out of Pocket</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" readOnly={true} className="form-control" name="total_out_of_pocket"/>
                     </div>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label>ROI Cash on Cash</label>
-                      <input type="text" class="form-control" />
+                      <input type="number" readOnly={true} className="form-control" name="roi_cash_percentage"/>
                     </div>
                   </div>
                 </div>
@@ -1303,7 +1322,7 @@ export default class NewProperty extends Component{
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>ARV Proof/Financial Analysis</label>
-                      <input type="text" className="form-control" />
+                      <input type="text" className="form-control" name="arv_analysis" onChange={this.updateProperty}/>
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -1311,14 +1330,14 @@ export default class NewProperty extends Component{
                       <label>Or upload ARV proof</label>
                       <div className="custom-file">
                         <input type="file" className="custom-file-input"/>
-                        <label className="custom-file-label" htmlFor="customFile">Choose file</label>
+                        <label className="custom-file-label" htmlFor="customFile" name="arv_proof">Choose file</label>
                       </div>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Description of Repairs</label>
-                      <input type="text" className="form-control" id="description-of-repairs"/>
+                      <input type="text" className="form-control" id="description-of-repairs" name="description_of_repairs" onChange={this.updateProperty}/>
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -1326,7 +1345,7 @@ export default class NewProperty extends Component{
                       <label>Or upload Estimated Rehab Cost</label>
                       <div className="custom-file">
                         <input type="file" className="custom-file-input" />
-                        <label className="custom-file-label" htmlFor="customFile">Choose file</label>
+                        <label className="custom-file-label" htmlFor="customFile" name="rehab_cost_proofs">Choose file</label>
                       </div>
                     </div>
                   </div>
@@ -1348,133 +1367,133 @@ export default class NewProperty extends Component{
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Roof</label>
-                            <input type="text" className="form-control" />
+                            <input type="number" className="form-control" name="roof" onChange={this.updatePropertyRehabCostAttr} />
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Plumbing</label>
-                            <input type="text" className="form-control" />
+                            <input type="number" name="plumbing" className="form-control" onChange={this.updatePropertyRehabCostAttr} />
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Foundation</label>
-                            <input type="text" className="form-control " />
+                            <input type="number" name="foundation" className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Kitchen</label>
-                            <input type="text" className="form-control" />
+                            <input type="number" name="kitchen"  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Siding</label>
-                            <input type="text" className="form-control" />
+                            <input type="number" name="siding" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Bathrooms</label>
-                            <input type="text" className="form-control" />
+                            <input type="name" name="bathrooms" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Windows</label>
-                            <input type="text" className="form-control" />
+                            <input type="number" name="windows"  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Doors</label>
-                            <input type="text" className="form-control" />
+                            <input type="number" name="doors" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
-                            <label>Andscaping</label>
-                            <input type="text" className="form-control" />
+                            <label>Landscaping</label>
+                            <input type="number" name="landscaping" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Sheetrock</label>
-                            <input type="text" className="form-control " />
+                            <input type="number" name= "sheetrock" className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Garage</label>
-                            <input type="text" className="form-control" />
+                            <input type="number" name= "garage" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Trim</label>
-                            <input type="text" className="form-control" />
+                            <input type="number" name="trim" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Exterior Paint</label>
-                            <input type="text" className="form-control" />
+                            <input type="number" name="exterior_paint" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Flooring</label>
-                            <input type="text" className="form-control" />
+                            <input type="number" name="flooring" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Interior Paint</label>
-                            <input type="text" className="form-control" />
+                            <input type="number" name="interior_paint" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Trash</label>
-                            <input type="text" className="form-control " />
+                            <input type="number" name="trash" className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>HVAC</label>
-                            <input type="text" className="form-control" />
+                            <input type="number" name="hvac" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Misc</label>
-                            <input type="text" className="form-control" />
+                            <input type="number" name="misc" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pl-0">
                           <div className="form-group">
                             <label>Electrical</label>
-                            <input type="text" className="form-control" />
+                            <input type="number" name="electrical" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-6 pr-0">
                           <div className="form-group">
                             <label>Others</label>
-                            <input type="text" className="form-control" />
+                            <input type="number" name="others" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-12 px-0">
                           <div className="form-group">
                             <label>Estimated Ballpark</label>
-                            <input type="text" className="form-control" />
+                            <input type="number" name="estimated_ballpark" className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                           </div>
                         </div>
                         <div className="col-md-12 px-0">
                           <div className="form-group">
                             <label>Repair Total</label>
-                            <input type="text" className="form-control" />
+                            <input type="number" readOnly={true} name="repair_total" className="form-control" />
                           </div>
                         </div>
 
