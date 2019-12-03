@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal'
 
 const initial_state = {
   estimated_cost_modal: false,
-  created: true,
+  created: false,
   error: "",
   message: "",
   property: {
@@ -95,8 +95,8 @@ const initial_state = {
 
     arv_analysis: "",
     description_of_repairs: "",
-    arv_proof: "",
-    rehab_cost_proofs: "",
+    arv_proof: null,
+    rehab_cost_proof: null,
 
 
     seller_price: "",
@@ -282,7 +282,7 @@ export default class NewProperty extends Component{
   }
 
   submitStepOne = () => {
-    let formIsValid = true//this.stepOneValidation();
+    let formIsValid = this.stepOneValidation();
     if (formIsValid){
       if (this.state.created !== true){
         if (this.state.property.category === "Residential"){
@@ -381,6 +381,112 @@ export default class NewProperty extends Component{
 		});
   }
 
+  updatePropertyData = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties"
+  	fetch(url ,{
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			},
+			body: JSON.stringify({property: this.state.property}),
+		}).then(res => res.json())
+    .then((result) => {
+      if (result.status === 200) {
+
+      }else if (result.status === 401) {
+        localStorage.removeItem("auction_user_token");
+        window.location.href = "/login"
+      }else {
+        this.setState({loaded: true, message: result.message,
+        variant: "danger"});
+      }
+      this.clearMessageTimeout = setTimeout(() => {
+        this.setState(() => ({message: ""}))
+      }, 2000);
+		}, (error) => {
+		});
+  }
+
+  sendStepTwoData = () => {
+    const fd = new FormData();
+    fd.append('property[id]', this.state.property.id)
+    fd.append('property[deal_analysis_type]', this.state.property.deal_analysis_type)
+    fd.append('property[after_rehab_value]', this.state.property.after_rehab_value)
+    fd.append('property[asking_price]', this.state.property.asking_price)
+    fd.append('property[estimated_rehab_cost]', this.state.property.estimated_rehab_cost)
+    fd.append('property[profit_potential]', this.state.property.profit_potential)
+    fd.append('property[estimated_rehab_cost_attr]', this.state.property.estimated_rehab_cost_attr)
+    fd.append('property[closing_cost]', this.state.property.closing_cost)
+    fd.append('property[short_term_financing_cost]', this.state.property.short_term_financing_cost)
+    fd.append('property[total_acquisition_cost]', this.state.property.total_acquisition_cost)
+    fd.append('property[taxes_annually]', this.state.property.taxes_annually)
+    fd.append('property[insurance_annually]', this.state.property.insurance_annually)
+    fd.append('property[amount_financed_percentage]', this.state.property.amount_financed_percentage)
+    fd.append('property[amount_financed]', this.state.property.amount_financed)
+    fd.append('property[interest_rate]', this.state.property.interest_rate)
+    fd.append('property[loan_terms]', this.state.property.loan_terms)
+    fd.append('property[principal_interest]', this.state.property.principal_interest)
+    fd.append('property[taxes_monthly]', this.state.property.taxes_monthly)
+    fd.append('property[insurance_monthly]', this.state.property.insurance_monthly)
+    fd.append('property[piti_monthly_debt]', this.state.property.piti_monthly_debt)
+    fd.append('property[monthly_rent]', this.state.property.monthly_rent)
+    fd.append('property[total_gross_yearly_income]', this.state.property.total_gross_yearly_income)
+    fd.append('property[vacancy_rate]', this.state.property.vacancy_rate)
+    fd.append('property[adjusted_gross_yearly_income]', this.state.property.adjusted_gross_yearly_income)
+    fd.append('property[est_annual_management_fees]', this.state.property.est_annual_management_fees)
+    fd.append('property[est_annual_operating_fees]', this.state.property.est_annual_operating_fees)
+    fd.append('property[annual_debt]', this.state.property.annual_debt)
+    fd.append('property[net_operating_income]', this.state.property.net_operating_income)
+    fd.append('property[annual_cash_flow]', this.state.property.annual_cash_flow)
+    fd.append('property[monthly_cash_flow]', this.state.property.monthly_cash_flow)
+    fd.append('property[total_out_of_pocket]', this.state.property.total_out_of_pocket)
+    fd.append('property[roi_cash_percentage]', this.state.property.roi_cash_percentage)
+    fd.append('property[arv_analysis]', this.state.property.arv_analysis)
+    fd.append('property[description_of_repairs]', this.state.property.description_of_repairs)
+    fd.append('property[after_rehab_value]', this.state.property.after_rehab_value)
+    fd.append('property[after_rehab_value]', this.state.property.after_rehab_value)
+    fd.append('property[arv_proof]', this.state.property.arv_proof, this.state.property.arv_proof.name)
+    fd.append('property[rehab_cost_proof]', this.state.property.rehab_cost_proof, this.state.property.rehab_cost_proof.name)
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties"
+  	fetch(url ,{
+			method: "PUT",
+			headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			},
+			body: fd,
+		}).then(res => res.json())
+    .then((result) => {
+      if (result.status === 200) {
+        this.goToStepThree();
+      }else if (result.status === 401) {
+        localStorage.removeItem("auction_user_token");
+        window.location.href = "/login"
+      }else {
+        this.setState({loaded: true, message: result.message,
+        variant: "danger"});
+      }
+      this.clearMessageTimeout = setTimeout(() => {
+        this.setState(() => ({message: ""}))
+      }, 2000);
+		}, (error) => {
+		});
+  }
+
   goToStepTwo = () => {
     document.getElementById('step1').classList.add('d-none');
     document.getElementById('step2').classList.remove('d-none');
@@ -392,6 +498,24 @@ export default class NewProperty extends Component{
   }
 
   submitStepTwo = () => {
+    let formIsValid = true;
+    if (formIsValid){
+      this.sendStepTwoData();
+    }
+  }
+
+  fileSelectHandler = (event) => {
+    const name = event.target.name
+    const value = event.target.files[0]
+    this.setState({
+      property: {
+      ...this.state.property,
+      [name]: value
+      }
+    });
+  }
+
+  goToStepThree = () => {
     document.getElementById('step2').classList.add('d-none');
     document.getElementById('step3').classList.remove('d-none');
   }
@@ -543,8 +667,6 @@ export default class NewProperty extends Component{
       piti_monthly_debt,
       }
     }, function () {
-      console.log(insurance_monthly);
-      console.log(this.state.property.insurance_monthly);
     })
   }
 
@@ -1018,7 +1140,7 @@ export default class NewProperty extends Component{
     }
   }
   checkLandordDeal = () => {
-    if (this.state.property.deal_analysis_type === "Landlord deal"){
+    if (this.state.property.deal_analysis_type === "Landlord Deal"){
       return "row mx-0";
     }else {
       return "d-none row mx-0";
@@ -1290,8 +1412,8 @@ export default class NewProperty extends Component{
                 </div>
                 <div className="col-md-3">
                   <div className="form-check">
-                    <input type="radio" name="deal_analysis_type" checked={this.state.property.deal_analysis_type === "Landlord deal" ? true : false} value="Landlord deal" className="form-check-input" onChange = {this.updateProperty} id="landlord-radio-deal"/>
-                    <label htmlFor="landlord-radio-deal">Landlord deal</label>
+                    <input type="radio" name="deal_analysis_type" checked={this.state.property.deal_analysis_type === "Landlord Deal" ? true : false} value="Landlord Deal" className="form-check-input" onChange = {this.updateProperty} id="landlord-radio-deal"/>
+                    <label htmlFor="landlord-radio-deal">Landlord Deal</label>
                   </div>
                 </div>
               </div>
@@ -1462,7 +1584,7 @@ export default class NewProperty extends Component{
                     <div className="form-group">
                       <label>Or upload ARV proof</label>
                       <div className="custom-file">
-                        <input type="file" className="custom-file-input"/>
+                        <input type="file" className="custom-file-input" name="arv_proof" onChange={this.fileSelectHandler}/>
                         <label className="custom-file-label" htmlFor="customFile" name="arv_proof">Choose file</label>
                       </div>
                     </div>
@@ -1477,7 +1599,7 @@ export default class NewProperty extends Component{
                     <div className="form-group">
                       <label>Or upload Estimated Rehab Cost</label>
                       <div className="custom-file">
-                        <input type="file" className="custom-file-input" />
+                        <input type="file" className="custom-file-input" name="rehab_cost_proof" onChange={this.fileSelectHandler}/>
                         <label className="custom-file-label" htmlFor="customFile" name="rehab_cost_proofs">Choose file</label>
                       </div>
                     </div>
