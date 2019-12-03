@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import $ from 'jquery'
+import 'bootstrap';
 // import Alert from 'react-bootstrap/Alert';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 
 const initial_state = {
-  created: "",
+  created: true,
   error: "",
   message: "",
   property: {
@@ -87,6 +89,15 @@ const initial_state = {
   property_youtube_url_error: ""
 }
 
+const showEstimatedCost = function ()  {
+  $('.estimated-cost').focus(function(){
+    //open bootsrap modal
+    $('#rehabcost-modal').modal({
+       show: true
+    });
+  });
+}
+
 export default class NewProperty extends Component{
   _isMounted = false
   componentWillUnmount() {
@@ -107,6 +118,7 @@ export default class NewProperty extends Component{
       componentRestrictions: { country: "us" }
     });
     this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
+    showEstimatedCost();
   }
 
   handlePlaceChanged = () => {
@@ -214,7 +226,7 @@ export default class NewProperty extends Component{
   }
 
   submitStepOne = () => {
-    let formIsValid = this.stepOneValidation();
+    let formIsValid = true//this.stepOneValidation();
     if (formIsValid){
       if (this.state.created !== true){
         if (this.state.property.category === "Residential"){
@@ -1050,6 +1062,23 @@ export default class NewProperty extends Component{
                 <h4 className="step-name">Deal Analysis</h4>
               </div>
               <form className="row mx-0 creation-forms">
+                <div class="modal fade" id="rehabcost-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                      </div>
+                      <div class="modal-body">
+                      </div>
+                      <div class="modal-footer">
+                        <span class="error"></span>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="submit" type="button" class="btn btn-primary">Submit Cities</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>After Repair Value</label>
@@ -1065,7 +1094,7 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Estimated Rehab Cost</label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control estimated-cost" />
                   </div>
                 </div>
                 <div className="col-md-6">
