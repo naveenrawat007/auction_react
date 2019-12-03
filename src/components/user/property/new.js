@@ -863,6 +863,21 @@ export default class NewProperty extends Component{
     }
 
   }
+
+  checkRehabDeal = () => {
+    if (this.state.property.deal_analysis_type === "Rehab & Flip Deal"){
+      return "row mx-0 ";
+    }else {
+      return "row mx-0 d-none";
+    }
+  }
+  checkLandordDeal = () => {
+    if (this.state.property.deal_analysis_type === "Landlord deal"){
+      return "row mx-0";
+    }else {
+      return "d-none row mx-0";
+    }
+  }
 	render() {
     const categories = this.state.property_options.categories.map((value, index) => {
       return(
@@ -1130,60 +1145,189 @@ export default class NewProperty extends Component{
                   <input type="radio" name="deal_analysis_type" checked={this.state.property.deal_analysis_type === "Landlord deal" ? true : false} value="Landlord deal" className="form-control" onChange = {this.updateProperty} />
                 </div>
               </div>
-              <form className="row mx-0 creation-forms">
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>After Repair Value</label>
-                    <input type="text" className="form-control" />
+              <form className="creation-forms">
+                <div className={this.checkRehabDeal()}>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>After Repair Value</label>
+                      <input type="text" className="form-control" />
+                    </div>
                   </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>Sellers Asking Price</label>
-                    <input type="text" className="form-control" id="temp_id"/>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Sellers Asking Price</label>
+                      <input type="text" className="form-control" id="temp_id"/>
+                    </div>
                   </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>Estimated Rehab Cost</label>
-                    <input type="text" className="form-control estimated-cost" id="estimated-cost1" onClick={() => {this.setState({
-                      estimated_cost_modal: true
-                    });}}/>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Estimated Rehab Cost</label>
+                      <input type="text" className="form-control estimated-cost" id="estimated-cost1" onClick={() => {this.setState({
+                        estimated_cost_modal: true
+                      });}}/>
+                    </div>
                   </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>Profit Potential</label>
-                    <input type="text" className="form-control" />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>ARV Proof/Financial Analysis</label>
-                    <input type="text" className="form-control" />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>Or upload ARV proof</label>
-                    <div className="custom-file">
-                      <input type="file" className="custom-file-input"/>
-                      <label className="custom-file-label" htmlFor="customFile">Choose file</label>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Profit Potential</label>
+                      <input type="text" className="form-control" />
                     </div>
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>Description of Repairs</label>
-                    <input type="text" className="form-control" id="description-of-repairs"/>
+                <div className = {this.checkLandordDeal()}>
+                  <div class="col-md-6">
+                    <h5>Deal Analysis</h5>
+                    <div class="form-group">
+                      <label>After Rehab Value</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Purchase/Asking Price</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Estimated Rehab Cost</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Closing Costs</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Short-term Financing Costs</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Total Acquisition Costs</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Property Taxes Annually</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Insurance Annually</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <h5>Financing Analysis</h5>
+                    <div class="form-group">
+                      <label>Amount Financed</label>
+                      <div class="row mx-0">
+                        <input type="text" class="form-control col-md-4" />
+                        <input type="text" class="form-control col-md-7 offset-md-1" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Interest Rate APR</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Loan Term in years</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Principal Insurace (PI)</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Monthly Taxes</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Monthly Insurance</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>PITI Monthly Debt Service</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <h5>Income Analysis</h5>
+                    <div class="form-group">
+                      <label>Total Monthly Rent</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Gross Yearly Income (GYI)</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Estimated Vacancy Rate</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Adjusted Gross Yearly Income</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Annual Management Fees</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Annual Operating Costs</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <h5>Cash Flow Analysis</h5>
+                    <div class="form-group">
+                      <label>Annual Debt Service</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Net Operating Income(NOI)</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Annual Cash Flow</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Monthly Cash Flow</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>Total Out of Pocket</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                      <label>ROI Cash on Cash</label>
+                      <input type="text" class="form-control" />
+                    </div>
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>Or upload Estimated Rehab Cost</label>
-                    <div className="custom-file">
-                      <input type="file" className="custom-file-input" />
-                      <label className="custom-file-label" htmlFor="customFile">Choose file</label>
+                <div className="row mx-0">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>ARV Proof/Financial Analysis</label>
+                      <input type="text" className="form-control" />
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Or upload ARV proof</label>
+                      <div className="custom-file">
+                        <input type="file" className="custom-file-input"/>
+                        <label className="custom-file-label" htmlFor="customFile">Choose file</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Description of Repairs</label>
+                      <input type="text" className="form-control" id="description-of-repairs"/>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Or upload Estimated Rehab Cost</label>
+                      <div className="custom-file">
+                        <input type="file" className="custom-file-input" />
+                        <label className="custom-file-label" htmlFor="customFile">Choose file</label>
+                      </div>
                     </div>
                   </div>
                 </div>
