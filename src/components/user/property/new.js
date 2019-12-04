@@ -1199,16 +1199,17 @@ export default class NewProperty extends Component{
         <option key={index} value={value} >{value} days</option>
       )
     })
-    const buy_options = this.state.property_options.buy_options.map((value, index) => {
-      return(
-        <option key={index} value={value} >{value}</option>
-      )
-    })
+    const buy_options = this.state.property_options.buy_options.map((value, index) => ({
+      value: value,
+      label: value
+    }))
+    // const buy_options = [{label: "Please select", value: ""}]
+
 		return (
       <div id="newproperty" className="container px-0 tab-pane active">
         <div className="profile-form">
           <div className="profile-form-in">
-            <div className="container creation-steps px-0 d-none" id="step1">
+            <div className="container creation-steps px-0 " id="step1">
               <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete current">
                   <div className="text-center bs-wizard-number">1</div>
@@ -1824,7 +1825,7 @@ export default class NewProperty extends Component{
                 <Link to="#" className="red-btn step-btn ml-3" onClick={this.submitStepTwo}>Continue</Link>
               </div>
             </div>
-            <div className="container creation-steps px-0 " id="step3">
+            <div className="container creation-steps px-0 d-none" id="step3">
               <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete">
                   <div className="text-center bs-wizard-number">1</div>
@@ -1909,8 +1910,11 @@ export default class NewProperty extends Component{
                   <div className="form-group">
                     <label htmlFor="sel2">Mutiple select list</label>
                     <select className="form-control"  name="sellist2">
-                      <option>Please select</option>
-                      {buy_options}
+                      {/* {buy_options} */}
+                      {/* <MultiSelect
+                        options={buy_options}
+                        onSelectedChanged={selected => this.updateProperty({selected})}
+                      /> */}
                     </select>
                   </div>
                 </div>
