@@ -108,11 +108,12 @@ const initial_state = {
     auction_started_at: "",
     auction_length: "",
     auction_ending_at: "",
-    buy_options: [],
+    buy_option: [],
     title_status: "",
     seller_pay_type_id: "",
     show_instructions_type_id: "",
     youtube_url: "",
+    images: []
   },
   property_options: {
     deal_analysis_types: [],
@@ -153,7 +154,7 @@ const initial_state = {
   property_auction_length_error: "",
   property_auction_started_at_error: "",
   property_auction_ending_at_error: "",
-  property_buy_options_error: "",
+  property_buy_option_error: "",
   property_title_status_error: "",
   property_seller_pay_type_id_error: "",
   property_show_instructions_type_id_error: "",
@@ -423,8 +424,50 @@ export default class NewProperty extends Component{
 		});
   }
 
+  sendStepFourData = () => {
+    const fd = new FormData();
+    fd.append('step2', true)
+    fd.append('property[id]', this.state.property.id)
+    fd.append('property[estimated_rehab_cost_attr]', JSON.stringify(this.state.property.estimated_rehab_cost_attr))
+    fd.append('property[youtube_url]', this.state.property.youtube_url)
+    for (let i = 0 ; i < this.state.property.images.length ; i++) {
+      fd.append('property[images][]', this.state.property.images[i], this.state.property.images[i].name)
+    }
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties"
+  	fetch(url ,{
+			method: "PUT",
+			headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			},
+			body: fd,
+		}).then(res => res.json())
+    .then((result) => {
+      if (result.status === 200) {
+        window.location.href = "/user/property/new"
+      }else if (result.status === 401) {
+        localStorage.removeItem("auction_user_token");
+        window.location.href = "/login"
+      }else {
+        this.setState({loaded: true, message: result.message,
+        variant: "danger"});
+      }
+      this.clearMessageTimeout = setTimeout(() => {
+        this.setState(() => ({message: ""}))
+      }, 2000);
+		}, (error) => {
+		});
+  }
+
   sendStepTwoData = () => {
     const fd = new FormData();
+    fd.append('step2', true)
     fd.append('property[id]', this.state.property.id)
     fd.append('property[deal_analysis_type]', this.state.property.deal_analysis_type)
     fd.append('property[after_rehab_value]', this.state.property.after_rehab_value)
@@ -500,6 +543,13 @@ export default class NewProperty extends Component{
 		});
   }
 
+  submitStepFour =() => {
+    let formIsValid = true
+    if (formIsValid){
+      this.sendStepFourData()
+    }
+  }
+
   goToStepTwo = () => {
     document.getElementById('step1').classList.add('d-none');
     document.getElementById('step2').classList.remove('d-none');
@@ -527,6 +577,16 @@ export default class NewProperty extends Component{
       }
     });
   }
+  imageSelectHandler = (event) => {
+    const name = event.target.name
+    const value = event.target.files
+    this.setState({
+      property: {
+      ...this.state.property,
+      [name]: value
+      }
+    });
+  }
 
   goToStepThree = () => {
     document.getElementById('step2').classList.add('d-none');
@@ -539,6 +599,14 @@ export default class NewProperty extends Component{
   }
 
   submitStepThree = () => {
+    let formIsValid = true;
+    if (formIsValid){
+      this.updatePropertyData();
+      this.goToStepFour()
+    }
+  }
+
+  goToStepFour = () => {
     document.getElementById('step3').classList.add('d-none');
     document.getElementById('step4').classList.remove('d-none');
   }
@@ -1411,19 +1479,20 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_flooded_error)}
                   </div>
                 </div>
-                <div className="col-md-6" id="flood_count-input">
-                  <div className="form-group">
-                    <label>If Flooded</label>
-                    <input type="text" disabled id="flood_count_input" placeholder="How many times and how high did the water get inside the property each time." className="form-control" name="flood_count" onChange={this.updateProperty}/>
-                    {this.addErrorMessage(this.state.property_flood_count_error)}
-                  </div>
-                </div>
+
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Estimated Rehab Cost</label>
                     <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} id="estimated-cost1" onClick={() => {this.setState({
                       estimated_cost_modal: true
                     });}}/>
+                  </div>
+                </div>
+                <div className="col-md-12" id="flood_count-input">
+                  <div className="form-group">
+                    <label>If Flooded</label>
+                    <input type="text" disabled id="flood_count_input" placeholder="How many times and how high did the water get inside the property each time." className="form-control" name="flood_count" onChange={this.updateProperty}/>
+                    {this.addErrorMessage(this.state.property_flood_count_error)}
                   </div>
                 </div>
                 <div className="col-md-12">
@@ -1546,16 +1615,16 @@ export default class NewProperty extends Component{
                       <input type="number" className="form-control" name="short_term_financing_cost" onChange={this.updateProperty}/>
                     </div>
                     <div className="form-group">
-                      <label>Total Acquisition Costs</label>
-                      <input type="number" value={this.state.property.total_acquisition_cost} readOnly={true} className="form-control" name="total_acquisition_cost"/>
-                    </div>
-                    <div className="form-group">
                       <label>Property Taxes Annually</label>
                       <input type="number" className="form-control" name="taxes_annually" onChange={this.updateProperty}/>
                     </div>
                     <div className="form-group">
                       <label>Insurance Annually</label>
                       <input type="number" onChange={this.updateProperty} className="form-control" name="insurance_annually" />
+                    </div>
+                    <div className="form-group">
+                      <label>Total Acquisition Costs</label>
+                      <input type="number" value={this.state.property.total_acquisition_cost} readOnly={true} className="form-control" name="total_acquisition_cost"/>
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -1898,7 +1967,7 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Auction Length</label>
-                    <select className="form-control" name="auction_length">
+                    <select className="form-control" name="auction_length" onChange={this.updateProperty}>
                       <option>Please select</option>
                       {auction_lengths}
                     </select>
@@ -1906,9 +1975,9 @@ export default class NewProperty extends Component{
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label>Auction Start Date</label>
-                    <br/>
-                    <DatePicker className="form-control col-md-12"
+                    <label className= "col-md-12 px-0">Auction Start Date</label>
+
+                    <DatePicker className="form-control "
                       selected={this.state.property.auction_started_at} minDate={new Date()}  maxDate = {this.state.property.auction_ending_at}
                       name="auction_started_at" onChange={this.updatePropertyAuctionStart}
                     />
@@ -1916,9 +1985,8 @@ export default class NewProperty extends Component{
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label>Ideal Closing Date</label>
-                    <br/>
-                    <DatePicker className="form-control col-md-12"
+                    <label className="col-md-12 px-0">Ideal Closing Date</label>
+                    <DatePicker className="form-control "
                       selected={this.state.property.auction_ending_at} minDate = {this.state.property.auction_started_at}
                       name="auction_ending_at" onChange={this.updatePropertyAuctionEnding}
                     />
@@ -1930,15 +1998,15 @@ export default class NewProperty extends Component{
                     <MultiSelect
                       options={buy_options}
                       selectSomeItmes = "select"
-                      selected={this.state.property.buy_options}
-                      onSelectedChanged={selected => {this.setState({property: {...this.state.property, buy_options: selected}})}}
+                      selected={this.state.property.buy_option}
+                      onSelectedChanged={selected => {this.setState({property: {...this.state.property, buy_option: selected}})}}
                     />
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Title Status</label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control" name="title_status" onChange={this.updateProperty} />
                   </div>
                 </div>
                 <div className="col-md-12 mb-2">
@@ -1999,20 +2067,20 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <label>Select images associated with this property</label>
                   <div className="custom-file">
-                    <input type="file" className="custom-file-input" id="customFile"/>
+                    <input type="file" className="custom-file-input" name="images" onChange={this.imageSelectHandler} multiple={true}/>
                     <label className="custom-file-label" htmlFor="customFile">Choose file</label>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Youtube URL</label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control" name="youtube_url" onChange={this.updateProperty}/>
                   </div>
                 </div>
               </form>
               <div className="col-md-12 text-center my-4">
                 <Link to="#" className="red-btn step-btn mr-3" onClick={this.backToStepThree}>Go, Back</Link>
-                <Link to="#" className="red-btn step-btn" onClick={this.submitStepThree}>Submit</Link>
+                <Link to="#" className="red-btn step-btn" onClick={this.submitStepFour}>Submit</Link>
               </div>
             </div>
           </div>
