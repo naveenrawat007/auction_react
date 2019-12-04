@@ -120,6 +120,8 @@ export default class Login extends Component{
 
     if (this.state.user.password === ""){
       user_password_error = "Password can't be blank!"
+    }else if (this.state.user.password.length < 6) {
+      user_password_error = "Password is too short!"
     }
     if (this.state.user.confirm_password === ""){
       user_confirm_password_error = "Confirm Password can't be blank!"
@@ -214,6 +216,8 @@ export default class Login extends Component{
     }else if (name === "password") {
       if (this.state.user.password === ""){
         user_password_error = "Password can't be blank!"
+      }else if (this.state.user.password.length < 6) {
+        user_password_error = "Password is too short!"
       }
       this.setState({
         user_password_error
