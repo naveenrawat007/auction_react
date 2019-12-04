@@ -183,13 +183,13 @@ export default class NewProperty extends Component{
     let city = "";
     let state = "";
     let postal_code = "";
-
+    address = place.formatted_address
     for (let i = 0; i < place.address_components.length; i++) {
       for (let k = 0; k < place.address_components[i].types.length; k++) {
         switch (place.address_components[i].types[k]) {
-          case "street_number":
-            address = address + place.address_components[i].long_name;
-            break;
+          // case "street_number":
+          //   address = address + place.address_components[i].long_name;
+          //   break;
           case "route":
             address = address + ", " + place.address_components[i].long_name;
             break;
@@ -604,80 +604,86 @@ export default class NewProperty extends Component{
           });
         }
       }
-
-      if ((name === "asking_price") || (name === "estimated_rehab_cost") || (name === "closing_cost") || (name === "short_term_financing_cost") ){
-        this.updateTotalAcquistionCost();
-      }
-
-      if ((name === "after_rehab_value") || (name === "amount_financed_percentage")){
-        this.updateAmountFinanced()
-      }
-
-      if (name === "taxes_annually"){
-        this.updateMonthlyTaxes()
-      }
-
-      if (name === "insurance_annually") {
-        this.updateMonthlyInsuranceAndPitiAmount();
-      }
-      if (name === "monthly_rent") {
-        this.updateGrossYearlyIncome()
-      }
+      this.updateLandlordDealCalculator();
     });
   }
 
-  updateTotalAcquistionCost = () => {
-    let total_acquisition_cost = parseFloat(this.state.property.asking_price ? this.state.property.asking_price : 0) + parseFloat(this.state.property.estimated_rehab_cost ? this.state.property.estimated_rehab_cost : 0) + parseFloat(this.state.property.closing_cost ? this.state.property.closing_cost : 0) + parseFloat(this.state.property.short_term_financing_cost ? this.state.property.short_term_financing_cost : 0)
+  updateLandlordDealCalculator = () => {
+    let after_rehab_value = parseFloat(this.state.property.after_rehab_value ? this.state.property.after_rehab_value : 0)
+    let asking_price = parseFloat(this.state.property.asking_price ? this.state.property.asking_price : 0)
+    let estimated_rehab_cost = parseFloat(this.state.property.estimated_rehab_cost ? this.state.property.estimated_rehab_cost : 0)
+    let closing_cost = parseFloat(this.state.property.closing_cost ? this.state.property.closing_cost : 0)
+    let short_term_financing_cost = parseFloat(this.state.property.short_term_financing_cost ? this.state.property.short_term_financing_cost : 0)
+    let total_acquisition_cost = parseFloat(this.state.property.total_acquisition_cost ? this.state.property.total_acquisition_cost : 0)
+    let taxes_annually = parseFloat(this.state.property.taxes_annually ? this.state.property.taxes_annually : 0)
+    let insurance_annually = parseFloat(this.state.property.insurance_annually ? this.state.property.insurance_annually : 0)
+    let amount_financed_percentage = parseFloat(this.state.property.amount_financed_percentage ? this.state.property.amount_financed_percentage : 0)
+    let amount_financed = parseFloat(this.state.property.amount_financed ? this.state.property.amount_financed : 0)
+    let interest_rate = parseFloat(this.state.property.interest_rate ? this.state.property.interest_rate : 0)
+    let loan_terms = parseFloat(this.state.property.loan_terms ? this.state.property.loan_terms : 0)
+    let principal_interest = parseFloat(this.state.property.principal_interest ? this.state.property.principal_interest : 0)
+    let taxes_monthly = parseFloat(this.state.property.taxes_monthly ? this.state.property.taxes_monthly : 0)
+    let insurance_monthly = parseFloat(this.state.property.insurance_monthly ? this.state.property.insurance_monthly : 0)
+    let piti_monthly_debt = parseFloat(this.state.property.piti_monthly_debt ? this.state.property.piti_monthly_debt : 0)
+    let monthly_rent = parseFloat(this.state.property.monthly_rent ? this.state.property.monthly_rent : 0)
+    let total_gross_yearly_income = parseFloat(this.state.property.total_gross_yearly_income ? this.state.property.total_gross_yearly_income : 0)
+    let vacancy_rate = parseFloat(this.state.property.vacancy_rate ? this.state.property.vacancy_rate : 0)
+    let adjusted_gross_yearly_income = parseFloat(this.state.property.adjusted_gross_yearly_income ? this.state.property.adjusted_gross_yearly_income : 0)
+    let est_annual_management_fees = parseFloat(this.state.property.est_annual_management_fees ? this.state.property.est_annual_management_fees : 0)
+    let est_annual_operating_fees = parseFloat(this.state.property.est_annual_operating_fees ? this.state.property.est_annual_operating_fees : 0)
+    let annual_debt = parseFloat(this.state.property.annual_debt ? this.state.property.annual_debt : 0)
+    let net_operating_income = parseFloat(this.state.property.net_operating_income ? this.state.property.net_operating_income : 0)
+    let annual_cash_flow = parseFloat(this.state.property.annual_cash_flow ? this.state.property.annual_cash_flow : 0)
+    let monthly_cash_flow = parseFloat(this.state.property.monthly_cash_flow ? this.state.property.monthly_cash_flow : 0)
+    let total_out_of_pocket = parseFloat(this.state.property.total_out_of_pocket ? this.state.property.total_out_of_pocket : 0)
+    let roi_cash_percentage  = parseFloat(this.state.property.roi_cash_percentage ? this.state.property.roi_cash_percentage : 0)
 
+    total_acquisition_cost = (asking_price + estimated_rehab_cost + closing_cost + short_term_financing_cost)
+    amount_financed = Math.round(((after_rehab_value * amount_financed_percentage)/100)*100)/100
+    principal_interest = Math.round((amount_financed*(((interest_rate/1200)*((1+(interest_rate/1200))**(loan_terms*12)))/((((1+(interest_rate/1200))**(loan_terms*12))-1) === 0 ? 1 : (((1+(interest_rate/1200))**(loan_terms*12))-1))))*100)/100
+    insurance_monthly = Math.round((insurance_annually / 12)*100)/100
+    taxes_monthly = Math.round((taxes_annually / 12)*100)/100
+
+    piti_monthly_debt = principal_interest + taxes_monthly + insurance_monthly
+
+    total_gross_yearly_income = (monthly_rent * 12)
+
+    adjusted_gross_yearly_income = Math.round((total_gross_yearly_income * ((100 - vacancy_rate)/100))*100)/100
+
+    est_annual_operating_fees = (taxes_annually + insurance_annually)
+
+    net_operating_income = (adjusted_gross_yearly_income -est_annual_management_fees - est_annual_operating_fees)
+
+    annual_debt = (piti_monthly_debt * 12)
+
+    annual_cash_flow = (net_operating_income - annual_debt)
+    monthly_cash_flow = (annual_cash_flow / 12)
+
+    total_out_of_pocket = (asking_price + estimated_rehab_cost + closing_cost + short_term_financing_cost + insurance_annually) - amount_financed
+
+    roi_cash_percentage = Math.round(((annual_cash_flow / (total_out_of_pocket !== 0 ? total_out_of_pocket : 1))*100)*100)/100
     this.setState({
       property: {
       ...this.state.property,
       total_acquisition_cost,
-      }
-    })
-  }
-
-  updateAmountFinanced = () => {
-    let amount_financed = (parseFloat(this.state.property.amount_financed_percentage ? this.state.property.amount_financed_percentage : 0) * parseFloat(this.state.property.after_rehab_value ? this.state.property.after_rehab_value : 0))/100
-    this.setState({
-      property: {
-      ...this.state.property,
       amount_financed,
-      }
-    })
-  }
-
-  updateMonthlyTaxes = () => {
-    let taxes_monthly = (parseFloat(this.state.property.taxes_annually ? this.state.property.taxes_annually : 0) / 12)
-    this.setState({
-      property: {
-      ...this.state.property,
+      principal_interest,
       taxes_monthly,
-      }
-    })
-  }
-
-  updateMonthlyInsuranceAndPitiAmount = () => {
-    let insurance_monthly = parseFloat(this.state.property.insurance_annually ? this.state.property.insurance_annually : 0) / 12
-    let piti_monthly_debt = parseFloat(this.state.property.principal_interest ? this.state.property.principal_interest : 0) + parseFloat(this.state.property.taxes_monthly ? this.state.property.taxes_monthly : 0) + insurance_monthly
-    this.setState({
-      property: {
-      ...this.state.property,
       insurance_monthly,
       piti_monthly_debt,
-      }
-    }, function () {
-    })
-  }
-
-  updateGrossYearlyIncome = () => {
-    let total_gross_yearly_income = (parseFloat(this.state.property.monthly_rent ? this.state.property.monthly_rent : 0) * 12)
-    this.setState({
-      property: {
-      ...this.state.property,
       total_gross_yearly_income,
+      adjusted_gross_yearly_income,
+      est_annual_operating_fees,
+      net_operating_income,
+      annual_debt,
+      annual_cash_flow,
+      monthly_cash_flow,
+      total_out_of_pocket,
+      short_term_financing_cost,
+      roi_cash_percentage,
       }
     })
+
   }
 
   updatePropertyRehabCostAttr = (event) => {
@@ -1352,6 +1358,14 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_flood_count_error)}
                   </div>
                 </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label>Estimated Rehab Cost</label>
+                    <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} id="estimated-cost1" onClick={() => {this.setState({
+                      estimated_cost_modal: true
+                    });}}/>
+                  </div>
+                </div>
                 <div className="col-md-12">
                   <div className="form-group">
                     <label>Property Description</label>
@@ -1754,7 +1768,6 @@ export default class NewProperty extends Component{
                   <div className="col-md-12 text-center mt-3">
                     <span className="error"></span>
                     <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.hideModal}>Close</button>
-                    <button id="submit" type="button" className="btn btn-blue">Submit Cities</button>
                   </div>
                 </div>
               </Modal>
