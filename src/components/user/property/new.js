@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import MultiSelect from "@khanacademy/react-multi-select";
 // import Alert from 'react-bootstrap/Alert';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
@@ -121,8 +122,8 @@ const initial_state = {
     types: [],
     categories: [],
     auction_lengths: [],
-    seller_pay_types: {},
-    show_instructions_types: {},
+    seller_pay_types: [],
+    show_instructions_types: [],
     buy_options: []
   },
   property_address_error: "",
@@ -1203,7 +1204,24 @@ export default class NewProperty extends Component{
       value: value,
       label: value
     }))
-    // const buy_options = [{label: "Please select", value: ""}]
+    const seller_pay_types = this.state.property_options.seller_pay_types.map((key, index) => {
+      return(
+        <div className="form-check" key={index}>
+          <label className="form-check-label">
+            <input type="radio" className="form-check-input" checked={key.id === parseInt(this.state.property.seller_pay_type_id) ? true : false} value={key.id} name="seller_pay_type_id" onChange={this.updateProperty}/>{key.description}
+          </label>
+        </div>
+      )
+    });
+    const show_instructions_types = this.state.property_options.show_instructions_types.map((key, index) => {
+      return(
+        <div className="form-check" key={index}>
+          <label className="form-check-label">
+            <input type="radio" className="form-check-input" checked={key.id === parseInt(this.state.property.show_instructions_type_id) ? true : false} value={key.id} name="show_instructions_type_id" onChange={this.updateProperty}/>{key.description}
+          </label>
+        </div>
+      )
+    });
 
 		return (
       <div id="newproperty" className="container px-0 tab-pane active">
@@ -1908,14 +1926,13 @@ export default class NewProperty extends Component{
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label htmlFor="sel2">Mutiple select list</label>
-                    <select className="form-control"  name="sellist2">
-                      {/* {buy_options} */}
-                      {/* <MultiSelect
-                        options={buy_options}
-                        onSelectedChanged={selected => this.updateProperty({selected})}
-                      /> */}
-                    </select>
+                    <label htmlFor="sel2">Buy options</label>
+                    <MultiSelect
+                      options={buy_options}
+                      selectSomeItmes = "select"
+                      selected={this.state.property.buy_options}
+                      onSelectedChanged={selected => {this.setState({property: {...this.state.property, buy_options: selected}})}}
+                    />
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -1926,39 +1943,12 @@ export default class NewProperty extends Component{
                 </div>
                 <div className="col-md-12 mb-2">
                   <label>Seller agrees to pay for?</label>
-                  <div className="form-check">
-                    <label className="form-check-label">
-                      <input type="radio" className="form-check-input" name="optradio"/>The owners title policy, 1/2 the escrow fees and prorated Taxes & HOA dues up to the day of closing/funding.
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <label className="form-check-label">
-                      <input type="radio" className="form-check-input" name="optradio"/> Sellers prorated share of property Taxes & HOA dues up to the day of closing/funding. Buyer will have to pay for the owner's title policy, all escrow & closing costs.
-                    </label>
-                  </div>
+                  {seller_pay_types}
+
                 </div>
                 <div className="col-md-12">
                   <label>Showing Instructions</label>
-                  <div className="form-check">
-                    <label className="form-check-label">
-                      <input type="radio" className="form-check-input" name="optradio"/>There are no inspections of the inside of the property. Users have to bid based upon all of the information provided including a video of the property.
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <label className="form-check-label">
-                      <input type="radio" className="form-check-input" name="optradio"/> Wholesaler, Owner or Realtor does one showing 24 to 72 hours before auction ends, so that bidders can show up at one time to inspect property. This should be for a 1 to 2 hour period.
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <label className="form-check-label">
-                      <input type="radio" className="form-check-input" name="optradio"/>  Wholesaler, Owner or Realtor gives buyer 48 business hours after they are chosen to be the Winning Bidder, subject to them putting up $1,000 non-refundable option fee for the right to inspect the property after the auction ends.
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <label className="form-check-label">
-                      <input type="radio" className="form-check-input" name="optradio"/>  The property will be listed on mls, so buyer can call listing agent or their agent to schedule an appointment.
-                    </label>
-                  </div>
+                  {show_instructions_types}
                 </div>
               </form>
               <div className="col-md-12 text-center my-4">
