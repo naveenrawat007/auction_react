@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 // import Alert from 'react-bootstrap/Alert';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
@@ -105,7 +107,7 @@ const initial_state = {
     auction_started_at: "",
     auction_length: "",
     auction_ending_at: "",
-    pay_type: "",
+    buy_options: [],
     title_status: "",
     seller_pay_type_id: "",
     show_instructions_type_id: "",
@@ -118,8 +120,10 @@ const initial_state = {
     land_types: [],
     types: [],
     categories: [],
+    auction_lengths: [],
     seller_pay_types: {},
     show_instructions_types: {},
+    buy_options: []
   },
   property_address_error: "",
   property_city_error: "",
@@ -148,7 +152,7 @@ const initial_state = {
   property_auction_length_error: "",
   property_auction_started_at_error: "",
   property_auction_ending_at_error: "",
-  property_pay_type_error: "",
+  property_buy_options_error: "",
   property_title_status_error: "",
   property_seller_pay_type_id_error: "",
   property_show_instructions_type_id_error: "",
@@ -250,6 +254,8 @@ export default class NewProperty extends Component{
             categories: result.categories,
             seller_pay_types: result.seller_pay_types,
             show_instructions_types: result.show_instructions_types,
+            auction_lengths: result.auction_lengths,
+            buy_options: result.buy_options
           }
         });
         this.setState({
@@ -612,6 +618,24 @@ export default class NewProperty extends Component{
       }
       this.updateLandlordDealCalculator();
     });
+  }
+
+  updatePropertyAuctionStart = (date) => {
+    this.setState({
+      property: {
+      ...this.state.property,
+      auction_started_at: date
+      }
+    })
+  }
+
+  updatePropertyAuctionEnding = (date) => {
+    this.setState({
+      property: {
+      ...this.state.property,
+      auction_ending_at: date
+      }
+    })
   }
 
   updateLandlordDealCalculator = () => {
@@ -1170,11 +1194,21 @@ export default class NewProperty extends Component{
         <option key={index} value={value} >{value}</option>
       )
     })
+    const auction_lengths = this.state.property_options.auction_lengths.map((value, index) => {
+      return(
+        <option key={index} value={value} >{value} days</option>
+      )
+    })
+    const buy_options = this.state.property_options.buy_options.map((value, index) => {
+      return(
+        <option key={index} value={value} >{value}</option>
+      )
+    })
 		return (
       <div id="newproperty" className="container px-0 tab-pane active">
         <div className="profile-form">
           <div className="profile-form-in">
-            <div className="container creation-steps px-0" id="step1">
+            <div className="container creation-steps px-0 d-none" id="step1">
               <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete current">
                   <div className="text-center bs-wizard-number">1</div>
@@ -1790,7 +1824,7 @@ export default class NewProperty extends Component{
                 <Link to="#" className="red-btn step-btn ml-3" onClick={this.submitStepTwo}>Continue</Link>
               </div>
             </div>
-            <div className="container creation-steps px-0 d-none" id="step3">
+            <div className="container creation-steps px-0 " id="step3">
               <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete">
                   <div className="text-center bs-wizard-number">1</div>
@@ -1845,36 +1879,38 @@ export default class NewProperty extends Component{
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Auction Length</label>
-                    <select className="form-control">
-                      <option></option>
-                      <option>Residential</option>
-                      <option>Commercial</option>
-                      <option>Land</option>
+                    <select className="form-control" name="auction_length">
+                      <option>Please select</option>
+                      {auction_lengths}
                     </select>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Auction Start Date</label>
-                    <input type="text" className="form-control" />
+                    <br/>
+                    <DatePicker className="form-control col-md-12"
+                      selected={this.state.property.auction_started_at} minDate={new Date()}  maxDate = {this.state.property.auction_ending_at}
+                      name="auction_started_at" onChange={this.updatePropertyAuctionStart}
+                    />
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Ideal Closing Date</label>
-                    <input type="text" className="form-control" />
+                    <br/>
+                    <DatePicker className="form-control col-md-12"
+                      selected={this.state.property.auction_ending_at} minDate = {this.state.property.auction_started_at}
+                      name="auction_ending_at" onChange={this.updatePropertyAuctionEnding}
+                    />
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label htmlFor="sel2">Mutiple select list</label>
                     <select className="form-control"  name="sellist2">
-                      <option>Cash</option>
-                      <option>Line of Credit</option>
-                      <option>Owner Finance</option>
-                      <option>Hard Money</option>
-                      <option>Convential Loan</option>
-                      <option>Rehab Loan</option>
+                      <option>Please select</option>
+                      {buy_options}
                     </select>
                   </div>
                 </div>
