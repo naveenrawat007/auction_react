@@ -3098,3 +3098,7 @@ font-weight: 500;
 .textarea-resize{
   resize: none;
 }
+
+.form-group .react-datepicker-wrapper{
+  width: 100%;
+}
