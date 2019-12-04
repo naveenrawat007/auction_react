@@ -424,7 +424,7 @@ export default class NewProperty extends Component{
     fd.append('property[asking_price]', this.state.property.asking_price)
     fd.append('property[estimated_rehab_cost]', this.state.property.estimated_rehab_cost)
     fd.append('property[profit_potential]', this.state.property.profit_potential)
-    fd.append('property[estimated_rehab_cost_attr]', this.state.property.estimated_rehab_cost_attr)
+    fd.append('property[estimated_rehab_cost_attr]', JSON.stringify(this.state.property.estimated_rehab_cost_attr))
     fd.append('property[closing_cost]', this.state.property.closing_cost)
     fd.append('property[short_term_financing_cost]', this.state.property.short_term_financing_cost)
     fd.append('property[total_acquisition_cost]', this.state.property.total_acquisition_cost)
@@ -444,6 +444,7 @@ export default class NewProperty extends Component{
     fd.append('property[adjusted_gross_yearly_income]', this.state.property.adjusted_gross_yearly_income)
     fd.append('property[est_annual_management_fees]', this.state.property.est_annual_management_fees)
     fd.append('property[est_annual_operating_fees]', this.state.property.est_annual_operating_fees)
+    fd.append('property[est_annual_operating_fees_others]', this.state.property.est_annual_operating_fees)
     fd.append('property[annual_debt]', this.state.property.annual_debt)
     fd.append('property[net_operating_income]', this.state.property.net_operating_income)
     fd.append('property[annual_cash_flow]', this.state.property.annual_cash_flow)
@@ -454,8 +455,12 @@ export default class NewProperty extends Component{
     fd.append('property[description_of_repairs]', this.state.property.description_of_repairs)
     fd.append('property[after_rehab_value]', this.state.property.after_rehab_value)
     fd.append('property[after_rehab_value]', this.state.property.after_rehab_value)
-    fd.append('property[arv_proof]', this.state.property.arv_proof, this.state.property.arv_proof.name)
-    fd.append('property[rehab_cost_proof]', this.state.property.rehab_cost_proof, this.state.property.rehab_cost_proof.name)
+    if (this.state.property.arv_proof){
+      fd.append('property[arv_proof]', this.state.property.arv_proof, this.state.property.arv_proof.name)
+    }
+    if (this.state.property.rehab_cost_proof){
+      fd.append('property[rehab_cost_proof]', this.state.property.rehab_cost_proof, this.state.property.rehab_cost_proof.name)
+    }
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties"
   	fetch(url ,{
 			method: "PUT",
