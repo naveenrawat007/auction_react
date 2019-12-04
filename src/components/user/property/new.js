@@ -86,6 +86,7 @@ const initial_state = {
     adjusted_gross_yearly_income: "",
     est_annual_management_fees: "",
     est_annual_operating_fees: "",
+    est_annual_operating_fees_others: "",
     annual_debt: "",
     net_operating_income: "",
     annual_cash_flow: "",
@@ -631,6 +632,7 @@ export default class NewProperty extends Component{
     let adjusted_gross_yearly_income = parseFloat(this.state.property.adjusted_gross_yearly_income ? this.state.property.adjusted_gross_yearly_income : 0)
     let est_annual_management_fees = parseFloat(this.state.property.est_annual_management_fees ? this.state.property.est_annual_management_fees : 0)
     let est_annual_operating_fees = parseFloat(this.state.property.est_annual_operating_fees ? this.state.property.est_annual_operating_fees : 0)
+    let est_annual_operating_fees_others = parseFloat(this.state.property.est_annual_operating_fees_others ? this.state.property.est_annual_operating_fees_others : 0)
     let annual_debt = parseFloat(this.state.property.annual_debt ? this.state.property.annual_debt : 0)
     let net_operating_income = parseFloat(this.state.property.net_operating_income ? this.state.property.net_operating_income : 0)
     let annual_cash_flow = parseFloat(this.state.property.annual_cash_flow ? this.state.property.annual_cash_flow : 0)
@@ -644,20 +646,20 @@ export default class NewProperty extends Component{
     insurance_monthly = Math.round((insurance_annually / 12)*100)/100
     taxes_monthly = Math.round((taxes_annually / 12)*100)/100
 
-    piti_monthly_debt = principal_interest + taxes_monthly + insurance_monthly
+    piti_monthly_debt = Math.round((principal_interest + taxes_monthly + insurance_monthly)*100)/100
 
     total_gross_yearly_income = (monthly_rent * 12)
 
     adjusted_gross_yearly_income = Math.round((total_gross_yearly_income * ((100 - vacancy_rate)/100))*100)/100
 
-    est_annual_operating_fees = (taxes_annually + insurance_annually)
+    est_annual_operating_fees = (taxes_annually + insurance_annually + est_annual_operating_fees_others)
 
     net_operating_income = (adjusted_gross_yearly_income -est_annual_management_fees - est_annual_operating_fees)
 
-    annual_debt = (piti_monthly_debt * 12)
+    annual_debt = Math.round((principal_interest * 12)*100)/100
 
-    annual_cash_flow = (net_operating_income - annual_debt)
-    monthly_cash_flow = (annual_cash_flow / 12)
+    annual_cash_flow = Math.round((net_operating_income - annual_debt)*100)/100
+    monthly_cash_flow = Math.round((annual_cash_flow / 12)*100)/100
 
     total_out_of_pocket = (asking_price + estimated_rehab_cost + closing_cost + short_term_financing_cost + insurance_annually) - amount_financed
 
@@ -1369,7 +1371,7 @@ export default class NewProperty extends Component{
                 <div className="col-md-12">
                   <div className="form-group">
                     <label>Property Description</label>
-                    <textarea className="form-control" rows="2" id="comment" name="description" onChange={this.updateProperty}></textarea>
+                    <textarea className="form-control textarea-resize" rows="3" id="comment" name="description" onChange={this.updateProperty}></textarea>
                     {this.addErrorMessage(this.state.property_description_error)}
                   </div>
                 </div>
@@ -1556,7 +1558,14 @@ export default class NewProperty extends Component{
                     </div>
                     <div className="form-group">
                       <label>Annual Operating Costs</label>
-                      <input type="number" className="form-control" name="est_annual_operating_fees" onChange={this.updateProperty}/>
+                      <div className="row mx-0">
+                        <input type="number" className="form-control col-md-5" readOnly={true} value={this.state.property.est_annual_operating_fees} name="est_annual_operating_fees" onChange={this.updateProperty} />
+                        <input type="number" value={this.state.property.est_annual_operating_fees_others} className="form-control col-md-6 offset-md-1" name="est_annual_operating_fees_others" onChange={this.updateProperty}/>
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label>Net Operating Income(NOI)</label>
+                      <input type="number" readOnly={true} value={this.state.property.net_operating_income} className="form-control" name="net_operating_income" />
                     </div>
                   </div>
                   <div className="col-md-6">
