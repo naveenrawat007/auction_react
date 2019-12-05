@@ -3102,3 +3102,12 @@ font-weight: 500;
 .form-group .react-datepicker-wrapper{
   width: 100%;
 }
+.demo img{
+  width: 126px;
+  height: 126px;
+}
+.upload-img-row{
+  display: flex;
+  width: 860px;
+  overflow-x: scroll;
+}
