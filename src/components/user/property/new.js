@@ -432,7 +432,7 @@ export default class NewProperty extends Component{
     fd.append('property[estimated_rehab_cost_attr]', JSON.stringify(this.state.property.estimated_rehab_cost_attr))
     fd.append('property[youtube_url]', this.state.property.youtube_url)
     for (let i = 0 ; i < this.state.property.images.length ; i++) {
-      fd.append('property[images][]', this.state.property.images[i], this.state.property.images[i].name)
+      fd.append('property[images][]', this.state.property.images[i].file, this.state.property.images[i].name)
     }
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties"
   	fetch(url ,{
@@ -591,7 +591,7 @@ export default class NewProperty extends Component{
     var files = [];
 
     for (var i = 0; i < uploaded_files.length; i++) {
-      files.push({src: URL.createObjectURL(uploaded_files[i]), id: i,name: uploaded_files[i].name})
+      files.push({src: URL.createObjectURL(uploaded_files[i]), id: i,name: uploaded_files[i].name, file: uploaded_files[i]})
     }
     this.setState({
       property: {
@@ -1283,7 +1283,6 @@ export default class NewProperty extends Component{
     if (!result.destination) {
       return;
     }
-    console.log(result);
     const items = this.reorder(
       this.state.property.images,
       result.source.index,
@@ -1291,7 +1290,7 @@ export default class NewProperty extends Component{
     );
     var files = [];
     for (var i = 0; i < items.length; i++) {
-      files.push({src: items[i].src, id: i,name: items[i].name})
+      files.push({src: items[i].src, id: i,name: items[i].name, file: items[i].file})
     }
 
     this.setState({
@@ -1307,7 +1306,7 @@ export default class NewProperty extends Component{
     var files = [];
     for (var i = 0; i < data.length; i++) {
       if (i !== id){
-        files.push({src: data[i].src, id: i,name: data[i].name})
+        files.push({src: data[i].src, id: i,name: data[i].name, file: data[i].file})
       }else {
         continue
       }
@@ -1366,7 +1365,7 @@ export default class NewProperty extends Component{
       <div id="newproperty" className="container px-0 tab-pane active">
         <div className="profile-form">
           <div className="profile-form-in">
-            <div className="container creation-steps px-0 d-none" id="step1">
+            <div className="container creation-steps px-0 " id="step1">
               <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete current">
                   <div className="text-center bs-wizard-number">1</div>
@@ -2095,7 +2094,7 @@ export default class NewProperty extends Component{
                 <Link to="#" className="red-btn step-btn" onClick={this.submitStepThree}>Continue</Link>
               </div>
             </div>
-            <div className="container creation-steps px-0 " id= "step4">
+            <div className="container creation-steps px-0 d-none" id= "step4">
               <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete">
                   <div className="text-center bs-wizard-number">1</div>
@@ -2156,7 +2155,7 @@ export default class NewProperty extends Component{
                         <Droppable droppableId="droppable" direction="horizontal">
                           {(droppableProvided, droppableSnapshot) => (
                             <>
-                              <div className="demo" ref={droppableProvided.innerRef}>
+                              <div className="demo" ref={droppableProvided.innerRef} {...droppableProvided.droppableProps}>
                                 <div className="row mx-0">
                                   <div className="upload-img-row">
                                     {this.state.property.images.map((file,i) =>
@@ -2168,16 +2167,16 @@ export default class NewProperty extends Component{
                                               {...draggableProvided.draggableProps}
                                               {...draggableProvided.dragHandleProps}
                                             >
-                                              <img src={file.src} className="img-thumbnail" /><Link to="# " onClick = {(e) => {this.removeFile(file.id)}}  >x</Link>
+                                              <img src={file.src} className="img-thumbnail" alt={file.src} /><Link to="# " onClick = {(e) => {this.removeFile(file.id)}}  >x</Link>
                                             </div>
                                           )}
                                         </Draggable>
                                       </div>
                                     )}
+                                    {droppableProvided.placeholder}
                                   </div>
                                 </div>
                               </div>
-                              <div className="last_element" data-id = {this.getFilesLength()} ></div>
                             </>
                           )}
                         </Droppable>
