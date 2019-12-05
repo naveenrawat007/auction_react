@@ -2167,7 +2167,7 @@ export default class NewProperty extends Component{
                                               {...draggableProvided.draggableProps}
                                               {...draggableProvided.dragHandleProps}
                                             >
-                                              <img src={file.src} className="img-thumbnail" alt={file.src} /><Link to="# " onClick = {(e) => {this.removeFile(file.id)}}  >x</Link>
+                                              <img src={file.src} className="img-thumbnail" alt={file.src} /><Link to="#" onClick = {(e) => {this.removeFile(file.id)}}  >x</Link>
                                             </div>
                                           )}
                                         </Draggable>
