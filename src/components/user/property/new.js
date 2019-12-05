@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import MultiSelect from "@khanacademy/react-multi-select";
+import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 // import Alert from 'react-bootstrap/Alert';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
@@ -579,11 +580,23 @@ export default class NewProperty extends Component{
   }
   imageSelectHandler = (event) => {
     const name = event.target.name
-    const value = event.target.files
+    // const value = event.target.files
+    // this.setState({
+    //   property: {
+    //   ...this.state.property,
+    //   [name]: value
+    //   }
+    // });
+    var uploaded_files = event.target.files;
+    var files = [];
+
+    for (var i = 0; i < uploaded_files.length; i++) {
+      files.push({src: URL.createObjectURL(uploaded_files[i]), id: i,name: uploaded_files[i].name})
+    }
     this.setState({
       property: {
       ...this.state.property,
-      [name]: value
+      [name]: files
       }
     });
   }
@@ -1252,6 +1265,65 @@ export default class NewProperty extends Component{
       return "d-none row mx-0";
     }
   }
+
+  dragStart(e) {
+    this.dragged = e.currentTarget;
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', this.dragged);
+  }
+  reorder = (list, startIndex, endIndex) => {
+
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+    return result;
+  };
+
+  onDragEnd = (result) => {
+    if (!result.destination) {
+      return;
+    }
+    console.log(result);
+    const items = this.reorder(
+      this.state.property.images,
+      result.source.index,
+      result.destination.index
+    );
+    var files = [];
+    for (var i = 0; i < items.length; i++) {
+      files.push({src: items[i].src, id: i,name: items[i].name})
+    }
+
+    this.setState({
+      property:{
+        ...this.state.property,
+        images: files,
+      }
+    })
+  }
+  removeFile = (id) => {
+    var data = this.state.property.images;
+    delete data[id];
+    var files = [];
+    for (var i = 0; i < data.length; i++) {
+      if (i !== id){
+        files.push({src: data[i].src, id: i,name: data[i].name})
+      }else {
+        continue
+      }
+    }
+    this.setState({
+      property:{
+        ...this.state.property,
+        images: files,
+      }
+    })
+  }
+
+  getFilesLength = () => {
+    return (this.state.property.images)
+  }
+
 	render() {
     const categories = this.state.property_options.categories.map((value, index) => {
       return(
@@ -1290,12 +1362,11 @@ export default class NewProperty extends Component{
         </div>
       )
     });
-
 		return (
       <div id="newproperty" className="container px-0 tab-pane active">
         <div className="profile-form">
           <div className="profile-form-in">
-            <div className="container creation-steps px-0 " id="step1">
+            <div className="container creation-steps px-0 d-none" id="step1">
               <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete current">
                   <div className="text-center bs-wizard-number">1</div>
@@ -2024,7 +2095,7 @@ export default class NewProperty extends Component{
                 <Link to="#" className="red-btn step-btn" onClick={this.submitStepThree}>Continue</Link>
               </div>
             </div>
-            <div className="container creation-steps px-0 d-none" id= "step4">
+            <div className="container creation-steps px-0 " id= "step4">
               <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete">
                   <div className="text-center bs-wizard-number">1</div>
@@ -2076,6 +2147,44 @@ export default class NewProperty extends Component{
                     <label>Youtube URL</label>
                     <input type="text" className="form-control" name="youtube_url" onChange={this.updateProperty}/>
                   </div>
+                </div>
+                <div className="demo_images" >
+
+                  {this.state.property.images.length > 0 ?
+                    <>
+                      <DragDropContext onDragEnd={this.onDragEnd}>
+                        <Droppable droppableId="droppable" direction="horizontal">
+                          {(droppableProvided, droppableSnapshot) => (
+                            <>
+                              <div className="demo" ref={droppableProvided.innerRef}>
+                                <div className="row mx-0">
+                                  <div className="upload-img-row">
+                                    {this.state.property.images.map((file,i) =>
+                                      <div key={i} className="col-md-2 px-2 my-2">
+                                        <Draggable  draggableId={i.toString()} index={i}>
+                                          {(draggableProvided, draggableSnapshot) => (
+                                            <div
+                                              ref={draggableProvided.innerRef}
+                                              {...draggableProvided.draggableProps}
+                                              {...draggableProvided.dragHandleProps}
+                                            >
+                                              <img src={file.src} className="img-thumbnail" /><Link to="# " onClick = {(e) => {this.removeFile(file.id)}}  >x</Link>
+                                            </div>
+                                          )}
+                                        </Draggable>
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="last_element" data-id = {this.getFilesLength()} ></div>
+                            </>
+                          )}
+                        </Droppable>
+                      </DragDropContext>
+                    </>
+                  : <div></div>
+                  }
                 </div>
               </form>
               <div className="col-md-12 text-center my-4">
