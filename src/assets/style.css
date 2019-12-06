@@ -773,7 +773,12 @@ button:focus {
   border: solid 1px #c0c0c0;
   box-shadow: none;
 }
-
+.step_row{
+  align-items: center;
+}
+.step_row label{
+  font-weight: 500;
+}
 /*my properties*/
 
 .my-property-box::-webkit-scrollbar {

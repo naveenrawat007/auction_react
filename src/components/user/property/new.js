@@ -1365,7 +1365,7 @@ export default class NewProperty extends Component{
       <div id="newproperty" className="container px-0 tab-pane active">
         <div className="profile-form">
           <div className="profile-form-in">
-            <div className="container creation-steps px-0 " id="step1">
+            <div className="container creation-steps px-0" id="step1">
               <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete current">
                   <div className="text-center bs-wizard-number">1</div>
@@ -1632,30 +1632,34 @@ export default class NewProperty extends Component{
               </div>
               <form className="creation-forms">
                 <div className={this.checkRehabDeal()}>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>After Rehab Value</label>
-                      <input type="number" name="after_rehab_value" className="form-control" onChange={this.updateProperty}/>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>Sellers Asking Price</label>
-                      <input type="number" className="form-control" id="temp_id" name="asking_price" onChange={this.updateProperty} />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>Estimated Rehab Cost</label>
-                      <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} id="estimated-cost1" onClick={() => {this.setState({
+                  <div className="col-md-8 offset-md-2">
+                    <div className="row mx-0 step_row my-3">
+                      <div className="col-md-5 my-2">
+                        <label className="mb-0">After Rehab Value</label>
+                      </div>
+                      <div className="col-md-7 my-2">
+                        <input type="number" name="after_rehab_value" className="form-control" onChange={this.updateProperty}/>
+                      </div>
+                      <div className="col-md-5 my-2">
+                        <label className="mb-0">Sellers Asking Price</label>
+                      </div>
+                      <div className="col-md-7 my-2">
+                        <input type="number" className="form-control" id="temp_id" name="asking_price" onChange={this.updateProperty} />
+                      </div>
+                      <div className="col-md-5 my-2">
+                        <label className="mb-0">Estimated Rehab Cost</label>
+                      </div>
+                      <div className="col-md-7 my-2">
+                        <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} id="estimated-cost1" onClick={() => {this.setState({
                         estimated_cost_modal: true
                       });}}/>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>Profit Potential</label>
-                      <input type="number" name="profit_potential" className="form-control" onChange={this.updateProperty} />
+                      </div>
+                      <div className="col-md-5 my-2">
+                        <label className="mb-0">Profit Potential</label>  
+                      </div>
+                      <div className="col-md-7 my-2">
+                        <input type="number" name="profit_potential" className="form-control" onChange={this.updateProperty} />  
+                      </div>
                     </div>
                   </div>
                 </div>
