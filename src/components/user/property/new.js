@@ -1405,170 +1405,256 @@ export default class NewProperty extends Component{
                 <h4 className="step-name">Property Details</h4>
               </div>
               <form className="row mx-0 creation-forms">
-                <div className="col-md-6">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row">
+                  <div className="col-md-6 px-0">
                     <label>Property Address</label>
+                  </div>
+                  <div className="col-md-6 px-0">
                     <input type="text"  id="autocomplete-address" className="form-control" name="address" onChange={this.updateProperty}/>
+                  </div>
+                  <div className="col-md-6 px-0 offset-md-6">
                     {this.addErrorMessage(this.state.property_address_error)}
                   </div>
                 </div>
 
-                <div className="col-md-6">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row">
+                  <div className="col-md-6 px-0">
                     <label>City</label>
+                  </div>
+                  <div className="col-md-6 px-0">  
                     <input type="text" className="form-control" name="city" onChange={this.updateProperty} value={this.state.property.city}/>
+                  </div>
+                  <div className="col-md-6 px-0 offset-md-6">
                     {this.addErrorMessage(this.state.property_city_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row">
+                  <div className="col-md-6 px-0">
                     <label>State</label>
+                  </div>
+                  <div className="col-md-6 px-0">
                     <input type="text" className="form-control" name="state" onChange={this.updateProperty} value={this.state.property.state}/>
+                  </div>
+                  <div className="col-md-6 px-0 offset-md-6">
                     {this.addErrorMessage(this.state.property_state_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row">
+                  <div className="col-md-6 px-0">
                     <label>Zip code</label>
+                  </div>
+                  <div className="col-md-6 px-0">
                     <input type="text" className="form-control" maxLength="6" name="zip_code" onChange={this.updateProperty} onKeyPress={this.checkNumeric} value={this.state.property.zip_code}/>
+                  </div>
+                  <div className="col-md-6 px-0 offset-md-6">
                     {this.addErrorMessage(this.state.property_zip_code_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row">
+                  <div className="col-md-6 px-0">
                     <label>Property Category</label>
+                  </div>
+                  <div className="col-md-6 px-0">
                     <select className="form-control" name="category" onChange={this.updateProperty}>
                       {categories}
                     </select>
+                  </div>
+                  <div className="col-md-6 px-0 offset-md-6">
                     {this.addErrorMessage(this.state.property_category_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row">
+                  <div className="col-md-6 px-0">
                     <label>Property Type</label>
+                  </div>
+                  <div className="col-md-6 px-0">
                     <select className="form-control" name="p_type" onChange={this.updateProperty}>
                       {types}
                     </select>
+                  </div>
+                  <div className="col-md-6 px-0 offset-md-6">
                     {this.addErrorMessage(this.state.property_type_error)}
                   </div>
                 </div>
-                <div className="col-md-6" id="bedrooms-input">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row" id="bedrooms-input">
+                  <div className="col-md-6 px-0">
                     <label>Bedrooms</label>
+                  </div>
+                  <div className="col-md-6 px-0">
                     <input type="text" className="form-control" name="bedrooms" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
+                  </div>
+                  <div className="col-md-6 px-0 offset-md-6">
                     {this.addErrorMessage(this.state.property_bedrooms_error)}
                   </div>
                 </div>
-                <div className="col-md-6" id="bathrooms-input">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row" id="bathrooms-input">
+                  <div className="col-md-6 px-0">
                     <label>Bathrooms</label>
+                  </div>
+                  <div className="col-md-6 px-0">
                     <input type="text" className="form-control" name="bathrooms" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
+                  </div>
+                  <div className="col-md-6 px-0 offset-md-6">
                     {this.addErrorMessage(this.state.property_bathrooms_error)}
                   </div>
                 </div>
-                <div className="col-md-6" id="garage-input">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row" id="garage-input">
+                  <div className="col-md-6 px-0">
                     <label>Garage</label>
+                  </div>
+                  <div className="col-md-6 px-0">
                     <input type="text" className="form-control" name="garage" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
+                  </div>
+                  <div className="col-md-6 px-0 offset-md-6">
                     {this.addErrorMessage(this.state.property_garage_error)}
                   </div>
                 </div>
-                <div className="col-md-6" id="area-input">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row" id="area-input">
+                  <div className="col-md-6 px-0">
                     <label>Area (SqFt)</label>
+                  </div>
+                  <div className="col-md-6 px-0">
                     <input type="number" className="form-control" name="area" onChange={this.updateProperty}/>
+                  </div>
+                  <div className="col-md-6 px-0 offset-md-6">
                     {this.addErrorMessage(this.state.property_area_error)}
                   </div>
                 </div>
-                <div className="col-md-6" id="lot-input">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row" id="lot-input">
+                  <div className="col-md-6 px-0">
                     <label>Lot Size</label>
+                  </div>
+                  <div className="col-md-6 px-0">
                     <input type="number" className="form-control" name="lot_size" onChange={this.updateProperty} onKeyPress={this.checkDecimalNumeric}/>
+                  </div>
+                  <div className="col-md-6 px-0 offset-md-6">
                     {this.addErrorMessage(this.state.property_lot_size_error)}
                   </div>
                 </div>
-                <div className="col-md-6" id="year-built-input">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row" id="year-built-input">
+                  <div className="col-md-6 px-0">
                     <label>Year Built</label>
+                  </div>
+                  <div className="col-md-6 px-0">
                     <input type="text" className="form-control" name="year_built" onChange={this.updateProperty} onKeyPress={this.checkNumeric} maxLength="4"/>
+                  </div>
+                  <div className="col-md-6 offset-md-6 px-0">
                     {this.addErrorMessage(this.state.property_year_built_error)}
                   </div>
                 </div>
-                <div className="col-md-6" id="units-input">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row" id="units-input">
+                  <div className="col-md-6 px-0">
                     <label>Units</label>
-                    <input type="text" className="form-control" name="units" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
-                    {this.addErrorMessage(this.state.property_units_error)}
                   </div>
+                  <div className="col-md-6 px-0">
+                    <input type="text" className="form-control" name="units" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
+                  </div>
+                  <div className="col-md-6 offset-md-6 px-0">
+                    {this.addErrorMessage(this.state.property_units_error)}
+                  </div>  
                 </div>
-                <div className="col-md-6" id="stories-input">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row" id="stories-input">
+                  <div className="col-md-6 px-0">
                     <label>Stories</label>
-                    <input type="text" className="form-control" name="stories" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
+                  </div>
+                  <div className="col-md-6 px-0">
+                    <input type="text" className="form-control" name="stories" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>  
+                  </div>
+                  <div className="col-md-6 offset-md-6 px-0">
                     {this.addErrorMessage(this.state.property_stories_error)}
                   </div>
                 </div>
-                <div className="col-md-6" id="cap_rate-input">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row" id="cap_rate-input">
+                  <div className="col-md-6 px-0">
                     <label>Cap Rate</label>
-                    <input type="number" className="form-control" name="cap_rate" onChange={this.updateProperty} />
+                  </div>
+                  <div className="col-md-6 px-0">
+                    <input type="number" className="form-control" name="cap_rate" onChange={this.updateProperty} />  
+                  </div>
+                  <div className="col-md-6 offset-md-6 px-0">
                     {this.addErrorMessage(this.state.property_cap_rate_error)}
                   </div>
                 </div>
-                <div className="col-md-6" id="price_per_sq_ft-input">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row" id="price_per_sq_ft-input">
+                  <div className="col-md-6 px-0">
                     <label>Price Per SqFt</label>
-                    <input type="number" className="form-control" name="price_per_sq_ft" onChange={this.updateProperty} />
+                  </div>
+                  <div className="col-md-6 px-0">
+                    <input type="number" className="form-control" name="price_per_sq_ft" onChange={this.updateProperty} />  
+                  </div>
+                  <div className="col-md-6 offset-md-6 px-0">
                     {this.addErrorMessage(this.state.property_price_per_sq_ft_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row">
+                  <div className="col-md-6 px-0">
                     <label>Property Headliner</label>
-                    <input type="text" className="form-control" name="headliner" onChange={this.updateProperty}/>
+                  </div>
+                  <div className="col-md-6 px-0">
+                    <input type="text" className="form-control" name="headliner" onChange={this.updateProperty}/>  
+                  </div>
+                  <div className="col-md-6 offset-md-6 px-0">
                     {this.addErrorMessage(this.state.property_headliner_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row">
+                  <div className="col-md-6 px-0">
                     <label>Is this property on MLS?</label>
+                  </div>
+                  <div className="col-md-6 px-0">
                     <select className="form-control" defaultValue="false" name="mls_available" onChange={this.updateProperty}>
                       <option value="true">Yes</option>
                       <option value="false">No</option>
-                    </select>
+                    </select>  
+                  </div>
+                  <div className="col-md-6 offset-md-6 px-0">
                     {this.addErrorMessage(this.state.property_mls_available_error)}
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row">
+                  <div className="col-md-6 px-0">
                     <label>Did Property Flooded?</label>
+                  </div>
+                  <div className="col-md-6 px-0">
                     <select className="form-control" defaultValue="false" name="flooded" onChange={this.updateProperty}>
                       <option value="true">Yes</option>
                       <option value="false">No</option>
-                    </select>
+                    </select>  
+                  </div>
+                  <div className="col-md-6 offset-md-6 px-0">
                     {this.addErrorMessage(this.state.property_flooded_error)}
                   </div>
                 </div>
 
-                <div className="col-md-6">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row">
+                  <div className="col-md-6 px-0">
                     <label>Estimated Rehab Cost</label>
+                  </div>
+                  <div className="col-md-6 px-0">
                     <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} id="estimated-cost1" onClick={() => {this.setState({
                       estimated_cost_modal: true
                     });}}/>
                   </div>
                 </div>
-                <div className="col-md-12" id="flood_count-input">
-                  <div className="form-group">
+                <div className="col-md-6 row mx-0 mb-2 step_row" id="flood_count-input">
+                  <div className="col-md-6 px-0">
                     <label>If Flooded</label>
-                    <input type="text" disabled id="flood_count_input" placeholder="How many times and how high did the water get inside the property each time." className="form-control" name="flood_count" onChange={this.updateProperty}/>
+                  </div>
+                  <div className="col-md-6 px-0">
+                    <input type="text" disabled id="flood_count_input" placeholder="How many times and how high did the water get inside the property each time." className="form-control" name="flood_count" onChange={this.updateProperty}/>  
+                  </div>
+                  <div className="col-md-6 offset-md-6 px-0">
                     {this.addErrorMessage(this.state.property_flood_count_error)}
                   </div>
                 </div>
-                <div className="col-md-12">
-                  <div className="form-group">
+                <div className="col-md-12 row mx-0 mb-2 step_row step_textarea">
+                  <div className="col-md-3 px-0">
                     <label>Property Description</label>
-                    <textarea className="form-control textarea-resize" rows="3" id="comment" name="description" onChange={this.updateProperty}></textarea>
+                  </div>
+                  <div className="col-md-9 px-0">
+                    <textarea className="form-control textarea_step textarea-resize" rows="3" id="comment" name="description" onChange={this.updateProperty}></textarea>
+                  </div>
+                  <div className="col-md-9 px-0 offset-md-3">
                     {this.addErrorMessage(this.state.property_description_error)}
                   </div>
                 </div>
