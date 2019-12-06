@@ -245,7 +245,7 @@ export default class Login extends Component{
 		return (
       <div className="container custom_container px-0">
         <div className="register_body">
-          <div className="register_main">
+          <div className="register_main my-4">
             <div className="register-head text-center">
               <p>please fill in the form below to register</p>
             </div>
