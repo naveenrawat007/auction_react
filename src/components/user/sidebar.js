@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Profile from './profile.js'
 import { faList, faCreditCard, faHome, faPlusCircle, faHeart, faEnvelopeOpenText, faSignOutAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import NewProperty from './property/new'
+import ListProperty from './property/index'
 
 export default class Sidebar extends Component{
   _isMounted = false
@@ -76,6 +77,8 @@ export default class Sidebar extends Component{
         return <Profile onImageChange={this.changeImage}/>;
       case 'new_property':
         return <NewProperty/>;
+      case 'property_list':
+        return <ListProperty/>;
       default:
     }
   }
@@ -126,7 +129,7 @@ export default class Sidebar extends Component{
                   </a>
                 </li>
                 <li className="nav-item">
-                  <Link to='#' className="nav-link" data-toggle="pill" >
+                  <Link to='/user/property' className={this.checkActive("property_list")} data-toggle="pill" >
                     <span><FontAwesomeIcon icon={faList} /> My Properties</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
