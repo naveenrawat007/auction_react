@@ -214,19 +214,21 @@ export default class NewProperty extends Component{
         }
       }
     }
-    this.setState({
-      property: {
-        ...this.state.property,
-        address: address,
-        city: city,
-        state: state,
-        zip_code: postal_code
-      },
-      property_address_error: "",
-      property_city_error: "",
-      property_state_error: "",
-      property_zip_code_error: "",
-    });
+    if (this._isMounted){
+      this.setState({
+        property: {
+          ...this.state.property,
+          address: address,
+          city: city,
+          state: state,
+          zip_code: postal_code
+        },
+        property_address_error: "",
+        property_city_error: "",
+        property_state_error: "",
+        property_zip_code_error: "",
+      });
+    }
   }
 
   setUpStepOne = () => {
@@ -247,29 +249,31 @@ export default class NewProperty extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 200) {
-        this.setState({
-          property_options: {
-            ...this.state.property_options,
-            types: result.residential_types,
-            residential_types: result.residential_types,
-            commercial_types: result.commercial_types,
-            land_types: result.land_types,
-            categories: result.categories,
-            seller_pay_types: result.seller_pay_types,
-            show_instructions_types: result.show_instructions_types,
-            auction_lengths: result.auction_lengths,
-            buy_options: result.buy_options
-          }
-        });
-        this.setState({
-          property: {
-          ...this.state.property,
-          p_type: result.residential_types[0],
-          category: result.categories[0],
-          flooded: false,
-          mls_available: false
-          }
-        });
+        if (this._isMounted){
+          this.setState({
+            property_options: {
+              ...this.state.property_options,
+              types: result.residential_types,
+              residential_types: result.residential_types,
+              commercial_types: result.commercial_types,
+              land_types: result.land_types,
+              categories: result.categories,
+              seller_pay_types: result.seller_pay_types,
+              show_instructions_types: result.show_instructions_types,
+              auction_lengths: result.auction_lengths,
+              buy_options: result.buy_options
+            }
+          });
+          this.setState({
+            property: {
+            ...this.state.property,
+            p_type: result.residential_types[0],
+            category: result.categories[0],
+            flooded: false,
+            mls_available: false
+            }
+          });
+        }
         this.checkForCategoryFields();
 
         // this.setState({
@@ -285,7 +289,9 @@ export default class NewProperty extends Component{
         // variant: "danger"});
       }
       this.clearMessageTimeout = setTimeout(() => {
-        this.setState(() => ({message: ""}))
+        if (this._isMounted){
+          this.setState(() => ({message: ""}))
+        }
       }, 2000);
 		}, (error) => {
 		});
@@ -296,49 +302,55 @@ export default class NewProperty extends Component{
     if (formIsValid){
       if (this.state.created !== true){
         if (this.state.property.category === "Residential"){
-          this.setState({
-            property: {
-            ...this.state.property,
-            residential_attributes: {
-              bedrooms: this.state.property.bedrooms,
-              bathrooms: this.state.property.bathrooms,
-              garage: this.state.property.garage,
-              area: this.state.property.area,
-              lot_size: this.state.property.lot_size,
-              year_built: this.state.property.year_built,
-            }
-            }
-          }, function () {
-            this.sendStepOneData()
-          });
+          if (this._isMounted){
+            this.setState({
+              property: {
+              ...this.state.property,
+              residential_attributes: {
+                bedrooms: this.state.property.bedrooms,
+                bathrooms: this.state.property.bathrooms,
+                garage: this.state.property.garage,
+                area: this.state.property.area,
+                lot_size: this.state.property.lot_size,
+                year_built: this.state.property.year_built,
+              }
+              }
+            }, function () {
+              this.sendStepOneData()
+            });
+          }
         }else if (this.state.property.category === "Commercial") {
-          this.setState({
-            property: {
-            ...this.state.property,
-            commercial_attributes: {
-              area: this.state.property.area,
-              lot_size: this.state.property.lot_size,
-              year_built: this.state.property.year_built,
-              units: this.state.property.units,
-              stories: this.state.property.stories,
-              cap_rate: this.state.property.cap_rate,
-            }
-            }
-          }, function () {
-            this.sendStepOneData()
-          });
+          if (this._isMounted){
+            this.setState({
+              property: {
+              ...this.state.property,
+              commercial_attributes: {
+                area: this.state.property.area,
+                lot_size: this.state.property.lot_size,
+                year_built: this.state.property.year_built,
+                units: this.state.property.units,
+                stories: this.state.property.stories,
+                cap_rate: this.state.property.cap_rate,
+              }
+              }
+            }, function () {
+              this.sendStepOneData()
+            });
+          }
         }else if (this.state.property.category === "Land") {
-          this.setState({
-            property: {
-            ...this.state.property,
-            land_attributes: {
-              lot_size: this.state.property.lot_size,
-              price_per_sq_ft: this.state.property.price_per_sq_ft,
-            }
-            }
-          }, function () {
-            this.sendStepOneData()
-          });
+          if (this._isMounted){
+            this.setState({
+              property: {
+              ...this.state.property,
+              land_attributes: {
+                lot_size: this.state.property.lot_size,
+                price_per_sq_ft: this.state.property.price_per_sq_ft,
+              }
+              }
+            }, function () {
+              this.sendStepOneData()
+            });
+          }
         }
 
       }else {
@@ -367,25 +379,31 @@ export default class NewProperty extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 200) {
-        this.setState({
-          created: true
-        });
-        this.setState({
-          property: {
-          ...this.state.property,
-          id: result.property.id,
-          }
-        });
+        if (this._isMounted){
+          this.setState({
+            created: true
+          });
+          this.setState({
+            property: {
+            ...this.state.property,
+            id: result.property.id,
+            }
+          });
+        }
         this.goToStepTwo();
       }else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
       }else {
-        this.setState({loaded: true, message: result.message,
-        variant: "danger"});
+        if (this._isMounted){
+          this.setState({loaded: true, message: result.message,
+          variant: "danger"});
+        }
       }
       this.clearMessageTimeout = setTimeout(() => {
-        this.setState(() => ({message: ""}))
+        if (this._isMounted){
+          this.setState(() => ({message: ""}))
+        }
       }, 2000);
 		}, (error) => {
 		});
@@ -415,11 +433,15 @@ export default class NewProperty extends Component{
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
       }else {
-        this.setState({loaded: true, message: result.message,
-        variant: "danger"});
+        if (this._isMounted){
+          this.setState({loaded: true, message: result.message,
+          variant: "danger"});
+        }
       }
       this.clearMessageTimeout = setTimeout(() => {
-        this.setState(() => ({message: ""}))
+        if (this._isMounted){
+          this.setState(() => ({message: ""}))
+        }
       }, 2000);
 		}, (error) => {
 		});
@@ -460,7 +482,9 @@ export default class NewProperty extends Component{
         variant: "danger"});
       }
       this.clearMessageTimeout = setTimeout(() => {
-        this.setState(() => ({message: ""}))
+        if (this._isMounted){
+          this.setState(() => ({message: ""}))
+        }
       }, 2000);
 		}, (error) => {
 		});
@@ -534,11 +558,15 @@ export default class NewProperty extends Component{
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
       }else {
-        this.setState({loaded: true, message: result.message,
-        variant: "danger"});
+        if (this._isMounted){
+          this.setState({loaded: true, message: result.message,
+          variant: "danger"});
+        }
       }
       this.clearMessageTimeout = setTimeout(() => {
-        this.setState(() => ({message: ""}))
+        if (this._isMounted){
+          this.setState(() => ({message: ""}))
+        }
       }, 2000);
 		}, (error) => {
 		});
@@ -571,12 +599,14 @@ export default class NewProperty extends Component{
   fileSelectHandler = (event) => {
     const name = event.target.name
     const value = event.target.files[0]
-    this.setState({
-      property: {
-      ...this.state.property,
-      [name]: value
-      }
-    });
+    if (this._isMounted){
+      this.setState({
+        property: {
+        ...this.state.property,
+        [name]: value
+        }
+      });
+    }
   }
   imageSelectHandler = (event) => {
     const name = event.target.name
@@ -593,12 +623,14 @@ export default class NewProperty extends Component{
     for (var i = 0; i < uploaded_files.length; i++) {
       files.push({src: URL.createObjectURL(uploaded_files[i]), id: i,name: uploaded_files[i].name, file: uploaded_files[i]})
     }
-    this.setState({
-      property: {
-      ...this.state.property,
-      [name]: files
-      }
-    });
+    if (this._isMounted){
+      this.setState({
+        property: {
+        ...this.state.property,
+        [name]: files
+        }
+      });
+    }
   }
 
   goToStepThree = () => {
@@ -630,94 +662,100 @@ export default class NewProperty extends Component{
 
   updateProperty = (event) => {
     const{ name, value } = event.target;
-    this.setState({
-      property: {
-      ...this.state.property,
-      [name]: value
-      }
-    }, function () {
-      this.stepOneCustomValidation(name);
-      if (name === "flooded"){
-        if (this.state.property.flooded === "true"){
-          document.getElementById('flood_count_input').disabled = false;
-          document.getElementById('flood_count-input').classList.remove("d-none")
-        }else{
-          this.setState({
-            property_flood_count_error: ""
-          });
-          document.getElementById('flood_count-input').classList.add("d-none")
-          document.getElementById('flood_count_input').disabled = true;
-          document.getElementById('flood_count_input').value = "";
+    if (this._isMounted){
+      this.setState({
+        property: {
+        ...this.state.property,
+        [name]: value
         }
-      }
-      if (name === "category"){
-        this.checkForCategoryFields();
-        if (this.state.property.category === "Residential"){
-          this.setState({
-            property_options: {
-              ...this.state.property_options,
-              types: this.state.property_options.residential_types,
-            }
-          }, function () {
+      }, function () {
+        this.stepOneCustomValidation(name);
+        if (name === "flooded"){
+          if (this.state.property.flooded === "true"){
+            document.getElementById('flood_count_input').disabled = false;
+            document.getElementById('flood_count-input').classList.remove("d-none")
+          }else{
             this.setState({
-              property:{
-                ...this.state.property,
-                p_type: this.state.property_options.types[0]
-              }
+              property_flood_count_error: ""
             });
-          });
-
-        }else if (this.state.property.category === "Commercial") {
-          this.setState({
-            property_options: {
-              ...this.state.property_options,
-              types: this.state.property_options.commercial_types,
-            }
-          }, function () {
-            this.setState({
-              property:{
-                ...this.state.property,
-                p_type: this.state.property_options.types[0]
-              }
-            });
-          });
-
-        }else if (this.state.property.category === "Land") {
-          this.setState({
-            property_options: {
-              ...this.state.property_options,
-              types: this.state.property_options.land_types,
-            }
-          }, function () {
-            this.setState({
-              property:{
-                ...this.state.property,
-                p_type: this.state.property_options.types[0]
-              }
-            });
-          });
+            document.getElementById('flood_count-input').classList.add("d-none")
+            document.getElementById('flood_count_input').disabled = true;
+            document.getElementById('flood_count_input').value = "";
+          }
         }
-      }
-      this.updateLandlordDealCalculator();
-    });
+        if (name === "category"){
+          this.checkForCategoryFields();
+          if (this.state.property.category === "Residential"){
+            this.setState({
+              property_options: {
+                ...this.state.property_options,
+                types: this.state.property_options.residential_types,
+              }
+            }, function () {
+              this.setState({
+                property:{
+                  ...this.state.property,
+                  p_type: this.state.property_options.types[0]
+                }
+              });
+            });
+
+          }else if (this.state.property.category === "Commercial") {
+            this.setState({
+              property_options: {
+                ...this.state.property_options,
+                types: this.state.property_options.commercial_types,
+              }
+            }, function () {
+              this.setState({
+                property:{
+                  ...this.state.property,
+                  p_type: this.state.property_options.types[0]
+                }
+              });
+            });
+
+          }else if (this.state.property.category === "Land") {
+            this.setState({
+              property_options: {
+                ...this.state.property_options,
+                types: this.state.property_options.land_types,
+              }
+            }, function () {
+              this.setState({
+                property:{
+                  ...this.state.property,
+                  p_type: this.state.property_options.types[0]
+                }
+              });
+            });
+          }
+        }
+        this.updateLandlordDealCalculator();
+      });
+    }
   }
 
   updatePropertyAuctionStart = (date) => {
-    this.setState({
-      property: {
-      ...this.state.property,
-      auction_started_at: date
-      }
-    })
+    if (this._isMounted){
+      this.setState({
+        property: {
+        ...this.state.property,
+        auction_started_at: date
+        }
+      })
+    }
   }
 
   updatePropertyAuctionEnding = (date) => {
-    this.setState({
-      property: {
-      ...this.state.property,
-      auction_ending_at: date
-      }
-    })
+    if (this._isMounted){
+      this.setState({
+        property: {
+        ...this.state.property,
+        auction_ending_at: date
+        }
+      })
+    }
   }
 
   updateLandlordDealCalculator = () => {
@@ -775,76 +813,80 @@ export default class NewProperty extends Component{
     total_out_of_pocket = (asking_price + estimated_rehab_cost + closing_cost + short_term_financing_cost + insurance_annually) - amount_financed
 
     roi_cash_percentage = Math.round(((annual_cash_flow / (total_out_of_pocket !== 0 ? total_out_of_pocket : 1))*100)*100)/100
-    this.setState({
-      property: {
-      ...this.state.property,
-      total_acquisition_cost,
-      amount_financed,
-      principal_interest,
-      taxes_monthly,
-      insurance_monthly,
-      piti_monthly_debt,
-      total_gross_yearly_income,
-      adjusted_gross_yearly_income,
-      est_annual_operating_fees,
-      net_operating_income,
-      annual_debt,
-      annual_cash_flow,
-      monthly_cash_flow,
-      total_out_of_pocket,
-      short_term_financing_cost,
-      roi_cash_percentage,
-      }
-    })
+    if (this._isMounted){
+      this.setState({
+        property: {
+        ...this.state.property,
+        total_acquisition_cost,
+        amount_financed,
+        principal_interest,
+        taxes_monthly,
+        insurance_monthly,
+        piti_monthly_debt,
+        total_gross_yearly_income,
+        adjusted_gross_yearly_income,
+        est_annual_operating_fees,
+        net_operating_income,
+        annual_debt,
+        annual_cash_flow,
+        monthly_cash_flow,
+        total_out_of_pocket,
+        short_term_financing_cost,
+        roi_cash_percentage,
+        }
+      })
+    }
 
   }
 
   updatePropertyRehabCostAttr = (event) => {
     const{ name, value } = event.target;
-    this.setState({
-      property: {
-      ...this.state.property,
-        estimated_rehab_cost_attr:{
-        ...this.state.property.estimated_rehab_cost_attr,
-          [name]: value,
-        }
-      }
-    }, function () {
-      if (name === "estimated_ballpark"){
-        this.setState({
-          property: {
-          ...this.state.property,
-          estimated_rehab_cost: this.state.property.estimated_rehab_cost_attr.estimated_ballpark,
+    if (this._isMounted){
+      this.setState({
+        property: {
+        ...this.state.property,
           estimated_rehab_cost_attr:{
           ...this.state.property.estimated_rehab_cost_attr,
-          roof: "",
-          plumbing: "",
-          foundation: "",
-          kitchen: "",
-          siding: "",
-          bathrooms: "",
-          windows: "",
-          doors: "",
-          landscaping: "",
-          sheetrock: "",
-          garage: "",
-          trim: "",
-          exterior_paint: "",
-          flooring: "",
-          interior_paint: "",
-          trash: "",
-          hvac: "",
-          misc: "",
-          electrical: "",
-          others: "",
-          repair_total: this.state.property.estimated_rehab_cost_attr.estimated_ballpark
+            [name]: value,
           }
-          }
-        })
-      } else {
-        this.updateEstimatedRehabCost();
-      }
-    });
+        }
+      }, function () {
+        if (name === "estimated_ballpark"){
+          this.setState({
+            property: {
+            ...this.state.property,
+            estimated_rehab_cost: this.state.property.estimated_rehab_cost_attr.estimated_ballpark,
+            estimated_rehab_cost_attr:{
+            ...this.state.property.estimated_rehab_cost_attr,
+            roof: "",
+            plumbing: "",
+            foundation: "",
+            kitchen: "",
+            siding: "",
+            bathrooms: "",
+            windows: "",
+            doors: "",
+            landscaping: "",
+            sheetrock: "",
+            garage: "",
+            trim: "",
+            exterior_paint: "",
+            flooring: "",
+            interior_paint: "",
+            trash: "",
+            hvac: "",
+            misc: "",
+            electrical: "",
+            others: "",
+            repair_total: this.state.property.estimated_rehab_cost_attr.estimated_ballpark
+            }
+            }
+          })
+        } else {
+          this.updateEstimatedRehabCost();
+        }
+      });
+    }
   }
 
   updateEstimatedRehabCost = () => {
@@ -855,17 +897,19 @@ export default class NewProperty extends Component{
         total_amount += parseFloat(value ? value : 0)
       }
     }
-    this.setState({
-      property: {
-      ...this.state.property,
-      estimated_rehab_cost: total_amount,
-      estimated_rehab_cost_attr:{
-      ...this.state.property.estimated_rehab_cost_attr,
-      repair_total: total_amount,
-      estimated_ballpark: ""
-      }
-      }
-    })
+    if (this._isMounted){
+      this.setState({
+        property: {
+        ...this.state.property,
+        estimated_rehab_cost: total_amount,
+        estimated_rehab_cost_attr:{
+        ...this.state.property.estimated_rehab_cost_attr,
+        repair_total: total_amount,
+        estimated_ballpark: ""
+        }
+        }
+      })
+    }
   }
 
 
@@ -1655,10 +1699,10 @@ export default class NewProperty extends Component{
                       });}}/>
                       </div>
                       <div className="col-md-5 my-2">
-                        <label className="mb-0">Profit Potential</label>  
+                        <label className="mb-0">Profit Potential</label>
                       </div>
                       <div className="col-md-7 my-2">
-                        <input type="number" name="profit_potential" className="form-control" onChange={this.updateProperty} />  
+                        <input type="number" name="profit_potential" className="form-control" onChange={this.updateProperty} />
                       </div>
                     </div>
                   </div>
