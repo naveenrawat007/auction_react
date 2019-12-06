@@ -1365,7 +1365,7 @@ export default class NewProperty extends Component{
       <div id="newproperty" className="container px-0 tab-pane active">
         <div className="profile-form">
           <div className="profile-form-in">
-            <div className="container creation-steps px-0" id="step1">
+            <div className="container creation-steps px-0 " id="step1">
               <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete current">
                   <div className="text-center bs-wizard-number">1</div>
@@ -1718,38 +1718,248 @@ export default class NewProperty extends Component{
               </div>
               <form className="creation-forms">
                 <div className={this.checkRehabDeal()}>
-                  <div className="col-md-8 offset-md-2">
+                  <div className="col-md-6 offset-md-3">
                     <div className="row mx-0 step_row my-3">
-                      <div className="col-md-5 my-2">
+                      <div className="col-md-6 my-2 px-0">
                         <label className="mb-0">After Rehab Value</label>
                       </div>
-                      <div className="col-md-7 my-2">
+                      <div className="col-md-6 my-2 px-0">
                         <input type="number" name="after_rehab_value" className="form-control" onChange={this.updateProperty}/>
                       </div>
-                      <div className="col-md-5 my-2">
+                      <div className="col-md-6 my-2 px-0">
                         <label className="mb-0">Sellers Asking Price</label>
                       </div>
-                      <div className="col-md-7 my-2">
+                      <div className="col-md-6 my-2 px-0">
                         <input type="number" className="form-control" id="temp_id" name="asking_price" onChange={this.updateProperty} />
                       </div>
-                      <div className="col-md-5 my-2">
+                      <div className="col-md-6 my-2 px-0">
                         <label className="mb-0">Estimated Rehab Cost</label>
                       </div>
-                      <div className="col-md-7 my-2">
+                      <div className="col-md-6 my-2 px-0">
                         <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} id="estimated-cost1" onClick={() => {this.setState({
                         estimated_cost_modal: true
                       });}}/>
                       </div>
-                      <div className="col-md-5 my-2">
+                      <div className="col-md-6 my-2 px-0">
                         <label className="mb-0">Profit Potential</label>  
                       </div>
-                      <div className="col-md-7 my-2">
+                      <div className="col-md-6 my-2 px-0">
                         <input type="number" name="profit_potential" className="form-control" onChange={this.updateProperty} />  
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className = {this.checkLandordDeal()}>
+                  <div className="col-md-6 my-3 px-0">
+                    <h5 className="text-uppercase font-red step_heads">Acquisition Analysis</h5>
+                    <div className="row mx-0 step_row">
+                      <div className="col-md-6 my-2 px-0">
+                        <label className="text-uppercase">EST AFTER REHAB VALUE</label>
+                      </div>
+                      <div className="col-md-6 my-2 pl-0">
+                        <input type="number" className="form-control"/>
+                      </div>
+                      <div className="col-md-12 px-0">
+                        <h6 className="text-uppercase font-red">Acquisition Cost</h6>
+                        <ul className="est_box">
+                          <li className="my-2">
+                            <div className="est_list">
+                              <label>Asking/Purchase Price: </label>
+                              <input type="number" className="form-control"/>  
+                            </div>      
+                          </li>
+                          <li className="my-2">
+                            <div className="est_list">
+                              <label>Est Rehab Cost: </label>
+                              <input type="text" className="form-control"/>  
+                            </div>      
+                          </li>
+                          <li className="my-2">
+                            <div className="est_list">
+                              <label>Est Closing Cost: </label>
+                              <input type="text" className="form-control"/>  
+                            </div>      
+                          </li>
+                          <li className="my-2">
+                            <div className="est_list">
+                              <label>Est Annual Insurance: </label>
+                              <input type="text" className="form-control"/>  
+                            </div>      
+                          </li>
+                          <li className="my-2">
+                            <div className="est_list">
+                              <label>Est Hard Money or STF Cost: </label>
+                              <input type="text" className="form-control"/>  
+                            </div>      
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="col-md-6 px-0">
+                        <label>Total Acquisition Costs</label>
+                      </div>
+                      <div className="col-md-6 pl-0">
+                        <input type="text" className="form-control"/>
+                      </div>
+                    </div>  
+                  </div>
+                  <div className="col-md-6 my-3 px-0">
+                    <h5 className="text-uppercase font-red step_heads">Financing Analysis After rehab</h5>
+                    <div className="row mx-0 step_row">
+                      <div className="col-md-6 my-2 row mx-0">
+                        <input type="number" className="form-control col-md-4"/>
+                        <input type="number" readOnly={true} className="form-control col-md-7 offset-md-1"/>
+                      </div>
+                      <div className="col-md-6 px-0 my-2">
+                        <label className="text-uppercase">amount financed</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="number" className="form-control"/>
+                      </div>
+                      <div className="col-md-6 my-2 px-0">
+                        <label>Interest Rate APR</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="number" className="form-control"/>
+                      </div>
+                      <div className="col-md-6 my-2 px-0">
+                        <label>Loan Term</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="text" className="form-control"/>
+                      </div>
+                      <div className="col-md-6 my-2 px-0">
+                        <label>Monthly Principal & Interest</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="text" className="form-control"/>
+                      </div>
+                      <div className="col-md-6 px-0 my-2">
+                        <label>Annual Debt Service</label>
+                      </div>
+                    </div>  
+                  </div>
+                  <div className="col-md-6 my-3 px-0">
+                    <h5 className="text-uppercase font-red step_heads">Expense Analysis</h5>
+                    <div className="row mx-0 step_row">
+                      <div className="col-md-6 my-2 px-0">
+                        <label className="text-uppercase">EST Annual taxes</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="number" className="form-control"/>
+                      </div>
+                      <div className="col-md-6 my-2 px-0">
+                        <label>EST Annual Insurance</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="text" className="form-control"/>
+                      </div>
+                      <div className="col-md-6 my-2 px-0">
+                        <label>EST Annual Management Fees</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="text" className="form-control"/>
+                      </div>
+                      <div className="col-md-6 my-2 px-0">
+                        <label>EST Annual Repair</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="text" className="form-control"/>
+                      </div>
+                      <div className="col-md-6 my-2 px-0">
+                        <label>EST Annual Operating Costs</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="text" className="form-control"/>
+                      </div>
+                    </div>
+                    <div className="col-md-12 mt-4 px-0">
+                      <h6 className="text-uppercase font-red">Income or Cash Flow Analysis</h6>
+                    </div>
+                    <div className="row mx-0 step_row">
+                      <div className="col-md-6 my-2 px-0">
+                        <label>Total EST Monthly Rent</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="number" className="form-control" />
+                      </div>
+                      <div className="col-md-6 my-2 px-0">
+                        <label>Total Gross Yearly Income</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="text" className="form-control"/>
+                      </div>
+                      <div className="col-md-6 my-2 px-0">
+                        <label>EST Vacancy Rate</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="text" className="form-control"/>
+                      </div>
+                      <div className="col-md-6 my-2 px-0">
+                        <label>ADJ Gross Yearly Income</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="text" className="form-control"/>
+                      </div>
+                    </div>  
+                  </div>
+                  <div className="col-md-6 my-3 px-0">
+                    <h5 className="text-uppercase font-red step_heads">Cash Flow Analysis</h5>
+                    <div className="row mx-0 step_row">
+                      <div className="col-md-6 my-2 row mx-0">
+                        <input type="text" className="form-control"/>
+                      </div>
+                      <div className="col-md-6 px-0 my-2">
+                        <label>(+) Adjusted Gross Yearly Income</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="number" className="form-control" name="interest_rate" onChange={this.updateProperty}/>
+                      </div>
+                      <div className="col-md-6 px-0 my-2">
+                        <label>(-) Est Annual Operating Costs</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="number" className="form-control" name="loan_terms" onChange={this.updateProperty}/>
+                      </div>
+                      <div className="col-md-6 px-0 my-2">
+                        <label>(=) Net Operating Income</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="text" className="form-control"/>
+                      </div>
+                      <div className="col-md-6 px-0 my-2">
+                        <label>(-) Annual Debt Service</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="text" className="form-control"/>
+                      </div>
+                      <div className="col-md-6 px-0 my-2">
+                        <label>(=) Annual Cash Flow</label>
+                      </div>
+                    </div>
+                    <div className="col-md-12 mt-4">
+                      <h6 className="text-uppercase font-red">Bottom Line</h6>
+                    </div>
+                    <div className="row mx-0 step_row bottom_box">
+                      <div className="col-md-6 my-2">
+                        <label>Monthly Cash Flow</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="number" className="form-control" />
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <label>Total Out of Pocket</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="text" className="form-control"/>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <label>Roi Cash On Cash</label>
+                      </div>
+                      <div className="col-md-6 my-2">
+                        <input type="text" className="form-control"/>
+                      </div>
+                    </div>   
+                  </div>
                   <div className="col-md-6">
                     <h5>Deal Analysis</h5>
                     <div className="form-group">
