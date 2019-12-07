@@ -971,6 +971,8 @@ export default class NewProperty extends Component{
       }
       if (this.state.property.year_built === ""){
         property_year_built_error = "Property built year can't be blank."
+      }else if (String(this.state.property.year_built).length < 4) {
+        property_year_built_error = "Not a valid year."
       }
     }
     if (this.state.property.lot_size === ""){
@@ -1149,6 +1151,8 @@ export default class NewProperty extends Component{
     }else if (name === 'year_built') {
       if (this.state.property.year_built === ""){
         property_year_built_error = "Property built year can't be blank."
+      }else if (String(this.state.property.year_built).length < 4) {
+        property_year_built_error = "Not a valid year."
       }
       this.setState({
         property_year_built_error
@@ -1680,14 +1684,14 @@ export default class NewProperty extends Component{
                     });}}/>
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row" id="flood_count-input">
-                  <div className="col-md-6 px-0">
+                <div className="col-md-12 row mx-0 mb-2 step_row step_textarea" id="flood_count-input">
+                  <div className="col-md-3 px-0">
                     <label>If Flooded</label>
                   </div>
-                  <div className="col-md-6 px-0">
-                    <input type="text" disabled id="flood_count_input" placeholder="How many times and how high did the water get inside the property each time." className="form-control" name="flood_count" onChange={this.updateProperty}/>
+                  <div className="col-md-9 px-0">
+                    <textarea disabled id="flood_count_input" placeholder="How many times and how high did the water get inside the property each time." className="form-control textarea_step textarea-resize" rows="2" name="flood_count" onChange={this.updateProperty}/>
                   </div>
-                  <div className="col-md-6 offset-md-6 px-0">
+                  <div className="col-md-9 offset-md-3 px-0">
                     {this.addErrorMessage(this.state.property_flood_count_error)}
                   </div>
                 </div>
@@ -1802,7 +1806,7 @@ export default class NewProperty extends Component{
                         <label className="text-uppercase">EST AFTER REHAB VALUE</label>
                       </div>
                       <div className="col-md-6 my-2 pl-0">
-                        <input type="number" className="form-control"/>
+                        <input type="number" className="form-control" name="after_rehab_value" onChange={this.updateProperty} />
                       </div>
                       <div className="col-md-12 px-0">
                         <h6 className="text-uppercase font-red">Acquisition Cost</h6>
@@ -1810,31 +1814,33 @@ export default class NewProperty extends Component{
                           <li className="my-2">
                             <div className="est_list">
                               <label>Asking/Purchase Price: </label>
-                              <input type="number" className="form-control"/>
+                              <input type="number" className="form-control" name="asking_price" onChange={this.updateProperty}/>
                             </div>
                           </li>
                           <li className="my-2">
                             <div className="est_list">
                               <label>Est Rehab Cost: </label>
-                              <input type="text" className="form-control"/>
+                              <input type="number" value={this.state.property.estimated_rehab_cost} readOnly={true} className="form-control" name="estimated_rehab_cost" onClick={() => {this.setState({
+                                estimated_cost_modal: true
+                              });}}/>
                             </div>
                           </li>
                           <li className="my-2">
                             <div className="est_list">
                               <label>Est Closing Cost: </label>
-                              <input type="text" className="form-control"/>
+                              <input type="number" className="form-control" name="closing_cost" onChange={this.updateProperty}/>
                             </div>
                           </li>
                           <li className="my-2">
                             <div className="est_list">
                               <label>Est Annual Insurance: </label>
-                              <input type="text" className="form-control"/>
+                              <input type="number" onChange={this.updateProperty} className="form-control" name="insurance_annually" value={this.state.property.insurance_annually} />
                             </div>
                           </li>
                           <li className="my-2">
                             <div className="est_list">
                               <label>Est Hard Money or STF Cost: </label>
-                              <input type="text" className="form-control"/>
+                              <input type="number" className="form-control" name="short_term_financing_cost" onChange={this.updateProperty}/>
                             </div>
                           </li>
                         </ul>
@@ -1843,7 +1849,7 @@ export default class NewProperty extends Component{
                         <label>Total Acquisition Costs</label>
                       </div>
                       <div className="col-md-6 pl-0">
-                        <input type="text" className="form-control"/>
+                        <input type="number" value={this.state.property.total_acquisition_cost} readOnly={true} className="form-control" name="total_acquisition_cost"/>
                       </div>
                     </div>
                   </div>
@@ -1851,32 +1857,32 @@ export default class NewProperty extends Component{
                     <h5 className="text-uppercase font-red step_heads">Financing Analysis After rehab</h5>
                     <div className="row mx-0 step_row">
                       <div className="col-md-6 my-2 row mx-0">
-                        <input type="number" className="form-control col-md-4"/>
-                        <input type="number" readOnly={true} className="form-control col-md-7 offset-md-1"/>
+                        <input type="number" className="form-control col-md-4" name="amount_financed_percentage" onChange={this.updateProperty} />
+                        <input type="number" readOnly={true} value={this.state.property.amount_financed} className="form-control col-md-7 offset-md-1" name="amount_financed" />
                       </div>
                       <div className="col-md-6 px-0 my-2">
                         <label className="text-uppercase">amount financed</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="number" className="form-control"/>
+                        <input type="number" className="form-control" name="interest_rate" onChange={this.updateProperty}/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
                         <label>Interest Rate APR</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="number" className="form-control"/>
+                        <input type="number" className="form-control" name="loan_terms" onChange={this.updateProperty}/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
                         <label>Loan Term</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="text" className="form-control"/>
+                        <input type="number" readOnly={true} value={this.state.property.principal_interest} className="form-control" name="principal_interest" />
                       </div>
                       <div className="col-md-6 my-2 px-0">
                         <label>Monthly Principal & Interest</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="text" className="form-control"/>
+                        <input type="number" readOnly={true} value={this.state.property.piti_monthly_debt} className="form-control" name="piti_monthly_debt"/>
                       </div>
                       <div className="col-md-6 px-0 my-2">
                         <label>Annual Debt Service</label>
@@ -1890,31 +1896,31 @@ export default class NewProperty extends Component{
                         <label className="text-uppercase">EST Annual taxes</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="number" className="form-control"/>
+                        <input type="number" className="form-control" name="taxes_annually" onChange={this.updateProperty}/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
                         <label>EST Annual Insurance</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="text" className="form-control"/>
+                        <input type="number" onChange={this.updateProperty} className="form-control" name="insurance_annually" value={this.state.property.insurance_annually} />
                       </div>
                       <div className="col-md-6 my-2 px-0">
                         <label>EST Annual Management Fees</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="text" className="form-control"/>
+                        <input type="number" className="form-control" name="est_annual_management_fees" onChange={this.updateProperty}/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
                         <label>EST Annual Repair</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="text" className="form-control"/>
+                        <input type="number" value={this.state.property.est_annual_operating_fees_others} className="form-control" name="est_annual_operating_fees_others" onChange={this.updateProperty}/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
                         <label>EST Annual Operating Costs</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="text" className="form-control"/>
+                        <input type="number" className="form-control" readOnly={true} value={this.state.property.est_annual_operating_fees} name="est_annual_operating_fees" onChange={this.updateProperty} />
                       </div>
                     </div>
                     <div className="col-md-12 mt-4 px-0">
@@ -1925,25 +1931,25 @@ export default class NewProperty extends Component{
                         <label>Total EST Monthly Rent</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="number" className="form-control" />
+                        <input type="number" className="form-control" name="monthly_rent" onChange={this.updateProperty}/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
                         <label>Total Gross Yearly Income</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="text" className="form-control"/>
+                        <input type="number" readOnly={true} value={this.state.property.total_gross_yearly_income} className="form-control" name="total_gross_yearly_income"/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
                         <label>EST Vacancy Rate</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="text" className="form-control"/>
+                        <input type="number" className="form-control" name="vacancy_rate" onChange={this.updateProperty}/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
                         <label>ADJ Gross Yearly Income</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="text" className="form-control"/>
+                        <input type="number" readOnly={true} value={this.state.property.adjusted_gross_yearly_income} className="form-control" name="adjusted_gross_yearly_income"/>
                       </div>
                     </div>
                   </div>
@@ -1951,31 +1957,31 @@ export default class NewProperty extends Component{
                     <h5 className="text-uppercase font-red step_heads">Cash Flow Analysis</h5>
                     <div className="row mx-0 step_row">
                       <div className="col-md-6 my-2 row mx-0">
-                        <input type="text" className="form-control"/>
+                        <input type="number" readOnly={true} value={this.state.property.adjusted_gross_yearly_income} className="form-control" name="adjusted_gross_yearly_income"/>
                       </div>
                       <div className="col-md-6 px-0 my-2">
                         <label>(+) Adjusted Gross Yearly Income</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="number" className="form-control" name="interest_rate" onChange={this.updateProperty}/>
+                        <input type="number" className="form-control " readOnly={true} value={this.state.property.est_annual_operating_fees} name="est_annual_operating_fees" onChange={this.updateProperty} />
                       </div>
                       <div className="col-md-6 px-0 my-2">
                         <label>(-) Est Annual Operating Costs</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="number" className="form-control" name="loan_terms" onChange={this.updateProperty}/>
+                        <input type="number" readOnly={true} value={this.state.property.net_operating_income} className="form-control" name="net_operating_income" />
                       </div>
                       <div className="col-md-6 px-0 my-2">
                         <label>(=) Net Operating Income</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="text" className="form-control"/>
+                        <input type="number" readOnly={true} value={this.state.property.annual_debt} className="form-control" name="annual_debt"/>
                       </div>
                       <div className="col-md-6 px-0 my-2">
                         <label>(-) Annual Debt Service</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="text" className="form-control"/>
+                        <input type="number" readOnly={true} value={this.state.property.annual_cash_flow} className="form-control" name="annual_cash_flow"/>
                       </div>
                       <div className="col-md-6 px-0 my-2">
                         <label>(=) Annual Cash Flow</label>
@@ -1989,23 +1995,24 @@ export default class NewProperty extends Component{
                         <label>Monthly Cash Flow</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="number" className="form-control" />
+                        <input type="number" readOnly={true} value={this.state.property.monthly_cash_flow} className="form-control" name="monthly_cash_flow"/>
                       </div>
                       <div className="col-md-6 my-2">
                         <label>Total Out of Pocket</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="text" className="form-control"/>
+                        <input type="number" readOnly={true} className="form-control" value={this.state.property.total_out_of_pocket} name="total_out_of_pocket"/>
                       </div>
                       <div className="col-md-6 my-2">
                         <label>Roi Cash On Cash</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="text" className="form-control"/>
+                        <input type="number" readOnly={true} className="form-control" value={this.state.property.roi_cash_percentage} name="roi_cash_percentage"/>
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  {/* ################### Old Form begin */}
+                  {/* <div className="col-md-6">
                     <h5>Deal Analysis</h5>
                     <div className="form-group">
                       <label>After Rehab Value</label>
@@ -2018,7 +2025,7 @@ export default class NewProperty extends Component{
                     <div className="form-group">
                       <label>Estimated Rehab Cost</label>
                       <input type="number" value={this.state.property.estimated_rehab_cost} readOnly={true} className="form-control" name="estimated_rehab_cost" onClick={() => {this.setState({
-                        estimated_cost_modal: true
+                    estimated_cost_modal: true
                       });}}/>
                     </div>
                     <div className="form-group">
@@ -2041,14 +2048,14 @@ export default class NewProperty extends Component{
                       <label>Total Acquisition Costs</label>
                       <input type="number" value={this.state.property.total_acquisition_cost} readOnly={true} className="form-control" name="total_acquisition_cost"/>
                     </div>
-                  </div>
-                  <div className="col-md-6">
+                    </div>
+                    <div className="col-md-6">
                     <h5>Financing Analysis</h5>
                     <div className="form-group">
                       <label>Amount Financed</label>
                       <div className="row mx-0">
-                        <input type="number" className="form-control col-md-4" name="amount_financed_percentage" onChange={this.updateProperty} />
-                        <input type="number" readOnly={true} value={this.state.property.amount_financed} className="form-control col-md-7 offset-md-1" name="amount_financed" />
+                    <input type="number" className="form-control col-md-4" name="amount_financed_percentage" onChange={this.updateProperty} />
+                    <input type="number" readOnly={true} value={this.state.property.amount_financed} className="form-control col-md-7 offset-md-1" name="amount_financed" />
                       </div>
                     </div>
                     <div className="form-group">
@@ -2075,8 +2082,8 @@ export default class NewProperty extends Component{
                       <label>PITI Monthly Debt Service</label>
                       <input type="number" readOnly={true} value={this.state.property.piti_monthly_debt} className="form-control" name="piti_monthly_debt"/>
                     </div>
-                  </div>
-                  <div className="col-md-6">
+                    </div>
+                    <div className="col-md-6">
                     <h5>Income Analysis</h5>
                     <div className="form-group">
                       <label>Total Monthly Rent</label>
@@ -2101,16 +2108,16 @@ export default class NewProperty extends Component{
                     <div className="form-group">
                       <label>Annual Operating Costs</label>
                       <div className="row mx-0">
-                        <input type="number" className="form-control col-md-5" readOnly={true} value={this.state.property.est_annual_operating_fees} name="est_annual_operating_fees" onChange={this.updateProperty} />
-                        <input type="number" value={this.state.property.est_annual_operating_fees_others} className="form-control col-md-6 offset-md-1" name="est_annual_operating_fees_others" onChange={this.updateProperty}/>
+                    <input type="number" className="form-control col-md-5" readOnly={true} value={this.state.property.est_annual_operating_fees} name="est_annual_operating_fees" onChange={this.updateProperty} />
+                    <input type="number" value={this.state.property.est_annual_operating_fees_others} className="form-control col-md-6 offset-md-1" name="est_annual_operating_fees_others" onChange={this.updateProperty}/>
                       </div>
                     </div>
                     <div className="form-group">
                       <label>Net Operating Income(NOI)</label>
                       <input type="number" readOnly={true} value={this.state.property.net_operating_income} className="form-control" name="net_operating_income" />
                     </div>
-                  </div>
-                  <div className="col-md-6">
+                    </div>
+                    <div className="col-md-6">
                     <h5>Cash Flow Analysis</h5>
                     <div className="form-group">
                       <label>Annual Debt Service</label>
@@ -2136,7 +2143,8 @@ export default class NewProperty extends Component{
                       <label>ROI Cash on Cash</label>
                       <input type="number" readOnly={true} className="form-control" value={this.state.property.roi_cash_percentage} name="roi_cash_percentage"/>
                     </div>
-                  </div>
+                  </div> */}
+                  {/* ################### Old form ends*/}
                 </div>
                 <div className="row mx-0">
                   <div className="col-md-6">
