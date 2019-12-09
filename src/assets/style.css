@@ -784,8 +784,12 @@ button:focus {
 }
 
 .step_row label {
-  font-weight: 500;
-  font-size: 12px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.step_row .custom-file label{
+  font-size: 15px;
+  font-weight: 400;
 }
 .step_textarea .col-md-9{
   flex: 0 0 76%;
@@ -795,7 +799,9 @@ button:focus {
   flex: 0 0 24%;
   max-width: 24%;
 }
-
+.creation-forms .form-control{
+  font-size: 0.85rem;
+}
 /*my properties*/
 .my-property-box::-webkit-scrollbar {
   display: none;
@@ -3434,6 +3440,11 @@ input:checked+.slider:before {
   border-bottom: 3px solid #e9e9e9;
   margin-bottom: 0px;
   padding-bottom: 4px;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+.step_fonts{
+  padding-left: 10px;
 }
 .bottom_box{
   background-color: #bcf9bd;
