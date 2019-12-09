@@ -3505,3 +3505,7 @@ input:checked+.slider:before {
 .font-600{
     font-weight: 600;
 }
+
+.properties-address a:hover {
+  text-decoration: none;
+}

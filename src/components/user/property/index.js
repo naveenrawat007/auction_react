@@ -145,7 +145,7 @@ export default class ListProperty extends Component{
             </div>
             <div className="col-md-5 px-2 py-2">
               <div className=" properties-address">
-                <h5 className="font-blue">{property.address}</h5>
+                <h5 className="font-blue"><Link to={"property/" + property.id}> {property.address} </Link></h5>
                 <div className="address-list mb-0">
                   <div className="p-format">
                     <p>Submitted Date</p>
