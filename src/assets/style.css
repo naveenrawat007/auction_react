@@ -786,7 +786,7 @@ button:focus {
 
 .step_row label {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 15px;
 }
 .step_row .custom-file label{
   font-size: 15px;
@@ -3453,7 +3453,7 @@ input:checked+.slider:before {
   margin-bottom: 0px;
   padding-bottom: 4px;
   font-size: 1.15rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 .step_fonts{
   padding-left: 10px;
@@ -3489,4 +3489,19 @@ input:checked+.slider:before {
 .pdf-box{
     display: flex;
     align-items: center;
+}
+/* step 2 labels*/
+.est_box .labels_main{
+  font-size: 13px;
+  font-weight: 600;
+}
+.step_row .labels_main{
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.step_row label.label-bold{
+  font-weight: 700 !important;
+}
+.font-600{
+    font-weight: 600;
 }

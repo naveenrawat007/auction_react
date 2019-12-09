@@ -1430,7 +1430,7 @@ export default class NewProperty extends Component{
       <div id="newproperty" className="container px-0 tab-pane active">
         <div className="profile-form">
           <div className="profile-form-in">
-            <div className="container creation-steps px-0" id="step1">
+            <div className="container creation-steps px-0 d-none" id="step1">
               <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete current">
                   <div className="text-center bs-wizard-number">1</div>
@@ -1728,8 +1728,8 @@ export default class NewProperty extends Component{
                 <Link to="#" className="red-btn step-btn" onClick={this.submitStepOne}>Continue</Link>
               </div>
             </div>
-            <div className="container creation-steps px-0 d-none" id="step2">
-              <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
+            <div className="container creation-steps px-0 " id="step2">
+              <div className="row bs-wizard mb-4 mx-0 d-none" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete">
                   <div className="text-center bs-wizard-number">1</div>
                   <div className="text-center bs-wizard-stepnum">PROPERTY DETAILS</div>
@@ -1824,42 +1824,42 @@ export default class NewProperty extends Component{
                         <input type="number" className="form-control" name="after_rehab_value" onChange={this.updateProperty} />
                       </div>
                       <div className="col-md-12 px-0">
-                        <h6 className="text-uppercase font-red">Acquisition Cost</h6>
+                        <h6 className="text-uppercase font-red font-600">Acquisition Cost</h6>
                         <ul className="est_box">
                           <li className="my-2">
                             <div className="est_list">
-                              <label>Asking/Purchase Price: </label>
+                              <label className="labels_main">Asking/Purchase Price: </label>
                               <input type="number" className="form-control" name="asking_price" onChange={this.updateProperty}/>
                             </div>
                           </li>
                           <li className="my-2">
                             <div className="est_list">
-                              <label>Est Rehab Cost: </label>
+                              <label className="labels_main">Est Rehab Cost: </label>
                               <input type="number" value={this.state.property.estimated_rehab_cost} readOnly={true} className="form-control" name="estimated_rehab_cost"/>
                             </div>
                           </li>
                           <li className="my-2">
                             <div className="est_list">
-                              <label>Est Closing Cost: </label>
+                              <label className="labels_main">Est Closing Cost: </label>
                               <input type="number" className="form-control" name="closing_cost" onChange={this.updateProperty}/>
                             </div>
                           </li>
                           <li className="my-2">
                             <div className="est_list">
-                              <label>Est Annual Insurance: </label>
+                              <label className="labels_main">Est Annual Insurance: </label>
                               <input type="number" onChange={this.updateProperty} className="form-control" name="insurance_annually" value={this.state.property.insurance_annually} />
                             </div>
                           </li>
                           <li className="my-2">
                             <div className="est_list">
-                              <label>Est Hard Money or STF Cost: </label>
+                              <label className="labels_main">Est Hard Money or STF Cost: </label>
                               <input type="number" className="form-control" name="short_term_financing_cost" onChange={this.updateProperty}/>
                             </div>
                           </li>
                         </ul>
                       </div>
                       <div className="col-md-6 px-0">
-                        <label>Total Acquisition Costs</label>
+                        <label className="label-bold">Total Acquisition Costs</label>
                       </div>
                       <div className="col-md-6 pl-0">
                         <input type="number" value={this.state.property.total_acquisition_cost} readOnly={true} className="form-control" name="total_acquisition_cost"/>
@@ -1880,25 +1880,25 @@ export default class NewProperty extends Component{
                         <input type="number" className="form-control" name="interest_rate" onChange={this.updateProperty}/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
-                        <label>Interest Rate APR</label>
+                        <label className="labels_main">Interest Rate APR</label>
                       </div>
                       <div className="col-md-6 my-2">
                         <input type="number" className="form-control" name="loan_terms" onChange={this.updateProperty}/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
-                        <label>Loan Term</label>
+                        <label className="labels_main">Loan Term</label>
                       </div>
                       <div className="col-md-6 my-2">
                         <input type="number" readOnly={true} value={this.state.property.principal_interest} className="form-control" name="principal_interest" />
                       </div>
                       <div className="col-md-6 my-2 px-0">
-                        <label>Monthly Principal & Interest</label>
+                        <label className="labels_main">Monthly Principal & Interest</label>
                       </div>
                       <div className="col-md-6 my-2">
                         <input type="number" readOnly={true} value={this.state.property.piti_monthly_debt} className="form-control" name="piti_monthly_debt"/>
                       </div>
                       <div className="col-md-6 px-0 my-2">
-                        <label>Annual Debt Service</label>
+                        <label className="labels_main">Annual Debt Service</label>
                       </div>
                     </div>
                   </div>
@@ -1906,60 +1906,60 @@ export default class NewProperty extends Component{
                     <h5 className="text-uppercase font-red step_heads">Expense Analysis</h5>
                     <div className="row mx-0 step_row">
                       <div className="col-md-6 my-2 px-0">
-                        <label className="text-uppercase">EST Annual taxes</label>
+                        <label className="labels_main">Est Annual taxes</label>
                       </div>
                       <div className="col-md-6 my-2 pl-0">
                         <input type="number" className="form-control" name="taxes_annually" onChange={this.updateProperty}/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
-                        <label>EST Annual Insurance</label>
+                        <label className="labels_main">Est Annual Insurance</label>
                       </div>
                       <div className="col-md-6 my-2 pl-0">
                         <input type="number" onChange={this.updateProperty} className="form-control" name="insurance_annually" value={this.state.property.insurance_annually} />
                       </div>
                       <div className="col-md-6 my-2 px-0">
-                        <label>EST Annual Management Fees</label>
+                        <label className="labels_main">Est Annual Management Fees</label>
                       </div>
                       <div className="col-md-6 my-2 pl-0">
                         <input type="number" className="form-control" name="est_annual_management_fees" onChange={this.updateProperty}/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
-                        <label>EST Annual Repair</label>
+                        <label className="labels_main">Est Annual Repair</label>
                       </div>
                       <div className="col-md-6 my-2 pl-0">
                         <input type="number" value={this.state.property.est_annual_operating_fees_others} className="form-control" name="est_annual_operating_fees_others" onChange={this.updateProperty}/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
-                        <label>EST Annual Operating Costs</label>
+                        <label className="labels_main">Est Annual Operating Costs</label>
                       </div>
                       <div className="col-md-6 my-2 pl-0">
                         <input type="number" className="form-control" readOnly={true} value={this.state.property.est_annual_operating_fees} name="est_annual_operating_fees" onChange={this.updateProperty} />
                       </div>
                     </div>
                     <div className="col-md-12 mt-4 px-0">
-                      <h6 className="text-uppercase font-red">Income or Cash Flow Analysis</h6>
+                      <h6 className="text-uppercase font-red font-600">Income or Cash Flow Analysis</h6>
                     </div>
                     <div className="row mx-0 step_row">
                       <div className="col-md-6 my-2 px-0">
-                        <label>Total EST Monthly Rent</label>
+                        <label className="labels_main">Total EST Monthly Rent</label>
                       </div>
                       <div className="col-md-6 my-2 pl-0">
                         <input type="number" className="form-control" name="monthly_rent" onChange={this.updateProperty}/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
-                        <label>Total Gross Yearly Income</label>
+                        <label className="labels_main">Total Gross Yearly Income</label>
                       </div>
                       <div className="col-md-6 my-2 pl-0">
                         <input type="number" readOnly={true} value={this.state.property.total_gross_yearly_income} className="form-control" name="total_gross_yearly_income"/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
-                        <label>EST Vacancy Rate</label>
+                        <label className="labels_main">Est Vacancy Rate</label>
                       </div>
                       <div className="col-md-6 my-2 pl-0">
                         <input type="number" className="form-control" name="vacancy_rate" onChange={this.updateProperty}/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
-                        <label>ADJ Gross Yearly Income</label>
+                        <label className="labels_main label-bold">ADJ Gross Yearly Income</label>
                       </div>
                       <div className="col-md-6 my-2 pl-0">
                         <input type="number" readOnly={true} value={this.state.property.adjusted_gross_yearly_income} className="form-control" name="adjusted_gross_yearly_income"/>
@@ -1973,54 +1973,54 @@ export default class NewProperty extends Component{
                         <input type="number" readOnly={true} value={this.state.property.adjusted_gross_yearly_income} className="form-control" name="adjusted_gross_yearly_income"/>
                       </div>
                       <div className="col-md-6 px-0 my-2">
-                        <label>(+) Adjusted Gross Yearly Income</label>
+                        <label className="labels_main">(+) Adjusted Gross Yearly Income</label>
                       </div>
                       <div className="col-md-6 my-2">
                         <input type="number" className="form-control " readOnly={true} value={this.state.property.est_annual_operating_fees} name="est_annual_operating_fees" onChange={this.updateProperty} />
                       </div>
                       <div className="col-md-6 px-0 my-2">
-                        <label>(-) Est Annual Operating Costs</label>
+                        <label className="labels_main">(-) Est Annual Operating Costs</label>
                       </div>
                       <div className="col-md-6 my-2">
                         <input type="number" readOnly={true} value={this.state.property.net_operating_income} className="form-control" name="net_operating_income" />
                       </div>
                       <div className="col-md-6 px-0 my-2">
-                        <label>(=) Net Operating Income</label>
+                        <label className="labels_main label-bold">(=) Net Operating Income (NOI)</label>
                       </div>
                       <div className="col-md-6 my-2">
                         <input type="number" readOnly={true} value={this.state.property.annual_debt} className="form-control" name="annual_debt"/>
                       </div>
                       <div className="col-md-6 px-0 my-2">
-                        <label>(-) Annual Debt Service</label>
+                        <label className="labels_main">(-) Annual Debt Service</label>
                       </div>
                       <div className="col-md-6 my-2">
                         <input type="number" readOnly={true} value={this.state.property.annual_cash_flow} className="form-control" name="annual_cash_flow"/>
                       </div>
                       <div className="col-md-6 px-0 my-2">
-                        <label>(=) Annual Cash Flow</label>
+                        <label className="labels_main label-bold">(=) Annual Cash Flow</label>
                       </div>
                     </div>
                     <div className="col-md-12 mt-4">
-                      <h6 className="text-uppercase font-red">Bottom Line</h6>
+                      <h6 className="text-uppercase font-red font-600">Bottom Line</h6>
                     </div>
                     <div className="row mx-0 step_row bottom_box">
                       <div className="col-md-6 my-2">
-                        <label>Monthly Cash Flow</label>
-                      </div>
-                      <div className="col-md-6 my-2">
                         <input type="number" readOnly={true} value={this.state.property.monthly_cash_flow} className="form-control" name="monthly_cash_flow"/>
                       </div>
-                      <div className="col-md-6 my-2">
-                        <label>Total Out of Pocket</label>
+                      <div className="col-md-6 my-2 px-0">
+                        <label className="labels_main">Monthly Cash Flow</label>
                       </div>
                       <div className="col-md-6 my-2">
                         <input type="number" readOnly={true} className="form-control" value={this.state.property.total_out_of_pocket} name="total_out_of_pocket"/>
                       </div>
-                      <div className="col-md-6 my-2">
-                        <label>Roi Cash On Cash</label>
+                      <div className="col-md-6 my-2 px-0">
+                        <label className="labels_main">Total Out of Pocket</label>
                       </div>
                       <div className="col-md-6 my-2">
                         <input type="number" readOnly={true} className="form-control" value={this.state.property.roi_cash_percentage} name="roi_cash_percentage"/>
+                      </div>
+                      <div className="col-md-6 my-2 px-0">
+                        <label className="label-bold">ROI Cash On Cash</label>
                       </div>
                     </div>
                   </div>
