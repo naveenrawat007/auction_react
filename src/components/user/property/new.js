@@ -474,7 +474,7 @@ export default class NewProperty extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 200) {
-        window.location.href = "/user/property/new"
+        window.location.href = "/user/property/"+this.state.property.id
       }else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"

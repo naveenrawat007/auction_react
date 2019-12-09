@@ -17,7 +17,7 @@ export default class PropertyShow extends Component {
     this._isMounted = false;
   }
   getProperty = () => {
-    console.log(this.props.match.params.id); //  params.id == this.props.match.params.id
+    // console.log(this.props.match.params.id); //  params.id == this.props.match.params.id
     const { match: { params } } = this.props;
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/ " + params.id
     fetch(url,{
@@ -42,7 +42,7 @@ export default class PropertyShow extends Component {
             isLoaded: true,
             property: result.property,
           });
-          console.log(result.property);
+          // console.log(result.property);
         }else if (result.status === 401) {
           localStorage.removeItem("auction_user_token");
           window.location.href = "/login"
