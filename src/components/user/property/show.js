@@ -262,7 +262,7 @@ export default class PropertyShow extends Component {
                           <a href={this.state.property.rehab_cost_proof} target="_blank" rel="noopener noreferrer">
                             <div className="pdf-box">
                               <FontAwesomeIcon icon={faFilePdf}/>
-                              <p>Sold Comparables</p>
+                              <p>Rehab Cost proofs</p>
                             </div>
                           </a>
                         </div>
@@ -276,7 +276,7 @@ export default class PropertyShow extends Component {
               <div className="wrap_property">
                 <h5 className="mb-3 main_box_head">Property Auction Terms and Disclaimers</h5>
                 <div className="video-box">
-                  <iframe height="350" src={ this.state.property.youtube_url === "" ? "https://www.youtube.com/embed/X080gIJFE3M?controls=0" : String(this.state.property.youtube_url)} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                  <iframe height="350" src={ this.state.property.youtube_url ? String(this.state.property.youtube_url) : "https://www.youtube.com/embed/X080gIJFE3M?controls=0"} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
                 </div>
               </div>
             </div>
