@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf} from '@fortawesome/free-solid-svg-icons'
 
 export default class PropertyShow extends Component {
-
+  _isMounted = false
   constructor(props){
     super(props);
     this.state = {
@@ -13,7 +13,9 @@ export default class PropertyShow extends Component {
       message: "",
     }
   };
-
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
   getProperty = () => {
     console.log(this.props.match.params.id); //  params.id == this.props.match.params.id
     const { match: { params } } = this.props;
@@ -34,31 +36,36 @@ export default class PropertyShow extends Component {
     })
     .then(res => res.json())
     .then((result) => {
-      if (result.status === 200){
-        this.setState({
-          isLoaded: true,
-          property: result.property,
-        });
-        console.log(result.property);
-      }else if (result.status === 401) {
-        localStorage.removeItem("auction_user_token");
-        window.location.href = "/login"
-      }
-      else{
+      if (this._isMounted){
+        if (result.status === 200){
+          this.setState({
+            isLoaded: true,
+            property: result.property,
+          });
+          console.log(result.property);
+        }else if (result.status === 401) {
+          localStorage.removeItem("auction_user_token");
+          window.location.href = "/login"
+        }
+        else{
+        }
       }
     })
     .catch(
       (error) => {
-        this.setState({
-          isLoaded: true,
-          message: "Can not load the authors. Problem with server",
-        });
+        if (this._isMounted){
+          this.setState({
+            isLoaded: true,
+            message: "Can not load the authors. Problem with server",
+          });
+        }
       }
     )
   }
 
 
   componentDidMount = () => {
+    this._isMounted = true;
     this.getProperty();
     window.scrollTo(0,0)
   }
@@ -66,6 +73,28 @@ export default class PropertyShow extends Component {
 
   render(){
     if (this.state.isLoaded === true){
+      const images = this.state.property.images.map((image, index) => {
+        if (index === 0){
+          return (
+            <div className="mySlides" style={{display: "block"}}>
+              <img src={image} style={{width:"100%", height: "500px"}} alt={index}/>
+            </div>
+          )
+        }else{
+          return (
+            <div className="mySlides" style={{width:"100%", height: "500px"}}>
+              <img src={image} style={{width:"100%", height: "500px"}} alt={index}/>
+            </div>
+          )
+        }
+      })
+      const prev_images = this.state.property.images.map((image, index) => {
+        return (
+          <div className="column_gallery">
+            <img className="demo cursor" src={image} style={{width:"100%", height: "80px"}}  alt={index}/>
+          </div>
+        )
+      })
       return (
         <div className="container custom_container">
           <div className="row">
@@ -76,61 +105,34 @@ export default class PropertyShow extends Component {
                     <h3 className="font-blue">{this.state.property.address}</h3>
                     <h5>Property Type: {this.state.property.p_type}</h5>
                   </div>
-                  <div className="head_icon">
-                    <a href="#" className="head_icon_box">
-                      <FontAwesomeIcon icon={faBed}  />
-                      <p>{this.state.property.residential_attributes.bedrooms} Beds</p>
-                    </a>
-                    <a href="#" className="head_icon_box">
-                      <FontAwesomeIcon icon={faBath}  />
-                      <p>{this.state.property.residential_attributes.bathrooms} Baths</p>
-                    </a>
-                    <a href="#" className="">
-                      <FontAwesomeIcon icon={faCar}  />
-                      <p>{this.state.property.residential_attributes.garage} Car</p>
-                    </a>
-                  </div>
+                  {this.state.property.type === "Residential" ?
+                    <div className="head_icon">
+                      <a href="#" className="head_icon_box">
+                        <FontAwesomeIcon icon={faBed}  />
+                        <p>{this.state.property.residential_attributes.bedrooms} Beds</p>
+                      </a>
+                      <a href="#" className="head_icon_box">
+                        <FontAwesomeIcon icon={faBath}  />
+                        <p>{this.state.property.residential_attributes.bathrooms} Baths</p>
+                      </a>
+                      <a href="#" className="">
+                        <FontAwesomeIcon icon={faCar}  />
+                        <p>{this.state.property.residential_attributes.garage} Car</p>
+                      </a>
+                    </div>
+                  : null}
                 </div>
                 <div className="property_gallery">
-                  <div className="mySlides" style={{display: "block"}}>
+                  {this.state.property.images.length > 0 ? images : <div className="mySlides" style={{display: "block"}}>
                     <img src="/images/homee1.png" style={{width:"100%", height: "500px"}}/>
-                  </div>
-                  <div className="mySlides">
-                    <img src="/images/homee2.png" style={{width:"100%", height: "500px"}}/>
-                  </div>
-                  <div className="mySlides">
-                    <img src="/images/home3.png" style={{width:"100%", height: "500px"}}/>
-                  </div>
-                  <div className="mySlides">
-                    <img src="/images/home4.png" style={{width:"100%", height: "500px"}}/>
-                  </div>
-                  <div className="mySlides">
-                    <img src="/images/home5.png" style={{width:"100%", height: "500px"}}/>
-                  </div>
-                  <div className="mySlides">
-                    <img src="/images/home6.png" style={{width:"100%", height: "400px"}}/>
-                  </div>
+                  </div>}
                   <a className="prev" >❮</a>
                   <a className="next" >❯</a>
                   <div className="row_gallery">
-                    <div className="column_gallery">
-                      <img className="demo cursor" src="/images/homee1.png" style={{width:"100%", height: "80px"}}  alt="The Woods"/>
-                    </div>
-                    <div className="column_gallery">
-                      <img className="demo cursor" src="/images/homee2.png" style={{width:"100%", height: "80px"}}  alt="Cinque Terre"/>
-                    </div>
-                    <div className="column_gallery">
-                      <img className="demo cursor" src="/images/home3.png" style={{width:"100%", height: "80px"}}  alt="Mountains and fjords"/>
-                    </div>
-                    <div className="column_gallery">
-                      <img className="demo cursor" src="/images/home4.png" style={{width:"100%", height: "80px"}}  alt="Northern Lights"/>
-                    </div>
-                    <div className="column_gallery">
-                      <img className="demo cursor" src="/images/home5.png" style={{width:"100%", height: "80px"}}  alt="Mountains and fjords"/>
-                    </div>
-                    <div className="column_gallery">
-                      <img className="demo cursor" src="/images/home6.png" style={{width:"100%", height: "80px"}}  alt="Northern Lights"/>
-                    </div>
+                    {this.state.property.images.length > 0 ? prev_images : <div className="column_gallery">
+                      <img className="demo cursor" src="/images/homee1.png" style={{width:"100%", height: "80px"}} alt="The Woods"/>
+                    </div>}
+                    {/* {prev_images} */}
                   </div>
                 </div>
               </div>
@@ -214,14 +216,16 @@ export default class PropertyShow extends Component {
                     <h5 className="mb-3 main_box_head">Property Details</h5>
                     <div className="detailed_content">
                       <p><span>{this.state.property.category} | {this.state.property.p_type}</span></p>
-                      <ul className="list-inline">
-                        <li className="list-inline-item"><span>Beds:</span> {this.state.property.residential_attributes.bedrooms}</li>|
-                        <li className="list-inline-item"><span>Baths:</span> {this.state.property.residential_attributes.bathrooms}</li>|
-                        <li className="list-inline-item"><span>Garage:</span> {this.state.property.residential_attributes.garage}</li>|
-                        <li className="list-inline-item"><span>Sqft:</span> {this.state.property.residential_attributes.area}</li>|
-                        <li className="list-inline-item"><span>Lot Size:</span> {this.state.property.residential_attributes.lot_size}</li>|
-                        <li className="list-inline-item"><span>Built:</span> {this.state.property.residential_attributes.year_built}</li>
-                      </ul>
+                      {this.state.property.type === "Residential" ?
+                        <ul className="list-inline">
+                          <li className="list-inline-item"><span>Beds:</span> {this.state.property.residential_attributes.bedrooms}</li>|
+                          <li className="list-inline-item"><span>Baths:</span> {this.state.property.residential_attributes.bathrooms}</li>|
+                          <li className="list-inline-item"><span>Garage:</span> {this.state.property.residential_attributes.garage}</li>|
+                          <li className="list-inline-item"><span>Sqft:</span> {this.state.property.residential_attributes.area}</li>|
+                          <li className="list-inline-item"><span>Lot Size:</span> {this.state.property.residential_attributes.lot_size}</li>|
+                          <li className="list-inline-item"><span>Built:</span> {this.state.property.residential_attributes.year_built}</li>
+                        </ul>
+                      : null }
                       <p>{this.state.property.description}</p>
                     </div>
                   </div>
