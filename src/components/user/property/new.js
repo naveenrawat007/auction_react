@@ -1453,7 +1453,7 @@ export default class NewProperty extends Component{
                 <h4 className="step-name">Property Details</h4>
               </div>
               <form className="row mx-0 creation-forms">
-                <div className="col-md-6 row mx-0 mb-2 step_row">
+                <div className="col-md-6 row mx-0 mb-2 pl-0 step_row">
                   <div className="col-md-6 px-0">
                     <label>Property Address</label>
                   </div>
@@ -1465,7 +1465,7 @@ export default class NewProperty extends Component{
                   </div>
                 </div>
 
-                <div className="col-md-6 row mx-0 mb-2 step_row">
+                <div className="col-md-6 row mx-0 mb-2 pr-0 step_row">
                   <div className="col-md-6 px-0">
                     <label>City</label>
                   </div>
@@ -1476,7 +1476,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_city_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row">
+                <div className="col-md-6 row mx-0 mb-2 pl-0 step_row">
                   <div className="col-md-6 px-0">
                     <label>State</label>
                   </div>
@@ -1487,7 +1487,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_state_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row">
+                <div className="col-md-6 row mx-0 mb-2 pr-0 step_row">
                   <div className="col-md-6 px-0">
                     <label>Zip code</label>
                   </div>
@@ -1498,7 +1498,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_zip_code_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row">
+                <div className="col-md-6 row mx-0 mb-2 pl-0 step_row">
                   <div className="col-md-6 px-0">
                     <label>Property Category</label>
                   </div>
@@ -1511,7 +1511,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_category_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row">
+                <div className="col-md-6 row mx-0 mb-2 pr-0 step_row">
                   <div className="col-md-6 px-0">
                     <label>Property Type</label>
                   </div>
@@ -1524,7 +1524,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_type_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row" id="bedrooms-input">
+                <div className="col-md-6 row mx-0 mb-2 step_row pl-0" id="bedrooms-input">
                   <div className="col-md-6 px-0">
                     <label>Bedrooms</label>
                   </div>
@@ -1535,7 +1535,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_bedrooms_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row" id="bathrooms-input">
+                <div className="col-md-6 row mx-0 mb-2 step_row pr-0" id="bathrooms-input">
                   <div className="col-md-6 px-0">
                     <label>Bathrooms</label>
                   </div>
@@ -1546,7 +1546,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_bathrooms_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row" id="garage-input">
+                <div className="col-md-6 row mx-0 mb-2 step_row pl-0" id="garage-input">
                   <div className="col-md-6 px-0">
                     <label>Garage</label>
                   </div>
@@ -1557,7 +1557,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_garage_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row" id="area-input">
+                <div className="col-md-6 row mx-0 mb-2 step_row pr-0" id="area-input">
                   <div className="col-md-6 px-0">
                     <label>Area (SqFt)</label>
                   </div>
@@ -1568,7 +1568,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_area_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row" id="lot-input">
+                <div className="col-md-6 row mx-0 mb-2 step_row pl-0" id="lot-input">
                   <div className="col-md-6 px-0">
                     <label>Lot Size</label>
                   </div>
@@ -1579,7 +1579,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_lot_size_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row" id="year-built-input">
+                <div className="col-md-6 row mx-0 mb-2 step_row pr-0" id="year-built-input">
                   <div className="col-md-6 px-0">
                     <label>Year Built</label>
                   </div>
@@ -1590,7 +1590,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_year_built_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row" id="units-input">
+                <div className="col-md-6 row mx-0 mb-2 step_row pl-0" id="units-input">
                   <div className="col-md-6 px-0">
                     <label>Units</label>
                   </div>
@@ -1601,7 +1601,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_units_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row" id="stories-input">
+                <div className="col-md-6 row mx-0 mb-2 step_row pr-0" id="stories-input">
                   <div className="col-md-6 px-0">
                     <label>Stories</label>
                   </div>
@@ -1612,7 +1612,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_stories_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row" id="cap_rate-input">
+                <div className="col-md-6 row mx-0 mb-2 step_row pl-0" id="cap_rate-input">
                   <div className="col-md-6 px-0">
                     <label>Cap Rate</label>
                   </div>
@@ -1623,7 +1623,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_cap_rate_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row" id="price_per_sq_ft-input">
+                <div className="col-md-6 row mx-0 mb-2 step_row pr-0" id="price_per_sq_ft-input">
                   <div className="col-md-6 px-0">
                     <label>Price Per SqFt</label>
                   </div>
@@ -1634,7 +1634,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_price_per_sq_ft_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row">
+                <div className="col-md-6 row mx-0 mb-2 step_row pl-0">
                   <div className="col-md-6 px-0">
                     <label>Property Headliner</label>
                   </div>
@@ -1645,7 +1645,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_headliner_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row">
+                <div className="col-md-6 row mx-0 mb-2 step_row pr-0">
                   <div className="col-md-6 px-0">
                     <label>Is this property on MLS?</label>
                   </div>
@@ -1659,7 +1659,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_mls_available_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row">
+                <div className="col-md-6 row mx-0 mb-2 step_row pl-0">
                   <div className="col-md-6 px-0">
                     <label>Did Property Flooded?</label>
                   </div>
@@ -1674,7 +1674,7 @@ export default class NewProperty extends Component{
                   </div>
                 </div>
 
-                <div className="col-md-6 row mx-0 mb-2 step_row">
+                <div className="col-md-6 row mx-0 mb-2 step_row pr-0">
                   <div className="col-md-6 px-0">
                     <label>Estimated Rehab Cost</label>
                   </div>
@@ -1684,7 +1684,7 @@ export default class NewProperty extends Component{
                     });}}/>
                   </div>
                 </div>
-                <div className="col-md-12 row mx-0 mb-2 step_row step_textarea" id="flood_count-input">
+                <div className="col-md-12 row mx-0 mb-2 step_row px-0 step_textarea" id="flood_count-input">
                   <div className="col-md-3 px-0">
                     <label>If Flooded</label>
                   </div>
@@ -1695,7 +1695,7 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_flood_count_error)}
                   </div>
                 </div>
-                <div className="col-md-12 row mx-0 mb-2 step_row step_textarea">
+                <div className="col-md-12 row mx-0 mb-2 px-0 step_row step_textarea">
                   <div className="col-md-3 px-0">
                     <label>Property Description</label>
                   </div>
