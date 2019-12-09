@@ -1413,7 +1413,7 @@ export default class NewProperty extends Component{
       <div id="newproperty" className="container px-0 tab-pane active">
         <div className="profile-form">
           <div className="profile-form-in">
-            <div className="container creation-steps px-0 d-none" id="step1">
+            <div className="container creation-steps px-0 " id="step1">
               <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete current">
                   <div className="text-center bs-wizard-number">1</div>
@@ -1784,9 +1784,7 @@ export default class NewProperty extends Component{
                         <label className="mb-0">Estimated Rehab Cost</label>
                       </div>
                       <div className="col-md-6 my-2 px-0">
-                        <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} id="estimated-cost1" onClick={() => {this.setState({
-                          estimated_cost_modal: true
-                        });}}/>
+                        <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} id="estimated-cost1" />
                       </div>
 
                       <div className="col-md-6 my-2 px-0">
@@ -1820,9 +1818,7 @@ export default class NewProperty extends Component{
                           <li className="my-2">
                             <div className="est_list">
                               <label>Est Rehab Cost: </label>
-                              <input type="number" value={this.state.property.estimated_rehab_cost} readOnly={true} className="form-control" name="estimated_rehab_cost" onClick={() => {this.setState({
-                                estimated_cost_modal: true
-                              });}}/>
+                              <input type="number" value={this.state.property.estimated_rehab_cost} readOnly={true} className="form-control" name="estimated_rehab_cost"/>
                             </div>
                           </li>
                           <li className="my-2">
@@ -2180,11 +2176,11 @@ export default class NewProperty extends Component{
                 </div>
               </form>
               <Modal className="status_modal" show={this.state.estimated_cost_modal} onHide={this.hideModal}>
-                <div className="modal-header text-center">
-                  <div className="col-md-12 text-center">
+                <Modal.Header closeButton>
+                  <div className=" offset-md-1 col-md-10 text-center">
                     <h5 className="mb-0 text-uppercase">Itemized Repairs</h5>
                   </div>
-                </div>
+                </Modal.Header>
                 <div className="modal-body">
                   <div className="row mx-0">
                     <div className="col-md-12 px-0">
@@ -2429,7 +2425,7 @@ export default class NewProperty extends Component{
                   <div className="col-md-6 px-0">
                     <label htmlFor="sel2">Buy options</label>
                   </div>
-                  <div className="col-md-6 px-0">  
+                  <div className="col-md-6 px-0">
                     <MultiSelect
                       options={buy_options}
                       selectSomeItmes = "select"
@@ -2442,7 +2438,7 @@ export default class NewProperty extends Component{
                   <div className="col-md-6 px-0">
                     <label>Title Status</label>
                   </div>
-                  <div className="col-md-6 px-0">  
+                  <div className="col-md-6 px-0">
                     <input type="text" className="form-control" name="title_status" onChange={this.updateProperty} />
                   </div>
                 </div>
@@ -2469,7 +2465,7 @@ export default class NewProperty extends Component{
                 <Link to="#" className="red-btn step-btn" onClick={this.submitStepThree}>Continue</Link>
               </div>
             </div>
-            <div className="container creation-steps px-0 " id= "step4">
+            <div className="container creation-steps px-0 d-none" id= "step4">
               <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete">
                   <div className="text-center bs-wizard-number">1</div>
