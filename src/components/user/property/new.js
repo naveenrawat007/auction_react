@@ -2509,14 +2509,14 @@ export default class NewProperty extends Component{
                 <h4 className="step-name">Upload Photos and Videos</h4>
               </div>
               <form className="row mx-0 creation-forms">
-                <div className="col-md-6 step_row">
+                <div className="col-md-6 step_row pl-0">
                   <label>Select images associated with this property</label>
                   <div className="custom-file">
                     <input type="file" className="custom-file-input" name="images" onChange={this.imageSelectHandler} multiple={true}/>
                     <label className="custom-file-label" htmlFor="customFile">Choose file</label>
                   </div>
                 </div>
-                <div className="col-md-6 step_row">
+                <div className="col-md-6 step_row pr-0">
                   <div className="form-group">
                     <label>Youtube URL</label>
                     <input type="text" className="form-control" name="youtube_url" onChange={this.updateProperty}/>

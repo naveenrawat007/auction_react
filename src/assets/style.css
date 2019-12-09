@@ -2330,7 +2330,7 @@ input:checked+.slider:before {
 
 /* bid modal */
 .bid_modal .modal-dialog .modal-header, .status_modal .modal-dialog .modal-header {
-  background-color: #064d9d;
+  background-color: #b71c1c;
   color: #fff;
 }
 
@@ -2368,7 +2368,7 @@ input:checked+.slider:before {
 
 /* status Modal */
 .status_modal .modal-dialog {
-  max-width: 600px;
+  max-width: 601px;
 }
 
 .status_modal .modal-body .status-list {
@@ -2763,7 +2763,7 @@ input:checked+.slider:before {
 }
 
 .buy_modal .modal-dialog .modal-header {
-  background-color: #064d9d;
+  background-color: #b71c1c;
   color: #fff;
 }
 
