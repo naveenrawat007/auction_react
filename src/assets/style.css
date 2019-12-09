@@ -1444,8 +1444,8 @@ span.badge {
   text-decoration: none;
 }
 
-.property-head .head_icon a i {
-  font-size: 28px;
+.property-head .head_icon a svg {
+  font-size: 35px;
   padding-top: 6px;
 }
 
@@ -1628,8 +1628,9 @@ input.form-control:focus {
   margin-bottom: 15px;
 }
 
-.pdf_type i {
-  font-size: 28px;
+.pdf_type svg {
+  font-size: 35px;
+  color: #b82f1e;
 }
 
 .pdf_type p {
@@ -3459,4 +3460,33 @@ input:checked+.slider:before {
 }
 .bottom_box{
   background-color: #bcf9bd;
+}
+
+.video-box iframe{
+  width: 100%;
+}
+
+.time_status ul li:last-child{
+    font-size: 12px;
+    font-weight: 500;
+}
+.blue-btn{
+    background: #064d9d;
+    color:#fff !important;
+    border:none;
+    border-radius:3px;
+    font-weight: 600;
+}
+
+.group-box {
+    background-color: #3989df;
+    color: #fff;
+}
+.group-box a{
+    color: #fff;
+}
+
+.pdf-box{
+    display: flex;
+    align-items: center;
 }
