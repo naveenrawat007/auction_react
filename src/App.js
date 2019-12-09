@@ -7,6 +7,7 @@ import Navbar from './components/navbar/navbar.js'
 import Footer from './components/navbar/footer.js'
 import ForgotPassword from './components/login/forgot_password.js'
 import Sidebar from './components/user/sidebar.js'
+import PropertyShow from './components/user/property/show.js'
 import AdminSidebar from './components/admin/sidebar.js'
 import NewPassword from './components/login/new_password.js'
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
@@ -20,6 +21,7 @@ function App() {
           <Route exact path="/user" component={() => <Sidebar path='user_profile'/>}/>
           <Route exact path="/user/property/" component={() => <Sidebar path='property_list'/>}/>
           <Route exact path="/user/property/new" component={() => <Sidebar path='new_property'/>}/>
+          <Route exact path="/user/property/:id" component={PropertyShow}/>
           <Route path="/admin" component={() => <AdminSidebar path='users_list'/>}/>
           <Route path="/login" component={Login} />
           <Route path="/sign_up" component={SignUp} />
