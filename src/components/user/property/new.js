@@ -1711,7 +1711,7 @@ export default class NewProperty extends Component{
                 <Link to="#" className="red-btn step-btn" onClick={this.submitStepOne}>Continue</Link>
               </div>
             </div>
-            <div className="container creation-steps px-0" id="step2">
+            <div className="container creation-steps px-0 d-none" id="step2">
               <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete">
                   <div className="text-center bs-wizard-number">1</div>
@@ -2417,8 +2417,8 @@ export default class NewProperty extends Component{
                 <div className="col-md-6 pl-0 row mx-0 mb-2 step_row">
                   <div className="col-md-6 px-0">
                     <label className="col-md-12 px-0">Ideal Closing Date</label>
-                    </div>
-                    <div className="col-md-6 px-0">
+                  </div>
+                  <div className="col-md-6 px-0">
                     <DatePicker className="form-control "
                       selected={this.state.property.auction_ending_at} minDate = {this.state.property.auction_started_at}
                       name="auction_ending_at" onChange={this.updatePropertyAuctionEnding}
@@ -2446,20 +2446,20 @@ export default class NewProperty extends Component{
                     <input type="text" className="form-control" name="title_status" onChange={this.updateProperty} />
                   </div>
                 </div>
-                <div className="col-md-12 row pl-0 mx-0 mb-2 step_row">
-                  <div className="col-md-6 px-0">
+                <div className="col-md-12 row pl-0 mx-0 mb-2 step_row align-items-start">
+                  <div className="col-md-3 px-0">
                     <label>Seller agrees to pay for?</label>
                   </div>
-                  <div className="col-md-6 px-0">
+                  <div className="col-md-9 px-0">
                     {seller_pay_types}
                   </div>
 
                 </div>
-                <div className="col-md-12 row pl-0 mx-0 mb-2 step_row">
-                  <div className="col-md-6 px-0">
+                <div className="col-md-12 row pl-0 mx-0 mb-2 step_row align-items-start">
+                  <div className="col-md-3 px-0">
                     <label>Showing Instructions</label>
                   </div>
-                  <div className="col-md-6 px-0">
+                  <div className="col-md-9 px-0">
                     {show_instructions_types}
                   </div>
                 </div>
@@ -2469,7 +2469,7 @@ export default class NewProperty extends Component{
                 <Link to="#" className="red-btn step-btn" onClick={this.submitStepThree}>Continue</Link>
               </div>
             </div>
-            <div className="container creation-steps px-0 d-none" id= "step4">
+            <div className="container creation-steps px-0 " id= "step4">
               <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete">
                   <div className="text-center bs-wizard-number">1</div>
@@ -2509,14 +2509,14 @@ export default class NewProperty extends Component{
                 <h4 className="step-name">Upload Photos and Videos</h4>
               </div>
               <form className="row mx-0 creation-forms">
-                <div className="col-md-6">
+                <div className="col-md-6 step_row">
                   <label>Select images associated with this property</label>
                   <div className="custom-file">
                     <input type="file" className="custom-file-input" name="images" onChange={this.imageSelectHandler} multiple={true}/>
                     <label className="custom-file-label" htmlFor="customFile">Choose file</label>
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6 step_row">
                   <div className="form-group">
                     <label>Youtube URL</label>
                     <input type="text" className="form-control" name="youtube_url" onChange={this.updateProperty}/>

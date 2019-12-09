@@ -752,6 +752,7 @@ button:focus {
   color: #fff !important;
   font-size: 15px;
   display: inline-block;
+  text-decoration: none;
 }
 
 .creation-steps .step-number {
@@ -790,6 +791,15 @@ button:focus {
 .step_row .custom-file label{
   font-size: 15px;
   font-weight: 400;
+}
+.step_row .form-check label{
+  font-weight: 400;
+}
+.step_row .react-datepicker-wrapper{
+  width: 100%;
+}
+.step_row .multi-select .dropdown{
+  font-size: 0.85rem;
 }
 .step_textarea .col-md-9{
   flex: 0 0 76%;
@@ -3377,11 +3387,12 @@ input:checked+.slider:before {
   right: 17px;
   width: 20px;
   height: 20px;
-  background: #fff;
+  background: rgba(0,0,0,0.75);
   line-height: 18px;
   text-align: center;
   border-radius: 100%;
-  color: #000;
+  color: #fff;
+  text-decoration: none;
 }
 
 
