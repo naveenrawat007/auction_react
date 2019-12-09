@@ -183,6 +183,7 @@ export default class NewProperty extends Component{
       componentRestrictions: { country: "us" }
     });
     this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
+    window.scrollTo(0,0)
   }
 
   handlePlaceChanged = () => {
@@ -582,11 +583,13 @@ export default class NewProperty extends Component{
   goToStepTwo = () => {
     document.getElementById('step1').classList.add('d-none');
     document.getElementById('step2').classList.remove('d-none');
+    window.scrollTo(0,0)
   }
 
   backToStepOne = () => {
     document.getElementById('step1').classList.remove('d-none');
     document.getElementById('step2').classList.add('d-none');
+    window.scrollTo(0,0)
   }
 
   submitStepTwo = () => {
@@ -636,11 +639,13 @@ export default class NewProperty extends Component{
   goToStepThree = () => {
     document.getElementById('step2').classList.add('d-none');
     document.getElementById('step3').classList.remove('d-none');
+    window.scrollTo(0,0)
   }
 
   backToStepTwo = () => {
     document.getElementById('step2').classList.remove('d-none');
     document.getElementById('step3').classList.add('d-none');
+    window.scrollTo(0,0)
   }
 
   submitStepThree = () => {
@@ -654,10 +659,12 @@ export default class NewProperty extends Component{
   goToStepFour = () => {
     document.getElementById('step3').classList.add('d-none');
     document.getElementById('step4').classList.remove('d-none');
+    window.scrollTo(0,0)
   }
   backToStepThree = () => {
     document.getElementById('step3').classList.remove('d-none');
     document.getElementById('step4').classList.add('d-none');
+    window.scrollTo(0,0)
   }
 
   updateProperty = (event) => {
