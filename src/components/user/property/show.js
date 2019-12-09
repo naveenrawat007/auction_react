@@ -105,7 +105,7 @@ export default class PropertyShow extends Component {
                     <h3 className="font-blue">{this.state.property.address}</h3>
                     <h5>Property Type: {this.state.property.p_type}</h5>
                   </div>
-                  {this.state.property.type === "Residential" ?
+                  {this.state.property.p_type === "Residential" ?
                     <div className="head_icon">
                       <a href="#" className="head_icon_box">
                         <FontAwesomeIcon icon={faBed}  />
@@ -216,7 +216,7 @@ export default class PropertyShow extends Component {
                     <h5 className="mb-3 main_box_head">Property Details</h5>
                     <div className="detailed_content">
                       <p><span>{this.state.property.category} | {this.state.property.p_type}</span></p>
-                      {this.state.property.type === "Residential" ?
+                      {this.state.property.p_type === "Residential" ?
                         <ul className="list-inline">
                           <li className="list-inline-item"><span>Beds:</span> {this.state.property.residential_attributes.bedrooms}</li>|
                           <li className="list-inline-item"><span>Baths:</span> {this.state.property.residential_attributes.bathrooms}</li>|
