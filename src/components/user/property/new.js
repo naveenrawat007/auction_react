@@ -106,7 +106,7 @@ const initial_state = {
 
     seller_price: "",
     buy_now_price: "",
-    auction_started_at: "",
+    auction_started_at: new Date(),
     auction_length: "",
     auction_ending_at: "",
     buy_option: [],
@@ -601,6 +601,7 @@ export default class NewProperty extends Component{
 
   fileSelectHandler = (event) => {
     const name = event.target.name
+    event.target.nextElementSibling.innerHTML = event.target.files[0].name
     const value = event.target.files[0]
     if (this._isMounted){
       this.setState({
@@ -737,8 +738,12 @@ export default class NewProperty extends Component{
               });
             });
           }
+        }else if (name === "auction_length") {
+          this.updatePropertyAuctionEnding();
         }
-        this.updateLandlordDealCalculator();
+        else{
+          this.updateLandlordDealCalculator();
+        }
       });
     }
   }
@@ -750,16 +755,21 @@ export default class NewProperty extends Component{
         ...this.state.property,
         auction_started_at: date
         }
+      }, function () {
+        this.updatePropertyAuctionEnding();
       })
     }
   }
 
   updatePropertyAuctionEnding = (date) => {
     if (this._isMounted){
+      let date = new Date(this.state.property.auction_started_at);
+      let newDate = new Date(date.setTime( date.getTime() + (parseInt(this.state.property.auction_length ? this.state.property.auction_length : 0) * 86400000) ));
       this.setState({
         property: {
         ...this.state.property,
-        auction_ending_at: date
+        auction_ending_at: newDate,
+        auction_length: this.state.property.auction_length
         }
       })
     }
@@ -1420,7 +1430,7 @@ export default class NewProperty extends Component{
       <div id="newproperty" className="container px-0 tab-pane active">
         <div className="profile-form">
           <div className="profile-form-in">
-            <div className="container creation-steps px-0 " id="step1">
+            <div className="container creation-steps px-0" id="step1">
               <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete current">
                   <div className="text-center bs-wizard-number">1</div>
@@ -2422,9 +2432,9 @@ export default class NewProperty extends Component{
                     <label className="col-md-12 px-0">Ideal Closing Date</label>
                   </div>
                   <div className="col-md-6 px-0">
-                    <DatePicker className="form-control "
-                      selected={this.state.property.auction_ending_at} minDate = {this.state.property.auction_started_at}
-                      name="auction_ending_at" onChange={this.updatePropertyAuctionEnding}
+                    <DatePicker className="form-control " readOnly={true}
+                      selected={this.state.property.auction_ending_at}
+                      name="auction_ending_at"
                     />
                   </div>
                 </div>
