@@ -1430,7 +1430,7 @@ export default class NewProperty extends Component{
       <div id="newproperty" className="container px-0 tab-pane active">
         <div className="profile-form">
           <div className="profile-form-in">
-            <div className="container creation-steps px-0 d-none" id="step1">
+            <div className="container creation-steps px-0 " id="step1">
               <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete current">
                   <div className="text-center bs-wizard-number">1</div>
@@ -1728,7 +1728,7 @@ export default class NewProperty extends Component{
                 <Link to="#" className="red-btn step-btn" onClick={this.submitStepOne}>Continue</Link>
               </div>
             </div>
-            <div className="container creation-steps px-0 " id="step2">
+            <div className="container creation-steps px-0 d-none" id="step2">
               <div className="row bs-wizard mb-4 mx-0 d-none" style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete">
                   <div className="text-center bs-wizard-number">1</div>
