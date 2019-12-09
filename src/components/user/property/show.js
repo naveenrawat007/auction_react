@@ -309,7 +309,7 @@ export default class PropertyShow extends Component {
                 <div className="info-box">
                   <img src="/images/openhouse.png" className="img-fluid" alt=""/>
                   <div className="info-content">
-                    <p>Wholesaler, Owner or Realtor gives buyer 48 bussiness hours after they our chosen to be winning Bidder, subject to them putting up $1,000 non-refundable option fee for the right to inspect the property after auction ends.</p>
+                    <p>{this.state.property.show_instructions}</p>
                     <div className="info-icon-box">
                       <a href="#" className="info_icon">
                         <i className="fa fa-question"></i>
