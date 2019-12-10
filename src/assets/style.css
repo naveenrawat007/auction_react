@@ -423,7 +423,7 @@ button:focus {
 }
 
 .about-option {
-  /* border-left: solid 1px #ccc; */
+  border-left: solid 1px #ccc;
 }
 
 .about-option ul {
@@ -1034,8 +1034,8 @@ span.badge {
 }
 
 .chat-data .user_img img {
-  width: 52px;
-  height: 52px;
+  width: 42px;
+  height: 42px;
 }
 
 .chat-data .user-row {
@@ -1144,11 +1144,12 @@ span.badge {
 }
 
 .group-box {
-  background-color: transparent;
+  background-color: #3989df;
+  color: #fff;
 }
 
 .group-box a {
-  color: #000;
+  color: #fff;
 }
 
 /* live online biding */
@@ -1157,8 +1158,8 @@ span.badge {
 }
 
 .biding_row .biding-img img {
-  width: 142px;
-  height: 100px;
+  width: 194px;
+  height: 140px;
 }
 
 .biding_row .biding-border, .biding_row .pay-border {
@@ -1234,6 +1235,12 @@ span.badge {
   text-transform: uppercase;
 }
 
+.time-span h5 {
+  font-weight: 600;
+  font-size: 18px;
+  color: #b71c1c;
+}
+
 .time-detail {
   text-align: center;
 }
@@ -1252,9 +1259,9 @@ span.badge {
 }
 
 .btn-biding {
-  padding: 5px 30px;
+  padding: 5px 35px;
   color: #fff !important;
-  font-size: 15px;
+  font-size: 16px;
   display: inline-block;
 }
 
@@ -1338,29 +1345,6 @@ span.badge {
   width: 11%;
 }
 
-.table.review_table td:nth-child(6), .table.review_table th:nth-child(6) {
-  width: 11%;
-}
-
-.table.review_table td:nth-child(7), .table.review_table th:nth-child(7) {
-  width: 11%;
-}
-
-.table.review_table td:nth-child(8), .table.review_table th:nth-child(8) {
-  width: 11%;
-}
-
-.table.review_table td:nth-child(9), .table.review_table th:nth-child(9) {
-  width: 11%;
-}
-
-.table.review_table td:nth-child(9) {
-  text-align: center;
-}
-
-.table.bidding_table td:nth-child(6) {
-  text-align: center;
-}
 
 .table.review_table td .review-btn-box {
   display: flex;
@@ -1651,6 +1635,7 @@ input.form-control:focus {
 
 .info-content p {
   font-size: 14px;
+  margin-bottom: 64px;
 }
 
 .info-content .info-icon-box {
@@ -1721,6 +1706,13 @@ input.form-control:focus {
 .time_status ul li:last-child {
   font-size: 12px;
   font-weight: 400;
+}
+.time_status h5 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #b71c1c;
+  margin-bottom: 0;
+  padding: 13px 0px;
 }
 
 /* footer */
