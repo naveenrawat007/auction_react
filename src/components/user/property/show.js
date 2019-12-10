@@ -220,27 +220,53 @@ export default class PropertyShow extends Component {
                 </div>
               </div>
               <div className="wrap_property py-3">
-                <div className="estimated_rate">
-                  <div className="price-box">
-                    <ul className="list-inline mb-2">
-                      <li className="list-inline-item">After Repaired Value:</li>
-                      <li className="list-inline-item">${this.state.property.after_rehab_value}</li>
+                {
+                  this.state.property.deal_analysis_type === "Rehab & Flip Deal" ?
+
+                    <div className="estimated_rate">
+                      <div className="price-box">
+                        <ul className="list-inline mb-2">
+                          <li className="list-inline-item">After Repaired Value:</li>
+                          <li className="list-inline-item">${this.state.property.after_rehab_value}</li>
+                        </ul>
+                        <ul className="list-inline mb-2">
+                          <li className="list-inline-item">Sellers Asking Price:</li>
+                          <li className="list-inline-item">${this.state.property.asking_price}</li>
+                        </ul>
+                        <ul className="list-inline mb-2">
+                          <li className="list-inline-item">Estimated Rehab Cost:</li>
+                          <li className="list-inline-item">${this.state.property.estimated_rehab_cost}</li>
+                        </ul>
+                      </div>
+                      <ul className="list-inline my-2">
+                        <li className="list-inline-item font-red">Potential Profit:</li>
+                        <li className="list-inline-item font-red">${this.state.property.profit_potential}</li>
+                      </ul>
+                      <p className="mb-0 mt-5"><span>Note:</span>&nbsp;These are ballpark estimates so please do your own dillgence for ARV and Estimated Rehab Costs.</p>
+                    </div> :
+                  null
+                }
+                { this.state.property.deal_analysis_type === "Landlord Deal" ?
+
+                  <div className="estimated_rate">
+                    <div className="price-box">
+                      <ul className="list-inline mb-2">
+                        <li className="list-inline-item">Monthly Cash Flow:</li>
+                        <li className="list-inline-item">${this.state.property.landlord_deal.monthly_cash_flow}</li>
+                      </ul>
+                      <ul className="list-inline mb-2">
+                        <li className="list-inline-item">Total Out of Pocket:</li>
+                        <li className="list-inline-item">${this.state.property.landlord_deal.total_out_of_pocket}</li>
+                      </ul>
+                    </div>
+                    <ul className="list-inline my-2">
+                      <li className="list-inline-item font-red">ROI Cash on Cash:</li>
+                      <li className="list-inline-item font-red">{this.state.property.landlord_deal.roi_cash_percentage} %</li>
                     </ul>
-                    <ul className="list-inline mb-2">
-                      <li className="list-inline-item">Sellers Asking Price:</li>
-                      <li className="list-inline-item">${this.state.property.asking_price}</li>
-                    </ul>
-                    <ul className="list-inline mb-2">
-                      <li className="list-inline-item">Estimated Rehab Cost:</li>
-                      <li className="list-inline-item">${this.state.property.estimated_rehab_cost}</li>
-                    </ul>
-                  </div>
-                  <ul className="list-inline my-2">
-                    <li className="list-inline-item font-red">Potential Profit:</li>
-                    <li className="list-inline-item font-red">${this.state.property.profit_potential}</li>
-                  </ul>
-                  <p className="mb-0 mt-5"><span>Note:</span>&nbsp;These are ballpark estimates so please do your own dillgence for ARV and Estimated Rehab Costs.</p>
-                </div>
+                    <p className="mb-0 mt-5"><span>Note:</span>&nbsp;These are ballpark estimates so please do your own dillgence for ARV and Estimated Rehab Costs.</p>
+                  </div> :
+                  null
+                }
               </div>
             </div>
             <div className="col-md-12 px-2">
