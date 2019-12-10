@@ -67,6 +67,7 @@ export default class ListProperty extends Component{
           window.location.href = "/login"
         }else {
           this.setState({
+            isLoaded: true,
             variant: "danger",
             message: result.message
           });
@@ -86,6 +87,7 @@ export default class ListProperty extends Component{
   searchHandler = (event) => {
     const{ name, value } = event.target;
     this.setState({
+      isLoaded: false,
       [name]: value
     }, function functionName() {
       clearTimeout(this.getPropertiesListTimeout);
@@ -98,6 +100,7 @@ export default class ListProperty extends Component{
     let page_number = event.target.getAttribute("page_number")
     if (this._isMounted){
       this.setState({
+        isLoaded: false,
         page: page_number
       }, function () {
         if (parseInt(this.state.page) !== parseInt(this.state.current_page) ){
@@ -293,6 +296,15 @@ export default class ListProperty extends Component{
             </ul>
             <div className="tab-content">
               <div id="propertyPosted" className="container px-0 tab-pane active"><br/>
+                {this.state.isLoaded === true ?
+                  null
+                :
+                <div className="spinner_main">
+                  <div className="spinner-grow" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                </div>
+                }
                 <div className="col-md-12 px-0">
                   <div className="input-group">
                     <input type="text" className="form-control" placeholder="Search"  name="search_str" onChange={this.searchHandler}/>
