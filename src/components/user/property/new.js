@@ -76,17 +76,17 @@ const initial_state = {
     total_acquisition_cost: "",
     taxes_annually: "",
     insurance_annually: "",
-    amount_financed_percentage: "",
+    amount_financed_percentage: 75,
     amount_financed: "",
-    interest_rate: "",
-    loan_terms: "",
+    interest_rate: 4.75,
+    loan_terms: 30,
     principal_interest: "",
     taxes_monthly: "",
     insurance_monthly: "",
     piti_monthly_debt: "",
     monthly_rent: "",
     total_gross_yearly_income: "",
-    vacancy_rate: "",
+    vacancy_rate: 5,
     adjusted_gross_yearly_income: "",
     est_annual_management_fees: "",
     est_annual_operating_fees: "",
@@ -761,6 +761,19 @@ export default class NewProperty extends Component{
     }
   }
 
+  updatePropertyAuctionEndingDate = (date) => {
+    if (this._isMounted){
+      this.setState({
+        property: {
+        ...this.state.property,
+        auction_started_at: date
+        }
+      }, function () {
+        this.updatePropertyAuctionEnding();
+      })
+    }
+  }
+
   updatePropertyAuctionEnding = (date) => {
     if (this._isMounted){
       let date = new Date(this.state.property.auction_started_at);
@@ -1057,13 +1070,13 @@ export default class NewProperty extends Component{
       property_description_error,
       property_estimated_rehab_cost_error,
     },function () {
-      if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_description_error !== "" ){
+      if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_description_error !== "" || property_estimated_rehab_cost_error !== ""){
         return false;
       }else {
         return true;
       }
     })
-    if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_description_error !== "" ){
+    if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_description_error !== "" || property_estimated_rehab_cost_error !== ""){
       return false;
     }else{
       return true;
@@ -1737,7 +1750,7 @@ export default class NewProperty extends Component{
               </div>
             </div>
             <div className="container creation-steps px-0 d-none" id="step2">
-              <div className="row bs-wizard mb-4 mx-0 d-none" style={{'borderBottom':0}}>
+              <div className="row bs-wizard mb-4 mx-0 " style={{'borderBottom':0}}>
                 <div className="col-xs-2 bs-wizard-step  complete">
                   <div className="text-center bs-wizard-number">1</div>
                   <div className="text-center bs-wizard-stepnum">PROPERTY DETAILS</div>
@@ -1878,20 +1891,20 @@ export default class NewProperty extends Component{
                     <h5 className="text-uppercase font-red step_heads step_fonts">Financing Analysis After rehab</h5>
                     <div className="row mx-0 step_row">
                       <div className="col-md-6 my-2 row mx-0">
-                        <input type="number" className="form-control col-md-4" name="amount_financed_percentage" onChange={this.updateProperty} />
+                        <input type="number" className="form-control col-md-4" name="amount_financed_percentage" onChange={this.updateProperty} value={this.state.property.amount_financed_percentage} />
                         <input type="number" readOnly={true} value={this.state.property.amount_financed} className="form-control col-md-7 offset-md-1" name="amount_financed" />
                       </div>
                       <div className="col-md-6 px-0 my-2">
                         <label className="text-uppercase">amount financed</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="number" className="form-control" name="interest_rate" onChange={this.updateProperty}/>
+                        <input type="number" className="form-control" name="interest_rate" value={this.state.property.interest_rate} onChange={this.updateProperty}/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
                         <label className="labels_main">Interest Rate APR</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="number" className="form-control" name="loan_terms" onChange={this.updateProperty}/>
+                        <input type="number" value={this.state.property.loan_terms} className="form-control" name="loan_terms" onChange={this.updateProperty}/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
                         <label className="labels_main">Loan Term</label>
@@ -1903,7 +1916,7 @@ export default class NewProperty extends Component{
                         <label className="labels_main">Monthly Principal & Interest</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="number" readOnly={true} value={this.state.property.piti_monthly_debt} className="form-control" name="piti_monthly_debt"/>
+                        <input type="number" readOnly={true} value={this.state.property.annual_debt} className="form-control" name="annual_debt"/>
                       </div>
                       <div className="col-md-6 px-0 my-2">
                         <label className="labels_main">Annual Debt Service</label>
@@ -1964,7 +1977,7 @@ export default class NewProperty extends Component{
                         <label className="labels_main">Est Vacancy Rate</label>
                       </div>
                       <div className="col-md-6 my-2 pl-0">
-                        <input type="number" className="form-control" name="vacancy_rate" onChange={this.updateProperty}/>
+                        <input type="number" className="form-control" name="vacancy_rate" value={this.state.property.vacancy_rate} onChange={this.updateProperty}/>
                       </div>
                       <div className="col-md-6 my-2 px-0">
                         <label className="labels_main label-bold">ADJ Gross Yearly Income</label>
@@ -1996,7 +2009,7 @@ export default class NewProperty extends Component{
                         <label className="labels_main label-bold">(=) Net Operating Income (NOI)</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="number" readOnly={true} value={this.state.property.piti_monthly_debt} className="form-control" name="piti_monthly_debt"/>
+                        <input type="number" readOnly={true} value={this.state.property.annual_debt} className="form-control" name="annual_debt"/>
                       </div>
                       <div className="col-md-6 px-0 my-2">
                         <label className="labels_main">(-) Annual Debt Service</label>
@@ -2430,7 +2443,7 @@ export default class NewProperty extends Component{
                   <div className="col-md-6 px-0">
 
                     <DatePicker className="form-control "
-                      selected={this.state.property.auction_started_at} minDate={new Date()}  maxDate = {this.state.property.auction_ending_at}
+                      selected={this.state.property.auction_started_at} minDate={new Date()}
                       name="auction_started_at" onChange={this.updatePropertyAuctionStart}
                     />
                   </div>
@@ -2440,8 +2453,10 @@ export default class NewProperty extends Component{
                     <label className="col-md-12 px-0">Ideal Closing Date</label>
                   </div>
                   <div className="col-md-6 px-0">
-                    <DatePicker className="form-control " readOnly={true}
+                    <DatePicker className="form-control "
                       selected={this.state.property.auction_ending_at}
+                      minDate = {this.state.property.auction_started_at}
+                      onChange={this.updatePropertyAuctionEndingDate}
                       name="auction_ending_at"
                     />
                   </div>
