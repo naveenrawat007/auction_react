@@ -76,13 +76,13 @@ export default class PropertyShow extends Component {
       const images = this.state.property.images.map((image, index) => {
         if (index === 0){
           return (
-            <div className="mySlides" style={{display: "block"}}>
+            <div className="mySlides" style={{display: "block"}} key={index}>
               <img src={image} style={{width:"100%", height: "500px"}} alt={index}/>
             </div>
           )
         }else{
           return (
-            <div className="mySlides" style={{width:"100%", height: "500px"}}>
+            <div className="mySlides" style={{width:"100%", height: "500px"}} key={index}>
               <img src={image} style={{width:"100%", height: "500px"}} alt={index}/>
             </div>
           )
@@ -90,7 +90,7 @@ export default class PropertyShow extends Component {
       })
       const prev_images = this.state.property.images.map((image, index) => {
         return (
-          <div className="column_gallery">
+          <div className="column_gallery" key={index}>
             <img className="demo cursor" src={image} style={{width:"100%", height: "80px"}}  alt={index}/>
           </div>
         )
@@ -284,7 +284,7 @@ export default class PropertyShow extends Component {
               <div className="wrap_property">
                 <h5 className="mb-3 main_box_head">Property Location</h5>
                 <div className="map-box">
-                  <img className="img-fluid" src="/images/location.png"/>
+                  <iframe width="552" height="350" id="gmap_canvas" src={`https://maps.google.com/maps?q= ${this.state.property.address}&t=&z=13&ie=UTF8&iwloc=&output=embed`} frameBorder="0" scrolling="no" ></iframe>
                 </div>
               </div>
             </div>
