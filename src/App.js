@@ -22,12 +22,13 @@ function App() {
           <Route exact path="/user/property/" component={() => <Sidebar path='property_list'/>}/>
           <Route exact path="/user/property/new" component={() => <Sidebar path='new_property'/>}/>
           <Route exact path="/user/property/:id" component={PropertyShow}/>
-          <Route path="/admin" component={() => <AdminSidebar path='users_list'/>}/>
-          <Route path="/login" component={Login} />
-          <Route path="/sign_up" component={SignUp} />
-          <Route path="/forgot_password" component={ForgotPassword} />
-          <Route path="/new_password" component={NewPassword} />
-          <Route path="/verify" component={VerificationModal} />
+          <Route exact path="/admin" component={() => <AdminSidebar path='users_list'/>}/>
+          <Route exact path="/admin/property/under_review" component={() => <AdminSidebar path='under_review_property_list'/>}/>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/sign_up" component={SignUp} />
+          <Route exact path="/forgot_password" component={ForgotPassword} />
+          <Route exact path="/new_password" component={NewPassword} />
+          <Route exact path="/verify" component={VerificationModal} />
         </Switch>
         <Route path='/' component = {Footer}/>
       </BrowserRouter>

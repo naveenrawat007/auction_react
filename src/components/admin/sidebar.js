@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronRight, faBell, faSearch } from '@fortawesome/free-solid-svg-icons'
 import UserList from './user_list.js'
+import PropertyList from './property/index.js'
 
 const func = function() {
   const mnl_class_list = document.getElementsByClassName('main-nav-link')
@@ -37,6 +38,8 @@ export default class AdminSidebar extends Component{
     switch (this.state.path) {
       case 'users_list':
         return <UserList/>;
+      case 'under_review_property_list':
+        return <PropertyList/>;
       default:
     }
   }
@@ -93,10 +96,10 @@ export default class AdminSidebar extends Component{
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link main-nav-link" data-toggle="pill" href="#propertyStatus">
+                  <Link to="/admin/property/under_review" className="nav-link main-nav-link" >
                     <span>Property Status</span>
                     <FontAwesomeIcon icon={faChevronRight} />
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link main-nav-link" data-toggle="pill" href="#terminationRequest">
@@ -140,7 +143,7 @@ export default class AdminSidebar extends Component{
             <div className="col-md-9 right_tab px-0">
               <div className="row mx-0 dashboard-logo">
                 <div className="col-md-12 py-3">
-                  <img src="images/Under_review.jpg" alt="logo"/>
+                  <img src="/images/Under_review.jpg" alt="logo"/>
                 </div>
               </div>
               <div className="tab-content">
