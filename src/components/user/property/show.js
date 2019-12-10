@@ -11,6 +11,7 @@ export default class PropertyShow extends Component {
       property: {},
       isLoaded: false,
       message: "",
+      currentImage: 0,
     }
   };
   componentWillUnmount() {
@@ -68,6 +69,40 @@ export default class PropertyShow extends Component {
     this._isMounted = true;
     this.getProperty();
     window.scrollTo(0,0)
+    // this.showCurrentSlide(1);
+  }
+
+  plusSlide = () => {
+    if((this.state.currentImage+1) < this.state.property.images.length){
+      this.showCurrentSlide(this.state.currentImage+1)
+    }
+  }
+  revSlide = () => {
+    if(this.state.currentImage > 0){
+      this.showCurrentSlide(this.state.currentImage-1)
+    }
+  }
+
+  showCurrentSlide = (n) => {
+    var i;
+    var slides = document.getElementsByClassName("mySlides");
+    var dots = document.getElementsByClassName("demo");
+    let slideIndex = n;
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+    if (slides[slideIndex]){
+      slides[slideIndex].style.display = "block";
+    }
+    if (dots[slideIndex]){
+      dots[slideIndex].className += " active";
+    }
+    this.setState({
+      currentImage: n
+    });
   }
 
 
@@ -91,7 +126,7 @@ export default class PropertyShow extends Component {
       const prev_images = this.state.property.images.map((image, index) => {
         return (
           <div className="column_gallery" key={index}>
-            <img className="demo cursor" src={image} style={{width:"100%", height: "80px"}}  alt={index}/>
+            <img className={index === 0 ? "demo cursor active" : "demo cursor"} src={image} style={{width:"100%", height: "80px"}} onClick={() => {this.showCurrentSlide(index);}} alt={index}/>
           </div>
         )
       })
@@ -107,32 +142,31 @@ export default class PropertyShow extends Component {
                   </div>
                   {this.state.property.category === "Residential" ?
                     <div className="head_icon">
-                      <a href="#" className="head_icon_box">
+                      <Link to="#" className="head_icon_box">
                         <FontAwesomeIcon icon={faBed}  />
                         <p>{this.state.property.residential_attributes.bedrooms} Beds</p>
-                      </a>
-                      <a href="#" className="head_icon_box">
+                      </Link>
+                      <Link to="#" className="head_icon_box">
                         <FontAwesomeIcon icon={faBath}  />
                         <p>{this.state.property.residential_attributes.bathrooms} Baths</p>
-                      </a>
-                      <a href="#" className="">
+                      </Link>
+                      <Link to="#" className="">
                         <FontAwesomeIcon icon={faCar}  />
                         <p>{this.state.property.residential_attributes.garage} Car</p>
-                      </a>
+                      </Link>
                     </div>
                   : null}
                 </div>
                 <div className="property_gallery">
                   {this.state.property.images.length > 0 ? images : <div className="mySlides" style={{display: "block"}}>
-                    <img src="/images/homee1.png" style={{width:"100%", height: "500px"}}/>
+                    <img src="/images/homee1.png" style={{width:"100%", height: "500px"}} alt="temp_image"/>
                   </div>}
-                  <a className="prev" >❮</a>
-                  <a className="next" >❯</a>
+                  <Link to="#" className="prev" onClick={this.revSlide} >❮</Link>
+                  <Link to="#" className="next" onClick={this.plusSlide} >❯</Link>
                   <div className="row_gallery">
                     {this.state.property.images.length > 0 ? prev_images : <div className="column_gallery">
-                      <img className="demo cursor" src="/images/homee1.png" style={{width:"100%", height: "80px"}} alt="The Woods"/>
+                      <img className="demo cursor active" src="/images/homee1.png" style={{width:"100%", height: "80px"}} alt="The Woods"/>
                     </div>}
-                    {/* {prev_images} */}
                   </div>
                 </div>
               </div>
@@ -171,17 +205,17 @@ export default class PropertyShow extends Component {
                       <span className="input-group-text group-box"><FontAwesomeIcon icon={faPlus}/></span>
                     </div>
                   </div>
-                  <a href="" className="blue-btn btn-biding">Place Bid</a>
+                  <Link to="#" className="blue-btn btn-biding">Place Bid</Link>
                   <h5 className="my-2">OR</h5>
                   <p className="mb-0">Can't wait for the Auction to end?</p>
-                  <a href="" className="blue-btn btn-biding my-2" data-toggle="modal" data-target="#buynowModal">
+                  <Link to="#" className="blue-btn btn-biding my-2" data-toggle="modal" data-target="#buynowModal">
                     <div className="tooltip">Buy Now
                       <span className="tooltiptext">
                         <h6>Buy Now!</h6>
                         <p>You don't have to wait for the binding to end, or compete with other offers if you are willing to buy this property at this price?</p>
                       </span>
                     </div>
-                  </a>
+                  </Link>
                   <h4 className="rate-head">$ {this.state.property.buy_now_price}</h4>
                 </div>
               </div>
@@ -276,7 +310,7 @@ export default class PropertyShow extends Component {
               <div className="wrap_property">
                 <h5 className="mb-3 main_box_head">Property Auction Terms and Disclaimers</h5>
                 <div className="video-box">
-                  <iframe height="350" src={ this.state.property.youtube_url ? String(this.state.property.youtube_url) : "https://www.youtube.com/embed/X080gIJFE3M?controls=0"} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                  <iframe title="youtube" height="350" src={ this.state.property.youtube_url ? String(this.state.property.youtube_url) : "https://www.youtube.com/embed/X080gIJFE3M?controls=0"} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
                 </div>
               </div>
             </div>
@@ -284,7 +318,7 @@ export default class PropertyShow extends Component {
               <div className="wrap_property">
                 <h5 className="mb-3 main_box_head">Property Location</h5>
                 <div className="map-box">
-                  <iframe width="552" height="350" id="gmap_canvas" src={`https://maps.google.com/maps?q= ${this.state.property.address}&t=&z=13&ie=UTF8&iwloc=&output=embed`} frameBorder="0" scrolling="no" ></iframe>
+                  <iframe title="map" width="552" height="350" id="gmap_canvas" src={`https://maps.google.com/maps?q= ${this.state.property.address}&t=&z=13&ie=UTF8&iwloc=&output=embed`} frameBorder="0" scrolling="no" ></iframe>
                 </div>
               </div>
             </div>
@@ -315,18 +349,18 @@ export default class PropertyShow extends Component {
                   <div className="info-content">
                     <p>{this.state.property.show_instructions}</p>
                     <div className="info-icon-box">
-                      <a href="#" className="info_icon">
+                      <Link to="#" className="info_icon">
                         <i className="fa fa-question"></i>
                         <h6>Ask a Question</h6>
-                      </a>
-                      <a href="#" className="info_icon">
+                      </Link>
+                      <Link to="#" className="info_icon">
                         <i className="fa fa-calendar"></i>
                         <h6>Schedule a Visit</h6>
-                      </a>
-                      <a href="#" className="info_icon">
+                      </Link>
+                      <Link to="#" className="info_icon">
                         <i className="fa fa-comments"></i>
                         <h6>FAQ</h6>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

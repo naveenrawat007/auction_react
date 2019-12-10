@@ -3509,3 +3509,9 @@ input:checked+.slider:before {
 .properties-address a:hover {
   text-decoration: none;
 }
+a.prev{
+  text-decoration: none;
+}
+a.next{
+  text-decoration: none;
+}
