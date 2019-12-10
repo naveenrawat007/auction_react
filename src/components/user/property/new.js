@@ -1988,7 +1988,7 @@ export default class NewProperty extends Component{
                         <label className="labels_main label-bold">(=) Net Operating Income (NOI)</label>
                       </div>
                       <div className="col-md-6 my-2">
-                        <input type="number" readOnly={true} value={this.state.property.annual_debt} className="form-control" name="annual_debt"/>
+                        <input type="number" readOnly={true} value={this.state.property.piti_monthly_debt} className="form-control" name="piti_monthly_debt"/>
                       </div>
                       <div className="col-md-6 px-0 my-2">
                         <label className="labels_main">(-) Annual Debt Service</label>
