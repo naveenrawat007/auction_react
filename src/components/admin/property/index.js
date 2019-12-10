@@ -191,7 +191,7 @@ export default class PropertyList extends Component{
                     <div className="search-box row mx-0 pb-3">
                       <div className="col-md-4 px-0">
                         <div className="input-group">
-                          <input type="text" className="form-control" placeholder="Search..." aria-label="Username" aria-describedby="basic-addon1"/>
+                          <input type="text" name="search_str" onChange={this.searchHandler} className="form-control" placeholder="Search..." aria-label="Username" aria-describedby="basic-addon1"/>
                           <div className="input-group-append">
                             <span className="input-group-text red-btn" id="basic-addon1">
                               <FontAwesomeIcon icon={faSearch} size="1x" />
