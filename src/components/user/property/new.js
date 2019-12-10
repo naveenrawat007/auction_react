@@ -952,6 +952,10 @@ export default class NewProperty extends Component{
     let property_flooded_error = "";
     let property_flood_count_error = "";
     let property_description_error = "";
+    let property_estimated_rehab_cost_error = "";
+    if (this.state.property.estimated_rehab_cost === ""){
+      property_estimated_rehab_cost_error = "Rehab Cost Can't be blank."
+    }
 
     if (this.state.property.address === ""){
       property_address_error = "Property address can't be blank."
@@ -1051,6 +1055,7 @@ export default class NewProperty extends Component{
       property_flooded_error,
       property_flood_count_error,
       property_description_error,
+      property_estimated_rehab_cost_error,
     },function () {
       if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_description_error !== "" ){
         return false;
@@ -1699,6 +1704,9 @@ export default class NewProperty extends Component{
                     <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} id="estimated-cost1" onClick={() => {this.setState({
                       estimated_cost_modal: true
                     });}}/>
+                  </div>
+                  <div className="col-md-6 offset-md-6 px-0">
+                    {this.addErrorMessage(this.state.property_estimated_rehab_cost_error)}
                   </div>
                 </div>
                 <div className="col-md-12 row mx-0 mb-2 step_row px-0 step_textarea" id="flood_count-input">
