@@ -48,6 +48,14 @@ export default class AdminSidebar extends Component{
     localStorage.removeItem("auction_user_token");
     window.location.href = "/login"
   }
+
+  checkActive = (current_path) => {
+    if (this.state.path === current_path){
+      return "nav-link active"
+    }else {
+      return "nav-link";
+    }
+  }
   render(){
     return (
       <div className="profile-setting mt-0">
@@ -90,13 +98,13 @@ export default class AdminSidebar extends Component{
                   </a>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link main-nav-link active" data-toggle="pill" to="/admin">
+                  <Link className={this.checkActive("users_list")} data-toggle="pill" to="/admin">
                     <span>User List</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/admin/property/under_review" className="nav-link main-nav-link" >
+                  <Link to="/admin/property/under_review" className={this.checkActive("under_review_property_list")} >
                     <span>Property Status</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>

@@ -50,7 +50,11 @@ export default class Navbar extends Component{
         }
       }else {
         if (result.user.is_admin === true){
-          this.props.history.push('/admin')
+          let path_name = "";
+          path_name = this.props.location.pathname
+          if (path_name === "/"){
+            this.props.history.push('/admin')
+          }
           this.setState({
             is_admin: true
           });
