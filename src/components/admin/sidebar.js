@@ -5,24 +5,6 @@ import { faChevronRight, faBell, faSearch } from '@fortawesome/free-solid-svg-ic
 import UserList from './user_list.js'
 import PropertyList from './property/index.js'
 
-const func = function() {
-  const mnl_class_list = document.getElementsByClassName('main-nav-link')
-  Array.from(mnl_class_list, (c) => c.addEventListener('click', function () {
-    Array.from(mnl_class_list).forEach(function(element) {
-      element.classList.remove('active')
-    });
-    c.classList.add('active')
-  }));
-
-  const snl_class_list = document.getElementsByClassName('sub-nav-link')
-  Array.from(snl_class_list, (c) => c.addEventListener('click', function () {
-    Array.from(snl_class_list).forEach(function(element) {
-      element.classList.remove('active')
-    });
-    c.classList.add('active')
-  }));
-};
-
 export default class AdminSidebar extends Component{
 
   constructor(props) {
@@ -32,14 +14,13 @@ export default class AdminSidebar extends Component{
     }
   }
   componentDidMount = () => {
-    func();
   }
   renderSwitch = () => {
     switch (this.state.path) {
       case 'users_list':
         return <UserList/>;
       case 'under_review_property_list':
-        return <PropertyList/>;
+        return <PropertyList path="under_review_property_list"/>;
       default:
     }
   }
