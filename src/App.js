@@ -24,6 +24,7 @@ function App() {
           <Route exact path="/user/property/:id" component={PropertyShow}/>
           <Route exact path="/admin" component={() => <AdminSidebar path='users_list'/>}/>
           <Route exact path="/admin/property/under_review" component={() => <AdminSidebar path='under_review_property_list'/>}/>
+          <Route exact path="/admin/property/best_offer" component={() => <AdminSidebar path='best_offer_property_list'/>}/>
           <Route exact path="/login" component={Login} />
           <Route exact path="/sign_up" component={SignUp} />
           <Route exact path="/forgot_password" component={ForgotPassword} />
