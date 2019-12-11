@@ -56,6 +56,7 @@ export default class ListProperty extends Component{
             total_pages : result.meta.total_pages,
           });
           let items = []
+          window.scrollTo(0,0)
           for (let number = 1; number <= this.state.total_pages; number++) {
             items.push(number)
           }

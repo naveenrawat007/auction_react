@@ -3544,3 +3544,16 @@ a.next{
 .table.bidding_table td:nth-child(6){
   text-align: center;
 }
+
+#myproperties .tab-pane{
+  position: relative;
+}
+
+.spinner_main.property_show{
+  right: 0;
+  left: 0;
+}
+
+.blank_container{
+  height: 100vh
+}

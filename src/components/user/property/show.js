@@ -493,15 +493,15 @@ export default class PropertyShow extends Component {
       );
     }else {
       return (
-        <div className="container custom_container">
-          <div className="row" height="100%" width="100%">
-            <div className="spinner_main">
+        <>
+          <div className="container custom_container blank_container">
+            <div className="spinner_main property_show">
               <div className="spinner-grow" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
             </div>
           </div>
-        </div>
+        </>
       );
     }
   }
