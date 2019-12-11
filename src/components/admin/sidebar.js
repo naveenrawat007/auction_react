@@ -21,6 +21,8 @@ export default class AdminSidebar extends Component{
         return <UserList/>;
       case 'under_review_property_list':
         return <PropertyList path="under_review_property_list"/>;
+      case 'best_offer_property_list':
+        return <PropertyList path="best_offer_property_list"/>;
       default:
     }
   }

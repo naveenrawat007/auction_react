@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import UnderReview from './under_review.js'
+import BestOffer from './best_offer.js'
 
 export default class PropertyList extends Component{
   _isMounted = false
@@ -33,6 +34,8 @@ export default class PropertyList extends Component{
     switch (this.state.path) {
       case 'under_review_property_list':
         return <UnderReview/>;
+      case 'best_offer_property_list':
+        return <BestOffer/>;
       default:
     }
   }
@@ -47,7 +50,7 @@ export default class PropertyList extends Component{
                 <Link to="/admin/property/under_review" className={this.checkActive("under_review_property_list")} >Under Review</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" data-toggle="pill" href="#bestOffer">Best Offer</a>
+                <Link to="/admin/property/best_offer" className={this.checkActive("best_offer_property_list")} >Best Offer</Link>
               </li>
               <li className="nav-item">
                 <a className="nav-link" data-toggle="pill" href="#onlinebinding">Live Online Bidding</a>
