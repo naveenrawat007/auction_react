@@ -448,8 +448,13 @@ export default class NewProperty extends Component{
 		});
   }
 
-  sendStepFourData = () => {
+  sendStepFourData = (draft = false) => {
     const fd = new FormData();
+    if (draft === true){
+      fd.append('draft', true)
+    }else {
+      fd.append('draft', false)
+    }
     fd.append('step2', true)
     fd.append('property[id]', this.state.property.id)
     fd.append('property[estimated_rehab_cost_attr]', JSON.stringify(this.state.property.estimated_rehab_cost_attr))
@@ -571,6 +576,13 @@ export default class NewProperty extends Component{
       }, 2000);
 		}, (error) => {
 		});
+  }
+
+  saveDraft = () => {
+    let formIsValid = true
+    if (formIsValid){
+      this.sendStepFourData(true)
+    }
   }
 
   submitStepFour =() => {
@@ -2598,7 +2610,8 @@ export default class NewProperty extends Component{
                 </div>
               </form>
               <div className="col-md-12 text-center my-4">
-                <Link to="#" className="red-btn step-btn mr-3" onClick={this.backToStepThree}>Go, Back</Link>
+                <Link to="#" className="red-btn step-btn mr-2" onClick={this.backToStepThree}>Go, Back</Link>
+                <Link to="#" className="red-btn step-btn mr-2" onClick={this.saveDraft}>Save as a draft</Link>
                 <Link to="#" className="red-btn step-btn" onClick={this.submitStepFour}>Submit</Link>
               </div>
             </div>
