@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Modal from 'react-bootstrap/Modal'
 // import {Link} from 'react-router-dom';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,7 +14,10 @@ export default class UnderReview extends Component{
 	constructor(props){
     super(props);
     this.state = {
+      status_modal: false,
       path: props.path,
+      selected_property: "",
+      selected_status: "",
       error: "",
       message: "",
       isLoaded: false,
@@ -22,7 +26,8 @@ export default class UnderReview extends Component{
       current_page: 1,
       total_pages: 1,
       page: 1,
-      total_pages_array:[]
+      total_pages_array:[],
+      property_status_options: [],
     }
   }
 
@@ -48,6 +53,7 @@ export default class UnderReview extends Component{
           this.setState({
             isLoaded: true,
             properties: result.properties,
+            property_status_options: result.property_statuses,
             current_page : result.meta.current_page,
             total_pages : result.meta.total_pages,
           });
@@ -125,14 +131,86 @@ export default class UnderReview extends Component{
     }
   }
 
+  updateStatus = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties/status"
+    const fd = new FormData();
+    fd.append('property[id]', this.state.properties[this.state.selected_property].id)
+    fd.append('property[status]', this.state.selected_status)
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*"
+      },
+      body: fd,
+    }).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        this.getPropertiesList();
+      }
+    })
+  }
+
+  updateSelectedProperty = (event) => {
+    const{ name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  }
+
+  updateSelectedStatus = (event) => {
+    const{ name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  }
+
+  hideModal = () => {
+    this.setState({
+      status_modal: false
+    });
+    if (this.state.selected_property !== ""){
+      this.updateStatus();
+    }
+  }
+
+  openStatusModal = () => {
+    this.setState({
+      status_modal: true
+    });
+  }
 
 	render() {
+    const status_array = this.state.property_status_options.map((status, index) => {
+      return(
+        <li className="list-inline-item" key={index}>
+          <div className="custom-control custom-radio">
+            {
+              this.state.selected_property === ""
+                ?
+                  null
+                :
+                <>
+                  <input type="radio" name="selected_status" onChange={this.updateSelectedStatus} value={status} className="custom-control-input"/>
+                  <label className="custom-control-label" >{status}</label>
+                </>
+            }
+          </div>
+        </li>
+      )
+    })
     const current_page = this.state.current_page;
     const total_pages = this.state.total_pages;
     const propertyList = this.state.properties.map((property, index) => {
       return (
         <tr key={index}>
-          <td><input type="checkbox" value="" id={index}/></td>
+          <td><input type="radio" value={index} id={index} name="selected_property" onChange={this.updateSelectedProperty}/></td>
           <td>
             <div className="user_name_box">
               <span>{property.first_name[0].toUpperCase()}</span>
@@ -174,7 +252,7 @@ export default class UnderReview extends Component{
                 <button className="btn red-btn admin-btns" type="button">View</button>&nbsp;
                 <button className="btn red-btn admin-btns" type="button">Edit</button>&nbsp;
                 <button className="btn red-btn admin-btns" type="button">Message</button>&nbsp;
-                <button className="btn red-btn admin-btns" type="button">Change Status</button>
+                <button className="btn red-btn admin-btns" type="button" onClick={this.openStatusModal}>Change Status</button>
               </div>
             </div>
             <div className="under_review admin-review">
@@ -205,6 +283,36 @@ export default class UnderReview extends Component{
             </div>
           </div>
         </div>
+        <Modal className="status_modal" show={this.state.status_modal} onHide={this.hideModal}>
+          <Modal.Header closeButton>
+            <div className=" offset-md-1 col-md-10 text-center">
+              <h5 className="mb-0 text-uppercase"> { this.state.selected_property === "" ? "Please select Property" :  "Property Status for" + this.state.properties[this.state.selected_property].address}</h5>
+            </div>
+          </Modal.Header>
+          <div className="modal-body">
+            {this.state.selected_property === ""
+              ?
+                null
+              :
+
+              <div className="row mx-0">
+                <div className="col-md-6 px-0">
+                  <div className="status-list">
+                    <ul className="list-inline">
+                      <form>
+                        {status_array}
+                      </form>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            }
+            <div className="col-md-12 text-center mt-3">
+              <span className="error"></span>
+              <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.hideModal}>Save</button>
+            </div>
+          </div>
+        </Modal>
       </div>
     )
 	}
