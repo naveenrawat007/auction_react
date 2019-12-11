@@ -58,6 +58,7 @@ export default class UnderReview extends Component{
           this.setState({
             total_pages_array: items,
           });
+          window.scroll(0,0);
         }else if (result.status === 401) {
           localStorage.removeItem("auction_user_token");
           window.location.href = "/login"

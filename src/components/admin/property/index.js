@@ -20,6 +20,7 @@ export default class PropertyList extends Component{
   }
   componentDidMount () {
     this._isMounted = true;
+    window.scroll(0,0);
   }
   checkActive = (current_path) => {
     if (this.state.path === current_path){
