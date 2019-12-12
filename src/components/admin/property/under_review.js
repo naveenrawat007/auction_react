@@ -190,20 +190,26 @@ export default class UnderReview extends Component{
     });
   }
 
-  calculateApproveTime = (time) => {
-    if (time){
-      let now = new Date().getTime();
-      let end = new Date(time).getTime();
-      let t = (end/1000) - (now/1000);
-      let hours = Math.floor(t/(60*60));
-      let minutes = Math.floor((t%(60*60))/60);
-      let seconds = Math.floor((t%(60)))
-      // console.log(`-${hours}:${minutes}:${seconds}`);
-      return `-${hours}:${minutes}:${seconds}`
-      // document.getElementById('timer'+id).innerHTML = `-${hours}:${minutes}:${seconds}`
-    }else {
-      return "";
-    }
+  calculateApproveTime = (time, id) => {
+    setInterval(function () {
+      if (time){
+        let now = new Date().getTime();
+        let end = new Date(time).getTime();
+        let t = (end/1000) - (now/1000);
+        let hours = Math.floor(t/(60*60));
+        let minutes = Math.floor((t%(60*60))/60);
+        let seconds = Math.floor((t%(60)))
+
+        // return `-${hours}:${minutes}:${seconds}`
+        if (document.getElementById("timer"+id)){
+          document.getElementById("timer"+id).innerHTML = `-${hours}:${minutes}:${seconds}`
+        }
+        // setInterval(this.calculateApproveTime(time,id), 1000)
+      }else {
+        return "";
+      }
+    }, 1000)
+
   }
 
 	render() {
@@ -242,7 +248,7 @@ export default class UnderReview extends Component{
           <td>{property.submitted_at}</td>
           <td>{property.auction_started_at}</td>
           <td>{property.auction_length}</td>
-          <td>{this.calculateApproveTime(property.submitted_at_timer)}</td>
+          <td> <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.submitted_at_timer, property.id)}</td>
         </tr>
       );
     })
