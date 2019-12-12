@@ -170,7 +170,6 @@ export default class UnderReview extends Component{
 
   updateSelectedStatus = (event) => {
     const{ name, value } = event.target;
-    console.log(value);
     this.setState({
       [name]: value
     });

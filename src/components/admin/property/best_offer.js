@@ -170,7 +170,6 @@ export default class BestOffer extends Component{
 
   updateSelectedStatus = (event) => {
     const{ name, value } = event.target;
-    console.log(value);
     this.setState({
       [name]: value
     });
