@@ -33,7 +33,7 @@ export default class AdminSidebar extends Component{
   }
 
   checkActive = (current_path) => {
-    if (this.state.path === current_path){
+    if (this.state.path.endsWith(current_path)){
       return "nav-link active"
     }else {
       return "nav-link";
@@ -81,13 +81,13 @@ export default class AdminSidebar extends Component{
                   </a>
                 </li>
                 <li className="nav-item">
-                  <Link className={this.checkActive("all_users_list")} data-toggle="pill" to="/admin">
+                  <Link className={this.checkActive("users_list")} data-toggle="pill" to="/admin">
                     <span>User List</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/admin/property/under_review" className={this.checkActive("under_review_property_list")} >
+                  <Link to="/admin/property/under_review" className={this.checkActive("property_list")} >
                     <span>Property Status</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
