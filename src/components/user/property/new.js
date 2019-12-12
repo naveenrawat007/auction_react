@@ -1604,39 +1604,6 @@ export default class NewProperty extends Component{
                     {this.addErrorMessage(this.state.property_garage_error)}
                   </div>
                 </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row pr-0" id="area-input">
-                  <div className="col-md-6 px-0">
-                    <label>Area (SqFt)</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="number" className="form-control" name="area" onChange={this.updateProperty}/>
-                  </div>
-                  <div className="col-md-6 px-0 offset-md-6">
-                    {this.addErrorMessage(this.state.property_area_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row pl-0" id="lot-input">
-                  <div className="col-md-6 px-0">
-                    <label>Lot Size</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="number" className="form-control" name="lot_size" onChange={this.updateProperty} onKeyPress={this.checkDecimalNumeric}/>
-                  </div>
-                  <div className="col-md-6 px-0 offset-md-6">
-                    {this.addErrorMessage(this.state.property_lot_size_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row pr-0" id="year-built-input">
-                  <div className="col-md-6 px-0">
-                    <label>Year Built</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="text" className="form-control" name="year_built" onChange={this.updateProperty} onKeyPress={this.checkNumeric} maxLength="4"/>
-                  </div>
-                  <div className="col-md-6 offset-md-6 px-0">
-                    {this.addErrorMessage(this.state.property_year_built_error)}
-                  </div>
-                </div>
                 <div className="col-md-6 row mx-0 mb-2 step_row pl-0" id="units-input">
                   <div className="col-md-6 px-0">
                     <label>Units</label>
@@ -1668,6 +1635,39 @@ export default class NewProperty extends Component{
                   </div>
                   <div className="col-md-6 offset-md-6 px-0">
                     {this.addErrorMessage(this.state.property_cap_rate_error)}
+                  </div>
+                </div>
+                <div className="col-md-6 row mx-0 mb-2 step_row pr-0" id="area-input">
+                  <div className="col-md-6 px-0">
+                    <label>Area (SqFt)</label>
+                  </div>
+                  <div className="col-md-6 px-0">
+                    <input type="number" className="form-control" name="area" onChange={this.updateProperty}/>
+                  </div>
+                  <div className="col-md-6 px-0 offset-md-6">
+                    {this.addErrorMessage(this.state.property_area_error)}
+                  </div>
+                </div>
+                <div className="col-md-6 row mx-0 mb-2 step_row pl-0" id="lot-input">
+                  <div className="col-md-6 px-0">
+                    <label>Lot Size</label>
+                  </div>
+                  <div className="col-md-6 px-0">
+                    <input type="number" className="form-control" name="lot_size" onChange={this.updateProperty} onKeyPress={this.checkDecimalNumeric}/>
+                  </div>
+                  <div className="col-md-6 px-0 offset-md-6">
+                    {this.addErrorMessage(this.state.property_lot_size_error)}
+                  </div>
+                </div>
+                <div className="col-md-6 row mx-0 mb-2 step_row pr-0" id="year-built-input">
+                  <div className="col-md-6 px-0">
+                    <label>Year Built</label>
+                  </div>
+                  <div className="col-md-6 px-0">
+                    <input type="text" className="form-control" name="year_built" onChange={this.updateProperty} onKeyPress={this.checkNumeric} maxLength="4"/>
+                  </div>
+                  <div className="col-md-6 offset-md-6 px-0">
+                    {this.addErrorMessage(this.state.property_year_built_error)}
                   </div>
                 </div>
                 <div className="col-md-6 row mx-0 mb-2 step_row pr-0" id="price_per_sq_ft-input">
