@@ -753,8 +753,29 @@ export default class NewProperty extends Component{
         }else if (name === "auction_length") {
           this.updatePropertyAuctionEnding();
         }
-        else{
+        else if ((name === "after_rehab_value")||(name === "asking_price")){
+          this.updateProfitPotentialCalculator();
+        }
+        else {
           this.updateLandlordDealCalculator();
+        }
+      });
+    }
+  }
+
+  updateProfitPotentialCalculator = () => {
+    let after_rehab_value = parseFloat(this.state.property.after_rehab_value ? this.state.property.after_rehab_value : 0)
+    let asking_price = parseFloat(this.state.property.asking_price ? this.state.property.asking_price : 0)
+    let estimated_rehab_cost = parseFloat(this.state.property.estimated_rehab_cost ? this.state.property.estimated_rehab_cost : 0)
+    let profit_potential = parseFloat(this.state.property.estimated_rehab_cost ? this.state.property.estimated_rehab_cost : 0)
+
+    profit_potential = after_rehab_value - asking_price - estimated_rehab_cost
+
+    if (this._isMounted){
+      this.setState({
+        property: {
+          ...this.state.property,
+          profit_potential,
         }
       });
     }
@@ -778,10 +799,10 @@ export default class NewProperty extends Component{
       this.setState({
         property: {
         ...this.state.property,
-        auction_started_at: date
+        auction_ending_at: date
         }
       }, function () {
-        this.updatePropertyAuctionEnding();
+        // this.updatePropertyAuctionEnding();
       })
     }
   }
@@ -1841,7 +1862,7 @@ export default class NewProperty extends Component{
                         <label className="mb-0">Profit Potential</label>
                       </div>
                       <div className="col-md-6 my-2 px-0">
-                        <input type="number" name="profit_potential" className="form-control" onChange={this.updateProperty} />
+                        <input type="number" name="profit_potential" className="form-control" onChange={this.updateProperty} value={this.state.property.profit_potential} readOnly={true} />
                       </div>
                     </div>
                   </div>
