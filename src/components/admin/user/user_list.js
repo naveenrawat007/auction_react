@@ -15,7 +15,7 @@ const initial_state = {
 }
 
 
-export default class UserList extends Component{
+export default class AllUserList extends Component{
   _isMounted = false
   componentWillUnmount() {
     this._isMounted = false;
