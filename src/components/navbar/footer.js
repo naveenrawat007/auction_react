@@ -6,7 +6,7 @@ import { faFacebookF, faTwitter, faLinkedinIn, faYoutube} from '@fortawesome/fre
 export default class Footer extends Component{
   render(){
     return(
-      <>
+      <div className="main-footer">
         <div className="footer">
           <div className="container custom_container">
             <div className="footer-link row mx-0">
@@ -60,7 +60,7 @@ export default class Footer extends Component{
         <div className="footer-copyright">
           <h5>AuctionMyDeal.com is Angel Investors, LLC affiliate, Tx Broker license #0453987.</h5>
         </div>
-      </>
+      </div>
     )
   }
 }
