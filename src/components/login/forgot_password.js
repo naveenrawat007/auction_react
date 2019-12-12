@@ -114,7 +114,7 @@ export default class ForgotPassword extends Component{
 	render() {
 		return (
       <div className="col-md-8 offset-md-2 my-4">
-        <div className="registration">
+        <div className="registration mx-auto">
           <div className="registration-in">
             <div className="left-side">
               <Link to='/' className="logo">

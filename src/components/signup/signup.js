@@ -260,7 +260,7 @@ export default class Login extends Component{
                   <label className="">First Name</label>
                   <div className="input-group ">
                     <div className="input-group-prepend">
-                      <span className="input-group-text group-box" id="basic-addon1">
+                      <span className="input-group-text group-box-chat" id="basic-addon1">
                         <FontAwesomeIcon icon={faUser} />
                       </span>
                     </div>
@@ -272,7 +272,7 @@ export default class Login extends Component{
                   <label className="">Last Name</label>
                   <div className="input-group">
                     <div className="input-group-prepend">
-                      <span className="input-group-text group-box" id="basic-addon1">
+                      <span className="input-group-text group-box-chat" id="basic-addon1">
                         <FontAwesomeIcon icon={faUser} />
                       </span>
                     </div>
@@ -284,7 +284,7 @@ export default class Login extends Component{
                   <label className="">Email</label>
                   <div className="input-group">
                     <div className="input-group-prepend">
-                      <span className="input-group-text group-box" id="basic-addon1">
+                      <span className="input-group-text group-box-chat" id="basic-addon1">
                         <FontAwesomeIcon icon={faEnvelope} />
                       </span>
                     </div>
@@ -296,7 +296,7 @@ export default class Login extends Component{
                   <label className="">Phone</label>
                   <div className="input-group">
                     <div className="input-group-prepend">
-                      <span className="input-group-text group-box" id="basic-addon1">
+                      <span className="input-group-text group-box-chat" id="basic-addon1">
                         <FontAwesomeIcon icon={faMobileAlt} />
                       </span>
                     </div>
@@ -308,7 +308,7 @@ export default class Login extends Component{
                   <label className="">Password</label>
                   <div className="input-group">
                     <div className="input-group-prepend">
-                      <span className="input-group-text group-box" id="basic-addon1">
+                      <span className="input-group-text group-box-chat" id="basic-addon1">
                         <FontAwesomeIcon icon={faLock} />
                       </span>
                     </div>
@@ -320,7 +320,7 @@ export default class Login extends Component{
                   <label className="">Confirm Password</label>
                   <div className="input-group">
                     <div className="input-group-prepend">
-                      <span className="input-group-text group-box" id="basic-addon1">
+                      <span className="input-group-text group-box-chat" id="basic-addon1">
                         <FontAwesomeIcon icon={faLock} />
                       </span>
                     </div>

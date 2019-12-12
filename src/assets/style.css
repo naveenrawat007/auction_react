@@ -2981,6 +2981,8 @@ input:checked+.slider:before {
 .group-box-chat {
   background-color: #fff;
   color: #000;
+  width: 40px;
+  justify-content: center;
 }
 
 .group-box-chat a {
