@@ -161,11 +161,16 @@ export default class UnderReview extends Component{
     const{ name, value } = event.target;
     this.setState({
       [name]: value
+    }, function () {
+      this.setState({
+        selected_status: this.state.properties[this.state.selected_property].status
+      });
     });
   }
 
   updateSelectedStatus = (event) => {
     const{ name, value } = event.target;
+    console.log(value);
     this.setState({
       [name]: value
     });
@@ -197,8 +202,8 @@ export default class UnderReview extends Component{
                   null
                 :
                 <>
-                  <input type="radio" name="selected_status" onChange={this.updateSelectedStatus} value={status} className="custom-control-input"/>
-                  <label className="custom-control-label" >{status}</label>
+                  <input type="radio" name="selected_status" value={status} checked={this.state.selected_status === status} id={index+this.state.properties.length} className="custom-control-input" onChange={this.updateSelectedStatus} />
+                  <label className="custom-control-label" htmlFor={index+this.state.properties.length} >{status}</label>
                 </>
             }
           </div>
