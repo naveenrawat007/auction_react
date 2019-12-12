@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronRight, faBell, faSearch } from '@fortawesome/free-solid-svg-icons'
-import UserList from './user_list.js'
+import UserList from './user/user_list.js'
 import PropertyList from './property/index.js'
 
 export default class AdminSidebar extends Component{
@@ -17,7 +17,7 @@ export default class AdminSidebar extends Component{
   }
   renderSwitch = () => {
     switch (this.state.path) {
-      case 'users_list':
+      case 'all_users_list':
         return <UserList/>;
       case 'under_review_property_list':
         return <PropertyList path="under_review_property_list"/>;
@@ -81,7 +81,7 @@ export default class AdminSidebar extends Component{
                   </a>
                 </li>
                 <li className="nav-item">
-                  <Link className={this.checkActive("users_list")} data-toggle="pill" to="/admin">
+                  <Link className={this.checkActive("all_users_list")} data-toggle="pill" to="/admin">
                     <span>User List</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
