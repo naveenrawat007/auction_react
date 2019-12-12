@@ -190,6 +190,22 @@ export default class UnderReview extends Component{
     });
   }
 
+  calculateApproveTime = (time) => {
+    if (time){
+      let now = new Date().getTime();
+      let end = new Date(time).getTime();
+      let t = (end/1000) - (now/1000);
+      let hours = Math.floor(t/(60*60));
+      let minutes = Math.floor((t%(60*60))/60);
+      let seconds = Math.floor((t%(60)))
+      // console.log(`-${hours}:${minutes}:${seconds}`);
+      return `-${hours}:${minutes}:${seconds}`
+      // document.getElementById('timer'+id).innerHTML = `-${hours}:${minutes}:${seconds}`
+    }else {
+      return "";
+    }
+  }
+
 	render() {
     const status_array = this.state.property_status_options.map((status, index) => {
       return(
@@ -223,10 +239,10 @@ export default class UnderReview extends Component{
           </td>
           <td>{property.user_type}</td>
           <td>{property.address}</td>
-          <td>{property.submitted_date}</td>
+          <td>{property.submitted_at}</td>
           <td>{property.auction_started_at}</td>
           <td>{property.auction_length}</td>
-          <td>-24:00</td>
+          <td>{this.calculateApproveTime(property.submitted_at_timer)}</td>
         </tr>
       );
     })
