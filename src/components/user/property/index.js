@@ -101,10 +101,12 @@ export default class ListProperty extends Component{
     let page_number = event.target.getAttribute("page_number")
     if (this._isMounted){
       this.setState({
-        isLoaded: false,
         page: page_number
       }, function () {
         if (parseInt(this.state.page) !== parseInt(this.state.current_page) ){
+          this.setState({
+            isLoaded: false
+          });
           this.getPropertiesList();
         }
       });
