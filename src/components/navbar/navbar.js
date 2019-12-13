@@ -163,7 +163,7 @@ export default class Navbar extends Component{
                   </Dropdown>
                 </li>
                 <li className="nav-item dropdown">
-                  <Link to='/user/property/new' className="nav-link" data-toggle="dropdown">Sell </Link>
+                  <Link to='/property/new' className="nav-link" data-toggle="dropdown">Sell </Link>
                 </li>
                 <li className="nav-item dropdown">
                   <a className="nav-link" href="/" data-toggle="dropdown">Help </a>
