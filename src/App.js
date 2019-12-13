@@ -11,6 +11,9 @@ import PropertyShow from './components/user/property/show.js'
 import AdminSidebar from './components/admin/sidebar.js'
 import NewPassword from './components/login/new_password.js'
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import NewProperty from './components/property/new.js';
+
+
 
 function App() {
   return (
@@ -19,6 +22,7 @@ function App() {
         <Route path='/' component = {Navbar}/>
         <Switch>
           <Route exact path="/user" component={() => <Sidebar path='user_profile'/>}/>
+          <Route exact path="/property/new" component={NewProperty}/>
           <Route exact path="/user/property/" component={() => <Sidebar path='property_list'/>}/>
           <Route exact path="/user/property/new" component={() => <Sidebar path='new_property'/>}/>
           <Route exact path="/user/property/:id" component={PropertyShow}/>
