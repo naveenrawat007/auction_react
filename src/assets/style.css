@@ -3559,3 +3559,148 @@ a.next{
 .blank_container{
   height: 100vh
 }
+
+/* terms agree */
+.terms_agree{
+  height: 300px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  background-color: #eee;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+.terms_agree p{
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+}
+.labeled-bold{
+  font-weight: 600;
+}
+/* new steps */
+.bs-wizard.new-bs-wizard>.col-xs-2 {
+  width: 16.666%;
+}
+.step_fonts {
+  padding-left: 10px;
+}
+.step_row label {
+  font-weight: 600;
+  font-size: 15px;
+}
+.step_row {
+  align-items: center;
+}
+.add_links{
+  display: flex;
+  align-items: center;
+  color: #bbb;
+  font-weight: 500;
+}
+.add_links i{
+  padding-right: 8px;
+}
+.files_box .custom-file-input:lang(en) ~ .custom-file-label::after{
+  content: "Open the File Browser" !important;
+}
+.login_note{
+  margin-bottom: 0;
+  font-size: 12px;
+}
+.bottom_box {
+  background-color: #bcf9bd;
+}
+.step-name{
+  margin-bottom: 0;
+}
+.files_box{
+  height: 235px;
+  border: 3px dashed #9e9e9e;
+  text-align: center;
+}
+.files_box .custom-file-input{
+  position: absolute;
+  height: 100%;
+  left:0;
+}
+.custom-file .custom-file-label{
+  color: #495057 !important;
+  font-weight: 400 !important;
+}
+.files_box .custom-file-label{
+  border: 0;
+  position: absolute;
+  text-align: center;
+  font-size: 19px;
+  color: #9e9e9e !important;
+  width: 100%;
+  top: 50px;
+  font-weight: 500 !important;
+}
+.files_box .custom-file-label::after{
+  position: relative;
+  top: 50px;
+  background-color: #b71c1c;
+  color: #fff;
+  padding: 0.5rem 2rem;
+  border-radius: 3px;
+  line-height: 1.3;
+  font-weight: 400;
+  font-size: 14px;
+}
+.sell_forms .step_heads {
+  border-bottom: 3px solid #e9e9e9;
+  margin-bottom: 0px;
+  padding-bottom: 4px;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+.sell_forms .est_box {
+  padding-left: 15px;
+}
+.sell_forms .font-600 {
+  font-weight: 600;
+}
+.sell_forms .est_box .est_list {
+  display: flex;
+}
+.sell_forms .est_box .est_list label {
+  width: 48%;
+  margin-top: 8px;
+}
+.sell_forms .step_row .labels_main {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.sell_forms .est_box .est_list input {
+  width: 48%;
+}
+#step_table td, #step_table th{
+  border: 1px solid #000 !important;
+  font-size: 13px;
+}
+#step_table th{
+  text-align: center !important;
+  color: #b71c1c;
+}
+#step_table tbody td:nth-child(1), #step_table thead th:nth-child(1){
+  width: 8%;
+}
+#step_table tbody td:nth-child(2), #step_table thead th:nth-child(2){
+  width: 25%;
+}
+#step_table tbody td:nth-child(3), #step_table thead th:nth-child(3){
+  width: 13%;
+}
+#step_table tbody td:nth-child(4), #step_table thead th:nth-child(4){
+  width: 13%;
+}
+#step_table tbody td:nth-child(5), #step_table thead th:nth-child(5){
+  width: 13%;
+}
+#step_table tbody td:nth-child(6), #step_table thead th:nth-child(6){
+  width: 13%;
+}
+#step_table tbody td:nth-child(7), #step_table thead th:nth-child(7){
+  width: 15%;
+}
