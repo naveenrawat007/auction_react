@@ -757,8 +757,8 @@ export default class NewProperty extends Component{
           this.updateProfitPotentialCalculator();
         }
         else {
-          this.updateLandlordDealCalculator();
         }
+        this.updateLandlordDealCalculator();
       });
     }
   }
