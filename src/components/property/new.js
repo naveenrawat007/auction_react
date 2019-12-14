@@ -45,7 +45,7 @@ const initial_state = {
     best_offer_sellers_minimum_price: "",
     best_offer_sellers_reserve_price: "",
     show_instructions_text: "",
-    open_house_dates: [],
+    open_house_dates: [""],
     id: "",
 
 
@@ -323,6 +323,31 @@ export default class NewProperty extends Component{
     }
   }
 
+  addOpenHouseDateFields = () => {
+    let newDate = "";
+    let dates = this.state.property.open_house_dates;
+    dates.push(newDate)
+    this.setState({
+      property: {
+      ...this.state.property,
+      open_house_dates: dates,
+      }
+    })
+  }
+
+  removeOpenHouseDateFields = () => {
+    let i=this.state.property.open_house_dates.length
+    if (i>1){
+      let dates = this.state.property.open_house_dates;
+      dates.splice(i-1,1);
+      this.setState({
+        property: {
+        ...this.state.property,
+        open_house_dates: dates,
+        }
+      })
+    }
+  }
   updatePropertyRehabCostAttr = (event) => {
     const{ name, value } = event.target;
     if (this._isMounted){
@@ -687,7 +712,50 @@ export default class NewProperty extends Component{
     }
   }
 
+  updatePropertyOpenHouseDates = (index, date) => {
+    let dates = this.state.property.open_house_dates
+    dates[index] = date
+    this.setState({
+      property: {
+      ...this.state.property,
+      open_house_dates: dates,
+      }
+    })
+  }
+  updatePropertyAuctionStart = (date) => {
+    if (this._isMounted){
+      this.setState({
+        property: {
+        ...this.state.property,
+        auction_started_at: date
+        }
+      })
+    }
+  }
+  updatePropertyAuctionEndingDate = (date) => {
+    if (this._isMounted){
+      this.setState({
+        property: {
+        ...this.state.property,
+        auction_ending_at: date
+        }
+      })
+    }
+  }
 	render() {
+    const open_house_dates = this.state.property.open_house_dates.map((value, index) => {
+      return <DatePicker key ={index} className="form-control " minDate={new Date()}
+        selected={value} onChange={this.updatePropertyOpenHouseDates.bind(this, index)}/>;
+    })
+    const buy_options = this.state.property_options.buy_options.map((value, index) => ({
+      value: value,
+      label: value
+    }))
+    const auction_lengths = this.state.property_options.auction_lengths.map((value, index) => {
+      return(
+        <option key={index} value={value} >{value} days</option>
+      )
+    })
     const categories = this.state.property_options.categories.map((value, index) => {
       return(
         <option key={index} value={value} >{value}</option>
@@ -708,6 +776,11 @@ export default class NewProperty extends Component{
         <option key={index} value={value} >{value}</option>
       )
     })
+    const show_instructions_types = this.state.property_options.show_instructions_types.map((key, index) => {
+      return(
+        <option key={index} value={key.id} >{key.description}</option>
+      )
+    });
 		return (
       <div className="profile-setting">
         <div className="container custom_container px-0">
@@ -1528,10 +1601,11 @@ export default class NewProperty extends Component{
                               </div>
                               <div className="col-md-6 px-1">
                                 <div className="input-group mb-0">
-                                  <input type="text" className="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
-                                  <div className="input-group-append">
-                                    <span className="input-group-text" id="basic-addon2"><i className="fa fa-calendar"></i></span>
-                                  </div>
+                                  <DatePicker className="form-control "
+                                    selected={this.state.property.auction_started_at} minDate={new Date()}
+                                    name="auction_started_at" onChange={this.updatePropertyAuctionStart}
+                                  />
+
                                 </div>
                               </div>
                             </div>
@@ -1540,7 +1614,10 @@ export default class NewProperty extends Component{
                                 <label>Online Bidding/Auction Time Frame</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className="form-control" placeholder="7 Days" />
+                                <select className="form-control" name="auction_length" onChange={this.updateProperty}>
+                                  <option>Please select</option>
+                                  {auction_lengths}
+                                </select>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -1548,7 +1625,7 @@ export default class NewProperty extends Component{
                                 <label>Sellers Minimum Starting Price</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className="form-control" />
+                                <input type="number" className="form-control" name="seller_price" onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -1556,7 +1633,7 @@ export default class NewProperty extends Component{
                                 <label>Sellers Buy Now Price</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className="form-control" />
+                                <input type="number" className="form-control" name="buy_now_price" onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row mt-4">
@@ -1565,10 +1642,12 @@ export default class NewProperty extends Component{
                               </div>
                               <div className="col-md-6 px-1">
                                 <div className="input-group mb-0">
-                                  <input type="text" className="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
-                                  <div className="input-group-append">
-                                    <span className="input-group-text" id="basic-addon2"><i className="fa fa-calendar"></i></span>
-                                  </div>
+                                  <DatePicker className="form-control "
+                                    selected={this.state.property.auction_ending_at}
+                                    minDate = {this.state.property.auction_started_at}
+                                    onChange={this.updatePropertyAuctionEndingDate}
+                                    name="auction_ending_at"
+                                  />
                                 </div>
                               </div>
                             </div>
@@ -1577,10 +1656,12 @@ export default class NewProperty extends Component{
                                 <label>Options to Buy</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className="form-control" id="sel1">
-                                  <option>Cash, Line of Credit</option>
-                                  <option>Yes</option>
-                                </select>
+                                <MultiSelect
+                                  options={buy_options}
+                                  selectSomeItmes = "select"
+                                  selected={this.state.property.buy_option}
+                                  onSelectedChanged={selected => {this.setState({property: {...this.state.property, buy_option: selected}})}}
+                                />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -1588,9 +1669,9 @@ export default class NewProperty extends Component{
                                 <label>Showing Option</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className="form-control" id="sel1">
-                                  <option>Property is vacant and easy to show as long as buyer registers their name, number, date and time of showing before they can get showing information.</option>
-                                  <option>Yes</option>
+                                <select className="form-control" defaultValue={parseInt(this.state.property.show_instructions_type_id) ? parseInt(this.state.property.show_instructions_type_id) : ""} name="show_instructions_type_id" onChange={this.updateProperty}>
+                                  <option>Please Select</option>
+                                  {show_instructions_types}
                                 </select>
                               </div>
                             </div>
@@ -1599,7 +1680,7 @@ export default class NewProperty extends Component{
                                 <label>Showing Instructions</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <textarea className="form-control" rows="3" id="comment" placeholder="Please give details where the combo box is located and what's the combo code."></textarea>
+                                <textarea className="form-control" rows="3" placeholder="Please give details where the combo box is located and what's the combo code." onChange={this.updateProperty} name="show_instructions_text"></textarea>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -1608,17 +1689,18 @@ export default class NewProperty extends Component{
                               </div>
                               <div className="col-md-4 px-1">
                                 <div className="input-group mb-0">
-                                  <input type="text" className="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
-                                  <div className="input-group-append">
-                                    <span className="input-group-text" id="basic-addon2"><i className="fa fa-calendar"></i></span>
-                                  </div>
+                                  {open_house_dates}
                                 </div>
                               </div>
                               <div className="col-md-2 px-2">
-                                <a href="#" className="add_links">
+                                <Link to="#" className="add_links" onClick={this.addOpenHouseDateFields}>
                                   <i className="fa fa-plus-circle"></i>
                                   <p className="mb-0">Add More</p>
-                                </a>
+                                </Link>
+                                <Link to="#" className="add_links" onClick={this.removeOpenHouseDateFields}>
+                                  <i className="fa fa-plus-circle"></i>
+                                  <p className="mb-0">Del More</p>
+                                </Link>
                               </div>
                             </div>
                           </form>
