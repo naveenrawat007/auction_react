@@ -123,6 +123,7 @@ const initial_state = {
     description_of_repairs: "",
     arv_proof: null,
     rehab_cost_proof: null,
+    rental_proof: null,
 
 
     seller_price: "",
@@ -171,8 +172,15 @@ const initial_state = {
   property_mls_available_error: "",
   property_flooded_error: "",
   property_flood_count_error: "",
-  property_estimated_rehab_cost_error: "",
   property_description_error: "",
+  property_owner_category_error: "",
+  property_additional_information_error: "",
+  property_after_rehab_value_error: "",
+  property_asking_price: "",
+  property_estimated_rehab_cost_error: "",
+  property_arv_proof_error: "",
+  property_rehab_cost_proof_error: "",
+  property_rental_proof_error: "",
   property_seller_price_error: "",
   property_buy_price_error: "",
   property_auction_length_error: "",
@@ -343,6 +351,20 @@ export default class NewProperty extends Component{
         [name]: value
         }
       })
+    }
+  }
+
+  fileSelectHandler = (event) => {
+    const name = event.target.name
+    event.target.nextElementSibling.innerHTML = event.target.files[0].name.substring(0, 20) + "...";
+    const value = event.target.files[0]
+    if (this._isMounted){
+      this.setState({
+        property: {
+        ...this.state.property,
+        [name]: value
+        }
+      });
     }
   }
 
