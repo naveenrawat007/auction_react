@@ -46,6 +46,9 @@ const initial_state = {
     best_offer_sellers_reserve_price: "",
     show_instructions_text: "",
     open_house_dates: [""],
+    vimeo_url: "",
+    dropbox_url: "",
+    video: "",
     id: "",
 
 
@@ -648,51 +651,71 @@ export default class NewProperty extends Component{
     document.getElementById('step2').classList.add('d-none');
     document.getElementById('step1').classList.remove('d-none');
     window.scrollTo(0,0)
+    document.getElementById('step2h').classList.remove('complete', "current")
+    document.getElementById('step2h').classList.add('disabled')
   }
   goToStepTwo = () => {
     document.getElementById('step1').classList.add('d-none');
     document.getElementById('step2').classList.remove('d-none');
     window.scrollTo(0,0)
+    document.getElementById('step2h').classList.remove('disabled')
+    document.getElementById('step2h').classList.add('complete', "current")
   }
   backToStepTwo = () => {
     document.getElementById('step3').classList.add('d-none');
     document.getElementById('step2').classList.remove('d-none');
     window.scrollTo(0,0)
+    document.getElementById('step3h').classList.remove('complete', "current")
+    document.getElementById('step3h').classList.add('disabled')
   }
   goToStepThree = () => {
     document.getElementById('step2').classList.add('d-none');
     document.getElementById('step3').classList.remove('d-none');
     window.scrollTo(0,0)
+    document.getElementById('step3h').classList.remove('disabled')
+    document.getElementById('step3h').classList.add('complete', "current")
   }
   backToStepThree = () => {
     document.getElementById('step4').classList.add('d-none');
     document.getElementById('step3').classList.remove('d-none');
     window.scrollTo(0,0)
+    document.getElementById('step4h').classList.remove('complete', "current")
+    document.getElementById('step4h').classList.add('disabled')
   }
   goToStepFour = () => {
     document.getElementById('step3').classList.add('d-none');
     document.getElementById('step4').classList.remove('d-none');
     window.scrollTo(0,0)
+    document.getElementById('step4h').classList.remove('disabled')
+    document.getElementById('step4h').classList.add('complete', "current")
   }
   backToStepFour = () => {
     document.getElementById('step5').classList.add('d-none');
     document.getElementById('step4').classList.remove('d-none');
     window.scrollTo(0,0)
+    document.getElementById('step5h').classList.remove('complete', "current")
+    document.getElementById('step5h').classList.add('disabled')
   }
   goToStepFive = () => {
     document.getElementById('step4').classList.add('d-none');
     document.getElementById('step5').classList.remove('d-none');
     window.scrollTo(0,0)
+    document.getElementById('step5h').classList.remove('disabled')
+    document.getElementById('step5h').classList.add('complete', "current")
   }
   backToStepFive = () => {
     document.getElementById('step6').classList.add('d-none');
     document.getElementById('step5').classList.remove('d-none');
     window.scrollTo(0,0)
+    document.getElementById('step6h').classList.remove('complete', "current")
+    document.getElementById('step6h').classList.add('disabled')
   }
   goToStepSix = () => {
     document.getElementById('step5').classList.add('d-none');
     document.getElementById('step6').classList.remove('d-none');
     window.scrollTo(0,0)
+    document.getElementById('step6h').classList.remove('disabled')
+    document.getElementById('step6h').classList.add('complete', "current")
   }
 
   checkRehabDeal = () => {
@@ -747,6 +770,91 @@ export default class NewProperty extends Component{
       return "d-none";
     }
   }
+  imageSelectHandler = (event) => {
+    const name = event.target.name
+    // const value = event.target.files
+    // this.setState({
+    //   property: {
+    //   ...this.state.property,
+    //   [name]: value
+    //   }
+    // });
+    var uploaded_files = event.target.files;
+    var files = [];
+
+    for (var i = 0; i < uploaded_files.length; i++) {
+      files.push({src: URL.createObjectURL(uploaded_files[i]), id: i,name: uploaded_files[i].name, file: uploaded_files[i]})
+    }
+    if (this._isMounted){
+      this.setState({
+        property: {
+        ...this.state.property,
+        [name]: files
+        }
+      });
+    }
+  }
+  dragStart(e) {
+    this.dragged = e.currentTarget;
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', this.dragged);
+  }
+  reorder = (list, startIndex, endIndex) => {
+
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+    return result;
+  };
+
+  onDragEnd = (result) => {
+    if (!result.destination) {
+      return;
+    }
+    const items = this.reorder(
+      this.state.property.images,
+      result.source.index,
+      result.destination.index
+    );
+    var files = [];
+    for (var i = 0; i < items.length; i++) {
+      files.push({src: items[i].src, id: i,name: items[i].name, file: items[i].file})
+    }
+
+    this.setState({
+      property:{
+        ...this.state.property,
+        images: files,
+      }
+    })
+  }
+  removeFile = (id) => {
+    var data = this.state.property.images;
+    delete data[id];
+    var files = [];
+    for (var i = 0; i < data.length; i++) {
+      if (i !== id){
+        files.push({src: data[i].src, id: i,name: data[i].name, file: data[i].file})
+      }else {
+        continue
+      }
+    }
+    this.setState({
+      property:{
+        ...this.state.property,
+        images: files,
+      }
+    })
+  }
+
+  getFilesLength = () => {
+    return (this.state.property.images)
+  }
+  videoSelectHandler = (event) => {
+    this.setState({
+      video: event.target.files[0]
+    });
+  }
 	render() {
     const open_house_dates = this.state.property.open_house_dates.map((value, index) => {
       return <DatePicker key ={index} className="form-control " minDate={new Date()}
@@ -797,7 +905,7 @@ export default class NewProperty extends Component{
                     <div className="profile-form-in">
                       <div className="container creation-steps px-0">
                         <div className="row bs-wizard new-bs-wizard mb-4 mx-0" style={{borderBottom:"0"}}>
-                          <div className="col-xs-2 bs-wizard-step  complete current">
+                          <div className="col-xs-2 bs-wizard-step  complete current" id="step1h">
                             <div className="text-center bs-wizard-number">1</div>
                             <div className="text-center bs-wizard-stepnum">PROPERTY DETAILS</div>
                             <div className="progress">
@@ -805,7 +913,7 @@ export default class NewProperty extends Component{
                             </div>
                             <Link className="bs-wizard-dot" to="#"></Link>
                           </div>
-                          <div className="col-xs-2 bs-wizard-step  disabled ">
+                          <div className="col-xs-2 bs-wizard-step  disabled " id="step2h">
                             <div className="text-center bs-wizard-number">2</div>
                             <div className="text-center bs-wizard-stepnum">DEAL ANALYSIS</div>
                             <div className="progress">
@@ -813,7 +921,7 @@ export default class NewProperty extends Component{
                             </div>
                             <Link className="bs-wizard-dot" to="#"></Link>
                           </div>
-                          <div className="col-xs-2 bs-wizard-step  disabled ">
+                          <div className="col-xs-2 bs-wizard-step  disabled " id="step3h">
                             <div className="text-center bs-wizard-number">3</div>
                             <div className="text-center bs-wizard-stepnum">AUCTION DETAILS</div>
                             <div className="progress">
@@ -821,7 +929,7 @@ export default class NewProperty extends Component{
                             </div>
                             <Link className="bs-wizard-dot" to="#"></Link>
                           </div>
-                          <div className="col-xs-2 bs-wizard-step  disabled ">
+                          <div className="col-xs-2 bs-wizard-step  disabled " id="step4h">
                             <div className="text-center bs-wizard-number">4</div>
                             <div className="text-center bs-wizard-stepnum">PHOTOS AND VIDEOS</div>
                             <div className="progress">
@@ -829,7 +937,7 @@ export default class NewProperty extends Component{
                             </div>
                             <Link to="#" className="bs-wizard-dot"></Link>
                           </div>
-                          <div className="col-xs-2 bs-wizard-step disabled ">
+                          <div className="col-xs-2 bs-wizard-step disabled " id="step5h">
                             <div className="text-center bs-wizard-number">5</div>
                             <div className="text-center bs-wizard-stepnum">SELLERS INFO</div>
                             <div className="progress">
@@ -837,7 +945,7 @@ export default class NewProperty extends Component{
                             </div>
                             <Link to="#" className="bs-wizard-dot"></Link>
                           </div>
-                          <div className="col-xs-2 bs-wizard-step disabled ">
+                          <div className="col-xs-2 bs-wizard-step disabled " id="step6h">
                             <div className="text-center bs-wizard-number">6</div>
                             <div className="text-center bs-wizard-stepnum">AUCTION AGREEMENT</div>
                             <div className="progress">
@@ -1584,7 +1692,7 @@ export default class NewProperty extends Component{
                             </div>
                           </Modal>
                         </div>
-                        <div className="" id="step3">
+                        <div className="d-none" id="step3">
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Online Bidding Options</h4>
                           </div>
@@ -1740,7 +1848,100 @@ export default class NewProperty extends Component{
                             <Link to="#" onClick={this.goToStepFour} className="red-btn step-btn mx-1">Continue</Link>
                           </div>
                         </div>
-                        <div className="d-none" id="step4">
+                        <div className="" id="step4">
+                          <div className="col-md-12 text-center pb-4">
+                            <h4 className="step-name">Property Photos and Videos</h4>
+                          </div>
+                          <form className="row mx-0 creation-forms">
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Upload Photos</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <div className="custom-file files_box">
+                                  <input type="file" className="custom-file-input" name="images" onChange={this.imageSelectHandler} multiple={true} accept="image/*"/>
+                                  <label className="custom-file-label" htmlFor="customFile">Drag & Drop Images Here</label>
+                                </div>
+                              </div>
+                              <div className="demo_images" >
+
+                                {this.state.property.images.length > 0 ?
+                                  <>
+                                    <DragDropContext onDragEnd={this.onDragEnd}>
+                                      <Droppable droppableId="droppable" direction="horizontal">
+                                        {(droppableProvided, droppableSnapshot) => (
+                                          <>
+                                            <div className="demo" ref={droppableProvided.innerRef} {...droppableProvided.droppableProps}>
+                                              <div className="row mx-0">
+                                                <div className="upload-img-row">
+                                                  {this.state.property.images.map((file,i) =>
+                                                    <div key={i} className="col-md-2 px-2 my-2">
+                                                      <Draggable  draggableId={i.toString()} index={i}>
+                                                        {(draggableProvided, draggableSnapshot) => (
+                                                          <div
+                                                            ref={draggableProvided.innerRef}
+                                                            {...draggableProvided.draggableProps}
+                                                            {...draggableProvided.dragHandleProps}
+                                                          >
+                                                            <img src={file.src} className="img-thumbnail" alt={file.src} /><Link to="#" onClick = {(e) => {this.removeFile(file.id)}}  >x</Link>
+                                                          </div>
+                                                        )}
+                                                      </Draggable>
+                                                    </div>
+                                                  )}
+                                                  {droppableProvided.placeholder}
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </>
+                                        )}
+                                      </Droppable>
+                                    </DragDropContext>
+                                  </>
+                                : <div></div>
+                                }
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Youtube Link</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="text" className="form-control" name="youtube_url" onChange={this.updateProperty}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Vimeo Link</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="text" className="form-control" name="vimeo_url" onChange={this.updateProperty}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Dropbox Link</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="text" className="form-control" name="dropbox_url" onChange={this.updateProperty}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Upload Videos</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <div className="custom-file files_box">
+                                  <input type="file" id= "user_profile_image_input" className="custom-file-input" name="video" onChange={this.videoSelectHandler} accept="video/*"/>
+                                  <label className="custom-file-label" htmlFor="customFile">Drag & Drop Video Here</label>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                          <div className="col-md-12 text-center my-4">
+                            <Link to="#" onClick={this.backToStepThree} className="red-btn step-btn mx-1">Go, Back</Link>
+                            <Link to="#" onClick={this.goToStepFive} className="red-btn step-btn mx-1">Continue</Link>
+                          </div>
                         </div>
                         <div className="d-none" id="step5">
                         </div>

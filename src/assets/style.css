@@ -3675,6 +3675,9 @@ a.next{
 .sell_forms .est_box .est_list input {
   width: 48%;
 }
+.custom-file-input:focus~.custom-file-label {
+  box-shadow: 0 0 0 0rem rgba(0,123,255,.25);
+}
 #step_table td, #step_table th{
   border: 1px solid #000 !important;
   font-size: 13px;
