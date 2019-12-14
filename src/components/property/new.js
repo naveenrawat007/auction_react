@@ -691,6 +691,144 @@ export default class NewProperty extends Component{
 
   }
 
+  stepOneValidation = () => {
+    let property_address_error = "";
+    let property_city_error = "";
+    let property_state_error = "";
+    let property_zip_code_error = "";
+    let property_category_error = "";
+    let property_type_error = "";
+    let property_bedrooms_error = "";
+    let property_bathrooms_error = "";
+    let property_garage_error = "";
+    let property_area_error = "";
+    let property_lot_size_error = "";
+    let property_year_built_error = "";
+    let property_units_error = "";
+    let property_stories_error = "";
+    let property_cap_rate_error = "";
+    let property_price_per_sq_ft_error = "";
+    let property_headliner_error = "";
+    let property_mls_available_error = "";
+    let property_flooded_error = "";
+    let property_flood_count_error = "";
+    let property_description_error = "";
+    let property_owner_category_error= ""
+    let property_title_status_error=""
+    let property_additional_information_error=""
+
+    if (this.state.property.address === ""){
+      property_address_error = "Property address can't be blank."
+    }
+    if (this.state.property.city === ""){
+      property_city_error = "City can't be blank."
+    }
+    if (this.state.property.state === ""){
+      property_state_error = "State can't be blank."
+    }
+    if (this.state.property.zip_code === ""){
+      property_zip_code_error = "Zip Code can't be blank."
+    }
+    if (this.state.property.category === ""){
+      property_category_error = "Property category can't be blank."
+    }
+    if (this.state.property.p_type === ""){
+      property_type_error = "Property Type can't be blank."
+    }
+    if (this.state.property.category === "Residential"){
+      if (this.state.property.bedrooms === ""){
+        property_bedrooms_error = "This field can't be blank."
+      }
+      if (this.state.property.bathrooms === ""){
+        property_bathrooms_error = "This field can't be blank."
+      }
+      if (this.state.property.garage === ""){
+        property_garage_error = "This field can't be blank."
+      }
+    }
+    if ((this.state.property.category === "Residential") || (this.state.property.category === "Commercial")){
+      if (this.state.property.area === ""){
+        property_area_error = "Area can't be blank."
+      }
+      if (this.state.property.year_built === ""){
+        property_year_built_error = "Property built year can't be blank."
+      }else if (String(this.state.property.year_built).length < 4) {
+        property_year_built_error = "Not a valid year."
+      }
+    }
+    if (this.state.property.lot_size === ""){
+      property_lot_size_error = "Lot size can't be blank."
+    }
+    if (this.state.property.category === "Commercial"){
+      if (this.state.property.units === ""){
+        property_units_error = "units can't be blank."
+      }
+      if (this.state.property.stories === ""){
+        property_stories_error = "Stories can't be blank."
+      }
+      if (this.state.property.cap_rate === ""){
+        property_cap_rate_error = "Cap Rate can't be blank."
+      }
+    }
+    if (this.state.property.category === "Land"){
+      if (this.state.property.price_per_sq_ft === ""){
+        property_price_per_sq_ft_error = "Price per SqFt can't be blank."
+      }
+    }
+    if (this.state.property.headliner === ""){
+      property_headliner_error = "Headliner can't be blank."
+    }
+    if (this.state.property.mls_available === ""){
+      property_mls_available_error = "Please select any one."
+    }
+    if (this.state.property.flooded === ""){
+      property_flooded_error = "Please select one."
+    }
+    if (this.state.property.flooded === "true"){
+      if (this.state.property.flood_count === ""){
+        property_flood_count_error = "Flood count cant be blank."
+      }
+    }
+    if (this.state.property.description === ""){
+      property_description_error = "Property description can't be blank."
+    }
+
+    this.setState({
+      property_address_error,
+      property_city_error,
+      property_state_error,
+      property_zip_code_error,
+      property_category_error,
+      property_type_error,
+      property_bedrooms_error,
+      property_bathrooms_error,
+      property_garage_error,
+      property_area_error,
+      property_lot_size_error,
+      property_year_built_error,
+      property_units_error,
+      property_stories_error,
+      property_cap_rate_error,
+      property_price_per_sq_ft_error,
+      property_headliner_error,
+      property_mls_available_error,
+      property_flooded_error,
+      property_flood_count_error,
+      property_description_error,
+    },function () {
+      if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_description_error !== "" ){
+        return false;
+      }else {
+        return true;
+      }
+    })
+    if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_description_error !== "" ){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
   backToStepOne = () => {
     document.getElementById('step2').classList.add('d-none');
     document.getElementById('step1').classList.remove('d-none');
