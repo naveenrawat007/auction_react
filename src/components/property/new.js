@@ -40,7 +40,7 @@ const initial_state = {
     description: "",
     owner_category: "",
     additional_information: "",
-    best_offer: false,
+    best_offer: "false",
     best_offer_lenght: "",
     best_offer_sellers_minimum_price: "",
     best_offer_sellers_reserve_price: "",
@@ -312,8 +312,6 @@ export default class NewProperty extends Component{
               });
             });
           }
-        }else if (name === "auction_length") {
-          this.updatePropertyAuctionEnding();
         }
         else if ((name === "after_rehab_value")||(name === "asking_price")){
           this.updateProfitPotentialCalculator();
@@ -740,6 +738,13 @@ export default class NewProperty extends Component{
         auction_ending_at: date
         }
       })
+    }
+  }
+  checkBestOffer = () => {
+    if (this.state.property.best_offer === "true"){
+      return "";
+    }else {
+      return "d-none";
     }
   }
 	render() {
@@ -1595,9 +1600,9 @@ export default class NewProperty extends Component{
                                 </select>
                               </div>
                             </div>
-                            <div className="form-group col-md-8 offset-md-2 px-0 mt-4 row step_row">
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
-                                <label>Online Bidding/Auction Start Date</label>
+                                <label>{this.state.property.best_offer === "true" ? "Best Offer Start Date" : "Online Bidding/Auction Start Date"}</label>
                               </div>
                               <div className="col-md-6 px-1">
                                 <div className="input-group mb-0">
@@ -1605,8 +1610,34 @@ export default class NewProperty extends Component{
                                     selected={this.state.property.auction_started_at} minDate={new Date()}
                                     name="auction_started_at" onChange={this.updatePropertyAuctionStart}
                                   />
-
                                 </div>
+                              </div>
+                            </div>
+                            <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Best Offer Time Frame</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <select className="form-control" defaultValue={this.state.property.best_offer_lenght} name="best_offer_lenght" onChange={this.updateProperty}>
+                                  <option>Please select</option>
+                                  {auction_lengths}
+                                </select>
+                              </div>
+                            </div>
+                            <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Sellers Minimum Starting Price</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="number" className="form-control" name="best_offer_sellers_minimum_price" onChange={this.updateProperty}/>
+                              </div>
+                            </div>
+                            <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Sellers Reserve Price</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="number" className="form-control" name="best_offer_sellers_reserve_price" onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -1614,7 +1645,7 @@ export default class NewProperty extends Component{
                                 <label>Online Bidding/Auction Time Frame</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className="form-control" name="auction_length" onChange={this.updateProperty}>
+                                <select className="form-control" defaultValue={this.state.property.auction_length} name="auction_length" onChange={this.updateProperty}>
                                   <option>Please select</option>
                                   {auction_lengths}
                                 </select>
