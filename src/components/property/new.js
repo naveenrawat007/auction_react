@@ -11,9 +11,19 @@ import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 
 const initial_state = {
   estimated_cost_modal: false,
+  terms_agreed: false,
   created: false,
   error: "",
   message: "",
+  submit_type: "register",
+  user:{
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    phone: "",
+    confirm_password: "",
+  },
   property: {
     bedrooms: "",
     bathrooms: "",
@@ -321,6 +331,18 @@ export default class NewProperty extends Component{
         }
         this.updateLandlordDealCalculator();
       });
+    }
+  }
+
+  updateUser = (event) => {
+    const{ name, value } = event.target;
+    if (this._isMounted){
+      this.setState({
+        user: {
+        ...this.state.user,
+        [name]: value
+        }
+      })
     }
   }
 
@@ -855,6 +877,28 @@ export default class NewProperty extends Component{
       video: event.target.files[0]
     });
   }
+  updateTermsAgreed = (event) => {
+    const{ name, checked } = event.target;
+    this.setState({
+      [name]: checked
+    });
+  }
+  goToLogin = () => {
+    this.setState({
+      submit_type: "login"
+    }, function () {
+      document.getElementById("sign-up-form").classList.add("d-none");
+      document.getElementById("log-in-form").classList.remove("d-none");
+    });
+  }
+  goToSignUp = () => {
+    this.setState({
+      submit_type: "register"
+    }, function () {
+      document.getElementById("sign-up-form").classList.remove("d-none");
+      document.getElementById("log-in-form").classList.add("d-none");
+    });
+  }
 	render() {
     const open_house_dates = this.state.property.open_house_dates.map((value, index) => {
       return <DatePicker key ={index} className="form-control " minDate={new Date()}
@@ -954,7 +998,7 @@ export default class NewProperty extends Component{
                             <Link to="#" className="bs-wizard-dot"></Link>
                           </div>
                         </div>
-                        <div className="d-none" id="step1" >
+                        <div className="" id="step1" >
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Property Details</h4>
                           </div>
@@ -1180,7 +1224,7 @@ export default class NewProperty extends Component{
                                 <label>Type of Deal</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className="form-control" id="sel1" name="deal_analysis_type" onChange={this.updateProperty} defaultValue={this.state.property.deal_analysis_type === "Rehab & Flip Deal" ? "Rehab & Flip Deal" : "Landlord Deal"}>
+                                <select className="form-control" name="deal_analysis_type" onChange={this.updateProperty} defaultValue={this.state.property.deal_analysis_type === "Rehab & Flip Deal" ? "Rehab & Flip Deal" : "Landlord Deal"}>
                                   <option value="Rehab & Flip Deal">Rehab & Flip Deal</option>
                                   <option value="Landlord Deal">Landlord Analysis</option>
                                 </select>
@@ -1208,7 +1252,7 @@ export default class NewProperty extends Component{
                                   <label>Estimated Rehab Cost (-)</label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} id="estimated-cost1" onClick={() => {this.setState({
+                                  <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} onClick={() => {this.setState({
                                     estimated_cost_modal: true
                                   });}}/>
                                 </div>
@@ -1245,7 +1289,7 @@ export default class NewProperty extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Est Rehab Cost: </label>
-                                            <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} id="estimated-cost1" onClick={() => {this.setState({
+                                            <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} onClick={() => {this.setState({
                                               estimated_cost_modal: true
                                             });}}/>
                                           </div>
@@ -1702,7 +1746,7 @@ export default class NewProperty extends Component{
                                 <label>Enable Best Offer Features</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className="form-control" onChange={this.updateProperty} defaultValue={this.state.property.best_offer} name="best_offer" id="sel1">
+                                <select className="form-control" onChange={this.updateProperty} defaultValue={this.state.property.best_offer} name="best_offer" >
                                   <option value={false}>No</option>
                                   <option value={true}>Yes</option>
                                 </select>
@@ -1848,7 +1892,7 @@ export default class NewProperty extends Component{
                             <Link to="#" onClick={this.goToStepFour} className="red-btn step-btn mx-1">Continue</Link>
                           </div>
                         </div>
-                        <div className="" id="step4">
+                        <div className="d-none" id="step4">
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Property Photos and Videos</h4>
                           </div>
@@ -1944,8 +1988,160 @@ export default class NewProperty extends Component{
                           </div>
                         </div>
                         <div className="d-none" id="step5">
+                          <div id="log-in-form" className="d-none">
+                            <div className="col-md-12 text-center pb-4">
+                              <h4 className="step-name">Seller's Info</h4>
+                              <p className="login_note">Not a Member?<Link to="#" onClick={this.goToSignUp} className="font-blue">Create Account</Link></p>
+                            </div>
+                            <form className="row mx-0 creation-forms">
+                              <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                                <div className="col-md-6 px-1 text-right">
+                                  <label>Email</label>
+                                </div>
+                                <div className="col-md-6 px-1">
+                                  <input type="email" name="email" autoComplete="username" onChange={this.updateUser} className="form-control" />
+                                </div>
+                              </div>
+                              <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                                <div className="col-md-6 px-1 text-right">
+                                  <label>Password</label>
+                                </div>
+                                <div className="col-md-6 px-1">
+                                  <input type="password" name="password" onChange={this.updateUser} className="form-control" autoComplete="new-password"/>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                          <div id="sign-up-form">
+                            <div className="col-md-12 text-center pb-4">
+                              <h4 className="step-name">Seller's Info</h4>
+                              <p className="login_note">Already Member?<Link to="#" onClick={this.goToLogin} className="font-blue">Login Now</Link></p>
+                            </div>
+                            <form className="row mx-0 creation-forms">
+                              <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                                <div className="col-md-6 px-1 text-right">
+                                  <label>First Name</label>
+                                </div>
+                                <div className="col-md-6 px-1">
+                                  <input type="text"  name="first_name" onChange={this.updateUser} className="form-control" />
+                                </div>
+                              </div>
+                              <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                                <div className="col-md-6 px-1 text-right">
+                                  <label>Last Name</label>
+                                </div>
+                                <div className="col-md-6 px-1">
+                                  <input type="text"  name="last_name" onChange={this.updateUser} className="form-control" />
+                                </div>
+                              </div>
+                              <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                                <div className="col-md-6 px-1 text-right">
+                                  <label>Email</label>
+                                </div>
+                                <div className="col-md-6 px-1">
+                                  <input type="email" name="email" autoComplete="username" onChange={this.updateUser} className="form-control" />
+                                </div>
+                              </div>
+                              <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                                <div className="col-md-6 px-1 text-right">
+                                  <label>Phone</label>
+                                </div>
+                                <div className="col-md-6 px-1">
+                                  <input type="number" name="phone" onChange={this.updateUser} className="form-control" />
+                                </div>
+                              </div>
+                              <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                                <div className="col-md-6 px-1 text-right">
+                                  <label>Password</label>
+                                </div>
+                                <div className="col-md-6 px-1">
+                                  <input type="Password" name="password" autoComplete="new-password" onChange={this.updateUser} className="form-control" />
+                                </div>
+                              </div>
+                              <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                                <div className="col-md-6 px-1 text-right">
+                                  <label>Confirm Password</label>
+                                </div>
+                                <div className="col-md-6 px-1">
+                                  <input type="Password" name="confirm_password" autoComplete="new-password" onChange={this.updateUser} className="form-control" />
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                          <div className="col-md-12 text-center my-4">
+                            <Link to="#" onClick={this.backToStepFour} className="red-btn step-btn mx-1">Go, Back</Link>
+                            <Link to="#" onClick={this.goToStepSix} className="red-btn step-btn mx-1">Continue</Link>
+                          </div>
                         </div>
                         <div className="d-none" id="step6">
+                          <div className="col-md-12 text-center pb-4">
+                            <h4 className="step-name">Auction Participation Agreement required to post a property</h4>
+                          </div>
+                          <form className="row mx-0 creation-forms">
+                            <div className="col-md-12">
+                              <div className="terms_agree">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                              </div>
+                            </div>
+                            <div className="col-md-12 text-center">
+                              <div className="form-check">
+                                <input type="checkbox" name="terms_agreed" className="form-check-input" id="exampleCheck1" onChange={this.updateTermsAgreed}/>
+                                <label className="form-check-label" htmlFor="exampleCheck1">I agree to the website <a href="#" className="font-blue">terms and coditions</a></label>
+                              </div>
+                            </div>
+                          </form>
+                          <div className="col-md-12 text-center my-4">
+                            <Link to="#" onClick={this.backToStepFive} className="red-btn step-btn mx-1">Go, Back</Link>
+                            <Link to="#" className="red-btn step-btn mx-1">Save As Draft</Link>
+                            <Link to="#" className="red-btn step-btn mx-1">Submit</Link>
+                          </div>
                         </div>
                       </div>
                     </div>
