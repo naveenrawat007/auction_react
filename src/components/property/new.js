@@ -720,6 +720,7 @@ export default class NewProperty extends Component{
 
   }
 
+
   stepOneValidation = () => {
     let property_address_error = "";
     let property_city_error = "";
@@ -1072,7 +1073,7 @@ export default class NewProperty extends Component{
 
   }
 
-  stepFourValidation = () => {
+  stepFiveValidation = () => {
     let user_first_name_error = "";
     let user_last_name_error = "";
     let user_phone_number_error = "";
@@ -1203,7 +1204,7 @@ export default class NewProperty extends Component{
     document.getElementById('step6h').classList.add('disabled')
   }
   goToStepSix = () => {
-    let isValid = this.stepFourValidation()
+    let isValid = this.stepFiveValidation()
     if (isValid){
       document.getElementById('step5').classList.add('d-none');
       document.getElementById('step6').classList.remove('d-none');
