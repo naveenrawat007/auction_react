@@ -212,7 +212,14 @@ const initial_state = {
   property_title_status_error: "",
   property_seller_pay_type_id_error: "",
   property_show_instructions_type_id_error: "",
-  property_youtube_url_error: ""
+  property_youtube_url_error: "",
+
+  user_first_name_error: "",
+  user_last_name_error: "",
+  user_phone_number_error: "",
+  user_email_error: "",
+  user_password_error: "",
+  user_confirm_password_error: "",
 }
 
 
@@ -1065,6 +1072,64 @@ export default class NewProperty extends Component{
 
   }
 
+  stepFourValidation = () => {
+    let user_first_name_error = "";
+    let user_last_name_error = "";
+    let user_phone_number_error = "";
+    let user_email_error = "";
+    let user_password_error = "";
+    let user_confirm_password_error = "";
+
+    if (this.state.user.email === ""){
+      user_email_error = "Email can't be blank!"
+    }else if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.user.email)))
+    {
+      user_email_error = "Invalid email!"
+    }
+
+    if (this.state.user.password === ""){
+      user_password_error = "Password can't be blank!"
+    }else if (this.state.user.password.length < 6) {
+      user_password_error = "Password is too short!"
+    }
+    if (this.state.submit_type === "register"){
+      if (this.state.user.first_name === ""){
+        user_first_name_error = "First name can't be blank!"
+      }
+      if (this.state.user.last_name === ""){
+        user_last_name_error = "Last name can't be blank!"
+      }
+      if (this.state.user.phone_number === ""){
+        user_phone_number_error = "Phone number can't be blank!"
+      }else if (isNaN(this.state.user.phone_number)) {
+        user_phone_number_error = "Phone should be Numeric"
+      }else if (this.state.user.phone_number.length < 10){
+        user_phone_number_error = "Phone number length is small."
+      }else if (this.state.user.phone_number.length > 10) {
+        user_phone_number_error = "Phone number length is too large."
+      }
+      if (this.state.user.confirm_password === ""){
+        user_confirm_password_error = "Confirm Password can't be blank!"
+      }else if (this.state.user.confirm_password !== this.state.user.password) {
+        user_confirm_password_error = "Confirm Password is not matching password!"
+      }
+    }
+    this.setState({
+      user_first_name_error,
+      user_last_name_error,
+      user_phone_number_error,
+      user_email_error,
+      user_password_error,
+      user_confirm_password_error,
+    });
+
+    if (user_first_name_error !== "" || user_last_name_error !== "" || user_phone_number_error !=="" || user_email_error !== "" || user_password_error !== "" || user_confirm_password_error !== "" ){
+      return false;
+    }else {
+      return true;
+    }
+  }
+
   backToStepOne = () => {
     document.getElementById('step2').classList.add('d-none');
     document.getElementById('step1').classList.remove('d-none');
@@ -1138,11 +1203,14 @@ export default class NewProperty extends Component{
     document.getElementById('step6h').classList.add('disabled')
   }
   goToStepSix = () => {
-    document.getElementById('step5').classList.add('d-none');
-    document.getElementById('step6').classList.remove('d-none');
-    window.scrollTo(0,0)
-    document.getElementById('step6h').classList.remove('disabled')
-    document.getElementById('step6h').classList.add('complete', "current")
+    let isValid = this.stepFourValidation()
+    if (isValid){
+      document.getElementById('step5').classList.add('d-none');
+      document.getElementById('step6').classList.remove('d-none');
+      window.scrollTo(0,0)
+      document.getElementById('step6h').classList.remove('disabled')
+      document.getElementById('step6h').classList.add('complete', "current")
+    }
   }
 
   checkRehabDeal = () => {
@@ -1421,7 +1489,7 @@ export default class NewProperty extends Component{
                             <Link to="#" className="bs-wizard-dot"></Link>
                           </div>
                         </div>
-                        <div className="d-none" id="step1" >
+                        <div className="" id="step1" >
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Property Details</h4>
                           </div>
@@ -2159,7 +2227,7 @@ export default class NewProperty extends Component{
                             </div>
                           </Modal>
                         </div>
-                        <div className="" id="step3">
+                        <div className="d-none" id="step3">
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Online Bidding Options</h4>
                           </div>
@@ -2423,7 +2491,7 @@ export default class NewProperty extends Component{
                                   <label>Email</label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="email" name="email" autoComplete="username" onChange={this.updateUser} className="form-control" />
+                                  <input type="email" name="email" autoComplete="username" value={this.state.user.email} onChange={this.updateUser} className={"form-control " + this.addErrorClass(this.state.user_email_error) } />
                                 </div>
                               </div>
                               <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -2431,7 +2499,7 @@ export default class NewProperty extends Component{
                                   <label>Password</label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="password" name="password" onChange={this.updateUser} className="form-control" autoComplete="new-password"/>
+                                  <input type="password" name="password" onChange={this.updateUser} value={this.state.user.password} className={"form-control " + this.addErrorClass(this.state.user_password_error) } autoComplete="new-password"/>
                                 </div>
                               </div>
                             </form>
@@ -2447,7 +2515,7 @@ export default class NewProperty extends Component{
                                   <label>First Name</label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="text"  name="first_name" onChange={this.updateUser} className="form-control" />
+                                  <input type="text"  name="first_name" onChange={this.updateUser} className={"form-control " + this.addErrorClass(this.state.user_first_name_error) } />
                                 </div>
                               </div>
                               <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -2455,7 +2523,7 @@ export default class NewProperty extends Component{
                                   <label>Last Name</label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="text"  name="last_name" onChange={this.updateUser} className="form-control" />
+                                  <input type="text"  name="last_name" onChange={this.updateUser} className={"form-control " + this.addErrorClass(this.state.user_last_name_error) } />
                                 </div>
                               </div>
                               <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -2463,7 +2531,7 @@ export default class NewProperty extends Component{
                                   <label>Email</label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="email" name="email" autoComplete="username" onChange={this.updateUser} className="form-control" />
+                                  <input type="email" name="email" autoComplete="username" value={this.state.user.email} onChange={this.updateUser} className={"form-control " + this.addErrorClass(this.state.user_email_error) } />
                                 </div>
                               </div>
                               <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -2471,7 +2539,7 @@ export default class NewProperty extends Component{
                                   <label>Phone</label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="number" name="phone" onChange={this.updateUser} className="form-control" />
+                                  <input type="number" name="phone" onChange={this.updateUser} className={"form-control " + this.addErrorClass(this.state.user_phone_number_error) } />
                                 </div>
                               </div>
                               <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -2479,7 +2547,7 @@ export default class NewProperty extends Component{
                                   <label>Password</label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="Password" name="password" autoComplete="new-password" onChange={this.updateUser} className="form-control" />
+                                  <input type="Password" name="password" autoComplete="new-password" onChange={this.updateUser} value={this.state.user.password} className={"form-control " + this.addErrorClass(this.state.user_password_error) } />
                                 </div>
                               </div>
                               <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -2487,7 +2555,7 @@ export default class NewProperty extends Component{
                                   <label>Confirm Password</label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="Password" name="confirm_password" autoComplete="new-password" onChange={this.updateUser} className="form-control" />
+                                  <input type="Password" name="confirm_password" autoComplete="new-password" onChange={this.updateUser} className={"form-control " + this.addErrorClass(this.state.user_confirm_password_error) } />
                                 </div>
                               </div>
                             </form>
