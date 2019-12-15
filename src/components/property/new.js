@@ -194,15 +194,10 @@ const initial_state = {
   property_est_annual_operating_fees_others_error : "",
   property_monthly_rent_error : "",
   property_vacancy_rate_error : "",
-  property_rental_proof_error : "",
 
-  property_auction_started_at_error: "",
   property_auction_length_error: "",
   property_seller_price_error: "",
   property_buy_now_price_error: "",
-  property_auction_ending_at_error: "",
-  property_buy_option_error: "",
-  property_show_instructions_type_id_error: "",
   property_show_instructions_text_error: "",
 
   property_best_offer_lenght_error: "",
@@ -211,7 +206,6 @@ const initial_state = {
 
   property_seller_price_error: "",
   property_buy_price_error: "",
-  property_auction_length_error: "",
   property_auction_started_at_error: "",
   property_auction_ending_at_error: "",
   property_buy_option_error: "",
@@ -741,7 +735,6 @@ export default class NewProperty extends Component{
     let property_flooded_error = "";
     let property_flood_count_error = "";
     let property_description_error = "";
-    let property_owner_category_error= ""
     let property_title_status_error=""
     let property_additional_information_error=""
 
