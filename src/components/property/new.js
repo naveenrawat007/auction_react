@@ -123,6 +123,7 @@ const initial_state = {
     description_of_repairs: "",
     arv_proof: null,
     rehab_cost_proof: null,
+    rental_description: "",
     rental_proof: null,
 
 
@@ -2140,7 +2141,7 @@ export default class NewProperty extends Component{
                                 <label>How did you determine your Rental Cost or Upload Proof?</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <textarea className="form-control textarea-resize" name="rental_analysis" onChange={this.updateProperty}/>
+                                <textarea className="form-control textarea-resize" name="rental_description" onChange={this.updateProperty}/>
                               </div>
                               <div className="col-md-6 offset-md-6 px-1 mt-2">
                                 <div className="custom-file">
