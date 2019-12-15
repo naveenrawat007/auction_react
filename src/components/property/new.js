@@ -175,8 +175,9 @@ const initial_state = {
   property_description_error: "",
   property_owner_category_error: "",
   property_additional_information_error: "",
+
   property_after_rehab_value_error: "",
-  property_asking_price: "",
+  property_asking_price_error: "",
   property_estimated_rehab_cost_error: "",
   property_arv_proof_error: "",
   property_rehab_cost_proof_error: "",
@@ -792,6 +793,12 @@ export default class NewProperty extends Component{
     if (this.state.property.description === ""){
       property_description_error = "Property description can't be blank."
     }
+    if (this.state.property.title_status === ""){
+      property_title_status_error = " can't be blank."
+    }
+    if (this.state.property.additional_information === ""){
+      property_additional_information_error = " can't be blank."
+    }
 
     this.setState({
       property_address_error,
@@ -815,14 +822,57 @@ export default class NewProperty extends Component{
       property_flooded_error,
       property_flood_count_error,
       property_description_error,
+      property_title_status_error,
+      property_additional_information_error,
     },function () {
-      if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_description_error !== "" ){
+      if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_description_error !== "" || property_title_status_error !== "" || property_additional_information_error !== "" ){
         return false;
       }else {
         return true;
       }
     })
-    if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_description_error !== "" ){
+    if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_description_error !== "" || property_title_status_error !== "" || property_additional_information_error !== "" ){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
+  stepTwoValidation = () => {
+    let property_after_rehab_value_error = "";
+    let property_asking_price_error = "";
+    let property_estimated_rehab_cost_error = "";
+    let property_arv_proof_error = "";
+    let property_rehab_cost_proof_error = "";
+    if (this.state.property.after_rehab_value === ""){
+      property_after_rehab_value_error = "can't be blank."
+    }else if (isNaN(this.state.property.after_rehab_value)) {
+      property_after_rehab_value_error = "error."
+    }
+    if (this.state.property.asking_price === ""){
+      property_asking_price_error = "can't be blank."
+    }else if (isNaN(this.state.property.asking_price)) {
+      property_asking_price_error = "error."
+    }
+    if (this.state.property.estimated_rehab_cost === ""){
+      property_estimated_rehab_cost_error = "can't be blank."
+    }else if (isNaN(this.state.property.estimated_rehab_cost)) {
+      property_estimated_rehab_cost_error = "error."
+    }
+    if (this.state.property.rehab_cost_proof === null){
+      property_rehab_cost_proof_error = "can't be blank."
+    }
+    if (this.state.property.arv_proof === null){
+      property_arv_proof_error = "can't be blank."
+    }
+    this.setState({
+      property_after_rehab_value_error,
+      property_asking_price_error,
+      property_estimated_rehab_cost_error,
+      property_arv_proof_error,
+      property_rehab_cost_proof_error,
+    })
+    if (property_after_rehab_value_error !== "" || property_asking_price_error !== "" || property_estimated_rehab_cost_error !== "" || property_arv_proof_error !== "" || property_arv_proof_error !== "" || property_rehab_cost_proof_error !== ""){
       return false;
     }else{
       return true;
@@ -837,11 +887,14 @@ export default class NewProperty extends Component{
     document.getElementById('step2h').classList.add('disabled')
   }
   goToStepTwo = () => {
-    document.getElementById('step1').classList.add('d-none');
-    document.getElementById('step2').classList.remove('d-none');
-    window.scrollTo(0,0)
-    document.getElementById('step2h').classList.remove('disabled')
-    document.getElementById('step2h').classList.add('complete', "current")
+    let isValid = this.stepOneValidation();
+    if (isValid){
+      document.getElementById('step1').classList.add('d-none');
+      document.getElementById('step2').classList.remove('d-none');
+      window.scrollTo(0,0)
+      document.getElementById('step2h').classList.remove('disabled')
+      document.getElementById('step2h').classList.add('complete', "current")
+    }
   }
   backToStepTwo = () => {
     document.getElementById('step3').classList.add('d-none');
@@ -851,11 +904,14 @@ export default class NewProperty extends Component{
     document.getElementById('step3h').classList.add('disabled')
   }
   goToStepThree = () => {
-    document.getElementById('step2').classList.add('d-none');
-    document.getElementById('step3').classList.remove('d-none');
-    window.scrollTo(0,0)
-    document.getElementById('step3h').classList.remove('disabled')
-    document.getElementById('step3h').classList.add('complete', "current")
+    let isValid = this.stepTwoValidation();
+    if (isValid){
+      document.getElementById('step2').classList.add('d-none');
+      document.getElementById('step3').classList.remove('d-none');
+      window.scrollTo(0,0)
+      document.getElementById('step3h').classList.remove('disabled')
+      document.getElementById('step3h').classList.add('complete', "current")
+    }
   }
   backToStepThree = () => {
     document.getElementById('step4').classList.add('d-none');
@@ -1059,6 +1115,24 @@ export default class NewProperty extends Component{
       document.getElementById("log-in-form").classList.add("d-none");
     });
   }
+  checkNumeric = (e) => {
+    var regex = new RegExp("^[0-9]+$");
+    var str = String.fromCharCode(
+      !e.charCode
+      ? e.which
+      : e.charCode);
+    if (!regex.test(str)) {
+      e.preventDefault();
+      return false;
+    }
+  }
+  addErrorClass = (msg) => {
+    if (msg === ""){
+      return ""
+    }else {
+      return "error-class"
+    }
+  }
 	render() {
     const open_house_dates = this.state.property.open_house_dates.map((value, index) => {
       return <DatePicker key ={index} className="form-control " minDate={new Date()}
@@ -1158,7 +1232,7 @@ export default class NewProperty extends Component{
                             <Link to="#" className="bs-wizard-dot"></Link>
                           </div>
                         </div>
-                        <div className="" id="step1" >
+                        <div className="d-none" id="step1" >
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Property Details</h4>
                           </div>
@@ -1168,7 +1242,7 @@ export default class NewProperty extends Component{
                                 <label>Property Address</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text"  id="autocomplete-address" className="form-control" name="address" onChange={this.updateProperty}/>
+                                <input type="text"  id="autocomplete-address" className={"form-control " + this.addErrorClass(this.state.property_address_error) } name="address" onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -1176,7 +1250,7 @@ export default class NewProperty extends Component{
                                 <label>City</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className="form-control" name="city" onChange={this.updateProperty} value={this.state.property.city}/>
+                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_city_error) } name="city" onChange={this.updateProperty} value={this.state.property.city}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -1184,7 +1258,7 @@ export default class NewProperty extends Component{
                                 <label>State</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className="form-control" name="state" onChange={this.updateProperty} value={this.state.property.state}/>
+                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_state_error) } name="state" onChange={this.updateProperty} value={this.state.property.state}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -1192,7 +1266,7 @@ export default class NewProperty extends Component{
                                 <label>Zip</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className="form-control" maxLength="6" name="zip_code" onChange={this.updateProperty} onKeyPress={this.checkNumeric} value={this.state.property.zip_code}/>
+                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_zip_code_error) } maxLength="6" name="zip_code" onChange={this.updateProperty} onKeyPress={this.checkNumeric} value={this.state.property.zip_code}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -1200,7 +1274,7 @@ export default class NewProperty extends Component{
                                 <label>Property Category</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className="form-control" name="category" onChange={this.updateProperty}>
+                                <select className={"form-control " + this.addErrorClass(this.state.property_category_error) } name="category" onChange={this.updateProperty}>
                                   {categories}
                                 </select>
                               </div>
@@ -1210,7 +1284,7 @@ export default class NewProperty extends Component{
                                 <label>Property Type</label>
                               </div>
                               <div className="col-md-6 px-1 text-right">
-                                <select className="form-control" name="p_type" onChange={this.updateProperty}>
+                                <select className={"form-control " + this.addErrorClass(this.state.property_type_error) } name="p_type" onChange={this.updateProperty}>
                                   {types}
                                 </select>
                               </div>
@@ -1220,7 +1294,7 @@ export default class NewProperty extends Component{
                                 <label>Bedrooms</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className="form-control" name="bedrooms" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
+                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_bedrooms_error) } name="bedrooms" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="bathrooms-input">
@@ -1228,7 +1302,7 @@ export default class NewProperty extends Component{
                                 <label>Bathrooms</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className="form-control" name="bathrooms" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
+                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_bathrooms_error) } name="bathrooms" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="garage-input">
@@ -1236,7 +1310,7 @@ export default class NewProperty extends Component{
                                 <label>Garage</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className="form-control" name="garage" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
+                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_garage_error) } name="garage" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="units-input">
@@ -1244,7 +1318,7 @@ export default class NewProperty extends Component{
                                 <label>Units</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className="form-control" name="units" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
+                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_units_error) } name="units" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="stories-input">
@@ -1252,7 +1326,7 @@ export default class NewProperty extends Component{
                                 <label>Stories</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className="form-control" name="stories" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
+                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_stories_error) } name="stories" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="cap_rate-input">
@@ -1260,7 +1334,7 @@ export default class NewProperty extends Component{
                                 <label>Cap Rate</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className="form-control" name="cap_rate" onChange={this.updateProperty} />
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_cap_rate_error) } name="cap_rate" onChange={this.updateProperty} />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="area-input">
@@ -1268,7 +1342,7 @@ export default class NewProperty extends Component{
                                 <label>Square Footage</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className="form-control" name="area" onChange={this.updateProperty}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_area_error) } name="area" onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="lot-input">
@@ -1276,7 +1350,7 @@ export default class NewProperty extends Component{
                                 <label>Lot</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className="form-control" name="lot_size" onChange={this.updateProperty} onKeyPress={this.checkDecimalNumeric}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_lot_size_error) } name="lot_size" onChange={this.updateProperty} onKeyPress={this.checkDecimalNumeric}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="year-built-input">
@@ -1284,7 +1358,7 @@ export default class NewProperty extends Component{
                                 <label>Year Built</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className="form-control" name="year_built" onChange={this.updateProperty} onKeyPress={this.checkNumeric} maxLength="4"/>
+                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_year_built_error) } name="year_built" onChange={this.updateProperty} onKeyPress={this.checkNumeric} maxLength="4"/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="price_per_sq_ft-input">
@@ -1292,7 +1366,7 @@ export default class NewProperty extends Component{
                                 <label>Price Per SqFt</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className="form-control" name="price_per_sq_ft" onChange={this.updateProperty} />
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_price_per_sq_ft_error) } name="price_per_sq_ft" onChange={this.updateProperty} />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -1300,7 +1374,7 @@ export default class NewProperty extends Component{
                                 <label>Property Headliner</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className="form-control" name="headliner" onChange={this.updateProperty}/>
+                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_headliner_error) } name="headliner" onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
@@ -1308,7 +1382,7 @@ export default class NewProperty extends Component{
                                 <label>Property Description</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <textarea className="form-control textarea_step textarea-resize" rows="2" id="comment" name="description" onChange={this.updateProperty}></textarea>
+                                <textarea className={"form-control textarea_step textarea-resize " + this.addErrorClass(this.state.property_description_error) } rows="2" id="comment" name="description" onChange={this.updateProperty}></textarea>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -1338,7 +1412,7 @@ export default class NewProperty extends Component{
                                 <label>If Flooded</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <textarea disabled id="flood_count_input" placeholder="How many times and how high did the water get inside the property each time." className="form-control textarea_step textarea-resize" rows="2" name="flood_count" onChange={this.updateProperty}/>
+                                <textarea disabled id="flood_count_input" placeholder="How many times and how high did the water get inside the property each time." className={"form-control textarea_step textarea-resize " + this.addErrorClass(this.state.property_flood_count_error) } rows="2" name="flood_count" onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -1346,7 +1420,7 @@ export default class NewProperty extends Component{
                                 <label>I'm selling the property as</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className="form-control" name="owner_category" onChange={this.updateProperty}>
+                                <select className={"form-control " + this.addErrorClass(this.state.property_owner_category_error)} name="owner_category" onChange={this.updateProperty}>
                                   {owner_categories}
                                 </select>
                               </div>
@@ -1356,7 +1430,7 @@ export default class NewProperty extends Component{
                                 <label>Title Status:</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className="form-control" name="title_status" onChange={this.updateProperty}>
+                                <select className={"form-control " + this.addErrorClass(this.state.property_title_status_error)} name="title_status" onChange={this.updateProperty}>
                                   {title_statuses}
                                 </select>
                               </div>
@@ -1366,7 +1440,7 @@ export default class NewProperty extends Component{
                                 <label>Title Additional Information</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <textarea className="form-control textarea-resize" rows="2" placeholder="Please advise any title issues that may prevent this property from closing?" name="additional_information" onChange={this.updateProperty}></textarea>
+                                <textarea className={"form-control textarea-resize " + this.addErrorClass(this.state.property_additional_information_error) } rows="2" placeholder="Please advise any title issues that may prevent this property from closing?" name="additional_information" onChange={this.updateProperty}></textarea>
                               </div>
                             </div>
                           </form>
@@ -1374,7 +1448,7 @@ export default class NewProperty extends Component{
                             <Link to="#" className="red-btn step-btn mx-1" onClick={this.goToStepTwo}>Continue</Link>
                           </div>
                         </div>
-                        <div className="d-none" id="step2">
+                        <div className="" id="step2">
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Deal Analysis</h4>
                           </div>
@@ -1396,7 +1470,7 @@ export default class NewProperty extends Component{
                                   <label>Estimated After Rehab Value(ARV)</label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="number" name="after_rehab_value" className="form-control" onChange={this.updateProperty} value={this.state.property.after_rehab_value}/>
+                                  <input type="number" name="after_rehab_value" className={"form-control " + this.addErrorClass(this.state.property_after_rehab_value_error) } onChange={this.updateProperty} value={this.state.property.after_rehab_value}/>
                                 </div>
                               </div>
                               <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -1404,7 +1478,7 @@ export default class NewProperty extends Component{
                                   <label>Sellers Asking Price (-)</label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="number" className="form-control" id="temp_id" name="asking_price" onChange={this.updateProperty} />
+                                  <input type="number" className={"form-control " + this.addErrorClass(this.state.property_asking_price_error) } id="temp_id" name="asking_price" onChange={this.updateProperty} />
                                 </div>
                               </div>
                               <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -1412,7 +1486,7 @@ export default class NewProperty extends Component{
                                   <label>Estimated Rehab Cost (-)</label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} onClick={() => {this.setState({
+                                  <input type="number" readOnly={true} className={"form-control estimated-cost " + this.addErrorClass(this.state.property_estimated_rehab_cost_error) } name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} onClick={() => {this.setState({
                                     estimated_cost_modal: true
                                   });}}/>
                                 </div>
@@ -1721,7 +1795,7 @@ export default class NewProperty extends Component{
                               <div className="col-md-6 offset-md-6 px-1 mt-2">
                                 <div className="custom-file">
                                   <input type="file" className="custom-file-input" name="arv_proof" onChange={this.fileSelectHandler}/>
-                                  <label className="custom-file-label" htmlFor="customFile">Choose file</label>
+                                  <label className={"custom-file-label " + this.addErrorClass(this.state.property_arv_proof_error) } htmlFor="customFile">Choose file</label>
                                 </div>
                               </div>
                             </div>
@@ -1735,7 +1809,7 @@ export default class NewProperty extends Component{
                               <div className="col-md-6 offset-md-6 px-1 mt-2">
                                 <div className="custom-file">
                                   <input type="file" className="custom-file-input" name="rehab_cost_proof" onChange={this.fileSelectHandler}/>
-                                  <label className="custom-file-label" htmlFor="customFile">Choose file</label>
+                                  <label className={"custom-file-label " + this.addErrorClass(this.state.property_rehab_cost_proof_error) } htmlFor="customFile">Choose file</label>
                                 </div>
                               </div>
                             </div>

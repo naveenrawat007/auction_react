@@ -3707,3 +3707,10 @@ a.next{
 #step_table tbody td:nth-child(7), #step_table thead th:nth-child(7){
   width: 15%;
 }
+
+.form-control.error-class {
+  border:  1px solid red !important;
+}
+.custom-file-label.error-class {
+  border:  1px solid red !important;
+}
