@@ -196,7 +196,6 @@ const initial_state = {
   property_vacancy_rate_error : "",
 
   property_auction_length_error: "",
-  property_seller_price_error: "",
   property_buy_now_price_error: "",
   property_show_instructions_text_error: "",
 
@@ -720,6 +719,65 @@ export default class NewProperty extends Component{
 
   }
 
+  sendData = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/register/properties"
+    const fd = new FormData();
+    for (let i = 0 ; i < this.state.property.images.length ; i++) {
+      fd.append('images[]', this.state.property.images[i].file, this.state.property.images[i].name)
+    }
+    for (let key in this.state.user){
+      fd.append("user["+key+"]", this.state.user[key])
+    }
+    if (this.state.property.arv_proof){
+      fd.append("arv_proof", this.state.property.arv_proof, this.state.property.arv_proof.name )
+    }
+    if (this.state.property.rental_proof){
+      fd.append("arv_proof", this.state.property.rental_proof, this.state.rental_proof)
+    }
+    if (this.state.property.rehab_cost_proof){
+      fd.append("rehab_cost_proof", this.state.property.rehab_cost_proof, this.state.property.rehab_cost_proof.name)
+    }
+    if (this.state.property.video){
+      fd.append("video", this.state.property.video, this.state.property.video.name)
+    }
+    for (let key in this.state.property){
+      if (key==="estimated_rehab_cost_attr" || key==="buy_option" || key === "residential_attributes" || key === "commercial_attributes" || key === "land_attributes"){
+        fd.append("property["+key+"]", JSON.stringify(this.state.property[key]))
+      }else {
+        fd.append("property["+key+"]", this.state.property[key])
+      }
+    }
+  	fetch(url ,{
+			method: "POST",
+			headers: {
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			},
+			body: fd,
+		}).then(res => res.json())
+    .then((result) => {
+      if (result.status === 201) {
+        this.setState({message: ""})
+          document.getElementById('step5').classList.add('d-none');
+          document.getElementById('step6').classList.remove('d-none');
+          window.scrollTo(0,0)
+          document.getElementById('step6h').classList.remove('disabled')
+          document.getElementById('step6h').classList.add('complete', "current")
+      }else {
+        this.setState({message: result.message,
+        variant: "danger"});
+      }
+      this.clearMessageTimeout = setTimeout(() => {
+        this.setState(() => ({message: ""}))
+      }, 2000);
+		}, (error) => {
+		});
+  }
 
   stepOneValidation = () => {
     let property_address_error = "";
@@ -1014,7 +1072,6 @@ export default class NewProperty extends Component{
     let property_best_offer_sellers_minimum_price_error = "";
     let property_best_offer_sellers_reserve_price = "";
     if (this.state.property.best_offer === "true"){
-      console.log(this.state.property.best_offer);
       if (this.state.property.best_offer_lenght === ""){
         property_best_offer_lenght_error = "can't be blank."
       }
@@ -1206,11 +1263,57 @@ export default class NewProperty extends Component{
   goToStepSix = () => {
     let isValid = this.stepFiveValidation()
     if (isValid){
-      document.getElementById('step5').classList.add('d-none');
-      document.getElementById('step6').classList.remove('d-none');
-      window.scrollTo(0,0)
-      document.getElementById('step6h').classList.remove('disabled')
-      document.getElementById('step6h').classList.add('complete', "current")
+      if (this.state.property.category === "Residential"){
+        if (this._isMounted){
+          this.setState({
+            property: {
+            ...this.state.property,
+            residential_attributes: {
+              bedrooms: this.state.property.bedrooms,
+              bathrooms: this.state.property.bathrooms,
+              garage: this.state.property.garage,
+              area: this.state.property.area,
+              lot_size: this.state.property.lot_size,
+              year_built: this.state.property.year_built,
+            }
+            }
+          }, function () {
+            this.sendData();
+          });
+        }
+      }else if (this.state.property.category === "Commercial") {
+        if (this._isMounted){
+          this.setState({
+            property: {
+            ...this.state.property,
+            commercial_attributes: {
+              area: this.state.property.area,
+              lot_size: this.state.property.lot_size,
+              year_built: this.state.property.year_built,
+              units: this.state.property.units,
+              stories: this.state.property.stories,
+              cap_rate: this.state.property.cap_rate,
+            }
+            }
+          }, function () {
+            this.sendData();
+          });
+        }
+      }else if (this.state.property.category === "Land") {
+        if (this._isMounted){
+          this.setState({
+            property: {
+            ...this.state.property,
+            land_attributes: {
+              lot_size: this.state.property.lot_size,
+              price_per_sq_ft: this.state.property.price_per_sq_ft,
+            }
+            }
+          }, function () {
+            this.sendData();
+          });
+        }
+      }
     }
   }
 
@@ -1348,7 +1451,10 @@ export default class NewProperty extends Component{
   }
   videoSelectHandler = (event) => {
     this.setState({
-      video: event.target.files[0]
+      property:{
+        ...this.state.property,
+        video: event.target.files[0]
+      }
     });
   }
   updateTermsAgreed = (event) => {
@@ -1490,7 +1596,7 @@ export default class NewProperty extends Component{
                             <Link to="#" className="bs-wizard-dot"></Link>
                           </div>
                         </div>
-                        <div className="" id="step1" >
+                        <div className="d-none" id="step1" >
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Property Details</h4>
                           </div>
@@ -2385,7 +2491,7 @@ export default class NewProperty extends Component{
                             <Link to="#" onClick={this.goToStepFour} className="red-btn step-btn mx-1">Continue</Link>
                           </div>
                         </div>
-                        <div className="d-none" id="step4">
+                        <div className="" id="step4">
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Property Photos and Videos</h4>
                           </div>
