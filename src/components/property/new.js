@@ -182,6 +182,20 @@ const initial_state = {
   property_arv_proof_error: "",
   property_rehab_cost_proof_error: "",
   property_rental_proof_error: "",
+  property_amount_financed_percentage_error: "",
+  property_amount_financed_error: "",
+  property_interest_rate_error : "",
+  property_loan_terms_error : "",
+  property_closing_cost_error : "",
+  property_insurance_annually_error : "",
+  property_short_term_financing_cost_error : "",
+  property_taxes_annually_error : "",
+  property_est_annual_management_fees_error : "",
+  property_est_annual_operating_fees_others_error : "",
+  property_monthly_rent_error : "",
+  property_vacancy_rate_error : "",
+  property_rental_proof_error : "",
+
   property_seller_price_error: "",
   property_buy_price_error: "",
   property_auction_length_error: "",
@@ -844,6 +858,21 @@ export default class NewProperty extends Component{
     let property_estimated_rehab_cost_error = "";
     let property_arv_proof_error = "";
     let property_rehab_cost_proof_error = "";
+
+    let property_amount_financed_percentage_error = "";
+    let property_amount_financed_error = "";
+    let property_interest_rate_error = "";
+    let property_loan_terms_error = "";
+    let property_closing_cost_error = "";
+    let property_insurance_annually_error = "";
+    let property_short_term_financing_cost_error = "";
+    let property_taxes_annually_error = "";
+    let property_est_annual_management_fees_error = "";
+    let property_est_annual_operating_fees_others_error = "";
+    let property_monthly_rent_error = "";
+    let property_vacancy_rate_error = "";
+    let property_rental_proof_error = "";
+
     if (this.state.property.after_rehab_value === ""){
       property_after_rehab_value_error = "can't be blank."
     }else if (isNaN(this.state.property.after_rehab_value)) {
@@ -865,14 +894,93 @@ export default class NewProperty extends Component{
     if (this.state.property.arv_proof === null){
       property_arv_proof_error = "can't be blank."
     }
+    if (this.state.property.deal_analysis_type === "Landlord Deal"){
+      if (this.state.property.amount_financed_percentage === ""){
+        property_amount_financed_percentage_error = "can't be blank."
+      }else if (isNaN(this.state.property.amount_financed_percentage)) {
+        property_amount_financed_percentage_error = "error."
+      }
+      if (this.state.property.amount_financed === ""){
+        property_amount_financed_error = "can't be blank."
+      }else if (isNaN(this.state.property.amount_financed)) {
+        property_amount_financed_error = "error."
+      }
+      if (this.state.property.interest_rate === ""){
+        property_interest_rate_error = "can't be blank."
+      }else if (isNaN(this.state.property.interest_rate)) {
+        property_interest_rate_error = "error."
+      }
+      if (this.state.property.loan_terms === ""){
+        property_loan_terms_error = "can't be blank."
+      }else if (isNaN(this.state.property.loan_terms)) {
+        property_loan_terms_error = "error."
+      }
+      if (this.state.property.closing_cost === ""){
+        property_closing_cost_error = "can't be blank."
+      }else if (isNaN(this.state.property.closing_cost)) {
+        property_closing_cost_error = "error."
+      }
+      if (this.state.property.insurance_annually === ""){
+        property_insurance_annually_error = "can't be blank."
+      }else if (isNaN(this.state.property.insurance_annually)) {
+        property_insurance_annually_error = "error."
+      }
+      if (this.state.property.short_term_financing_cost === ""){
+        property_short_term_financing_cost_error = "can't be blank."
+      }else if (isNaN(this.state.property.short_term_financing_cost)) {
+        property_short_term_financing_cost_error = "error."
+      }
+      if (this.state.property.taxes_annually === ""){
+        property_taxes_annually_error = "can't be blank."
+      }else if (isNaN(this.state.property.taxes_annually)) {
+        property_taxes_annually_error = "error."
+      }
+      if (this.state.property.est_annual_management_fees === ""){
+        property_est_annual_management_fees_error = "can't be blank."
+      }else if (isNaN(this.state.property.est_annual_management_fees)) {
+        property_est_annual_management_fees_error = "error."
+      }
+      if (this.state.property.est_annual_operating_fees_others === ""){
+        property_est_annual_operating_fees_others_error = "can't be blank."
+      }else if (isNaN(this.state.property.est_annual_operating_fees_others)) {
+        property_est_annual_operating_fees_others_error = "error."
+      }
+      if (this.state.property.monthly_rent === ""){
+        property_monthly_rent_error = "can't be blank."
+      }else if (isNaN(this.state.property.monthly_rent)) {
+        property_monthly_rent_error = "error."
+      }
+      if (this.state.property.vacancy_rate === ""){
+        property_vacancy_rate_error = "can't be blank."
+      }else if (isNaN(this.state.property.vacancy_rate)) {
+        property_vacancy_rate_error = "error."
+      }
+      if (this.state.property.rental_proof === null){
+        property_rental_proof_error = "can't be blank."
+      }
+    }
     this.setState({
       property_after_rehab_value_error,
       property_asking_price_error,
       property_estimated_rehab_cost_error,
       property_arv_proof_error,
       property_rehab_cost_proof_error,
+
+      property_amount_financed_percentage_error,
+      property_amount_financed_error,
+      property_interest_rate_error,
+      property_loan_terms_error,
+      property_closing_cost_error,
+      property_insurance_annually_error,
+      property_short_term_financing_cost_error,
+      property_taxes_annually_error,
+      property_est_annual_management_fees_error,
+      property_est_annual_operating_fees_others_error,
+      property_monthly_rent_error,
+      property_vacancy_rate_error,
+      property_rental_proof_error,
     })
-    if (property_after_rehab_value_error !== "" || property_asking_price_error !== "" || property_estimated_rehab_cost_error !== "" || property_arv_proof_error !== "" || property_arv_proof_error !== "" || property_rehab_cost_proof_error !== ""){
+    if (property_after_rehab_value_error !== "" || property_asking_price_error !== "" || property_estimated_rehab_cost_error !== "" || property_arv_proof_error !== "" || property_arv_proof_error !== "" || property_rehab_cost_proof_error !== ""  || property_amount_financed_percentage_error !== "" || property_amount_financed_error !== "" || property_interest_rate_error !== "" || property_loan_terms_error !== "" || property_closing_cost_error !== "" || property_insurance_annually_error !== "" || property_short_term_financing_cost_error !== "" || property_taxes_annually_error !== "" || property_est_annual_management_fees_error !== "" || property_est_annual_operating_fees_others_error !== "" || property_monthly_rent_error !== "" || property_vacancy_rate_error !== "" || property_rental_proof_error !== "" ){
       return false;
     }else{
       return true;
@@ -1509,7 +1617,7 @@ export default class NewProperty extends Component{
                                       <label className="text-uppercase">EST AFTER REHAB VALUE</label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" className="form-control" value={this.state.property.after_rehab_value} name="after_rehab_value" onChange={this.updateProperty} />
+                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_after_rehab_value_error) } value={this.state.property.after_rehab_value} name="after_rehab_value" onChange={this.updateProperty} />
                                     </div>
                                     <div className="col-md-12 px-0">
                                       <h6 className="text-uppercase font-red font-600">Acquisition Cost</h6>
@@ -1517,13 +1625,13 @@ export default class NewProperty extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Asking/Purchase Price: </label>
-                                            <input type="number" className="form-control" name="asking_price" onChange={this.updateProperty}/>
+                                            <input type="number" className={"form-control " + this.addErrorClass(this.state.property_asking_price_error) } name="asking_price" onChange={this.updateProperty}/>
                                           </div>
                                         </li>
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Est Rehab Cost: </label>
-                                            <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} onClick={() => {this.setState({
+                                            <input type="number" readOnly={true} className={"form-control estimated-cost " + this.addErrorClass(this.state.property_asking_price_error) }  name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} onClick={() => {this.setState({
                                               estimated_cost_modal: true
                                             });}}/>
                                           </div>
@@ -1531,19 +1639,19 @@ export default class NewProperty extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Est Closing Cost: </label>
-                                            <input type="number" className="form-control" name="closing_cost" onChange={this.updateProperty}/>
+                                            <input type="number" className={"form-control " + this.addErrorClass(this.state.property_closing_cost_error) } name="closing_cost" onChange={this.updateProperty}/>
                                           </div>
                                         </li>
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Est Annual Insurance: </label>
-                                            <input type="number" onChange={this.updateProperty} className="form-control" name="insurance_annually" value={this.state.property.insurance_annually} />
+                                            <input type="number" onChange={this.updateProperty} className={"form-control " + this.addErrorClass(this.state.property_insurance_annually_error) } name="insurance_annually" value={this.state.property.insurance_annually} />
                                           </div>
                                         </li>
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Est Hard Money or STF Cost: </label>
-                                            <input type="number" className="form-control" name="short_term_financing_cost" onChange={this.updateProperty}/>
+                                            <input type="number" className={"form-control " + this.addErrorClass(this.state.property_short_term_financing_cost_error) } value={this.state.property.short_term_financing_cost} name="short_term_financing_cost" onChange={this.updateProperty}/>
                                           </div>
                                         </li>
                                       </ul>
@@ -1560,20 +1668,20 @@ export default class NewProperty extends Component{
                                   <h5 className="text-uppercase font-red step_heads step_fonts">Financing Analysis After rehab</h5>
                                   <div className="row mx-0 step_row">
                                     <div className="col-md-6 my-2 row mx-0">
-                                      <input type="number" className="form-control col-md-4" name="amount_financed_percentage" onChange={this.updateProperty} value={this.state.property.amount_financed_percentage} />
+                                      <input type="number" className={"form-control col-md-4 " + this.addErrorClass(this.state.property_amount_financed_percentage_error) } name="amount_financed_percentage" onChange={this.updateProperty} value={this.state.property.amount_financed_percentage} />
                                       <input type="number" readOnly={true} value={this.state.property.amount_financed} className="form-control col-md-7 offset-md-1" name="amount_financed" />
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="text-uppercase">amount financed</label>
                                     </div>
                                     <div className="col-md-6 my-2">
-                                      <input type="number" className="form-control" name="interest_rate" value={this.state.property.interest_rate} onChange={this.updateProperty}/>
+                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_interest_rate_error) } name="interest_rate" value={this.state.property.interest_rate} onChange={this.updateProperty}/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Interest Rate APR</label>
                                     </div>
                                     <div className="col-md-6 my-2">
-                                      <input type="number" value={this.state.property.loan_terms} className="form-control" name="loan_terms" onChange={this.updateProperty}/>
+                                      <input type="number" value={this.state.property.loan_terms} className={"form-control " + this.addErrorClass(this.state.property_loan_terms_error) } name="loan_terms" onChange={this.updateProperty}/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Loan Term</label>
@@ -1599,25 +1707,25 @@ export default class NewProperty extends Component{
                                       <label className="labels_main">Est Annual taxes</label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" className="form-control" name="taxes_annually" onChange={this.updateProperty}/>
+                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_taxes_annually_error) } name="taxes_annually" onChange={this.updateProperty}/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Insurance</label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" onChange={this.updateProperty} className="form-control" name="insurance_annually" value={this.state.property.insurance_annually} />
+                                      <input type="number" onChange={this.updateProperty} className={"form-control " + this.addErrorClass(this.state.property_insurance_annually_error) } name="insurance_annually" value={this.state.property.insurance_annually} />
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Management Fees</label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" className="form-control" name="est_annual_management_fees" onChange={this.updateProperty}/>
+                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_est_annual_management_fees_error) } name="est_annual_management_fees" onChange={this.updateProperty}/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Repair</label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" value={this.state.property.est_annual_operating_fees_others} className="form-control" name="est_annual_operating_fees_others" onChange={this.updateProperty}/>
+                                      <input type="number" value={this.state.property.est_annual_operating_fees_others} className={"form-control " + this.addErrorClass(this.state.property_est_annual_operating_fees_others_error) } name="est_annual_operating_fees_others" onChange={this.updateProperty}/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Operating Costs</label>
@@ -1634,7 +1742,7 @@ export default class NewProperty extends Component{
                                       <label className="labels_main">Total EST Monthly Rent</label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" className="form-control" name="monthly_rent" onChange={this.updateProperty}/>
+                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_monthly_rent_error) } name="monthly_rent" onChange={this.updateProperty}/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Total Gross Yearly Income</label>
@@ -1646,7 +1754,7 @@ export default class NewProperty extends Component{
                                       <label className="labels_main">Est Vacancy Rate</label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" className="form-control" name="vacancy_rate" value={this.state.property.vacancy_rate} onChange={this.updateProperty}/>
+                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_vacancy_rate_error) } name="vacancy_rate" value={this.state.property.vacancy_rate} onChange={this.updateProperty}/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main label-bold">ADJ Gross Yearly Income</label>
@@ -1780,7 +1888,7 @@ export default class NewProperty extends Component{
                               <div className="col-md-6 offset-md-6 px-1 mt-2">
                                 <div className="custom-file">
                                   <input type="file" className="custom-file-input" name="rental_proof" onChange={this.fileSelectHandler}/>
-                                  <label className="custom-file-label" htmlFor="customFile">Choose file</label>
+                                  <label className={"custom-file-label " + this.addErrorClass(this.state.property_rental_proof_error) } htmlFor="customFile">Choose file</label>
                                 </div>
                               </div>
                             </div>
