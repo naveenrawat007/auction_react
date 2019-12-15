@@ -196,6 +196,19 @@ const initial_state = {
   property_vacancy_rate_error : "",
   property_rental_proof_error : "",
 
+  property_auction_started_at_error: "",
+  property_auction_length_error: "",
+  property_seller_price_error: "",
+  property_buy_now_price_error: "",
+  property_auction_ending_at_error: "",
+  property_buy_option_error: "",
+  property_show_instructions_type_id_error: "",
+  property_show_instructions_text_error: "",
+
+  property_best_offer_lenght_error: "",
+  property_best_offer_sellers_minimum_price_error: "",
+  property_best_offer_sellers_reserve_price: "",
+
   property_seller_price_error: "",
   property_buy_price_error: "",
   property_auction_length_error: "",
@@ -987,6 +1000,78 @@ export default class NewProperty extends Component{
     }
   }
 
+  stepThreeValidation = () => {
+    let property_auction_started_at_error = "";
+    let property_auction_length_error = "";
+    let property_seller_price_error = "";
+    let property_buy_now_price_error = "";
+    let property_auction_ending_at_error = "";
+    let property_buy_option_error = "";
+    let property_show_instructions_type_id_error = "";
+    let property_show_instructions_text_error = "";
+    let property_best_offer_lenght_error = "";
+    let property_best_offer_sellers_minimum_price_error = "";
+    let property_best_offer_sellers_reserve_price = "";
+    if (this.state.property.best_offer === "true"){
+      console.log(this.state.property.best_offer);
+      if (this.state.property.best_offer_lenght === ""){
+        property_best_offer_lenght_error = "can't be blank."
+      }
+      if (this.state.property.best_offer_sellers_minimum_price === ""){
+        property_best_offer_sellers_minimum_price_error = "can't be blank."
+      }
+      if (this.state.property.best_offer_sellers_reserve_price === ""){
+        property_best_offer_sellers_reserve_price = "can't be blank."
+      }
+    }
+
+    if (this.state.property.auction_started_at === "" || this.state.property.auction_started_at === null){
+      property_auction_started_at_error = "can't be blank."
+    }
+    if (this.state.property.auction_length === ""){
+      property_auction_length_error = "can't be blank."
+    }
+    if (this.state.property.seller_price === ""){
+      property_seller_price_error = "can't be blank."
+    }
+    if (this.state.property.buy_now_price === ""){
+      property_buy_now_price_error = "can't be blank."
+    }
+    if (this.state.property.auction_ending_at === "" || this.state.property.auction_ending_at === null){
+      property_auction_ending_at_error = "can't be blank."
+    }
+    if (this.state.property.buy_option.length < 1){
+      property_buy_option_error = "can't be blank."
+    }
+    if (this.state.property.show_instructions_type_id === ""){
+      property_show_instructions_type_id_error = "can't be blank."
+    }
+    if (this.state.property.show_instructions_text === ""){
+      property_show_instructions_text_error = "can't be blank."
+    }
+
+    this.setState({
+      property_auction_started_at_error,
+      property_auction_length_error,
+      property_seller_price_error,
+      property_buy_now_price_error,
+      property_auction_ending_at_error,
+      property_buy_option_error,
+      property_show_instructions_type_id_error,
+      property_show_instructions_text_error,
+      property_best_offer_lenght_error,
+      property_best_offer_sellers_reserve_price,
+      property_best_offer_sellers_minimum_price_error,
+    });
+
+    if (property_auction_started_at_error !== "" || property_auction_length_error !== "" || property_seller_price_error !== "" || property_buy_now_price_error !== "" || property_auction_ending_at_error !== "" || property_buy_option_error !== "" || property_show_instructions_type_id_error !== "" || property_show_instructions_text_error !== "" || property_best_offer_lenght_error !== "" || property_best_offer_sellers_reserve_price !== "" || property_best_offer_sellers_minimum_price_error !== ""){
+      return false
+    }else {
+      return true
+    }
+
+  }
+
   backToStepOne = () => {
     document.getElementById('step2').classList.add('d-none');
     document.getElementById('step1').classList.remove('d-none');
@@ -1029,11 +1114,14 @@ export default class NewProperty extends Component{
     document.getElementById('step4h').classList.add('disabled')
   }
   goToStepFour = () => {
-    document.getElementById('step3').classList.add('d-none');
-    document.getElementById('step4').classList.remove('d-none');
-    window.scrollTo(0,0)
-    document.getElementById('step4h').classList.remove('disabled')
-    document.getElementById('step4h').classList.add('complete', "current")
+    let isValid = this.stepThreeValidation();
+    if (isValid){
+      document.getElementById('step3').classList.add('d-none');
+      document.getElementById('step4').classList.remove('d-none');
+      window.scrollTo(0,0)
+      document.getElementById('step4h').classList.remove('disabled')
+      document.getElementById('step4h').classList.add('complete', "current")
+    }
   }
   backToStepFour = () => {
     document.getElementById('step5').classList.add('d-none');
@@ -1556,7 +1644,7 @@ export default class NewProperty extends Component{
                             <Link to="#" className="red-btn step-btn mx-1" onClick={this.goToStepTwo}>Continue</Link>
                           </div>
                         </div>
-                        <div className="" id="step2">
+                        <div className="d-none" id="step2">
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Deal Analysis</h4>
                           </div>
@@ -1586,7 +1674,7 @@ export default class NewProperty extends Component{
                                   <label>Sellers Asking Price (-)</label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="number" className={"form-control " + this.addErrorClass(this.state.property_asking_price_error) } id="temp_id" name="asking_price" onChange={this.updateProperty} />
+                                  <input type="number" className={"form-control " + this.addErrorClass(this.state.property_asking_price_error) } id="temp_id" name="asking_price" value={this.state.property.asking_price} onChange={this.updateProperty} />
                                 </div>
                               </div>
                               <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -1625,7 +1713,7 @@ export default class NewProperty extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Asking/Purchase Price: </label>
-                                            <input type="number" className={"form-control " + this.addErrorClass(this.state.property_asking_price_error) } name="asking_price" onChange={this.updateProperty}/>
+                                            <input type="number" className={"form-control " + this.addErrorClass(this.state.property_asking_price_error) } value={this.state.property.asking_price} name="asking_price" onChange={this.updateProperty}/>
                                           </div>
                                         </li>
                                         <li className="my-2">
@@ -2078,7 +2166,7 @@ export default class NewProperty extends Component{
                             </div>
                           </Modal>
                         </div>
-                        <div className="d-none" id="step3">
+                        <div className="" id="step3">
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Online Bidding Options</h4>
                           </div>
@@ -2100,7 +2188,7 @@ export default class NewProperty extends Component{
                               </div>
                               <div className="col-md-6 px-1">
                                 <div className="input-group mb-0">
-                                  <DatePicker className="form-control "
+                                  <DatePicker className={"form-control " + this.addErrorClass(this.state.property_auction_started_at_error) }
                                     selected={this.state.property.auction_started_at} minDate={new Date()}
                                     name="auction_started_at" onChange={this.updatePropertyAuctionStart}
                                   />
@@ -2112,7 +2200,7 @@ export default class NewProperty extends Component{
                                 <label>Best Offer Time Frame</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className="form-control" defaultValue={this.state.property.best_offer_lenght} name="best_offer_lenght" onChange={this.updateProperty}>
+                                <select className={"form-control " + this.addErrorClass(this.state.property_best_offer_lenght_error) } defaultValue={this.state.property.best_offer_lenght} name="best_offer_lenght" onChange={this.updateProperty}>
                                   <option>Please select</option>
                                   {auction_lengths}
                                 </select>
@@ -2123,7 +2211,7 @@ export default class NewProperty extends Component{
                                 <label>Sellers Minimum Starting Price</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className="form-control" name="best_offer_sellers_minimum_price" onChange={this.updateProperty}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_minimum_price_error) } name="best_offer_sellers_minimum_price" onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
@@ -2131,7 +2219,7 @@ export default class NewProperty extends Component{
                                 <label>Sellers Reserve Price</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className="form-control" name="best_offer_sellers_reserve_price" onChange={this.updateProperty}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_reserve_price) } name="best_offer_sellers_reserve_price" onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -2139,7 +2227,7 @@ export default class NewProperty extends Component{
                                 <label>Online Bidding/Auction Time Frame</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className="form-control" defaultValue={this.state.property.auction_length} name="auction_length" onChange={this.updateProperty}>
+                                <select className={"form-control " + this.addErrorClass(this.state.property_auction_length_error) } defaultValue={this.state.property.auction_length} name="auction_length" onChange={this.updateProperty}>
                                   <option>Please select</option>
                                   {auction_lengths}
                                 </select>
@@ -2150,7 +2238,7 @@ export default class NewProperty extends Component{
                                 <label>Sellers Minimum Starting Price</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className="form-control" name="seller_price" onChange={this.updateProperty}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_seller_price_error) } name="seller_price" onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -2158,7 +2246,7 @@ export default class NewProperty extends Component{
                                 <label>Sellers Buy Now Price</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className="form-control" name="buy_now_price" onChange={this.updateProperty}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_buy_now_price_error) } name="buy_now_price" onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row mt-4">
@@ -2167,7 +2255,7 @@ export default class NewProperty extends Component{
                               </div>
                               <div className="col-md-6 px-1">
                                 <div className="input-group mb-0">
-                                  <DatePicker className="form-control "
+                                  <DatePicker className={"form-control " + this.addErrorClass(this.state.property_auction_ending_at_error) }
                                     selected={this.state.property.auction_ending_at}
                                     minDate = {this.state.property.auction_started_at}
                                     onChange={this.updatePropertyAuctionEndingDate}
@@ -2178,7 +2266,7 @@ export default class NewProperty extends Component{
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
-                                <label>Options to Buy</label>
+                                <label>Options to Buy(*)</label>
                               </div>
                               <div className="col-md-6 px-1">
                                 <MultiSelect
@@ -2187,6 +2275,7 @@ export default class NewProperty extends Component{
                                   selected={this.state.property.buy_option}
                                   onSelectedChanged={selected => {this.setState({property: {...this.state.property, buy_option: selected}})}}
                                 />
+
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -2194,7 +2283,7 @@ export default class NewProperty extends Component{
                                 <label>Showing Option</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className="form-control" defaultValue={parseInt(this.state.property.show_instructions_type_id) ? parseInt(this.state.property.show_instructions_type_id) : ""} name="show_instructions_type_id" onChange={this.updateProperty}>
+                                <select className={"form-control " + this.addErrorClass(this.state.property_show_instructions_type_id_error) } defaultValue={parseInt(this.state.property.show_instructions_type_id) ? parseInt(this.state.property.show_instructions_type_id) : ""} name="show_instructions_type_id" onChange={this.updateProperty}>
                                   <option>Please Select</option>
                                   {show_instructions_types}
                                 </select>
@@ -2205,7 +2294,7 @@ export default class NewProperty extends Component{
                                 <label>Showing Instructions</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <textarea className="form-control" rows="3" placeholder="Please give details where the combo box is located and what's the combo code." onChange={this.updateProperty} name="show_instructions_text"></textarea>
+                                <textarea className={"form-control " + this.addErrorClass(this.state.property_show_instructions_text_error) } rows="3" placeholder="Please give details where the combo box is located and what's the combo code." onChange={this.updateProperty} name="show_instructions_text"></textarea>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
