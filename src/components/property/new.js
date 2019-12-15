@@ -722,6 +722,7 @@ export default class NewProperty extends Component{
   sendData = () => {
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/register/properties"
     const fd = new FormData();
+    fd.append('submit_type', this.state.submit_type)
     for (let i = 0 ; i < this.state.property.images.length ; i++) {
       fd.append('images[]', this.state.property.images[i].file, this.state.property.images[i].name)
     }
@@ -1596,7 +1597,7 @@ export default class NewProperty extends Component{
                             <Link to="#" className="bs-wizard-dot"></Link>
                           </div>
                         </div>
-                        <div className="d-none" id="step1" >
+                        <div className="" id="step1" >
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Property Details</h4>
                           </div>
@@ -2491,7 +2492,7 @@ export default class NewProperty extends Component{
                             <Link to="#" onClick={this.goToStepFour} className="red-btn step-btn mx-1">Continue</Link>
                           </div>
                         </div>
-                        <div className="" id="step4">
+                        <div className="d-none" id="step4">
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Property Photos and Videos</h4>
                           </div>
