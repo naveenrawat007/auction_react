@@ -3714,3 +3714,7 @@ a.next{
 .custom-file-label.error-class {
   border:  1px solid red !important;
 }
+
+.btn-disabled{
+  opacity: 0.5
+}

@@ -381,6 +381,43 @@ export default class NewProperty extends Component{
     }
   }
 
+  submitProperty = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/submit"
+  	fetch(url ,{
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			},
+			body: JSON.stringify({property: {id: this.state.property.id}}),
+		}).then(res => res.json())
+    .then((result) => {
+      if (result.status === 200) {
+        window.location.href = "/property/" + this.state.property.id
+      }else if (result.status === 401) {
+        localStorage.removeItem("auction_user_token");
+        window.location.href = "/login"
+      }else {
+      }
+      this.clearMessageTimeout = setTimeout(() => {
+        if (this._isMounted){
+          this.setState(() => ({message: ""}))
+        }
+      }, 2000);
+		}, (error) => {
+		});
+  }
+
+  saveDraftProperty = () => {
+    window.location.href = "/property/" + this.state.property.id
+  }
   updateUser = (event) => {
     const{ name, value } = event.target;
     if (this._isMounted){
@@ -787,11 +824,12 @@ export default class NewProperty extends Component{
             id: result.property.id,
           }
         })
-          document.getElementById('step5').classList.add('d-none');
-          document.getElementById('step6').classList.remove('d-none');
-          window.scrollTo(0,0)
-          document.getElementById('step6h').classList.remove('disabled')
-          document.getElementById('step6h').classList.add('complete', "current")
+        localStorage.setItem("auction_user_token", result.user_token);
+        document.getElementById('step5').classList.add('d-none');
+        document.getElementById('step6').classList.remove('d-none');
+        window.scrollTo(0,0)
+        document.getElementById('step6h').classList.remove('disabled')
+        document.getElementById('step6h').classList.add('complete', "current")
       }else {
         this.setState({message: result.message,
         variant: "danger"});
@@ -2765,8 +2803,13 @@ export default class NewProperty extends Component{
                           </form>
                           <div className="col-md-12 text-center my-4">
                             <Link to="#" onClick={this.backToStepFive} className="red-btn step-btn mx-1">Go, Back</Link>
-                            <Link to="#" className="red-btn step-btn mx-1">Save As Draft</Link>
-                            <Link to="#" className="red-btn step-btn mx-1">Submit</Link>
+                            <Link to="#" className="red-btn step-btn mx-1" onClick={this.saveDraftProperty}>Save As Draft</Link>
+                            {
+                              this.state.terms_agreed === true ?
+                                <Link to="#" onClick={this.submitProperty} className="red-btn step-btn mx-1 disbabled">Submit</Link>
+                              :
+                              <Link to="#" className="red-btn step-btn mx-1 btn-disabled">Submit</Link>
+                            }
                           </div>
                         </div>
                       </div>
