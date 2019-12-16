@@ -780,7 +780,13 @@ export default class NewProperty extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 201) {
-        this.setState({message: ""})
+        this.setState({
+          message: "",
+          property: {
+            ...this.state.property,
+            id: result.property.id,
+          }
+        })
           document.getElementById('step5').classList.add('d-none');
           document.getElementById('step6').classList.remove('d-none');
           window.scrollTo(0,0)
