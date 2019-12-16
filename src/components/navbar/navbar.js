@@ -41,7 +41,7 @@ export default class Navbar extends Component{
       if (result.status !== 100){
         let path_name = ""
         path_name = this.props.location.pathname
-        if ((path_name === "/sign_up") || (path_name === "/login") || (path_name === "/forgot_password") ){
+        if ((path_name === "/sign_up") || (path_name === "/login") || (path_name === "/forgot_password") || (path_name === "/property/new") ){
           this.props.history.push(this.props.location.pathname)
         }else if (path_name === "/new_password") {
         }
@@ -73,6 +73,8 @@ export default class Navbar extends Component{
             path_name = this.props.location.pathname
             if (path_name === "/"){
               this.props.history.push('/user')
+            }else if (path_name === "/property/new") {
+              this.props.history.push('/user/property/new')
             }
           }
         }
@@ -163,7 +165,13 @@ export default class Navbar extends Component{
                   </Dropdown>
                 </li>
                 <li className="nav-item dropdown">
-                  <Link to='/property/new' className="nav-link" data-toggle="dropdown">Sell </Link>
+                  {
+                    this.state.logged_in === true
+                      ?
+                        <Link to='/user/property/new' className="nav-link" data-toggle="dropdown">Sell </Link>
+                      :
+                      <Link to='/property/new' className="nav-link" data-toggle="dropdown">Sell </Link>
+                  }
                 </li>
                 <li className="nav-item dropdown">
                   <a className="nav-link" href="/" data-toggle="dropdown">Help </a>
