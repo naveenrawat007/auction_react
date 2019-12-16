@@ -1879,7 +1879,7 @@ export default class NewProperty extends Component{
                             <h4 className="step-name">Deal Analysis</h4>
                           </div>
                           <form className="col-md-10 offset-md-1">
-                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                            <div className="form-group col-md-10 offset-md-1 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Type of Deal</label>
                               </div>
@@ -1891,7 +1891,7 @@ export default class NewProperty extends Component{
                               </div>
                             </div>
                             <div className={this.checkRehabDeal()}>
-                              <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="form-group col-md-10 offset-md-1 px-0 row step_row">
                                 <div className="col-md-6 px-1 text-right">
                                   <label>Estimated After Rehab Value(ARV)</label>
                                 </div>
@@ -1899,17 +1899,17 @@ export default class NewProperty extends Component{
                                   <input type="number" name="after_rehab_value" className={"form-control " + this.addErrorClass(this.state.property_after_rehab_value_error) } onChange={this.updateProperty} value={this.state.property.after_rehab_value}/>
                                 </div>
                               </div>
-                              <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="form-group col-md-10 offset-md-1 px-0 row step_row">
                                 <div className="col-md-6 px-1 text-right">
-                                  <label>Sellers Asking Price (-)</label>
+                                  <label>Sellers Asking Price <span className="font-sign">(-)</span></label>
                                 </div>
                                 <div className="col-md-6 px-1">
                                   <input type="number" className={"form-control " + this.addErrorClass(this.state.property_asking_price_error) } id="temp_id" name="asking_price" value={this.state.property.asking_price} onChange={this.updateProperty} />
                                 </div>
                               </div>
-                              <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="form-group col-md-10 offset-md-1 px-0 row step_row">
                                 <div className="col-md-6 px-1 text-right">
-                                  <label>Estimated Rehab Cost (-)</label>
+                                  <label>Estimated Rehab Cost <span className="font-sign">(-)</span></label>
                                 </div>
                                 <div className="col-md-6 px-1">
                                   <input type="number" readOnly={true} className={"form-control estimated-cost " + this.addErrorClass(this.state.property_estimated_rehab_cost_error) } name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} onClick={() => {this.setState({
@@ -1917,9 +1917,9 @@ export default class NewProperty extends Component{
                                   });}}/>
                                 </div>
                               </div>
-                              <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="form-group col-md-10 offset-md-1 px-0 row step_row">
                                 <div className="col-md-6 px-1 text-right">
-                                  <label>Estimated Profit Potential (=)</label>
+                                  <label>Estimated Profit Potential <span className="font-sign">(=)</span></label>
                                 </div>
                                 <div className="col-md-6 px-1">
                                   <input type="number" name="profit_potential" className="form-control" onChange={this.updateProperty} value={this.state.property.profit_potential} readOnly={true} />
@@ -2496,7 +2496,7 @@ export default class NewProperty extends Component{
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
-                                <label>Options to Buy(*)</label>
+                                <label>Options to Buy<span className="font-sign">*</span></label>
                               </div>
                               <div className="col-md-6 px-1">
                                 <MultiSelect

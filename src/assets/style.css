@@ -397,7 +397,7 @@ body {
 }
 
 .profile-form-in .form-group {
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
 .more-about-you h3 {
@@ -2884,7 +2884,9 @@ input:checked+.slider:before {
 .font-red {
   color: #b71c1c !important;
 }
-
+.font-sign{
+  color: #ef473a !important;
+}
 .links-login {
   color: #2c77cb;
   text-decoration: none;
