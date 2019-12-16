@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal'
 import DatePicker from "react-datepicker";
+import Alert from 'react-bootstrap/Alert';
 import "react-datepicker/dist/react-datepicker.css";
 import MultiSelect from "@khanacademy/react-multi-select";
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
@@ -14,7 +15,7 @@ const initial_state = {
   terms_agreed: false,
   created: false,
   error: "",
-  message: "",
+  message: "disp",
   submit_type: "register",
   user:{
     first_name: "",
@@ -364,9 +365,18 @@ export default class NewProperty extends Component{
           }
         }
         else if ((name === "after_rehab_value")||(name === "asking_price")){
-          this.updateProfitPotentialCalculator();
+          if (this.state.property.deal_analysis_type === "Landlord Deal"){
+            this.updateLandlordDealCalculator();
+          }else {
+            this.updateProfitPotentialCalculator();
+          }
+        }else{
+          if (this.state.property.deal_analysis_type === "Landlord Deal"){
+            this.updateLandlordDealCalculator();
+          }else {
+            this.updateProfitPotentialCalculator();
+          }
         }
-        this.updateLandlordDealCalculator();
       });
     }
   }
@@ -1198,7 +1208,7 @@ export default class NewProperty extends Component{
     document.getElementById('step2h').classList.add('disabled')
   }
   goToStepTwo = () => {
-    let isValid = this.stepOneValidation();
+    let isValid = true//this.stepOneValidation();
     if (isValid){
       document.getElementById('step1').classList.add('d-none');
       document.getElementById('step2').classList.remove('d-none');
@@ -1215,7 +1225,7 @@ export default class NewProperty extends Component{
     document.getElementById('step3h').classList.add('disabled')
   }
   goToStepThree = () => {
-    let isValid = this.stepTwoValidation();
+    let isValid = true//this.stepTwoValidation();
     if (isValid){
       document.getElementById('step2').classList.add('d-none');
       document.getElementById('step3').classList.remove('d-none');
@@ -1232,7 +1242,7 @@ export default class NewProperty extends Component{
     document.getElementById('step4h').classList.add('disabled')
   }
   goToStepFour = () => {
-    let isValid = this.stepThreeValidation();
+    let isValid = true//this.stepThreeValidation();
     if (isValid){
       document.getElementById('step3').classList.add('d-none');
       document.getElementById('step4').classList.remove('d-none');
@@ -1263,7 +1273,7 @@ export default class NewProperty extends Component{
     document.getElementById('step6h').classList.add('disabled')
   }
   goToStepSix = () => {
-    let isValid = this.stepFiveValidation()
+    let isValid = true//this.stepFiveValidation()
     if (isValid){
       if (this.state.property.category === "Residential"){
         if (this._isMounted){
@@ -2589,6 +2599,9 @@ export default class NewProperty extends Component{
                           </div>
                         </div>
                         <div className="d-none" id="step5">
+                          {
+                            this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+                          }
                           <div id="log-in-form" className="d-none">
                             <div className="col-md-12 text-center pb-4">
                               <h4 className="step-name">Seller's Info</h4>
@@ -2648,7 +2661,7 @@ export default class NewProperty extends Component{
                                   <label>Phone</label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="number" name="phone" onChange={this.updateUser} className={"form-control " + this.addErrorClass(this.state.user_phone_number_error) } />
+                                  <input type="text" name="phone" onKeyPress={this.checkNumeric} maxLength="10" onChange={this.updateUser} className={"form-control " + this.addErrorClass(this.state.user_phone_number_error) } />
                                 </div>
                               </div>
                               <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
