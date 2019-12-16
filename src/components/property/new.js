@@ -52,7 +52,7 @@ const initial_state = {
     owner_category: "",
     additional_information: "",
     best_offer: "false",
-    best_offer_lenght: "",
+    best_offer_length: "",
     best_offer_sellers_minimum_price: "",
     best_offer_sellers_reserve_price: "",
     show_instructions_text: "",
@@ -201,7 +201,7 @@ const initial_state = {
   property_buy_now_price_error: "",
   property_show_instructions_text_error: "",
 
-  property_best_offer_lenght_error: "",
+  property_best_offer_length_error: "",
   property_best_offer_sellers_minimum_price_error: "",
   property_best_offer_sellers_reserve_price: "",
 
@@ -485,6 +485,12 @@ export default class NewProperty extends Component{
   hideModal = () => {
     this.setState({
       estimated_cost_modal: false
+    }, function () {
+      if (this.state.property.deal_analysis_type === "Landlord Deal"){
+        this.updateLandlordDealCalculator();
+      }else {
+        this.updateProfitPotentialCalculator();
+      }
     });
   }
   updateEstimatedRehabCost = () => {
@@ -753,7 +759,7 @@ export default class NewProperty extends Component{
       fd.append("video", this.state.property.video, this.state.property.video.name)
     }
     for (let key in this.state.property){
-      if (key==="estimated_rehab_cost_attr" || key==="buy_option" || key === "residential_attributes" || key === "commercial_attributes" || key === "land_attributes"){
+      if (key==="estimated_rehab_cost_attr" || key==="buy_option" || key === "residential_attributes" || key === "commercial_attributes" || key === "land_attributes" || key==="open_house_dates"){
         fd.append("property["+key+"]", JSON.stringify(this.state.property[key]))
       }else {
         fd.append("property["+key+"]", this.state.property[key])
@@ -1080,12 +1086,12 @@ export default class NewProperty extends Component{
     let property_buy_option_error = "";
     let property_show_instructions_type_id_error = "";
     let property_show_instructions_text_error = "";
-    let property_best_offer_lenght_error = "";
+    let property_best_offer_length_error = "";
     let property_best_offer_sellers_minimum_price_error = "";
     let property_best_offer_sellers_reserve_price = "";
     if (this.state.property.best_offer === "true"){
-      if (this.state.property.best_offer_lenght === ""){
-        property_best_offer_lenght_error = "can't be blank."
+      if (this.state.property.best_offer_length === ""){
+        property_best_offer_length_error = "can't be blank."
       }
       if (this.state.property.best_offer_sellers_minimum_price === ""){
         property_best_offer_sellers_minimum_price_error = "can't be blank."
@@ -1129,12 +1135,12 @@ export default class NewProperty extends Component{
       property_buy_option_error,
       property_show_instructions_type_id_error,
       property_show_instructions_text_error,
-      property_best_offer_lenght_error,
+      property_best_offer_length_error,
       property_best_offer_sellers_reserve_price,
       property_best_offer_sellers_minimum_price_error,
     });
 
-    if (property_auction_started_at_error !== "" || property_auction_length_error !== "" || property_seller_price_error !== "" || property_buy_now_price_error !== "" || property_auction_ending_at_error !== "" || property_buy_option_error !== "" || property_show_instructions_type_id_error !== "" || property_show_instructions_text_error !== "" || property_best_offer_lenght_error !== "" || property_best_offer_sellers_reserve_price !== "" || property_best_offer_sellers_minimum_price_error !== ""){
+    if (property_auction_started_at_error !== "" || property_auction_length_error !== "" || property_seller_price_error !== "" || property_buy_now_price_error !== "" || property_auction_ending_at_error !== "" || property_buy_option_error !== "" || property_show_instructions_type_id_error !== "" || property_show_instructions_text_error !== "" || property_best_offer_length_error !== "" || property_best_offer_sellers_reserve_price !== "" || property_best_offer_sellers_minimum_price_error !== ""){
       return false
     }else {
       return true
@@ -2380,7 +2386,7 @@ export default class NewProperty extends Component{
                                 <label>Best Offer Time Frame</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className={"form-control " + this.addErrorClass(this.state.property_best_offer_lenght_error) } defaultValue={this.state.property.best_offer_lenght} name="best_offer_lenght" onChange={this.updateProperty}>
+                                <select className={"form-control " + this.addErrorClass(this.state.property_best_offer_length_error) } defaultValue={this.state.property.best_offer_length} name="best_offer_length" onChange={this.updateProperty}>
                                   <option>Please select</option>
                                   {auction_lengths}
                                 </select>
@@ -2747,7 +2753,7 @@ export default class NewProperty extends Component{
                             <div className="col-md-12 text-center">
                               <div className="form-check">
                                 <input type="checkbox" name="terms_agreed" className="form-check-input" id="exampleCheck1" onChange={this.updateTermsAgreed}/>
-                                <label className="form-check-label" htmlFor="exampleCheck1">I agree to the website <a href="#" className="font-blue">terms and coditions</a></label>
+                                <label className="form-check-label" htmlFor="exampleCheck1">I agree to the website <Link to="#" className="font-blue">terms and coditions</Link></label>
                               </div>
                             </div>
                           </form>
