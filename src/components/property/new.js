@@ -236,7 +236,9 @@ export default class NewProperty extends Component{
   componentDidMount () {
     this._isMounted = true;
     this.setUpStepOne();
-    this.checkForCategoryFields();
+    if (this._isMounted){
+      this.checkForCategoryFields();
+    }
     const google = window.google;
     const input = document.getElementById("autocomplete-address");
     this.autocomplete = new google.maps.places.Autocomplete(input, {
@@ -1258,7 +1260,7 @@ export default class NewProperty extends Component{
     document.getElementById('step2h').classList.add('disabled')
   }
   goToStepTwo = () => {
-    let isValid = true//this.stepOneValidation();
+    let isValid = this.stepOneValidation();
     if (isValid){
       document.getElementById('step1').classList.add('d-none');
       document.getElementById('step2').classList.remove('d-none');
@@ -1275,7 +1277,7 @@ export default class NewProperty extends Component{
     document.getElementById('step3h').classList.add('disabled')
   }
   goToStepThree = () => {
-    let isValid = true//this.stepTwoValidation();
+    let isValid = this.stepTwoValidation();
     if (isValid){
       document.getElementById('step2').classList.add('d-none');
       document.getElementById('step3').classList.remove('d-none');
@@ -1292,7 +1294,7 @@ export default class NewProperty extends Component{
     document.getElementById('step4h').classList.add('disabled')
   }
   goToStepFour = () => {
-    let isValid = true//this.stepThreeValidation();
+    let isValid = this.stepThreeValidation();
     if (isValid){
       document.getElementById('step3').classList.add('d-none');
       document.getElementById('step4').classList.remove('d-none');
@@ -1323,7 +1325,7 @@ export default class NewProperty extends Component{
     document.getElementById('step6h').classList.add('disabled')
   }
   goToStepSix = () => {
-    let isValid = true//this.stepFiveValidation()
+    let isValid = this.stepFiveValidation()
     if (isValid){
       if (this.state.property.category === "Residential"){
         if (this._isMounted){
@@ -1561,7 +1563,7 @@ export default class NewProperty extends Component{
   }
 	render() {
     const open_house_dates = this.state.property.open_house_dates.map((value, index) => {
-      return <DatePicker key ={index} className="form-control " minDate={new Date()}
+      return <DatePicker key ={index} className="form-control mb-1" minDate={new Date()}
         selected={value} onChange={this.updatePropertyOpenHouseDates.bind(this, index)}/>;
     })
     const buy_options = this.state.property_options.buy_options.map((value, index) => ({

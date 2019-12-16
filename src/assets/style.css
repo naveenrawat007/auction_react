@@ -3720,3 +3720,7 @@ a.next{
 .btn-disabled{
   opacity: 0.5
 }
+
+a.add_links{
+  text-decoration: none;
+}

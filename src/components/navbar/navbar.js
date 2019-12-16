@@ -166,7 +166,7 @@ export default class Navbar extends Component{
                 </li>
                 <li className="nav-item dropdown">
                   {
-                    this.state.logged_in === true
+                    localStorage.getItem("auction_user_token")
                       ?
                         <Link to='/user/property/new' className="nav-link" data-toggle="dropdown">Sell </Link>
                       :
