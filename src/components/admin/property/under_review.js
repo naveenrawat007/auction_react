@@ -191,24 +191,36 @@ export default class UnderReview extends Component{
   }
 
   calculateApproveTime = (time, id) => {
-    setInterval(function () {
-      if (time){
-        let now = new Date().getTime();
-        let end = new Date(time).getTime();
-        let t = (end/1000) - (now/1000);
-        let hours = Math.floor(t/(60*60));
-        let minutes = Math.floor((t%(60*60))/60);
-        let seconds = Math.floor((t%(60)))
+    if (time){
+      setInterval(function () {
+        if (time){
+          let now = new Date().getTime();
+          let end = new Date(time).getTime();
+          let t = (end/1000) - (now/1000);
+          let hours = Math.floor(t/(60*60));
+          let minutes = Math.floor((t%(60*60))/60);
+          let seconds = Math.floor((t%(60)))
 
-        // return `-${hours}:${minutes}:${seconds}`
-        if (document.getElementById("timer"+id)){
-          document.getElementById("timer"+id).innerHTML = `-${hours}:${minutes}:${seconds}`
+          // return `-${hours}:${minutes}:${seconds}`
+          if (document.getElementById("timer"+id)){
+            if (t<0){
+              document.getElementById("timer"+id).innerHTML = "--:--:--"
+            }else {
+              document.getElementById("timer"+id).innerHTML = `-${hours}:${minutes}:${seconds}`
+            }
+          }
+          // setInterval(this.calculateApproveTime(time,id), 1000)
+        }else {
+          if (document.getElementById("timer"+id)){
+            document.getElementById("timer"+id).innerHTML = "--:--:--"
+          }
         }
-        // setInterval(this.calculateApproveTime(time,id), 1000)
-      }else {
-        return "";
+      }, 1000)
+    }else {
+      if (document.getElementById("timer"+id)){
+        document.getElementById("timer"+id).innerHTML = "--:--:--"
       }
-    }, 1000)
+    }
 
   }
 
