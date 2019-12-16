@@ -400,7 +400,7 @@ export default class NewProperty extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 200) {
-        window.location.href = "/property/" + this.state.property.id
+        window.location.href = "/user/property/" + this.state.property.id
       }else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
@@ -416,7 +416,7 @@ export default class NewProperty extends Component{
   }
 
   saveDraftProperty = () => {
-    window.location.href = "/property/" + this.state.property.id
+    window.location.href = "/user/property/" + this.state.property.id
   }
   updateUser = (event) => {
     const{ name, value } = event.target;
