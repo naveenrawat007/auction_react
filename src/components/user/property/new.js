@@ -1016,13 +1016,83 @@ export default class UserNewProperty extends Component{
   }
 
   submitStepThree = () => {
-    let formIsValid = true;
+    let formIsValid = this.stepThreeValidation();
     if (formIsValid){
       this.setState({
         isLoaded: false,
       });
       this.sendStepThreeData();
     }
+  }
+  stepThreeValidation = () => {
+    let property_auction_started_at_error = "";
+    let property_auction_length_error = "";
+    let property_seller_price_error = "";
+    let property_buy_now_price_error = "";
+    let property_auction_ending_at_error = "";
+    let property_buy_option_error = "";
+    let property_show_instructions_type_id_error = "";
+    let property_show_instructions_text_error = "";
+    let property_best_offer_length_error = "";
+    let property_best_offer_sellers_minimum_price_error = "";
+    let property_best_offer_sellers_reserve_price = "";
+    if (this.state.property.best_offer === "true"){
+      if (this.state.property.best_offer_length === ""){
+        property_best_offer_length_error = "can't be blank."
+      }
+      if (this.state.property.best_offer_sellers_minimum_price === ""){
+        property_best_offer_sellers_minimum_price_error = "can't be blank."
+      }
+      if (this.state.property.best_offer_sellers_reserve_price === ""){
+        property_best_offer_sellers_reserve_price = "can't be blank."
+      }
+    }
+
+    if (this.state.property.auction_started_at === "" || this.state.property.auction_started_at === null){
+      property_auction_started_at_error = "can't be blank."
+    }
+    if (this.state.property.auction_length === ""){
+      property_auction_length_error = "can't be blank."
+    }
+    if (this.state.property.seller_price === ""){
+      property_seller_price_error = "can't be blank."
+    }
+    if (this.state.property.buy_now_price === ""){
+      property_buy_now_price_error = "can't be blank."
+    }
+    if (this.state.property.auction_ending_at === "" || this.state.property.auction_ending_at === null){
+      property_auction_ending_at_error = "can't be blank."
+    }
+    if (this.state.property.buy_option.length < 1){
+      property_buy_option_error = "can't be blank."
+    }
+    if (this.state.property.show_instructions_type_id === ""){
+      property_show_instructions_type_id_error = "can't be blank."
+    }
+    if (this.state.property.show_instructions_text === ""){
+      property_show_instructions_text_error = "can't be blank."
+    }
+
+    this.setState({
+      property_auction_started_at_error,
+      property_auction_length_error,
+      property_seller_price_error,
+      property_buy_now_price_error,
+      property_auction_ending_at_error,
+      property_buy_option_error,
+      property_show_instructions_type_id_error,
+      property_show_instructions_text_error,
+      property_best_offer_length_error,
+      property_best_offer_sellers_reserve_price,
+      property_best_offer_sellers_minimum_price_error,
+    });
+
+    if (property_auction_started_at_error !== "" || property_auction_length_error !== "" || property_seller_price_error !== "" || property_buy_now_price_error !== "" || property_auction_ending_at_error !== "" || property_buy_option_error !== "" || property_show_instructions_type_id_error !== "" || property_show_instructions_text_error !== "" || property_best_offer_length_error !== "" || property_best_offer_sellers_reserve_price !== "" || property_best_offer_sellers_minimum_price_error !== ""){
+      return false
+    }else {
+      return true
+    }
+
   }
   sendStepThreeData = () => {
     const fd = new FormData();
@@ -1221,11 +1291,19 @@ export default class UserNewProperty extends Component{
           this.updatePropertyAuctionEnding();
         }
         else if ((name === "after_rehab_value")||(name === "asking_price")){
-          this.updateProfitPotentialCalculator();
+          if (this.state.property.deal_analysis_type === "Landlord Deal"){
+            this.updateLandlordDealCalculator();
+          }else {
+            this.updateProfitPotentialCalculator();
+          }
         }
         else {
+          if (this.state.property.deal_analysis_type === "Landlord Deal"){
+            this.updateLandlordDealCalculator();
+          }else {
+            this.updateProfitPotentialCalculator();
+          }
         }
-        this.updateLandlordDealCalculator();
       });
     }
   }
