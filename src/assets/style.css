@@ -3728,3 +3728,6 @@ a.add_links{
 .react-datepicker-popper{
   width: 350px;
 }
+.steps-parts{
+  position: relative;
+}
