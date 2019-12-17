@@ -15,7 +15,7 @@ const initial_state = {
   terms_agreed: false,
   created: false,
   error: "",
-  message: "disp",
+  message: "",
   submit_type: "register",
   user:{
     first_name: "",
