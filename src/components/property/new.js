@@ -1751,7 +1751,7 @@ export default class NewProperty extends Component{
                                 <label>Bedrooms</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_bedrooms_error) } name="bedrooms" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_bedrooms_error) } name="bedrooms" onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="bathrooms-input">
@@ -1759,7 +1759,7 @@ export default class NewProperty extends Component{
                                 <label>Bathrooms</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_bathrooms_error) } name="bathrooms" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_bathrooms_error) } name="bathrooms" onChange={this.updateProperty} />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="garage-input">
@@ -1767,7 +1767,7 @@ export default class NewProperty extends Component{
                                 <label>Garage</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_garage_error) } name="garage" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_garage_error) } name="garage" onChange={this.updateProperty} />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="units-input">
@@ -1775,7 +1775,7 @@ export default class NewProperty extends Component{
                                 <label>Units</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_units_error) } name="units" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_units_error) } name="units" onChange={this.updateProperty} />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="stories-input">
@@ -1783,7 +1783,7 @@ export default class NewProperty extends Component{
                                 <label>Stories</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_stories_error) } name="stories" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_stories_error) } name="stories" onChange={this.updateProperty} />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="cap_rate-input">
