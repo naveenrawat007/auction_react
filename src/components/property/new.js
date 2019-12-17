@@ -182,8 +182,11 @@ const initial_state = {
   property_asking_price_error: "",
   property_estimated_rehab_cost_error: "",
   property_arv_proof_error: "",
+  property_arv_analysis_error: "",
   property_rehab_cost_proof_error: "",
+  property_description_of_repair_error: "",
   property_rental_proof_error: "",
+  property_rental_description_error: "",
   property_amount_financed_percentage_error: "",
   property_amount_financed_error: "",
   property_interest_rate_error : "",
@@ -1008,6 +1011,9 @@ export default class NewProperty extends Component{
     let property_monthly_rent_error = "";
     let property_vacancy_rate_error = "";
     let property_rental_proof_error = "";
+    let property_arv_analysis_error= "";
+    let property_description_of_repair_error= "";
+    let property_rental_description_error= "";
 
     if (this.state.property.after_rehab_value === ""){
       property_after_rehab_value_error = "can't be blank."
@@ -1024,11 +1030,13 @@ export default class NewProperty extends Component{
     }else if (isNaN(this.state.property.estimated_rehab_cost)) {
       property_estimated_rehab_cost_error = "error."
     }
-    if (this.state.property.rehab_cost_proof === null){
+    if ((this.state.property.rehab_cost_proof === null) && (this.state.property.description_of_repairs === "")){
       property_rehab_cost_proof_error = "can't be blank."
+      property_description_of_repair_error = "error"
     }
-    if (this.state.property.arv_proof === null){
+    if ((this.state.property.arv_proof === null) && (this.state.property.arv_analysis === "")){
       property_arv_proof_error = "can't be blank."
+      property_arv_analysis_error = "error"
     }
     if (this.state.property.deal_analysis_type === "Landlord Deal"){
       if (this.state.property.amount_financed_percentage === ""){
@@ -1091,8 +1099,9 @@ export default class NewProperty extends Component{
       }else if (isNaN(this.state.property.vacancy_rate)) {
         property_vacancy_rate_error = "error."
       }
-      if (this.state.property.rental_proof === null){
+      if ((this.state.property.rental_proof === null) &&(this.state.property.rental_description === "")){
         property_rental_proof_error = "can't be blank."
+        property_rental_description_error = "error"
       }
     }
     this.setState({
@@ -1115,8 +1124,11 @@ export default class NewProperty extends Component{
       property_monthly_rent_error,
       property_vacancy_rate_error,
       property_rental_proof_error,
+      property_arv_analysis_error,
+      property_description_of_repair_error,
+      property_rental_description_error,
     })
-    if (property_after_rehab_value_error !== "" || property_asking_price_error !== "" || property_estimated_rehab_cost_error !== "" || property_arv_proof_error !== "" || property_arv_proof_error !== "" || property_rehab_cost_proof_error !== ""  || property_amount_financed_percentage_error !== "" || property_amount_financed_error !== "" || property_interest_rate_error !== "" || property_loan_terms_error !== "" || property_closing_cost_error !== "" || property_insurance_annually_error !== "" || property_short_term_financing_cost_error !== "" || property_taxes_annually_error !== "" || property_est_annual_management_fees_error !== "" || property_est_annual_operating_fees_others_error !== "" || property_monthly_rent_error !== "" || property_vacancy_rate_error !== "" || property_rental_proof_error !== "" ){
+    if (property_after_rehab_value_error !== "" || property_asking_price_error !== "" || property_estimated_rehab_cost_error !== "" || property_arv_proof_error !== "" || property_arv_proof_error !== "" || property_rehab_cost_proof_error !== ""  || property_amount_financed_percentage_error !== "" || property_amount_financed_error !== "" || property_interest_rate_error !== "" || property_loan_terms_error !== "" || property_closing_cost_error !== "" || property_insurance_annually_error !== "" || property_short_term_financing_cost_error !== "" || property_taxes_annually_error !== "" || property_est_annual_management_fees_error !== "" || property_est_annual_operating_fees_others_error !== "" || property_monthly_rent_error !== "" || property_vacancy_rate_error !== "" || property_rental_proof_error !== "" || property_arv_analysis_error !== "" || property_description_of_repair_error !== "" || property_rental_description_error !== ""  ){
       return false;
     }else{
       return true;
@@ -2220,7 +2232,7 @@ export default class NewProperty extends Component{
                                 <label>How did you determine your Rental Cost or Upload Proof?</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <textarea className="form-control textarea-resize" name="rental_description" onChange={this.updateProperty}/>
+                                <textarea className={"form-control textarea-resize " + this.addErrorClass(this.state.property_rental_description_error) } name="rental_description" onChange={this.updateProperty}/>
                               </div>
                               <div className="col-md-6 offset-md-6 px-1 mt-2">
                                 <div className="custom-file">
@@ -2235,7 +2247,7 @@ export default class NewProperty extends Component{
                                 <label>How did you determine your ARV (After Rehab Value) or Upload Proof?</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <textarea className="form-control textarea-resize" name="arv_analysis" onChange={this.updateProperty}/>
+                                <textarea className={"form-control textarea-resize " + this.addErrorClass(this.state.property_arv_analysis_error) } name="arv_analysis" onChange={this.updateProperty}/>
                               </div>
                               <div className="col-md-6 offset-md-6 px-1 mt-2">
                                 <div className="custom-file">
@@ -2249,7 +2261,7 @@ export default class NewProperty extends Component{
                                 <label>Description of Repairs or upload Estimated Rehab Cost</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <textarea type="text" className="form-control textarea-resize" id="description-of-repairs" name="description_of_repairs" onChange={this.updateProperty}/>
+                                <textarea type="text" className={"form-control textarea-resize " + this.addErrorClass(this.state.property_description_of_repair_error) } id="description-of-repairs" name="description_of_repairs" onChange={this.updateProperty}/>
                               </div>
                               <div className="col-md-6 offset-md-6 px-1 mt-2">
                                 <div className="custom-file">
