@@ -11,9 +11,19 @@ import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 
 const initial_state = {
   estimated_cost_modal: false,
+  terms_agreed: false,
   created: false,
   error: "",
-  message: "",
+  message: "disp",
+  submit_type: "register",
+  user:{
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+    phone_number: "",
+    confirm_password: "",
+  },
   property: {
     bedrooms: "",
     bathrooms: "",
@@ -38,6 +48,17 @@ const initial_state = {
     flooded: "",
     flood_count: "",
     description: "",
+    owner_category: "",
+    additional_information: "",
+    best_offer: "false",
+    best_offer_length: "",
+    best_offer_sellers_minimum_price: "",
+    best_offer_sellers_reserve_price: "",
+    show_instructions_text: "",
+    open_house_dates: [""],
+    vimeo_url: "",
+    dropbox_url: "",
+    video: "",
     id: "",
 
 
@@ -102,6 +123,8 @@ const initial_state = {
     description_of_repairs: "",
     arv_proof: null,
     rehab_cost_proof: null,
+    rental_description: "",
+    rental_proof: null,
 
 
     seller_price: "",
@@ -126,7 +149,9 @@ const initial_state = {
     auction_lengths: [],
     seller_pay_types: [],
     show_instructions_types: [],
-    buy_options: []
+    buy_options: [],
+    title_statuses: [],
+    owner_categories: [],
   },
   property_address_error: "",
   property_city_error: "",
@@ -148,22 +173,61 @@ const initial_state = {
   property_mls_available_error: "",
   property_flooded_error: "",
   property_flood_count_error: "",
-  property_estimated_rehab_cost_error: "",
   property_description_error: "",
+  property_owner_category_error: "",
+  property_additional_information_error: "",
+
+  property_after_rehab_value_error: "",
+  property_asking_price_error: "",
+  property_estimated_rehab_cost_error: "",
+  property_arv_proof_error: "",
+  property_arv_analysis_error: "",
+  property_rehab_cost_proof_error: "",
+  property_description_of_repair_error: "",
+  property_rental_proof_error: "",
+  property_rental_description_error: "",
+  property_amount_financed_percentage_error: "",
+  property_amount_financed_error: "",
+  property_interest_rate_error : "",
+  property_loan_terms_error : "",
+  property_closing_cost_error : "",
+  property_insurance_annually_error : "",
+  property_short_term_financing_cost_error : "",
+  property_taxes_annually_error : "",
+  property_est_annual_management_fees_error : "",
+  property_est_annual_operating_fees_others_error : "",
+  property_monthly_rent_error : "",
+  property_vacancy_rate_error : "",
+
+  property_auction_length_error: "",
+  property_buy_now_price_error: "",
+  property_show_instructions_text_error: "",
+
+  property_best_offer_length_error: "",
+  property_best_offer_sellers_minimum_price_error: "",
+  property_best_offer_sellers_reserve_price: "",
+
   property_seller_price_error: "",
   property_buy_price_error: "",
-  property_auction_length_error: "",
   property_auction_started_at_error: "",
   property_auction_ending_at_error: "",
   property_buy_option_error: "",
   property_title_status_error: "",
   property_seller_pay_type_id_error: "",
   property_show_instructions_type_id_error: "",
-  property_youtube_url_error: ""
+  property_youtube_url_error: "",
+
+  user_first_name_error: "",
+  user_last_name_error: "",
+  user_phone_number_error: "",
+  user_email_error: "",
+  user_password_error: "",
+  user_confirm_password_error: "",
 }
 
 
-export default class NewProperty extends Component{
+
+export default class UserNewProperty extends Component{
   _isMounted = false
   componentWillUnmount() {
     this._isMounted = false;
@@ -262,7 +326,9 @@ export default class NewProperty extends Component{
               seller_pay_types: result.seller_pay_types,
               show_instructions_types: result.show_instructions_types,
               auction_lengths: result.auction_lengths,
-              buy_options: result.buy_options
+              buy_options: result.buy_options,
+              title_statuses: result.title_statuses,
+              owner_categories: result.owner_categories,
             }
           });
           this.setState({
@@ -271,7 +337,9 @@ export default class NewProperty extends Component{
             p_type: result.residential_types[0],
             category: result.categories[0],
             flooded: false,
-            mls_available: false
+            mls_available: false,
+            owner_category: result.owner_categories[0],
+            title_status: result.title_statuses[0],
             }
           });
         }
@@ -448,19 +516,17 @@ export default class NewProperty extends Component{
 		});
   }
 
-  sendStepFourData = (draft = false) => {
+  sendStepFourData = () => {
     const fd = new FormData();
-    if (draft === true){
-      fd.append('draft', true)
-    }else {
-      fd.append('draft', false)
-    }
-    fd.append('step2', true)
     fd.append('property[id]', this.state.property.id)
-    fd.append('property[estimated_rehab_cost_attr]', JSON.stringify(this.state.property.estimated_rehab_cost_attr))
     fd.append('property[youtube_url]', this.state.property.youtube_url)
+    fd.append('property[vimeo_url]', this.state.property.vimeo_url)
+    fd.append('property[dropbox_url]', this.state.property.dropbox_url)
     for (let i = 0 ; i < this.state.property.images.length ; i++) {
       fd.append('property[images][]', this.state.property.images[i].file, this.state.property.images[i].name)
+    }
+    if (this.state.property.video){
+      fd.append("video", this.state.property.video, this.state.property.video.name)
     }
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties"
   	fetch(url ,{
@@ -479,7 +545,7 @@ export default class NewProperty extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 200) {
-        window.location.href = "/user/property/"+this.state.property.id
+        this.goToStepFive()
       }else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
@@ -498,7 +564,6 @@ export default class NewProperty extends Component{
 
   sendStepTwoData = () => {
     const fd = new FormData();
-    fd.append('step2', true)
     fd.append('property[id]', this.state.property.id)
     fd.append('property[deal_analysis_type]', this.state.property.deal_analysis_type)
     fd.append('property[after_rehab_value]', this.state.property.after_rehab_value)
@@ -534,13 +599,15 @@ export default class NewProperty extends Component{
     fd.append('property[roi_cash_percentage]', this.state.property.roi_cash_percentage)
     fd.append('property[arv_analysis]', this.state.property.arv_analysis)
     fd.append('property[description_of_repairs]', this.state.property.description_of_repairs)
-    fd.append('property[after_rehab_value]', this.state.property.after_rehab_value)
-    fd.append('property[after_rehab_value]', this.state.property.after_rehab_value)
+    fd.append('property[rental_description]', this.state.property.rental_description)
     if (this.state.property.arv_proof){
-      fd.append('property[arv_proof]', this.state.property.arv_proof, this.state.property.arv_proof.name)
+      fd.append('arv_proof', this.state.property.arv_proof, this.state.property.arv_proof.name)
     }
     if (this.state.property.rehab_cost_proof){
-      fd.append('property[rehab_cost_proof]', this.state.property.rehab_cost_proof, this.state.property.rehab_cost_proof.name)
+      fd.append('rehab_cost_proof', this.state.property.rehab_cost_proof, this.state.property.rehab_cost_proof.name)
+    }
+    if (this.state.property.rental_proof){
+      fd.append('rental_proof', this.state.property.rental_proof, this.state.property.rental_proof)
     }
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties"
   	fetch(url ,{
@@ -578,13 +645,6 @@ export default class NewProperty extends Component{
 		});
   }
 
-  saveDraft = () => {
-    let formIsValid = true
-    if (formIsValid){
-      this.sendStepFourData(true)
-    }
-  }
-
   submitStepFour =() => {
     let formIsValid = true
     if (formIsValid){
@@ -596,18 +656,165 @@ export default class NewProperty extends Component{
     document.getElementById('step1').classList.add('d-none');
     document.getElementById('step2').classList.remove('d-none');
     window.scrollTo(0,0)
+    document.getElementById('step2h').classList.remove('disabled')
+    document.getElementById('step2h').classList.add('complete', "current")
   }
 
   backToStepOne = () => {
     document.getElementById('step1').classList.remove('d-none');
     document.getElementById('step2').classList.add('d-none');
     window.scrollTo(0,0)
+    document.getElementById('step2h').classList.remove('complete', "current")
+    document.getElementById('step2h').classList.add('disabled')
   }
 
   submitStepTwo = () => {
-    let formIsValid = true;
+    let formIsValid = this.stepTwoValidation();
     if (formIsValid){
       this.sendStepTwoData();
+    }
+  }
+  stepTwoValidation = () => {
+    let property_after_rehab_value_error = "";
+    let property_asking_price_error = "";
+    let property_estimated_rehab_cost_error = "";
+    let property_arv_proof_error = "";
+    let property_rehab_cost_proof_error = "";
+
+    let property_amount_financed_percentage_error = "";
+    let property_amount_financed_error = "";
+    let property_interest_rate_error = "";
+    let property_loan_terms_error = "";
+    let property_closing_cost_error = "";
+    let property_insurance_annually_error = "";
+    let property_short_term_financing_cost_error = "";
+    let property_taxes_annually_error = "";
+    let property_est_annual_management_fees_error = "";
+    let property_est_annual_operating_fees_others_error = "";
+    let property_monthly_rent_error = "";
+    let property_vacancy_rate_error = "";
+    let property_rental_proof_error = "";
+    let property_arv_analysis_error= "";
+    let property_description_of_repair_error= "";
+    let property_rental_description_error= "";
+
+    if (this.state.property.after_rehab_value === ""){
+      property_after_rehab_value_error = "can't be blank."
+    }else if (isNaN(this.state.property.after_rehab_value)) {
+      property_after_rehab_value_error = "error."
+    }
+    if (this.state.property.asking_price === ""){
+      property_asking_price_error = "can't be blank."
+    }else if (isNaN(this.state.property.asking_price)) {
+      property_asking_price_error = "error."
+    }
+    if (this.state.property.estimated_rehab_cost === ""){
+      property_estimated_rehab_cost_error = "can't be blank."
+    }else if (isNaN(this.state.property.estimated_rehab_cost)) {
+      property_estimated_rehab_cost_error = "error."
+    }
+    if ((this.state.property.rehab_cost_proof === null) && (this.state.property.description_of_repairs === "")){
+      property_rehab_cost_proof_error = "can't be blank."
+      property_description_of_repair_error = "error"
+    }
+    if ((this.state.property.arv_proof === null) && (this.state.property.arv_analysis === "")){
+      property_arv_proof_error = "can't be blank."
+      property_arv_analysis_error = "error"
+    }
+    if (this.state.property.deal_analysis_type === "Landlord Deal"){
+      if (this.state.property.amount_financed_percentage === ""){
+        property_amount_financed_percentage_error = "can't be blank."
+      }else if (isNaN(this.state.property.amount_financed_percentage)) {
+        property_amount_financed_percentage_error = "error."
+      }
+      if (this.state.property.amount_financed === ""){
+        property_amount_financed_error = "can't be blank."
+      }else if (isNaN(this.state.property.amount_financed)) {
+        property_amount_financed_error = "error."
+      }
+      if (this.state.property.interest_rate === ""){
+        property_interest_rate_error = "can't be blank."
+      }else if (isNaN(this.state.property.interest_rate)) {
+        property_interest_rate_error = "error."
+      }
+      if (this.state.property.loan_terms === ""){
+        property_loan_terms_error = "can't be blank."
+      }else if (isNaN(this.state.property.loan_terms)) {
+        property_loan_terms_error = "error."
+      }
+      if (this.state.property.closing_cost === ""){
+        property_closing_cost_error = "can't be blank."
+      }else if (isNaN(this.state.property.closing_cost)) {
+        property_closing_cost_error = "error."
+      }
+      if (this.state.property.insurance_annually === ""){
+        property_insurance_annually_error = "can't be blank."
+      }else if (isNaN(this.state.property.insurance_annually)) {
+        property_insurance_annually_error = "error."
+      }
+      if (this.state.property.short_term_financing_cost === ""){
+        property_short_term_financing_cost_error = "can't be blank."
+      }else if (isNaN(this.state.property.short_term_financing_cost)) {
+        property_short_term_financing_cost_error = "error."
+      }
+      if (this.state.property.taxes_annually === ""){
+        property_taxes_annually_error = "can't be blank."
+      }else if (isNaN(this.state.property.taxes_annually)) {
+        property_taxes_annually_error = "error."
+      }
+      if (this.state.property.est_annual_management_fees === ""){
+        property_est_annual_management_fees_error = "can't be blank."
+      }else if (isNaN(this.state.property.est_annual_management_fees)) {
+        property_est_annual_management_fees_error = "error."
+      }
+      if (this.state.property.est_annual_operating_fees_others === ""){
+        property_est_annual_operating_fees_others_error = "can't be blank."
+      }else if (isNaN(this.state.property.est_annual_operating_fees_others)) {
+        property_est_annual_operating_fees_others_error = "error."
+      }
+      if (this.state.property.monthly_rent === ""){
+        property_monthly_rent_error = "can't be blank."
+      }else if (isNaN(this.state.property.monthly_rent)) {
+        property_monthly_rent_error = "error."
+      }
+      if (this.state.property.vacancy_rate === ""){
+        property_vacancy_rate_error = "can't be blank."
+      }else if (isNaN(this.state.property.vacancy_rate)) {
+        property_vacancy_rate_error = "error."
+      }
+      if ((this.state.property.rental_proof === null) &&(this.state.property.rental_description === "")){
+        property_rental_proof_error = "can't be blank."
+        property_rental_description_error = "error"
+      }
+    }
+    this.setState({
+      property_after_rehab_value_error,
+      property_asking_price_error,
+      property_estimated_rehab_cost_error,
+      property_arv_proof_error,
+      property_rehab_cost_proof_error,
+
+      property_amount_financed_percentage_error,
+      property_amount_financed_error,
+      property_interest_rate_error,
+      property_loan_terms_error,
+      property_closing_cost_error,
+      property_insurance_annually_error,
+      property_short_term_financing_cost_error,
+      property_taxes_annually_error,
+      property_est_annual_management_fees_error,
+      property_est_annual_operating_fees_others_error,
+      property_monthly_rent_error,
+      property_vacancy_rate_error,
+      property_rental_proof_error,
+      property_arv_analysis_error,
+      property_description_of_repair_error,
+      property_rental_description_error,
+    })
+    if (property_after_rehab_value_error !== "" || property_asking_price_error !== "" || property_estimated_rehab_cost_error !== "" || property_arv_proof_error !== "" || property_arv_proof_error !== "" || property_rehab_cost_proof_error !== ""  || property_amount_financed_percentage_error !== "" || property_amount_financed_error !== "" || property_interest_rate_error !== "" || property_loan_terms_error !== "" || property_closing_cost_error !== "" || property_insurance_annually_error !== "" || property_short_term_financing_cost_error !== "" || property_taxes_annually_error !== "" || property_est_annual_management_fees_error !== "" || property_est_annual_operating_fees_others_error !== "" || property_monthly_rent_error !== "" || property_vacancy_rate_error !== "" || property_rental_proof_error !== "" || property_arv_analysis_error !== "" || property_description_of_repair_error !== "" || property_rental_description_error !== ""  ){
+      return false;
+    }else{
+      return true;
     }
   }
 
@@ -653,31 +860,149 @@ export default class NewProperty extends Component{
     document.getElementById('step2').classList.add('d-none');
     document.getElementById('step3').classList.remove('d-none');
     window.scrollTo(0,0)
+    document.getElementById('step3h').classList.remove('disabled')
+    document.getElementById('step3h').classList.add('complete', "current")
+  }
+
+  updateTermsAgreed = (event) => {
+    const{ name, checked } = event.target;
+    this.setState({
+      [name]: checked
+    });
   }
 
   backToStepTwo = () => {
     document.getElementById('step2').classList.remove('d-none');
     document.getElementById('step3').classList.add('d-none');
     window.scrollTo(0,0)
+    document.getElementById('step3h').classList.remove('complete', "current")
+    document.getElementById('step3h').classList.add('disabled')
   }
 
   submitStepThree = () => {
     let formIsValid = true;
     if (formIsValid){
-      this.updatePropertyData();
-      this.goToStepFour()
+      this.sendStepThreeData();
     }
+  }
+  sendStepThreeData = () => {
+    const fd = new FormData();
+    fd.append('property[id]', this.state.property.id)
+    fd.append('property[best_offer]', this.state.property.best_offer)
+    fd.append('property[best_offer_length]', this.state.property.best_offer_length)
+    fd.append('property[best_offer_sellers_minimum_price]', this.state.property.best_offer_sellers_minimum_price)
+    fd.append('property[best_offer_sellers_reserve_price]', this.state.property.best_offer_sellers_reserve_price)
+    fd.append('property[auction_started_at]', this.state.property.auction_started_at)
+    fd.append('property[auction_length]', this.state.property.auction_length)
+    fd.append('property[seller_price]', this.state.property.seller_price)
+    fd.append('property[buy_now_price]', this.state.property.buy_now_price)
+    fd.append('property[auction_ending_at]', this.state.property.auction_ending_at)
+    fd.append('property[buy_option]', JSON.stringify(this.state.property.buy_option))
+    fd.append('property[show_instructions_type_id]', this.state.property.show_instructions_type_id)
+    fd.append('property[show_instructions_text]', this.state.property.show_instructions_text)
+    fd.append('property[open_house_dates]', JSON.stringify(this.state.property.open_house_dates))
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties"
+  	fetch(url ,{
+			method: "PUT",
+			headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			},
+			body: fd,
+		}).then(res => res.json())
+    .then((result) => {
+      if (result.status === 200) {
+        this.goToStepFour();
+      }else if (result.status === 401) {
+        localStorage.removeItem("auction_user_token");
+        window.location.href = "/login"
+      }else {
+        if (this._isMounted){
+          this.setState({loaded: true, message: result.message,
+          variant: "danger"});
+        }
+      }
+      this.clearMessageTimeout = setTimeout(() => {
+        if (this._isMounted){
+          this.setState(() => ({message: ""}))
+        }
+      }, 2000);
+		}, (error) => {
+		});
   }
 
   goToStepFour = () => {
     document.getElementById('step3').classList.add('d-none');
     document.getElementById('step4').classList.remove('d-none');
     window.scrollTo(0,0)
+    document.getElementById('step4h').classList.remove('disabled')
+    document.getElementById('step4h').classList.add('complete', "current")
   }
   backToStepThree = () => {
     document.getElementById('step3').classList.remove('d-none');
     document.getElementById('step4').classList.add('d-none');
     window.scrollTo(0,0)
+    document.getElementById('step4h').classList.remove('complete', "current")
+    document.getElementById('step4h').classList.add('disabled')
+  }
+
+  backToStepFour = () => {
+    document.getElementById('step5').classList.add('d-none');
+    document.getElementById('step4').classList.remove('d-none');
+    window.scrollTo(0,0)
+    document.getElementById('step5h').classList.remove('complete', "current")
+    document.getElementById('step5h').classList.add('disabled')
+  }
+  goToStepFive = () => {
+    document.getElementById('step4').classList.add('d-none');
+    document.getElementById('step5').classList.remove('d-none');
+    window.scrollTo(0,0)
+    document.getElementById('step5h').classList.remove('disabled')
+    document.getElementById('step5h').classList.add('complete', "current")
+  }
+
+  submitProperty = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/submit"
+  	fetch(url ,{
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			},
+			body: JSON.stringify({property: {id: this.state.property.id}}),
+		}).then(res => res.json())
+    .then((result) => {
+      if (result.status === 200) {
+        window.location.href = "/user/property/" + this.state.property.id
+      }else if (result.status === 401) {
+        localStorage.removeItem("auction_user_token");
+        window.location.href = "/login"
+      }else {
+      }
+      this.clearMessageTimeout = setTimeout(() => {
+        if (this._isMounted){
+          this.setState(() => ({message: ""}))
+        }
+      }, 2000);
+		}, (error) => {
+		});
+  }
+
+  saveDraftProperty = () => {
+    window.location.href = "/user/property/" + this.state.property.id
   }
 
   updateProperty = (event) => {
@@ -975,6 +1300,63 @@ export default class NewProperty extends Component{
     }
   }
 
+  updatePropertyOpenHouseDates = (index, date) => {
+    let dates = this.state.property.open_house_dates
+    dates[index] = date
+    this.setState({
+      property: {
+      ...this.state.property,
+      open_house_dates: dates,
+      }
+    })
+  }
+
+  checkBestOffer = () => {
+    if (this.state.property.best_offer === "true"){
+      return "";
+    }else {
+      return "d-none";
+    }
+  }
+  ownerCategoryText = (text) => {
+    if (text){
+      switch (text) {
+        case "Owner":
+          return "The Owner"
+        case "Wholesaler":
+          return "A Wholesaler who has equitable interest in this property"
+        case "Realtor":
+          return "A Realtor who has a listing agreement that allows me to auction my clients property"
+        default:
+          return""
+      }
+    }
+  }
+
+  addOpenHouseDateFields = () => {
+    let newDate = "";
+    let dates = this.state.property.open_house_dates;
+    dates.push(newDate)
+    this.setState({
+      property: {
+      ...this.state.property,
+      open_house_dates: dates,
+      }
+    })
+  }
+  removeOpenHouseDateFields = () => {
+    let i=this.state.property.open_house_dates.length
+    if (i>1){
+      let dates = this.state.property.open_house_dates;
+      dates.splice(i-1,1);
+      this.setState({
+        property: {
+        ...this.state.property,
+        open_house_dates: dates,
+        }
+      })
+    }
+  }
 
   stepOneValidation = () => {
     let property_address_error = "";
@@ -998,10 +1380,8 @@ export default class NewProperty extends Component{
     let property_flooded_error = "";
     let property_flood_count_error = "";
     let property_description_error = "";
-    let property_estimated_rehab_cost_error = "";
-    if (this.state.property.estimated_rehab_cost === ""){
-      property_estimated_rehab_cost_error = "Rehab Cost Can't be blank."
-    }
+    let property_title_status_error=""
+    let property_additional_information_error=""
 
     if (this.state.property.address === ""){
       property_address_error = "Property address can't be blank."
@@ -1078,6 +1458,12 @@ export default class NewProperty extends Component{
     if (this.state.property.description === ""){
       property_description_error = "Property description can't be blank."
     }
+    if (this.state.property.title_status === ""){
+      property_title_status_error = " can't be blank."
+    }
+    if (this.state.property.additional_information === ""){
+      property_additional_information_error = " can't be blank."
+    }
 
     this.setState({
       property_address_error,
@@ -1101,15 +1487,16 @@ export default class NewProperty extends Component{
       property_flooded_error,
       property_flood_count_error,
       property_description_error,
-      property_estimated_rehab_cost_error,
+      property_title_status_error,
+      property_additional_information_error,
     },function () {
-      if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_description_error !== "" || property_estimated_rehab_cost_error !== ""){
+      if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_description_error !== "" || property_title_status_error !== "" || property_additional_information_error !== "" ){
         return false;
       }else {
         return true;
       }
     })
-    if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_description_error !== "" || property_estimated_rehab_cost_error !== ""){
+    if (property_address_error !== "" || property_city_error !== "" || property_state_error !== "" || property_zip_code_error !== "" || property_category_error !== "" || property_type_error !== "" || property_bedrooms_error !== "" || property_bathrooms_error !== "" || property_garage_error !== "" || property_area_error !== "" || property_lot_size_error !== "" || property_year_built_error !== "" || property_units_error !== "" || property_stories_error !== "" || property_cap_rate_error !== "" || property_price_per_sq_ft_error !== ""|| property_headliner_error !== "" || property_mls_available_error !== "" || property_flooded_error !== "" || property_flood_count_error !== "" || property_description_error !== "" || property_title_status_error !== "" || property_additional_information_error !== "" ){
       return false;
     }else{
       return true;
@@ -1314,6 +1701,12 @@ export default class NewProperty extends Component{
   hideModal = () => {
     this.setState({
       estimated_cost_modal: false
+    }, function () {
+      if (this.state.property.deal_analysis_type === "Landlord Deal"){
+        this.updateLandlordDealCalculator();
+      }else {
+        this.updateProfitPotentialCalculator();
+      }
     });
   }
   checkForCategoryFields = () => {
@@ -1376,9 +1769,9 @@ export default class NewProperty extends Component{
   }
   checkLandordDeal = () => {
     if (this.state.property.deal_analysis_type === "Landlord Deal"){
-      return "row mx-0";
+      return "";
     }else {
-      return "d-none row mx-0";
+      return "d-none ";
     }
   }
 
@@ -1439,7 +1832,32 @@ export default class NewProperty extends Component{
     return (this.state.property.images)
   }
 
+  addErrorClass = (msg) => {
+    if (msg === ""){
+      return ""
+    }else {
+      return "error-class"
+    }
+  }
+
 	render() {
+    const open_house_dates = this.state.property.open_house_dates.map((value, index) => {
+      return <DatePicker key ={index} className="form-control mb-1" minDate={new Date()}
+        selected={value} onChange={this.updatePropertyOpenHouseDates.bind(this, index)} showTimeSelect
+        timeFormat="HH:mm"
+        timeIntervals={15}
+             dateFormat="M/d/yyyy h:mm aa"/>;
+    })
+    const owner_categories = this.state.property_options.owner_categories.map((value, index) => {
+      return(
+        <option key={index} value={value} >{this.ownerCategoryText(value)}</option>
+      )
+    })
+    const title_statuses = this.state.property_options.title_statuses.map((value, index) => {
+      return(
+        <option key={index} value={value} >{value}</option>
+      )
+    })
     const categories = this.state.property_options.categories.map((value, index) => {
       return(
         <option key={index} value={value} >{value}</option>
@@ -1459,1181 +1877,1132 @@ export default class NewProperty extends Component{
       value: value,
       label: value
     }))
-    const seller_pay_types = this.state.property_options.seller_pay_types.map((key, index) => {
-      return(
-        <div className="form-check" key={index}>
-          <label className="form-check-label">
-            <input type="radio" className="form-check-input" checked={key.id === parseInt(this.state.property.seller_pay_type_id) ? true : false} value={key.id} name="seller_pay_type_id" onChange={this.updateProperty}/>{key.description}
-          </label>
-        </div>
-      )
-    });
     const show_instructions_types = this.state.property_options.show_instructions_types.map((key, index) => {
       return(
-        <div className="form-check" key={index}>
-          <label className="form-check-label">
-            <input type="radio" className="form-check-input" checked={key.id === parseInt(this.state.property.show_instructions_type_id) ? true : false} value={key.id} name="show_instructions_type_id" onChange={this.updateProperty}/>{key.description}
-          </label>
-        </div>
+        <option key={index} value={key.id} >{key.description}</option>
       )
     });
 		return (
-      <div id="newproperty" className="container px-0 tab-pane active">
-        <div className="profile-form">
-          <div className="profile-form-in">
-            <div className="container creation-steps px-0 " id="step1">
-              <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
-                <div className="col-xs-2 bs-wizard-step  complete current">
-                  <div className="text-center bs-wizard-number">1</div>
-                  <div className="text-center bs-wizard-stepnum">PROPERTY DETAILS</div>
-                  <div className="progress">
-                    <div className="progress-bar"></div>
-                  </div>
-                  <Link className="bs-wizard-dot" to="#"></Link>
-                </div>
-                <div className="col-xs-2 bs-wizard-step  disabled ">
-                  <div className="text-center bs-wizard-number">2</div>
-                  <div className="text-center bs-wizard-stepnum">DEAL ANALYSIS</div>
-                  <div className="progress">
-                    <div className="progress-bar"></div>
-                  </div>
-                  <Link className="bs-wizard-dot" to="#"></Link>
-                </div>
-                <div className="col-xs-2 bs-wizard-step  disabled ">
-                  <div className="text-center bs-wizard-number">3</div>
-                  <div className="text-center bs-wizard-stepnum">AUCTION DETAILS</div>
-                  <div className="progress">
-                    <div className="progress-bar"></div>
-                  </div>
-                  <Link className="bs-wizard-dot" to="#"></Link>
-                </div>
-                <div className="col-xs-2 bs-wizard-step  disabled ">
-                  <div className="text-center bs-wizard-number">4</div>
-                  <div className="text-center bs-wizard-stepnum">UPLOAD PHOTOS</div>
-                  <div className="progress">
-                    <div className="progress-bar"></div>
-                  </div>
-                  <Link to="#" className="bs-wizard-dot"></Link>
-                </div>
-              </div>
-              <div className="col-md-12 text-center pb-4">
-                <h6 className="step-number">step 1</h6>
-                <h4 className="step-name">Property Details</h4>
-              </div>
-              <form className="row mx-0 creation-forms">
-                <div className="col-md-6 row mx-0 mb-2 pl-0 step_row">
-                  <div className="col-md-6 px-0">
-                    <label>Property Address</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="text"  id="autocomplete-address" className="form-control" name="address" onChange={this.updateProperty}/>
-                  </div>
-                  <div className="col-md-6 px-0 offset-md-6">
-                    {this.addErrorMessage(this.state.property_address_error)}
-                  </div>
-                </div>
-
-                <div className="col-md-6 row mx-0 mb-2 pr-0 step_row">
-                  <div className="col-md-6 px-0">
-                    <label>City</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="text" className="form-control" name="city" onChange={this.updateProperty} value={this.state.property.city}/>
-                  </div>
-                  <div className="col-md-6 px-0 offset-md-6">
-                    {this.addErrorMessage(this.state.property_city_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 pl-0 step_row">
-                  <div className="col-md-6 px-0">
-                    <label>State</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="text" className="form-control" name="state" onChange={this.updateProperty} value={this.state.property.state}/>
-                  </div>
-                  <div className="col-md-6 px-0 offset-md-6">
-                    {this.addErrorMessage(this.state.property_state_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 pr-0 step_row">
-                  <div className="col-md-6 px-0">
-                    <label>Zip code</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="text" className="form-control" maxLength="6" name="zip_code" onChange={this.updateProperty} onKeyPress={this.checkNumeric} value={this.state.property.zip_code}/>
-                  </div>
-                  <div className="col-md-6 px-0 offset-md-6">
-                    {this.addErrorMessage(this.state.property_zip_code_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 pl-0 step_row">
-                  <div className="col-md-6 px-0">
-                    <label>Property Category</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <select className="form-control" name="category" onChange={this.updateProperty}>
-                      {categories}
-                    </select>
-                  </div>
-                  <div className="col-md-6 px-0 offset-md-6">
-                    {this.addErrorMessage(this.state.property_category_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 pr-0 step_row">
-                  <div className="col-md-6 px-0">
-                    <label>Property Type</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <select className="form-control" name="p_type" onChange={this.updateProperty}>
-                      {types}
-                    </select>
-                  </div>
-                  <div className="col-md-6 px-0 offset-md-6">
-                    {this.addErrorMessage(this.state.property_type_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row pl-0" id="bedrooms-input">
-                  <div className="col-md-6 px-0">
-                    <label>Bedrooms</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="text" className="form-control" name="bedrooms" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
-                  </div>
-                  <div className="col-md-6 px-0 offset-md-6">
-                    {this.addErrorMessage(this.state.property_bedrooms_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row pr-0" id="bathrooms-input">
-                  <div className="col-md-6 px-0">
-                    <label>Bathrooms</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="text" className="form-control" name="bathrooms" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
-                  </div>
-                  <div className="col-md-6 px-0 offset-md-6">
-                    {this.addErrorMessage(this.state.property_bathrooms_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row pl-0" id="garage-input">
-                  <div className="col-md-6 px-0">
-                    <label>Garage</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="text" className="form-control" name="garage" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
-                  </div>
-                  <div className="col-md-6 px-0 offset-md-6">
-                    {this.addErrorMessage(this.state.property_garage_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row pl-0" id="units-input">
-                  <div className="col-md-6 px-0">
-                    <label>Units</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="text" className="form-control" name="units" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
-                  </div>
-                  <div className="col-md-6 offset-md-6 px-0">
-                    {this.addErrorMessage(this.state.property_units_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row pr-0" id="stories-input">
-                  <div className="col-md-6 px-0">
-                    <label>Stories</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="text" className="form-control" name="stories" onChange={this.updateProperty} onKeyPress={this.checkNumeric}/>
-                  </div>
-                  <div className="col-md-6 offset-md-6 px-0">
-                    {this.addErrorMessage(this.state.property_stories_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row pl-0" id="cap_rate-input">
-                  <div className="col-md-6 px-0">
-                    <label>Cap Rate</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="number" className="form-control" name="cap_rate" onChange={this.updateProperty} />
-                  </div>
-                  <div className="col-md-6 offset-md-6 px-0">
-                    {this.addErrorMessage(this.state.property_cap_rate_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row pr-0" id="area-input">
-                  <div className="col-md-6 px-0">
-                    <label>Area (SqFt)</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="number" className="form-control" name="area" onChange={this.updateProperty}/>
-                  </div>
-                  <div className="col-md-6 px-0 offset-md-6">
-                    {this.addErrorMessage(this.state.property_area_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row pl-0" id="lot-input">
-                  <div className="col-md-6 px-0">
-                    <label>Lot Size</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="number" className="form-control" name="lot_size" onChange={this.updateProperty} onKeyPress={this.checkDecimalNumeric}/>
-                  </div>
-                  <div className="col-md-6 px-0 offset-md-6">
-                    {this.addErrorMessage(this.state.property_lot_size_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row pr-0" id="year-built-input">
-                  <div className="col-md-6 px-0">
-                    <label>Year Built</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="text" className="form-control" name="year_built" onChange={this.updateProperty} onKeyPress={this.checkNumeric} maxLength="4"/>
-                  </div>
-                  <div className="col-md-6 offset-md-6 px-0">
-                    {this.addErrorMessage(this.state.property_year_built_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row pr-0" id="price_per_sq_ft-input">
-                  <div className="col-md-6 px-0">
-                    <label>Price Per SqFt</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="number" className="form-control" name="price_per_sq_ft" onChange={this.updateProperty} />
-                  </div>
-                  <div className="col-md-6 offset-md-6 px-0">
-                    {this.addErrorMessage(this.state.property_price_per_sq_ft_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row pl-0">
-                  <div className="col-md-6 px-0">
-                    <label>Property Headliner</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="text" className="form-control" name="headliner" onChange={this.updateProperty}/>
-                  </div>
-                  <div className="col-md-6 offset-md-6 px-0">
-                    {this.addErrorMessage(this.state.property_headliner_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row pr-0">
-                  <div className="col-md-6 px-0">
-                    <label>Is this property on MLS?</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <select className="form-control" defaultValue="false" name="mls_available" onChange={this.updateProperty}>
-                      <option value="true">Yes</option>
-                      <option value="false">No</option>
-                    </select>
-                  </div>
-                  <div className="col-md-6 offset-md-6 px-0">
-                    {this.addErrorMessage(this.state.property_mls_available_error)}
-                  </div>
-                </div>
-                <div className="col-md-6 row mx-0 mb-2 step_row pl-0">
-                  <div className="col-md-6 px-0">
-                    <label>Did Property Flooded?</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <select className="form-control" defaultValue="false" name="flooded" onChange={this.updateProperty}>
-                      <option value="true">Yes</option>
-                      <option value="false">No</option>
-                    </select>
-                  </div>
-                  <div className="col-md-6 offset-md-6 px-0">
-                    {this.addErrorMessage(this.state.property_flooded_error)}
-                  </div>
-                </div>
-
-                <div className="col-md-6 row mx-0 mb-2 step_row pr-0">
-                  <div className="col-md-6 px-0">
-                    <label>Estimated Rehab Cost</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} id="estimated-cost1" onClick={() => {this.setState({
-                      estimated_cost_modal: true
-                    });}}/>
-                  </div>
-                  <div className="col-md-6 offset-md-6 px-0">
-                    {this.addErrorMessage(this.state.property_estimated_rehab_cost_error)}
-                  </div>
-                </div>
-                <div className="col-md-12 row mx-0 mb-2 step_row px-0 step_textarea" id="flood_count-input">
-                  <div className="col-md-3 px-0">
-                    <label>If Flooded</label>
-                  </div>
-                  <div className="col-md-9 px-0">
-                    <textarea disabled id="flood_count_input" placeholder="How many times and how high did the water get inside the property each time." className="form-control textarea_step textarea-resize" rows="2" name="flood_count" onChange={this.updateProperty}/>
-                  </div>
-                  <div className="col-md-9 offset-md-3 px-0">
-                    {this.addErrorMessage(this.state.property_flood_count_error)}
-                  </div>
-                </div>
-                <div className="col-md-12 row mx-0 mb-2 px-0 step_row step_textarea">
-                  <div className="col-md-3 px-0">
-                    <label>Property Description</label>
-                  </div>
-                  <div className="col-md-9 px-0">
-                    <textarea className="form-control textarea_step textarea-resize" rows="3" id="comment" name="description" onChange={this.updateProperty}></textarea>
-                  </div>
-                  <div className="col-md-9 px-0 offset-md-3">
-                    {this.addErrorMessage(this.state.property_description_error)}
-                  </div>
-                </div>
-              </form>
-              <div className="col-md-12 text-center my-4">
-                <Link to="#" className="red-btn step-btn" onClick={this.submitStepOne}>Continue</Link>
-              </div>
-            </div>
-            <div className="container creation-steps px-0 d-none" id="step2">
-              <div className="row bs-wizard mb-4 mx-0 " style={{'borderBottom':0}}>
-                <div className="col-xs-2 bs-wizard-step  complete">
-                  <div className="text-center bs-wizard-number">1</div>
-                  <div className="text-center bs-wizard-stepnum">PROPERTY DETAILS</div>
-                  <div className="progress">
-                    <div className="progress-bar"></div>
-                  </div>
-                  <Link className="bs-wizard-dot" to="#"></Link>
-                </div>
-                <div className="col-xs-2 bs-wizard-step  complete current">
-                  <div className="text-center bs-wizard-number">2</div>
-                  <div className="text-center bs-wizard-stepnum">DEAL ANALYSIS</div>
-                  <div className="progress">
-                    <div className="progress-bar"></div>
-                  </div>
-                  <Link className="bs-wizard-dot" to="#"></Link>
-                </div>
-                <div className="col-xs-2 bs-wizard-step  disabled ">
-                  <div className="text-center bs-wizard-number">3</div>
-                  <div className="text-center bs-wizard-stepnum">AUCTION DETAILS</div>
-                  <div className="progress">
-                    <div className="progress-bar"></div>
-                  </div>
-                  <Link className="bs-wizard-dot" to="#"></Link>
-                </div>
-                <div className="col-xs-2 bs-wizard-step  disabled ">
-                  <div className="text-center bs-wizard-number">4</div>
-                  <div className="text-center bs-wizard-stepnum">UPLOAD PHOTOS</div>
-                  <div className="progress">
-                    <div className="progress-bar"></div>
-                  </div>
-                  <Link to="#" className="bs-wizard-dot"></Link>
-                </div>
-              </div>
-              <div className="col-md-12 text-center pb-3">
-                <h6 className="step-number">step 2</h6>
-                <h4 className="step-name mb-0">Deal Analysis</h4>
-              </div>
-              <div className= "row">
-                <div className="col-md-3 offset-md-3">
-                  <div className="form-check">
-                    <input id="rehab-radio-deal" type="radio" name="deal_analysis_type" checked={this.state.property.deal_analysis_type === "Rehab & Flip Deal" ? true : false} value="Rehab & Flip Deal" className="form-check-input" onChange = {this.updateProperty} />
-                    <label htmlFor="rehab-radio-deal">Rehab & Flip Deal</label>
-                  </div>
-                </div>
-                <div className="col-md-3">
-                  <div className="form-check">
-                    <input type="radio" name="deal_analysis_type" checked={this.state.property.deal_analysis_type === "Landlord Deal" ? true : false} value="Landlord Deal" className="form-check-input" onChange = {this.updateProperty} id="landlord-radio-deal"/>
-                    <label htmlFor="landlord-radio-deal">Landlord Deal</label>
-                  </div>
-                </div>
-              </div>
-              <form className="creation-forms">
-                <div className={this.checkRehabDeal()}>
-                  <div className="col-md-6 offset-md-3">
-                    <div className="row mx-0 step_row my-3">
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="mb-0">After Rehab Value</label>
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <input type="number" name="after_rehab_value" className="form-control" onChange={this.updateProperty}/>
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="mb-0">Sellers Asking Price</label>
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <input type="number" className="form-control" id="temp_id" name="asking_price" onChange={this.updateProperty} />
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="mb-0">Estimated Rehab Cost</label>
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <input type="number" readOnly={true} className="form-control estimated-cost" name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} id="estimated-cost1" />
-                      </div>
-
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="mb-0">Profit Potential</label>
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <input type="number" name="profit_potential" className="form-control" onChange={this.updateProperty} value={this.state.property.profit_potential} readOnly={true} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className = {this.checkLandordDeal()}>
-                  <div className="col-md-6 my-3 px-0">
-                    <h5 className="text-uppercase font-red step_heads">Acquisition Analysis</h5>
-                    <div className="row mx-0 step_row">
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="text-uppercase">EST AFTER REHAB VALUE</label>
-                      </div>
-                      <div className="col-md-6 my-2 pl-0">
-                        <input type="number" className="form-control" name="after_rehab_value" onChange={this.updateProperty} />
-                      </div>
-                      <div className="col-md-12 px-0">
-                        <h6 className="text-uppercase font-red font-600">Acquisition Cost</h6>
-                        <ul className="est_box">
-                          <li className="my-2">
-                            <div className="est_list">
-                              <label className="labels_main">Asking/Purchase Price: </label>
-                              <input type="number" className="form-control" name="asking_price" onChange={this.updateProperty}/>
+      <div className="profile-setting">
+        <div className="container custom_container px-0">
+          <div className="row mx-0 profile_row my-5">
+            <div className="col-md-12 px-0">
+              <div className="tab-content">
+                <div id="newproperty" className="container px-0">
+                  <div className="profile-form">
+                    <div className="profile-form-in">
+                      <div className="container creation-steps px-0">
+                        <div className="row bs-wizard new-bs-wizard mb-4 mx-0" style={{borderBottom:"0"}}>
+                          <div className="col bs-wizard-step  complete current" id="step1h">
+                            <div className="text-center bs-wizard-number">1</div>
+                            <div className="text-center bs-wizard-stepnum">PROPERTY DETAILS</div>
+                            <div className="progress">
+                              <div className="progress-bar"></div>
                             </div>
-                          </li>
-                          <li className="my-2">
-                            <div className="est_list">
-                              <label className="labels_main">Est Rehab Cost: </label>
-                              <input type="number" value={this.state.property.estimated_rehab_cost} readOnly={true} className="form-control" name="estimated_rehab_cost"/>
+                            <Link className="bs-wizard-dot" to="#"></Link>
+                          </div>
+                          <div className="col bs-wizard-step  disabled " id="step2h">
+                            <div className="text-center bs-wizard-number">2</div>
+                            <div className="text-center bs-wizard-stepnum">DEAL ANALYSIS</div>
+                            <div className="progress">
+                              <div className="progress-bar"></div>
                             </div>
-                          </li>
-                          <li className="my-2">
-                            <div className="est_list">
-                              <label className="labels_main">Est Closing Cost: </label>
-                              <input type="number" className="form-control" name="closing_cost" onChange={this.updateProperty}/>
+                            <Link className="bs-wizard-dot" to="#"></Link>
+                          </div>
+                          <div className="col bs-wizard-step  disabled " id="step3h">
+                            <div className="text-center bs-wizard-number">3</div>
+                            <div className="text-center bs-wizard-stepnum">AUCTION DETAILS</div>
+                            <div className="progress">
+                              <div className="progress-bar"></div>
                             </div>
-                          </li>
-                          <li className="my-2">
-                            <div className="est_list">
-                              <label className="labels_main">Est Annual Insurance: </label>
-                              <input type="number" onChange={this.updateProperty} className="form-control" name="insurance_annually" value={this.state.property.insurance_annually} />
+                            <Link className="bs-wizard-dot" to="#"></Link>
+                          </div>
+                          <div className="col bs-wizard-step  disabled " id="step4h">
+                            <div className="text-center bs-wizard-number">4</div>
+                            <div className="text-center bs-wizard-stepnum">PHOTOS AND VIDEOS</div>
+                            <div className="progress">
+                              <div className="progress-bar"></div>
                             </div>
-                          </li>
-                          <li className="my-2">
-                            <div className="est_list">
-                              <label className="labels_main">Est Hard Money or STF Cost: </label>
-                              <input type="number" className="form-control" name="short_term_financing_cost" onChange={this.updateProperty}/>
+                            <Link to="#" className="bs-wizard-dot"></Link>
+                          </div>
+                          <div className="col bs-wizard-step disabled " id="step5h">
+                            <div className="text-center bs-wizard-number">5</div>
+                            <div className="text-center bs-wizard-stepnum">AUCTION AGREEMENT</div>
+                            <div className="progress">
+                              <div className="progress-bar"></div>
                             </div>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="col-md-6 px-0">
-                        <label className="label-bold">Total Acquisition Costs</label>
-                      </div>
-                      <div className="col-md-6 pl-0">
-                        <input type="number" value={this.state.property.total_acquisition_cost} readOnly={true} className="form-control" name="total_acquisition_cost"/>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-6 my-3 px-0">
-                    <h5 className="text-uppercase font-red step_heads step_fonts">Financing Analysis After rehab</h5>
-                    <div className="row mx-0 step_row">
-                      <div className="col-md-6 my-2 row mx-0">
-                        <input type="number" className="form-control col-md-4" name="amount_financed_percentage" onChange={this.updateProperty} value={this.state.property.amount_financed_percentage} />
-                        <input type="number" readOnly={true} value={this.state.property.amount_financed} className="form-control col-md-7 offset-md-1" name="amount_financed" />
-                      </div>
-                      <div className="col-md-6 px-0 my-2">
-                        <label className="text-uppercase">amount financed</label>
-                      </div>
-                      <div className="col-md-6 my-2">
-                        <input type="number" className="form-control" name="interest_rate" value={this.state.property.interest_rate} onChange={this.updateProperty}/>
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="labels_main">Interest Rate APR</label>
-                      </div>
-                      <div className="col-md-6 my-2">
-                        <input type="number" value={this.state.property.loan_terms} className="form-control" name="loan_terms" onChange={this.updateProperty}/>
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="labels_main">Loan Term</label>
-                      </div>
-                      <div className="col-md-6 my-2">
-                        <input type="number" readOnly={true} value={this.state.property.principal_interest} className="form-control" name="principal_interest" />
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="labels_main">Monthly Principal & Interest</label>
-                      </div>
-                      <div className="col-md-6 my-2">
-                        <input type="number" readOnly={true} value={this.state.property.annual_debt} className="form-control" name="annual_debt"/>
-                      </div>
-                      <div className="col-md-6 px-0 my-2">
-                        <label className="labels_main">Annual Debt Service</label>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-6 my-3 px-0">
-                    <h5 className="text-uppercase font-red step_heads">Expense Analysis</h5>
-                    <div className="row mx-0 step_row">
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="labels_main">Est Annual taxes</label>
-                      </div>
-                      <div className="col-md-6 my-2 pl-0">
-                        <input type="number" className="form-control" name="taxes_annually" onChange={this.updateProperty}/>
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="labels_main">Est Annual Insurance</label>
-                      </div>
-                      <div className="col-md-6 my-2 pl-0">
-                        <input type="number" onChange={this.updateProperty} className="form-control" name="insurance_annually" value={this.state.property.insurance_annually} />
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="labels_main">Est Annual Management Fees</label>
-                      </div>
-                      <div className="col-md-6 my-2 pl-0">
-                        <input type="number" className="form-control" name="est_annual_management_fees" onChange={this.updateProperty}/>
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="labels_main">Est Annual Repair</label>
-                      </div>
-                      <div className="col-md-6 my-2 pl-0">
-                        <input type="number" value={this.state.property.est_annual_operating_fees_others} className="form-control" name="est_annual_operating_fees_others" onChange={this.updateProperty}/>
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="labels_main">Est Annual Operating Costs</label>
-                      </div>
-                      <div className="col-md-6 my-2 pl-0">
-                        <input type="number" className="form-control" readOnly={true} value={this.state.property.est_annual_operating_fees} name="est_annual_operating_fees" onChange={this.updateProperty} />
-                      </div>
-                    </div>
-                    <div className="col-md-12 mt-4 px-0">
-                      <h6 className="text-uppercase font-red font-600">Income or Cash Flow Analysis</h6>
-                    </div>
-                    <div className="row mx-0 step_row">
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="labels_main">Total EST Monthly Rent</label>
-                      </div>
-                      <div className="col-md-6 my-2 pl-0">
-                        <input type="number" className="form-control" name="monthly_rent" onChange={this.updateProperty}/>
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="labels_main">Total Gross Yearly Income</label>
-                      </div>
-                      <div className="col-md-6 my-2 pl-0">
-                        <input type="number" readOnly={true} value={this.state.property.total_gross_yearly_income} className="form-control" name="total_gross_yearly_income"/>
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="labels_main">Est Vacancy Rate</label>
-                      </div>
-                      <div className="col-md-6 my-2 pl-0">
-                        <input type="number" className="form-control" name="vacancy_rate" value={this.state.property.vacancy_rate} onChange={this.updateProperty}/>
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="labels_main label-bold">ADJ Gross Yearly Income</label>
-                      </div>
-                      <div className="col-md-6 my-2 pl-0">
-                        <input type="number" readOnly={true} value={this.state.property.adjusted_gross_yearly_income} className="form-control" name="adjusted_gross_yearly_income"/>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-6 my-3 px-0">
-                    <h5 className="text-uppercase font-red step_heads step_fonts">Cash Flow Analysis</h5>
-                    <div className="row mx-0 step_row">
-                      <div className="col-md-6 my-2 row mx-0">
-                        <input type="number" readOnly={true} value={this.state.property.adjusted_gross_yearly_income} className="form-control" name="adjusted_gross_yearly_income"/>
-                      </div>
-                      <div className="col-md-6 px-0 my-2">
-                        <label className="labels_main">(+) Adjusted Gross Yearly Income</label>
-                      </div>
-                      <div className="col-md-6 my-2">
-                        <input type="number" className="form-control " readOnly={true} value={this.state.property.est_annual_operating_fees} name="est_annual_operating_fees" onChange={this.updateProperty} />
-                      </div>
-                      <div className="col-md-6 px-0 my-2">
-                        <label className="labels_main">(-) Est Annual Operating Costs</label>
-                      </div>
-                      <div className="col-md-6 my-2">
-                        <input type="number" readOnly={true} value={this.state.property.net_operating_income} className="form-control" name="net_operating_income" />
-                      </div>
-                      <div className="col-md-6 px-0 my-2">
-                        <label className="labels_main label-bold">(=) Net Operating Income (NOI)</label>
-                      </div>
-                      <div className="col-md-6 my-2">
-                        <input type="number" readOnly={true} value={this.state.property.annual_debt} className="form-control" name="annual_debt"/>
-                      </div>
-                      <div className="col-md-6 px-0 my-2">
-                        <label className="labels_main">(-) Annual Debt Service</label>
-                      </div>
-                      <div className="col-md-6 my-2">
-                        <input type="number" readOnly={true} value={this.state.property.annual_cash_flow} className="form-control" name="annual_cash_flow"/>
-                      </div>
-                      <div className="col-md-6 px-0 my-2">
-                        <label className="labels_main label-bold">(=) Annual Cash Flow</label>
-                      </div>
-                    </div>
-                    <div className="col-md-12 mt-4">
-                      <h6 className="text-uppercase font-red font-600">Bottom Line</h6>
-                    </div>
-                    <div className="row mx-0 step_row bottom_box">
-                      <div className="col-md-6 my-2">
-                        <input type="number" readOnly={true} value={this.state.property.monthly_cash_flow} className="form-control" name="monthly_cash_flow"/>
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="labels_main">Monthly Cash Flow</label>
-                      </div>
-                      <div className="col-md-6 my-2">
-                        <input type="number" readOnly={true} className="form-control" value={this.state.property.total_out_of_pocket} name="total_out_of_pocket"/>
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="labels_main">Total Out of Pocket</label>
-                      </div>
-                      <div className="col-md-6 my-2">
-                        <input type="number" readOnly={true} className="form-control" value={this.state.property.roi_cash_percentage} name="roi_cash_percentage"/>
-                      </div>
-                      <div className="col-md-6 my-2 px-0">
-                        <label className="label-bold">ROI Cash On Cash</label>
-                      </div>
-                    </div>
-                  </div>
-                  {/* ################### Old Form begin */}
-                  {/* <div className="col-md-6">
-                    <h5>Deal Analysis</h5>
-                    <div className="form-group">
-                      <label>After Rehab Value</label>
-                      <input type="number" className="form-control" name="after_rehab_value" onChange={this.updateProperty} />
-                    </div>
-                    <div className="form-group">
-                      <label>Purchase/Asking Price</label>
-                      <input type="number" className="form-control" name="asking_price" onChange={this.updateProperty}/>
-                    </div>
-                    <div className="form-group">
-                      <label>Estimated Rehab Cost</label>
-                      <input type="number" value={this.state.property.estimated_rehab_cost} readOnly={true} className="form-control" name="estimated_rehab_cost" onClick={() => {this.setState({
-                    estimated_cost_modal: true
-                      });}}/>
-                    </div>
-                    <div className="form-group">
-                      <label>Closing Costs</label>
-                      <input type="number" className="form-control" name="closing_cost" onChange={this.updateProperty}/>
-                    </div>
-                    <div className="form-group">
-                      <label>Short-term Financing Costs</label>
-                      <input type="number" className="form-control" name="short_term_financing_cost" onChange={this.updateProperty}/>
-                    </div>
-                    <div className="form-group">
-                      <label>Property Taxes Annually</label>
-                      <input type="number" className="form-control" name="taxes_annually" onChange={this.updateProperty}/>
-                    </div>
-                    <div className="form-group">
-                      <label>Insurance Annually</label>
-                      <input type="number" onChange={this.updateProperty} className="form-control" name="insurance_annually" />
-                    </div>
-                    <div className="form-group">
-                      <label>Total Acquisition Costs</label>
-                      <input type="number" value={this.state.property.total_acquisition_cost} readOnly={true} className="form-control" name="total_acquisition_cost"/>
-                    </div>
-                    </div>
-                    <div className="col-md-6">
-                    <h5>Financing Analysis</h5>
-                    <div className="form-group">
-                      <label>Amount Financed</label>
-                      <div className="row mx-0">
-                    <input type="number" className="form-control col-md-4" name="amount_financed_percentage" onChange={this.updateProperty} />
-                    <input type="number" readOnly={true} value={this.state.property.amount_financed} className="form-control col-md-7 offset-md-1" name="amount_financed" />
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <label>Interest Rate APR</label>
-                      <input type="number" className="form-control" name="interest_rate" onChange={this.updateProperty}/>
-                    </div>
-                    <div className="form-group">
-                      <label>Loan Term in years</label>
-                      <input type="number" className="form-control" name="loan_terms" onChange={this.updateProperty}/>
-                    </div>
-                    <div className="form-group">
-                      <label>Principal Insurace (PI)</label>
-                      <input type="number" readOnly={true} value={this.state.property.principal_interest} className="form-control" name="principal_interest" />
-                    </div>
-                    <div className="form-group">
-                      <label>Monthly Taxes</label>
-                      <input type="number" readOnly={true} value={this.state.property.taxes_monthly} className="form-control" name="taxes_monthly"/>
-                    </div>
-                    <div className="form-group">
-                      <label>Monthly Insurance</label>
-                      <input type="number" readOnly={true} value={this.state.property.insurance_monthly} className="form-control" name="insurance_monthly"/>
-                    </div>
-                    <div className="form-group">
-                      <label>PITI Monthly Debt Service</label>
-                      <input type="number" readOnly={true} value={this.state.property.piti_monthly_debt} className="form-control" name="piti_monthly_debt"/>
-                    </div>
-                    </div>
-                    <div className="col-md-6">
-                    <h5>Income Analysis</h5>
-                    <div className="form-group">
-                      <label>Total Monthly Rent</label>
-                      <input type="number" className="form-control" name="monthly_rent" onChange={this.updateProperty}/>
-                    </div>
-                    <div className="form-group">
-                      <label>Gross Yearly Income (GYI)</label>
-                      <input type="number" readOnly={true} value={this.state.property.total_gross_yearly_income} className="form-control" name="total_gross_yearly_income"/>
-                    </div>
-                    <div className="form-group">
-                      <label>Estimated Vacancy Rate</label>
-                      <input type="number" className="form-control" name="vacancy_rate" onChange={this.updateProperty}/>
-                    </div>
-                    <div className="form-group">
-                      <label>Adjusted Gross Yearly Income</label>
-                      <input type="number" readOnly={true} value={this.state.property.adjusted_gross_yearly_income} className="form-control" name="adjusted_gross_yearly_income"/>
-                    </div>
-                    <div className="form-group">
-                      <label>Annual Management Fees</label>
-                      <input type="number" className="form-control" name="est_annual_management_fees" onChange={this.updateProperty}/>
-                    </div>
-                    <div className="form-group">
-                      <label>Annual Operating Costs</label>
-                      <div className="row mx-0">
-                    <input type="number" className="form-control col-md-5" readOnly={true} value={this.state.property.est_annual_operating_fees} name="est_annual_operating_fees" onChange={this.updateProperty} />
-                    <input type="number" value={this.state.property.est_annual_operating_fees_others} className="form-control col-md-6 offset-md-1" name="est_annual_operating_fees_others" onChange={this.updateProperty}/>
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <label>Net Operating Income(NOI)</label>
-                      <input type="number" readOnly={true} value={this.state.property.net_operating_income} className="form-control" name="net_operating_income" />
-                    </div>
-                    </div>
-                    <div className="col-md-6">
-                    <h5>Cash Flow Analysis</h5>
-                    <div className="form-group">
-                      <label>Annual Debt Service</label>
-                      <input type="number" readOnly={true} value={this.state.property.annual_debt} className="form-control" name="annual_debt"/>
-                    </div>
-                    <div className="form-group">
-                      <label>Net Operating Income(NOI)</label>
-                      <input type="number" readOnly={true} value={this.state.property.net_operating_income} className="form-control" name="net_operating_income" />
-                    </div>
-                    <div className="form-group">
-                      <label>Annual Cash Flow</label>
-                      <input type="number" readOnly={true} value={this.state.property.annual_cash_flow} className="form-control" name="annual_cash_flow"/>
-                    </div>
-                    <div className="form-group">
-                      <label>Monthly Cash Flow</label>
-                      <input type="number" readOnly={true} value={this.state.property.monthly_cash_flow} className="form-control" name="monthly_cash_flow"/>
-                    </div>
-                    <div className="form-group">
-                      <label>Total Out of Pocket</label>
-                      <input type="number" readOnly={true} className="form-control" value={this.state.property.total_out_of_pocket} name="total_out_of_pocket"/>
-                    </div>
-                    <div className="form-group">
-                      <label>ROI Cash on Cash</label>
-                      <input type="number" readOnly={true} className="form-control" value={this.state.property.roi_cash_percentage} name="roi_cash_percentage"/>
-                    </div>
-                  </div> */}
-                  {/* ################### Old form ends*/}
-                </div>
-                <div className="row mx-0 step_row">
-                  <div className="col-md-6 pl-0">
-                    <div className="form-group">
-                      <label>ARV Proof/Financial Analysis</label>
-                      <input type="text" className="form-control" name="arv_analysis" onChange={this.updateProperty}/>
-                    </div>
-                  </div>
-                  <div className="col-md-6 pr-0">
-                    <div className="form-group">
-                      <label>Or upload ARV proof</label>
-                      <div className="custom-file">
-                        <input type="file" className="custom-file-input" name="arv_proof" onChange={this.fileSelectHandler}/>
-                        <label className="custom-file-label" htmlFor="customFile" name="arv_proof">Choose file</label>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-6 pl-0">
-                    <div className="form-group">
-                      <label>Description of Repairs</label>
-                      <input type="text" className="form-control" id="description-of-repairs" name="description_of_repairs" onChange={this.updateProperty}/>
-                    </div>
-                  </div>
-                  <div className="col-md-6 pr-0">
-                    <div className="form-group">
-                      <label>Or upload Estimated Rehab Cost</label>
-                      <div className="custom-file">
-                        <input type="file" className="custom-file-input" name="rehab_cost_proof" onChange={this.fileSelectHandler}/>
-                        <label className="custom-file-label" htmlFor="customFile" name="rehab_cost_proofs">Choose file</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-              <Modal className="status_modal" show={this.state.estimated_cost_modal} onHide={this.hideModal}>
-                <Modal.Header closeButton>
-                  <div className=" offset-md-1 col-md-10 text-center">
-                    <h5 className="mb-0 text-uppercase">Itemized Repairs</h5>
-                  </div>
-                </Modal.Header>
-                <div className="modal-body">
-                  <div className="row mx-0">
-                    <div className="col-md-12 px-0">
-                      <h6>Please enter estimated rehab numbers or enter a ballpark at the bottom.</h6>
-                    </div>
-                    <div className="col-md-6 pl-0">
-                      <div className="form-group">
-                        <label>Roof</label>
-                        <input value={this.state.property.estimated_rehab_cost_attr.roof} type="number" className="form-control" name="roof" onChange={this.updatePropertyRehabCostAttr} />
-                      </div>
-                    </div>
-                    <div className="col-md-6 pr-0">
-                      <div className="form-group">
-                        <label>Plumbing</label>
-                        <input type="number" name="plumbing" className="form-control" value={this.state.property.estimated_rehab_cost_attr.plumbing} onChange={this.updatePropertyRehabCostAttr} />
-                      </div>
-                    </div>
-                    <div className="col-md-6 pl-0">
-                      <div className="form-group">
-                        <label>Foundation</label>
-                        <input type="number" name="foundation" value={this.state.property.estimated_rehab_cost_attr.foundation} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-6 pr-0">
-                      <div className="form-group">
-                        <label>Kitchen</label>
-                        <input type="number" name="kitchen" value={this.state.property.estimated_rehab_cost_attr.kitchen}  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-6 pl-0">
-                      <div className="form-group">
-                        <label>Siding</label>
-                        <input type="number" name="siding" value={this.state.property.estimated_rehab_cost_attr.siding} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-6 pr-0">
-                      <div className="form-group">
-                        <label>Bathrooms</label>
-                        <input type="name" name="bathrooms" value={this.state.property.estimated_rehab_cost_attr.bathrooms} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-6 pl-0">
-                      <div className="form-group">
-                        <label>Windows</label>
-                        <input type="number" name="windows" value={this.state.property.estimated_rehab_cost_attr.windows}  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-6 pr-0">
-                      <div className="form-group">
-                        <label>Doors</label>
-                        <input type="number" name="doors" value={this.state.property.estimated_rehab_cost_attr.doors} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-6 pl-0">
-                      <div className="form-group">
-                        <label>Landscaping</label>
-                        <input type="number" name="landscaping" value={this.state.property.estimated_rehab_cost_attr.landscaping} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-6 pr-0">
-                      <div className="form-group">
-                        <label>Sheetrock</label>
-                        <input type="number" name= "sheetrock" value={this.state.property.estimated_rehab_cost_attr.sheetrock} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-6 pl-0">
-                      <div className="form-group">
-                        <label>Garage</label>
-                        <input type="number" name= "garage" value={this.state.property.estimated_rehab_cost_attr.garage} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-6 pr-0">
-                      <div className="form-group">
-                        <label>Trim</label>
-                        <input type="number" name="trim" value={this.state.property.estimated_rehab_cost_attr.trim} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-6 pl-0">
-                      <div className="form-group">
-                        <label>Exterior Paint</label>
-                        <input type="number" name="exterior_paint" value={this.state.property.estimated_rehab_cost_attr.exterior_paint} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-6 pr-0">
-                      <div className="form-group">
-                        <label>Flooring</label>
-                        <input type="number" name="flooring" value={this.state.property.estimated_rehab_cost_attr.flooring} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-6 pl-0">
-                      <div className="form-group">
-                        <label>Interior Paint</label>
-                        <input type="number" name="interior_paint" value={this.state.property.estimated_rehab_cost_attr.interior_paint} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-6 pr-0">
-                      <div className="form-group">
-                        <label>Trash</label>
-                        <input type="number" name="trash" value={this.state.property.estimated_rehab_cost_attr.trash} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-6 pl-0">
-                      <div className="form-group">
-                        <label>HVAC</label>
-                        <input type="number" name="hvac" value={this.state.property.estimated_rehab_cost_attr.hvac} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-6 pr-0">
-                      <div className="form-group">
-                        <label>Misc</label>
-                        <input type="number" name="misc" value={this.state.property.estimated_rehab_cost_attr.misc} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-6 pl-0">
-                      <div className="form-group">
-                        <label>Electrical</label>
-                        <input type="number" name="electrical" className="form-control" value={this.state.property.estimated_rehab_cost_attr.electrical} onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-6 pr-0">
-                      <div className="form-group">
-                        <label>Others</label>
-                        <input type="number" name="others" className="form-control" value={this.state.property.estimated_rehab_cost_attr.others} onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-12 px-0">
-                      <div className="form-group">
-                        <label>Estimated Ballpark</label>
-                        <input type="number" name="estimated_ballpark" value={this.state.property.estimated_rehab_cost_attr.estimated_ballpark} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                      </div>
-                    </div>
-                    <div className="col-md-12 px-0">
-                      <div className="form-group">
-                        <label>Repair Total</label>
-                        <input type="number" value={this.state.property.estimated_rehab_cost_attr.repair_total} readOnly={true} name="repair_total" className="form-control" />
-                      </div>
-                    </div>
-
-                  </div>
-                  <div className="col-md-12 text-center mt-3">
-                    <span className="error"></span>
-                    <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.hideModal}>Close</button>
-                  </div>
-                </div>
-              </Modal>
-              <div className="col-md-12 text-center my-4">
-                <Link to="#" className="red-btn step-btn mr-3" onClick={this.backToStepOne}>Go, Back</Link>
-                <Link to="#" className="red-btn step-btn ml-3" onClick={this.submitStepTwo}>Continue</Link>
-              </div>
-            </div>
-            <div className="container creation-steps px-0 d-none" id="step3">
-              <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
-                <div className="col-xs-2 bs-wizard-step  complete">
-                  <div className="text-center bs-wizard-number">1</div>
-                  <div className="text-center bs-wizard-stepnum">PROPERTY DETAILS</div>
-                  <div className="progress">
-                    <div className="progress-bar"></div>
-                  </div>
-                  <Link className="bs-wizard-dot" to="#"></Link>
-                </div>
-                <div className="col-xs-2 bs-wizard-step  complete ">
-                  <div className="text-center bs-wizard-number">2</div>
-                  <div className="text-center bs-wizard-stepnum">DEAL ANALYSIS</div>
-                  <div className="progress">
-                    <div className="progress-bar"></div>
-                  </div>
-                  <Link className="bs-wizard-dot" to="#"></Link>
-                </div>
-                <div className="col-xs-2 bs-wizard-step  complete current ">
-                  <div className="text-center bs-wizard-number">3</div>
-                  <div className="text-center bs-wizard-stepnum">AUCTION DETAILS</div>
-                  <div className="progress">
-                    <div className="progress-bar"></div>
-                  </div>
-                  <Link className="bs-wizard-dot" to="#"></Link>
-                </div>
-                <div className="col-xs-2 bs-wizard-step  disabled ">
-                  <div className="text-center bs-wizard-number">4</div>
-                  <div className="text-center bs-wizard-stepnum">UPLOAD PHOTOS</div>
-                  <div className="progress">
-                    <div className="progress-bar"></div>
-                  </div>
-                  <Link to="#" className="bs-wizard-dot"></Link>
-                </div>
-              </div>
-              <div className="col-md-12 text-center pb-4">
-                <h6 className="step-number">step 3</h6>
-                <h4 className="step-name">Auction Details</h4>
-              </div>
-              <form className="row mx-0 creation-forms">
-                <div className="col-md-6 pl-0 row mx-0 mb-2 step_row">
-                  <div className="col-md-6 px-0">
-                    <label>Sellers Asking Price</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="number" className="form-control" name="seller_price" onChange={this.updateProperty}/>
-                  </div>
-                </div>
-                <div className="col-md-6 pr-0 row mx-0 mb-2 step_row">
-                  <div className="col-md-6 px-0">
-                    <label>Buy Now Price</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="number" className="form-control" name="buy_now_price" onChange={this.updateProperty}/>
-                  </div>
-                </div>
-                <div className="col-md-6 pl-0 row mx-0 mb-2 step_row">
-                  <div className="col-md-6 px-0">
-                    <label>Auction Length</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <select className="form-control" name="auction_length" onChange={this.updateProperty}>
-                      <option>Please select</option>
-                      {auction_lengths}
-                    </select>
-                  </div>
-                </div>
-                <div className="col-md-6 pr-0 row mx-0 mb-2 step_row">
-                  <div className="col-md-6 px-0">
-                    <label className= "col-md-12 px-0">Auction Start Date</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-
-                    <DatePicker className="form-control "
-                      selected={this.state.property.auction_started_at} minDate={new Date()}
-                      name="auction_started_at" onChange={this.updatePropertyAuctionStart}
-                    />
-                  </div>
-                </div>
-                <div className="col-md-6 pl-0 row mx-0 mb-2 step_row">
-                  <div className="col-md-6 px-0">
-                    <label className="col-md-12 px-0">Ideal Closing Date</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <DatePicker className="form-control "
-                      selected={this.state.property.auction_ending_at}
-                      minDate = {this.state.property.auction_started_at}
-                      onChange={this.updatePropertyAuctionEndingDate}
-                      name="auction_ending_at"
-                    />
-                  </div>
-                </div>
-                <div className="col-md-6 pr-0 row mx-0 mb-2 step_row">
-                  <div className="col-md-6 px-0">
-                    <label htmlFor="sel2">Buy options</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <MultiSelect
-                      options={buy_options}
-                      selectSomeItmes = "select"
-                      selected={this.state.property.buy_option}
-                      onSelectedChanged={selected => {this.setState({property: {...this.state.property, buy_option: selected}})}}
-                    />
-                  </div>
-                </div>
-                <div className="col-md-6 row pl-0 mx-0 mb-2 step_row">
-                  <div className="col-md-6 px-0">
-                    <label>Title Status</label>
-                  </div>
-                  <div className="col-md-6 px-0">
-                    <input type="text" className="form-control" name="title_status" onChange={this.updateProperty} />
-                  </div>
-                </div>
-                <div className="col-md-12 row pl-0 mx-0 mb-2 step_row align-items-start">
-                  <div className="col-md-3 px-0">
-                    <label>Seller agrees to pay for?</label>
-                  </div>
-                  <div className="col-md-9 px-0">
-                    {seller_pay_types}
-                  </div>
-
-                </div>
-                <div className="col-md-12 row pl-0 mx-0 mb-2 step_row align-items-start">
-                  <div className="col-md-3 px-0">
-                    <label>Showing Instructions</label>
-                  </div>
-                  <div className="col-md-9 px-0">
-                    {show_instructions_types}
-                  </div>
-                </div>
-              </form>
-              <div className="col-md-12 text-center my-4">
-                <Link to="#" className="red-btn step-btn mr-3" onClick={this.backToStepTwo}>Go, Back</Link>
-                <Link to="#" className="red-btn step-btn" onClick={this.submitStepThree}>Continue</Link>
-              </div>
-            </div>
-            <div className="container creation-steps px-0 d-none" id= "step4">
-              <div className="row bs-wizard mb-4 mx-0" style={{'borderBottom':0}}>
-                <div className="col-xs-2 bs-wizard-step  complete">
-                  <div className="text-center bs-wizard-number">1</div>
-                  <div className="text-center bs-wizard-stepnum">PROPERTY DETAILS</div>
-                  <div className="progress">
-                    <div className="progress-bar"></div>
-                  </div>
-                  <Link className="bs-wizard-dot" to="#"></Link>
-                </div>
-                <div className="col-xs-2 bs-wizard-step  complete ">
-                  <div className="text-center bs-wizard-number">2</div>
-                  <div className="text-center bs-wizard-stepnum">DEAL ANALYSIS</div>
-                  <div className="progress">
-                    <div className="progress-bar"></div>
-                  </div>
-                  <Link className="bs-wizard-dot" to="#"></Link>
-                </div>
-                <div className="col-xs-2 bs-wizard-step  complete ">
-                  <div className="text-center bs-wizard-number">3</div>
-                  <div className="text-center bs-wizard-stepnum">AUCTION DETAILS</div>
-                  <div className="progress">
-                    <div className="progress-bar"></div>
-                  </div>
-                  <Link className="bs-wizard-dot" to="#"></Link>
-                </div>
-                <div className="col-xs-2 bs-wizard-step complete current ">
-                  <div className="text-center bs-wizard-number">4</div>
-                  <div className="text-center bs-wizard-stepnum">UPLOAD PHOTOS</div>
-                  <div className="progress">
-                    <div className="progress-bar"></div>
-                  </div>
-                  <Link to="#" className="bs-wizard-dot"></Link>
-                </div>
-              </div>
-              <div className="col-md-12 text-center pb-4">
-                <h6 className="step-number">step 4</h6>
-                <h4 className="step-name">Upload Photos and Videos</h4>
-              </div>
-              <form className="row mx-0 creation-forms">
-                <div className="col-md-6 step_row pl-0">
-                  <label>Select images associated with this property</label>
-                  <div className="custom-file">
-                    <input type="file" className="custom-file-input" name="images" onChange={this.imageSelectHandler} multiple={true}/>
-                    <label className="custom-file-label" htmlFor="customFile">Choose file</label>
-                  </div>
-                </div>
-                <div className="col-md-6 step_row pr-0">
-                  <div className="form-group">
-                    <label>Youtube URL</label>
-                    <input type="text" className="form-control" name="youtube_url" onChange={this.updateProperty}/>
-                  </div>
-                </div>
-                <div className="demo_images" >
-
-                  {this.state.property.images.length > 0 ?
-                    <>
-                      <DragDropContext onDragEnd={this.onDragEnd}>
-                        <Droppable droppableId="droppable" direction="horizontal">
-                          {(droppableProvided, droppableSnapshot) => (
-                            <>
-                              <div className="demo" ref={droppableProvided.innerRef} {...droppableProvided.droppableProps}>
-                                <div className="row mx-0">
-                                  <div className="upload-img-row">
-                                    {this.state.property.images.map((file,i) =>
-                                      <div key={i} className="col-md-2 px-2 my-2">
-                                        <Draggable  draggableId={i.toString()} index={i}>
-                                          {(draggableProvided, draggableSnapshot) => (
-                                            <div
-                                              ref={draggableProvided.innerRef}
-                                              {...draggableProvided.draggableProps}
-                                              {...draggableProvided.dragHandleProps}
-                                            >
-                                              <img src={file.src} className="img-thumbnail" alt={file.src} /><Link to="#" onClick = {(e) => {this.removeFile(file.id)}}  >x</Link>
-                                            </div>
-                                          )}
-                                        </Draggable>
-                                      </div>
-                                    )}
-                                    {droppableProvided.placeholder}
-                                  </div>
+                            <Link to="#" className="bs-wizard-dot"></Link>
+                          </div>
+                        </div>
+                        <div className="" id="step1" >
+                          <div className="col-md-12 text-center pb-4">
+                            <h4 className="step-name">Property Details</h4>
+                          </div>
+                          <form className="row mx-0 creation-forms">
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Property Address</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="text"  id="autocomplete-address" className={"form-control " + this.addErrorClass(this.state.property_address_error) } name="address" onChange={this.updateProperty}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>City</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_city_error) } name="city" onChange={this.updateProperty} value={this.state.property.city}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>State</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_state_error) } name="state" onChange={this.updateProperty} value={this.state.property.state}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Zip</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_zip_code_error) } maxLength="6" name="zip_code" onChange={this.updateProperty} onKeyPress={this.checkNumeric} value={this.state.property.zip_code}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Property Category</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <select className={"form-control " + this.addErrorClass(this.state.property_category_error) } name="category" onChange={this.updateProperty}>
+                                  {categories}
+                                </select>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Property Type</label>
+                              </div>
+                              <div className="col-md-6 px-1 text-right">
+                                <select className={"form-control " + this.addErrorClass(this.state.property_type_error) } name="p_type" onChange={this.updateProperty}>
+                                  {types}
+                                </select>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="bedrooms-input">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Bedrooms</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_bedrooms_error) } name="bedrooms" onChange={this.updateProperty}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="bathrooms-input">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Bathrooms</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_bathrooms_error) } name="bathrooms" onChange={this.updateProperty} />
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="garage-input">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Garage</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_garage_error) } name="garage" onChange={this.updateProperty} />
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="units-input">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Units</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_units_error) } name="units" onChange={this.updateProperty} />
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="stories-input">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Stories</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_stories_error) } name="stories" onChange={this.updateProperty} />
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="cap_rate-input">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Cap Rate</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_cap_rate_error) } name="cap_rate" onChange={this.updateProperty} />
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="area-input">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Square Footage</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_area_error) } name="area" onChange={this.updateProperty}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="lot-input">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Lot</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_lot_size_error) } name="lot_size" onChange={this.updateProperty} onKeyPress={this.checkDecimalNumeric}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="year-built-input">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Year Built</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_year_built_error) } name="year_built" onChange={this.updateProperty} onKeyPress={this.checkNumeric} maxLength="4"/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="price_per_sq_ft-input">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Price Per SqFt</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_price_per_sq_ft_error) } name="price_per_sq_ft" onChange={this.updateProperty} />
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Property Headliner</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_headliner_error) } name="headliner" onChange={this.updateProperty}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Property Description</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <textarea className={"form-control textarea_step textarea-resize " + this.addErrorClass(this.state.property_description_error) } rows="2" id="comment" name="description" onChange={this.updateProperty}></textarea>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Is this property on MLS?</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <select className="form-control" defaultValue="false" name="mls_available" onChange={this.updateProperty}>
+                                  <option value="true">Yes</option>
+                                  <option value="false">No</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Did Property Flooded?</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <select className="form-control" defaultValue="false" name="flooded" onChange={this.updateProperty}>
+                                  <option value="true">Yes</option>
+                                  <option value="false">No</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="flood_count-input">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>If Flooded</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <textarea disabled id="flood_count_input" placeholder="How many times and how high did the water get inside the property each time." className={"form-control textarea_step textarea-resize " + this.addErrorClass(this.state.property_flood_count_error) } rows="2" name="flood_count" onChange={this.updateProperty}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>I'm selling the property as</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <select className={"form-control " + this.addErrorClass(this.state.property_owner_category_error)} name="owner_category" onChange={this.updateProperty}>
+                                  {owner_categories}
+                                </select>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Title Status:</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <select className={"form-control " + this.addErrorClass(this.state.property_title_status_error)} name="title_status" onChange={this.updateProperty}>
+                                  {title_statuses}
+                                </select>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Title Additional Information</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <textarea className={"form-control textarea-resize " + this.addErrorClass(this.state.property_additional_information_error) } rows="2" placeholder="Please advise any title issues that may prevent this property from closing?" name="additional_information" onChange={this.updateProperty}></textarea>
+                              </div>
+                            </div>
+                          </form>
+                          <div className="col-md-12 text-center my-4">
+                            <Link to="#" className="red-btn step-btn mx-1" onClick={this.submitStepOne}>Continue</Link>
+                          </div>
+                        </div>
+                        <div className="d-none" id="step2">
+                          <div className="col-md-12 text-center pb-4">
+                            <h4 className="step-name">Deal Analysis</h4>
+                          </div>
+                          <form className="col-md-10 offset-md-1">
+                            <div className="form-group col-md-10 offset-md-1 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Type of Deal</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <select className="form-control" name="deal_analysis_type" onChange={this.updateProperty} defaultValue={this.state.property.deal_analysis_type === "Rehab & Flip Deal" ? "Rehab & Flip Deal" : "Landlord Deal"}>
+                                  <option value="Rehab & Flip Deal">Rehab & Flip Deal</option>
+                                  <option value="Landlord Deal">Landlord Analysis</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div className={this.checkRehabDeal()}>
+                              <div className="form-group col-md-10 offset-md-1 px-0 row step_row">
+                                <div className="col-md-6 px-1 text-right">
+                                  <label>Estimated After Rehab Value(ARV)</label>
+                                </div>
+                                <div className="col-md-6 px-1">
+                                  <input type="number" name="after_rehab_value" className={"form-control " + this.addErrorClass(this.state.property_after_rehab_value_error) } onChange={this.updateProperty} value={this.state.property.after_rehab_value}/>
                                 </div>
                               </div>
-                            </>
-                          )}
-                        </Droppable>
-                      </DragDropContext>
-                    </>
-                  : <div></div>
-                  }
+                              <div className="form-group col-md-10 offset-md-1 px-0 row step_row">
+                                <div className="col-md-6 px-1 text-right">
+                                  <label>Sellers Asking Price <span className="font-sign">(-)</span></label>
+                                </div>
+                                <div className="col-md-6 px-1">
+                                  <input type="number" className={"form-control " + this.addErrorClass(this.state.property_asking_price_error) } id="temp_id" name="asking_price" value={this.state.property.asking_price} onChange={this.updateProperty} />
+                                </div>
+                              </div>
+                              <div className="form-group col-md-10 offset-md-1 px-0 row step_row">
+                                <div className="col-md-6 px-1 text-right">
+                                  <label>Estimated Rehab Cost <span className="font-sign">(-)</span></label>
+                                </div>
+                                <div className="col-md-6 px-1">
+                                  <input type="number" readOnly={true} className={"form-control estimated-cost " + this.addErrorClass(this.state.property_estimated_rehab_cost_error) } name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} onClick={() => {this.setState({
+                                    estimated_cost_modal: true
+                                  });}}/>
+                                </div>
+                              </div>
+                              <div className="form-group col-md-10 offset-md-1 px-0 row step_row">
+                                <div className="col-md-6 px-1 text-right">
+                                  <label>Estimated Profit Potential <span className="font-sign">(=)</span></label>
+                                </div>
+                                <div className="col-md-6 px-1">
+                                  <input type="number" name="profit_potential" className="form-control" onChange={this.updateProperty} value={this.state.property.profit_potential} readOnly={true} />
+                                </div>
+                              </div>
+                            </div>
+                            <div className = {this.checkLandordDeal()}>
+                              <div className="row mx-0">
+                                <div className="col-md-6 my-3 px-0">
+                                  <h5 className="text-uppercase font-red step_heads">Acquisition Analysis</h5>
+                                  <div className="row mx-0 step_row">
+                                    <div className="col-md-6 my-2 px-0">
+                                      <label className="text-uppercase">EST AFTER REHAB VALUE</label>
+                                    </div>
+                                    <div className="col-md-6 my-2 pl-0">
+                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_after_rehab_value_error) } value={this.state.property.after_rehab_value} name="after_rehab_value" onChange={this.updateProperty} />
+                                    </div>
+                                    <div className="col-md-12 px-0">
+                                      <h6 className="text-uppercase font-red font-600">Acquisition Cost</h6>
+                                      <ul className="est_box">
+                                        <li className="my-2">
+                                          <div className="est_list">
+                                            <label className="labels_main">Asking/Purchase Price: </label>
+                                            <input type="number" className={"form-control " + this.addErrorClass(this.state.property_asking_price_error) } value={this.state.property.asking_price} name="asking_price" onChange={this.updateProperty}/>
+                                          </div>
+                                        </li>
+                                        <li className="my-2">
+                                          <div className="est_list">
+                                            <label className="labels_main">Est Rehab Cost: </label>
+                                            <input type="number" readOnly={true} className={"form-control estimated-cost " + this.addErrorClass(this.state.property_asking_price_error) }  name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} onClick={() => {this.setState({
+                                              estimated_cost_modal: true
+                                            });}}/>
+                                          </div>
+                                        </li>
+                                        <li className="my-2">
+                                          <div className="est_list">
+                                            <label className="labels_main">Est Closing Cost: </label>
+                                            <input type="number" className={"form-control " + this.addErrorClass(this.state.property_closing_cost_error) } name="closing_cost" onChange={this.updateProperty}/>
+                                          </div>
+                                        </li>
+                                        <li className="my-2">
+                                          <div className="est_list">
+                                            <label className="labels_main">Est Annual Insurance: </label>
+                                            <input type="number" onChange={this.updateProperty} className={"form-control " + this.addErrorClass(this.state.property_insurance_annually_error) } name="insurance_annually" value={this.state.property.insurance_annually} />
+                                          </div>
+                                        </li>
+                                        <li className="my-2">
+                                          <div className="est_list">
+                                            <label className="labels_main">Est Hard Money or STF Cost: </label>
+                                            <input type="number" className={"form-control " + this.addErrorClass(this.state.property_short_term_financing_cost_error) } value={this.state.property.short_term_financing_cost} name="short_term_financing_cost" onChange={this.updateProperty}/>
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                    <div className="col-md-6 px-0">
+                                      <label className="label-bold">Total Acquisition Costs</label>
+                                    </div>
+                                    <div className="col-md-6 pl-0">
+                                      <input type="number" value={this.state.property.total_acquisition_cost} readOnly={true} className="form-control" name="total_acquisition_cost"/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 my-3 px-0">
+                                  <h5 className="text-uppercase font-red step_heads step_fonts">Financing Analysis After rehab</h5>
+                                  <div className="row mx-0 step_row">
+                                    <div className="col-md-6 my-2 row mx-0">
+                                      <input type="number" className={"form-control col-md-4 " + this.addErrorClass(this.state.property_amount_financed_percentage_error) } name="amount_financed_percentage" onChange={this.updateProperty} value={this.state.property.amount_financed_percentage} />
+                                      <input type="number" readOnly={true} value={this.state.property.amount_financed} className="form-control col-md-7 offset-md-1" name="amount_financed" />
+                                    </div>
+                                    <div className="col-md-6 px-0 my-2">
+                                      <label className="text-uppercase">amount financed</label>
+                                    </div>
+                                    <div className="col-md-6 my-2">
+                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_interest_rate_error) } name="interest_rate" value={this.state.property.interest_rate} onChange={this.updateProperty}/>
+                                    </div>
+                                    <div className="col-md-6 my-2 px-0">
+                                      <label className="labels_main">Interest Rate APR</label>
+                                    </div>
+                                    <div className="col-md-6 my-2">
+                                      <input type="number" value={this.state.property.loan_terms} className={"form-control " + this.addErrorClass(this.state.property_loan_terms_error) } name="loan_terms" onChange={this.updateProperty}/>
+                                    </div>
+                                    <div className="col-md-6 my-2 px-0">
+                                      <label className="labels_main">Loan Term</label>
+                                    </div>
+                                    <div className="col-md-6 my-2">
+                                      <input type="number" readOnly={true} value={this.state.property.principal_interest} className="form-control" name="principal_interest" />
+                                    </div>
+                                    <div className="col-md-6 my-2 px-0">
+                                      <label className="labels_main">Monthly Principal &amp; Interest</label>
+                                    </div>
+                                    <div className="col-md-6 my-2">
+                                      <input type="number" readOnly={true} value={this.state.property.annual_debt} className="form-control" name="annual_debt"/>
+                                    </div>
+                                    <div className="col-md-6 px-0 my-2">
+                                      <label className="labels_main">Annual Debt Service</label>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 my-3 px-0">
+                                  <h5 className="text-uppercase font-red step_heads">Expense Analysis</h5>
+                                  <div className="row mx-0 step_row">
+                                    <div className="col-md-6 my-2 px-0">
+                                      <label className="labels_main">Est Annual taxes</label>
+                                    </div>
+                                    <div className="col-md-6 my-2 pl-0">
+                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_taxes_annually_error) } name="taxes_annually" onChange={this.updateProperty}/>
+                                    </div>
+                                    <div className="col-md-6 my-2 px-0">
+                                      <label className="labels_main">Est Annual Insurance</label>
+                                    </div>
+                                    <div className="col-md-6 my-2 pl-0">
+                                      <input type="number" onChange={this.updateProperty} className={"form-control " + this.addErrorClass(this.state.property_insurance_annually_error) } name="insurance_annually" value={this.state.property.insurance_annually} />
+                                    </div>
+                                    <div className="col-md-6 my-2 px-0">
+                                      <label className="labels_main">Est Annual Management Fees</label>
+                                    </div>
+                                    <div className="col-md-6 my-2 pl-0">
+                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_est_annual_management_fees_error) } name="est_annual_management_fees" onChange={this.updateProperty}/>
+                                    </div>
+                                    <div className="col-md-6 my-2 px-0">
+                                      <label className="labels_main">Est Annual Repair</label>
+                                    </div>
+                                    <div className="col-md-6 my-2 pl-0">
+                                      <input type="number" value={this.state.property.est_annual_operating_fees_others} className={"form-control " + this.addErrorClass(this.state.property_est_annual_operating_fees_others_error) } name="est_annual_operating_fees_others" onChange={this.updateProperty}/>
+                                    </div>
+                                    <div className="col-md-6 my-2 px-0">
+                                      <label className="labels_main">Est Annual Operating Costs</label>
+                                    </div>
+                                    <div className="col-md-6 my-2 pl-0">
+                                      <input type="number" className="form-control" readOnly={true} value={this.state.property.est_annual_operating_fees} name="est_annual_operating_fees" onChange={this.updateProperty} />
+                                    </div>
+                                  </div>
+                                  <div className="col-md-12 mt-4 px-0">
+                                    <h6 className="text-uppercase font-red font-600">Income or Cash Flow Analysis</h6>
+                                  </div>
+                                  <div className="row mx-0 step_row">
+                                    <div className="col-md-6 my-2 px-0">
+                                      <label className="labels_main">Total EST Monthly Rent</label>
+                                    </div>
+                                    <div className="col-md-6 my-2 pl-0">
+                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_monthly_rent_error) } name="monthly_rent" onChange={this.updateProperty}/>
+                                    </div>
+                                    <div className="col-md-6 my-2 px-0">
+                                      <label className="labels_main">Total Gross Yearly Income</label>
+                                    </div>
+                                    <div className="col-md-6 my-2 pl-0">
+                                      <input type="number" readOnly={true} value={this.state.property.total_gross_yearly_income} className="form-control" name="total_gross_yearly_income"/>
+                                    </div>
+                                    <div className="col-md-6 my-2 px-0">
+                                      <label className="labels_main">Est Vacancy Rate</label>
+                                    </div>
+                                    <div className="col-md-6 my-2 pl-0">
+                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_vacancy_rate_error) } name="vacancy_rate" value={this.state.property.vacancy_rate} onChange={this.updateProperty}/>
+                                    </div>
+                                    <div className="col-md-6 my-2 px-0">
+                                      <label className="labels_main label-bold">ADJ Gross Yearly Income</label>
+                                    </div>
+                                    <div className="col-md-6 my-2 pl-0">
+                                      <input type="number" readOnly={true} value={this.state.property.adjusted_gross_yearly_income} className="form-control" name="adjusted_gross_yearly_income"/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 my-3 px-0">
+                                  <h5 className="text-uppercase font-red step_heads step_fonts">Cash Flow Analysis</h5>
+                                  <div className="row mx-0 step_row">
+                                    <div className="col-md-6 my-2 row mx-0">
+                                      <input type="number" readOnly={true} value={this.state.property.adjusted_gross_yearly_income} className="form-control" name="adjusted_gross_yearly_income"/>
+                                    </div>
+                                    <div className="col-md-6 px-0 my-2">
+                                      <label className="labels_main">(+) Adjusted Gross Yearly Income</label>
+                                    </div>
+                                    <div className="col-md-6 my-2">
+                                      <input type="number" className="form-control " readOnly={true} value={this.state.property.est_annual_operating_fees} name="est_annual_operating_fees" onChange={this.updateProperty} />
+                                    </div>
+                                    <div className="col-md-6 px-0 my-2">
+                                      <label className="labels_main">(-) Est Annual Operating Costs</label>
+                                    </div>
+                                    <div className="col-md-6 my-2">
+                                      <input type="number" readOnly={true} value={this.state.property.net_operating_income} className="form-control" name="net_operating_income" />
+                                    </div>
+                                    <div className="col-md-6 px-0 my-2">
+                                      <label className="labels_main label-bold">(=) Net Operating Income (NOI)</label>
+                                    </div>
+                                    <div className="col-md-6 my-2">
+                                      <input type="number" readOnly={true} value={this.state.property.annual_debt} className="form-control" name="annual_debt"/>
+                                    </div>
+                                    <div className="col-md-6 px-0 my-2">
+                                      <label className="labels_main">(-) Annual Debt Service</label>
+                                    </div>
+                                    <div className="col-md-6 my-2">
+                                      <input type="number" readOnly={true} value={this.state.property.annual_cash_flow} className="form-control" name="annual_cash_flow"/>
+                                    </div>
+                                    <div className="col-md-6 px-0 my-2">
+                                      <label className="labels_main label-bold">(=) Annual Cash Flow</label>
+                                    </div>
+                                  </div>
+                                  <div className="col-md-12 mt-4">
+                                    <h6 className="text-uppercase font-red font-600">Bottom Line</h6>
+                                  </div>
+                                  <div className="row mx-0 step_row bottom_box">
+                                    <div className="col-md-6 my-2">
+                                      <input type="number" readOnly={true} value={this.state.property.monthly_cash_flow} className="form-control" name="monthly_cash_flow"/>
+                                    </div>
+                                    <div className="col-md-6 my-2 px-0">
+                                      <label className="labels_main">Monthly Cash Flow</label>
+                                    </div>
+                                    <div className="col-md-6 my-2">
+                                      <input type="number" readOnly={true} className="form-control" value={this.state.property.total_out_of_pocket} name="total_out_of_pocket"/>
+                                    </div>
+                                    <div className="col-md-6 my-2 px-0">
+                                      <label className="labels_main">Total Out of Pocket</label>
+                                    </div>
+                                    <div className="col-md-6 my-2">
+                                      <input type="number" readOnly={true} className="form-control" value={this.state.property.roi_cash_percentage} name="roi_cash_percentage"/>
+                                    </div>
+                                    <div className="col-md-6 my-2 px-0">
+                                      <label className="label-bold">ROI Cash On Cash</label>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                          </form>
+                          <table className={this.checkLandordDeal() + " table table-bordered mb-5 col-md-10 offset-md-1"} id="step_table">
+                            <thead>
+                              <tr>
+                                <th>Appreciation</th>
+                                <th>Equality Growth 30 Years</th>
+                                <th>Total</th>
+                                <th>Cash Flow 30 Years</th>
+                                <th>Total</th>
+                                <th>Vac/Maint</th>
+                                <th>Possible Profit 30 Years</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>1.00%</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                              <tr>
+                                <td>2.00%</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                              <tr>
+                                <td>3.00%</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                              <tr>
+                                <td>4.00%</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <form className="creation-forms sell_forms">
+                            <div className={ this.checkLandordDeal() + " form-group col-md-8 offset-md-2 px-0 row step_row align-items-start"}>
+                              <div className="col-md-6 px-1 text-right">
+                                <label>How did you determine your Rental Cost or Upload Proof?</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <textarea className={"form-control textarea-resize " + this.addErrorClass(this.state.property_rental_description_error) } name="rental_description" onChange={this.updateProperty}/>
+                              </div>
+                              <div className="col-md-6 offset-md-6 px-1 mt-2">
+                                <div className="custom-file">
+                                  <input type="file" className="custom-file-input" name="rental_proof" onChange={this.fileSelectHandler}/>
+                                  <label className={"custom-file-label " + this.addErrorClass(this.state.property_rental_proof_error) } htmlFor="customFile">Choose file</label>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>How did you determine your ARV (After Rehab Value) or Upload Proof?</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <textarea className={"form-control textarea-resize " + this.addErrorClass(this.state.property_arv_analysis_error) } name="arv_analysis" onChange={this.updateProperty}/>
+                              </div>
+                              <div className="col-md-6 offset-md-6 px-1 mt-2">
+                                <div className="custom-file">
+                                  <input type="file" className="custom-file-input" name="arv_proof" onChange={this.fileSelectHandler}/>
+                                  <label className={"custom-file-label " + this.addErrorClass(this.state.property_arv_proof_error) } htmlFor="customFile">Choose file</label>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Description of Repairs or upload Estimated Rehab Cost</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <textarea type="text" className={"form-control textarea-resize " + this.addErrorClass(this.state.property_description_of_repair_error) } id="description-of-repairs" name="description_of_repairs" onChange={this.updateProperty}/>
+                              </div>
+                              <div className="col-md-6 offset-md-6 px-1 mt-2">
+                                <div className="custom-file">
+                                  <input type="file" className="custom-file-input" name="rehab_cost_proof" onChange={this.fileSelectHandler}/>
+                                  <label className={"custom-file-label " + this.addErrorClass(this.state.property_rehab_cost_proof_error) } htmlFor="customFile">Choose file</label>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                          <div className="col-md-12 text-center my-4">
+                            <Link to="#" onClick={this.backToStepOne} className="red-btn step-btn mx-1">Go, Back</Link>
+                            <Link to="#" onClick={this.submitStepTwo} className="red-btn step-btn mx-1">Continue</Link>
+                          </div>
+                          <Modal className="status_modal" show={this.state.estimated_cost_modal} onHide={this.hideModal}>
+                            <Modal.Header closeButton>
+                              <div className=" offset-md-1 col-md-10 text-center">
+                                <h5 className="mb-0 text-uppercase">Itemized Repairs</h5>
+                              </div>
+                            </Modal.Header>
+                            <div className="modal-body">
+                              <div className="row mx-0">
+                                <div className="col-md-12 px-0">
+                                  <h6>Please enter estimated rehab numbers or enter a ballpark at the bottom.</h6>
+                                </div>
+                                <div className="col-md-6 pl-0">
+                                  <div className="form-group">
+                                    <label>Roof</label>
+                                    <input value={this.state.property.estimated_rehab_cost_attr.roof} type="number" className="form-control" name="roof" onChange={this.updatePropertyRehabCostAttr} />
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pr-0">
+                                  <div className="form-group">
+                                    <label>Plumbing</label>
+                                    <input type="number" name="plumbing" className="form-control" value={this.state.property.estimated_rehab_cost_attr.plumbing} onChange={this.updatePropertyRehabCostAttr} />
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pl-0">
+                                  <div className="form-group">
+                                    <label>Foundation</label>
+                                    <input type="number" name="foundation" value={this.state.property.estimated_rehab_cost_attr.foundation} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pr-0">
+                                  <div className="form-group">
+                                    <label>Kitchen</label>
+                                    <input type="number" name="kitchen" value={this.state.property.estimated_rehab_cost_attr.kitchen}  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pl-0">
+                                  <div className="form-group">
+                                    <label>Siding</label>
+                                    <input type="number" name="siding" value={this.state.property.estimated_rehab_cost_attr.siding} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pr-0">
+                                  <div className="form-group">
+                                    <label>Bathrooms</label>
+                                    <input type="name" name="bathrooms" value={this.state.property.estimated_rehab_cost_attr.bathrooms} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pl-0">
+                                  <div className="form-group">
+                                    <label>Windows</label>
+                                    <input type="number" name="windows" value={this.state.property.estimated_rehab_cost_attr.windows}  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pr-0">
+                                  <div className="form-group">
+                                    <label>Doors</label>
+                                    <input type="number" name="doors" value={this.state.property.estimated_rehab_cost_attr.doors} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pl-0">
+                                  <div className="form-group">
+                                    <label>Landscaping</label>
+                                    <input type="number" name="landscaping" value={this.state.property.estimated_rehab_cost_attr.landscaping} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pr-0">
+                                  <div className="form-group">
+                                    <label>Sheetrock</label>
+                                    <input type="number" name= "sheetrock" value={this.state.property.estimated_rehab_cost_attr.sheetrock} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pl-0">
+                                  <div className="form-group">
+                                    <label>Garage</label>
+                                    <input type="number" name= "garage" value={this.state.property.estimated_rehab_cost_attr.garage} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pr-0">
+                                  <div className="form-group">
+                                    <label>Trim</label>
+                                    <input type="number" name="trim" value={this.state.property.estimated_rehab_cost_attr.trim} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pl-0">
+                                  <div className="form-group">
+                                    <label>Exterior Paint</label>
+                                    <input type="number" name="exterior_paint" value={this.state.property.estimated_rehab_cost_attr.exterior_paint} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pr-0">
+                                  <div className="form-group">
+                                    <label>Flooring</label>
+                                    <input type="number" name="flooring" value={this.state.property.estimated_rehab_cost_attr.flooring} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pl-0">
+                                  <div className="form-group">
+                                    <label>Interior Paint</label>
+                                    <input type="number" name="interior_paint" value={this.state.property.estimated_rehab_cost_attr.interior_paint} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pr-0">
+                                  <div className="form-group">
+                                    <label>Trash</label>
+                                    <input type="number" name="trash" value={this.state.property.estimated_rehab_cost_attr.trash} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pl-0">
+                                  <div className="form-group">
+                                    <label>HVAC</label>
+                                    <input type="number" name="hvac" value={this.state.property.estimated_rehab_cost_attr.hvac} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pr-0">
+                                  <div className="form-group">
+                                    <label>Misc</label>
+                                    <input type="number" name="misc" value={this.state.property.estimated_rehab_cost_attr.misc} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pl-0">
+                                  <div className="form-group">
+                                    <label>Electrical</label>
+                                    <input type="number" name="electrical" className="form-control" value={this.state.property.estimated_rehab_cost_attr.electrical} onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-6 pr-0">
+                                  <div className="form-group">
+                                    <label>Others</label>
+                                    <input type="number" name="others" className="form-control" value={this.state.property.estimated_rehab_cost_attr.others} onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 px-0">
+                                  <div className="form-group">
+                                    <label>Estimated Ballpark</label>
+                                    <input type="number" name="estimated_ballpark" value={this.state.property.estimated_rehab_cost_attr.estimated_ballpark} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 px-0">
+                                  <div className="form-group">
+                                    <label>Repair Total</label>
+                                    <input type="number" value={this.state.property.estimated_rehab_cost_attr.repair_total} readOnly={true} name="repair_total" className="form-control" />
+                                  </div>
+                                </div>
+
+                              </div>
+                              <div className="col-md-12 text-center mt-3">
+                                <span className="error"></span>
+                                <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.hideModal}>Close</button>
+                              </div>
+                            </div>
+                          </Modal>
+                        </div>
+                        <div className="d-none" id="step3">
+                          <div className="col-md-12 text-center pb-4">
+                            <h4 className="step-name">Online Bidding Options</h4>
+                          </div>
+                          <form className="row mx-0 creation-forms">
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Enable Best Offer Features</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <select className="form-control" onChange={this.updateProperty} defaultValue={this.state.property.best_offer} name="best_offer" >
+                                  <option value={false}>No</option>
+                                  <option value={true}>Yes</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>{this.state.property.best_offer === "true" ? "Best Offer Start Date" : "Online Bidding/Auction Start Date"}</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <div className="input-group mb-0">
+                                  <DatePicker className={"form-control " + this.addErrorClass(this.state.property_auction_started_at_error) }
+                                    selected={this.state.property.auction_started_at} minDate={new Date()}
+                                    name="auction_started_at" onChange={this.updatePropertyAuctionStart}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Best Offer Time Frame</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <select className={"form-control " + this.addErrorClass(this.state.property_best_offer_length_error) } defaultValue={this.state.property.best_offer_length} name="best_offer_length" onChange={this.updateProperty}>
+                                  <option>Please select</option>
+                                  {auction_lengths}
+                                </select>
+                              </div>
+                            </div>
+                            <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Sellers Minimum Starting Price</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_minimum_price_error) } name="best_offer_sellers_minimum_price" onChange={this.updateProperty}/>
+                              </div>
+                            </div>
+                            <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Sellers Reserve Price</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_reserve_price) } name="best_offer_sellers_reserve_price" onChange={this.updateProperty}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Online Bidding/Auction Time Frame</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <select className={"form-control " + this.addErrorClass(this.state.property_auction_length_error) } defaultValue={this.state.property.auction_length} name="auction_length" onChange={this.updateProperty}>
+                                  <option>Please select</option>
+                                  {auction_lengths}
+                                </select>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Sellers Minimum Starting Price</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_seller_price_error) } name="seller_price" onChange={this.updateProperty}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Sellers Buy Now Price</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_buy_now_price_error) } name="buy_now_price" onChange={this.updateProperty}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row mt-4">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Ideal Closing Date</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <div className="input-group mb-0">
+                                  <DatePicker className={"form-control " + this.addErrorClass(this.state.property_auction_ending_at_error) }
+                                    selected={this.state.property.auction_ending_at}
+                                    minDate = {this.state.property.auction_started_at}
+                                    onChange={this.updatePropertyAuctionEndingDate}
+                                    name="auction_ending_at"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Options to Buy<span className="font-sign">*</span></label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <MultiSelect
+                                  options={buy_options}
+                                  selectSomeItmes = "select"
+                                  selected={this.state.property.buy_option}
+                                  onSelectedChanged={selected => {this.setState({property: {...this.state.property, buy_option: selected}})}}
+                                />
+
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Showing Option</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <select className={"form-control " + this.addErrorClass(this.state.property_show_instructions_type_id_error) } defaultValue={parseInt(this.state.property.show_instructions_type_id) ? parseInt(this.state.property.show_instructions_type_id) : ""} name="show_instructions_type_id" onChange={this.updateProperty}>
+                                  <option>Please Select</option>
+                                  {show_instructions_types}
+                                </select>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Showing Instructions</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <textarea className={"form-control " + this.addErrorClass(this.state.property_show_instructions_text_error) } rows="3" placeholder="Please give details where the combo box is located and what's the combo code." onChange={this.updateProperty} name="show_instructions_text"></textarea>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Open House Dates</label>
+                              </div>
+                              <div className="col-md-4 px-1">
+                                <div className="input-group mb-0">
+                                  {open_house_dates}
+                                </div>
+                              </div>
+                              <div className="col-md-2 px-2">
+                                <Link to="#" className="add_links" onClick={this.addOpenHouseDateFields}>
+                                  <i className="fa fa-plus-circle"></i>
+                                  <p className="mb-0">Add More</p>
+                                </Link>
+                                <Link to="#" className="add_links" onClick={this.removeOpenHouseDateFields}>
+                                  <i className="fa fa-plus-circle"></i>
+                                  <p className="mb-0">Del More</p>
+                                </Link>
+                              </div>
+                            </div>
+                          </form>
+                          <div className="col-md-12 text-center my-4">
+                            <Link to="#" onClick={this.backToStepTwo} className="red-btn step-btn mx-1">Go, Back</Link>
+                            <Link to="#" onClick={this.submitStepThree} className="red-btn step-btn mx-1">Continue</Link>
+                          </div>
+                        </div>
+                        <div className="d-none" id="step4">
+                          <div className="col-md-12 text-center pb-4">
+                            <h4 className="step-name">Property Photos and Videos</h4>
+                          </div>
+                          <form className="row mx-0 creation-forms">
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Upload Photos</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <div className="custom-file files_box">
+                                  <input type="file" className="custom-file-input" name="images" onChange={this.imageSelectHandler} multiple={true} accept="image/*"/>
+                                  <label className="custom-file-label" htmlFor="customFile">Drag & Drop Images Here</label>
+                                </div>
+                              </div>
+                              <div className="demo_images" >
+
+                                {this.state.property.images.length > 0 ?
+                                  <>
+                                    <DragDropContext onDragEnd={this.onDragEnd}>
+                                      <Droppable droppableId="droppable" direction="horizontal">
+                                        {(droppableProvided, droppableSnapshot) => (
+                                          <>
+                                            <div className="demo" ref={droppableProvided.innerRef} {...droppableProvided.droppableProps}>
+                                              <div className="row mx-0">
+                                                <div className="upload-img-row">
+                                                  {this.state.property.images.map((file,i) =>
+                                                    <div key={i} className="col-md-2 px-2 my-2">
+                                                      <Draggable  draggableId={i.toString()} index={i}>
+                                                        {(draggableProvided, draggableSnapshot) => (
+                                                          <div
+                                                            ref={draggableProvided.innerRef}
+                                                            {...draggableProvided.draggableProps}
+                                                            {...draggableProvided.dragHandleProps}
+                                                          >
+                                                            <img src={file.src} className="img-thumbnail" alt={file.src} /><Link to="#" onClick = {(e) => {this.removeFile(file.id)}}  >x</Link>
+                                                          </div>
+                                                        )}
+                                                      </Draggable>
+                                                    </div>
+                                                  )}
+                                                  {droppableProvided.placeholder}
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </>
+                                        )}
+                                      </Droppable>
+                                    </DragDropContext>
+                                  </>
+                                : <div></div>
+                                }
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Youtube Link</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="text" className="form-control" name="youtube_url" onChange={this.updateProperty}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Vimeo Link</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="text" className="form-control" name="vimeo_url" onChange={this.updateProperty}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Dropbox Link</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <input type="text" className="form-control" name="dropbox_url" onChange={this.updateProperty}/>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Upload Videos</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <div className="custom-file files_box">
+                                  <input type="file" id= "user_profile_image_input" className="custom-file-input" name="video" onChange={this.videoSelectHandler} accept="video/*"/>
+                                  <label className="custom-file-label" htmlFor="customFile">Drag & Drop Video Here</label>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                          <div className="col-md-12 text-center my-4">
+                            <Link to="#" onClick={this.backToStepThree} className="red-btn step-btn mx-1">Go, Back</Link>
+                            <Link to="#" onClick={this.submitStepFour} className="red-btn step-btn mx-1">Continue</Link>
+                          </div>
+                        </div>
+                        <div className="d-none" id="step5">
+                          <div className="col-md-12 text-center pb-4">
+                            <h4 className="step-name">Auction Participation Agreement required to post a property</h4>
+                          </div>
+                          <form className="row mx-0 creation-forms">
+                            <div className="col-md-12">
+                              <div className="terms_agree">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                              </div>
+                            </div>
+                            <div className="col-md-12 text-center">
+                              <div className="form-check">
+                                <input type="checkbox" name="terms_agreed" className="form-check-input" id="exampleCheck1" onChange={this.updateTermsAgreed}/>
+                                <label className="form-check-label" htmlFor="exampleCheck1">I agree to the website <Link to="#" className="font-blue">terms and coditions</Link></label>
+                              </div>
+                            </div>
+                          </form>
+                          <div className="col-md-12 text-center my-4">
+                            <Link to="#" onClick={this.backToStepFour} className="red-btn step-btn mx-1">Go, Back</Link>
+                            <Link to="#" className="red-btn step-btn mx-1" onClick={this.saveDraftProperty}>Save As Draft</Link>
+                            {
+                              this.state.terms_agreed === true ?
+                                <Link to="#" onClick={this.submitProperty} className="red-btn step-btn mx-1 disbabled">Submit</Link>
+                              :
+                              <Link to="#" className="red-btn step-btn mx-1 btn-disabled">Submit</Link>
+                            }
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </form>
-              <div className="col-md-12 text-center my-4">
-                <Link to="#" className="red-btn step-btn mr-2" onClick={this.backToStepThree}>Go, Back</Link>
-                <Link to="#" className="red-btn step-btn mr-2" onClick={this.saveDraft}>Save as a draft</Link>
-                <Link to="#" className="red-btn step-btn" onClick={this.submitStepFour}>Submit</Link>
               </div>
             </div>
           </div>
