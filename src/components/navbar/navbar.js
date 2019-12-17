@@ -166,7 +166,7 @@ export default class Navbar extends Component{
                 </li>
                 <li className="nav-item dropdown">
                   {
-                    localStorage.getItem("auction_user_token")
+                    (this.state.logged_in === true && this.state.is_admin === false)
                       ?
                         <Link to='/user/property/new' className="nav-link" data-toggle="dropdown">Sell </Link>
                       :
@@ -176,7 +176,7 @@ export default class Navbar extends Component{
                 <li className="nav-item dropdown">
                   <a className="nav-link" href="/" data-toggle="dropdown">Help </a>
                 </li>
-
+                
                 <li className="nav-item">
                   <a className="nav-link" href="/">
                     About us
