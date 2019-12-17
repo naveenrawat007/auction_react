@@ -3724,3 +3724,7 @@ a.next{
 a.add_links{
   text-decoration: none;
 }
+
+.react-datepicker-popper{
+  width: 350px;
+}

@@ -22,7 +22,7 @@ const initial_state = {
     last_name: "",
     email: "",
     password: "",
-    phone: "",
+    phone_number: "",
     confirm_password: "",
   },
   property: {
@@ -1561,10 +1561,27 @@ export default class NewProperty extends Component{
       return "error-class"
     }
   }
+  ownerCategoryText = (text) => {
+    if (text){
+      switch (text) {
+        case "Owner":
+          return "The Owner"
+        case "Wholesaler":
+          return "A Wholesaler who has equitable interest in this property"
+        case "Realtor":
+          return "A Realtor who has a listing agreement that allows me to auction my clients property"
+        default:
+          return""
+      }
+    }
+  }
 	render() {
     const open_house_dates = this.state.property.open_house_dates.map((value, index) => {
       return <DatePicker key ={index} className="form-control mb-1" minDate={new Date()}
-        selected={value} onChange={this.updatePropertyOpenHouseDates.bind(this, index)}/>;
+        selected={value} onChange={this.updatePropertyOpenHouseDates.bind(this, index)} showTimeSelect
+        timeFormat="HH:mm"
+        timeIntervals={15}
+             dateFormat="M/d/yyyy h:mm aa"/>;
     })
     const buy_options = this.state.property_options.buy_options.map((value, index) => ({
       value: value,
@@ -1587,7 +1604,7 @@ export default class NewProperty extends Component{
     })
     const owner_categories = this.state.property_options.owner_categories.map((value, index) => {
       return(
-        <option key={index} value={value} >{value}</option>
+        <option key={index} value={value} >{this.ownerCategoryText(value)}</option>
       )
     })
     const title_statuses = this.state.property_options.title_statuses.map((value, index) => {
@@ -2713,7 +2730,7 @@ export default class NewProperty extends Component{
                                   <label>Phone</label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="text" name="phone" onKeyPress={this.checkNumeric} maxLength="10" onChange={this.updateUser} className={"form-control " + this.addErrorClass(this.state.user_phone_number_error) } />
+                                  <input type="text" name="phone_number" onKeyPress={this.checkNumeric} maxLength="10" onChange={this.updateUser} className={"form-control " + this.addErrorClass(this.state.user_phone_number_error) } />
                                 </div>
                               </div>
                               <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
