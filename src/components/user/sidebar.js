@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Profile from './profile.js'
 import { faList, faCreditCard, faHome, faPlusCircle, faHeart, faEnvelopeOpenText, faSignOutAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
-import NewProperty from './property/new'
+// import NewProperty from './property/new'
 import ListProperty from './property/index'
 
 export default class Sidebar extends Component{
@@ -76,7 +76,8 @@ export default class Sidebar extends Component{
       case 'user_profile':
         return <Profile onImageChange={this.changeImage}/>;
       case 'new_property':
-        return <NewProperty/>;
+        break;
+        // return <NewProperty/>;
       case 'property_list':
         return <ListProperty/>;
       default:
