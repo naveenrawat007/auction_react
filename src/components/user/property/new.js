@@ -423,7 +423,57 @@ export default class UserNewProperty extends Component{
         }
 
       }else {
-        this.goToStepTwo()
+        if (this.state.property.category === "Residential"){
+          if (this._isMounted){
+            this.setState({
+              property: {
+              ...this.state.property,
+              residential_attributes: {
+                bedrooms: this.state.property.bedrooms,
+                bathrooms: this.state.property.bathrooms,
+                garage: this.state.property.garage,
+                area: this.state.property.area,
+                lot_size: this.state.property.lot_size,
+                year_built: this.state.property.year_built,
+              }
+              }
+            }, function () {
+              this.updateStepOne()
+            });
+          }
+        }else if (this.state.property.category === "Commercial") {
+          if (this._isMounted){
+            this.setState({
+              property: {
+              ...this.state.property,
+              commercial_attributes: {
+                area: this.state.property.area,
+                lot_size: this.state.property.lot_size,
+                year_built: this.state.property.year_built,
+                units: this.state.property.units,
+                stories: this.state.property.stories,
+                cap_rate: this.state.property.cap_rate,
+              }
+              }
+            }, function () {
+              this.updateStepOne()
+            });
+          }
+        }else if (this.state.property.category === "Land") {
+          if (this._isMounted){
+            this.setState({
+              property: {
+              ...this.state.property,
+              land_attributes: {
+                lot_size: this.state.property.lot_size,
+                price_per_sq_ft: this.state.property.price_per_sq_ft,
+              }
+              }
+            }, function () {
+              this.updateStepOne()
+            });
+          }
+        }
       }
 
     }
@@ -452,6 +502,74 @@ export default class UserNewProperty extends Component{
           this.setState({
             created: true
           });
+          this.setState({
+            property: {
+            ...this.state.property,
+            id: result.property.id,
+            }
+          });
+        }
+        this.goToStepTwo();
+      }else if (result.status === 401) {
+        localStorage.removeItem("auction_user_token");
+        window.location.href = "/login"
+      }else {
+        if (this._isMounted){
+          this.setState({loaded: true, message: result.message,
+          variant: "danger"});
+        }
+      }
+      this.clearMessageTimeout = setTimeout(() => {
+        if (this._isMounted){
+          this.setState(() => ({message: ""}))
+        }
+      }, 2000);
+		}, (error) => {
+		});
+  }
+  updateStepOne = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties"
+    const fd = new FormData();
+    fd.append('property[id]', this.state.property.id)
+    fd.append('property[address]', this.state.property.address)
+    fd.append('property[city]', this.state.property.city)
+    fd.append('property[state]', this.state.property.state)
+    fd.append('property[zip_code]', this.state.property.zip_code)
+    fd.append('property[category]', this.state.property.category)
+    fd.append('property[p_type]', this.state.property.p_type)
+    fd.append('property[headliner]', this.state.property.headliner)
+    fd.append('property[description]', this.state.property.description)
+    fd.append('property[mls_available]', this.state.property.mls_available)
+    fd.append('property[flooded]', this.state.property.flooded)
+    fd.append('property[flood_count]', this.state.property.flood_count)
+    fd.append('property[owner_category]', this.state.property.owner_category)
+    fd.append('property[title_status]', this.state.property.title_status)
+    fd.append('property[additional_information]', this.state.property.additional_information)
+    if ((this.state.property.category === "Residential")&&(this.state.property.residential_attributes)){
+      fd.append('property[residential_attributes]', JSON.stringify(this.state.property.residential_attributes))
+    }
+    else if ((this.state.property.category === "Commercial")&&(this.state.property.commercial_attributes)) {
+      fd.append('property[commercial_attributes]', JSON.stringify(this.state.property.commercial_attributes))
+    }else if ((this.state.property.category === "Land")&&(this.state.property.land_attributes)) {
+      fd.append('property[land_attributes]', JSON.stringify(this.state.property.land_attributes))
+    }
+  	fetch(url ,{
+			method: "PUT",
+			headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			},
+			body: fd,
+		}).then(res => res.json())
+    .then((result) => {
+      if (result.status === 200) {
+        if (this._isMounted){
           this.setState({
             property: {
             ...this.state.property,
