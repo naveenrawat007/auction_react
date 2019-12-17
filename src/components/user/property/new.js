@@ -10,6 +10,7 @@ import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 // import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 
 const initial_state = {
+  isloaded: false,
   estimated_cost_modal: false,
   terms_agreed: false,
   created: false,
@@ -332,6 +333,7 @@ export default class UserNewProperty extends Component{
             }
           });
           this.setState({
+            isLoaded: true,
             property: {
             ...this.state.property,
             p_type: result.residential_types[0],
@@ -369,6 +371,9 @@ export default class UserNewProperty extends Component{
   submitStepOne = () => {
     let formIsValid = this.stepOneValidation();
     if (formIsValid){
+      this.setState({
+        isLoaded: false
+      });
       if (this.state.created !== true){
         if (this.state.property.category === "Residential"){
           if (this._isMounted){
@@ -500,6 +505,7 @@ export default class UserNewProperty extends Component{
       if (result.status === 200) {
         if (this._isMounted){
           this.setState({
+            isLoaded: true,
             created: true
           });
           this.setState({
@@ -515,7 +521,7 @@ export default class UserNewProperty extends Component{
         window.location.href = "/login"
       }else {
         if (this._isMounted){
-          this.setState({loaded: true, message: result.message,
+          this.setState({isloaded: true, message: result.message,
           variant: "danger"});
         }
       }
@@ -641,7 +647,7 @@ export default class UserNewProperty extends Component{
     fd.append('property[vimeo_url]', this.state.property.vimeo_url)
     fd.append('property[dropbox_url]', this.state.property.dropbox_url)
     for (let i = 0 ; i < this.state.property.images.length ; i++) {
-      fd.append('property[images][]', this.state.property.images[i].file, this.state.property.images[i].name)
+      fd.append('images[]', this.state.property.images[i].file, this.state.property.images[i].name)
     }
     if (this.state.property.video){
       fd.append("video", this.state.property.video, this.state.property.video.name)
@@ -663,12 +669,15 @@ export default class UserNewProperty extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 200) {
+        this.setState({
+          isLoaded: true,
+        });
         this.goToStepFive()
       }else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
       }else {
-        this.setState({loaded: true, message: result.message,
+        this.setState({isLoaded: true, message: result.message,
         variant: "danger"});
       }
       this.clearMessageTimeout = setTimeout(() => {
@@ -744,13 +753,16 @@ export default class UserNewProperty extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 200) {
+        this.setState({
+          isLoaded: true,
+        });
         this.goToStepThree();
       }else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
       }else {
         if (this._isMounted){
-          this.setState({loaded: true, message: result.message,
+          this.setState({isLoaded: true, message: result.message,
           variant: "danger"});
         }
       }
@@ -766,6 +778,9 @@ export default class UserNewProperty extends Component{
   submitStepFour =() => {
     let formIsValid = true
     if (formIsValid){
+      this.setState({
+        isLoaded: false,
+      });
       this.sendStepFourData()
     }
   }
@@ -789,6 +804,9 @@ export default class UserNewProperty extends Component{
   submitStepTwo = () => {
     let formIsValid = this.stepTwoValidation();
     if (formIsValid){
+      this.setState({
+        isLoaded: false,
+      });
       this.sendStepTwoData();
     }
   }
@@ -1000,6 +1018,9 @@ export default class UserNewProperty extends Component{
   submitStepThree = () => {
     let formIsValid = true;
     if (formIsValid){
+      this.setState({
+        isLoaded: false,
+      });
       this.sendStepThreeData();
     }
   }
@@ -1036,13 +1057,16 @@ export default class UserNewProperty extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 200) {
+        this.setState({
+          isLoaded: true,
+        });
         this.goToStepFour();
       }else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
       }else {
         if (this._isMounted){
-          this.setState({loaded: true, message: result.message,
+          this.setState({isLoaded: true, message: result.message,
           variant: "danger"});
         }
       }
@@ -1461,6 +1485,14 @@ export default class UserNewProperty extends Component{
       open_house_dates: dates,
       }
     })
+  }
+  videoSelectHandler = (event) => {
+    this.setState({
+      property:{
+        ...this.state.property,
+        video: event.target.files[0]
+      }
+    });
   }
   removeOpenHouseDateFields = () => {
     let i=this.state.property.open_house_dates.length
@@ -2052,7 +2084,16 @@ export default class UserNewProperty extends Component{
                             <Link to="#" className="bs-wizard-dot"></Link>
                           </div>
                         </div>
-                        <div className="" id="step1" >
+                        <div className="steps-parts" id="step1" >
+                          {this.state.isLoaded === true ?
+                            null
+                          :
+                          <div className="spinner_main">
+                            <div className="spinner-grow" role="status">
+                              <span className="sr-only">Loading...</span>
+                            </div>
+                          </div>
+                          }
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Property Details</h4>
                           </div>
@@ -2268,7 +2309,16 @@ export default class UserNewProperty extends Component{
                             <Link to="#" className="red-btn step-btn mx-1" onClick={this.submitStepOne}>Continue</Link>
                           </div>
                         </div>
-                        <div className="d-none" id="step2">
+                        <div className="steps-parts d-none" id="step2">
+                          {this.state.isLoaded === true ?
+                            null
+                          :
+                          <div className="spinner_main">
+                            <div className="spinner-grow" role="status">
+                              <span className="sr-only">Loading...</span>
+                            </div>
+                          </div>
+                          }
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Deal Analysis</h4>
                           </div>
@@ -2790,7 +2840,16 @@ export default class UserNewProperty extends Component{
                             </div>
                           </Modal>
                         </div>
-                        <div className="d-none" id="step3">
+                        <div className="steps-parts d-none" id="step3">
+                          {this.state.isLoaded === true ?
+                            null
+                          :
+                          <div className="spinner_main">
+                            <div className="spinner-grow" role="status">
+                              <span className="sr-only">Loading...</span>
+                            </div>
+                          </div>
+                          }
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Online Bidding Options</h4>
                           </div>
@@ -2947,7 +3006,16 @@ export default class UserNewProperty extends Component{
                             <Link to="#" onClick={this.submitStepThree} className="red-btn step-btn mx-1">Continue</Link>
                           </div>
                         </div>
-                        <div className="d-none" id="step4">
+                        <div className="steps-parts d-none" id="step4">
+                          {this.state.isLoaded === true ?
+                            null
+                          :
+                          <div className="spinner_main">
+                            <div className="spinner-grow" role="status">
+                              <span className="sr-only">Loading...</span>
+                            </div>
+                          </div>
+                          }
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Property Photos and Videos</h4>
                           </div>
@@ -3042,7 +3110,16 @@ export default class UserNewProperty extends Component{
                             <Link to="#" onClick={this.submitStepFour} className="red-btn step-btn mx-1">Continue</Link>
                           </div>
                         </div>
-                        <div className="d-none" id="step5">
+                        <div className="steps-parts d-none" id="step5">
+                          {this.state.isLoaded === true ?
+                            null
+                          :
+                          <div className="spinner_main">
+                            <div className="spinner-grow" role="status">
+                              <span className="sr-only">Loading...</span>
+                            </div>
+                          </div>
+                          }
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Auction Participation Agreement required to post a property</h4>
                           </div>
