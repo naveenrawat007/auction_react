@@ -977,7 +977,7 @@ export default class UserNewProperty extends Component{
     //   }
     // });
     var uploaded_files = event.target.files;
-    var files = [];
+    var files = this.state.property.images;
 
     for (var i = 0; i < uploaded_files.length; i++) {
       files.push({src: URL.createObjectURL(uploaded_files[i]), id: i,name: uploaded_files[i].name, file: uploaded_files[i]})

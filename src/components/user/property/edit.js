@@ -946,7 +946,7 @@ export default class PropertyEdit extends Component{
     //   }
     // });
     var uploaded_files = event.target.files;
-    var files = [];
+    var files = this.state.property.images;
 
     for (var i = 0; i < uploaded_files.length; i++) {
       files.push({src: URL.createObjectURL(uploaded_files[i]), id: i,name: uploaded_files[i].name, file: uploaded_files[i]})
@@ -2043,7 +2043,6 @@ export default class PropertyEdit extends Component{
   }
 
 	render() {
-    console.log(`1.${this.state.property.profit_potential}`);
     const open_house_dates = this.state.property.open_house_dates.map((value, index) => {
       return (
         <DatePicker key ={index} className="form-control mb-1" selected={value ? new Date(value) : new Date()} onChange={this.updatePropertyOpenHouseDates.bind(this, index)} showTimeSelect timeFormat="HH:mm" timeIntervals={15} dateFormat="M/d/yyyy h:mm aa"/>);
@@ -3016,7 +3015,7 @@ export default class PropertyEdit extends Component{
                                 <label>Best Offer Time Frame</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className={"form-control " + this.addErrorClass(this.state.property_best_offer_length_error) } value={this.state.property.best_offer_length} name="best_offer_length" onChange={this.updateProperty}>
+                                <select className={"form-control " + this.addErrorClass(this.state.property_best_offer_length_error) } value={this.state.property.best_offer_length ? this.state.property.best_offer_length : ""} name="best_offer_length" onChange={this.updateProperty}>
                                   <option>Please select</option>
                                   {auction_lengths}
                                 </select>
@@ -3027,7 +3026,7 @@ export default class PropertyEdit extends Component{
                                 <label>Sellers Minimum Starting Price</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_minimum_price_error) } name="best_offer_sellers_minimum_price" value={this.state.property.best_offer_sellers_minimum_price} onChange={this.updateProperty}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_minimum_price_error) } name="best_offer_sellers_minimum_price" value={this.state.property.best_offer_sellers_minimum_price ? this.state.property.best_offer_sellers_minimum_price : ""} onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
@@ -3035,7 +3034,7 @@ export default class PropertyEdit extends Component{
                                 <label>Sellers Reserve Price</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_reserve_price) } name="best_offer_sellers_reserve_price" value={this.state.property.best_offer_sellers_reserve_price} onChange={this.updateProperty}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_reserve_price) } name="best_offer_sellers_reserve_price" value={this.state.property.best_offer_sellers_reserve_price ? this.state.property.best_offer_sellers_reserve_price : ""} onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">

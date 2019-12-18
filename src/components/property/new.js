@@ -1455,7 +1455,7 @@ export default class NewProperty extends Component{
     //   }
     // });
     var uploaded_files = event.target.files;
-    var files = [];
+    var files = this.state.property.images;
 
     for (var i = 0; i < uploaded_files.length; i++) {
       files.push({src: URL.createObjectURL(uploaded_files[i]), id: i,name: uploaded_files[i].name, file: uploaded_files[i]})
@@ -1689,7 +1689,7 @@ export default class NewProperty extends Component{
                             <Link to="#" className="bs-wizard-dot"></Link>
                           </div>
                         </div>
-                        <div className="d-none" id="step1" >
+                        <div className="" id="step1" >
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Property Details</h4>
                           </div>
@@ -1905,7 +1905,7 @@ export default class NewProperty extends Component{
                             <Link to="#" className="red-btn step-btn mx-1" onClick={this.goToStepTwo}>Continue</Link>
                           </div>
                         </div>
-                        <div className="" id="step2">
+                        <div className="d-none" id="step2">
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Deal Analysis</h4>
                           </div>
