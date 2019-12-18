@@ -342,6 +342,7 @@ export default class PropertyEdit extends Component{
         auction_ending_at: property.auction_ending_at,
         open_house_dates: property.open_house_dates,
         vimeo_url: property.vimeo_url,
+        youtube_url: property.youtube_url,
         dropbox_url: property.dropbox_url,
         id: property.id,
         title_status: property.title_status,
