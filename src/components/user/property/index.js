@@ -204,7 +204,7 @@ export default class ListProperty extends Component{
             </div>
             <div className="col-md-2 pl-2 pr-3 py-2">
               <div className="properties-btn">
-                <Link to="#" className="font-blue">Edit Property</Link>
+                <Link to={"/user/property/" + property.id + "/edit"} className="font-blue">Edit Property</Link>
                 <Link to="#" className="font-blue">Mark as Pending</Link>
                 <Link to="#" className="font-blue">Update Docs</Link>
                 <Link to="#" className="font-blue">Update Photo</Link>
