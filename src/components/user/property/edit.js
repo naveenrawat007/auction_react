@@ -328,26 +328,27 @@ export default class PropertyEdit extends Component{
         owner_category: property.owner_category,
         additional_information: property.additional_information,
         best_offer: property.best_offer,
+        profit_potential: property.profit_potential,
         best_offer_length: property.best_offer_length,
         best_offer_sellers_minimum_price: property.best_offer_sellers_minimum_price,
         best_offer_sellers_reserve_price: property.best_offer_sellers_reserve_price,
         seller_price: property.seller_price,
         buy_now_price: property.buy_now_price,
+        buy_option: property.buy_option,
+        show_instructions_type_id: property.show_instructions_type_id,
+        show_instructions_text:  property.show_instructions_text,
         auction_started_at: property.auction_started_at,
         auction_length: property.auction_length,
         auction_ending_at: property.auction_ending_at,
-        show_instructions_text: property.show_instructions_text,
         open_house_dates: property.open_house_dates,
         vimeo_url: property.vimeo_url,
         dropbox_url: property.dropbox_url,
-        video: property.address,
         id: property.id,
         title_status: property.title_status,
         deal_analysis_type: property.deal_analysis_type,
         after_rehab_value: property.after_rehab_value,
         asking_price: property.asking_price,
         estimated_rehab_cost: property.estimated_rehab_cost,
-        profit_potential: property.profit_potential,
         estimated_rehab_cost_attr: property.estimated_rehab_cost_attr,
         arv_analysis: property.arv_analysis,
         description_of_repairs: property.description_of_repairs,
@@ -552,7 +553,6 @@ export default class PropertyEdit extends Component{
       if (result.status === 200) {
         if (this._isMounted){
           this.updateCurrentState(result.property);
-          console.log(result);
           this.goToStepTwo();
         }
 
@@ -1498,7 +1498,7 @@ export default class PropertyEdit extends Component{
   }
 
   checkBestOffer = () => {
-    if (this.state.property.best_offer === "true"){
+    if (String(this.state.property.best_offer) === "true"){
       return "";
     }else {
       return "d-none";
@@ -2042,6 +2042,7 @@ export default class PropertyEdit extends Component{
   }
 
 	render() {
+    console.log(`1.${this.state.property.profit_potential}`);
     const open_house_dates = this.state.property.open_house_dates.map((value, index) => {
       return (
         <DatePicker key ={index} className="form-control mb-1" selected={value ? new Date(value) : new Date()} onChange={this.updatePropertyOpenHouseDates.bind(this, index)} showTimeSelect timeFormat="HH:mm" timeIntervals={15} dateFormat="M/d/yyyy h:mm aa"/>);
@@ -2998,7 +2999,7 @@ export default class PropertyEdit extends Component{
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
-                                <label>{this.state.property.best_offer === "true" ? "Best Offer Start Date" : "Online Bidding/Auction Start Date"}</label>
+                                <label>{String(this.state.property.best_offer) === "true" ? "Best Offer Start Date" : "Online Bidding/Auction Start Date"}</label>
                               </div>
                               <div className="col-md-6 px-1">
                                 <div className="input-group mb-0">
@@ -3024,7 +3025,6 @@ export default class PropertyEdit extends Component{
                               <div className="col-md-6 px-1 text-right">
                                 <label>Sellers Minimum Starting Price</label>
                               </div>
-                              {console.log(this.state.property.best_offer_sellers_minimum_price)}
                               <div className="col-md-6 px-1">
                                 <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_minimum_price_error) } name="best_offer_sellers_minimum_price" value={this.state.property.best_offer_sellers_minimum_price} onChange={this.updateProperty}/>
                               </div>
@@ -3034,7 +3034,7 @@ export default class PropertyEdit extends Component{
                                 <label>Sellers Reserve Price</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_reserve_price) } name="best_offer_sellers_reserve_price" onChange={this.updateProperty}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_reserve_price) } name="best_offer_sellers_reserve_price" value={this.state.property.best_offer_sellers_reserve_price} onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -3042,7 +3042,7 @@ export default class PropertyEdit extends Component{
                                 <label>Online Bidding/Auction Time Frame</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className={"form-control " + this.addErrorClass(this.state.property_auction_length_error) } defaultValue={this.state.property.auction_length} name="auction_length" onChange={this.updateProperty}>
+                                <select className={"form-control " + this.addErrorClass(this.state.property_auction_length_error) } value={this.state.property.auction_length} name="auction_length" onChange={this.updateProperty}>
                                   <option>Please select</option>
                                   {auction_lengths}
                                 </select>
@@ -3053,7 +3053,7 @@ export default class PropertyEdit extends Component{
                                 <label>Sellers Minimum Starting Price</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_seller_price_error) } name="seller_price" onChange={this.updateProperty}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_seller_price_error) } name="seller_price"  value={this.state.property.seller_price} onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -3061,7 +3061,7 @@ export default class PropertyEdit extends Component{
                                 <label>Sellers Buy Now Price</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_buy_now_price_error) } name="buy_now_price" onChange={this.updateProperty}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_buy_now_price_error) } name="buy_now_price" onChange={this.updateProperty} value={this.state.property.buy_now_price}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row mt-4">
@@ -3098,7 +3098,7 @@ export default class PropertyEdit extends Component{
                                 <label>Showing Option</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className={"form-control " + this.addErrorClass(this.state.property_show_instructions_type_id_error) } defaultValue={parseInt(this.state.property.show_instructions_type_id) ? parseInt(this.state.property.show_instructions_type_id) : ""} name="show_instructions_type_id" onChange={this.updateProperty}>
+                                <select className={"form-control " + this.addErrorClass(this.state.property_show_instructions_type_id_error) } value={this.state.property.show_instructions_type_id} name="show_instructions_type_id" onChange={this.updateProperty}>
                                   <option>Please Select</option>
                                   {show_instructions_types}
                                 </select>
@@ -3109,7 +3109,7 @@ export default class PropertyEdit extends Component{
                                 <label>Showing Instructions</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <textarea className={"form-control " + this.addErrorClass(this.state.property_show_instructions_text_error) } rows="3" placeholder="Please give details where the combo box is located and what's the combo code." onChange={this.updateProperty} name="show_instructions_text"></textarea>
+                                <textarea className={"form-control " + this.addErrorClass(this.state.property_show_instructions_text_error) } rows="3" placeholder="Please give details where the combo box is located and what's the combo code." onChange={this.updateProperty} value={this.state.property.show_instructions_text} name="show_instructions_text"></textarea>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -3206,7 +3206,7 @@ export default class PropertyEdit extends Component{
                                 <label>Youtube Link</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className="form-control" name="youtube_url" onChange={this.updateProperty}/>
+                                <input type="text" className="form-control" name="youtube_url" onChange={this.updateProperty} value={this.state.property.youtube_url}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -3214,7 +3214,7 @@ export default class PropertyEdit extends Component{
                                 <label>Vimeo Link</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className="form-control" name="vimeo_url" onChange={this.updateProperty}/>
+                                <input type="text" className="form-control" name="vimeo_url" onChange={this.updateProperty} value={this.state.property.vimeo_url}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -3222,7 +3222,7 @@ export default class PropertyEdit extends Component{
                                 <label>Dropbox Link</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className="form-control" name="dropbox_url" onChange={this.updateProperty}/>
+                                <input type="text" className="form-control" name="dropbox_url" onChange={this.updateProperty} value={this.state.property.dropbox_url}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
