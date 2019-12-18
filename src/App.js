@@ -13,6 +13,7 @@ import NewPassword from './components/login/new_password.js'
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import NewProperty from './components/property/new.js';
 import UserNewProperty from './components/user/property/new.js';
+import PropertyEdit from './components/user/property/edit.js';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route exact path="/property/new" component={NewProperty}/>
           <Route exact path="/user/property/" component={() => <Sidebar path='property_list'/>}/>
           <Route exact path="/user/property/new" component={UserNewProperty}/>
+          <Route exact path="/user/property/:id/edit" component={PropertyEdit}/>
           <Route exact path="/user/property/:id" component={PropertyShow}/>
           <Route exact path="/admin" component={() => <AdminSidebar path='all_users_list'/>}/>
           <Route exact path="/admin/property/under_review" component={() => <AdminSidebar path='under_review_property_list'/>}/>
