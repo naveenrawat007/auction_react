@@ -148,6 +148,7 @@ const initial_state = {
     types: [],
     categories: [],
     auction_lengths: [],
+    best_offer_lengths: [],
     seller_pay_types: [],
     show_instructions_types: [],
     buy_options: [],
@@ -687,6 +688,7 @@ export default class NewProperty extends Component{
               seller_pay_types: result.seller_pay_types,
               show_instructions_types: result.show_instructions_types,
               auction_lengths: result.auction_lengths,
+              best_offer_lengths: result.best_offer_lengths,
               buy_options: result.buy_options,
               title_statuses: result.title_statuses,
               owner_categories: result.owner_categories
@@ -1607,6 +1609,11 @@ export default class NewProperty extends Component{
         <option key={index} value={value} >{value} days</option>
       )
     })
+    const best_offer_lengths = this.state.property_options.best_offer_lengths.map((value, index) => {
+      return(
+        <option key={index} value={value} >{value} days</option>
+      )
+    })
     const categories = this.state.property_options.categories.map((value, index) => {
       return(
         <option key={index} value={value} >{value}</option>
@@ -2255,7 +2262,7 @@ export default class NewProperty extends Component{
 
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
                               <div className="col-md-6 px-1 text-right">
-                                <label>How did you determine your ARV (After Rehab Value) or Upload Proof?</label>
+                                <label>How did you determine your ARV (After Rehab Value)? or Upload Proof?</label>
                               </div>
                               <div className="col-md-6 px-1">
                                 <textarea className={"form-control textarea-resize " + this.addErrorClass(this.state.property_arv_analysis_error) } name="arv_analysis" onChange={this.updateProperty}/>
@@ -2560,7 +2567,7 @@ export default class NewProperty extends Component{
                               <div className="col-md-6 px-1">
                                 <select className={"form-control " + this.addErrorClass(this.state.property_best_offer_length_error) } defaultValue={this.state.property.best_offer_length} name="best_offer_length" onChange={this.updateProperty}>
                                   <option>Please select</option>
-                                  {auction_lengths}
+                                  {best_offer_lengths}
                                 </select>
                               </div>
                             </div>

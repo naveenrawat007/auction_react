@@ -6,8 +6,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import MultiSelect from "@khanacademy/react-multi-select";
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 // import Alert from 'react-bootstrap/Alert';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 
 const initial_state = {
   isloaded: false,
@@ -148,6 +148,7 @@ const initial_state = {
     types: [],
     categories: [],
     auction_lengths: [],
+    best_offer_lengths: [],
     seller_pay_types: [],
     show_instructions_types: [],
     buy_options: [],
@@ -326,6 +327,7 @@ export default class UserNewProperty extends Component{
               categories: result.categories,
               seller_pay_types: result.seller_pay_types,
               show_instructions_types: result.show_instructions_types,
+              best_offer_lengths: result.best_offer_lengths,
               auction_lengths: result.auction_lengths,
               buy_options: result.buy_options,
               title_statuses: result.title_statuses,
@@ -848,10 +850,6 @@ export default class UserNewProperty extends Component{
       property_estimated_rehab_cost_error = "can't be blank."
     }else if (isNaN(this.state.property.estimated_rehab_cost)) {
       property_estimated_rehab_cost_error = "error."
-    }
-    if ((this.state.property.rehab_cost_proof === null) && (this.state.property.description_of_repairs === "")){
-      property_rehab_cost_proof_error = "can't be blank."
-      property_description_of_repair_error = "error"
     }
     if ((this.state.property.arv_proof === null) && (this.state.property.arv_analysis === "")){
       property_arv_proof_error = "can't be blank."
@@ -2067,8 +2065,19 @@ export default class UserNewProperty extends Component{
       return "error-class"
     }
   }
-
+  checkTitleWarning = () => {
+    if (this.state.property.title_status === "Title not verified or open"){
+      return "";
+    }else {
+      return "d-none"
+    }
+  }
 	render() {
+    const best_offer_lengths = this.state.property_options.best_offer_lengths.map((value, index) => {
+      return(
+        <option key={index} value={value} >{value} days</option>
+      )
+    })
     const open_house_dates = this.state.property.open_house_dates.map((value, index) => {
       return <DatePicker key ={index} className="form-control mb-1" minDate={new Date()}
         selected={value} onChange={this.updatePropertyOpenHouseDates.bind(this, index)} showTimeSelect
@@ -2139,7 +2148,7 @@ export default class UserNewProperty extends Component{
                           </div>
                           <div className="col bs-wizard-step  disabled " id="step3h">
                             <div className="text-center bs-wizard-number">3</div>
-                            <div className="text-center bs-wizard-stepnum">AUCTION DETAILS</div>
+                            <div className="text-center bs-wizard-stepnum">ONLINE BIDDING</div>
                             <div className="progress">
                               <div className="progress-bar"></div>
                             </div>
@@ -2374,12 +2383,20 @@ export default class UserNewProperty extends Component{
                                 </select>
                               </div>
                             </div>
+                            <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkTitleWarning()}>
+                              <div className="offset-md-6 col-md-6 px-1 ">
+                                <div className="title-status-error">
+                                  <FontAwesomeIcon icon={faExclamationTriangle}/>
+                                  <p>Title needs to be open before you can submit property to make sure there's not any liens that would prevent you from selling property.</p>
+                                </div>
+                              </div>
+                            </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
                               <div className="col-md-6 px-1 text-right">
-                                <label>Title Additional Information</label>
+                                <label>Additional Title Information</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <textarea className={"form-control textarea-resize " + this.addErrorClass(this.state.property_additional_information_error) } rows="2" placeholder="Please advise any title issues that may prevent this property from closing?" name="additional_information" onChange={this.updateProperty}></textarea>
+                                <textarea className={"form-control textarea-resize " + this.addErrorClass(this.state.property_additional_information_error) } rows="2" placeholder="Please provide name of escrow officer, phone number and if there's any issues that may prevent this property from closing." name="additional_information" onChange={this.updateProperty}></textarea>
                               </div>
                             </div>
                           </form>
@@ -2720,7 +2737,7 @@ export default class UserNewProperty extends Component{
                           <form className="creation-forms sell_forms">
                             <div className={ this.checkLandordDeal() + " form-group col-md-8 offset-md-2 px-0 row step_row align-items-start"}>
                               <div className="col-md-6 px-1 text-right">
-                                <label>How did you determine your Rental Cost or Upload Proof?</label>
+                                <label>How did you determine your Rental Value? Or Upload Proof?</label>
                               </div>
                               <div className="col-md-6 px-1">
                                 <textarea className={"form-control textarea-resize " + this.addErrorClass(this.state.property_rental_description_error) } name="rental_description" onChange={this.updateProperty}/>
@@ -2735,7 +2752,7 @@ export default class UserNewProperty extends Component{
 
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
                               <div className="col-md-6 px-1 text-right">
-                                <label>How did you determine your ARV (After Rehab Value) or Upload Proof?</label>
+                                <label>How did you determine your ARV (After Rehab Value)? or Upload Proof?</label>
                               </div>
                               <div className="col-md-6 px-1">
                                 <textarea className={"form-control textarea-resize " + this.addErrorClass(this.state.property_arv_analysis_error) } name="arv_analysis" onChange={this.updateProperty}/>
@@ -3015,6 +3032,9 @@ export default class UserNewProperty extends Component{
                             <h4 className="step-name">Online Bidding Options</h4>
                           </div>
                           <form className="row mx-0 creation-forms">
+                            <div className="col-md-12 text-center step_row">
+                              <h6 className="font-red">BEST OFFER DEATILS</h6>
+                            </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Enable Best Offer Features</label>
@@ -3026,9 +3046,9 @@ export default class UserNewProperty extends Component{
                                 </select>
                               </div>
                             </div>
-                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                            <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
                               <div className="col-md-6 px-1 text-right">
-                                <label>{this.state.property.best_offer === "true" ? "Best Offer Start Date" : "Online Bidding/Auction Start Date"}</label>
+                                <label>Best Offer Start Date</label>
                               </div>
                               <div className="col-md-6 px-1">
                                 <div className="input-group mb-0">
@@ -3046,13 +3066,13 @@ export default class UserNewProperty extends Component{
                               <div className="col-md-6 px-1">
                                 <select className={"form-control " + this.addErrorClass(this.state.property_best_offer_length_error) } defaultValue={this.state.property.best_offer_length} name="best_offer_length" onChange={this.updateProperty}>
                                   <option>Please select</option>
-                                  {auction_lengths}
+                                  {best_offer_lengths}
                                 </select>
                               </div>
                             </div>
                             <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
                               <div className="col-md-6 px-1 text-right">
-                                <label>Sellers Minimum Starting Price</label>
+                                <label>Sellers Asking Price</label>
                               </div>
                               <div className="col-md-6 px-1">
                                 <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_minimum_price_error) } name="best_offer_sellers_minimum_price" onChange={this.updateProperty}/>
@@ -3060,10 +3080,26 @@ export default class UserNewProperty extends Component{
                             </div>
                             <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
                               <div className="col-md-6 px-1 text-right">
-                                <label>Sellers Reserve Price</label>
+                                <label>Sellers Buy Now Price</label>
                               </div>
                               <div className="col-md-6 px-1">
                                 <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_reserve_price) } name="best_offer_sellers_reserve_price" onChange={this.updateProperty}/>
+                              </div>
+                            </div>
+                            <div className="col-md-12 text-center step_row mt-4">
+                              <h6 className="font-red">LIVE ONLINE AUCTION DETAILS</h6>
+                            </div>
+                            <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + (this.state.property.best_offer === "false" ? "" : "d-none")}>
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Online Bidding/Auction Start Date</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <div className="input-group mb-0">
+                                  <DatePicker className={"form-control " + this.addErrorClass(this.state.property_auction_started_at_error) }
+                                    selected={this.state.property.auction_started_at} minDate={new Date()}
+                                    name="auction_started_at" onChange={this.updatePropertyAuctionStart}
+                                  />
+                                </div>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
