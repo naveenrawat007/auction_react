@@ -2924,54 +2924,73 @@ export default class NewProperty extends Component{
                           <form className="row mx-0 creation-forms">
                             <div className="col-md-12">
                               <div className="terms_agree">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p>In Order to post a property, you must check the appropriate box and upload proof you have a right to auction property.
+                                </p>
+                                <p>Then you must agree to the rest of the terms by checking the box before you can proceed to post a property</p>
+                                <h6>
+                                  Approve Terms & Conditions to Sell Property
+                                </h6>
+                                <ol>
+                                  <li>
+                                    <p>
+                                      You can only post a property if you own the property, have an option to buy property with right
+                                      to assign or are a Real estate agent who’s submitting a listing to auction.
+                                    </p>
+                                  </li>
+                                  <li>
+                                    <p>
+                                      My property can be bought at 65% to 85% ARV (after rehab value) – repairs or has good
+                                      monthly cash flow and/or 20% or higher ROI. <p className="font-red">(i) Check if your property is a good deal for a landlord below</p>
+                                    </p>
+                                  </li>
+                                  <li>
+                                    <p>
+                                      I understand that Bidders can bid below what I’m asking, so at the end of the bidding period I
+                                      can see if there’s any offers I’m willing to accept or negotiate with to get my deal SOLD.
+                                    </p>
+
+                                  </li>
+                                  <li>
+                                    <p>
+                                      I agree to accept the Highest and Best bid that is at or above my Asking Price when Auction ends or I can be banned from using this site.
+                                    </p>
+                                  </li>
+                                  <li>
+                                    <p>
+                                      I agree to use this marketing platform to get my Highest and Best price by advertising my
+                                      property link in all email blasts, Facebook posts and all other marketing I do to advertise my deal to as many investors as possible.
+                                    </p>
+
+                                  </li>
+                                  <li>
+                                    <p>
+                                      I agree to allow AuctionMyDeal.com to advertise my deal to their database of investors and
+                                      social media sites to give my property more visibility.
+                                    </p>
+
+                                  </li>
+                                  <li>
+                                    <p>
+                                      I agree to the best of my knowledge that there are no liens against this property that would
+                                      prevent property from selling at my Asking Price, minus closing costs and prorated
+                                      property Taxes and HOA fees up to the day of closing.
+                                    </p>
+
+                                  </li>
+                                  <li>
+                                    <p>
+                                      I have title open at an investor friendly title company, and the title is clear or working to get it cleared. <p className="font-red">(i) If you’re not committed to an investor friendly Title Company then we suggest Texas Title at 5300 Memorial Dr #460, Houston, Tx 77007 or Patton Title at 2500 W Loop South #500,
+                                        Houston, Tx 77027.
+                                      </p>
+                                    </p>
+
+                                  </li>
+                                  <li className="font-red">
+                                    <p className="font-red">
+                                      I recognize that AuctionMyDeal.com is a free site for me to use to get my properties sold for the Highest and Best Price and I promise to direct all buyers to make their offer on this site that will cost the Winning Bidder $197 paid as an internet transaction fee to AuctionMyDeal.com.
+                                    </p>
+                                  </li>
+                                </ol>
                               </div>
                             </div>
                             <div className="col-md-12 text-center">
