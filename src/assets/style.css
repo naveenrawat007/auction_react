@@ -784,6 +784,11 @@ button:focus {
   align-items: center;
 }
 
+.step_row h6 {
+  font-weight: 600;
+  font-size: 17px;
+}
+
 .step_row label {
   font-weight: 600;
   font-size: 15px;
@@ -3730,4 +3735,23 @@ a.add_links{
 }
 .steps-parts{
   position: relative;
+}
+
+.title-status-error{
+  display: flex;
+  padding: 4px;
+  align-items: center;
+  border: 1.3px solid red;
+}
+
+.title-status-error svg{
+  color: red;
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.title-status-error p{
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 0;
 }
