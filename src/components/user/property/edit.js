@@ -357,7 +357,7 @@ export default class PropertyEdit extends Component{
         dropbox_url: property.dropbox_url,
         id: property.id,
         title_status: property.title_status,
-        deal_analysis_type: property.deal_analysis_type,
+        deal_analysis_type: property.deal_analysis_type ? property.deal_analysis_type : this.state.property.deal_analysis_type,
         after_rehab_value: property.after_rehab_value,
         asking_price: property.asking_price,
         estimated_rehab_cost: property.estimated_rehab_cost,
@@ -3117,7 +3117,7 @@ export default class PropertyEdit extends Component{
                             <div className="col-md-12 text-center step_row mt-4">
                               <h6 className="font-red">LIVE ONLINE AUCTION DETAILS</h6>
                             </div>
-                            <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + (this.state.property.best_offer === "false" ? "" : "d-none")}>
+                            <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + (String(this.state.property.best_offer) === "false" ? "" : "d-none")}>
                               <div className="col-md-6 px-1 text-right">
                                 <label>Online Bidding/Auction Start Date</label>
                               </div>
