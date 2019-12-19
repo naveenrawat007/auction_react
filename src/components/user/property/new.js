@@ -8,6 +8,7 @@ import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 // import Alert from 'react-bootstrap/Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+import Select from 'react-select';
 
 const initial_state = {
   isloaded: false,
@@ -2072,7 +2073,29 @@ export default class UserNewProperty extends Component{
       return "d-none"
     }
   }
+  selected_show_instructions_types_options = () => {
+    const show_instructions_types_options = this.state.property_options.show_instructions_types.map((key, index) => ({
+      value: key.id,
+      label: key.description
+    }));
+    let value, label;
+    for (var i = 0; i < show_instructions_types_options.length; i++){
+      if (show_instructions_types_options[i].value === this.state.property.show_instructions_type_id){
+        value = show_instructions_types_options[i].value
+        label = show_instructions_types_options[i].label
+      }
+    }
+    if (value && label){
+      return {value: value, label: label}
+    }else {
+      return {label: "Select", value: ""}
+    }
+  }
 	render() {
+    const show_instructions_types_options = this.state.property_options.show_instructions_types.map((key, index) => ({
+      value: key.id,
+      label: key.description
+    }));
     const best_offer_lengths = this.state.property_options.best_offer_lengths.map((value, index) => {
       return(
         <option key={index} value={value} >{value} days</option>
@@ -3163,10 +3186,16 @@ export default class UserNewProperty extends Component{
                                 <label>Showing Option</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className={"form-control " + this.addErrorClass(this.state.property_show_instructions_type_id_error) } defaultValue={parseInt(this.state.property.show_instructions_type_id) ? parseInt(this.state.property.show_instructions_type_id) : ""} name="show_instructions_type_id" onChange={this.updateProperty}>
+                                {/* <select className={"form-control " + this.addErrorClass(this.state.property_show_instructions_type_id_error) } defaultValue={parseInt(this.state.property.show_instructions_type_id) ? parseInt(this.state.property.show_instructions_type_id) : ""} name="show_instructions_type_id" onChange={this.updateProperty}>
                                   <option>Please Select</option>
                                   {show_instructions_types}
-                                </select>
+                                </select> */}
+                                <Select
+                                  className="asdfghjkl"
+                                  options={show_instructions_types_options}
+                                  value={this.selected_show_instructions_types_options()}
+                                  onChange={e => {this.setState({property: {...this.state.property, show_instructions_type_id: e.value}});}}
+                                />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
