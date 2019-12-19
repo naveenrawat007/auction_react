@@ -224,6 +224,12 @@ export default class UnderReview extends Component{
 
   }
 
+  editProperty = () => {
+    if (this.state.selected_property){
+      window.location.href = "/user/property/"+ this.state.properties[this.state.selected_property].id +"/edit"
+    }
+  }
+
 	render() {
     const status_array = this.state.property_status_options.map((status, index) => {
       return(
@@ -288,7 +294,7 @@ export default class UnderReview extends Component{
               </div>
               <div className="col-md-5 offset-md-3 px-0 text-right">
                 <button className="btn red-btn admin-btns" type="button">View</button>&nbsp;
-                <button className="btn red-btn admin-btns" type="button">Edit</button>&nbsp;
+                <button className="btn red-btn admin-btns" onClick={this.editProperty} type="button">Edit</button>&nbsp;
                 <button className="btn red-btn admin-btns" type="button">Message</button>&nbsp;
                 <button className="btn red-btn admin-btns" type="button" onClick={this.openStatusModal}>Change Status</button>
               </div>

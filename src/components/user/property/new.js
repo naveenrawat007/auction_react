@@ -2137,11 +2137,11 @@ export default class UserNewProperty extends Component{
       value: value,
       label: value
     }))
-    const show_instructions_types = this.state.property_options.show_instructions_types.map((key, index) => {
-      return(
-        <option key={index} value={key.id} >{key.description}</option>
-      )
-    });
+    // const show_instructions_types = this.state.property_options.show_instructions_types.map((key, index) => {
+    //   return(
+    //     <option key={index} value={key.id} >{key.description}</option>
+    //   )
+    // });
 		return (
       <div className="profile-setting">
         <div className="container custom_container px-0">
@@ -3368,7 +3368,7 @@ export default class UserNewProperty extends Component{
                                   <li>
                                     <p>
                                       My property can be bought at 65% to 85% ARV (after rehab value) – repairs or has good
-                                      monthly cash flow and/or 20% or higher ROI. <p className="font-red">(i) Check if your property is a good deal for a landlord below</p>
+                                      monthly cash flow and/or 20% or higher ROI. <span className="font-red">(i) Check if your property is a good deal for a landlord below</span>
                                     </p>
                                   </li>
                                   <li>
@@ -3407,9 +3407,9 @@ export default class UserNewProperty extends Component{
                                   </li>
                                   <li>
                                     <p>
-                                      I have title open at an investor friendly title company, and the title is clear or working to get it cleared. <p className="font-red">(i) If you’re not committed to an investor friendly Title Company then we suggest Texas Title at 5300 Memorial Dr #460, Houston, Tx 77007 or Patton Title at 2500 W Loop South #500,
+                                      I have title open at an investor friendly title company, and the title is clear or working to get it cleared. <span className="font-red">(i) If you’re not committed to an investor friendly Title Company then we suggest Texas Title at 5300 Memorial Dr #460, Houston, Tx 77007 or Patton Title at 2500 W Loop South #500,
                                         Houston, Tx 77027.
-                                      </p>
+                                      </span>
                                     </p>
 
                                   </li>
