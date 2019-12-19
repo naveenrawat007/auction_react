@@ -781,7 +781,7 @@ export default class NewProperty extends Component{
 
   }
 
-  sendData = () => {
+  sendData = (draft="false") => {
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/register/properties"
     const fd = new FormData();
     fd.append('submit_type', this.state.submit_type)
@@ -825,6 +825,9 @@ export default class NewProperty extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 201) {
+        if(draft === "true"){
+          window.location.href = "/user/property/"+result.property.id
+        }
         this.setState({
           message: "",
           property: {
@@ -1335,7 +1338,7 @@ export default class NewProperty extends Component{
     document.getElementById('step6h').classList.remove('complete', "current")
     document.getElementById('step6h').classList.add('disabled')
   }
-  goToStepSix = () => {
+  goToStepSix = (draft="false") => {
     let isValid = this.stepFiveValidation()
     if (isValid){
       if (this.state.property.category === "Residential"){
@@ -1353,7 +1356,7 @@ export default class NewProperty extends Component{
             }
             }
           }, function () {
-            this.sendData();
+            this.sendData(draft);
           });
         }
       }else if (this.state.property.category === "Commercial") {
@@ -1371,7 +1374,7 @@ export default class NewProperty extends Component{
             }
             }
           }, function () {
-            this.sendData();
+            this.sendData(draft);
           });
         }
       }else if (this.state.property.category === "Land") {
@@ -1385,7 +1388,7 @@ export default class NewProperty extends Component{
             }
             }
           }, function () {
-            this.sendData();
+            this.sendData(draft);
           });
         }
       }
@@ -2914,6 +2917,7 @@ export default class NewProperty extends Component{
                           </div>
                           <div className="col-md-12 text-center my-4">
                             <Link to="#" onClick={this.backToStepFour} className="red-btn step-btn mx-1">Go, Back</Link>
+                            <Link to="#" className="red-btn step-btn mx-1" onClick={(e) => {this.goToStepSix("true")}}>Save As Draft</Link>
                             <Link to="#" onClick={this.goToStepSix} className="red-btn step-btn mx-1">Continue</Link>
                           </div>
                         </div>
