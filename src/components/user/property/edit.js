@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -472,7 +472,8 @@ export default class PropertyEdit extends Component{
       }else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
-      }else {
+      }else if (result.status === 404) {
+        window.location.href = "/"
         // this.setState({loaded: true, message: result.message,
         // variant: "danger"});
       }
@@ -3437,7 +3438,7 @@ export default class PropertyEdit extends Component{
                             <Link to="#" className="red-btn step-btn mx-1" onClick={this.saveDraftProperty}>Save As Draft</Link>
                             {
                               this.state.terms_agreed === true ?
-                                <Link to="#" onClick={this.submitProperty} className="red-btn step-btn mx-1 disbabled">Submit</Link>
+                                <Link to="#" onClick={this.submitProperty} className="red-btn step-btn mx-1 ">Submit</Link>
                               :
                               <Link to="#" className="red-btn step-btn mx-1 btn-disabled">Submit</Link>
                             }
