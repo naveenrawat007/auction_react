@@ -3796,10 +3796,10 @@ a.add_links{
 .show_inst .css-1okebmr-indicatorSeparator{
   display: none !important;
 }
-.show_inst .css-4ljt47-MenuList{
+.show_inst .css-26l3qy-menu{
   padding: 0 !important;
 }
-.show_inst .css-4ljt47-MenuList > div{
+.show_inst .css-26l3qy-menu > div > div{
   /* padding: 0 !important; */
   font-size: 0.85rem !important;
   font-weight: 500 !important;
