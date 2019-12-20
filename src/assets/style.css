@@ -2331,7 +2331,21 @@ input:checked+.slider:before {
   background-color: #b71c1c;
   color: #fff;
 }
-
+.repairs_modal .modal-body .form-group{
+  margin-bottom: 6px;
+  align-items: center;
+}
+.repairs_modal .modal-body .form-group label{
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+.repairs_modal .modal-body .modal-banner{
+  background-color: #ccc;
+  color: #fff;
+  font-weight: 500;
+  font-size: 16px;
+}
 .bid_modal .modal-dialog {
   max-width: 740px;
 }
