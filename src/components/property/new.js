@@ -18,7 +18,12 @@ const initial_state = {
   error: "",
   message: "",
   submit_type: "register",
+  verification_message: "",
+  open_verification_modal: false,
+  user_verification_error: "",
+  verified: false,
   user:{
+    verification_code: "",
     first_name: "",
     last_name: "",
     email: "",
@@ -706,8 +711,8 @@ export default class NewProperty extends Component{
             mls_available: false
             }
           });
+          this.checkForCategoryFields();
         }
-        this.checkForCategoryFields();
 
         // this.setState({
         //   variant: "success",
@@ -836,11 +841,17 @@ export default class NewProperty extends Component{
           }
         })
         localStorage.setItem("auction_user_token", result.user_token);
-        document.getElementById('step5').classList.add('d-none');
-        document.getElementById('step6').classList.remove('d-none');
-        window.scrollTo(0,0)
-        document.getElementById('step6h').classList.remove('disabled')
-        document.getElementById('step6h').classList.add('complete', "current")
+        if (result.user.is_verified !== true){
+          this.setState({
+            open_verification_modal: true
+          });
+        }else {
+          document.getElementById('step5').classList.add('d-none');
+          document.getElementById('step6').classList.remove('d-none');
+          window.scrollTo(0,0)
+          document.getElementById('step6h').classList.remove('disabled')
+          document.getElementById('step6h').classList.add('complete', "current")
+        }
       }else {
         this.setState({message: result.message,
         variant: "danger"});
@@ -850,6 +861,129 @@ export default class NewProperty extends Component{
       }, 2000);
 		}, (error) => {
 		});
+  }
+
+  resendVerificationCode = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/users/resend_code"
+  	fetch(url ,{
+			method: "put",
+			headers: {
+				"Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			}
+		}).then(res => res.json())
+    .then((result) => {
+      if (result.status === 208) {
+        if (this._isMounted){
+          this.setState({
+            verification_message: result.message,
+            variant: "success"
+          });
+        }
+      }
+		}, (error) => {
+		});
+  }
+  submitVerificationHandler = (event) => {
+    if (this._isMounted){
+  		event.preventDefault();
+      let formIsValid = this.checkVerificationFormValidation();
+      if (formIsValid){
+        this.submitForm()
+      }
+    }
+  }
+  submitForm = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/users/verify"
+  	fetch(url ,{
+			method: "put",
+			headers: {
+				"Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			},
+			body: JSON.stringify({verification_code: this.state.user.verification_code}),
+		}).then(res => res.json())
+    .then((result) => {
+      if (result.status === 201) {
+        this.setState({
+          open_verification_modal: false,
+          verified: true,
+        });
+        document.getElementById('step5').classList.add('d-none');
+        document.getElementById('step6').classList.remove('d-none');
+        window.scrollTo(0,0)
+        document.getElementById('step6h').classList.remove('disabled')
+        document.getElementById('step6h').classList.add('complete', "current")
+      }else {
+        if (this._isMounted){
+          this.setState({verification_message: result.message, variant: "danger"});
+        }
+      }
+      if (this._isMounted){
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({verification_message: ""}))
+        }, 2000);
+      }
+		}, (error) => {
+      if (this._isMounted){
+        this.setState({verification_message: "server error"});
+      }
+		});
+  }
+  updateUserCode = (event) => {
+    if (this._isMounted){
+      const{ name, value } = event.target;
+      this.setState({
+        user: {
+        ...this.state.user,
+        [name]: value
+        }
+      }, function () {
+        this.checkVerificationFormValidation();
+      });
+    }
+	}
+  checkVerificationFormValidation = () => {
+
+    let user_verification_error = "";
+    if (this.state.user.verification_code === ""){
+      user_verification_error = "Code can't be blank!"
+    }else if (this.state.user.verification_code.length < 6) {
+      user_verification_error = "Too short!"
+    }
+
+    this.setState({
+      user_verification_error,
+    },function () {
+      if (user_verification_error !== "" ){
+        return false;
+      }else {
+        return true;
+      }
+    });
+
+    if (user_verification_error !== "" ){
+      this.setState({
+        user_verification_error
+      });
+      return false;
+    }else {
+      return true;
+    }
   }
 
   stepOneValidation = () => {
@@ -1573,6 +1707,13 @@ export default class NewProperty extends Component{
       return ""
     }else {
       return "error-class"
+    }
+  }
+  addErrorMessage = (msg) => {
+    if (msg === ""){
+      return ;
+    }else{
+      return (<span className="error-class"> {msg} </span>);
     }
   }
   ownerCategoryText = (text) => {
@@ -2693,7 +2834,7 @@ export default class NewProperty extends Component{
                                   {show_instructions_types}
                                 </select> */}
                                 <Select
-                                  className="asdfghjkl"
+                                  className={"show_inst " + this.addErrorClass(this.state.property_show_instructions_type_id_error) }
                                   options={show_instructions_types_options}
                                   value={this.selected_show_instructions_types_options()}
                                   onChange={e => {this.setState({property: {...this.state.property, show_instructions_type_id: e.value}});}}
@@ -2857,6 +2998,30 @@ export default class NewProperty extends Component{
                               </div>
                             </form>
                           </div>
+                          <Modal className="status_modal verify_modal" show={this.state.open_verification_modal} onHide={(e) => {}}>
+                            <div className="modal-body">
+                              <div className="verify-code">
+                                <div className="heading text-center">Verify</div>
+                                <p>Enter the Verification code sent on your Email.</p>
+                                <form onSubmit = {this.submitVerificationHandler}>
+                                  {
+                                    this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+                                  }
+                                  <div className="form-group">
+                                    <input type="text" name="verification_code" className="enter-code form-control" onChange={this.updateUserCode} maxLength="6" onKeyPress={this.checkNumeric}/>
+                                    {this.addErrorMessage(this.state.user_verification_error)}
+                                  </div>
+                                  <div className="form-group">
+                                    <button className="red-btn submit-btn" type="submit">Submit</button>
+                                  </div>
+                                  <div className="not-get-code text-center">
+                                    <p>Didn't get Verification Code?</p>
+                                    <Link to="#" onClick={this.resendVerificationCode} ><i className="fa fa-refresh" aria-hidden="true"></i> Resend Code</Link>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </Modal>
                           <div id="sign-up-form">
                             <div className="col-md-12 text-center pb-4">
                               <h4 className="step-name">Seller's Info</h4>

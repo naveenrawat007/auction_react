@@ -3194,7 +3194,7 @@ export default class PropertyEdit extends Component{
                                   {show_instructions_types}
                                 </select> */}
                                 <Select
-                                  className="asdfghjkl"
+                                  className={"show_inst " + this.addErrorClass(this.state.property_show_instructions_type_id_error) }
                                   options={show_instructions_types_options}
                                   value={this.selected_show_instructions_types_options()}
                                   onChange={e => {this.setState({property: {...this.state.property, show_instructions_type_id: e.value}});}}

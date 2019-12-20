@@ -3784,7 +3784,53 @@ a.add_links{
 }
 
 .verify_modal .modal-dialog p {
-    font-size: 14px;
-    margin-bottom: 10px;
-    color: #666;
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.show_inst .css-1okebmr-indicatorSeparator{
+  display: none !important;
+}
+.show_inst .css-4ljt47-MenuList{
+  padding: 0 !important;
+}
+.show_inst .css-4ljt47-MenuList > div{
+  /* padding: 0 !important; */
+  font-size: 0.85rem !important;
+  font-weight: 500 !important;
+  border-top: 1px solid #000 !important;
+}
+
+.show_inst .css-1hwfws3{
+  font-size: 0.85rem !important;
+}
+.show_inst span:focus{
+  border: 0;
+  display: none !important;
+}
+.show_inst .css-yk16xz-control:focus{
+  border: 1px solid #ced4da !important;
+}
+.show_inst .css-1pahdxg-control{
+  border-color: #ced4da !important;
+  box-shadow: none !important;
+}
+.show_inst .css-1pahdxg-control:hover{
+  border-color: #ced4da !important;
+  box-shadow: none !important;
+}
+.show_inst .css-1pahdxg-control:focus{
+  border-color: #ced4da !important;
+  box-shadow: none !important;
+}
+.css-26l3qy-menu{
+  margin: 0 !important;
+}
+.show_inst .css-1hb7zxy-IndicatorsContainer{
+   display: none;
+ }
+
+.show_inst.error-class > .css-yk16xz-control{
+  border: 1px solid red !important;
 }
