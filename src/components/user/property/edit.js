@@ -2232,7 +2232,7 @@ export default class PropertyEdit extends Component{
                             <Link to="#" className="bs-wizard-dot"></Link>
                           </div>
                         </div>
-                        <div className="steps-parts d-none" id="step1" >
+                        <div className="steps-parts" id="step1" >
                           {this.state.isLoaded === true ?
                             null
                           :
@@ -3077,7 +3077,7 @@ export default class PropertyEdit extends Component{
                             </div>
                           </Modal>
                         </div>
-                        <div className="steps-parts " id="step3">
+                        <div className="steps-parts d-none" id="step3">
                           {this.state.isLoaded === true ?
                             null
                           :
