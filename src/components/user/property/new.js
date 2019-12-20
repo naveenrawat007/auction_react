@@ -57,7 +57,7 @@ const initial_state = {
     best_offer_sellers_minimum_price: "",
     best_offer_sellers_reserve_price: "",
     show_instructions_text: "",
-    open_house_dates: [{date: "", opens: "", closes: ""}],
+    open_house_dates: [{date: new Date(), opens: new Date(), closes: new Date()}],
     vimeo_url: "",
     dropbox_url: "",
     video: "",
@@ -1573,7 +1573,7 @@ export default class UserNewProperty extends Component{
   }
 
   addOpenHouseDateFields = () => {
-    let newDate = {date: "", opens: "", closes: ""};
+    let newDate = {date: new Date(), opens: new Date(), closes: new Date()};
     let dates = this.state.property.open_house_dates;
     dates.push(newDate)
     this.setState({
@@ -3104,7 +3104,7 @@ export default class UserNewProperty extends Component{
                               <div className="col-md-6 px-1">
                                 <div className="input-group mb-0">
                                   <DatePicker className={"form-control " + this.addErrorClass(this.state.property_auction_started_at_error) }
-                                    selected={this.state.property.auction_started_at} minDate={new Date()}
+                                    selected={this.state.property.auction_started_at ? this.state.property.auction_started_at : ""} minDate={new Date()}
                                     name="auction_started_at" onChange={this.updatePropertyAuctionStart}
                                   />
                                 </div>
@@ -3147,7 +3147,7 @@ export default class UserNewProperty extends Component{
                               <div className="col-md-6 px-1">
                                 <div className="input-group mb-0">
                                   <DatePicker className={"form-control " + this.addErrorClass(this.state.property_auction_started_at_error) }
-                                    selected={this.state.property.auction_started_at} minDate={new Date()}
+                                    selected={this.state.property.auction_started_at ? this.state.property.auction_started_at : ""} minDate={new Date()}
                                     name="auction_started_at" onChange={this.updatePropertyAuctionStart}
                                   />
                                 </div>
@@ -3187,7 +3187,7 @@ export default class UserNewProperty extends Component{
                               <div className="col-md-6 px-1">
                                 <div className="input-group mb-0">
                                   <DatePicker className={"form-control " + this.addErrorClass(this.state.property_auction_ending_at_error) }
-                                    selected={this.state.property.auction_ending_at}
+                                    selected={this.state.property.auction_ending_at ? this.state.property.auction_ending_at : ""}
                                     minDate = {this.state.property.auction_started_at}
                                     onChange={this.updatePropertyAuctionEndingDate}
                                     name="auction_ending_at"
