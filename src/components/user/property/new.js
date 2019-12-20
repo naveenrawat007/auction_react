@@ -347,8 +347,8 @@ export default class UserNewProperty extends Component{
             title_status: result.title_statuses[0],
             }
           });
+          this.checkForCategoryFields();
         }
-        this.checkForCategoryFields();
 
         // this.setState({
         //   variant: "success",

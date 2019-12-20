@@ -462,8 +462,8 @@ export default class PropertyEdit extends Component{
             }
           });
           this.updateCurrentState(result.property);
+          this.checkForCategoryFields();
         }
-        this.checkForCategoryFields();
         // this.setState({
         //   variant: "success",
         //   message: result.message,
