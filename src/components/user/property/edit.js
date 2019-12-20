@@ -2130,7 +2130,6 @@ export default class PropertyEdit extends Component{
       )
     })
     const open_house_dates = this.state.property.open_house_dates.map((value, index) => {
-      console.log(value)
       return (
         <div key ={index} className="row mx-0">
 

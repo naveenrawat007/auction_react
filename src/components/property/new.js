@@ -8,7 +8,7 @@ import MultiSelect from "@khanacademy/react-multi-select";
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 // import Alert from 'react-bootstrap/Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+import { faExclamationTriangle, faTrash, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import Select from 'react-select';
 
 const initial_state = {
@@ -62,7 +62,7 @@ const initial_state = {
     best_offer_sellers_minimum_price: "",
     best_offer_sellers_reserve_price: "",
     show_instructions_text: "",
-    open_house_dates: [""],
+    open_house_dates: [{date: "", opens: "", closes: ""}],
     vimeo_url: "",
     dropbox_url: "",
     video: "",
@@ -457,7 +457,7 @@ export default class NewProperty extends Component{
   }
 
   addOpenHouseDateFields = () => {
-    let newDate = "";
+    let newDate = {date: "", opens: "", closes: ""};
     let dates = this.state.property.open_house_dates;
     dates.push(newDate)
     this.setState({
@@ -1546,7 +1546,7 @@ export default class NewProperty extends Component{
 
   updatePropertyOpenHouseDates = (index, date) => {
     let dates = this.state.property.open_house_dates
-    dates[index] = date
+    dates[index]["date"] = date
     this.setState({
       property: {
       ...this.state.property,
@@ -1554,6 +1554,27 @@ export default class NewProperty extends Component{
       }
     })
   }
+  updatePropertyOpenHouseDatesOpenTime = (index, date) => {
+    let dates = this.state.property.open_house_dates
+    dates[index]["opens"] = date
+    this.setState({
+      property: {
+      ...this.state.property,
+      open_house_dates: dates,
+      }
+    })
+  }
+  updatePropertyOpenHouseDatesCloseTime = (index, date) => {
+    let dates = this.state.property.open_house_dates
+    dates[index]["closes"] = date
+    this.setState({
+      property: {
+      ...this.state.property,
+      open_house_dates: dates,
+      }
+    })
+  }
+
   updatePropertyAuctionStart = (date) => {
     if (this._isMounted){
       this.setState({
@@ -1761,11 +1782,21 @@ export default class NewProperty extends Component{
       label: key.description
     }));
     const open_house_dates = this.state.property.open_house_dates.map((value, index) => {
-      return <DatePicker key ={index} className="form-control mb-1" minDate={new Date()}
-        selected={value} onChange={this.updatePropertyOpenHouseDates.bind(this, index)} showTimeSelect
-        timeFormat="HH:mm"
-        timeIntervals={15}
-             dateFormat="M/d/yyyy h:mm aa"/>;
+      return (
+        <div key ={index} className="row mx-0">
+
+          <div className="col-md-4 pl-0 pr-1">
+            <DatePicker className="form-control mb-1" selected={value["date"] ? new Date(value["date"]) : new Date()} onChange={this.updatePropertyOpenHouseDates.bind(this, index)}/>
+
+          </div>
+          <div className="col-md-4 pl-0 pr-1">
+            <DatePicker className="form-control mb-1" selected={value["opens"] ? new Date(value["opens"]) : new Date()} onChange={this.updatePropertyOpenHouseDatesOpenTime.bind(this, index)} showTimeSelect showTimeSelectOnly timeIntervals={15} timeCaption="Time" dateFormat="h:mm aa"/>
+          </div>
+          <div className="col-md-4 px-0">
+            <DatePicker className="form-control mb-1" selected={value["closes"] ? new Date(value["closes"]) : new Date()} onChange={this.updatePropertyOpenHouseDatesCloseTime.bind(this, index)} showTimeSelect showTimeSelectOnly timeIntervals={15} timeCaption="Time" dateFormat="h:mm aa"/>
+          </div>
+        </div>
+      );
     })
     const buy_options = this.state.property_options.buy_options.map((value, index) => ({
       value: value,
@@ -2849,24 +2880,28 @@ export default class NewProperty extends Component{
                                 <textarea className={"form-control " + this.addErrorClass(this.state.property_show_instructions_text_error) } rows="3" placeholder="Please give details where the combo box is located and what's the combo code." onChange={this.updateProperty} name="show_instructions_text"></textarea>
                               </div>
                             </div>
-                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Open House Dates</label>
                               </div>
-                              <div className="col-md-4 px-1">
+                              <div className="col-md-6 px-1">
                                 <div className="input-group mb-0">
                                   {open_house_dates}
                                 </div>
                               </div>
-                              <div className="col-md-2 px-2">
-                                <Link to="#" className="add_links" onClick={this.addOpenHouseDateFields}>
-                                  <i className="fa fa-plus-circle"></i>
-                                  <p className="mb-0">Add More</p>
-                                </Link>
-                                <Link to="#" className="add_links" onClick={this.removeOpenHouseDateFields}>
-                                  <i className="fa fa-plus-circle"></i>
-                                  <p className="mb-0">Del More</p>
-                                </Link>
+                              <div className="offset-md-6 col-md-6 px-2 row">
+                                <div className="col-md-4 text-left px-0">
+                                  <Link to="#" className="add_links" onClick={this.addOpenHouseDateFields}>
+                                    <FontAwesomeIcon icon={faPlusCircle}/>
+                                    <p className="mb-0">Add More</p>
+                                  </Link>
+                                </div>
+                                <div className="col-md-4 text-left px-0">
+                                  <Link to="#" className="add_links" onClick={this.removeOpenHouseDateFields}>
+                                    <FontAwesomeIcon icon={faTrash}/>
+                                    <p className="mb-0">Del More</p>
+                                  </Link>
+                                </div>
                               </div>
                             </div>
                           </form>
