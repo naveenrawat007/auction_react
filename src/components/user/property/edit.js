@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link, Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -2424,7 +2424,7 @@ export default class PropertyEdit extends Component{
                                 <label>Additional Title Information</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <textarea className={"form-control textarea-resize " + this.addErrorClass(this.state.property_additional_information_error) } rows="2" placeholder="Please provide name of escrow officer, phone number and if there's any issues that may prevent this property from closing." name="additional_information" value={this.state.property.additional_information} onChange={this.updateProperty}></textarea>
+                                <textarea className={"form-control textarea-resize " + this.addErrorClass(this.state.property_additional_information_error) } rows="3" placeholder="Please provide name of escrow officer, phone number and if there's any issues that may prevent this property from closing." name="additional_information" value={this.state.property.additional_information} onChange={this.updateProperty}></textarea>
                               </div>
                             </div>
                           </form>
@@ -3059,7 +3059,7 @@ export default class PropertyEdit extends Component{
                           </div>
                           <form className="row mx-0 creation-forms">
                             <div className="col-md-12 text-center step_row">
-                              <h6 className="font-red">BEST OFFER DEATILS</h6>
+                              <h6 className="font-red">BEST OFFER DETAILS</h6>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
