@@ -3040,7 +3040,7 @@ export default class NewProperty extends Component{
                                 <p>Enter the Verification code sent on your Email.</p>
                                 <form onSubmit = {this.submitVerificationHandler}>
                                   {
-                                    this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+                                    this.state.verification_message ? <Alert variant={this.state.variant}>{this.state.verification_message}</Alert> : null
                                   }
                                   <div className="form-group">
                                     <input type="text" name="verification_code" className="enter-code form-control" onChange={this.updateUserCode} maxLength="6" onKeyPress={this.checkNumeric}/>
