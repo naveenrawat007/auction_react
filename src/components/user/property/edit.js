@@ -7,7 +7,7 @@ import MultiSelect from "@khanacademy/react-multi-select";
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 // import Alert from 'react-bootstrap/Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+import { faExclamationTriangle, faTrash, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import Select from 'react-select';
 
 const initial_state = {
@@ -48,7 +48,7 @@ const initial_state = {
     best_offer_sellers_minimum_price: "",
     best_offer_sellers_reserve_price: "",
     show_instructions_text: "",
-    open_house_dates: [""],
+    open_house_dates: [{date: "", opens: "", closes: ""}],
     vimeo_url: "",
     dropbox_url: "",
     video: "",
@@ -351,7 +351,7 @@ export default class PropertyEdit extends Component{
         auction_started_at: property.auction_started_at,
         auction_length: property.auction_length,
         auction_ending_at: property.auction_ending_at,
-        open_house_dates: property.open_house_dates,
+        open_house_dates: property.open_house_dates ? property.open_house_dates : this.state.property.open_house_dates  ,
         vimeo_url: property.vimeo_url,
         youtube_url: property.youtube_url,
         dropbox_url: property.dropbox_url,
@@ -1520,7 +1520,27 @@ export default class PropertyEdit extends Component{
 
   updatePropertyOpenHouseDates = (index, date) => {
     let dates = this.state.property.open_house_dates
-    dates[index] = date
+    dates[index]["date"] = date
+    this.setState({
+      property: {
+      ...this.state.property,
+      open_house_dates: dates,
+      }
+    })
+  }
+  updatePropertyOpenHouseDatesOpenTime = (index, date) => {
+    let dates = this.state.property.open_house_dates
+    dates[index]["opens"] = date
+    this.setState({
+      property: {
+      ...this.state.property,
+      open_house_dates: dates,
+      }
+    })
+  }
+  updatePropertyOpenHouseDatesCloseTime = (index, date) => {
+    let dates = this.state.property.open_house_dates
+    dates[index]["closes"] = date
     this.setState({
       property: {
       ...this.state.property,
@@ -1552,7 +1572,7 @@ export default class PropertyEdit extends Component{
   }
 
   addOpenHouseDateFields = () => {
-    let newDate = "";
+    let newDate = {date: "", opens: "", closes: ""};
     let dates = this.state.property.open_house_dates;
     dates.push(newDate)
     this.setState({
@@ -2110,8 +2130,22 @@ export default class PropertyEdit extends Component{
       )
     })
     const open_house_dates = this.state.property.open_house_dates.map((value, index) => {
+      console.log(value)
       return (
-        <DatePicker key ={index} className="form-control mb-1" selected={value ? new Date(value) : new Date()} onChange={this.updatePropertyOpenHouseDates.bind(this, index)} showTimeSelect timeFormat="HH:mm" timeIntervals={15} dateFormat="M/d/yyyy h:mm aa"/>);
+        <div key ={index} className="row mx-0">
+
+          <div className="col-md-4 pl-0 pr-1">
+            <DatePicker className="form-control mb-1" selected={value["date"] ? new Date(value["date"]) : new Date()} onChange={this.updatePropertyOpenHouseDates.bind(this, index)}/>
+
+          </div>
+          <div className="col-md-4 pl-0 pr-1">
+            <DatePicker className="form-control mb-1" selected={value["opens"] ? new Date(value["opens"]) : new Date()} onChange={this.updatePropertyOpenHouseDatesOpenTime.bind(this, index)} showTimeSelect showTimeSelectOnly timeIntervals={15} timeCaption="Time" dateFormat="h:mm aa"/>
+          </div>
+          <div className="col-md-4 px-0">
+            <DatePicker className="form-control mb-1" selected={value["closes"] ? new Date(value["closes"]) : new Date()} onChange={this.updatePropertyOpenHouseDatesCloseTime.bind(this, index)} showTimeSelect showTimeSelectOnly timeIntervals={15} timeCaption="Time" dateFormat="h:mm aa"/>
+          </div>
+        </div>
+      );
     })
     const owner_categories = this.state.property_options.owner_categories.map((value, index) => {
       return(
@@ -2199,7 +2233,7 @@ export default class PropertyEdit extends Component{
                             <Link to="#" className="bs-wizard-dot"></Link>
                           </div>
                         </div>
-                        <div className="steps-parts" id="step1" >
+                        <div className="steps-parts d-none" id="step1" >
                           {this.state.isLoaded === true ?
                             null
                           :
@@ -3044,7 +3078,7 @@ export default class PropertyEdit extends Component{
                             </div>
                           </Modal>
                         </div>
-                        <div className="steps-parts d-none" id="step3">
+                        <div className="steps-parts " id="step3">
                           {this.state.isLoaded === true ?
                             null
                           :
@@ -3209,24 +3243,28 @@ export default class PropertyEdit extends Component{
                                 <textarea className={"form-control " + this.addErrorClass(this.state.property_show_instructions_text_error) } rows="3" placeholder="Please give details where the combo box is located and what's the combo code." onChange={this.updateProperty} value={this.state.property.show_instructions_text} name="show_instructions_text"></textarea>
                               </div>
                             </div>
-                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Open House Dates</label>
                               </div>
-                              <div className="col-md-4 px-1">
+                              <div className="col-md-6 px-1">
                                 <div className="input-group mb-0">
                                   {open_house_dates}
                                 </div>
                               </div>
-                              <div className="col-md-2 px-2">
-                                <Link to="#" className="add_links" onClick={this.addOpenHouseDateFields}>
-                                  <i className="fa fa-plus-circle"></i>
-                                  <p className="mb-0">Add More</p>
-                                </Link>
-                                <Link to="#" className="add_links" onClick={this.removeOpenHouseDateFields}>
-                                  <i className="fa fa-plus-circle"></i>
-                                  <p className="mb-0">Del More</p>
-                                </Link>
+                              <div className="offset-md-6 col-md-6 px-2 row">
+                                <div className="col-md-4 text-left px-0">
+                                  <Link to="#" className="add_links" onClick={this.addOpenHouseDateFields}>
+                                    <FontAwesomeIcon icon={faPlusCircle}/>
+                                    <p className="mb-0">Add More</p>
+                                  </Link>
+                                </div>
+                                <div className="col-md-4 text-left px-0">
+                                  <Link to="#" className="add_links" onClick={this.removeOpenHouseDateFields}>
+                                    <FontAwesomeIcon icon={faTrash}/>
+                                    <p className="mb-0">Del More</p>
+                                  </Link>
+                                </div>
                               </div>
                             </div>
                           </form>

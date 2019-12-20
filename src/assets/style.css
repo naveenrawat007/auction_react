@@ -3618,8 +3618,12 @@ a.next{
   color: #bbb;
   font-weight: 500;
 }
-.add_links i{
-  padding-right: 8px;
+.add_links svg{
+  padding-right: 5px;
+  font-size: 22px;
+}
+.add_links p{
+  font-size: 14px;
 }
 .files_box .custom-file-input:lang(en) ~ .custom-file-label::after{
   content: "Open the File Browser" !important;
