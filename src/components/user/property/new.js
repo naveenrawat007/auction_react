@@ -2806,227 +2806,225 @@ export default class UserNewProperty extends Component{
                             <Link to="#" onClick={this.backToStepOne} className="red-btn step-btn mx-1">Go, Back</Link>
                             <Link to="#" onClick={this.submitStepTwo} className="red-btn step-btn mx-1">Continue</Link>
                           </div>
-                          <Modal className="status_modal" show={this.state.estimated_cost_modal} onHide={this.hideModal}>
+                          <Modal className="status_modal repairs_modal" show={this.state.estimated_cost_modal} onHide={this.hideModal}>
                             <Modal.Header closeButton>
                               <div className=" offset-md-1 col-md-10 text-center">
                                 <h5 className="mb-0 text-uppercase">Itemized Repairs</h5>
                               </div>
                             </Modal.Header>
-                            <div className="modal-body">
+                            <div className="modal-body px-0">
                               <div className="row mx-0">
-                                <div className="col-md-12 px-0">
-                                  <h6>Please enter estimated rehab numbers or enter a ballpark at the bottom.</h6>
-                                </div>
                                 <div className="col-md-12 ">
                                   <div className="form-group row">
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-5 px-4">
                                       <label>Roof:</label>
                                     </div>
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-7 px-4">
                                       <input value={this.state.property.estimated_rehab_cost_attr.roof} type="number" className="form-control" name="roof" onChange={this.updatePropertyRehabCostAttr} />
                                     </div>
                                   </div>
                                 </div>
                                 <div className="col-md-12 ">
                                   <div className="form-group row">
-                                    <div className="col-md-6 px-1">
-                                      <label>Plumbing:</label>
-                                    </div>
-                                    <div className="col-md-6 px-1">
-                                      <input type="number" name="plumbing" className="form-control" value={this.state.property.estimated_rehab_cost_attr.plumbing} onChange={this.updatePropertyRehabCostAttr} />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-5 px-4">
                                       <label>Foundation:</label>
                                     </div>
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-7 px-4">
                                       <input type="number" name="foundation" value={this.state.property.estimated_rehab_cost_attr.foundation} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
                                 <div className="col-md-12 ">
                                   <div className="form-group row">
-                                    <div className="col-md-6 px-1">
-                                      <label>Kitchen:</label>
-                                    </div>
-                                    <div className="col-md-6 px-1">
-                                      <input type="number" name="kitchen" value={this.state.property.estimated_rehab_cost_attr.kitchen}  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-5 px-4">
                                       <label>Siding:</label>
                                     </div>
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-7 px-4">
                                       <input type="number" name="siding" value={this.state.property.estimated_rehab_cost_attr.siding} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
                                 <div className="col-md-12 ">
                                   <div className="form-group row">
-                                    <div className="col-md-6 px-1">
-                                      <label>Bathrooms:</label>
-                                    </div>
-                                    <div className="col-md-6 px-1">
-                                      <input type="name" name="bathrooms" value={this.state.property.estimated_rehab_cost_attr.bathrooms} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-5 px-4">
                                       <label>Windows:</label>
                                     </div>
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-7 px-4">
                                       <input type="number" name="windows" value={this.state.property.estimated_rehab_cost_attr.windows}  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
                                 <div className="col-md-12 ">
                                   <div className="form-group row">
-                                    <div className="col-md-6 px-1">
-                                      <label>Doors:</label>
-                                    </div>
-                                    <div className="col-md-6 px-1">
-                                      <input type="number" name="doors" value={this.state.property.estimated_rehab_cost_attr.doors} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-5 px-4">
                                       <label>Landscaping:</label>
                                     </div>
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-7 px-4">
                                       <input type="number" name="landscaping" value={this.state.property.estimated_rehab_cost_attr.landscaping} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
                                 <div className="col-md-12 ">
                                   <div className="form-group row">
-                                    <div className="col-md-6 px-1">
-                                      <label>Sheetrock:</label>
-                                    </div>
-                                    <div className="col-md-6 px-1">
-                                      <input type="number" name= "sheetrock" value={this.state.property.estimated_rehab_cost_attr.sheetrock} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-5 px-4">
                                       <label>Garage:</label>
                                     </div>
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-7 px-4">
                                       <input type="number" name= "garage" value={this.state.property.estimated_rehab_cost_attr.garage} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
                                 <div className="col-md-12 ">
                                   <div className="form-group row">
-                                    <div className="col-md-6 px-1">
-                                      <label>Trim:</label>
-                                    </div>
-                                    <div className="col-md-6 px-1">
-                                      <input type="number" name="trim" value={this.state.property.estimated_rehab_cost_attr.trim} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-5 px-4">
                                       <label>Exterior Paint:</label>
                                     </div>
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-7 px-4">
                                       <input type="number" name="exterior_paint" value={this.state.property.estimated_rehab_cost_attr.exterior_paint} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
                                 <div className="col-md-12 ">
                                   <div className="form-group row">
-                                    <div className="col-md-6 px-1">
-                                      <label>Flooring:</label>
-                                    </div>
-                                    <div className="col-md-6 px-1">
-                                      <input type="number" name="flooring" value={this.state.property.estimated_rehab_cost_attr.flooring} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-5 px-4">
                                       <label>Interior Paint:</label>
                                     </div>
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-7 px-4">
                                       <input type="number" name="interior_paint" value={this.state.property.estimated_rehab_cost_attr.interior_paint} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
                                 <div className="col-md-12 ">
                                   <div className="form-group row">
-                                    <div className="col-md-6 px-1">
-                                      <label>Trash:</label>
-                                    </div>
-                                    <div className="col-md-6 px-1">
-                                      <input type="number" name="trash" value={this.state.property.estimated_rehab_cost_attr.trash} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-5 px-4">
                                       <label>HVAC:</label>
                                     </div>
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-7 px-4">
                                       <input type="number" name="hvac" value={this.state.property.estimated_rehab_cost_attr.hvac} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
+
                                 <div className="col-md-12 ">
                                   <div className="form-group row">
-                                    <div className="col-md-6 px-1">
-                                      <label>Misc:</label>
-                                    </div>
-                                    <div className="col-md-6 px-1">
-                                      <input type="number" name="misc" value={this.state.property.estimated_rehab_cost_attr.misc} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-5 px-4">
                                       <label>Electrical:</label>
                                     </div>
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-7 px-4">
                                       <input type="number" name="electrical" className="form-control" value={this.state.property.estimated_rehab_cost_attr.electrical} onChange={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
                                 <div className="col-md-12 ">
                                   <div className="form-group row">
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-5 px-4">
+                                      <label>Plumbing:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="number" name="plumbing" className="form-control" value={this.state.property.estimated_rehab_cost_attr.plumbing} onChange={this.updatePropertyRehabCostAttr} />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
+                                      <label>Kitchen:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="number" name="kitchen" value={this.state.property.estimated_rehab_cost_attr.kitchen}  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
+                                      <label>Bathrooms:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="name" name="bathrooms" value={this.state.property.estimated_rehab_cost_attr.bathrooms} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
+                                      <label>Doors:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="number" name="doors" value={this.state.property.estimated_rehab_cost_attr.doors} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
+                                      <label>Sheetrock:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="number" name= "sheetrock" value={this.state.property.estimated_rehab_cost_attr.sheetrock} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
+                                      <label>Trim:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="number" name="trim" value={this.state.property.estimated_rehab_cost_attr.trim} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
+                                      <label>Flooring:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="number" name="flooring" value={this.state.property.estimated_rehab_cost_attr.flooring} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
+                                      <label>Trash Removal:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="number" name="trash" value={this.state.property.estimated_rehab_cost_attr.trash} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
+                                      <label>Miscellaneous:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="number" name="misc" value={this.state.property.estimated_rehab_cost_attr.misc} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
                                       <label>Others:</label>
                                     </div>
-                                    <div className="col-md-6 px-1">
+                                    <div className="col-md-7 px-4">
                                       <input type="number" name="others" className="form-control" value={this.state.property.estimated_rehab_cost_attr.others} onChange={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
-                                <div className="col-md-12 bg-secondary text-light pt-2 pb-2 mb-2 ml-0">
+                                <div className="col-md-12 modal-banner px-5 py-3 my-2 ml-0">
                                   If you don't have itemized costs then enter ballpark of entire rehab.
                                 </div>
-                                <div className="col-md-12 px-0">
+                                <div className="col-md-12 px-4">
                                   <div className="form-group">
-                                    <label>Estimated Ballpark</label>
+                                    <label>Estimated Ballpak</label>
                                     <input type="number" name="estimated_ballpark" value={this.state.property.estimated_rehab_cost_attr.estimated_ballpark} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                                   </div>
                                 </div>
-                                <div className="col-md-12 px-0">
+                                <div className="col-md-12 px-4">
                                   <div className="form-group">
                                     <label>Repair Total</label>
                                     <input type="number" value={this.state.property.estimated_rehab_cost_attr.repair_total} readOnly={true} name="repair_total" className="form-control" />
