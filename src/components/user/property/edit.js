@@ -2832,30 +2832,10 @@ export default class PropertyEdit extends Component{
                                 <div className="col-md-12 ">
                                   <div className="form-group row">
                                     <div className="col-md-5 px-4">
-                                      <label>Plumbing:</label>
-                                    </div>
-                                    <div className="col-md-7 px-4">
-                                      <input type="number" name="plumbing" className="form-control" value={this.state.property.estimated_rehab_cost_attr.plumbing} onChange={this.updatePropertyRehabCostAttr} />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-5 px-4">
                                       <label>Foundation:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
                                       <input type="number" name="foundation" value={this.state.property.estimated_rehab_cost_attr.foundation} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-5 px-4">
-                                      <label>Kitchen:</label>
-                                    </div>
-                                    <div className="col-md-7 px-4">
-                                      <input type="number" name="kitchen" value={this.state.property.estimated_rehab_cost_attr.kitchen}  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -2872,30 +2852,10 @@ export default class PropertyEdit extends Component{
                                 <div className="col-md-12 ">
                                   <div className="form-group row">
                                     <div className="col-md-5 px-4">
-                                      <label>Bathrooms:</label>
-                                    </div>
-                                    <div className="col-md-7 px-4">
-                                      <input type="name" name="bathrooms" value={this.state.property.estimated_rehab_cost_attr.bathrooms} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-5 px-4">
                                       <label>Windows:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
                                       <input type="number" name="windows" value={this.state.property.estimated_rehab_cost_attr.windows}  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-5 px-4">
-                                      <label>Doors:</label>
-                                    </div>
-                                    <div className="col-md-7 px-4">
-                                      <input type="number" name="doors" value={this.state.property.estimated_rehab_cost_attr.doors} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -2912,30 +2872,10 @@ export default class PropertyEdit extends Component{
                                 <div className="col-md-12 ">
                                   <div className="form-group row">
                                     <div className="col-md-5 px-4">
-                                      <label>Sheetrock:</label>
-                                    </div>
-                                    <div className="col-md-7 px-4">
-                                      <input type="number" name= "sheetrock" value={this.state.property.estimated_rehab_cost_attr.sheetrock} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-5 px-4">
                                       <label>Garage:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
                                       <input type="number" name= "garage" value={this.state.property.estimated_rehab_cost_attr.garage} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-5 px-4">
-                                      <label>Trim:</label>
-                                    </div>
-                                    <div className="col-md-7 px-4">
-                                      <input type="number" name="trim" value={this.state.property.estimated_rehab_cost_attr.trim} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -2952,30 +2892,10 @@ export default class PropertyEdit extends Component{
                                 <div className="col-md-12 ">
                                   <div className="form-group row">
                                     <div className="col-md-5 px-4">
-                                      <label>Flooring:</label>
-                                    </div>
-                                    <div className="col-md-7 px-4">
-                                      <input type="number" name="flooring" value={this.state.property.estimated_rehab_cost_attr.flooring} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-5 px-4">
                                       <label>Interior Paint:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
                                       <input type="number" name="interior_paint" value={this.state.property.estimated_rehab_cost_attr.interior_paint} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-5 px-4">
-                                      <label>Trash:</label>
-                                    </div>
-                                    <div className="col-md-7 px-4">
-                                      <input type="number" name="trash" value={this.state.property.estimated_rehab_cost_attr.trash} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -2989,16 +2909,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                   </div>
                                 </div>
-                                <div className="col-md-12 ">
-                                  <div className="form-group row">
-                                    <div className="col-md-5 px-4">
-                                      <label>Misc:</label>
-                                    </div>
-                                    <div className="col-md-7 px-4">
-                                      <input type="number" name="misc" value={this.state.property.estimated_rehab_cost_attr.misc} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
-                                    </div>
-                                  </div>
-                                </div>
+
                                 <div className="col-md-12 ">
                                   <div className="form-group row">
                                     <div className="col-md-5 px-4">
@@ -3006,6 +2917,96 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-7 px-4">
                                       <input type="number" name="electrical" className="form-control" value={this.state.property.estimated_rehab_cost_attr.electrical} onChange={this.updatePropertyRehabCostAttr}/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
+                                      <label>Plumbing:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="number" name="plumbing" className="form-control" value={this.state.property.estimated_rehab_cost_attr.plumbing} onChange={this.updatePropertyRehabCostAttr} />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
+                                      <label>Kitchen:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="number" name="kitchen" value={this.state.property.estimated_rehab_cost_attr.kitchen}  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
+                                      <label>Bathrooms:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="name" name="bathrooms" value={this.state.property.estimated_rehab_cost_attr.bathrooms} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
+                                      <label>Doors:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="number" name="doors" value={this.state.property.estimated_rehab_cost_attr.doors} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
+                                      <label>Sheetrock:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="number" name= "sheetrock" value={this.state.property.estimated_rehab_cost_attr.sheetrock} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
+                                      <label>Trim:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="number" name="trim" value={this.state.property.estimated_rehab_cost_attr.trim} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
+                                      <label>Flooring:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="number" name="flooring" value={this.state.property.estimated_rehab_cost_attr.flooring} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
+                                      <label>Trash Removal:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="number" name="trash" value={this.state.property.estimated_rehab_cost_attr.trash} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 ">
+                                  <div className="form-group row">
+                                    <div className="col-md-5 px-4">
+                                      <label>Miscellaneous:</label>
+                                    </div>
+                                    <div className="col-md-7 px-4">
+                                      <input type="number" name="misc" value={this.state.property.estimated_rehab_cost_attr.misc} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
