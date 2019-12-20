@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link, Redirect} from 'react-router-dom'
+import Modal from 'react-bootstrap/Modal'
 import Alert from 'react-bootstrap/Alert';
 import $ from 'jquery';
 const initial_state = {
@@ -171,35 +172,31 @@ export default class VerificationModal extends Component{
 
   render(){
     return(
-      <div id="verfiyModal" className="modal " role="dialog">
+      <Modal className="status_modal verify_modal" show={true} onHide={(e) => {}}>
         { this.state.verified ? <Redirect to='/'/> : null }
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-body">
-              <div className="verify-code">
-                <div className="heading text-center">Verify</div>
-                <p>Enter the Verification code sent on your Email.</p>
-                <form onSubmit = {this.submitHandler}>
-                  {
-                    this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
-                  }
-                  <div className="form-group">
-                    <input type="text" name="verification_code" className="enter-code form-control" onChange={this.updateUserCode} maxLength="6" onKeyPress={this.checkNumeric}/>
-                    {this.addErrorMessage(this.state.user_verification_error)}
-                  </div>
-                  <div className="form-group">
-                    <button className="red-btn submit-btn" type="submit">Submit</button>
-                  </div>
-                  <div className="not-get-code text-center">
-                    <p>Didn't get Verification Code?</p>
-                    <Link to="#" onClick={this.resendVerificationCode} ><i className="fa fa-refresh" aria-hidden="true"></i> Resend Code</Link>
-                  </div>
-                </form>
+        <div className="modal-body">
+          <div className="verify-code">
+            <div className="heading text-center">Verify</div>
+            <p>Enter the Verification code sent on your Email.</p>
+            <form onSubmit = {this.submitHandler}>
+              {
+                this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+              }
+              <div className="form-group">
+                <input type="text" name="verification_code" className="enter-code form-control" onChange={this.updateUserCode} maxLength="6" onKeyPress={this.checkNumeric}/>
+                {this.addErrorMessage(this.state.user_verification_error)}
               </div>
-            </div>
+              <div className="form-group">
+                <button className="red-btn submit-btn" type="submit">Submit</button>
+              </div>
+              <div className="not-get-code text-center">
+                <p>Didn't get Verification Code?</p>
+                <Link to="#" onClick={this.resendVerificationCode} ><i className="fa fa-refresh" aria-hidden="true"></i> Resend Code</Link>
+              </div>
+            </form>
           </div>
         </div>
-      </div>
+      </Modal>
     );
   }
 }
