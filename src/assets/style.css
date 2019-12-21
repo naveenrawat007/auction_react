@@ -3838,3 +3838,57 @@ a.add_links{
 .show_inst.error-class > .css-yk16xz-control{
   border: 1px solid red !important;
 }
+
+.sell-tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 0px dotted black;
+  opacity: 1;
+  font-size: 15px;
+}
+
+.sell-tooltip .sell-tooltiptext {
+  top: -59px;
+  left: 82px;
+  visibility: hidden;
+  width: 250px;
+  background-color: #fff;
+  color: #000;
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  margin-left: -60px;
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.3);
+}
+
+.sell-tooltip .sell-tooltiptext h6 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #b71c1c;
+  margin: 10px 0px;
+}
+
+.sell-tooltip .sell-tooltiptext p {
+  font-weight: 400;
+  font-size: 12px;
+  color: #000;
+  text-transform: none;
+  margin: 10px 0px;
+}
+
+.sell-tooltip .sell-tooltiptext::after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  right: 100%; /* To the left of the tooltip */
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #fff transparent transparent;
+}
+
+.sell-tooltip:hover .sell-tooltiptext {
+  visibility: visible;
+}
