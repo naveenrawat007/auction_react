@@ -1386,6 +1386,7 @@ export default class NewProperty extends Component{
     let property_auction_ending_at_error = "";
     let property_buy_option_error = "";
     let property_show_instructions_type_id_error = "";
+    let property_seller_pay_type_id_error = "";
     let property_show_instructions_text_error = "";
     let property_best_offer_length_error = "";
     let property_best_offer_sellers_minimum_price_error = "";
@@ -1400,6 +1401,9 @@ export default class NewProperty extends Component{
       if (this.state.property.best_offer_sellers_reserve_price === ""){
         property_best_offer_sellers_reserve_price = "can't be blank."
       }
+    }
+    if (this.state.property.seller_pay_type_id === ""){
+      property_seller_pay_type_id_error = "can't be blank."
     }
 
     if (this.state.property.auction_started_at === "" || this.state.property.auction_started_at === null){
@@ -1439,9 +1443,10 @@ export default class NewProperty extends Component{
       property_best_offer_length_error,
       property_best_offer_sellers_reserve_price,
       property_best_offer_sellers_minimum_price_error,
+      property_seller_pay_type_id_error,
     });
 
-    if (property_auction_started_at_error !== "" || property_auction_length_error !== "" || property_seller_price_error !== "" || property_buy_now_price_error !== "" || property_auction_ending_at_error !== "" || property_buy_option_error !== "" || property_show_instructions_type_id_error !== "" || property_show_instructions_text_error !== "" || property_best_offer_length_error !== "" || property_best_offer_sellers_reserve_price !== "" || property_best_offer_sellers_minimum_price_error !== ""){
+    if (property_auction_started_at_error !== "" || property_auction_length_error !== "" || property_seller_price_error !== "" || property_buy_now_price_error !== "" || property_auction_ending_at_error !== "" || property_buy_option_error !== "" || property_show_instructions_type_id_error !== "" || property_show_instructions_text_error !== "" || property_best_offer_length_error !== "" || property_best_offer_sellers_reserve_price !== "" || property_best_offer_sellers_minimum_price_error !== "" || property_seller_pay_type_id_error !== ""){
       return false
     }else {
       return true
@@ -1883,7 +1888,30 @@ export default class NewProperty extends Component{
       return {label: "Select", value: ""}
     }
   }
+
+  selected_seller_pay_type_options = () => {
+    const show_seller_pay_type_options = this.state.property_options.seller_pay_types.map((key, index) => ({
+      value: key.id,
+      label: key.description
+    }));
+    let value, label;
+    for (var i = 0; i < show_seller_pay_type_options.length; i++){
+      if (show_seller_pay_type_options[i].value === this.state.property.seller_pay_type_id){
+        value = show_seller_pay_type_options[i].value
+        label = show_seller_pay_type_options[i].label
+      }
+    }
+    if (value && label){
+      return {value: value, label: label}
+    }else {
+      return {label: "Select", value: ""}
+    }
+  }
 	render() {
+    const seller_pay_types_options = this.state.property_options.seller_pay_types.map((key, index) => ({
+      value: key.id,
+      label: key.description
+    }));
     const show_instructions_types_options = this.state.property_options.show_instructions_types.map((key, index) => ({
       value: key.id,
       label: key.description
@@ -3153,6 +3181,30 @@ export default class NewProperty extends Component{
                                     name="auction_ending_at"
                                   />
                                 </div>
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Seller agrees to pay for&nbsp;
+                                  <div className="sell-tooltip">
+                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
+                                      <p>It is EXTREMELY Important to give bidders easy access to view your property.  When occupied set at least 1 date before your Best Offer and/or your Live Online Auction ends to get more offers when possible.
+                                      </p>
+                                    </span>
+                                  </div>
+                                </label><span className="font-sign">*</span>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                {/* <select className={"form-control " + this.addErrorClass(this.state.property_show_instructions_type_id_error) } value={this.state.property.show_instructions_type_id} name="show_instructions_type_id" onChange={this.updateProperty}>
+                                  <option>Please Select</option>
+                                  {show_instructions_types}
+                                </select> */}
+                                <Select
+                                  className={"show_inst " + this.addErrorClass(this.state.property_seller_pay_type_id_error) }
+                                  options={seller_pay_types_options}
+                                  value={this.selected_seller_pay_type_options()}
+                                  onChange={e => {this.setState({property: {...this.state.property, seller_pay_type_id: e.value}});}}
+                                />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
