@@ -111,6 +111,37 @@ const initial_state = {
     monthly_cash_flow: "",
     total_out_of_pocket: "",
     roi_cash_percentage: "",
+    appreciation_value: {
+      eg1: "",
+      eg2: "",
+      eg3: "",
+      eg4: "",
+
+      t1: "",
+      t2: "",
+      t3: "",
+      t4: "",
+
+      cf1: "",
+      cf2: "",
+      cf3: "",
+      cf4: "",
+
+      ta: "",
+      tb: "",
+      tc: "",
+      td: "",
+
+      vac1: "",
+      vac2: "",
+      vac3: "",
+      vac4: "",
+
+      ppy1: "",
+      ppy2: "",
+      ppy3: "",
+      ppy4: "",
+    },
 
     arv_analysis: "",
     description_of_repairs: "",
@@ -422,6 +453,7 @@ export default class PropertyEdit extends Component{
         }
       });
     }
+    this.updateLandlordDealCalculator();
   }
 
   setUpStepOne = () => {
@@ -1395,6 +1427,31 @@ export default class PropertyEdit extends Component{
     let total_out_of_pocket = parseFloat(this.state.property.total_out_of_pocket ? this.state.property.total_out_of_pocket : 0)
     let roi_cash_percentage  = parseFloat(this.state.property.roi_cash_percentage ? this.state.property.roi_cash_percentage : 0)
 
+    let eg1 = parseFloat(this.state.property.appreciation_value.eg1 ? this.state.property.appreciation_value.eg1 : 0);
+    let eg2 = parseFloat(this.state.property.appreciation_value.eg2 ? this.state.property.appreciation_value.eg2 : 0);
+    let eg3 = parseFloat(this.state.property.appreciation_value.eg3 ? this.state.property.appreciation_value.eg3 : 0);
+    let eg4 = parseFloat(this.state.property.appreciation_value.eg4? this.state.property.appreciation_value.eg4 : 0);
+    let t1 = parseFloat(this.state.property.appreciation_value.t1? this.state.property.appreciation_value.t1 : 0);
+    let t2 = parseFloat(this.state.property.appreciation_value.t2? this.state.property.appreciation_value.t2 : 0);
+    let t3 = parseFloat(this.state.property.appreciation_value.t3? this.state.property.appreciation_value.t3 : 0);
+    let t4 = parseFloat(this.state.property.appreciation_value.t4? this.state.property.appreciation_value.t4 : 0);
+    let cf1 = parseFloat(this.state.property.appreciation_value.cf1 ? this.state.property.appreciation_value.cf1 : 0);
+    let cf2 = parseFloat(this.state.property.appreciation_value.cf2 ? this.state.property.appreciation_value.cf2 : 0);
+    let cf3 = parseFloat(this.state.property.appreciation_value.cf3 ? this.state.property.appreciation_value.cf3 : 0);
+    let cf4 = parseFloat(this.state.property.appreciation_value.cf4 ? this.state.property.appreciation_value.cf4 : 0);
+    let ta = parseFloat(this.state.property.appreciation_value.ta ? this.state.property.appreciation_value.ta : 0);
+    let tb = parseFloat(this.state.property.appreciation_value.tb ? this.state.property.appreciation_value.tb : 0);
+    let tc = parseFloat(this.state.property.appreciation_value.tc ? this.state.property.appreciation_value.tc : 0);
+    let td = parseFloat(this.state.property.appreciation_value.td ? this.state.property.appreciation_value.td : 0);
+    let vac1 = parseFloat(this.state.property.appreciation_value.vac1 ? this.state.property.appreciation_value.vac1 : 0);
+    let vac2 = parseFloat(this.state.property.appreciation_value.vac2 ? this.state.property.appreciation_value.vac2 : 0);
+    let vac3 = parseFloat(this.state.property.appreciation_value.vac3 ? this.state.property.appreciation_value.vac3 : 0);
+    let vac4 = parseFloat(this.state.property.appreciation_value.vac4 ? this.state.property.appreciation_value.vac4 : 0);
+    let ppy1 = parseFloat(this.state.property.appreciation_value.ppy1 ? this.state.property.appreciation_value.ppy1 : 0);
+    let ppy2 = parseFloat(this.state.property.appreciation_value.ppy2 ? this.state.property.appreciation_value.ppy2 : 0);
+    let ppy3 = parseFloat(this.state.property.appreciation_value.ppy3 ? this.state.property.appreciation_value.ppy3 : 0);
+    let ppy4 = parseFloat(this.state.property.appreciation_value.ppy4 ? this.state.property.appreciation_value.ppy4 : 0);
+
     total_acquisition_cost = (asking_price + estimated_rehab_cost + closing_cost + short_term_financing_cost)
     amount_financed = Math.round(((after_rehab_value * amount_financed_percentage)/100)*100)/100
     principal_interest = Math.round((amount_financed*(((interest_rate/1200)*((1+(interest_rate/1200))**(loan_terms*12)))/((((1+(interest_rate/1200))**(loan_terms*12))-1) === 0 ? 1 : (((1+(interest_rate/1200))**(loan_terms*12))-1))))*100)/100
@@ -1419,6 +1476,32 @@ export default class PropertyEdit extends Component{
     total_out_of_pocket = (asking_price + estimated_rehab_cost + closing_cost + short_term_financing_cost + insurance_annually) - amount_financed
 
     roi_cash_percentage = Math.round(((annual_cash_flow / (total_out_of_pocket !== 0 ? total_out_of_pocket : 1))*100)*100)/100
+
+    eg1 = Math.round((after_rehab_value * 0.01 * loan_terms)*100)/100
+    eg2 = Math.round((after_rehab_value * 0.02 * loan_terms)*100)/100
+    eg3 = Math.round((after_rehab_value * 0.03 * loan_terms)*100)/100
+    eg4 = Math.round((after_rehab_value * 0.04 * loan_terms)*100)/100
+    t1 = Math.round((after_rehab_value + eg1)*100)/100
+    t2 = Math.round((after_rehab_value + eg2)*100)/100
+    t3 = Math.round((after_rehab_value + eg3)*100)/100
+    t4 = Math.round((after_rehab_value + eg4)*100)/100
+    cf1 = Math.round((monthly_cash_flow*(12*loan_terms))*100)/100
+    cf2 = Math.round((monthly_cash_flow*(12*loan_terms))*100)/100
+    cf3 = Math.round((monthly_cash_flow*(12*loan_terms))*100)/100
+    cf4 = Math.round((monthly_cash_flow*(12*loan_terms))*100)/100
+    ta = Math.round((cf1+t1)*100)/100
+    tb = Math.round((cf1+t2)*100)/100
+    tc = Math.round((cf1+t3)*100)/100
+    td = Math.round((cf1+t4)*100)/100
+    vac1 = Math.round((ta * 0.2)*100)/100
+    vac2 = Math.round((tb * 0.2)*100)/100
+    vac3 = Math.round((tc * 0.2)*100)/100
+    vac4 = Math.round((td * 0.2)*100)/100
+    ppy1 = Math.round((ta-vac1-total_out_of_pocket)*100)/100
+    ppy2 = Math.round((tb-vac2-total_out_of_pocket)*100)/100
+    ppy3 = Math.round((tc-vac3-total_out_of_pocket)*100)/100
+    ppy4 = Math.round((td-vac4-total_out_of_pocket)*100)/100
+
     if (this._isMounted){
       this.setState({
         property: {
@@ -1439,6 +1522,32 @@ export default class PropertyEdit extends Component{
         total_out_of_pocket,
         short_term_financing_cost,
         roi_cash_percentage,
+        appreciation_value: {
+          eg1,
+          eg2,
+          eg3,
+          eg4,
+          t1,
+          t2,
+          t3,
+          t4,
+          cf1,
+          cf2,
+          cf3,
+          cf4,
+          ta,
+          tb,
+          tc,
+          td,
+          vac1,
+          vac2,
+          vac3,
+          vac4,
+          ppy1,
+          ppy2,
+          ppy3,
+          ppy4,
+        }
         }
       })
     }
@@ -2748,50 +2857,50 @@ export default class PropertyEdit extends Component{
                             <thead>
                               <tr>
                                 <th>Appreciation</th>
-                                <th>Equality Growth 30 Years</th>
-                                <th>Total</th>
-                                <th>Cash Flow 30 Years</th>
-                                <th>Total</th>
+                                <th>Equality Growth (Loan Term)</th>
+                                <th>Total Equality Growth</th>
+                                <th>Cash Flow (Loan Term)</th>
+                                <th>Total Cash Flow </th>
                                 <th>Vac/Maint</th>
-                                <th>Possible Profit 30 Years</th>
+                                <th>Possible Profit (Loan Term)</th>
                               </tr>
                             </thead>
                             <tbody>
                               <tr>
                                 <td>1.00%</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>$ {this.state.property.appreciation_value.eg1}</td>
+                                <td>$ {this.state.property.appreciation_value.t1}</td>
+                                <td>$ {this.state.property.appreciation_value.cf1}</td>
+                                <td>$ {this.state.property.appreciation_value.ta}</td>
+                                <td>$ {this.state.property.appreciation_value.vac1}</td>
+                                <td>$ {this.state.property.appreciation_value.ppy1}</td>
                               </tr>
                               <tr>
                                 <td>2.00%</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>$ {this.state.property.appreciation_value.eg2}</td>
+                                <td>$ {this.state.property.appreciation_value.t2}</td>
+                                <td>$ {this.state.property.appreciation_value.cf2}</td>
+                                <td>$ {this.state.property.appreciation_value.ta}</td>
+                                <td>$ {this.state.property.appreciation_value.vac2}</td>
+                                <td>$ {this.state.property.appreciation_value.ppy2}</td>
                               </tr>
                               <tr>
                                 <td>3.00%</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>$ {this.state.property.appreciation_value.eg3}</td>
+                                <td>$ {this.state.property.appreciation_value.t3}</td>
+                                <td>$ {this.state.property.appreciation_value.cf3}</td>
+                                <td>$ {this.state.property.appreciation_value.ta}</td>
+                                <td>$ {this.state.property.appreciation_value.vac3}</td>
+                                <td>$ {this.state.property.appreciation_value.ppy3}</td>
                               </tr>
                               <tr>
                                 <td>4.00%</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>$ {this.state.property.appreciation_value.eg4}</td>
+                                <td>$ {this.state.property.appreciation_value.t4}</td>
+                                <td>$ {this.state.property.appreciation_value.cf4}</td>
+                                <td>$ {this.state.property.appreciation_value.ta}</td>
+                                <td>$ {this.state.property.appreciation_value.vac4}</td>
+                                <td>$ {this.state.property.appreciation_value.ppy4}</td>
                               </tr>
                             </tbody>
                           </table>
