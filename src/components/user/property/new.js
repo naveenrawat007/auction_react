@@ -2172,7 +2172,7 @@ export default class UserNewProperty extends Component{
     var files = [];
     for (var i = 0; i < data.length; i++) {
       if (i !== id){
-        files.push({src: data[i].src, id: i,name: data[i].name, file: data[i].file})
+        files.push({src: data[i].src, id: files.length,name: data[i].name, file: data[i].file})
       }else {
         continue
       }
