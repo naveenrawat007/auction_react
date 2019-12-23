@@ -3122,7 +3122,7 @@ export default class PropertyEdit extends Component{
                                 <td>$ {this.state.property.appreciation_value.eg2}</td>
                                 <td>$ {this.state.property.appreciation_value.t2}</td>
                                 <td>$ {this.state.property.appreciation_value.cf2}</td>
-                                <td>$ {this.state.property.appreciation_value.ta}</td>
+                                <td>$ {this.state.property.appreciation_value.tb}</td>
                                 <td>$ {this.state.property.appreciation_value.vac2}</td>
                                 <td>$ {this.state.property.appreciation_value.ppy2}</td>
                               </tr>
@@ -3131,7 +3131,7 @@ export default class PropertyEdit extends Component{
                                 <td>$ {this.state.property.appreciation_value.eg3}</td>
                                 <td>$ {this.state.property.appreciation_value.t3}</td>
                                 <td>$ {this.state.property.appreciation_value.cf3}</td>
-                                <td>$ {this.state.property.appreciation_value.ta}</td>
+                                <td>$ {this.state.property.appreciation_value.tc}</td>
                                 <td>$ {this.state.property.appreciation_value.vac3}</td>
                                 <td>$ {this.state.property.appreciation_value.ppy3}</td>
                               </tr>
@@ -3140,7 +3140,7 @@ export default class PropertyEdit extends Component{
                                 <td>$ {this.state.property.appreciation_value.eg4}</td>
                                 <td>$ {this.state.property.appreciation_value.t4}</td>
                                 <td>$ {this.state.property.appreciation_value.cf4}</td>
-                                <td>$ {this.state.property.appreciation_value.ta}</td>
+                                <td>$ {this.state.property.appreciation_value.td}</td>
                                 <td>$ {this.state.property.appreciation_value.vac4}</td>
                                 <td>$ {this.state.property.appreciation_value.ppy4}</td>
                               </tr>
