@@ -3024,7 +3024,7 @@ export default class UserNewProperty extends Component{
                                       <label className="label-bold">ROI Cash On Cash&nbsp;
                                         <div className="sell-tooltip">
                                           <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>You don't have to wait for the binding to end, or compete with other offers if you are willing to buy this property at this price?</p>
+                                            <p>Annual Cash Flow / Total Out of pocket (The result is in %)</p>
                                           </span>
                                         </div></label>
                                     </div>
