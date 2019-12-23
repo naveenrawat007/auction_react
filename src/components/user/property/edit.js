@@ -455,6 +455,31 @@ export default class PropertyEdit extends Component{
       });
     }
     this.updateLandlordDealCalculator();
+    if (property.images_details.length > 0){
+      let files = [];
+      for(let i = 0; i < property.images_details.length; i++){
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = "blob";//force the HTTP response, response-type header to be blob
+        xhr.open("GET", property.images_details[i].url);
+        xhr.onload = function () {
+          if (this.status >= 200 && this.status < 300) {
+            var blob = null;
+            blob = this.response
+            files.push({src: property.images_details[i].url, id: i,name: property.images_details[i].name, file: blob})
+          }
+        }
+        xhr.send();
+        // blob = xhr.response;//xhr.response is now a blob object
+        // files.push({src: property.images_details[i].url, id: i,name: property.images_details[i].name, file: new File([property.images_details[i].url], property.images_details[i].name, {type: property.images_details[i].type})})
+      }
+      this.setState({
+        property: {
+          ...this.state.property,
+          images: files,
+        }
+      });
+      // console.log(files);
+    }
   }
 
   setUpStepOne = () => {
@@ -1011,9 +1036,9 @@ export default class PropertyEdit extends Component{
     // });
     var uploaded_files = event.target.files;
     var files = this.state.property.images;
-
+    let length = this.state.property.images.length
     for (var i = 0; i < uploaded_files.length; i++) {
-      files.push({src: URL.createObjectURL(uploaded_files[i]), id: i,name: uploaded_files[i].name, file: uploaded_files[i]})
+      files.push({src: URL.createObjectURL(uploaded_files[i]), id: length+i,name: uploaded_files[i].name, file: uploaded_files[i]})
     }
     if (this._isMounted){
       this.setState({
@@ -2177,7 +2202,7 @@ export default class PropertyEdit extends Component{
     var files = [];
     for (var i = 0; i < data.length; i++) {
       if (i !== id){
-        files.push({src: data[i].src, id: i,name: data[i].name, file: data[i].file})
+        files.push({src: data[i].src, id: files.length,name: data[i].name, file: data[i].file})
       }else {
         continue
       }
@@ -3689,7 +3714,7 @@ export default class PropertyEdit extends Component{
                             <Link to="#" onClick={this.submitStepThree} className="red-btn step-btn mx-1">Continue</Link>
                           </div>
                         </div>
-                        <div className="steps-parts d-none" id="step4">
+                        <div className="steps-parts " id="step4">
                           {this.state.isLoaded === true ?
                             null
                           :
