@@ -161,6 +161,7 @@ const initial_state = {
     seller_pay_type_id: "",
     show_instructions_type_id: "",
     youtube_url: "",
+    youtube_video_key: "",
     images: []
   },
   property_options: {
@@ -386,6 +387,7 @@ export default class PropertyEdit extends Component{
         open_house_dates: property.open_house_dates ? property.open_house_dates : this.state.property.open_house_dates  ,
         vimeo_url: property.vimeo_url,
         youtube_url: property.youtube_url,
+        youtube_video_key: property.youtube_video_key,
         dropbox_url: property.dropbox_url,
         id: property.id,
         title_status: property.title_status,
@@ -709,6 +711,7 @@ export default class PropertyEdit extends Component{
     const fd = new FormData();
     fd.append('property[id]', this.state.property.id)
     fd.append('property[youtube_url]', this.state.property.youtube_url)
+    fd.append('property[youtube_video_key]', this.state.property.youtube_video_key)
     fd.append('property[vimeo_url]', this.state.property.vimeo_url)
     fd.append('property[dropbox_url]', this.state.property.dropbox_url)
     for (let i = 0 ; i < this.state.property.images.length ; i++) {
@@ -1278,6 +1281,24 @@ export default class PropertyEdit extends Component{
     window.location.href = "/user/property/" + this.state.property.id
   }
 
+  updateYoutubeVideoKey = () => {
+    if (this.state.property.youtube_url !== undefined || this.state.property.youtube_url !== '') {
+      let url = this.state.property.youtube_url
+      var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+      var match = url.match(regExp);
+      if (match && match[2].trim().length === 11) {
+        let key = match[2].trim()
+        this.setState({
+          property: {
+            ...this.state.property,
+            youtube_video_key: key
+          }
+        }, function () {
+        });
+      }
+    }
+  }
+
   updateProperty = (event) => {
     const{ name, value } = event.target;
     if (this._isMounted){
@@ -1357,6 +1378,9 @@ export default class PropertyEdit extends Component{
           }else {
             this.updateProfitPotentialCalculator();
           }
+        }
+        else if (name === "youtube_url"){
+          this.updateYoutubeVideoKey();
         }
         else {
           if (this.state.property.deal_analysis_type === "Landlord Deal"){

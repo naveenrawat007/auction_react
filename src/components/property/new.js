@@ -175,6 +175,7 @@ const initial_state = {
     seller_pay_type_id: "",
     show_instructions_type_id: "",
     youtube_url: "",
+    youtube_video_key: "",
     images: []
   },
   property_options: {
@@ -336,6 +337,25 @@ export default class NewProperty extends Component{
     }
   }
 
+  updateYoutubeVideoKey = () => {
+    if (this.state.property.youtube_url !== undefined || this.state.property.youtube_url !== '') {
+      let url = this.state.property.youtube_url
+      var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+      var match = url.match(regExp);
+      if (match && match[2].trim().length === 11) {
+        let key = match[2].trim()
+
+        this.setState({
+          property: {
+            ...this.state.property,
+            youtube_video_key: key
+          }
+        }, function () {
+        });
+      }
+    }
+  }
+
   updateProperty = (event) => {
     const{ name, value } = event.target;
     if (this._isMounted){
@@ -413,7 +433,11 @@ export default class NewProperty extends Component{
           }else {
             this.updateProfitPotentialCalculator();
           }
-        }else{
+        }
+        else if (name === "youtube_url"){
+          this.updateYoutubeVideoKey();
+        }
+        else{
           if (this.state.property.deal_analysis_type === "Landlord Deal"){
             this.updateLandlordDealCalculator();
           }else {

@@ -170,6 +170,7 @@ const initial_state = {
     seller_pay_type_id: "",
     show_instructions_type_id: "",
     youtube_url: "",
+    youtube_video_key: "",
     images: []
   },
   property_options: {
@@ -678,6 +679,7 @@ export default class UserNewProperty extends Component{
     const fd = new FormData();
     fd.append('property[id]', this.state.property.id)
     fd.append('property[youtube_url]', this.state.property.youtube_url)
+    fd.append('property[youtube_video_key]', this.state.property.youtube_video_key)
     fd.append('property[vimeo_url]', this.state.property.vimeo_url)
     fd.append('property[dropbox_url]', this.state.property.dropbox_url)
     for (let i = 0 ; i < this.state.property.images.length ; i++) {
@@ -1247,6 +1249,23 @@ export default class UserNewProperty extends Component{
   saveDraftProperty = () => {
     window.location.href = "/user/property/" + this.state.property.id
   }
+  updateYoutubeVideoKey = () => {
+    if (this.state.property.youtube_url !== undefined || this.state.property.youtube_url !== '') {
+      let url = this.state.property.youtube_url
+      var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+      var match = url.match(regExp);
+      if (match && match[2].trim().length === 11) {
+        let key = match[2].trim()
+        this.setState({
+          property: {
+            ...this.state.property,
+            youtube_video_key: key
+          }
+        }, function () {
+        });
+      }
+    }
+  }
 
   updateProperty = (event) => {
     const{ name, value } = event.target;
@@ -1327,6 +1346,9 @@ export default class UserNewProperty extends Component{
           }else {
             this.updateProfitPotentialCalculator();
           }
+        }
+        else if (name === "youtube_url"){
+          this.updateYoutubeVideoKey();
         }
         else {
           if (this.state.property.deal_analysis_type === "Landlord Deal"){
