@@ -3713,7 +3713,7 @@ export default class PropertyEdit extends Component{
                             <Link to="#" onClick={this.submitStepThree} className="red-btn step-btn mx-1">Continue</Link>
                           </div>
                         </div>
-                        <div className="steps-parts " id="step4">
+                        <div className="steps-parts d-none" id="step4">
                           {this.state.isLoaded === true ?
                             null
                           :
