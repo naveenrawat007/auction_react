@@ -1252,7 +1252,7 @@ export default class UserNewProperty extends Component{
   updateYoutubeVideoKey = () => {
     if (this.state.property.youtube_url !== undefined || this.state.property.youtube_url !== '') {
       let url = this.state.property.youtube_url
-      var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+      var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|v=|\?v=)([^#]*).*/;
       var match = url.match(regExp);
       if (match && match[2].trim().length === 11) {
         let key = match[2].trim()
