@@ -478,7 +478,6 @@ export default class PropertyEdit extends Component{
           images: files,
         }
       });
-      // console.log(files);
     }
   }
 
