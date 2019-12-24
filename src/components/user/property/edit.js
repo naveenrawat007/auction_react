@@ -272,47 +272,49 @@ export default class PropertyEdit extends Component{
 
   handlePlaceChanged = () => {
     const place = this.autocomplete.getPlace();
-    let address = "";
-    let city = "";
-    let state = "";
-    let postal_code = "";
-    address = place.formatted_address
-    for (let i = 0; i < place.address_components.length; i++) {
-      for (let k = 0; k < place.address_components[i].types.length; k++) {
-        switch (place.address_components[i].types[k]) {
-          // case "street_number":
-          //   address = address + place.address_components[i].long_name;
-          //   break;
-          case "route":
-            address = address + ", " + place.address_components[i].long_name;
-            break;
-          case "locality":
-            city = place.address_components[i].long_name;
-            break;
-          case "administrative_area_level_1":
-            state = place.address_components[i].long_name;
-            break;
-          case "postal_code":
-            postal_code = place.address_components[i].long_name;
-            break;
-          default:
+    if (place.formatted_address && place.address_components){
+      let address = "";
+      let city = "";
+      let state = "";
+      let postal_code = "";
+      address = place.formatted_address
+      for (let i = 0; i < place.address_components.length; i++) {
+        for (let k = 0; k < place.address_components[i].types.length; k++) {
+          switch (place.address_components[i].types[k]) {
+            // case "street_number":
+            //   address = address + place.address_components[i].long_name;
+            //   break;
+            case "route":
+              address = address + ", " + place.address_components[i].long_name;
+              break;
+            case "locality":
+              city = place.address_components[i].long_name;
+              break;
+            case "administrative_area_level_1":
+              state = place.address_components[i].long_name;
+              break;
+            case "postal_code":
+              postal_code = place.address_components[i].long_name;
+              break;
+            default:
+          }
         }
       }
-    }
-    if (this._isMounted){
-      this.setState({
-        property: {
-          ...this.state.property,
-          address: address,
-          city: city,
-          state: state,
-          zip_code: postal_code
-        },
-        property_address_error: "",
-        property_city_error: "",
-        property_state_error: "",
-        property_zip_code_error: "",
-      });
+      if (this._isMounted){
+        this.setState({
+          property: {
+            ...this.state.property,
+            address: address,
+            city: city,
+            state: state,
+            zip_code: postal_code
+          },
+          property_address_error: "",
+          property_city_error: "",
+          property_state_error: "",
+          property_zip_code_error: "",
+        });
+      }
     }
   }
 
