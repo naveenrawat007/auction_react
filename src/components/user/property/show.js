@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf} from '@fortawesome/free-solid-svg-icons'
+import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf} from '@fortawesome/free-solid-svg-icons';
+import Modal from 'react-bootstrap/Modal';
 
 export default class PropertyShow extends Component {
   _isMounted = false
   constructor(props){
     super(props);
     this.state = {
+      open_rehab_modal: false,
       property: {},
       isLoaded: false,
       message: "",
@@ -117,6 +119,18 @@ export default class PropertyShow extends Component {
           return""
       }
     }
+  }
+
+  openRehabCostAttrModal = () => {
+    this.setState({
+      open_rehab_modal: true,
+    });
+  }
+
+  closeRehabCostAttrModal = () => {
+    this.setState({
+      open_rehab_modal: false,
+    });
   }
 
   render(){
@@ -295,6 +309,7 @@ export default class PropertyShow extends Component {
                     <h5 className="mb-3 main_box_head">Property Details</h5>
                     <div className="detailed_content">
                       <p><span>{this.state.property.category} | {this.state.property.p_type}</span></p>
+                      <p><span>Title Status: </span> {this.state.property.title_status}</p>
                       {this.state.property.category === "Residential" ?
                         <ul className="list-inline">
                           <li className="list-inline-item"><span>Beds:</span> {this.state.property.residential_attributes.bedrooms}</li>|
@@ -305,7 +320,7 @@ export default class PropertyShow extends Component {
                           <li className="list-inline-item"><span>Built:</span> {this.state.property.residential_attributes.year_built}</li>
                         </ul>
                       : null }
-                      <p>{this.state.property.description}</p>
+                      <p className="mt-2">{this.state.property.description}</p>
                     </div>
                   </div>
                 </div>
@@ -326,6 +341,14 @@ export default class PropertyShow extends Component {
                   <div className="doc_box">
                     <h5 className="mb-3 main_box_head">Property Documents</h5>
                     <div className="doc_content">
+                      <div className="pdf_type">
+                        <Link to="#" onClick={this.openRehabCostAttrModal} rel="noopener noreferrer">
+                          <div className="pdf-box">
+                            <FontAwesomeIcon icon={faFilePdf} color="red"/>
+                            <p>Itemized Repairs</p>
+                          </div>
+                        </Link>
+                      </div>
                       {this.state.property.arv_proof === "" ? null : (
                         <div className="pdf_type">
                           <a href={this.state.property.arv_proof} target="_blank" rel="noopener noreferrer">
@@ -349,6 +372,238 @@ export default class PropertyShow extends Component {
                     </div>
                   </div>
                 </div>
+                <Modal className="status_modal repairs_modal" show={this.state.open_rehab_modal} onHide={this.closeRehabCostAttrModal}>
+                  <Modal.Header closeButton>
+                    <div className=" offset-md-1 col-md-10 text-center">
+                      <h5 className="mb-0 text-uppercase">Itemized Repairs</h5>
+                    </div>
+                  </Modal.Header>
+                  <div className="modal-body px-0">
+                    <div className="row mx-0">
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Roof:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input value={this.state.property.estimated_rehab_cost_attr.roof} type="number" className="form-control" name="roof" readOnly={true} />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Foundation:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="foundation" value={this.state.property.estimated_rehab_cost_attr.foundation} className="form-control " readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Siding:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="siding" value={this.state.property.estimated_rehab_cost_attr.siding} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Windows:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="windows" value={this.state.property.estimated_rehab_cost_attr.windows}  className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Landscaping:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="landscaping" value={this.state.property.estimated_rehab_cost_attr.landscaping} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Garage:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name= "garage" value={this.state.property.estimated_rehab_cost_attr.garage} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Exterior Paint:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="exterior_paint" value={this.state.property.estimated_rehab_cost_attr.exterior_paint} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Interior Paint:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="interior_paint" value={this.state.property.estimated_rehab_cost_attr.interior_paint} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>HVAC:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="hvac" value={this.state.property.estimated_rehab_cost_attr.hvac} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Electrical:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="electrical" className="form-control" value={this.state.property.estimated_rehab_cost_attr.electrical} readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Plumbing:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="plumbing" className="form-control" value={this.state.property.estimated_rehab_cost_attr.plumbing} readOnly={true} />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Kitchen:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="kitchen" value={this.state.property.estimated_rehab_cost_attr.kitchen}  className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Bathrooms:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="name" name="bathrooms" value={this.state.property.estimated_rehab_cost_attr.bathrooms} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Doors:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="doors" value={this.state.property.estimated_rehab_cost_attr.doors} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Sheetrock:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name= "sheetrock" value={this.state.property.estimated_rehab_cost_attr.sheetrock} className="form-control " readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Trim:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="trim" value={this.state.property.estimated_rehab_cost_attr.trim} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Flooring:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="flooring" value={this.state.property.estimated_rehab_cost_attr.flooring} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Trash Removal:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="trash" value={this.state.property.estimated_rehab_cost_attr.trash} className="form-control " readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Miscellaneous:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="misc" value={this.state.property.estimated_rehab_cost_attr.misc} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Others:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="others" className="form-control" value={this.state.property.estimated_rehab_cost_attr.others} readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 modal-banner px-5 py-3 my-2 ml-0">
+                        If you don't have itemized costs then enter ballpark of entire rehab.
+                      </div>
+                      <div className="col-md-12 px-4">
+                        <div className="form-group">
+                          <label>Estimated Ballpak</label>
+                          <input type="number" name="estimated_ballpark" value={this.state.property.estimated_rehab_cost_attr.estimated_ballpark} className="form-control" readOnly={true}/>
+                        </div>
+                      </div>
+                      <div className="col-md-12 px-4">
+                        <div className="form-group">
+                          <label>Repair Total</label>
+                          <input type="number" value={this.state.property.estimated_rehab_cost_attr.repair_total} readOnly={true} name="repair_total" className="form-control" />
+                        </div>
+                      </div>
+
+                    </div>
+                    <div className="col-md-12 text-center mt-3">
+                      <span className="error"></span>
+                      <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.hideModal}>Close</button>
+                    </div>
+                  </div>
+                </Modal>
               </div>
             </div>
             <div className="col-md-6 px-2">
