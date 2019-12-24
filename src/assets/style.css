@@ -3887,7 +3887,7 @@ a.add_links{
   visibility: visible;
 }
 .popover{
-  max-width: 190px;
+  max-width: 250px;
 }
 .popover-body {
   padding: .5rem .75rem;
