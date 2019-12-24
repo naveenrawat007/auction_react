@@ -50,6 +50,8 @@ const initial_state = {
     city: "",
     state: "",
     zip_code: "",
+    lat: "",
+    long: "",
     category: "",
     p_type: "",
     headliner: "",
@@ -300,6 +302,10 @@ export default class NewProperty extends Component{
       let city = "";
       let state = "";
       let postal_code = "";
+      let lat = "";
+      let long = "";
+      lat = place.geometry.location.lat();
+      long = place.geometry.location.lng();
       address = place.formatted_address
       for (let i = 0; i < place.address_components.length; i++) {
         for (let k = 0; k < place.address_components[i].types.length; k++) {
@@ -330,7 +336,9 @@ export default class NewProperty extends Component{
             address: address,
             city: city,
             state: state,
-            zip_code: postal_code
+            zip_code: postal_code,
+            lat: lat,
+            long: long,
           },
           property_address_error: "",
           property_city_error: "",

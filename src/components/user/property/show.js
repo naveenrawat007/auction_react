@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf} from '@fortawesome/free-solid-svg-icons'
+import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf} from '@fortawesome/free-solid-svg-icons';
+import Modal from 'react-bootstrap/Modal';
 
 export default class PropertyShow extends Component {
   _isMounted = false
   constructor(props){
     super(props);
     this.state = {
+      timer_complete: false,
+      open_rehab_modal: false,
       property: {},
       isLoaded: false,
       message: "",
@@ -104,7 +107,130 @@ export default class PropertyShow extends Component {
       currentImage: n
     });
   }
+  ownerCategoryText = (text) => {
+    if (text){
+      switch (text) {
+        case "Owner":
+          return "The Owner"
+        case "Wholesaler":
+          return "A Wholesaler who has equitable interest in this property"
+        case "Realtor":
+          return "A Realtor who has a listing agreement that allows me to auction my clients property"
+        default:
+          return""
+      }
+    }
+  }
 
+  openRehabCostAttrModal = () => {
+    this.setState({
+      open_rehab_modal: true,
+    });
+  }
+
+  closeRehabCostAttrModal = () => {
+    this.setState({
+      open_rehab_modal: false,
+    });
+  }
+  calculateApproveTime = (time) => {
+    if (time){
+      let timer_interval = setInterval(function () {
+        if (time){
+          let now = new Date().getTime();
+          let end = new Date(time).getTime();
+          let t = (end/1000) - (now/1000);
+          let days = Math.floor(t/(60*60*24))
+          let hours = Math.floor((t%(60*60*24))/(60*60));
+          let minutes = Math.floor((t%(60*60))/60);
+          let seconds = Math.floor((t%(60)))
+          if (t<0){
+            document.getElementById("days-timer-item").innerHTML = "--"
+            document.getElementById("hours-timer-item").innerHTML = "--"
+            document.getElementById("minutes-timer-item").innerHTML = "--"
+            document.getElementById("seconds-timer-item").innerHTML = "--"
+            clearInterval(timer_interval);
+            window.location.reload(false)
+          }else {
+            document.getElementById("days-timer-item").innerHTML = days
+            document.getElementById("hours-timer-item").innerHTML = hours
+            document.getElementById("minutes-timer-item").innerHTML = minutes
+            document.getElementById("seconds-timer-item").innerHTML = seconds
+          }
+        }else {
+          clearInterval(timer_interval);
+          document.getElementById("days-timer-item").innerHTML = "--"
+          document.getElementById("hours-timer-item").innerHTML = "--"
+          document.getElementById("minutes-timer-item").innerHTML = "--"
+          document.getElementById("seconds-timer-item").innerHTML = "--"
+        }
+      }, 1000)
+    }else {
+    }
+  }
+
+  renderTimerBlock = () => {
+    let block;
+    if (this.state.property.status === "Draft" || this.state.property.status === "Under Review"){
+      block = <div className="time_status font-red"> <h4>Pending Status</h4></div>
+    }else if (this.state.property.status === "Approve / Best Offer") {
+
+      const starting_date = new Date(this.state.property.auction_started_at).getTime()
+      const ending_date = new Date(this.state.property.auction_ending_at).getTime()
+      const now = new Date().getTime()
+      if (now < starting_date){
+        block = <>
+          <div className="time_status">
+            <ul>
+              <li id="days-timer-item">00</li>
+              <li>Days</li>
+            </ul>
+            <ul>
+              <li id="hours-timer-item">00</li>
+              <li>Hours</li>
+            </ul>
+            <ul>
+              <li id="minutes-timer-item">00</li>
+              <li>Minutes</li>
+            </ul>
+            <ul>
+              <li id="seconds-timer-item">00</li>
+              <li>Seconds</li>
+            </ul>
+          </div>{this.calculateApproveTime(this.state.property.auction_started_at)}
+          <div className="font-red text-center">Remaining Time Before Auction starts. </div>
+        </>
+      }else if (now < ending_date){
+        block = <>
+          <div className="time_status">
+            <ul>
+              <li id="days-timer-item">00</li>
+              <li>Days</li>
+            </ul>
+            <ul>
+              <li id="hours-timer-item">00</li>
+              <li>Hours</li>
+            </ul>
+            <ul>
+              <li id="minutes-timer-item">00</li>
+              <li>Minutes</li>
+            </ul>
+            <ul>
+              <li id="seconds-timer-item">00</li>
+              <li>Seconds</li>
+            </ul>
+          </div>{this.calculateApproveTime(this.state.property.auction_ending_at)}
+          <div className="font-red text-center">Remaining Time Before Auction Ends. </div>
+        </>
+      }
+      else {
+        block = <div className="time_status font-red"> <h4>Post Auction</h4></div>
+      }
+    }else {
+      block = <div className="time_status font-red"> <h4>Pending Status</h4></div>
+    }
+    return block
+  }
 
   render(){
     if (this.state.isLoaded === true){
@@ -130,6 +256,12 @@ export default class PropertyShow extends Component {
           </div>
         )
       })
+      const buy_options_string = this.state.property.buy_option.length > 0 ? <li>Seller will only accept {this.state.property.buy_option.join(", ")} for fixer upper properties.</li> : null
+      const closing_date_string = this.state.property.auction_ending_at ? <li>Seller's Ideal Closing Date: {this.state.property.closing_date}.</li> : null
+      const owner_detail_string = this.state.property.owner_category ? <li>The person selling this property is {this.ownerCategoryText(this.state.property.owner_category)}.</li> : null
+      const title_string = this.state.property.title_status ? <li>{this.state.property.title_status}</li> : null
+      const mls_string = String(this.state.property.mls_available) === "true" ? <li>Property is on MLS.</li> : <li>Property is not on MLS.</li>
+      const flooded_string = String(this.state.property.flooded) === "true" ? <li>Seller discloses property has flooded with remarks.</li> : <li>Seller discloses property has not flooded.</li>
       return (
         <div className="container custom_container">
           <div className="row">
@@ -172,25 +304,8 @@ export default class PropertyShow extends Component {
               </div>
             </div>
             <div className="col-md-4 px-2">
-              <div className="wrap_property">
-                <div className="time_status">
-                  <ul>
-                    <li>05</li>
-                    <li>Days</li>
-                  </ul>
-                  <ul>
-                    <li>01</li>
-                    <li>Hours</li>
-                  </ul>
-                  <ul>
-                    <li>36</li>
-                    <li>Minutes</li>
-                  </ul>
-                  <ul>
-                    <li>36</li>
-                    <li>Seconds</li>
-                  </ul>
-                </div>
+              <div className="wrap_property" id="property-timer-block">
+                {this.renderTimerBlock()}
               </div>
               <div className="wrap_property py-4">
                 <div className="property_rate text-center">
@@ -255,6 +370,10 @@ export default class PropertyShow extends Component {
                         <li className="list-inline-item">${this.state.property.landlord_deal.monthly_cash_flow}</li>
                       </ul>
                       <ul className="list-inline mb-2">
+                        <li className="list-inline-item">Annual Cash Flow:</li>
+                        <li className="list-inline-item">${this.state.property.landlord_deal.annual_cash_flow}</li>
+                      </ul>
+                      <ul className="list-inline mb-2">
                         <li className="list-inline-item">Total Out of Pocket:</li>
                         <li className="list-inline-item">${this.state.property.landlord_deal.total_out_of_pocket}</li>
                       </ul>
@@ -276,6 +395,7 @@ export default class PropertyShow extends Component {
                     <h5 className="mb-3 main_box_head">Property Details</h5>
                     <div className="detailed_content">
                       <p><span>{this.state.property.category} | {this.state.property.p_type}</span></p>
+                      <p><span>Title Status: </span> {this.state.property.title_status}</p>
                       {this.state.property.category === "Residential" ?
                         <ul className="list-inline">
                           <li className="list-inline-item"><span>Beds:</span> {this.state.property.residential_attributes.bedrooms}</li>|
@@ -286,7 +406,7 @@ export default class PropertyShow extends Component {
                           <li className="list-inline-item"><span>Built:</span> {this.state.property.residential_attributes.year_built}</li>
                         </ul>
                       : null }
-                      <p>{this.state.property.description}</p>
+                      <p className="mt-2">{this.state.property.description}</p>
                     </div>
                   </div>
                 </div>
@@ -307,6 +427,14 @@ export default class PropertyShow extends Component {
                   <div className="doc_box">
                     <h5 className="mb-3 main_box_head">Property Documents</h5>
                     <div className="doc_content">
+                      <div className="pdf_type">
+                        <Link to="#" onClick={this.openRehabCostAttrModal} rel="noopener noreferrer">
+                          <div className="pdf-box">
+                            <FontAwesomeIcon icon={faFilePdf} color="red"/>
+                            <p>Itemized Repairs</p>
+                          </div>
+                        </Link>
+                      </div>
                       {this.state.property.arv_proof === "" ? null : (
                         <div className="pdf_type">
                           <a href={this.state.property.arv_proof} target="_blank" rel="noopener noreferrer">
@@ -330,13 +458,257 @@ export default class PropertyShow extends Component {
                     </div>
                   </div>
                 </div>
+                <Modal className="status_modal repairs_modal" show={this.state.open_rehab_modal} onHide={this.closeRehabCostAttrModal}>
+                  <Modal.Header closeButton>
+                    <div className=" offset-md-1 col-md-10 text-center">
+                      <h5 className="mb-0 text-uppercase">Itemized Repairs</h5>
+                    </div>
+                  </Modal.Header>
+                  <div className="modal-body px-0">
+                    <div className="row mx-0">
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Roof:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input value={this.state.property.estimated_rehab_cost_attr.roof} type="number" className="form-control" name="roof" readOnly={true} />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Foundation:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="foundation" value={this.state.property.estimated_rehab_cost_attr.foundation} className="form-control " readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Siding:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="siding" value={this.state.property.estimated_rehab_cost_attr.siding} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Windows:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="windows" value={this.state.property.estimated_rehab_cost_attr.windows}  className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Landscaping:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="landscaping" value={this.state.property.estimated_rehab_cost_attr.landscaping} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Garage:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name= "garage" value={this.state.property.estimated_rehab_cost_attr.garage} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Exterior Paint:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="exterior_paint" value={this.state.property.estimated_rehab_cost_attr.exterior_paint} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Interior Paint:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="interior_paint" value={this.state.property.estimated_rehab_cost_attr.interior_paint} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>HVAC:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="hvac" value={this.state.property.estimated_rehab_cost_attr.hvac} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Electrical:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="electrical" className="form-control" value={this.state.property.estimated_rehab_cost_attr.electrical} readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Plumbing:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="plumbing" className="form-control" value={this.state.property.estimated_rehab_cost_attr.plumbing} readOnly={true} />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Kitchen:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="kitchen" value={this.state.property.estimated_rehab_cost_attr.kitchen}  className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Bathrooms:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="name" name="bathrooms" value={this.state.property.estimated_rehab_cost_attr.bathrooms} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Doors:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="doors" value={this.state.property.estimated_rehab_cost_attr.doors} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Sheetrock:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name= "sheetrock" value={this.state.property.estimated_rehab_cost_attr.sheetrock} className="form-control " readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Trim:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="trim" value={this.state.property.estimated_rehab_cost_attr.trim} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Flooring:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="flooring" value={this.state.property.estimated_rehab_cost_attr.flooring} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Trash Removal:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="trash" value={this.state.property.estimated_rehab_cost_attr.trash} className="form-control " readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Miscellaneous:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="misc" value={this.state.property.estimated_rehab_cost_attr.misc} className="form-control" readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 ">
+                        <div className="form-group row">
+                          <div className="col-md-5 px-4">
+                            <label>Others:</label>
+                          </div>
+                          <div className="col-md-7 px-4">
+                            <input type="number" name="others" className="form-control" value={this.state.property.estimated_rehab_cost_attr.others} readOnly={true}/>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-12 modal-banner px-5 py-3 my-2 ml-0">
+                        If you don't have itemized costs then enter ballpark of entire rehab.
+                      </div>
+                      <div className="col-md-12 px-4">
+                        <div className="form-group">
+                          <label>Estimated Ballpak</label>
+                          <input type="number" name="estimated_ballpark" value={this.state.property.estimated_rehab_cost_attr.estimated_ballpark} className="form-control" readOnly={true}/>
+                        </div>
+                      </div>
+                      <div className="col-md-12 px-4">
+                        <div className="form-group">
+                          <label>Repair Total</label>
+                          <input type="number" value={this.state.property.estimated_rehab_cost_attr.repair_total} readOnly={true} name="repair_total" className="form-control" />
+                        </div>
+                      </div>
+
+                    </div>
+                    <div className="col-md-12 text-center mt-3">
+                      <span className="error"></span>
+                      <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.hideModal}>Close</button>
+                    </div>
+                  </div>
+                </Modal>
               </div>
             </div>
             <div className="col-md-6 px-2">
               <div className="wrap_property">
-                <h5 className="mb-3 main_box_head">Property Auction Terms and Disclaimers</h5>
+                <h5 className="mb-3 main_box_head">Property Video</h5>
                 <div className="video-box">
-                  <iframe title="youtube" height="350" src={ this.state.property.youtube_video_key ? `https://www.youtube.com/embed/${this.state.property.youtube_video_key}?controls=0` : "https://www.youtube.com/embed/X080gIJFE3M?controls=0"} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                  {
+                    this.state.property.youtube_video_key ?
+                      <iframe title="youtube" height="350" src={ this.state.property.youtube_video_key ? `https://www.youtube.com/embed/${this.state.property.youtube_video_key}?controls=0` : "https://www.youtube.com/embed/X080gIJFE3M?controls=0"} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                    :
+                    (
+                      (this.state.property.lat && this.state.property.long) ?
+                        <iframe title="map" height="350" src={`https://www.google.com/maps/embed/v1/streetview?key=AIzaSyBcFpWT7vu4mLXbEPmkr5GJDG5jWBI67x0&location=${this.state.property.lat},${this.state.property.long}&heading=210&pitch=10
+                        &fov=35`} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                      :
+                      <iframe title="youtube" height="350" src={ this.state.property.youtube_video_key ? `https://www.youtube.com/embed/${this.state.property.youtube_video_key}?controls=0` : "https://www.youtube.com/embed/X080gIJFE3M?controls=0"} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                    )
+                  }
+
                 </div>
               </div>
             </div>
@@ -353,16 +725,21 @@ export default class PropertyShow extends Component {
                 <h5 className="mb-3 main_box_head">Property Auction Terms and Disclaimers</h5>
                 <div className="terms-box">
                   <ul>
-                    <li>Seller will only accept Cash, Line of Credit or Hard Money Loans for fixer upper properties.</li>
-                    <li>Seller's Ideal Closing Date: January 29, 2018.</li>
-                    <li>Property is being offered "AS IS, WHERE IS".</li>
+                    {buy_options_string}
+                    {closing_date_string}
+                    {owner_detail_string}
+                    {title_string}
+                    {flooded_string}
+                    {mls_string}
+                    <li>Property is being offered "AS IS, WHERE IS with ALL FAULTS".</li>
                     <li>There are no inspection or financing contengencies.</li>
-                    <li>Bidders must inspect property before bidding ends or ask for inspection contigencyto take place within 48 bussiness hours of acceptance. if bidder asks for contigency they will be subject to losing their $997 deposit for taking the property off the market if they don't close on property. if they do close then this $997 will go towards buyers earnest money.</li>
-                    <li>All pictures, details or descriptionsof any property, condition of title, value or otherwise is provided for informational purposes only and may not represent the true and current status of the property now or at the time of sale. </li>
-                    <li>Title is opent for subject property, and seller warrants there aren't any liens on property that will prevent it from closing.</li>
-                    <li>Buyer will receive a General or Special Warranty Deed, depending on title.</li>
-                    <li>The Buy Now feature will allows users to buy a property NOW insted of waiting for the auction to end.</li>
-                    <li>Seller reserves the right to a final review and can accept or reject any offers if highest or Buy Now Bidder dosen't provide satisfactory verification of their ability to close on the propert.</li>
+                    <li>Buyer will receive a General or Special Warranty Deed depending on title status.</li>
+
+                    <li>The Buy Now feature will allow users to buy a property NOW instead of waiting for the Best Offer or Auction timer to end.</li>
+                    <li>Seller reserves the right to a final review and can accept or reject any offers if they are the Highest & Best Offer or Buy Now Bidder doesn't provide satisfactory verification of their ability to close on the property even if they are the Highest and Best offer at the end of the Auction.</li>
+                    <li>All pictures, details or descriptions of any property, condition of title, value or otherwise is provided for informational purposes only and may not represent the true and current status of the property now or at the time of sale.  Buyer acknowledges that Buyer is not relying on any reports, bids, inspections or any statements (oral, written or transmitted electronically), made or provided by Seller or by Sellers affiliates or agents (including Angel Investors, LLC, AuctionMyDeal.com, registered Real Estate Broker or Associates) and is relying solely on Buyers Investigations and inspections of the property in entering into a Real Estate Contract to buy any properties being offered for sale on this site.
+                    </li>
+                    <li>You must be a premium member or have promo code to be able to get address, bid on any properties, open property documents, view video, view map or schedule an appointment to view property. Become a PREMIUM MEMBER</li>
                   </ul>
                 </div>
               </div>
