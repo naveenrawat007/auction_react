@@ -4,6 +4,8 @@ import Modal from 'react-bootstrap/Modal'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import MultiSelect from "@khanacademy/react-multi-select";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Popover from 'react-bootstrap/Popover'
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 // import Alert from 'react-bootstrap/Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -2721,11 +2723,22 @@ export default class PropertyEdit extends Component{
                                   <div className="row mx-0 step_row">
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="text-uppercase">EST AFTER REHAB VALUE:&nbsp;
-                                        <div className="sell-tooltip">
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                And here's some <strong>amazing</strong> content. It's very engaging.
+                                                right?
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
+                                        {/* <div className="sell-tooltip">
                                           <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
                                             <p>Please provide proof that your ARV is correct below because it will have to appraise for this price or the buyer will have to pay the difference to keep these numbers the same.</p>
                                           </span>
-                                        </div>
+                                        </div> */}
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
