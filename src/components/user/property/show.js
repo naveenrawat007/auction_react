@@ -104,7 +104,20 @@ export default class PropertyShow extends Component {
       currentImage: n
     });
   }
-
+  ownerCategoryText = (text) => {
+    if (text){
+      switch (text) {
+        case "Owner":
+          return "The Owner"
+        case "Wholesaler":
+          return "A Wholesaler who has equitable interest in this property"
+        case "Realtor":
+          return "A Realtor who has a listing agreement that allows me to auction my clients property"
+        default:
+          return""
+      }
+    }
+  }
 
   render(){
     if (this.state.isLoaded === true){
@@ -130,6 +143,12 @@ export default class PropertyShow extends Component {
           </div>
         )
       })
+      const buy_options_string = this.state.property.buy_option.length > 0 ? <li>Seller will only accept {this.state.property.buy_option.join(", ")} for fixer upper properties.</li> : null
+      const closing_date_string = this.state.property.auction_ending_at ? <li>Seller's Ideal Closing Date: {this.state.property.closing_date}.</li> : null
+      const owner_detail_string = this.state.property.owner_category ? <li>The person selling this property is {this.ownerCategoryText(this.state.property.owner_category)}.</li> : null
+      const title_string = this.state.property.title_status ? <li>{this.state.property.title_status}</li> : null
+      const mls_string = String(this.state.property.mls_available) === "true" ? <li>Property is on MLS.</li> : <li>Property is not on MLS.</li>
+      const flooded_string = String(this.state.property.flooded) === "true" ? <li>Seller discloses property has flooded with remarks.</li> : <li>Seller discloses property has not flooded.</li>
       return (
         <div className="container custom_container">
           <div className="row">
@@ -334,7 +353,7 @@ export default class PropertyShow extends Component {
             </div>
             <div className="col-md-6 px-2">
               <div className="wrap_property">
-                <h5 className="mb-3 main_box_head">Property Auction Terms and Disclaimers</h5>
+                <h5 className="mb-3 main_box_head">Property Video</h5>
                 <div className="video-box">
                   {
                     this.state.property.youtube_video_key ?
@@ -365,16 +384,21 @@ export default class PropertyShow extends Component {
                 <h5 className="mb-3 main_box_head">Property Auction Terms and Disclaimers</h5>
                 <div className="terms-box">
                   <ul>
-                    <li>Seller will only accept Cash, Line of Credit or Hard Money Loans for fixer upper properties.</li>
-                    <li>Seller's Ideal Closing Date: January 29, 2018.</li>
-                    <li>Property is being offered "AS IS, WHERE IS".</li>
+                    {buy_options_string}
+                    {closing_date_string}
+                    {owner_detail_string}
+                    {title_string}
+                    {flooded_string}
+                    {mls_string}
+                    <li>Property is being offered "AS IS, WHERE IS with ALL FAULTS".</li>
                     <li>There are no inspection or financing contengencies.</li>
-                    <li>Bidders must inspect property before bidding ends or ask for inspection contigencyto take place within 48 bussiness hours of acceptance. if bidder asks for contigency they will be subject to losing their $997 deposit for taking the property off the market if they don't close on property. if they do close then this $997 will go towards buyers earnest money.</li>
-                    <li>All pictures, details or descriptionsof any property, condition of title, value or otherwise is provided for informational purposes only and may not represent the true and current status of the property now or at the time of sale. </li>
-                    <li>Title is opent for subject property, and seller warrants there aren't any liens on property that will prevent it from closing.</li>
-                    <li>Buyer will receive a General or Special Warranty Deed, depending on title.</li>
-                    <li>The Buy Now feature will allows users to buy a property NOW insted of waiting for the auction to end.</li>
-                    <li>Seller reserves the right to a final review and can accept or reject any offers if highest or Buy Now Bidder dosen't provide satisfactory verification of their ability to close on the propert.</li>
+                    <li>Buyer will receive a General or Special Warranty Deed depending on title status.</li>
+
+                    <li>The Buy Now feature will allow users to buy a property NOW instead of waiting for the Best Offer or Auction timer to end.</li>
+                    <li>Seller reserves the right to a final review and can accept or reject any offers if they are the Highest & Best Offer or Buy Now Bidder doesn't provide satisfactory verification of their ability to close on the property even if they are the Highest and Best offer at the end of the Auction.</li>
+                    <li>All pictures, details or descriptions of any property, condition of title, value or otherwise is provided for informational purposes only and may not represent the true and current status of the property now or at the time of sale.  Buyer acknowledges that Buyer is not relying on any reports, bids, inspections or any statements (oral, written or transmitted electronically), made or provided by Seller or by Sellers affiliates or agents (including Angel Investors, LLC, AuctionMyDeal.com, registered Real Estate Broker or Associates) and is relying solely on Buyers Investigations and inspections of the property in entering into a Real Estate Contract to buy any properties being offered for sale on this site.
+                    </li>
+                    <li>You must be a premium member or have promo code to be able to get address, bid on any properties, open property documents, view video, view map or schedule an appointment to view property. Become a PREMIUM MEMBER</li>
                   </ul>
                 </div>
               </div>
