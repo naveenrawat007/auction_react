@@ -3860,6 +3860,8 @@ a.add_links{
   position: absolute;
   z-index: 1;
   margin-left: -60px;
+  font-weight: 400;
+  text-transform: none;
   box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.3);
 }
 
@@ -3867,14 +3869,6 @@ a.add_links{
   font-size: 16px;
   font-weight: 600;
   color: #b71c1c;
-  margin: 10px 0px;
-}
-
-.sell-tooltip .sell-tooltiptext p {
-  font-weight: 400;
-  font-size: 12px;
-  color: #000;
-  text-transform: none;
   margin: 10px 0px;
 }
 
@@ -3891,4 +3885,13 @@ a.add_links{
 
 .sell-tooltip:hover .sell-tooltiptext {
   visibility: visible;
+}
+.popover-body {
+  padding: .5rem .75rem;
+  color: #000000;
+  font-weight: 400;
+  font-size: 12px;
+}
+.popover-body p{
+  color: #000;
 }

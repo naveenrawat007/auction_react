@@ -2727,18 +2727,12 @@ export default class PropertyEdit extends Component{
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
-                                                And here's some <strong>amazing</strong> content. It's very engaging.
-                                                right?
+                                                <p className="mb-0">Please provide proof that your ARV is correct below because it will have to appraise for this price or the buyer will have to pay the difference to keep these numbers the same.</p>
                                               </Popover.Content>
                                             </Popover>
                                           }>
                                           <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
                                         </OverlayTrigger>
-                                        {/* <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>Please provide proof that your ARV is correct below because it will have to appraise for this price or the buyer will have to pay the difference to keep these numbers the same.</p>
-                                          </span>
-                                        </div> */}
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
@@ -2750,22 +2744,33 @@ export default class PropertyEdit extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Asking/Purchase Price:&nbsp;
-                                              <div className="sell-tooltip">
-                                                <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                                  <p>Typically your asking price is the price you would blast out to your email list or social media.</p>
-                                                </span>
-                                              </div></label>
+                                              <OverlayTrigger trigger="click" placement="right"
+                                                overlay={
+                                                  <Popover>
+                                                    <Popover.Content>
+                                                        <p className="mb-0">Typically your asking price is the price you would blast out to your email list or social media.</p>
+                                                    </Popover.Content>
+                                                  </Popover>
+                                                }>
+                                                <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                              </OverlayTrigger>
+                                            </label>
                                             <input type="number" className={"form-control " + this.addErrorClass(this.state.property_asking_price_error) } value={this.state.property.asking_price} name="asking_price" onChange={this.updateProperty}/>
                                           </div>
                                         </li>
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Est Rehab Cost:&nbsp;
-                                              <div className="sell-tooltip">
-                                                <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                                  <p>Make your deal more credible by filling in the rehab calculator, or upload your rehab costs below.</p>
-                                                </span>
-                                              </div>
+                                              <OverlayTrigger trigger="click" placement="right"
+                                                overlay={
+                                                  <Popover>
+                                                    <Popover.Content>
+                                                        <p className="mb-0">Make your deal more credible by filling in the rehab calculator, or upload your rehab costs below.</p>
+                                                    </Popover.Content>
+                                                  </Popover>
+                                                }>
+                                                <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                              </OverlayTrigger>
                                             </label>
                                             <input type="number" readOnly={true} className={"form-control estimated-cost " + this.addErrorClass(this.state.property_asking_price_error) }  name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} onClick={() => {this.setState({
                                               estimated_cost_modal: true
@@ -2775,11 +2780,16 @@ export default class PropertyEdit extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Est Closing Cost:&nbsp;
-                                              <div className="sell-tooltip">
-                                                <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                                  <p>Closing costs can be less than 1% for cash deals or can be as high as 2% to 3% if the buyer has to pay for owners title policy and all closing costs.</p>
-                                                </span>
-                                              </div>
+                                              <OverlayTrigger trigger="click" placement="right"
+                                                overlay={
+                                                  <Popover>
+                                                    <Popover.Content>
+                                                      <p className="mb-0">Closing costs can be less than 1% for cash deals or can be as high as 2% to 3% if the buyer has to pay for owners title policy and all closing costs.</p>
+                                                    </Popover.Content>
+                                                  </Popover>
+                                                }>
+                                                <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                              </OverlayTrigger>
                                             </label>
                                             <input type="number" className={"form-control " + this.addErrorClass(this.state.property_closing_cost_error) } name="closing_cost" value={this.state.property.closing_cost} onChange={this.updateProperty}/>
                                           </div>
@@ -2787,11 +2797,16 @@ export default class PropertyEdit extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Est Annual Insurance:&nbsp;
-                                              <div className="sell-tooltip">
-                                                <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                                  <p>A ballpark estimate is approximately 1% of value or get a quote at <a href="www.BenchmarkInsurance.com">www.benchmarkinsurance.com</a>.</p>
-                                                </span>
-                                              </div>
+                                              <OverlayTrigger trigger="click" placement="right"
+                                                overlay={
+                                                  <Popover>
+                                                    <Popover.Content>
+                                                      <p className="mb-0">A ballpark estimate is approximately 1% of value or get a quote at <a href="www.BenchmarkInsurance.com">www.benchmarkinsurance.com</a>.</p>
+                                                    </Popover.Content>
+                                                  </Popover>
+                                                }>
+                                                <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                              </OverlayTrigger>
                                             </label>
                                             <input type="number" onChange={this.updateProperty} className={"form-control " + this.addErrorClass(this.state.property_insurance_annually_error) } name="insurance_annually" value={this.state.property.insurance_annually} />
                                           </div>
@@ -2799,12 +2814,16 @@ export default class PropertyEdit extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Est Hard Money or STF Cost:&nbsp;
-                                              <div className="sell-tooltip">
-                                                <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                                  <p>Estimate 0% to 4% of your asking price+Est Rehab+Closing Costs then add 3% to 4% of your ARV depending if you’re using a line of credit, private or hard money.  (check out the link to short term financing)
-                                                  </p>
-                                                </span>
-                                              </div>
+                                              <OverlayTrigger trigger="click" placement="right"
+                                                overlay={
+                                                  <Popover>
+                                                    <Popover.Content>
+                                                      <p className="mb-0">Estimate 0% to 4% of your asking price+Est Rehab+Closing Costs then add 3% to 4% of your ARV depending if you’re using a line of credit, private or hard money. (check out the link to short term financing)</p>
+                                                    </Popover.Content>
+                                                  </Popover>
+                                                }>
+                                                <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                              </OverlayTrigger>
                                             </label>
                                             <input type="number" className={"form-control " + this.addErrorClass(this.state.property_short_term_financing_cost_error) } value={this.state.property.short_term_financing_cost} name="short_term_financing_cost" onChange={this.updateProperty}/>
                                           </div>
@@ -2813,11 +2832,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 px-0">
                                       <label className="label-bold">Total Acquisition Costs:&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>Purchase Price + Est Rehab Costs + Est Closing Costs + Short Term Financing (if needed)</p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Purchase Price + Est Rehab Costs + Est Closing Costs + Short Term Financing (if needed)</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 pl-0">
@@ -2834,11 +2858,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="text-uppercase">amount financed&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>It is determined by the appraised value of the property by mortgage company x the percent buyer is putting down. Most mortgage companies require 20% to 25% of the sales price.  If the property doesn't appraise then the buyer will have to put down the difference.</p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">It is determined by the appraised value of the property by mortgage company x the percent buyer is putting down. Most mortgage companies require 20% to 25% of the sales price.  If the property doesn't appraise then the buyer will have to put down the difference.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
@@ -2846,11 +2875,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Interest Rate APR&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>Current interest rates for landlord properties can range from 4.5% to 6%.</p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Current interest rates for landlord properties can range from 4.5% to 6%.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
@@ -2858,11 +2892,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Loan Term&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>Most landlords do 15, 20 or 30-year loans.</p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Most landlords do 15, 20 or 30-year loans.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
@@ -2870,12 +2909,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Monthly Principal &amp; Interest&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>This is the monthly Principal & Interest that will be paid on this loan based upon the Amount Financed, APR and amortized Loan Term.
-                                            </p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">This is the monthly Principal & Interest that will be paid on this loan based upon the Amount Financed, APR and amortized Loan Term.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
@@ -2883,11 +2926,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main">Annual Debt Service&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>Monthly PI x 12 months</p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Monthly PI x 12 months</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                   </div>
@@ -2897,12 +2945,16 @@ export default class PropertyEdit extends Component{
                                   <div className="row mx-0 step_row">
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual taxes:&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>Use the property taxes that are quoted on the Taxing Authority Website where the property is located. Ex: Harris County is <a href="www.hcad.org">www.hcad.org</a>.
-                                            </p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Use the property taxes that are quoted on the Taxing Authority Website where the property is located. Ex: Harris County is <a href="www.hcad.org">www.hcad.org</a>.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
@@ -2910,12 +2962,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Insurance&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>(auto-populated from above)
-                                            </p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">(auto-populated from above)</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
@@ -2923,11 +2979,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Management Fees:&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>You can put zero unless the property is currently being managed.  If currently being managed please use the actual management cost.</p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">You can put zero unless the property is currently being managed.  If currently being managed please use the actual management cost.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
@@ -2935,11 +2996,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Maintentance:&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>Annual HOA, estimated water, electric, gas, repairs, yard, pest control costs if needed.</p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Annual HOA, estimated water, electric, gas, repairs, yard, pest control costs if needed.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
@@ -2947,11 +3013,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Operating Costs:&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>Estimated Annual Property Taxes + Insurance +  Management + Maintentance. </p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Estimated Annual Property Taxes + Insurance +  Management + Maintentance. </p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
@@ -2964,24 +3035,33 @@ export default class PropertyEdit extends Component{
                                   <div className="row mx-0 step_row">
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Total EST Monthly Rent:&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>Be prepared to prove your suggested monthly rent or upload with your ARV proof below.
-                                            </p>
-                                          </span>
-                                        </div></label>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Be prepared to prove your suggested monthly rent or upload with your ARV proof below.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
+                                      </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
                                       <input type="number" className={"form-control " + this.addErrorClass(this.state.property_monthly_rent_error) } name="monthly_rent" onChange={this.updateProperty} value={this.state.property.monthly_rent}/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Total Gross Yearly Income:&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>Automatically filled in based upon Monthly Rent x 12 months in a year.
-                                            </p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Automatically filled in based upon Monthly Rent x 12 months in a year.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
@@ -2989,11 +3069,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Vacancy Rate:&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>Use 5% to 10% unless you have an actual vacancy for at least 24 months.</p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Use 5% to 10% unless you have an actual vacancy for at least 24 months.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
@@ -3001,12 +3086,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main label-bold">ADJ Gross Yearly Income:&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>Automatically filled in based upon GYI x Vacancy Rate.
-                                            </p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Automatically filled in based upon GYI x Vacancy Rate.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
@@ -3016,24 +3105,33 @@ export default class PropertyEdit extends Component{
                                 </div>
                                 <div className="col-md-6 my-3 px-0">
                                   <h5 className="text-uppercase font-red step_heads step_fonts">Cash Flow Analysis&nbsp;
-                                    <div className="sell-tooltip">
-                                      <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                        <p>These numbers are the Most Important numbers to a Landlord to determine if the property is a good landlord deal.
-                                        </p>
-                                      </span>
-                                    </div></h5>
+                                    <OverlayTrigger trigger="click" placement="right"
+                                      overlay={
+                                        <Popover>
+                                          <Popover.Content>
+                                            <p className="mb-0">These numbers are the Most Important numbers to a Landlord to determine if the property is a good landlord deal.</p>
+                                          </Popover.Content>
+                                        </Popover>
+                                      }>
+                                      <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                    </OverlayTrigger>
+                                  </h5>
                                   <div className="row mx-0 step_row">
                                     <div className="col-md-6 my-2 row mx-0">
                                       <input type="number" readOnly={true} value={this.state.property.adjusted_gross_yearly_income} className="form-control" name="adjusted_gross_yearly_income"/>
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main">(+)Adjusted Gross Yearly Income
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>Automatically filled in based upon GYI x Vacancy Rate.
-                                            </p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Automatically filled in based upon GYI x Vacancy Rate.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
@@ -3041,11 +3139,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main">(-) Est Annual Operating Costs&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>Estimated Annual Property Taxes + Insurance +  Management + Maintenance. </p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Estimated Annual Property Taxes + Insurance +  Management + Maintenance.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
@@ -3053,12 +3156,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main label-bold">(=) Net Operating Income (NOI)&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>NOI equals Adjusted Gross Yearly Income minus Estimated Annual Operating Costs.
-                                            </p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">NOI equals Adjusted Gross Yearly Income minus Estimated Annual Operating Costs.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
@@ -3066,12 +3173,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main">(-) Annual Debt Service&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>Monthly PI x 12 months.
-                                            </p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Monthly PI x 12 months.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
@@ -3079,11 +3190,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main label-bold">(=) Annual Cash Flow&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>It is determined by NOI minus Annual Debt Service.</p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">It is determined by NOI minus Annual Debt Service.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                   </div>
@@ -3096,12 +3212,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Monthly Cash Flow&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>It is the Annual Cash Flow divided by 12 months in a year.
-                                            </p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">It is the Annual Cash Flow divided by 12 months in a year.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
@@ -3109,11 +3229,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Total Out of Pocket&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>It is determined by what the property appraises for after the rehab to establish the amount financed by long term lender. Then take 70%, 75% or 80% of the appraised value minus Total Acquisition Costs to determine what you will need to bring to closing.</p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">It is determined by what the property appraises for after the rehab to establish the amount financed by long term lender. Then take 70%, 75% or 80% of the appraised value minus Total Acquisition Costs to determine what you will need to bring to closing.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
@@ -3121,11 +3246,16 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="label-bold">ROI Cash On Cash&nbsp;
-                                        <div className="sell-tooltip">
-                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                            <p>Annual Cash Flow / Total Out of pocket (The result is in %)</p>
-                                          </span>
-                                        </div>
+                                        <OverlayTrigger trigger="click" placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Annual Cash Flow / Total Out of pocket (The result is in %)</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
                                       </label>
                                     </div>
                                   </div>
@@ -3511,12 +3641,16 @@ export default class PropertyEdit extends Component{
                             <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
                               <div className="col-md-6 px-1 text-right">
                                 <label>Best Offer Time Frame&nbsp;
-                                  <div className="sell-tooltip">
-                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                      <p>It's important for bidders to be able to see the inside of the property to ensure you get lots of offers.  It's highly suggested to set up an open house or if the property is vacant to give bidders access if they schedule an appointment.
-                                      </p>
-                                    </span>
-                                  </div>
+                                  <OverlayTrigger trigger="click" placement="right"
+                                    overlay={
+                                      <Popover>
+                                        <Popover.Content>
+                                          <p className="mb-0">It's important for bidders to be able to see the inside of the property to ensure you get lots of offers.  It's highly suggested to set up an open house or if the property is vacant to give bidders access if they schedule an appointment.</p>
+                                        </Popover.Content>
+                                      </Popover>
+                                    }>
+                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                  </OverlayTrigger>
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
@@ -3529,12 +3663,16 @@ export default class PropertyEdit extends Component{
                             <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
                               <div className="col-md-6 px-1 text-right">
                                 <label>Sellers Asking Price&nbsp;
-                                  <div className="sell-tooltip">
-                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                      <p> This is the price you will send out to your email list and post on social media.
-                                      </p>
-                                    </span>
-                                  </div>
+                                  <OverlayTrigger trigger="click" placement="right"
+                                    overlay={
+                                      <Popover>
+                                        <Popover.Content>
+                                          <p className="mb-0">This is the price you will send out to your email list and post on social media.</p>
+                                        </Popover.Content>
+                                      </Popover>
+                                    }>
+                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                  </OverlayTrigger>
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
@@ -3544,12 +3682,16 @@ export default class PropertyEdit extends Component{
                             <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
                               <div className="col-md-6 px-1 text-right">
                                 <label>Sellers Buy Now Price&nbsp;
-                                  <div className="sell-tooltip">
-                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                      <p> This should be an optimistic price you would accept immediately from any qualified buyer that will take the property off the market immediately.
-                                      </p>
-                                    </span>
-                                  </div>
+                                  <OverlayTrigger trigger="click" placement="right"
+                                    overlay={
+                                      <Popover>
+                                        <Popover.Content>
+                                          <p className="mb-0">This should be an optimistic price you would accept immediately from any qualified buyer that will take the property off the market immediately.</p>
+                                        </Popover.Content>
+                                      </Popover>
+                                    }>
+                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                  </OverlayTrigger>
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
@@ -3575,12 +3717,16 @@ export default class PropertyEdit extends Component{
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Online Bidding/Auction Time Frame&nbsp;
-                                  <div className="sell-tooltip">
-                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                      <p>Make sure you give bidders at least a couple of times they can inspect the interior and exterior of the property by giving showing options below.
-                                      </p>
-                                    </span>
-                                  </div>
+                                  <OverlayTrigger trigger="click" placement="right"
+                                    overlay={
+                                      <Popover>
+                                        <Popover.Content>
+                                          <p className="mb-0">Make sure you give bidders at least a couple of times they can inspect the interior and exterior of the property by giving showing options below.</p>
+                                        </Popover.Content>
+                                      </Popover>
+                                    }>
+                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                  </OverlayTrigger>
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
@@ -3593,12 +3739,16 @@ export default class PropertyEdit extends Component{
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Sellers Asking Price&nbsp;
-                                  <div className="sell-tooltip">
-                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                      <p> This is the price you will send out to your email list and post on social media.
-                                      </p>
-                                    </span>
-                                  </div>
+                                  <OverlayTrigger trigger="click" placement="right"
+                                    overlay={
+                                      <Popover>
+                                        <Popover.Content>
+                                          <p className="mb-0">This is the price you will send out to your email list and post on social media.</p>
+                                        </Popover.Content>
+                                      </Popover>
+                                    }>
+                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                  </OverlayTrigger>
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
@@ -3608,15 +3758,18 @@ export default class PropertyEdit extends Component{
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Sellers Buy Now Price&nbsp;
-                                  <div className="sell-tooltip">
-                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                      <p>(i) This should be an optimistic price you would accept immediately from any qualified buyer that will take the property off the market immediately.
+                                  <OverlayTrigger trigger="click" placement="right"
+                                    overlay={
+                                      <Popover>
+                                        <Popover.Content>
+                                          <p className="mb-0">(i) This should be an optimistic price you would accept immediately from any qualified buyer that will take the property off the market immediately.
                                         <br/>
-                                        (ii)(Buyers can't make an offer less than 20% below your asking price and buyers offer will automatically be withdrawn if it's not accepted within 24 hours of when the offer was submitted)
-
-                                      </p>
-                                    </span>
-                                  </div>
+                                        (ii)(Buyers can't make an offer less than 20% below your asking price and buyers offer will automatically be withdrawn if it's not accepted within 24 hours of when the offer was submitted)</p>
+                                        </Popover.Content>
+                                      </Popover>
+                                    }>
+                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                  </OverlayTrigger>
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
@@ -3626,12 +3779,16 @@ export default class PropertyEdit extends Component{
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row mt-4">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Ideal Closing Date&nbsp;
-                                  <div className="sell-tooltip">
-                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                      <p>IMPORTANT: Make sure if you are assigning your equitable interest in this property that your closing date is at or after your ideal closing date. Preferably you should give yourself at least a week from when the auction ends for the buyer to close.
-                                      </p>
-                                    </span>
-                                  </div>
+                                  <OverlayTrigger trigger="click" placement="right"
+                                    overlay={
+                                      <Popover>
+                                        <Popover.Content>
+                                          <p className="mb-0">IMPORTANT: Make sure if you are assigning your equitable interest in this property that your closing date is at or after your ideal closing date. Preferably you should give yourself at least a week from when the auction ends for the buyer to close.</p>
+                                        </Popover.Content>
+                                      </Popover>
+                                    }>
+                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                  </OverlayTrigger>
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
@@ -3647,13 +3804,7 @@ export default class PropertyEdit extends Component{
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
-                                <label>Seller agrees to pay for&nbsp;
-                                  <div className="sell-tooltip">
-                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                      <p>It is EXTREMELY Important to give bidders easy access to view your property.  When occupied set at least 1 date before your Best Offer and/or your Live Online Auction ends to get more offers when possible.
-                                      </p>
-                                    </span>
-                                  </div>
+                                <label>Seller agrees to pay for
                                 </label><span className="font-sign">*</span>
                               </div>
                               <div className="col-md-6 px-1">
@@ -3686,12 +3837,16 @@ export default class PropertyEdit extends Component{
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Showing Option&nbsp;
-                                  <div className="sell-tooltip">
-                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                      <p>It is EXTREMELY Important to give bidders easy access to view your property.  When occupied set at least 1 date before your Best Offer and/or your Live Online Auction ends to get more offers when possible.
-                                      </p>
-                                    </span>
-                                  </div>
+                                  <OverlayTrigger trigger="click" placement="right"
+                                    overlay={
+                                      <Popover>
+                                        <Popover.Content>
+                                          <p className="mb-0">It is EXTREMELY Important to give bidders easy access to view your property.  When occupied set at least 1 date before your Best Offer and/or your Live Online Auction ends to get more offers when possible.</p>
+                                        </Popover.Content>
+                                      </Popover>
+                                    }>
+                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                  </OverlayTrigger>
                                 </label><span className="font-sign">*</span>
                               </div>
                               <div className="col-md-6 px-1">
@@ -3712,18 +3867,22 @@ export default class PropertyEdit extends Component{
                                 <label>Showing Instructions</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <textarea className={"form-control " + this.addErrorClass(this.state.property_show_instructions_text_error) } rows="3" placeholder="Please give details where the combo box is located and what's the combo code." onChange={this.updateProperty} value={this.state.property.show_instructions_text} name="show_instructions_text"></textarea>
+                                <textarea className={"form-control textarea-resize " + this.addErrorClass(this.state.property_show_instructions_text_error) } rows="3" placeholder="Please give details where the combo box is located and what's the combo code." onChange={this.updateProperty} value={this.state.property.show_instructions_text} name="show_instructions_text"></textarea>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Open House Dates&nbsp;
-                                  <div className="sell-tooltip">
-                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/><span className="sell-tooltiptext">
-                                      <p>If the property is not vacant set as many open houses as possible so bidders can view the property at least 24 to 48 hours before your Best Offer or Online Bidding ends to make sure you get your Highest and Best Offer.
-                                      </p>
-                                    </span>
-                                  </div>
+                                  <OverlayTrigger trigger="click" placement="right"
+                                    overlay={
+                                      <Popover>
+                                        <Popover.Content>
+                                          <p className="mb-0">If the property is not vacant set as many open houses as possible so bidders can view the property at least 24 to 48 hours before your Best Offer or Online Bidding ends to make sure you get your Highest and Best Offer.</p>
+                                        </Popover.Content>
+                                      </Popover>
+                                    }>
+                                    <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                  </OverlayTrigger>
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
