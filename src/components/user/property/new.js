@@ -43,6 +43,8 @@ const initial_state = {
     city: "",
     state: "",
     zip_code: "",
+    lat: "",
+    long: "",
     category: "",
     p_type: "",
     headliner: "",
@@ -292,6 +294,10 @@ export default class UserNewProperty extends Component{
       let city = "";
       let state = "";
       let postal_code = "";
+      let lat = "";
+      let long = "";
+      lat = place.geometry.location.lat();
+      long = place.geometry.location.lng();
       address = place.formatted_address
       for (let i = 0; i < place.address_components.length; i++) {
         for (let k = 0; k < place.address_components[i].types.length; k++) {
@@ -322,7 +328,9 @@ export default class UserNewProperty extends Component{
             address: address,
             city: city,
             state: state,
-            zip_code: postal_code
+            zip_code: postal_code,
+            lat: lat,
+            long: long,
           },
           property_address_error: "",
           property_city_error: "",
@@ -577,6 +585,8 @@ export default class UserNewProperty extends Component{
     fd.append('property[address]', this.state.property.address)
     fd.append('property[city]', this.state.property.city)
     fd.append('property[state]', this.state.property.state)
+    fd.append('property[lat]', this.state.property.lat)
+    fd.append('property[long]', this.state.property.long)
     fd.append('property[zip_code]', this.state.property.zip_code)
     fd.append('property[category]', this.state.property.category)
     fd.append('property[p_type]', this.state.property.p_type)
