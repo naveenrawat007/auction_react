@@ -9,6 +9,7 @@ export default class PropertyShow extends Component {
   constructor(props){
     super(props);
     this.state = {
+      timer_complete: false,
       open_rehab_modal: false,
       property: {},
       isLoaded: false,
@@ -132,6 +133,104 @@ export default class PropertyShow extends Component {
       open_rehab_modal: false,
     });
   }
+  calculateApproveTime = (time) => {
+    if (time){
+      let timer_interval = setInterval(function () {
+        if (time){
+          let now = new Date().getTime();
+          let end = new Date(time).getTime();
+          let t = (end/1000) - (now/1000);
+          let days = Math.floor(t/(60*60*24))
+          let hours = Math.floor((t%(60*60*24))/(60*60));
+          let minutes = Math.floor((t%(60*60))/60);
+          let seconds = Math.floor((t%(60)))
+          if (t<0){
+            document.getElementById("days-timer-item").innerHTML = "--"
+            document.getElementById("hours-timer-item").innerHTML = "--"
+            document.getElementById("minutes-timer-item").innerHTML = "--"
+            document.getElementById("seconds-timer-item").innerHTML = "--"
+            clearInterval(timer_interval);
+            window.location.reload(false)
+          }else {
+            document.getElementById("days-timer-item").innerHTML = days
+            document.getElementById("hours-timer-item").innerHTML = hours
+            document.getElementById("minutes-timer-item").innerHTML = minutes
+            document.getElementById("seconds-timer-item").innerHTML = seconds
+          }
+        }else {
+          clearInterval(timer_interval);
+          document.getElementById("days-timer-item").innerHTML = "--"
+          document.getElementById("hours-timer-item").innerHTML = "--"
+          document.getElementById("minutes-timer-item").innerHTML = "--"
+          document.getElementById("seconds-timer-item").innerHTML = "--"
+        }
+      }, 1000)
+    }else {
+    }
+  }
+
+  renderTimerBlock = () => {
+    let block;
+    if (this.state.property.status === "Draft" || this.state.property.status === "Under Review"){
+      block = <div className="time_status font-red"> <h4>Pending Status</h4></div>
+    }else if (this.state.property.status === "Approve / Best Offer") {
+
+      const starting_date = new Date(this.state.property.auction_started_at).getTime()
+      const ending_date = new Date(this.state.property.auction_ending_at).getTime()
+      const now = new Date().getTime()
+      if (now < starting_date){
+        block = <>
+          <div className="time_status">
+            <ul>
+              <li id="days-timer-item">00</li>
+              <li>Days</li>
+            </ul>
+            <ul>
+              <li id="hours-timer-item">00</li>
+              <li>Hours</li>
+            </ul>
+            <ul>
+              <li id="minutes-timer-item">00</li>
+              <li>Minutes</li>
+            </ul>
+            <ul>
+              <li id="seconds-timer-item">00</li>
+              <li>Seconds</li>
+            </ul>
+          </div>{this.calculateApproveTime(this.state.property.auction_started_at)}
+          <div className="font-red text-center">Remaining Time Before Auction starts. </div>
+        </>
+      }else if (now < ending_date){
+        block = <>
+          <div className="time_status">
+            <ul>
+              <li id="days-timer-item">00</li>
+              <li>Days</li>
+            </ul>
+            <ul>
+              <li id="hours-timer-item">00</li>
+              <li>Hours</li>
+            </ul>
+            <ul>
+              <li id="minutes-timer-item">00</li>
+              <li>Minutes</li>
+            </ul>
+            <ul>
+              <li id="seconds-timer-item">00</li>
+              <li>Seconds</li>
+            </ul>
+          </div>{this.calculateApproveTime(this.state.property.auction_ending_at)}
+          <div className="font-red text-center">Remaining Time Before Auction Ends. </div>
+        </>
+      }
+      else {
+        block = <div className="time_status font-red"> <h4>Post Auction</h4></div>
+      }
+    }else {
+      block = <div className="time_status font-red"> <h4>Pending Status</h4></div>
+    }
+    return block
+  }
 
   render(){
     if (this.state.isLoaded === true){
@@ -205,25 +304,8 @@ export default class PropertyShow extends Component {
               </div>
             </div>
             <div className="col-md-4 px-2">
-              <div className="wrap_property">
-                <div className="time_status">
-                  <ul>
-                    <li>05</li>
-                    <li>Days</li>
-                  </ul>
-                  <ul>
-                    <li>01</li>
-                    <li>Hours</li>
-                  </ul>
-                  <ul>
-                    <li>36</li>
-                    <li>Minutes</li>
-                  </ul>
-                  <ul>
-                    <li>36</li>
-                    <li>Seconds</li>
-                  </ul>
-                </div>
+              <div className="wrap_property" id="property-timer-block">
+                {this.renderTimerBlock()}
               </div>
               <div className="wrap_property py-4">
                 <div className="property_rate text-center">
@@ -286,6 +368,10 @@ export default class PropertyShow extends Component {
                       <ul className="list-inline mb-2">
                         <li className="list-inline-item">Monthly Cash Flow:</li>
                         <li className="list-inline-item">${this.state.property.landlord_deal.monthly_cash_flow}</li>
+                      </ul>
+                      <ul className="list-inline mb-2">
+                        <li className="list-inline-item">Annual Cash Flow:</li>
+                        <li className="list-inline-item">${this.state.property.landlord_deal.annual_cash_flow}</li>
                       </ul>
                       <ul className="list-inline mb-2">
                         <li className="list-inline-item">Total Out of Pocket:</li>
