@@ -9,12 +9,20 @@ export default class PropertyShow extends Component {
   constructor(props){
     super(props);
     this.state = {
+      open_buy_now_modal: false,
       timer_complete: false,
       open_rehab_modal: false,
       property: {},
       isLoaded: false,
       message: "",
       currentImage: 0,
+      bidding_options: {
+        highest_bid: 0,
+        current_offer: 0,
+        buy_now_price: "",
+        best_offer_price: "",
+        best_offer_buy_price: "",
+      }
     }
   };
   componentWillUnmount() {
@@ -45,6 +53,14 @@ export default class PropertyShow extends Component {
           this.setState({
             isLoaded: true,
             property: result.property,
+            bidding_options: {
+              ...this.state.bidding_options,
+              highest_bid: result.property.highest_bid,
+              current_offer: result.property.highest_bid,
+              buy_now_price: result.property.buy_now_price,
+              best_offer_price: result.property.best_offer_sellers_minimum_price,
+              best_offer_buy_price: result.property.best_offer_sellers_reserve_price,
+            }
           });
           // console.log(result.property);
         }else if (result.status === 401) {
@@ -59,7 +75,7 @@ export default class PropertyShow extends Component {
       (error) => {
         if (this._isMounted){
           this.setState({
-            isLoaded: true,
+            // isLoaded: true,
             message: "Can not load the authors. Problem with server",
           });
         }
@@ -177,8 +193,8 @@ export default class PropertyShow extends Component {
       block = <div className="time_status font-red"> <h4>Under Review</h4></div>
     }
     else if (this.state.property.status === "Approve / Best Offer") {
-      const starting_date = new Date(this.state.property.auction_started_at).getTime()
-      const ending_date = new Date(this.state.property.auction_ending_at).getTime()
+      // const starting_date = new Date(this.state.property.auction_started_at).getTime()
+      // const ending_date = new Date(this.state.property.auction_ending_at).getTime()
       const bidding_starting_date = new Date(this.state.property.auction_bidding_started_at).getTime()
       const bidding_ending_date = new Date(this.state.property.auction_bidding_ending_at).getTime()
       const now = new Date().getTime()
@@ -288,6 +304,248 @@ export default class PropertyShow extends Component {
     return block
   }
 
+  buyNowHandler = () => {
+    this.setState({
+      open_buy_now_modal: true,
+    });
+  }
+
+  closeBuyNowModal = () => {
+    this.setState({
+      open_buy_now_modal: false,
+    });
+  }
+
+  updateCurrentOffer = (event) => {
+    const{ value } = event.target;
+    let price = parseFloat(value ? value : 0)
+    if (price > this.state.bidding_options.highest_bid){
+      this.setState({
+        bidding_options: {
+          ...this.state.bidding_options,
+          current_offer: price,
+        }
+      })
+    }else {
+      this.setState({
+        bidding_options: {
+          ...this.state.bidding_options,
+          current_offer: this.state.bidding_options.highest_bid,
+      },
+    });
+    }
+  }
+
+  decrementCurrentOffer = () => {
+    let new_offer = this.state.bidding_options.current_offer
+    new_offer = new_offer - 1000
+    if ((new_offer > 0) && (new_offer >= this.state.bidding_options.highest_bid) ){
+      this.setState({
+        bidding_options:{
+          ...this.state.bidding_options,
+          current_offer: new_offer,
+        }
+      });
+    }
+    else {
+      this.setState({
+        bidding_options:{
+          ...this.state.bidding_options,
+          current_offer: this.state.bidding_options.highest_bid,
+        }
+      });
+    }
+  }
+  incrementCurrentOffer = () => {
+    let new_offer = this.state.bidding_options.current_offer
+    new_offer += 1000
+    this.setState({
+      bidding_options:{
+        ...this.state.bidding_options,
+        current_offer: new_offer,
+      }
+    });
+  }
+
+  renderBiddingBlock = () => {
+    let block;
+    if (this.state.property.status === "Draft" || this.state.property.status === "Under Review"){
+      block =
+      <div className="property_rate text-center">
+        <h4>$ {this.state.property.seller_price}</h4>
+        <p className="mb-0">Current Highest Bid.</p>
+        <div className="input-group my-2 col-md-8 offset-md-2">
+          <div className="input-group-prepend">
+            <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
+          </div>
+          <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChange={this.updateCurrentOffer}/>
+          <div className="input-group-append">
+            <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
+          </div>
+        </div>
+        <Link to="#" className="blue-btn btn-biding">Place Bid</Link>
+        <h5 className="my-2">OR</h5>
+        <p className="mb-0">Can't wait for the Auction to end?</p>
+        <Link to="#" className="blue-btn btn-biding my-2" onClick={this.buyNowHandler}>
+          <div className="tooltip">Buy Now
+            <span className="tooltiptext">
+              <h6>Buy Now!</h6>
+              <p>You don't have to wait for the binding to end, or compete with other offers if you are willing to buy this property at this price?</p>
+            </span>
+          </div>
+        </Link>
+        <h4 className="rate-head">$ {this.state.property.buy_now_price}</h4>
+      </div>
+    }
+    else if (this.state.property.status === "Approve / Best Offer") {
+      // const starting_date = new Date(this.state.property.auction_started_at).getTime()
+      // const ending_date = new Date(this.state.property.auction_ending_at).getTime()
+      const bidding_starting_date = new Date(this.state.property.auction_bidding_started_at).getTime()
+      const bidding_ending_date = new Date(this.state.property.auction_bidding_ending_at).getTime()
+      const now = new Date().getTime()
+      if (this.state.property.best_offer_time_pending){
+        const best_offer_starting_date = new Date(this.state.property.best_offer_auction_started_at).getTime()
+        const best_offer_ending_date = new Date(this.state.property.best_offer_auction_ending_at).getTime()
+        if (now < best_offer_starting_date){
+          block = <div className="property_rate text-center">
+            <h4>$ {this.state.property.seller_price}</h4>
+            <Link to="#" className="blue-btn btn-biding my-2" onClick={this.buyNowHandler}>
+              <div className="tooltip">Buy Now
+                <span className="tooltiptext">
+                  <h6>Buy Now!</h6>
+                  <p>You don't have to wait for the binding to end, or compete with other offers if you are willing to buy this property at this price?</p>
+                </span>
+              </div>
+            </Link>
+            <h5 className="my-2">OR</h5>
+            <h6 className="mb-0">Whats Your </h6>
+            <div className="input-group my-2 col-md-8 offset-md-2">
+              <div className="input-group-prepend">
+                <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
+              </div>
+              <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChange={this.updateCurrentOffer}/>
+              <div className="input-group-append">
+                <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
+              </div>
+            </div>
+            <Link to="#" className="blue-btn btn-biding">Best Offer</Link>
+          </div>
+        }
+        else if (now < best_offer_ending_date){
+          block = <div className="property_rate text-center">
+            <h4>$ {this.state.property.seller_price}</h4>
+            <Link to="#" className="blue-btn btn-biding my-2" onClick={this.buyNowHandler}>
+              <div className="tooltip">Buy Now
+                <span className="tooltiptext">
+                  <h6>Buy Now!</h6>
+                  <p>You don't have to wait for the binding to end, or compete with other offers if you are willing to buy this property at this price?</p>
+                </span>
+              </div>
+            </Link>
+            <h5 className="my-2">OR</h5>
+            <h6 className="mb-0">Whats Your </h6>
+            <div className="input-group my-2 col-md-8 offset-md-2">
+              <div className="input-group-prepend">
+                <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
+              </div>
+              <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChange={this.updateCurrentOffer}/>
+              <div className="input-group-append">
+                <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
+              </div>
+            </div>
+            <Link to="#" className="blue-btn btn-biding">Best Offer</Link>
+          </div>
+        }
+      }
+      else if (now < bidding_starting_date){
+        block = <div className="property_rate text-center">
+          <h4>$ {this.state.property.seller_price}</h4>
+          <p className="mb-0">Current Highest Bid.</p>
+          <div className="input-group my-2 col-md-8 offset-md-2">
+            <div className="input-group-prepend">
+              <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
+            </div>
+            <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChange={this.updateCurrentOffer}/>
+            <div className="input-group-append">
+              <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
+            </div>
+          </div>
+          <Link to="#" className="blue-btn btn-biding">Place Bid</Link>
+          <h5 className="my-2">OR</h5>
+          <p className="mb-0">Can't wait for the Auction to end?</p>
+          <Link to="#" className="blue-btn btn-biding my-2" onClick={this.buyNowHandler}>
+            <div className="tooltip">Buy Now
+              <span className="tooltiptext">
+                <h6>Buy Now!</h6>
+                <p>You don't have to wait for the binding to end, or compete with other offers if you are willing to buy this property at this price?</p>
+              </span>
+            </div>
+          </Link>
+          <h4 className="rate-head">$ {this.state.property.buy_now_price}</h4>
+        </div>
+      }
+      else if (now < bidding_ending_date){
+        block = <div className="property_rate text-center">
+          <h4>$ {this.state.property.seller_price}</h4>
+          <p className="mb-0">Current Highest Bid.</p>
+          <div className="input-group my-2 col-md-8 offset-md-2">
+            <div className="input-group-prepend">
+              <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
+            </div>
+            <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChange={this.updateCurrentOffer}/>
+            <div className="input-group-append">
+              <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
+            </div>
+          </div>
+          <Link to="#" className="blue-btn btn-biding">Place Bid</Link>
+          <h5 className="my-2">OR</h5>
+          <p className="mb-0">Can't wait for the Auction to end?</p>
+          <Link to="#" className="blue-btn btn-biding my-2" onClick={this.buyNowHandler}>
+            <div className="tooltip">Buy Now
+              <span className="tooltiptext">
+                <h6>Buy Now!</h6>
+                <p>You don't have to wait for the binding to end, or compete with other offers if you are willing to buy this property at this price?</p>
+              </span>
+            </div>
+          </Link>
+          <h4 className="rate-head">$ {this.state.property.buy_now_price}</h4>
+        </div>
+      }
+      else {
+        block = <div className="property_rate text-center">
+          <h4>$ {this.state.property.seller_price}</h4>
+          <p className="mb-0">Current Highest Bid.</p>
+          <div className="input-group my-2 col-md-8 offset-md-2">
+            <div className="input-group-prepend">
+              <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
+            </div>
+            <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChange={this.updateCurrentOffer}/>
+            <div className="input-group-append">
+              <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
+            </div>
+          </div>
+          <Link to="#" className="blue-btn btn-biding">Place Bid</Link>
+          <h5 className="my-2">OR</h5>
+          <p className="mb-0">Can't wait for the Auction to end?</p>
+          <Link to="#" className="blue-btn btn-biding my-2" onClick={this.buyNowHandler}>
+            <div className="tooltip">Buy Now
+              <span className="tooltiptext">
+                <h6>Buy Now!</h6>
+                <p>You don't have to wait for the binding to end, or compete with other offers if you are willing to buy this property at this price?</p>
+              </span>
+            </div>
+          </Link>
+          <h4 className="rate-head">$ {this.state.property.buy_now_price}</h4>
+        </div>
+      }
+    }
+    else {
+      // block =
+    }
+    return block
+
+  }
+
   render(){
     if (this.state.isLoaded === true){
       const images = this.state.property.images.map((image, index) => {
@@ -364,31 +622,7 @@ export default class PropertyShow extends Component {
                 {this.renderTimerBlock()}
               </div>
               <div className="wrap_property py-4">
-                <div className="property_rate text-center">
-                  <h4>$ 90,000</h4>
-                  <p className="mb-0">Current Highest Bid.</p>
-                  <div className="input-group my-2 col-md-8 offset-md-2">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text group-box"><FontAwesomeIcon icon={faMinus}/></span>
-                    </div>
-                    <input type="text" className="form-control" aria-label="Amount (to the nearest dollar)"/>
-                    <div className="input-group-append">
-                      <span className="input-group-text group-box"><FontAwesomeIcon icon={faPlus}/></span>
-                    </div>
-                  </div>
-                  <Link to="#" className="blue-btn btn-biding">Place Bid</Link>
-                  <h5 className="my-2">OR</h5>
-                  <p className="mb-0">Can't wait for the Auction to end?</p>
-                  <Link to="#" className="blue-btn btn-biding my-2" data-toggle="modal" data-target="#buynowModal">
-                    <div className="tooltip">Buy Now
-                      <span className="tooltiptext">
-                        <h6>Buy Now!</h6>
-                        <p>You don't have to wait for the binding to end, or compete with other offers if you are willing to buy this property at this price?</p>
-                      </span>
-                    </div>
-                  </Link>
-                  <h4 className="rate-head">$ {this.state.property.buy_now_price}</h4>
-                </div>
+                {this.renderBiddingBlock()}
               </div>
               <div className="wrap_property py-3">
                 {
@@ -922,6 +1156,62 @@ export default class PropertyShow extends Component {
               </div>
             </div>
           </div>
+          <Modal className=" buy_modal" show={this.state.open_buy_now_modal} onHide={this.closeBuyNowModal}>
+            <Modal.Header closeButton>
+              <div className="col-md-12 text-center">
+                <h5 className="mb-0">BUY NOW at ${this.state.bidding_options.buy_now_price} & You Win !!! </h5>
+              </div>
+            </Modal.Header>
+            <div className="modal-body">
+              <div className="row mx-0">
+                <div className="buy-list text-center">
+                  <div className="col-md-10 offset-md-1 px-0">
+                    <p>Congratulations! If You agree to sellers "Buy Now Price", You don't have to wait for auction to end when you agree to terms below.</p>
+                  </div>
+                </div>
+                <div className="col-md-12 my-3 px-0">
+                  <div className="accept-terms">
+                    <ol className="list-unstyled mb-0">
+                      <li>I agree to Buy this property As-is, where is with all faults.</li>
+                      <li>I understand That the pictures, video arv proofs and rehab numbers are provided for informational purposes only and I have done my own duedilligence for this property I am bidding on.</li>
+                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                      cillum dolore eu fugiat nulla pariatur.</li>
+                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+                    </ol>
+                  </div>
+                </div>
+                <div className="col-md-7 px-0">
+                  <div className="accept-upload">
+                    <p>Upload a current proof of funds and/or preapproval letter from reliable Hard Money lender or Line of Credit</p>
+                  </div>
+                </div>
+                <div className="col-md-5 pr-0">
+                  <div className="custom-file accept-file">
+                    <input type="file" className="custom-file-input" id="customFile"/>
+                    <label className="custom-file-label" htmlFor="customFile">Choose file</label>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 text-center mt-3">
+                <span className="error"></span>
+                <button type="button" className="btn btn-blue my-2 px-5" data-dismiss="modal" onClick={this.closeBuyNowModal}>Close</button>
+              </div>
+            </div>
+          </Modal>
         </div>
       );
     }else {
