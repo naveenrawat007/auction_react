@@ -2334,16 +2334,15 @@ export default class PropertyEdit extends Component{
     const open_house_dates = this.state.property.open_house_dates.map((value, index) => {
       return (
         <div key ={index} className="row mx-0">
-
           <div className="col-md-4 pl-0 pr-1">
-            <DatePicker className="form-control mb-1" selected={value["date"] ? new Date(value["date"]) : new Date()} onChange={this.updatePropertyOpenHouseDates.bind(this, index)}/>
+            <DatePicker className="form-control mb-1" selected={value["date"] ? new Date(value["date"]) : ""} onChange={this.updatePropertyOpenHouseDates.bind(this, index)}/>
 
           </div>
           <div className="col-md-4 pl-0 pr-1">
-            <DatePicker className="form-control mb-1" selected={value["opens"] ? new Date(value["opens"]) : new Date()} onChange={this.updatePropertyOpenHouseDatesOpenTime.bind(this, index)} showTimeSelect showTimeSelectOnly timeIntervals={15} timeCaption="Time" dateFormat="h:mm aa"/>
+            <DatePicker className="form-control mb-1" selected={value["opens"] ? new Date(value["opens"]) : ""} onChange={this.updatePropertyOpenHouseDatesOpenTime.bind(this, index)} showTimeSelect showTimeSelectOnly timeIntervals={15} timeCaption="Time" dateFormat="h:mm aa"/>
           </div>
           <div className="col-md-4 px-0">
-            <DatePicker className="form-control mb-1" selected={value["closes"] ? new Date(value["closes"]) : new Date()} onChange={this.updatePropertyOpenHouseDatesCloseTime.bind(this, index)} showTimeSelect showTimeSelectOnly timeIntervals={15} timeCaption="Time" dateFormat="h:mm aa"/>
+            <DatePicker className="form-control mb-1" selected={value["closes"] ? new Date(value["closes"]) : ""} onChange={this.updatePropertyOpenHouseDatesCloseTime.bind(this, index)} showTimeSelect showTimeSelectOnly timeIntervals={15} timeCaption="Time" dateFormat="h:mm aa"/>
           </div>
         </div>
       );
