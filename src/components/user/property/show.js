@@ -10,6 +10,7 @@ export default class PropertyShow extends Component {
     super(props);
     this.state = {
       open_buy_now_modal: false,
+      open_best_offer_modal: false,
       timer_complete: false,
       open_rehab_modal: false,
       property: {},
@@ -310,6 +311,18 @@ export default class PropertyShow extends Component {
     });
   }
 
+  bestOfferHandler = () => {
+    this.setState({
+      open_best_offer_modal: true ,
+    });
+  }
+
+  closeBestOfferModal = () => {
+    this.setState({
+      open_best_offer_modal: false,
+    });
+  }
+
   closeBuyNowModal = () => {
     this.setState({
       open_buy_now_modal: false,
@@ -428,7 +441,7 @@ export default class PropertyShow extends Component {
                 <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
               </div>
             </div>
-            <Link to="#" className="blue-btn btn-biding">Best Offer</Link>
+            <Link to="#" className="blue-btn btn-biding" onClick={this.bestOfferHandler}>Best Offer</Link>
           </div>
         }
         else if (now < best_offer_ending_date){
@@ -453,7 +466,7 @@ export default class PropertyShow extends Component {
                 <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
               </div>
             </div>
-            <Link to="#" className="blue-btn btn-biding">Best Offer</Link>
+            <Link to="#" className="blue-btn btn-biding" onClick={this.bestOfferHandler}>Best Offer</Link>
           </div>
         }
       }
@@ -1212,6 +1225,63 @@ export default class PropertyShow extends Component {
               </div>
             </div>
           </Modal>
+          <Modal className=" buy_modal" show={this.state.open_best_offer_modal} onHide={this.closeBestOfferModal}>
+            <Modal.Header closeButton>
+              <div className="col-md-12 text-center">
+                <h5 className="mb-0">Your Best Offer for ${this.state.property.address}  </h5>
+              </div>
+            </Modal.Header>
+            <div className="modal-body">
+              <div className="row mx-0">
+                <div className="buy-list text-center">
+                  <div className="col-md-10 offset-md-1 px-0">
+                    <p>Congratulations! If You are about to offer $ {this.state.bidding_options.current_offer} for this property when you agrees  to the terms below.</p>
+                  </div>
+                </div>
+                <div className="col-md-12 my-3 px-0">
+                  <div className="accept-terms">
+                    <ol className="list-unstyled mb-0">
+                      <li>I agree to Buy this property As-is, where is with all faults.</li>
+                      <li>I understand That the pictures, video arv proofs and rehab numbers are provided for informational purposes only and I have done my own duedilligence for this property I am bidding on.</li>
+                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                      cillum dolore eu fugiat nulla pariatur.</li>
+                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
+                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+                    </ol>
+                  </div>
+                </div>
+                <div className="col-md-7 px-0">
+                  <div className="accept-upload">
+                    <p>Upload a current proof of funds and/or preapproval letter from reliable Hard Money lender or Line of Credit</p>
+                  </div>
+                </div>
+                <div className="col-md-5 pr-0">
+                  <div className="custom-file accept-file">
+                    <input type="file" className="custom-file-input" id="customFile"/>
+                    <label className="custom-file-label" htmlFor="customFile">Choose file</label>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 text-center mt-3">
+                <span className="error"></span>
+                <button type="button" className="btn btn-blue my-2 px-5" data-dismiss="modal" onClick={this.closeBestOfferModal}>Close</button>
+              </div>
+            </div>
+          </Modal>
+          
         </div>
       );
     }else {
