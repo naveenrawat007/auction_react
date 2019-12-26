@@ -135,7 +135,15 @@ export default class PropertyShow extends Component {
   }
   calculateApproveTime = (time) => {
     if (time){
-      let timer_interval = setInterval(function () {
+      let now_f = new Date().getTime();
+      let end_f = new Date(time).getTime();
+      let t_f = (end_f/1000) - (now_f/1000);
+      if (t_f>0){
+        this.clearTimerTimeout = setTimeout(() => {
+          this.setState(() => ({timer_complete: true}))
+        }, t_f);
+      }
+      this.timer_interval = setInterval(function () {
         if (time){
           let now = new Date().getTime();
           let end = new Date(time).getTime();
@@ -149,8 +157,7 @@ export default class PropertyShow extends Component {
             document.getElementById("hours-timer-item").innerHTML = "--"
             document.getElementById("minutes-timer-item").innerHTML = "--"
             document.getElementById("seconds-timer-item").innerHTML = "--"
-            clearInterval(timer_interval);
-            window.location.reload(false)
+            clearInterval(this.timer_interval);
           }else {
             document.getElementById("days-timer-item").innerHTML = days
             document.getElementById("hours-timer-item").innerHTML = hours
@@ -158,7 +165,7 @@ export default class PropertyShow extends Component {
             document.getElementById("seconds-timer-item").innerHTML = seconds
           }
         }else {
-          clearInterval(timer_interval);
+          clearInterval(this.timer_interval);
           document.getElementById("days-timer-item").innerHTML = "--"
           document.getElementById("hours-timer-item").innerHTML = "--"
           document.getElementById("minutes-timer-item").innerHTML = "--"
@@ -172,13 +179,63 @@ export default class PropertyShow extends Component {
   renderTimerBlock = () => {
     let block;
     if (this.state.property.status === "Draft" || this.state.property.status === "Under Review"){
-      block = <div className="time_status font-red"> <h4>Pending Status</h4></div>
+      block = <div className="time_status font-red"> <h4>Under Review</h4></div>
     }else if (this.state.property.status === "Approve / Best Offer") {
-
       const starting_date = new Date(this.state.property.auction_started_at).getTime()
       const ending_date = new Date(this.state.property.auction_ending_at).getTime()
+      const bidding_starting_date = new Date(this.state.property.auction_bidding_started_at).getTime()
+      const bidding_ending_date = new Date(this.state.property.auction_bidding_ending_at).getTime()
       const now = new Date().getTime()
-      if (now < starting_date){
+      if (this.state.property.best_offer_time_pending){
+        const best_offer_starting_date = new Date(this.state.property.best_offer_auction_started_at).getTime()
+        const best_offer_ending_date = new Date(this.state.property.best_offer_auction_ending_at).getTime()
+        if (now < best_offer_starting_date){
+          block = <>
+            <div className="time_status">
+              <ul>
+                <li id="days-timer-item">00</li>
+                <li>Days</li>
+              </ul>
+              <ul>
+                <li id="hours-timer-item">00</li>
+                <li>Hours</li>
+              </ul>
+              <ul>
+                <li id="minutes-timer-item">00</li>
+                <li>Minutes</li>
+              </ul>
+              <ul>
+                <li id="seconds-timer-item">00</li>
+                <li>Seconds</li>
+              </ul>
+            </div>{this.calculateApproveTime(this.state.property.best_offer_auction_started_at)}
+            <div className="font-red text-center">Remaining Time Before Best Offer Starts. </div>
+          </>
+        }else if (now < best_offer_ending_date){
+          block = <>
+            <div className="time_status">
+              <ul>
+                <li id="days-timer-item">00</li>
+                <li>Days</li>
+              </ul>
+              <ul>
+                <li id="hours-timer-item">00</li>
+                <li>Hours</li>
+              </ul>
+              <ul>
+                <li id="minutes-timer-item">00</li>
+                <li>Minutes</li>
+              </ul>
+              <ul>
+                <li id="seconds-timer-item">00</li>
+                <li>Seconds</li>
+              </ul>
+            </div>{this.calculateApproveTime(this.state.property.best_offer_auction_ending_at)}
+            <div className="font-red text-center">Remaining Time Before Best Offer Ends. </div>
+          </>
+        }
+      }
+      else if (now < bidding_starting_date){
         block = <>
           <div className="time_status">
             <ul>
@@ -197,10 +254,10 @@ export default class PropertyShow extends Component {
               <li id="seconds-timer-item">00</li>
               <li>Seconds</li>
             </ul>
-          </div>{this.calculateApproveTime(this.state.property.auction_started_at)}
+          </div>{this.calculateApproveTime(this.state.property.auction_bidding_started_at)}
           <div className="font-red text-center">Remaining Time Before Auction starts. </div>
         </>
-      }else if (now < ending_date){
+      }else if (now < bidding_ending_date){
         block = <>
           <div className="time_status">
             <ul>
@@ -219,7 +276,7 @@ export default class PropertyShow extends Component {
               <li id="seconds-timer-item">00</li>
               <li>Seconds</li>
             </ul>
-          </div>{this.calculateApproveTime(this.state.property.auction_ending_at)}
+          </div>{this.calculateApproveTime(this.state.property.auction_bidding_ending_at)}
           <div className="font-red text-center">Remaining Time Before Auction Ends. </div>
         </>
       }
