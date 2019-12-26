@@ -135,15 +135,7 @@ export default class PropertyShow extends Component {
   }
   calculateApproveTime = (time) => {
     if (time){
-      let now_f = new Date().getTime();
-      let end_f = new Date(time).getTime();
-      let t_f = (end_f/1000) - (now_f/1000);
-      if (t_f>0){
-        this.clearTimerTimeout = setTimeout(() => {
-          this.setState(() => ({timer_complete: true}))
-        }, t_f);
-      }
-      this.timer_interval = setInterval(function () {
+      this.timer_interval = setInterval(() => {
         if (time){
           let now = new Date().getTime();
           let end = new Date(time).getTime();
@@ -158,6 +150,9 @@ export default class PropertyShow extends Component {
             document.getElementById("minutes-timer-item").innerHTML = "--"
             document.getElementById("seconds-timer-item").innerHTML = "--"
             clearInterval(this.timer_interval);
+            this.setState({
+              timer_complete: true ,
+            });
           }else {
             document.getElementById("days-timer-item").innerHTML = days
             document.getElementById("hours-timer-item").innerHTML = hours
@@ -166,10 +161,10 @@ export default class PropertyShow extends Component {
           }
         }else {
           clearInterval(this.timer_interval);
-          document.getElementById("days-timer-item").innerHTML = "--"
-          document.getElementById("hours-timer-item").innerHTML = "--"
-          document.getElementById("minutes-timer-item").innerHTML = "--"
-          document.getElementById("seconds-timer-item").innerHTML = "--"
+          // document.getElementById("days-timer-item").innerHTML = "--"
+          // document.getElementById("hours-timer-item").innerHTML = "--"
+          // document.getElementById("minutes-timer-item").innerHTML = "--"
+          // document.getElementById("seconds-timer-item").innerHTML = "--"
         }
       }, 1000)
     }else {
@@ -180,7 +175,8 @@ export default class PropertyShow extends Component {
     let block;
     if (this.state.property.status === "Draft" || this.state.property.status === "Under Review"){
       block = <div className="time_status font-red"> <h4>Under Review</h4></div>
-    }else if (this.state.property.status === "Approve / Best Offer") {
+    }
+    else if (this.state.property.status === "Approve / Best Offer") {
       const starting_date = new Date(this.state.property.auction_started_at).getTime()
       const ending_date = new Date(this.state.property.auction_ending_at).getTime()
       const bidding_starting_date = new Date(this.state.property.auction_bidding_started_at).getTime()
@@ -211,7 +207,8 @@ export default class PropertyShow extends Component {
             </div>{this.calculateApproveTime(this.state.property.best_offer_auction_started_at)}
             <div className="font-red text-center">Remaining Time Before Best Offer Starts. </div>
           </>
-        }else if (now < best_offer_ending_date){
+        }
+        else if (now < best_offer_ending_date){
           block = <>
             <div className="time_status">
               <ul>
@@ -257,7 +254,8 @@ export default class PropertyShow extends Component {
           </div>{this.calculateApproveTime(this.state.property.auction_bidding_started_at)}
           <div className="font-red text-center">Remaining Time Before Auction starts. </div>
         </>
-      }else if (now < bidding_ending_date){
+      }
+      else if (now < bidding_ending_date){
         block = <>
           <div className="time_status">
             <ul>
@@ -283,7 +281,8 @@ export default class PropertyShow extends Component {
       else {
         block = <div className="time_status font-red"> <h4>Post Auction</h4></div>
       }
-    }else {
+    }
+    else {
       block = <div className="time_status font-red"> <h4>Pending Status</h4></div>
     }
     return block
