@@ -2068,7 +2068,7 @@ export default class NewProperty extends Component{
                             <Link to="#" className="bs-wizard-dot"></Link>
                           </div>
                         </div>
-                        <div className="d-none" id="step1" >
+                        <div className="" id="step1" >
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Property Details</h4>
                           </div>
@@ -2376,7 +2376,7 @@ export default class NewProperty extends Component{
                                                 overlay={
                                                   <Popover>
                                                     <Popover.Content>
-                                                        <p className="mb-0">Typically your asking price is the price you would blast out to your email list or social media.</p>
+                                                      <p className="mb-0">Typically your asking price is the price you would blast out to your email list or social media.</p>
                                                     </Popover.Content>
                                                   </Popover>
                                                 }>
@@ -2393,7 +2393,7 @@ export default class NewProperty extends Component{
                                                 overlay={
                                                   <Popover>
                                                     <Popover.Content>
-                                                        <p className="mb-0">Make your deal more credible by filling in the rehab calculator, or upload your rehab costs below.</p>
+                                                      <p className="mb-0">Make your deal more credible by filling in the rehab calculator, or upload your rehab costs below.</p>
                                                     </Popover.Content>
                                                   </Popover>
                                                 }>
@@ -3225,7 +3225,7 @@ export default class NewProperty extends Component{
                             </div>
                           </Modal>
                         </div>
-                        <div className="" id="step3">
+                        <div className="d-none" id="step3">
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Online Bidding Options</h4>
                           </div>
@@ -3382,8 +3382,8 @@ export default class NewProperty extends Component{
                                       <Popover>
                                         <Popover.Content>
                                           <p className="mb-0">(i) This should be an optimistic price you would accept immediately from any qualified buyer that will take the property off the market immediately.
-                                        <br/>
-                                        (ii)(Buyers can't make an offer less than 20% below your asking price and buyers offer will automatically be withdrawn if it's not accepted within 24 hours of when the offer was submitted)</p>
+                                            <br/>
+                                          (ii)(Buyers can't make an offer less than 20% below your asking price and buyers offer will automatically be withdrawn if it's not accepted within 24 hours of when the offer was submitted)</p>
                                         </Popover.Content>
                                       </Popover>
                                     }>
