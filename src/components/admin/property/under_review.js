@@ -35,7 +35,7 @@ export default class UnderReview extends Component{
     this.setState({
       isLoaded: false,
     });
-    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties?search_str=" + this.state.search_str + "&page=" + this.state.page
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties?status=Under Review&search_str=" + this.state.search_str + "&page=" + this.state.page
     fetch(url, {
       method: "GET",
       headers: {
