@@ -2120,7 +2120,7 @@ export default class NewProperty extends Component{
                                 <label>Property Type</label>
                               </div>
                               <div className="col-md-6 px-1 text-right">
-                                <select className={"form-control " + this.addErrorClass(this.state.property_type_error) } name="p_type" onChange={this.updateProperty}>
+                                <select className={"form-control " + this.addErrorClass(this.state.property_type_error) } name="p_type" value={this.state.property.p_type} onChange={this.updateProperty}>
                                   {types}
                                 </select>
                               </div>
