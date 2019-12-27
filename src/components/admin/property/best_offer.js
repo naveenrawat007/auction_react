@@ -197,6 +197,38 @@ export default class BestOffer extends Component{
     });
   }
 
+  calculateApproveTime = (time, id) => {
+    if (time){
+      this.timer_interval = setInterval( () => {
+        if (time){
+          let now = new Date().getTime();
+          let end = new Date(time).getTime();
+          let t = (end/1000) - (now/1000);
+          let hours = Math.floor(t/(60*60));
+          let minutes = Math.floor((t%(60*60))/60);
+          let seconds = Math.floor((t%(60)))
+
+          if (document.getElementById("timer"+id)){
+            if (t<0){
+              document.getElementById("timer"+id).innerHTML = "--:--:--"
+            }else {
+              document.getElementById("timer"+id).innerHTML = `-${hours}:${minutes}:${seconds}`
+            }
+          }
+        }else {
+          if (document.getElementById("timer"+id)){
+            document.getElementById("timer"+id).innerHTML = "--:--:--"
+          }
+        }
+      }, 1000)
+    }else {
+      if (document.getElementById("timer"+id)){
+        document.getElementById("timer"+id).innerHTML = "--:--:--"
+      }
+    }
+
+  }
+
 	render() {
     const status_array = this.state.property_status_options.map((status, index) => {
       return(
@@ -221,7 +253,7 @@ export default class BestOffer extends Component{
     const propertyList = this.state.properties.map((property, index) => {
       return (
         <tr key={index}>
-          <td><input type="radio" value={index} id={index} name="selected_property" onChange={this.updateSelectedProperty}/></td>
+          <td><input type="radio" value={index} id={index} checked={this.state.selected_property === String(index) ? true : false} name="selected_property" onChange={this.updateSelectedProperty}/></td>
           <td>
             <div className="user_name_box">
               <span>{property.first_name[0].toUpperCase()}</span>
@@ -233,7 +265,7 @@ export default class BestOffer extends Component{
           <td>{property.submitted_date}</td>
           <td>{property.auction_started_at}</td>
           <td>{property.auction_length}</td>
-          <td>-24:00</td>
+          <td> <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.best_offer_auction_ending_at, property.id)}</td>
         </tr>
       );
     })
