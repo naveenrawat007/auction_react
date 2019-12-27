@@ -2695,7 +2695,7 @@ export default class UserNewProperty extends Component{
                                   <div className="row mx-0 step_row">
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="text-uppercase">EST AFTER REHAB VALUE:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2716,7 +2716,7 @@ export default class UserNewProperty extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Asking/Purchase Price:&nbsp;
-                                              <OverlayTrigger trigger="click" placement="right"
+                                              <OverlayTrigger trigger="click" rootClose placement="right"
                                                 overlay={
                                                   <Popover>
                                                     <Popover.Content>
@@ -2733,7 +2733,7 @@ export default class UserNewProperty extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Est Rehab Cost:&nbsp;
-                                              <OverlayTrigger trigger="click" placement="right"
+                                              <OverlayTrigger trigger="click" rootClose placement="right"
                                                 overlay={
                                                   <Popover>
                                                     <Popover.Content>
@@ -2752,7 +2752,7 @@ export default class UserNewProperty extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Est Closing Cost:&nbsp;
-                                              <OverlayTrigger trigger="click" placement="right"
+                                              <OverlayTrigger trigger="click" rootClose placement="right"
                                                 overlay={
                                                   <Popover>
                                                     <Popover.Content>
@@ -2769,7 +2769,7 @@ export default class UserNewProperty extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Est Annual Insurance:&nbsp;
-                                              <OverlayTrigger trigger="click" placement="right"
+                                              <OverlayTrigger trigger="click" rootClose placement="right"
                                                 overlay={
                                                   <Popover>
                                                     <Popover.Content>
@@ -2786,7 +2786,7 @@ export default class UserNewProperty extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Est Hard Money or STF Cost:&nbsp;
-                                              <OverlayTrigger trigger="click" placement="right"
+                                              <OverlayTrigger trigger="click" rootClose placement="right"
                                                 overlay={
                                                   <Popover>
                                                     <Popover.Content>
@@ -2804,7 +2804,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 px-0">
                                       <label className="label-bold">Total Acquisition Costs:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2830,7 +2830,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="text-uppercase">amount financed&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2847,7 +2847,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Interest Rate APR&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2864,7 +2864,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Loan Term&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2881,7 +2881,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Monthly Principal &amp; Interest&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2898,7 +2898,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main">Annual Debt Service&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2917,7 +2917,7 @@ export default class UserNewProperty extends Component{
                                   <div className="row mx-0 step_row">
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual taxes:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2934,11 +2934,11 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Insurance&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
-                                                <p className="mb-0">(auto-populated from above)</p>
+                                                <p className="mb-0">(Auto-populated from above)</p>
                                               </Popover.Content>
                                             </Popover>
                                           }>
@@ -2951,7 +2951,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Management Fees:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2968,7 +2968,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Maintenance:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2985,7 +2985,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Operating Costs:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3007,7 +3007,7 @@ export default class UserNewProperty extends Component{
                                   <div className="row mx-0 step_row">
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Total EST Monthly Rent:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3024,7 +3024,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Total Gross Yearly Income:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3041,7 +3041,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Vacancy Rate:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3058,7 +3058,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main label-bold">ADJ Gross Yearly Income:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3077,7 +3077,7 @@ export default class UserNewProperty extends Component{
                                 </div>
                                 <div className="col-md-6 my-3 px-0">
                                   <h5 className="text-uppercase font-red step_heads step_fonts">Cash Flow Analysis&nbsp;
-                                    <OverlayTrigger trigger="click" placement="right"
+                                    <OverlayTrigger trigger="click" rootClose placement="right"
                                       overlay={
                                         <Popover>
                                           <Popover.Content>
@@ -3094,7 +3094,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main">(+) Adjusted Gross Yearly Income
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3111,7 +3111,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main">(-) Est Annual Operating Costs&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3128,7 +3128,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main label-bold">(=) Net Operating Income (NOI)&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3145,7 +3145,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main">(-) Annual Debt Service&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3162,7 +3162,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main label-bold">(=) Annual Cash Flow&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3184,7 +3184,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Monthly Cash Flow&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3201,7 +3201,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Total Out of Pocket&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3218,7 +3218,7 @@ export default class UserNewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="label-bold">ROI Cash On Cash&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3613,7 +3613,7 @@ export default class UserNewProperty extends Component{
                             <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
                               <div className="col-md-6 px-1 text-right">
                                 <label>Best Offer Time Frame&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
@@ -3635,7 +3635,7 @@ export default class UserNewProperty extends Component{
                             <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
                               <div className="col-md-6 px-1 text-right">
                                 <label>Sellers Asking Price&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
@@ -3654,7 +3654,7 @@ export default class UserNewProperty extends Component{
                             <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
                               <div className="col-md-6 px-1 text-right">
                                 <label>Sellers Buy Now Price&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
@@ -3689,7 +3689,7 @@ export default class UserNewProperty extends Component{
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Online Bidding/Auction Time Frame&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
@@ -3711,7 +3711,7 @@ export default class UserNewProperty extends Component{
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Sellers Asking Price&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
@@ -3730,7 +3730,7 @@ export default class UserNewProperty extends Component{
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Sellers Buy Now Price&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
@@ -3751,7 +3751,7 @@ export default class UserNewProperty extends Component{
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row mt-4">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Ideal Closing Date&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
@@ -3809,7 +3809,7 @@ export default class UserNewProperty extends Component{
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Showing Option&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
@@ -3845,7 +3845,7 @@ export default class UserNewProperty extends Component{
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Open House Dates&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
