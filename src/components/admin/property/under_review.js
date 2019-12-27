@@ -346,7 +346,7 @@ export default class UnderReview extends Component{
         <Modal className="status_modal" show={this.state.status_modal} onHide={this.hideModal}>
           <Modal.Header closeButton>
             <div className=" offset-md-1 col-md-10 text-center">
-              <h5 className="mb-0 text-uppercase"> { this.state.selected_property === "" ? "Please select Property" :  "Property Status for" + this.state.properties[this.state.selected_property].address}</h5>
+              <h5 className="mb-0 text-uppercase"> { this.state.selected_property === "" ? "Please select Property" :  "Property Status for " + this.state.properties[this.state.selected_property].address}</h5>
             </div>
           </Modal.Header>
           <div className="modal-body">
