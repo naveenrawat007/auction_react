@@ -23,6 +23,10 @@ export default class AdminSidebar extends Component{
         return <PropertyList path="under_review_property_list"/>;
       case 'best_offer_property_list':
         return <PropertyList path="best_offer_property_list"/>;
+      case 'live_bidding_property_list':
+        return <PropertyList path="live_bidding_property_list"/>;
+      case 'post_auction_property_list':
+        return <PropertyList path="post_auction_property_list"/>;
       default:
     }
   }
