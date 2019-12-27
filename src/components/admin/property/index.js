@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import UnderReview from './under_review.js'
 import BestOffer from './best_offer.js'
+import LiveBidding from './live_bidding.js'
+import PostAuction from './post_auction.js'
 
 export default class PropertyList extends Component{
   _isMounted = false
@@ -36,6 +38,10 @@ export default class PropertyList extends Component{
         return <UnderReview/>;
       case 'best_offer_property_list':
         return <BestOffer/>;
+      case 'live_bidding_property_list':
+        return <LiveBidding/>;
+      case 'post_auction_property_list':
+        return <PostAuction/>;
       default:
     }
   }
@@ -53,10 +59,10 @@ export default class PropertyList extends Component{
                 <Link to="/admin/property/best_offer" className={this.checkActive("best_offer_property_list")} >Best Offer</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" data-toggle="pill" href="#onlinebinding">Live Online Bidding</a>
+                <Link to="/admin/property/live_bidding" className={this.checkActive("live_bidding_property_list")}>Live Online Bidding</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" data-toggle="pill" href="#postAuction">Post Auction</a>
+                <Link to="/admin/property/post_auction" className={this.checkActive("post_auction_property_list")}>Post Auction</Link>
               </li>
               <li className="nav-item">
                 <a className="nav-link" data-toggle="pill" href="#pending">Pending</a>
