@@ -479,7 +479,7 @@ export default class NewProperty extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 200) {
-        window.location.href = "/user/property/" + this.state.property.id
+        window.location.href = "/user/property/" + this.state.property.unique_address
       }else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
@@ -495,7 +495,7 @@ export default class NewProperty extends Component{
   }
 
   saveDraftProperty = () => {
-    window.location.href = "/user/property/" + this.state.property.id
+    window.location.href = "/user/property/" + this.state.property.unique_address
   }
   updateUser = (event) => {
     const{ name, value } = event.target;
@@ -974,13 +974,14 @@ export default class NewProperty extends Component{
     .then((result) => {
       if (result.status === 201) {
         if(draft === "true"){
-          window.location.href = "/user/property/"+result.property.id
+          window.location.href = "/user/property/"+result.property.unique_address
         }
         this.setState({
           message: "",
           property: {
             ...this.state.property,
             id: result.property.id,
+            unique_address: result.property.unique_address,
           }
         })
         localStorage.setItem("auction_user_token", result.user_token);

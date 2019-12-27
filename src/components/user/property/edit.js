@@ -20,6 +20,7 @@ const initial_state = {
   message: "",
 
   property: {
+    unique_address: "",
     bedrooms: "",
     bathrooms: "",
     garage: "",
@@ -413,6 +414,7 @@ export default class PropertyEdit extends Component{
         arv_analysis: property.arv_analysis,
         description_of_repairs: property.description_of_repairs,
         rental_description: property.rental_description,
+        unique_address: property.unique_address,
       }
     });
     if (property.category === "Residential"){
@@ -1278,7 +1280,7 @@ export default class PropertyEdit extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 200) {
-        window.location.href = "/user/property/" + this.state.property.id
+        window.location.href = "/user/property/" + this.state.property.unique_address
       }else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
@@ -1294,7 +1296,7 @@ export default class PropertyEdit extends Component{
   }
 
   saveDraftProperty = () => {
-    window.location.href = "/user/property/" + this.state.property.id
+    window.location.href = "/user/property/" + this.state.property.unique_address
   }
 
   updateYoutubeVideoKey = () => {

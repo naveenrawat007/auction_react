@@ -29,6 +29,7 @@ const initial_state = {
     confirm_password: "",
   },
   property: {
+    unique_address: "",
     bedrooms: "",
     bathrooms: "",
     garage: "",
@@ -559,6 +560,7 @@ export default class UserNewProperty extends Component{
             property: {
             ...this.state.property,
             id: result.property.id,
+            unique_address: result.property.unique_address,
             }
           });
         }

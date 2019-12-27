@@ -145,13 +145,13 @@ export default class ListProperty extends Component{
           <div className="row mx-0 properties-list" >
             <div className="col-md-2 px-2 properties-img py-2">
               <div className="img-box py-4">
-                <Link to={"property/" + property.id}><img src={property.images[0] ? property.images[0] : "/images/home1.png" } alt="" />
+                <Link to={"property/" + property.unique_address}><img src={property.images[0] ? property.images[0] : "/images/home1.png" } alt="" />
                 </Link>
               </div>
             </div>
             <div className="col-md-5 px-2 py-2">
               <div className=" properties-address">
-                <h5 className="font-blue"><Link to={"property/" + property.id}> {property.address} </Link></h5>
+                <h5 className="font-blue"><Link to={"property/" + property.unique_address}> {property.address} </Link></h5>
                 <div className="address-list mb-0">
                   <div className="p-format">
                     <p>Submitted Date</p>
@@ -204,7 +204,7 @@ export default class ListProperty extends Component{
             </div>
             <div className="col-md-2 pl-2 pr-3 py-2">
               <div className="properties-btn">
-                <Link to={"/user/property/" + property.id + "/edit"} className="font-blue">Edit Property</Link>
+                <Link to={"/user/property/" + property.unique_address + "/edit"} className="font-blue">Edit Property</Link>
                 <Link to="#" className="font-blue">Mark as Pending</Link>
                 <Link to="#" className="font-blue">Update Docs</Link>
                 <Link to="#" className="font-blue">Update Photo</Link>
