@@ -3908,3 +3908,7 @@ input::-webkit-inner-spin-button {
 .buy_modal{
   z-index: 3000;
 }
+
+.loading-spinner-parent{
+  position: relative;
+}

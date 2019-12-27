@@ -32,6 +32,9 @@ export default class UnderReview extends Component{
   }
 
   getPropertiesList = () => {
+    this.setState({
+      isLoaded: false,
+    });
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties?search_str=" + this.state.search_str + "&page=" + this.state.page
     fetch(url, {
       method: "GET",
@@ -51,6 +54,7 @@ export default class UnderReview extends Component{
       if (this._isMounted){
         if (result.status === 200){
           this.setState({
+            selected_property: "",
             isLoaded: true,
             properties: result.properties,
             property_status_options: result.property_statuses,
@@ -132,6 +136,9 @@ export default class UnderReview extends Component{
   }
 
   updateStatus = () => {
+    this.setState({
+      isLoaded: false,
+    });
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties/status"
     const fd = new FormData();
     fd.append('property[id]', this.state.properties[this.state.selected_property].id)
@@ -226,7 +233,7 @@ export default class UnderReview extends Component{
 
   editProperty = () => {
     if (this.state.selected_property){
-      window.location.href = "/user/property/"+ this.state.properties[this.state.selected_property].id +"/edit"
+      window.location.href = "/user/property/"+ this.state.properties[this.state.selected_property].unique_address +"/edit"
     }
   }
 
@@ -254,7 +261,7 @@ export default class UnderReview extends Component{
     const propertyList = this.state.properties.map((property, index) => {
       return (
         <tr key={index}>
-          <td><input type="radio" value={index} id={index} name="selected_property" onChange={this.updateSelectedProperty}/></td>
+          <td><input type="radio" value={index} id={index} checked={this.state.selected_property === String(index) ? true : false} name="selected_property" onChange={this.updateSelectedProperty}/></td>
           <td>
             <div className="user_name_box">
               <span>{property.first_name[0].toUpperCase()}</span>
@@ -299,7 +306,7 @@ export default class UnderReview extends Component{
                 <button className="btn red-btn admin-btns" type="button" onClick={this.openStatusModal}>Change Status</button>
               </div>
             </div>
-            <div className="under_review admin-review">
+            <div className="under_review admin-review loading-spinner-parent">
               <table className="table table-bordered table-hover review_table property_table">
                 <thead>
                   <tr>
@@ -314,6 +321,15 @@ export default class UnderReview extends Component{
                   </tr>
                 </thead>
               </table>
+              {this.state.isLoaded === true ?
+                null
+              :
+              <div className="spinner_main">
+                <div className="spinner-grow" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+              </div>
+              }
               <div className="under_review_list">
                 <table className="table table-bordered table-hover review_table property_table">
                   <tbody>

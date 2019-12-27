@@ -32,6 +32,9 @@ export default class BestOffer extends Component{
   }
 
   getPropertiesList = () => {
+    this.setState({
+      isLoaded: false,
+    });
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties/best_offers?search_str=" + this.state.search_str + "&page=" + this.state.page
     fetch(url, {
       method: "GET",
@@ -52,6 +55,7 @@ export default class BestOffer extends Component{
         if (result.status === 200){
           this.setState({
             isLoaded: true,
+            selected_property: "",
             properties: result.properties,
             property_status_options: result.property_statuses,
             current_page : result.meta.current_page,
@@ -132,6 +136,9 @@ export default class BestOffer extends Component{
   }
 
   updateStatus = () => {
+    this.setState({
+      isLoaded: false ,
+    });
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties/status"
     const fd = new FormData();
     fd.append('property[id]', this.state.properties[this.state.selected_property].id)
@@ -259,7 +266,7 @@ export default class BestOffer extends Component{
                 <button className="btn red-btn admin-btns" type="button" onClick={this.openStatusModal}>Change Status</button>
               </div>
             </div>
-            <div className="under_review admin-review">
+            <div className="under_review admin-review loading-spinner-parent">
               <table className="table table-bordered table-hover review_table property_table">
                 <thead>
                   <tr>
@@ -274,6 +281,15 @@ export default class BestOffer extends Component{
                   </tr>
                 </thead>
               </table>
+              {this.state.isLoaded === true ?
+                null
+              :
+              <div className="spinner_main">
+                <div className="spinner-grow" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+              </div>
+              }
               <div className="under_review_list">
                 <table className="table table-bordered table-hover review_table property_table">
                   <tbody>

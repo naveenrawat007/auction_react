@@ -28,6 +28,9 @@ export default class AllUserList extends Component{
   }
 
   getUsersList = () => {
+    this.setState({
+      isLoaded: false ,
+    });
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/users?search_str=" + this.state.search_str + "&page=" + this.state.page
     fetch(url, {
       method: "GET",
@@ -195,7 +198,7 @@ export default class AllUserList extends Component{
                         <button className="btn red-btn admin-btns" type="button">Control</button>
                       </div>
                     </div>
-                    <div className="under_review admin-review">
+                    <div className="under_review admin-review loading-spinner-parent">
                       <table className="table table-bordered table-hover review_table alluser_table">
                         <thead>
                           <tr>
@@ -210,6 +213,15 @@ export default class AllUserList extends Component{
                           </tr>
                         </thead>
                       </table>
+                      {this.state.isLoaded === true ?
+                        null
+                      :
+                      <div className="spinner_main">
+                        <div className="spinner-grow" role="status">
+                          <span className="sr-only">Loading...</span>
+                        </div>
+                      </div>
+                      }
                       <div className="under_review_list">
                         <table className="table table-bordered table-hover review_table alluser_table">
                           <tbody>
