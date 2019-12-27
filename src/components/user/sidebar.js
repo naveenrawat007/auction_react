@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Profile from './profile.js'
-import { faList, faCreditCard, faHome, faPlusCircle, faHeart, faEnvelopeOpenText, faSignOutAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { faChevronCircleDown, faList, faCreditCard, faHome, faPlusCircle, faHeart, faEnvelopeOpenText, faSignOutAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 // import NewProperty from './property/new'
 import ListProperty from './property/index'
 
@@ -114,9 +114,55 @@ export default class Sidebar extends Component{
                 <div className="account-data">
                   <h5>{localStorage.getItem("auction_user_name")}</h5>
                   <p className="font-red text-uppercase">Premium User</p>
+                  <button className="btn collapse_btn" data-toggle="collapse" data-target="#pills"><FontAwesomeIcon icon={faChevronCircleDown} /></button>
                 </div>
+                <ul className="nav nav-pills mobile-pills collapse" role="tablist" id="pills">
+                  <li className="nav-item">
+                    <Link to='/user' className={this.checkActive("user_profile")} data-toggle="pill" >
+                      <span><FontAwesomeIcon icon={faHome} /> Account Overview</span>
+                      <FontAwesomeIcon icon={faChevronRight} />
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link " data-toggle="pill" href="#availablePlans">
+                      <span><i className="fa fa-credit-card" aria-hidden="true"></i> Available Plans</span>
+                      <i className="fa fa-angle-right"></i>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <Link to='/user/property' className={this.checkActive("property_list")} data-toggle="pill" >
+                      <span><FontAwesomeIcon icon={faList} /> My Properties</span>
+                      <FontAwesomeIcon icon={faChevronRight} />
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to='/user/property/new' className={this.checkActive("new_property")} data-toggle="pill" href="#newproperty">
+                      <span><FontAwesomeIcon icon={faPlusCircle} />  Add New Property</span>
+                      <FontAwesomeIcon icon={faChevronRight} />
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link" data-toggle="pill" href="#watchProperty">
+                      <span><i className="fa fa-search-plus" aria-hidden="true"></i> Watch Property</span>
+                      <i className="fa fa-angle-right"></i>
+                    </a>
+                  </li>
+
+                  <li className="nav-item">
+                    <a className="nav-link" data-toggle="pill" href="#messages">
+                      <span><i className="fa fa-comments" aria-hidden="true"></i> Messages</span>
+                      <i className="fa fa-angle-right"></i>
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" data-toggle="pill" onClick={this.handleLogout} to="#">
+                      <span><FontAwesomeIcon icon={faSignOutAlt} />  Log out</span>
+                      <FontAwesomeIcon icon={faChevronRight} />
+                    </Link>
+                  </li>
+                </ul>
               </div>
-              <ul className="nav nav-pills" role="tablist">
+              <ul className="nav nav-pills profile-pills" role="tablist">
                 <li className="nav-item" >
                   <Link to='/user' className={this.checkActive("user_profile")} data-toggle="pill" >
                     <span><FontAwesomeIcon icon={faHome} /> Account Overview</span>
