@@ -16,6 +16,9 @@ import UserNewProperty from './components/user/property/new.js';
 import PropertyEdit from './components/user/property/edit.js';
 import PropertyLiveBidding from './components/property/live_bidding.js';
 import PropertyBestOffer from './components/property/best_offer.js'
+import PropertyPostAuction from './components/property/post_auction.js'
+import PropertyPending from './components/property/pending.js'
+import PropertySold from './components/property/sold.js'
 
 function App() {
   return (
@@ -27,6 +30,9 @@ function App() {
           <Route exact path="/property/new" component={NewProperty}/>
           <Route exact path="/property/live_bidding" component={PropertyLiveBidding}/>
           <Route exact path="/property/comming_soon" component={PropertyBestOffer}/>
+          <Route exact path="/property/post_auction" component={PropertyPostAuction}/>
+          <Route exact path="/property/pending" component={PropertyPending}/>
+          <Route exact path="/property/sold" component={PropertySold}/>
           <Route exact path="/user/property/" component={() => <Sidebar path='property_list'/>}/>
           <Route exact path="/user/property/new" component={UserNewProperty}/>
           <Route exact path="/user/property/:id/edit" component={PropertyEdit}/>

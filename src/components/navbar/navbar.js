@@ -141,6 +141,18 @@ export default class Navbar extends Component{
   navigateToBestOffer = () => {
     this.props.history.push('/property/comming_soon')
   }
+  navigateToPostAuction = () => {
+    this.props.history.push('/property/post_auction')
+  }
+
+  navigateToPending = () => {
+    this.props.history.push('/property/pending')
+  }
+
+  navigateToSold = () => {
+    this.props.history.push('/property/sold')
+  }
+
 
 
   render(){
@@ -167,9 +179,9 @@ export default class Navbar extends Component{
                         Live Online Bidding
                       </Dropdown.Item>
                       <Dropdown.Item onClick={this.navigateToBestOffer}>Coming Soon</Dropdown.Item>
-                      <Dropdown.Item href="#">Post Auction</Dropdown.Item>
-                      <Dropdown.Item href="#">Pending Property</Dropdown.Item>
-                      <Dropdown.Item href="#">Sold</Dropdown.Item>
+                      <Dropdown.Item onClick={this.navigateToPostAuction}>Post Auction</Dropdown.Item>
+                      <Dropdown.Item onClick={this.navigateToPending}>Pending Property</Dropdown.Item>
+                      <Dropdown.Item onClick={this.navigateToSold}>Sold</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </li>
