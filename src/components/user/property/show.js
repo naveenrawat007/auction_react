@@ -9,6 +9,7 @@ export default class PropertyShow extends Component {
   constructor(props){
     super(props);
     this.state = {
+      fund_proof: "",
       open_bidding_modal: false,
       open_buy_now_modal: false,
       open_best_offer_modal: false,
@@ -163,19 +164,23 @@ export default class PropertyShow extends Component {
           let minutes = Math.floor((t%(60*60))/60);
           let seconds = Math.floor((t%(60)))
           if (t<0){
-            document.getElementById("days-timer-item").innerHTML = "--"
-            document.getElementById("hours-timer-item").innerHTML = "--"
-            document.getElementById("minutes-timer-item").innerHTML = "--"
-            document.getElementById("seconds-timer-item").innerHTML = "--"
+            if (document.getElementById("days-timer-item")){
+              document.getElementById("days-timer-item").innerHTML = "--"
+              document.getElementById("hours-timer-item").innerHTML = "--"
+              document.getElementById("minutes-timer-item").innerHTML = "--"
+              document.getElementById("seconds-timer-item").innerHTML = "--"
+              this.setState({
+                timer_complete: true ,
+              });
+            }
             clearInterval(this.timer_interval);
-            this.setState({
-              timer_complete: true ,
-            });
           }else {
-            document.getElementById("days-timer-item").innerHTML = days
-            document.getElementById("hours-timer-item").innerHTML = hours
-            document.getElementById("minutes-timer-item").innerHTML = minutes
-            document.getElementById("seconds-timer-item").innerHTML = seconds
+            if (document.getElementById("days-timer-item")){
+              document.getElementById("days-timer-item").innerHTML = days
+              document.getElementById("hours-timer-item").innerHTML = hours
+              document.getElementById("minutes-timer-item").innerHTML = minutes
+              document.getElementById("seconds-timer-item").innerHTML = seconds
+            }
           }
         }else {
           clearInterval(this.timer_interval);
@@ -447,7 +452,7 @@ export default class PropertyShow extends Component {
     if (this.state.property.status === "Draft" || this.state.property.status === "Under Review"){
       block =
       <div className="property_rate text-center">
-        <h4>$ {this.state.property.seller_price}</h4>
+        <h4>$ {this.state.property.highest_bid}</h4>
         <p className="mb-0">Current Highest Bid.</p>
         <div className="input-group my-2 col-md-8 offset-md-2">
           <div className="input-group-prepend">
@@ -485,7 +490,7 @@ export default class PropertyShow extends Component {
         const best_offer_ending_date = new Date(this.state.property.best_offer_auction_ending_at).getTime()
         if (now < best_offer_starting_date){
           block = <div className="property_rate text-center">
-            <h4>$ {this.state.property.seller_price}</h4>
+            <h4>$ {this.state.property.buy_now_price}</h4>
             <Link to="#" className="blue-btn btn-biding my-2" onClick={this.buyNowHandler}>
               <div className="tooltip">Buy Now
                 <span className="tooltiptext">
@@ -511,7 +516,7 @@ export default class PropertyShow extends Component {
         }
         else if (now < best_offer_ending_date){
           block = <div className="property_rate text-center">
-            <h4>$ {this.state.property.seller_price}</h4>
+            <h4>$ {this.state.property.buy_now_price}</h4>
             <Link to="#" className="blue-btn btn-biding my-2" onClick={this.buyNowHandler}>
               <div className="tooltip">Buy Now
                 <span className="tooltiptext">
@@ -536,7 +541,7 @@ export default class PropertyShow extends Component {
         }
         else if (now < bidding_starting_date){
           block = <div className="property_rate text-center">
-            <h4>$ {this.state.property.seller_price}</h4>
+            <h4>$ {this.state.property.highest_bid}</h4>
             <p className="mb-0">Current Highest Bid.</p>
             <div className="input-group my-2 col-md-8 offset-md-2">
               <div className="input-group-prepend">
@@ -564,7 +569,7 @@ export default class PropertyShow extends Component {
         }
         else if (now < bidding_ending_date){
           block = <div className="property_rate text-center">
-            <h4>$ {this.state.property.seller_price}</h4>
+            <h4>$ {this.state.property.highest_bid}</h4>
             <p className="mb-0">Current Highest Bid.</p>
             <div className="input-group my-2 col-md-8 offset-md-2">
               <div className="input-group-prepend">
@@ -591,7 +596,7 @@ export default class PropertyShow extends Component {
         }
         else {
           block = <div className="property_rate text-center">
-            <h4>$ {this.state.property.seller_price}</h4>
+            <h4>$ {this.state.property.highest_bid}</h4>
             <p className="mb-0">Current Highest Bid.</p>
             <div className="input-group my-2 col-md-8 offset-md-2">
               <div className="input-group-prepend">
@@ -621,7 +626,7 @@ export default class PropertyShow extends Component {
       }
       else if (now < bidding_starting_date){
         block = <div className="property_rate text-center">
-          <h4>$ {this.state.property.seller_price}</h4>
+          <h4>$ {this.state.property.highest_bid}</h4>
           <p className="mb-0">Current Highest Bid.</p>
           <div className="input-group my-2 col-md-8 offset-md-2">
             <div className="input-group-prepend">
@@ -648,7 +653,7 @@ export default class PropertyShow extends Component {
       }
       else if (now < bidding_ending_date){
         block = <div className="property_rate text-center">
-          <h4>$ {this.state.property.seller_price}</h4>
+          <h4>$ {this.state.property.highest_bid}</h4>
           <p className="mb-0">Current Highest Bid.</p>
           <div className="input-group my-2 col-md-8 offset-md-2">
             <div className="input-group-prepend">
@@ -675,7 +680,7 @@ export default class PropertyShow extends Component {
       }
       else {
         block = <div className="property_rate text-center">
-          <h4>$ {this.state.property.seller_price}</h4>
+          <h4>$ {this.state.property.highest_bid}</h4>
           <p className="mb-0">Current Highest Bid.</p>
           <div className="input-group my-2 col-md-8 offset-md-2">
             <div className="input-group-prepend">
@@ -706,7 +711,7 @@ export default class PropertyShow extends Component {
     }
     else {
       block = <div className="property_rate text-center">
-        <h4>$ {this.state.property.seller_price}</h4>
+        <h4>$ {this.state.property.highest_bid}</h4>
         <p className="mb-0">Current Highest Bid.</p>
         <div className="input-group my-2 col-md-8 offset-md-2">
           <div className="input-group-prepend">
@@ -738,6 +743,74 @@ export default class PropertyShow extends Component {
 
   }
 
+  handleFundProofSelector = (event) => {
+    const name = event.target.name
+    event.target.nextElementSibling.innerHTML = event.target.files[0].name
+    const value = event.target.files[0]
+    if (this._isMounted){
+      this.setState({
+        [name]: value
+      });
+    }
+  }
+  submitBiddingOffer = () => {
+    this.setState({
+      isLoaded: false ,
+    });
+    const fd = new FormData();
+    fd.append('property[id]', this.state.property.id)
+    fd.append('bid[amount]', this.state.bidding_options.current_offer)
+    fd.append('bid[fund_proof]', this.state.fund_proof, this.state.fund_proof.name)
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/bids"
+    fetch(url,{
+      method: 'POST',
+      headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "*",
+        "Access-Control-Expose-Headers": "*",
+        "Access-Control-Max-Age": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*"
+      },
+      body: fd
+    })
+    .then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        if (result.status === 201){
+          this.setState({
+            isLoaded: true,
+            open_bidding_modal: false,
+            property: result.property,
+            bidding_options: {
+              ...this.state.bidding_options,
+              highest_bid: result.property.highest_bid,
+              current_offer: result.property.highest_bid,
+              buy_now_price: result.property.buy_now_price,
+              best_offer_price: result.property.best_offer_sellers_minimum_price,
+              best_offer_buy_price: result.property.best_offer_sellers_reserve_price,
+            }
+          });
+        }else if (result.status === 401) {
+          localStorage.removeItem("auction_user_token");
+          window.location.href = "/login"
+        }
+        else{
+        }
+      }
+    })
+    .catch(
+      (error) => {
+        if (this._isMounted){
+          this.setState({
+            // isLoaded: true,
+          });
+        }
+      }
+    )
+  }
   render(){
     if (this.state.isLoaded === true){
       const images = this.state.property.images.map((image, index) => {
@@ -1463,8 +1536,8 @@ export default class PropertyShow extends Component {
 
           <Modal className=" buy_modal" show={this.state.open_bidding_modal} onHide={this.closeBiddingModal}>
             <Modal.Header closeButton>
-              <div className="col-md-12 text-center">
-                <h5 className="mb-0">Highest Bid for ${this.state.property.address} </h5>
+              <div className=" offset-md-1 col-md-10 text-center">
+                <h5 className="mb-0">Highest Bid for {this.state.property.address} </h5>
               </div>
             </Modal.Header>
             <div className="modal-body">
@@ -1506,14 +1579,14 @@ export default class PropertyShow extends Component {
                 </div>
                 <div className="col-md-5 pr-0">
                   <div className="custom-file accept-file">
-                    <input type="file" className="custom-file-input" id="customFile"/>
+                    <input type="file" className="custom-file-input" name="fund_proof" onChange={this.handleFundProofSelector} id="customFile"/>
                     <label className="custom-file-label" htmlFor="customFile">Choose file</label>
                   </div>
                 </div>
               </div>
               <div className="col-md-12 text-center mt-3">
                 <span className="error"></span>
-                <button type="button" className="btn btn-blue my-2 px-5" data-dismiss="modal" onClick={this.closeBuyNowModal}>Close</button>
+                <button type="button" className="btn btn-blue my-2 px-5" data-dismiss="modal" onClick={this.submitBiddingOffer}>Submit</button>
               </div>
             </div>
           </Modal>
