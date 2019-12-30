@@ -209,15 +209,32 @@ export default class PropertyBestOffer extends Component{
                   <>
                     <ul className="list-inline">
                       <li>Monthly Cash Flow:</li>
-                      <li>${property.landlord_deal.monthly_cash_flow}</li>
+                      {
+                        property.landlord_deal ?
+                          <li>${property.landlord_deal.monthly_cash_flow}</li>
+                        :
+                        <li></li>
+                      }
                     </ul>
                     <ul className="list-inline">
                       <li>Total Out of Pocket:</li>
-                      <li>${property.landlord_deal.total_out_of_pocket}</li>
+                      {
+                        property.landlord_deal ?
+                          <li>${property.landlord_deal.total_out_of_pocket}</li>
+                        :
+                        <li></li>
+                      }
+
                     </ul>
                     <ul className="list-inline">
                       <li>ROI-Cash on Cash:</li>
-                      <li>${property.landlord_deal.roi_cash_percentage}</li>
+                      {
+                        property.landlord_deal ?
+                          <li>${property.landlord_deal.roi_cash_percentage}</li>
+                        :
+                        <li></li>
+                      }
+
                     </ul>
                   </>
                 }
