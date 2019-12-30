@@ -134,6 +134,13 @@ export default class Navbar extends Component{
   mouseOverUserImageChange = (event) =>{
     event.target.src='/images/userhover.png'
   }
+  navigateToLiveBidding = () => {
+    this.props.history.push('/property/live_bidding')
+  }
+
+  navigateToBestOffer = () => {
+    this.props.history.push('/property/comming_soon')
+  }
 
 
   render(){
@@ -156,8 +163,10 @@ export default class Navbar extends Component{
                       Buy <FontAwesomeIcon icon={faChevronDown} />
                     </Dropdown.Toggle>
                     <Dropdown.Menu className="drop-menu">
-                      <Dropdown.Item href="#">Live Online Bidding</Dropdown.Item>
-                      <Dropdown.Item href="#">Coming Soon</Dropdown.Item>
+                      <Dropdown.Item onClick={this.navigateToLiveBidding}>
+                        Live Online Bidding
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={this.navigateToBestOffer}>Coming Soon</Dropdown.Item>
                       <Dropdown.Item href="#">Post Auction</Dropdown.Item>
                       <Dropdown.Item href="#">Pending Property</Dropdown.Item>
                       <Dropdown.Item href="#">Sold</Dropdown.Item>
@@ -176,7 +185,7 @@ export default class Navbar extends Component{
                 <li className="nav-item dropdown">
                   <a className="nav-link" href="/" data-toggle="dropdown">Help </a>
                 </li>
-                
+
                 <li className="nav-item">
                   <a className="nav-link" href="/">
                     About us
