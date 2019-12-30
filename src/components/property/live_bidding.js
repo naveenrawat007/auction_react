@@ -190,38 +190,37 @@ export default class PropertyLiveBidding extends Component{
                     <>
                       <ul className="list-inline">
                         <li>After Repair Value:</li>
-                        <li>{property.after_rehab_value}</li>
+                        <li>${property.after_rehab_value}</li>
                       </ul>
                       <ul className="list-inline">
                         <li>Seller Asking Price:</li>
-                        <li>{property.asking_price}</li>
+                        <li>${property.asking_price}</li>
                       </ul>
                       <ul className="list-inline">
                         <li>Est Rehab Cost:</li>
-                        <li>{property.estimated_rehab_cost}</li>
+                        <li>${property.estimated_rehab_cost}</li>
                       </ul>
                       <ul className="list-inline">
                         <li>Profit Potential:</li>
-                        <li>{property.profit_potential}</li>
+                        <li>${property.profit_potential}</li>
                       </ul>
                     </>
                   :
                   <>
                     <ul className="list-inline">
                       <li>Monthly Cash Flow:</li>
-                      <li>{property.landlord_deal.monthly_cash_flow}</li>
+                      <li>${property.landlord_deal.monthly_cash_flow}</li>
                     </ul>
                     <ul className="list-inline">
                       <li>Total Out of Pocket:</li>
-                      <li>{property.landlord_deal.total_out_of_pocket}</li>
+                      <li>${property.landlord_deal.total_out_of_pocket}</li>
                     </ul>
                     <ul className="list-inline">
                       <li>ROI-Cash on Cash:</li>
-                      <li>{property.landlord_deal.roi_cash_percentage}</li>
+                      <li>${property.landlord_deal.roi_cash_percentage}</li>
                     </ul>
                   </>
                 }
-
               </div>
             </div>
             <div className="col-md-3 time-border px-0">
