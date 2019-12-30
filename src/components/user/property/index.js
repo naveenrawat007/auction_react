@@ -136,6 +136,33 @@ export default class ListProperty extends Component{
     }
   }
 
+  bidsList = (object) => {
+    const bidList = object.map((bid, index) => {
+      return (
+        <tr key={index}>
+          <td>
+            <div className="user_name_box">
+              <span>{bid.user[0]}</span>
+              <p>{bid.user}</p>
+            </div>
+          </td>
+          <td><p>${bid.amount}</p></td>
+          <td><p>{bid.type}</p></td>
+          <td><p>{bid.time}</p></td>
+          <td>
+            <div className="order-actions">
+              <Link to="#"><FontAwesomeIcon icon={faEnvelopeOpenText}  /></Link>
+              <Link to="#"><FontAwesomeIcon icon={faDownload}  /></Link>
+              <Link to="#"><FontAwesomeIcon icon={faThumbsUp}  /></Link>
+              <Link to="#"><FontAwesomeIcon icon={faThumbsDown}  /></Link>
+            </div>
+          </td>
+        </tr>
+      )
+    })
+    return bidList
+  }
+
 	render() {
     const current_page = this.state.current_page;
     const total_pages = this.state.total_pages;
@@ -145,13 +172,13 @@ export default class ListProperty extends Component{
           <div className="row mx-0 properties-list" >
             <div className="col-md-2 px-2 properties-img py-2">
               <div className="img-box py-4">
-                <Link to={"property/" + property.unique_address}><img src={property.images[0] ? property.images[0] : "/images/home1.png" } alt="" />
+                <Link to={"/user/property/" + property.unique_address}><img src={property.images[0] ? property.images[0] : "/images/home1.png" } alt="" />
                 </Link>
               </div>
             </div>
             <div className="col-md-5 px-2 py-2">
               <div className=" properties-address">
-                <h5 className="font-blue"><Link to={"property/" + property.unique_address}> {property.address} </Link></h5>
+                <h5 className="font-blue"><Link to={"/user/property/" + property.unique_address}> {property.address} </Link></h5>
                 <div className="address-list mb-0">
                   <div className="p-format">
                     <p>Submitted Date</p>
@@ -225,45 +252,7 @@ export default class ListProperty extends Component{
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>
-                      <div className="user_name_box">
-                        <span>D</span>
-                        <p>Daniel</p>
-                      </div>
-                    </td>
-                    <td><p>$87,000</p></td>
-                    <td><p>Bid</p></td>
-                    <td><p>12/15/19 | 11:21am</p></td>
-                    <td>
-                      <div className="order-actions">
-                        <Link to="#"><FontAwesomeIcon icon={faEnvelopeOpenText}  /></Link>
-                        <Link to="#"><FontAwesomeIcon icon={faDownload}  /></Link>
-                        <Link to="#"><FontAwesomeIcon icon={faThumbsUp}  /></Link>
-                        <Link to="#"><FontAwesomeIcon icon={faThumbsDown}  /></Link>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="user_name_box">
-                        <span>D</span>
-                        <p>Daniel</p>
-                      </div>
-                    </td>
-                    <td><p>$87,000</p></td>
-                    <td><p>Bid</p></td>
-                    <td><p>12/15/19 | 11:21am</p></td>
-                    <td>
-                      <div className="order-actions">
-                        <Link to="#"><FontAwesomeIcon icon={faEnvelopeOpenText}  /></Link>
-                        <Link to="#"><FontAwesomeIcon icon={faDownload}  /></Link>
-                        <Link to="#"><FontAwesomeIcon icon={faThumbsUp}  /></Link>
-                        <Link to="#"><FontAwesomeIcon icon={faThumbsDown}  /></Link>
-                      </div>
-                    </td>
-                  </tr>
-
+                  {this.bidsList(property.bids)}
                 </tbody>
               </table>
               {/* </div> */}
