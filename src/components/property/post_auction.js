@@ -250,7 +250,7 @@ export default class PropertyPostAuction extends Component{
       <div className="container custom_container px-0">
         {
           this.state.properties.length > 0 ?
-            <div>
+            <div className="no-items-div">
               {propertyList}
             </div>
           :

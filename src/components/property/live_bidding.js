@@ -247,7 +247,16 @@ export default class PropertyLiveBidding extends Component{
     return (
     <div className="profile-setting">
       <div className="container custom_container px-0">
-        {propertyList}
+        {
+          this.state.properties.length > 0 ?
+            <div className="no-items-div">
+              {propertyList}
+            </div>
+          :
+          <div className="no-items-div">
+            No Properties in here.
+          </div>
+        }
         <div className="col-md-12 text-center my-3">
           {prev_page}{pagination}{next_page}
         </div>
