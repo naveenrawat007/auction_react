@@ -3912,3 +3912,7 @@ input::-webkit-inner-spin-button {
 .loading-spinner-parent{
   position: relative;
 }
+
+.no-items-div{
+  min-height: 60vh;
+}
