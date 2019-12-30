@@ -14,6 +14,8 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import NewProperty from './components/property/new.js';
 import UserNewProperty from './components/user/property/new.js';
 import PropertyEdit from './components/user/property/edit.js';
+import PropertyLiveBidding from './components/property/live_bidding.js';
+import PropertyBestOffer from './components/property/best_offer.js'
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Switch>
           <Route exact path="/user" component={() => <Sidebar path='user_profile'/>}/>
           <Route exact path="/property/new" component={NewProperty}/>
+          <Route exact path="/property/live_bidding" component={PropertyLiveBidding}/>
+          <Route exact path="/property/comming_soon" component={PropertyBestOffer}/>
           <Route exact path="/user/property/" component={() => <Sidebar path='property_list'/>}/>
           <Route exact path="/user/property/new" component={UserNewProperty}/>
           <Route exact path="/user/property/:id/edit" component={PropertyEdit}/>
