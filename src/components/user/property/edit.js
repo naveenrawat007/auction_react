@@ -1388,7 +1388,7 @@ export default class PropertyEdit extends Component{
             });
           }
         }else if (name === "auction_length") {
-          this.updatePropertyAuctionEnding();
+          // this.updatePropertyAuctionEnding();
         }
         else if ((name === "after_rehab_value")||(name === "asking_price")){
           if (this.state.property.deal_analysis_type === "Landlord Deal"){
@@ -1437,7 +1437,7 @@ export default class PropertyEdit extends Component{
         auction_started_at: date
         }
       }, function () {
-        this.updatePropertyAuctionEnding();
+        // this.updatePropertyAuctionEnding();
       })
     }
   }
