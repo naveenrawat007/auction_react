@@ -54,6 +54,7 @@ export default class UnderReview extends Component{
       if (this._isMounted){
         if (result.status === 200){
           this.setState({
+            status_modal: false,
             selected_property: "",
             isLoaded: true,
             properties: result.properties,
@@ -187,7 +188,7 @@ export default class UnderReview extends Component{
       status_modal: false
     });
     if (this.state.selected_property !== ""){
-      this.updateStatus();
+      // this.updateStatus();
     }
   }
 
@@ -369,7 +370,7 @@ export default class UnderReview extends Component{
             }
             <div className="col-md-12 text-center mt-3">
               <span className="error"></span>
-              <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.hideModal}>Save</button>
+              <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.updateStatus}>Save</button>
             </div>
           </div>
         </Modal>
