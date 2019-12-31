@@ -3922,3 +3922,8 @@ input::-webkit-inner-spin-button {
   color: #b82f1e;
   font-size: 1.7rem;
 }
+
+a.admin_table_links{
+  color: #000;
+  text-decoration: none;
+}
