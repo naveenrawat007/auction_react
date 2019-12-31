@@ -263,8 +263,8 @@ export default class Terminated extends Component{
           </td>
           <td>{property.user_type}</td>
           <td>{property.address}</td>
-          <td>{property.submitted_date}</td>
-          <td>{property.auction_started_at}</td>
+          <td>{property.termination_date}</td>
+          <td>{property.termination_reason}</td>
         </tr>
       );
     })

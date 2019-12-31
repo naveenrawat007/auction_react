@@ -266,7 +266,7 @@ export default class Hold extends Component{
           <td>{property.submitted_date}</td>
           <td>{property.auction_started_at}</td>
           <td>{property.auction_length}</td>
-          <td> <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.best_offer_auction_ending_at, property.id)}</td>
+          <td> -- </td>
         </tr>
       );
     })
@@ -309,8 +309,8 @@ export default class Hold extends Component{
                     <th>Property Address</th>
                     <th>Submitted Date</th>
                     <th>Auction Date</th>
-                    <th>No. of Offer</th>
-                    <th>Best Offer Till</th>
+                    <th>Auction Length</th>
+                    <th>Approve Timer</th>
                   </tr>
                 </thead>
               </table>
