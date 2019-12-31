@@ -134,7 +134,7 @@ export default class PropertyLiveBidding extends Component{
     const propertyList = this.state.properties.map((property, index) => {
       return (
         <div className="row mx-0 mb-3 biding_row p-3" key={index}>
-          <div className="col-md-2 px-0">
+          <div className="col-md-3 px-0">
             <div className="biding-img">
               {property.images.length > 0
                 ?
@@ -144,7 +144,7 @@ export default class PropertyLiveBidding extends Component{
               }
             </div>
           </div>
-          <div className="col-md-10 row mx-0 px-0" key={index}>
+          <div className="col-md-9 row mx-0 px-0" key={index}>
             <div className="col-md-5 biding-border px-0">
               <div className="property-biding px-3">
                 <h5>{property.address}</h5>
@@ -246,7 +246,7 @@ export default class PropertyLiveBidding extends Component{
     const next_page = <> <button className="pagination-btn btn" onClick={this.refreshList} page_number={this.getNextPage(current_page, total_pages)}>Next</button> </>
     return (
     <div className="profile-setting">
-      <div className="container custom_container px-0 loading-spinner-parent">
+      <div className="container custom_container buy_tab px-0 loading-spinner-parent">
         <h3>Live Online Bidding Properties</h3>
         {this.state.isLoaded === true ?
           null
