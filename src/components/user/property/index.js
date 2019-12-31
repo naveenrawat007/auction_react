@@ -221,7 +221,7 @@ export default class ListProperty extends Component{
 
             <div className="col-md-3 px-2 text-center py-2">
               <div className="properties-price">
-                <h5 className="font-red">$82,000</h5>
+                <h5 className="font-red">${property.highest_bid}</h5>
                 <p>Current Highest Bid</p>
                 {/* <Accordion.Toggle eventKey={property.id}> */}
                 <Accordion.Toggle as={Button} className="btn red-btn"  eventKey={property.id}>List of BIds/Offers
@@ -234,8 +234,6 @@ export default class ListProperty extends Component{
                 <Link to={"/user/property/" + property.unique_address + "/edit"} className="font-blue">Edit Property</Link>
                 <Link to="#" className="font-blue">Mark as Pending</Link>
                 <Link to="#" className="font-blue">Update Docs</Link>
-                <Link to="#" className="font-blue">Update Photo</Link>
-                <Link to="#" className="font-blue">Update Video</Link>
               </div>
             </div>
 
