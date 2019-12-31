@@ -205,7 +205,11 @@ export default class LiveBidding extends Component{
           let now = new Date().getTime();
           let end = new Date(time).getTime();
           let t = (end/1000) - (now/1000);
-          let hours = Math.floor(t/(60*60));
+          // let hours = Math.floor(t/(60*60));
+          // let minutes = Math.floor((t%(60*60))/60);
+          // let seconds = Math.floor((t%(60)))
+          let days = Math.floor(t/(60*60*24))
+          let hours = Math.floor((t%(60*60*24))/(60*60));
           let minutes = Math.floor((t%(60*60))/60);
           let seconds = Math.floor((t%(60)))
 
@@ -213,7 +217,7 @@ export default class LiveBidding extends Component{
             if (t<0){
               document.getElementById("timer"+id).innerHTML = "--:--:--"
             }else {
-              document.getElementById("timer"+id).innerHTML = `-${hours}:${minutes}:${seconds}`
+              document.getElementById("timer"+id).innerHTML = `-${days}:${hours}:${minutes}:${seconds}`
             }
           }
         }else {
@@ -266,7 +270,7 @@ export default class LiveBidding extends Component{
           <td>{property.submitted_date}</td>
           <td>{Object.keys(property.bids).length}</td>
           <td>{property.auction_length ? `${property.auction_length} Days` : "-"} </td>
-          <td> <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.best_offer_auction_ending_at, property.id)}</td>
+          <td> <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.auction_bidding_ending_at, property.id)}</td>
         </tr>
       );
     })

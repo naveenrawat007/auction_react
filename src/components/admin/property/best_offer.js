@@ -205,7 +205,11 @@ export default class BestOffer extends Component{
           let now = new Date().getTime();
           let end = new Date(time).getTime();
           let t = (end/1000) - (now/1000);
-          let hours = Math.floor(t/(60*60));
+          // let hours = Math.floor(t/(60*60));
+          // let minutes = Math.floor((t%(60*60))/60);
+          // let seconds = Math.floor((t%(60)))
+          let days = Math.floor(t/(60*60*24))
+          let hours = Math.floor((t%(60*60*24))/(60*60));
           let minutes = Math.floor((t%(60*60))/60);
           let seconds = Math.floor((t%(60)))
 
@@ -213,7 +217,7 @@ export default class BestOffer extends Component{
             if (t<0){
               document.getElementById("timer"+id).innerHTML = "--:--:--"
             }else {
-              document.getElementById("timer"+id).innerHTML = `-${hours}:${minutes}:${seconds}`
+              document.getElementById("timer"+id).innerHTML = `-${days}:${hours}:${minutes}:${seconds}`
             }
           }
         }else {
