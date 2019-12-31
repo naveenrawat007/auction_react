@@ -136,18 +136,24 @@ export default class PropertyPending extends Component{
         <div className="row mx-0 mb-3 biding_row p-3" key={index}>
           <div className="col-md-3 px-0">
             <div className="biding-img">
-              {property.images.length > 0
-                ?
-                  <img src={property.images[0]} alt=""/>
-                :
-                <img src="/images/home1.png" alt=""/>
-              }
+              <Link to={"/user/property/"+property.unique_address}>
+                {property.images.length > 0
+                  ?
+                    <img src={property.images[0]} alt=""/>
+                  :
+                  <img src="/images/home1.png" alt=""/>
+                }
+              </Link>
             </div>
           </div>
           <div className="col-md-9 row mx-0 px-0" key={index}>
             <div className="col-md-5 biding-border px-0">
               <div className="property-biding px-3">
-                <h5>{property.address}</h5>
+                <h5>
+                  <Link className="admin_table_links" to={"/user/property/"+property.unique_address}>
+                    {property.address}
+                  </Link>
+                </h5>
                 <div className="mb-1 property-details">
                   <p>
                     {property.category === "Residential" ?
@@ -179,7 +185,18 @@ export default class PropertyPending extends Component{
                   </p>
                   <p className="type-family">{property.category} | {property.p_type}</p>
                 </div>
-                <p>{property.description}<Link to={"/user/property/"+property.unique_address}>Learn more..</Link></p>
+                <p>
+                  {property.description.length > 20 ?
+                    <>
+
+                      {property.description.substring(0, 20)}...&nbsp;<Link to={"/user/property/"+property.unique_address}>read more</Link>
+                    </>
+                  :
+                  <>
+                    {property.description}
+                  </>
+                  }
+                </p>
               </div>
             </div>
             <div className="col-md-4 pay-border px-0">
@@ -245,7 +262,7 @@ export default class PropertyPending extends Component{
                   <h5 className="my-2">{property.status}</h5>
                 </div>
                 <h4 className="text-center">${property.highest_bid}</h4>
-                <p>Current Highest Bid</p>
+                <p>Pending Price</p>
                 <Link to={"/user/property/"+property.unique_address} className="red-btn btn-biding">View Details</Link>
               </div>
             </div>
