@@ -199,7 +199,7 @@ export default class PropertyShow extends Component {
     if (this.state.property.status === "Draft" || this.state.property.status === "Under Review"){
       block = <div className="time_status font-red"> <h4>Under Review</h4></div>
     }
-    else if (this.state.property.status === "Approve / Best Offer") {
+    else if ((this.state.property.status === "Approve / Best Offer") || (this.state.property.status === "Live Online Bidding")) {
       // const starting_date = new Date(this.state.property.auction_started_at).getTime()
       // const ending_date = new Date(this.state.property.auction_ending_at).getTime()
       const bidding_starting_date = new Date(this.state.property.auction_bidding_started_at).getTime()
@@ -355,7 +355,7 @@ export default class PropertyShow extends Component {
       }
     }
     else {
-      block = <div className="time_status font-red"> <h4>Pending Status</h4></div>
+      block = <div className="time_status font-red"> <h4>{this.state.property.status}</h4></div>
     }
     return block
   }
@@ -479,7 +479,7 @@ export default class PropertyShow extends Component {
         <h4 className="rate-head">$ {this.state.property.buy_now_price}</h4>
       </div>
     }
-    else if (this.state.property.status === "Approve / Best Offer") {
+    else if ((this.state.property.status === "Approve / Best Offer") || this.state.property.status === "Live Online Bidding") {
       // const starting_date = new Date(this.state.property.auction_started_at).getTime()
       // const ending_date = new Date(this.state.property.auction_ending_at).getTime()
       const bidding_starting_date = new Date(this.state.property.auction_bidding_started_at).getTime()
