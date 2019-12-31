@@ -6,6 +6,8 @@ import LiveBidding from './live_bidding.js';
 import PostAuction from './post_auction.js';
 import Pending from './pending.js';
 import Hold from './hold.js';
+import Sold from './sold.js';
+import Terminated from './terminated.js'
 
 export default class PropertyList extends Component{
   _isMounted = false
@@ -48,6 +50,10 @@ export default class PropertyList extends Component{
         return <Pending/>;
       case 'hold_property_list':
         return <Hold/>;
+      case 'sold_property_list':
+        return <Sold/>;
+      case 'terminated_property_list':
+        return <Terminated/>;
       default:
     }
   }
@@ -74,13 +80,14 @@ export default class PropertyList extends Component{
                 <Link to="/admin/property/pending" className={this.checkActive("pending_property_list")}>Pending</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" data-toggle="pill" href="#sold">Sold</a>
+                <Link to="/admin/property/sold" className={this.checkActive("sold_property_list")}>Sold</Link>
               </li>
               <li className="nav-item">
                 <Link to="/admin/property/hold" className={this.checkActive("hold_property_list")}>Hold</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" data-toggle="pill" href="#terminated">Terminated</a>
+                <Link to="/admin/property/terminated" className={this.checkActive("terminated_property_list")}>Terminated</Link>
+
               </li>
             </ul>
             <div className="tab-content">

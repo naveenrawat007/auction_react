@@ -31,6 +31,10 @@ export default class AdminSidebar extends Component{
         return <PropertyList path="pending_property_list"/>;
       case 'hold_property_list':
         return <PropertyList path="hold_property_list"/>;
+      case 'sold_property_list':
+        return <PropertyList path="sold_property_list"/>;
+      case 'terminated_property_list':
+        return <PropertyList path="terminated_property_list"/>;
       default:
     }
   }
