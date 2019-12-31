@@ -42,6 +42,7 @@ function App() {
           <Route exact path="/admin/property/best_offer" component={() => <AdminSidebar path='best_offer_property_list'/>}/>
           <Route exact path="/admin/property/live_bidding" component={() => <AdminSidebar path='live_bidding_property_list'/>}/>
           <Route exact path="/admin/property/post_auction" component={() => <AdminSidebar path='post_auction_property_list'/>}/>
+          <Route exact path="/admin/property/pending" component={() => <AdminSidebar path='pending_property_list'/>}/>
           <Route exact path="/login" component={Login} />
           <Route exact path="/sign_up" component={SignUp} />
           <Route exact path="/forgot_password" component={ForgotPassword} />

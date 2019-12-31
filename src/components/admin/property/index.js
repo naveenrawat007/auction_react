@@ -4,6 +4,7 @@ import UnderReview from './under_review.js'
 import BestOffer from './best_offer.js'
 import LiveBidding from './live_bidding.js'
 import PostAuction from './post_auction.js'
+import Pending from './pending.js'
 
 export default class PropertyList extends Component{
   _isMounted = false
@@ -42,6 +43,8 @@ export default class PropertyList extends Component{
         return <LiveBidding/>;
       case 'post_auction_property_list':
         return <PostAuction/>;
+      case 'pending_property_list':
+        return <Pending/>;
       default:
     }
   }
@@ -65,7 +68,7 @@ export default class PropertyList extends Component{
                 <Link to="/admin/property/post_auction" className={this.checkActive("post_auction_property_list")}>Post Auction</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" data-toggle="pill" href="#pending">Pending</a>
+                <Link to="/admin/property/pending" className={this.checkActive("pending_property_list")}>Pending</Link>
               </li>
               <li className="nav-item">
                 <a className="nav-link" data-toggle="pill" href="#sold">Sold</a>
