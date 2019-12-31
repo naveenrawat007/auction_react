@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-bootstrap/Modal'
 // import {Link} from 'react-router-dom';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faDownload } from '@fortawesome/free-solid-svg-icons';
 
 export default class Pending extends Component{
   _isMounted = false
@@ -263,10 +263,10 @@ export default class Pending extends Component{
           </td>
           <td>{property.user_type}</td>
           <td>{property.address}</td>
-          <td>{property.submitted_date}</td>
-          <td>{property.auction_started_at}</td>
-          <td>{property.auction_length}</td>
-          <td> <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.best_offer_auction_ending_at, property.id)}</td>
+          <td>{Object.keys(property.bids).length}</td>
+          <td>{property.highest_bid_detail.user_name ? property.highest_bid_detail.user_name : "N/A"}</td>
+          <td>{property.highest_bid_detail.amount ? `$${property.highest_bid_detail.amount}` : "N/A"}</td>
+          <td> {property.highest_bid_detail.fund_proof ? <a className="admin_table_links" href={property.highest_bid_detail.fund_proof} target="_blank" rel="noopener noreferrer">Attachment <FontAwesomeIcon icon={faDownload} /></a> : ""} </td>
         </tr>
       );
     })
@@ -307,10 +307,10 @@ export default class Pending extends Component{
                     <th>Name</th>
                     <th>User Type</th>
                     <th>Property Address</th>
-                    <th>Submitted Date</th>
-                    <th>Auction Date</th>
-                    <th>No. of Offer</th>
-                    <th>Best Offer Till</th>
+                    <th>No. of bids</th>
+                    <th>Higest Bidder</th>
+                    <th>Bid Amount</th>
+                    <th>Proof of funds</th>
                   </tr>
                 </thead>
               </table>

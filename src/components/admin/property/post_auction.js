@@ -264,9 +264,9 @@ export default class PostAuction extends Component{
           <td>{property.user_type}</td>
           <td>{property.address}</td>
           <td>{Object.keys(property.bids).length}</td>
-          <td>{property.highest_bid_detail.user_name}</td>
-          <td>${property.highest_bid_detail.amount}</td>
-          <td> <a className="admin_table_links" href={property.highest_bid_detail.fund_proof} target="_blank">Attachment <FontAwesomeIcon icon={faDownload} /></a> </td>
+          <td>{property.highest_bid_detail.user_name ? property.highest_bid_detail.user_name : "N/A"}</td>
+          <td>{property.highest_bid_detail.amount ? `$${property.highest_bid_detail.amount}` : "N/A"}</td>
+          <td>{property.highest_bid_detail.fund_proof ? <a className="admin_table_links" href={property.highest_bid_detail.fund_proof} target="_blank" rel="noopener noreferrer">Attachment <FontAwesomeIcon icon={faDownload} /></a> : ""}</td>
         </tr>
       );
     })
