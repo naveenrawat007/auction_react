@@ -263,7 +263,6 @@ export default class PropertySold extends Component{
     return (
     <div className="profile-setting">
       <div className="container custom_container buy_tab px-0 loading-spinner-parent">
-        <h3>Sold Properties</h3>
         {this.state.isLoaded === true ?
           null
         :
@@ -273,6 +272,7 @@ export default class PropertySold extends Component{
           </div>
         </div>
         }
+        <h3>Sold Properties</h3>
         {
           this.state.properties.length > 0 ?
             <div className="no-items-div">
@@ -283,7 +283,11 @@ export default class PropertySold extends Component{
             </div>
           :
           <div className="no-items-div">
-            No Properties in here.
+            {this.state.isLoaded === true ?
+              "No Properties in here."
+            :
+              "Fetching"
+            }
           </div>
         }
       </div>
