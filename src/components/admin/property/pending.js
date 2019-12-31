@@ -198,38 +198,6 @@ export default class Pending extends Component{
     });
   }
 
-  calculateApproveTime = (time, id) => {
-    if (time){
-      this.timer_interval = setInterval( () => {
-        if (time){
-          let now = new Date().getTime();
-          let end = new Date(time).getTime();
-          let t = (end/1000) - (now/1000);
-          let hours = Math.floor(t/(60*60));
-          let minutes = Math.floor((t%(60*60))/60);
-          let seconds = Math.floor((t%(60)))
-
-          if (document.getElementById("timer"+id)){
-            if (t<0){
-              document.getElementById("timer"+id).innerHTML = "--:--:--"
-            }else {
-              document.getElementById("timer"+id).innerHTML = `-${hours}:${minutes}:${seconds}`
-            }
-          }
-        }else {
-          if (document.getElementById("timer"+id)){
-            document.getElementById("timer"+id).innerHTML = "--:--:--"
-          }
-        }
-      }, 1000)
-    }else {
-      if (document.getElementById("timer"+id)){
-        document.getElementById("timer"+id).innerHTML = "--:--:--"
-      }
-    }
-
-  }
-
 	render() {
     const status_array = this.state.property_status_options.map((status, index) => {
       return(
