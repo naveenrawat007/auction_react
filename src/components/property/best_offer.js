@@ -265,6 +265,7 @@ export default class PropertyBestOffer extends Component{
     return (
     <div className="profile-setting">
       <div className="container custom_container px-0 loading-spinner-parent">
+        <h3>Best Offer Properties</h3>
         {this.state.isLoaded === true ?
           null
         :

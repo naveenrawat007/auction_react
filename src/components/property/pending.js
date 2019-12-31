@@ -248,6 +248,7 @@ export default class PropertyPending extends Component{
     return (
     <div className="profile-setting">
       <div className="container custom_container px-0 loading-spinner-parent">
+        <h3>Pending Properties</h3>
         {this.state.isLoaded === true ?
           null
         :

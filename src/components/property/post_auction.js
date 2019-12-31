@@ -248,6 +248,7 @@ export default class PropertyPostAuction extends Component{
     return (
     <div className="profile-setting">
       <div className="container custom_container px-0 loading-spinner-parent">
+        <h3>Post Auction Properties</h3>
         {this.state.isLoaded === true ?
           null
         :

@@ -247,6 +247,7 @@ export default class PropertyLiveBidding extends Component{
     return (
     <div className="profile-setting">
       <div className="container custom_container px-0 loading-spinner-parent">
+        <h3>Live Online Bidding Properties</h3>
         {this.state.isLoaded === true ?
           null
         :

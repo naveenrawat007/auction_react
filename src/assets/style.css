@@ -3916,3 +3916,9 @@ input::-webkit-inner-spin-button {
 .no-items-div{
   min-height: 60vh;
 }
+
+.container.custom_container h3{
+  margin-bottom: 2%;
+  color: #b82f1e;
+  font-size: 2rem;
+}
