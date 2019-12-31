@@ -264,7 +264,16 @@ export default class PropertyBestOffer extends Component{
     const next_page = <> <button className="pagination-btn btn" onClick={this.refreshList} page_number={this.getNextPage(current_page, total_pages)}>Next</button> </>
     return (
     <div className="profile-setting">
-      <div className="container custom_container px-0">
+      <div className="container custom_container px-0 loading-spinner-parent">
+        {this.state.isLoaded === true ?
+          null
+        :
+        <div className="spinner_main">
+          <div className="spinner-grow" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+        }
         {
           this.state.properties.length > 0 ?
             <div className="no-items-div">
