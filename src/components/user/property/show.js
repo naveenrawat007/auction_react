@@ -10,6 +10,7 @@ export default class PropertyShow extends Component {
     super(props);
     this.state = {
       fund_proof: "",
+      fund_proof_error: "",
       open_bidding_modal: false,
       open_buy_now_modal: false,
       open_best_offer_modal: false,
@@ -751,6 +752,9 @@ export default class PropertyShow extends Component {
       this.setState({
         [name]: value
       });
+      this.setState({
+        fund_proof_error: "",
+      });
     }
   }
   submitBiddingOffer = () => {
@@ -811,6 +815,35 @@ export default class PropertyShow extends Component {
       }
     )
   }
+  submitBiddingHandler = () => {
+    let formIsValid = this.biddingFormValidation()
+    if (formIsValid){
+      this.submitBiddingOffer()
+    }
+  }
+  biddingFormValidation = () => {
+    let fund_proof_error = "";
+    if (this.state.fund_proof === "" || this.state.fund_proof === null){
+      fund_proof_error = "error"
+    }
+    this.setState({
+      fund_proof_error,
+    });
+    if (fund_proof_error !== ""){
+      return false
+    }
+    else {
+      return true
+    }
+  }
+  addErrorClass = (msg) => {
+    if (msg === ""){
+      return ""
+    }else {
+      return "error-class"
+    }
+  }
+
   render(){
     if (this.state.isLoaded === true){
       const images = this.state.property.images.map((image, index) => {
@@ -1580,13 +1613,13 @@ export default class PropertyShow extends Component {
                 <div className="col-md-5 pr-0">
                   <div className="custom-file accept-file">
                     <input type="file" className="custom-file-input" name="fund_proof" onChange={this.handleFundProofSelector} id="customFile"/>
-                    <label className="custom-file-label" htmlFor="customFile">Choose file</label>
+                    <label className={"custom-file-label " + this.addErrorClass(this.state.fund_proof_error)} htmlFor="customFile">Choose file</label>
                   </div>
                 </div>
               </div>
               <div className="col-md-12 text-center mt-3">
                 <span className="error"></span>
-                <button type="button" className="btn btn-blue my-2 px-5" data-dismiss="modal" onClick={this.submitBiddingOffer}>Submit</button>
+                <button type="button" className="btn btn-blue my-2 px-5" data-dismiss="modal" onClick={this.submitBiddingHandler}>Submit</button>
               </div>
             </div>
           </Modal>
