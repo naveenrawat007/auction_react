@@ -264,8 +264,8 @@ export default class LiveBidding extends Component{
           <td>{property.user_type}</td>
           <td>{property.address}</td>
           <td>{property.submitted_date}</td>
-          <td>{property.auction_started_at}</td>
-          <td>{property.auction_length}</td>
+          <td>{Object.keys(property.bids).length}</td>
+          <td>{property.auction_length ? `${property.auction_length} Days` : "-"} </td>
           <td> <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.best_offer_auction_ending_at, property.id)}</td>
         </tr>
       );
@@ -308,9 +308,9 @@ export default class LiveBidding extends Component{
                     <th>User Type</th>
                     <th>Property Address</th>
                     <th>Submitted Date</th>
-                    <th>Auction Date</th>
-                    <th>No. of Offer</th>
-                    <th>Best Offer Till</th>
+                    <th>No. of Bids</th>
+                    <th>Auction Length</th>
+                    <th>Auction Ends In</th>
                   </tr>
                 </thead>
               </table>
