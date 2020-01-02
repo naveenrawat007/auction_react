@@ -82,6 +82,51 @@ export default class PropertyBestOffer extends Component{
     this.getPropertiesList();
 
   }
+  calculateApproveTime = (time, id) => {
+    if (time){
+      this.timer_interval = setInterval( () => {
+        if (time){
+          let now = new Date().getTime();
+          let end = new Date(time).getTime();
+          let t = (end/1000) - (now/1000);
+          // let hours = Math.floor(t/(60*60));
+          // let minutes = Math.floor((t%(60*60))/60);
+          // let seconds = Math.floor((t%(60)))
+          let days = Math.floor(t/(60*60*24))
+          let hours = Math.floor((t%(60*60*24))/(60*60));
+          let minutes = Math.floor((t%(60*60))/60);
+          // let seconds = Math.floor((t%(60)))
+
+          if (document.getElementById("days-timer"+id)){
+            if (t<0){
+              if (document.getElementById("days-timer"+id)){
+                document.getElementById("days-timer"+id).innerHTML = "--"
+                document.getElementById("hours-timer"+id).innerHTML = "--"
+                document.getElementById("minutes-timer"+id).innerHTML = "--"
+                // document.getElementById("seconds-timer-item").innerHTML = seconds
+              }
+              clearInterval(this.timer_interval);
+            }else {
+              // document.getElementById("timer"+id).innerHTML = `${days}:${hours}:${minutes}:${seconds}`
+              if (document.getElementById("days-timer"+id)){
+                document.getElementById("days-timer"+id).innerHTML = days
+                document.getElementById("hours-timer"+id).innerHTML = hours
+                document.getElementById("minutes-timer"+id).innerHTML = minutes
+                // document.getElementById("seconds-timer-item").innerHTML = seconds
+              }
+            }
+          }
+        }
+      }, 1000)
+    }else {
+      if (document.getElementById("days-timer"+id)){
+        document.getElementById("days-timer"+id).innerHTML = "--"
+        document.getElementById("hours-timer"+id).innerHTML = "--"
+        document.getElementById("minutes-timer"+id).innerHTML = "--"
+        // document.getElementById("seconds-timer-item").innerHTML = seconds
+      }
+    }
+  }
 
   searchHandler = (event) => {
     const{ name, value } = event.target;
@@ -258,12 +303,28 @@ export default class PropertyBestOffer extends Component{
             </div>
             <div className="col-md-3 time-border px-0">
               <div className="time-detail pl-3">
-                <div className="time-span">
-                  <h5 className="my-2">{property.status}</h5>
+                <div className="time-span property-timing">
+                  {this.calculateApproveTime(property.best_offer_auction_ending_at, property.id)}
+                  <h5 className="my-2">
+                    <div className="time_status">
+                      <ul>
+                        <li id={"days-timer"+property.id}>00</li>
+                        <li>Days</li>
+                      </ul>
+                      <ul>
+                        <li id={"hours-timer"+property.id}>00</li>
+                        <li>Hours</li>
+                      </ul>
+                      <ul>
+                        <li id={"minutes-timer"+property.id}>00</li>
+                        <li>Minutes</li>
+                      </ul>
+                    </div>
+                  </h5>
                 </div>
-                <h4 className="text-center">${property.highest_bid}</h4>
+                <h4 className="text-center font-blue">${property.best_offer_price}</h4>
                 <p>Seller Asking Price</p>
-                <Link to={"/user/property/"+property.unique_address} className="red-btn btn-biding">View Details</Link>
+                <Link to={"/user/property/"+property.unique_address} className="blue-btn btn-biding ">View Details</Link>
               </div>
             </div>
           </div>

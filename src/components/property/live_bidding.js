@@ -140,7 +140,7 @@ export default class PropertyLiveBidding extends Component{
           let days = Math.floor(t/(60*60*24))
           let hours = Math.floor((t%(60*60*24))/(60*60));
           let minutes = Math.floor((t%(60*60))/60);
-          let seconds = Math.floor((t%(60)))
+          // let seconds = Math.floor((t%(60)))
 
           if (document.getElementById("days-timer"+id)){
             if (t<0){
