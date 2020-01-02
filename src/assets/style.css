@@ -1200,7 +1200,7 @@ span.badge {
 }
 
 .biding_row .pay-detail h5 {
-  font-size: 16px;
+  font-size: 18px;
   text-transform: capitalize;
   text-align: center;
   font-weight: 500;
@@ -1284,9 +1284,13 @@ span.badge {
 
 .btn-biding {
   padding: 5px 35px;
+  text-decoration: none;
   color: #fff !important;
   font-size: 16px;
   display: inline-block;
+}
+.btn-biding:hover {
+  text-decoration: none;
 }
 
 /*admin dashboard */
