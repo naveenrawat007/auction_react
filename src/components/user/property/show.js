@@ -24,9 +24,10 @@ export default class PropertyShow extends Component {
       bidding_options: {
         highest_bid: 0,
         current_offer: 0,
+        current_best_offer: 0,
         buy_now_price: "",
         best_offer_price: "",
-        best_offer_buy_price: "",
+        best_offer_buy_now_price: "",
       }
     }
   };
@@ -63,8 +64,9 @@ export default class PropertyShow extends Component {
               highest_bid: result.property.highest_bid,
               current_offer: result.property.highest_bid,
               buy_now_price: result.property.buy_now_price,
-              best_offer_price: result.property.best_offer_sellers_minimum_price,
-              best_offer_buy_price: result.property.best_offer_sellers_reserve_price,
+              current_best_offer: result.property.best_offer_price,
+              best_offer_price: result.property.best_offer_price,
+              best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
             }
           });
           // console.log(result.property);
@@ -368,6 +370,13 @@ export default class PropertyShow extends Component {
     });
   }
 
+  buyNowBestOfferHandler = () => {
+    this.setState({
+      open_buy_now_modal: true,
+      best_offer: true
+    });
+  }
+
   bestOfferHandler = () => {
     this.setState({
       open_best_offer_modal: true ,
@@ -418,6 +427,26 @@ export default class PropertyShow extends Component {
     }
   }
 
+  updateCurrentBestOffer = (event) => {
+    const{ value } = event.target;
+    let price = parseFloat(value ? value : 0)
+    if (price > this.state.bidding_options.best_offer_price){
+      this.setState({
+        bidding_options: {
+          ...this.state.bidding_options,
+          current_best_offer: price,
+        }
+      })
+    }else {
+      this.setState({
+        bidding_options: {
+          ...this.state.bidding_options,
+          current_best_offer: this.state.bidding_options.best_offer_price,
+      },
+    });
+    }
+  }
+
   decrementCurrentOffer = () => {
     let new_offer = this.state.bidding_options.current_offer
     new_offer = new_offer - 1000
@@ -449,6 +478,37 @@ export default class PropertyShow extends Component {
     });
   }
 
+  decrementCurrentBestOffer = () => {
+    let new_offer = this.state.bidding_options.current_best_offer
+    new_offer = new_offer - 1000
+    console.log(this.state.bidding_options.best_offer_price);
+    if ((new_offer > 0) && (new_offer >= this.state.bidding_options.best_offer_price) ){
+      this.setState({
+        bidding_options:{
+          ...this.state.bidding_options,
+          current_best_offer: new_offer,
+        }
+      });
+    }
+    else {
+      this.setState({
+        bidding_options:{
+          ...this.state.bidding_options,
+          current_best_offer: this.state.bidding_options.current_best_offer,
+        }
+      });
+    }
+  }
+  incrementCurrentBestOffer = () => {
+    let new_offer = this.state.bidding_options.current_best_offer
+    new_offer += 1000
+    this.setState({
+      bidding_options:{
+        ...this.state.bidding_options,
+        current_best_offer: new_offer,
+      }
+    });
+  }
   renderBiddingBlock = () => {
     let block;
     if (this.state.property.status === "Draft" || this.state.property.status === "Under Review"){
@@ -492,8 +552,8 @@ export default class PropertyShow extends Component {
         const best_offer_ending_date = new Date(this.state.property.best_offer_auction_ending_at).getTime()
         if (now < best_offer_starting_date){
           block = <div className="property_rate text-center">
-            <h4>$ {this.state.property.buy_now_price}</h4>
-            <Link to="#" className="blue-btn btn-biding my-2" onClick={this.buyNowHandler}>
+            <h4>$ {this.state.property.best_offer_sellers_reserve_price}</h4>
+            <Link to="#" className="blue-btn btn-biding my-2" onClick={this.buyNowBestOfferHandler}>
               <div className="tooltip">Buy Now
                 <span className="tooltiptext">
                   <h6>Buy Now!</h6>
@@ -505,11 +565,11 @@ export default class PropertyShow extends Component {
             <h6 className="mb-0">Whats Your </h6>
             <div className="input-group my-2 col-md-8 offset-md-2">
               <div className="input-group-prepend">
-                <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
+                <button className="input-group-text group-box btn" onClick={this.decrementCurrentBestOffer}><FontAwesomeIcon icon={faMinus}/></button>
               </div>
-              <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChange={this.updateCurrentOffer}/>
+              <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_best_offer} name="current_offer" onChange={this.updateCurrentBestOffer}/>
               <div className="input-group-append">
-                <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
+                <button className="input-group-text group-box btn" onClick={this.incrementCurrentBestOffer}><FontAwesomeIcon icon={faPlus}/></button>
               </div>
             </div>
             {/* <Link to="#" className="blue-btn btn-biding" onClick={this.bestOfferHandler}>Best Offer</Link> */}
@@ -518,8 +578,8 @@ export default class PropertyShow extends Component {
         }
         else if (now < best_offer_ending_date){
           block = <div className="property_rate text-center">
-            <h4>$ {this.state.property.buy_now_price}</h4>
-            <Link to="#" className="blue-btn btn-biding my-2" onClick={this.buyNowHandler}>
+            <h4>$ {this.state.property.best_offer_sellers_reserve_price}</h4>
+            <Link to="#" className="blue-btn btn-biding my-2" onClick={this.buyNowBestOfferHandler}>
               <div className="tooltip">Buy Now
                 <span className="tooltiptext">
                   <h6>Buy Now!</h6>
@@ -531,11 +591,11 @@ export default class PropertyShow extends Component {
             <h6 className="mb-0">Whats Your </h6>
             <div className="input-group my-2 col-md-8 offset-md-2">
               <div className="input-group-prepend">
-                <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
+                <button className="input-group-text group-box btn" onClick={this.decrementCurrentBestOffer}><FontAwesomeIcon icon={faMinus}/></button>
               </div>
-              <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChange={this.updateCurrentOffer}/>
+              <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_best_offer} name="current_offer" onChange={this.updateCurrentBestOffer}/>
               <div className="input-group-append">
-                <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
+                <button className="input-group-text group-box btn" onClick={this.incrementCurrentBestOffer}><FontAwesomeIcon icon={faPlus}/></button>
               </div>
             </div>
             <Link to="#" className="blue-btn btn-biding" onClick={this.bestOfferHandler}>Best Offer</Link>
@@ -796,8 +856,68 @@ export default class PropertyShow extends Component {
               highest_bid: result.property.highest_bid,
               current_offer: result.property.highest_bid,
               buy_now_price: result.property.buy_now_price,
-              best_offer_price: result.property.best_offer_sellers_minimum_price,
-              best_offer_buy_price: result.property.best_offer_sellers_reserve_price,
+              best_offer_price: result.property.best_offer_price,
+              best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
+            }
+          });
+        }else if (result.status === 401) {
+          localStorage.removeItem("auction_user_token");
+          window.location.href = "/login"
+        }
+        else{
+        }
+      }
+    })
+    .catch(
+      (error) => {
+        if (this._isMounted){
+          this.setState({
+            // isLoaded: true,
+          });
+        }
+      }
+    )
+  }
+  submitBestOffer = () => {
+    this.setState({
+      isLoaded: false ,
+    });
+    const fd = new FormData();
+    fd.append('property[id]', this.state.property.id)
+    fd.append('best_offer[amount]', this.state.bidding_options.current_best_offer)
+    fd.append('best_offer[fund_proof]', this.state.fund_proof, this.state.fund_proof.name)
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/best_offers"
+    fetch(url,{
+      method: 'POST',
+      headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "*",
+        "Access-Control-Expose-Headers": "*",
+        "Access-Control-Max-Age": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*"
+      },
+      body: fd
+    })
+    .then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        if (result.status === 201){
+          this.setState({
+            isLoaded: true,
+            open_best_offer_modal: false,
+            fund_proof: "",
+            terms_agreed: false,
+            property: result.property,
+            bidding_options: {
+              ...this.state.bidding_options,
+              highest_bid: result.property.highest_bid,
+              current_offer: result.property.highest_bid,
+              buy_now_price: result.property.buy_now_price,
+              best_offer_price: result.property.best_offer_price,
+              best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
             }
           });
         }else if (result.status === 401) {
@@ -824,6 +944,13 @@ export default class PropertyShow extends Component {
       this.submitBiddingOffer()
     }
   }
+  submitBestOfferHandler = () => {
+    let formIsValid = this.biddingFormValidation()
+    if (formIsValid){
+      this.submitBestOffer()
+    }
+  }
+
   biddingFormValidation = () => {
     let fund_proof_error = "";
     if (this.state.fund_proof === "" || this.state.fund_proof === null){
@@ -1466,7 +1593,7 @@ export default class PropertyShow extends Component {
           <Modal className=" buy_modal" show={this.state.open_buy_now_modal} onHide={this.closeBuyNowModal}>
             <Modal.Header closeButton>
               <div className="col-md-12 text-center">
-                <h5 className="mb-0">BUY NOW at ${this.state.bidding_options.buy_now_price} & You Win !!! </h5>
+                <h5 className="mb-0">BUY NOW at ${this.state.best_offer ?  this.state.bidding_options.best_offer_buy_now_price : this.state.bidding_options.buy_now_price} & You Win !!! </h5>
               </div>
             </Modal.Header>
             <div className="modal-body">
@@ -1529,7 +1656,7 @@ export default class PropertyShow extends Component {
               <div className="row mx-0">
                 <div className="buy-list text-center">
                   <div className="col-md-10 offset-md-1 px-0">
-                    <p>Congratulations! If You are about to offer $ {this.state.bidding_options.current_offer} for this property when you agrees  to the terms below.</p>
+                    <p>Congratulations! If You are about to offer $ {this.state.bidding_options.current_best_offer} for this property when you agrees  to the terms below.</p>
                   </div>
                 </div>
                 <div className="col-md-12 my-3 px-0">
@@ -1564,14 +1691,33 @@ export default class PropertyShow extends Component {
                 </div>
                 <div className="col-md-5 pr-0">
                   <div className="custom-file accept-file">
-                    <input type="file" className="custom-file-input" id="customFile"/>
-                    <label className="custom-file-label" htmlFor="customFile">Choose file</label>
+                    <input type="file" className="custom-file-input" name="fund_proof" onChange={this.handleFundProofSelector} id="customFile"/>
+                    <label className={"custom-file-label " + this.addErrorClass(this.state.fund_proof_error)} htmlFor="customFile">Choose file</label>
                   </div>
                 </div>
               </div>
-              <div className="col-md-12 text-center mt-3">
-                <span className="error"></span>
-                <button type="button" className="btn btn-blue my-2 px-5" data-dismiss="modal" onClick={this.closeBestOfferModal}>Close</button>
+              <div className="col-md-12 px-0">
+                <div className="payment-body">
+                  <form className="payment-form my-2 col-md-10 offset-md-1">
+                    <div className="col-md-8 offset-md-2 text-center">
+                      <div className="form-check agree-terms">
+                        <input className="form-check-input" name="terms_agreed" type="checkbox" id="best-offer-terms" onChange={this.updateTermsAgreed}/>
+                        <label className="form-check-label" htmlFor="best-offer-terms">
+                          I Agree to the website best offer terms
+                        </label>
+                      </div>
+                    </div>
+                    <div className="col-md-12 text-center mt-3">
+                      <span className="error"></span>
+                      {
+                        this.state.terms_agreed === true ?
+                          <button type="button" className="btn btn-blue my-2 px-5" data-dismiss="modal" onClick={this.submitBestOfferHandler}>Submit</button>
+                        :
+                        <button type="button" className=" disabled btn btn-blue my-2 px-5" data-dismiss="modal" >Submit</button>
+                      }
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </Modal>
@@ -1626,9 +1772,9 @@ export default class PropertyShow extends Component {
                   </div>
                 </div>
               </div>
-              <div class="col-md-12 px-0">
-                <div class="payment-body">
-                  <form class="payment-form my-2 col-md-10 offset-md-1">
+              <div className="col-md-12 px-0">
+                <div className="payment-body">
+                  <form className="payment-form my-2 col-md-10 offset-md-1">
                     <div className="col-md-8 offset-md-2 text-center">
                       <div className="form-check agree-terms">
                         <input className="form-check-input" name="terms_agreed" type="checkbox" id="bidding-terms" onChange={this.updateTermsAgreed}/>
