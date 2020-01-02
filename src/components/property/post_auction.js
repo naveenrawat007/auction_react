@@ -258,12 +258,12 @@ export default class PropertyPostAuction extends Component{
             </div>
             <div className="col-md-3 time-border px-0">
               <div className="time-detail pl-3">
-                <div className="time-span">
+                {/* <div className="time-span">
                   <h5 className="my-2">{property.status}</h5>
-                </div>
-                <h4 className="text-center">${property.highest_bid}</h4>
+                </div> */}
+                <h4 className="text-center font-blue">${property.highest_bid}</h4>
                 <p>Current Highest Bid</p>
-                <Link to={"/user/property/"+property.unique_address} className="red-btn btn-biding">View Details</Link>
+                <Link to={"/user/property/"+property.unique_address} className="blue-btn btn-biding">View Details</Link>
               </div>
             </div>
           </div>
@@ -289,7 +289,7 @@ export default class PropertyPostAuction extends Component{
           </div>
         </div>
         }
-        <h3>Post Auction Properties</h3>
+        <h3 className="font-blue">Post Auction Properties</h3>
         {
           this.state.properties.length > 0 ?
             <div className="no-items-div">

@@ -139,7 +139,7 @@ export default class Navbar extends Component{
   }
 
   navigateToBestOffer = () => {
-    this.props.history.push('/property/comming_soon')
+    this.props.history.push('/property/best_offer')
   }
   navigateToPostAuction = () => {
     this.props.history.push('/property/post_auction')
@@ -175,10 +175,13 @@ export default class Navbar extends Component{
                       Buy <FontAwesomeIcon icon={faChevronDown} />
                     </Dropdown.Toggle>
                     <Dropdown.Menu className="drop-menu">
-                      <Dropdown.Item onClick={this.navigateToLiveBidding}>
-                        Live Online Bidding
+                      <Dropdown.Item onClick={this.navigateToBestOffer}>
+                        Best Offer
                       </Dropdown.Item>
-                      <Dropdown.Item onClick={this.navigateToBestOffer}>Coming Soon</Dropdown.Item>
+                      <Dropdown.Item onClick={this.navigateToLiveBidding}>
+                        Live Online Auction
+                      </Dropdown.Item>
+                      {/* <Dropdown.Item onClick={this.navigateToBestOffer}>Coming Soon</Dropdown.Item> */}
                       <Dropdown.Item onClick={this.navigateToPostAuction}>Post Auction</Dropdown.Item>
                       <Dropdown.Item onClick={this.navigateToPending}>Pending Property</Dropdown.Item>
                       <Dropdown.Item onClick={this.navigateToSold}>Sold</Dropdown.Item>

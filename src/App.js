@@ -29,7 +29,7 @@ function App() {
           <Route exact path="/user" component={() => <Sidebar path='user_profile'/>}/>
           <Route exact path="/property/new" component={NewProperty}/>
           <Route exact path="/property/live_bidding" component={PropertyLiveBidding}/>
-          <Route exact path="/property/comming_soon" component={PropertyBestOffer}/>
+          <Route exact path="/property/best_offer" component={PropertyBestOffer}/>
           <Route exact path="/property/post_auction" component={PropertyPostAuction}/>
           <Route exact path="/property/pending" component={PropertyPending}/>
           <Route exact path="/property/sold" component={PropertySold}/>

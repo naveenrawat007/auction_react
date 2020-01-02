@@ -289,7 +289,7 @@ export default class PropertyBestOffer extends Component{
           </div>
         </div>
         }
-        <h3>Best Offer Properties</h3>
+        <h3 className="font-blue">Best Offer Properties</h3>
         {
           this.state.properties.length > 0 ?
             <div className="no-items-div">
