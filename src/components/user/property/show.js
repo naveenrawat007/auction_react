@@ -9,6 +9,7 @@ export default class PropertyShow extends Component {
   constructor(props){
     super(props);
     this.state = {
+      terms_agreed: "",
       fund_proof: "",
       fund_proof_error: "",
       open_bidding_modal: false,
@@ -787,6 +788,8 @@ export default class PropertyShow extends Component {
           this.setState({
             isLoaded: true,
             open_bidding_modal: false,
+            fund_proof: "",
+            terms_agreed: false,
             property: result.property,
             bidding_options: {
               ...this.state.bidding_options,
@@ -842,6 +845,12 @@ export default class PropertyShow extends Component {
     }else {
       return "error-class"
     }
+  }
+  updateTermsAgreed = (event) => {
+    const{ name, checked } = event.target;
+    this.setState({
+      [name]: checked
+    });
   }
 
   render(){
@@ -1617,9 +1626,28 @@ export default class PropertyShow extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-md-12 text-center mt-3">
-                <span className="error"></span>
-                <button type="button" className="btn btn-blue my-2 px-5" data-dismiss="modal" onClick={this.submitBiddingHandler}>Submit</button>
+              <div class="col-md-12 px-0">
+                <div class="payment-body">
+                  <form class="payment-form my-2 col-md-10 offset-md-1">
+                    <div className="col-md-8 offset-md-2 text-center">
+                      <div className="form-check agree-terms">
+                        <input className="form-check-input" name="terms_agreed" type="checkbox" id="bidding-terms" onChange={this.updateTermsAgreed}/>
+                        <label className="form-check-label" htmlFor="bidding-terms">
+                          I Agree to the website bidding terms
+                        </label>
+                      </div>
+                    </div>
+                    <div className="col-md-12 text-center mt-3">
+                      <span className="error"></span>
+                      {
+                        this.state.terms_agreed === true ?
+                          <button type="button" className="btn btn-blue my-2 px-5" data-dismiss="modal" onClick={this.submitBiddingHandler}>Submit</button>
+                        :
+                        <button type="button" className=" disabled btn btn-blue my-2 px-5" data-dismiss="modal" >Submit</button>
+                      }
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </Modal>
