@@ -1186,9 +1186,9 @@ span.badge {
 }
 
 .type-family {
-  font-size: 13px;
-  color: #b71c1c;
-  font-weight: 500;
+  font-size: 14px !important;
+  color: #3e7e5b;
+  font-weight: 600;
   text-transform: capitalize;
 }
 
@@ -1203,7 +1203,8 @@ span.badge {
   font-size: 16px;
   text-transform: capitalize;
   text-align: center;
-  font-weight: 600;
+  font-weight: 500;
+  color: #369bcf;
 }
 
 .biding_row .pay-detail ul {
@@ -1217,6 +1218,11 @@ span.badge {
   list-style-type: none;
   font-size: 13px;
   font-weight: 500;
+}
+.biding_row .pay-detail ul li:first-child {
+  list-style-type: none;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .time-span {
@@ -1246,13 +1252,26 @@ span.badge {
   color: #b71c1c;
 }
 
+.time-span.property-timing h5{
+  color: #000 !important;
+}
+.time-span.property-timing ul li:first-child {
+  font-size: 18px;
+  font-weight: 500;
+}
+.time-span.property-timing ul li:last-child {
+  font-size: 10px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
 .time-detail {
   text-align: center;
 }
 
 .time-detail h4 {
   margin: 12px 0;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
 }
 
@@ -1407,7 +1426,7 @@ span.badge {
   margin-bottom: 0;
 }
 .font-blue {
-  color: #3989df;
+  color: #3989df !important;
 }
 .head_address h5 {
   font-size: 14px;
@@ -1450,6 +1469,18 @@ span.badge {
 
 .property_gallery .mySlides {
   display: none;
+}
+
+.mySlides-image{
+  width: 100%;
+  height: 500px
+}
+.mySlides-image img{
+  display: block;
+  max-width: 100%;
+  /* min-height: 500px; */
+  height: 500px;
+  margin: 0 auto;
 }
 
 .cursor {
@@ -3486,7 +3517,7 @@ input:checked+.slider:before {
     font-weight: 500;
 }
 .blue-btn{
-    background: #064d9d;
+    background: #28608f;
     color:#fff !important;
     border:none;
     border-radius:3px;
