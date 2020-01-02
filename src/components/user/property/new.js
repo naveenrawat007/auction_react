@@ -4015,7 +4015,7 @@ export default class UserNewProperty extends Component{
                           </div>
                           <form className="row mx-0 creation-forms">
                             <div className="col-md-12">
-                              <div className="terms_agree">
+                              <div className="terms_agree" id="terms_agree-block" onScroll={this.enableCheckBox}>
                                 <p>In Order to post a property, you must check the appropriate box and upload proof you have a right to auction property.
                                 </p>
                                 <p>Then you must agree to the rest of the terms by checking the box before you can proceed to post a property</p>
