@@ -241,7 +241,7 @@ export default class PropertyLiveBidding extends Component{
                     {property.description}
                   </>
                   }
-                  </p>
+                </p>
               </div>
             </div>
             <div className="col-md-4 pay-border px-0">
@@ -302,7 +302,7 @@ export default class PropertyLiveBidding extends Component{
             </div>
             <div className="col-md-3 time-border px-0">
               <div className="time-detail pl-3">
-                <div className="time-span">
+                <div className="time-span property-timing">
                   {this.calculateApproveTime(property.auction_bidding_ending_at, property.id)}
                   <h5 className="my-2">
                     <div className="time_status">
@@ -321,9 +321,9 @@ export default class PropertyLiveBidding extends Component{
                     </div>
                   </h5>
                 </div>
-                <h4 className="text-center">${property.highest_bid}</h4>
+                <h4 className="text-center font-blue">${property.highest_bid}</h4>
                 <p>Current Highest Bid</p>
-                <Link to={"/user/property/"+property.unique_address} className="red-btn btn-biding">View Details</Link>
+                <Link to={"/user/property/"+property.unique_address} className="blue-btn btn-biding">View Details</Link>
               </div>
             </div>
           </div>
@@ -349,7 +349,7 @@ export default class PropertyLiveBidding extends Component{
           </div>
         </div>
         }
-        <h3>Live Online Bidding Properties</h3>
+        <h3 className="font-blue">Live Online Bidding Properties</h3>
         {
           this.state.properties.length > 0 ?
             <div className="no-items-div">
