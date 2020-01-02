@@ -473,29 +473,32 @@ export default class PropertyEdit extends Component{
       });
     }
     this.updateLandlordDealCalculator();
-    if (property.images_details.length > 0){
-      let files = [];
-      for(let i = 0; i < property.images_details.length; i++){
-        var xhr = new XMLHttpRequest();
-        xhr.responseType = "blob";//force the HTTP response, response-type header to be blob
-        xhr.open("GET", property.images_details[i].url);
-        xhr.onload = function () {
-          if (this.status >= 200 && this.status < 300) {
-            var blob = null;
-            blob = this.response
-            files.push({src: property.images_details[i].url, id: i,name: property.images_details[i].name, file: blob})
+    if (this.state.property.images.length === 0){
+      if (property.images_details.length > 0){
+        let files = [];
+        for(let i = 0; i < property.images_details.length; i++){
+          var xhr = new XMLHttpRequest();
+          xhr.responseType = "blob";//force the HTTP response, response-type header to be blob
+          xhr.open("GET", property.images_details[i].url);
+          xhr.onload = function () {
+            if (this.status >= 200 && this.status < 300) {
+              var blob = null;
+              blob = this.response
+              console.log(property.images_details[i].url);
+              files.push({src: property.images_details[i].url, id: i,name: property.images_details[i].name, file: blob})
+            }
           }
+          xhr.send();
+          // blob = xhr.response;//xhr.response is now a blob object
+          // files.push({src: property.images_details[i].url, id: i,name: property.images_details[i].name, file: new File([property.images_details[i].url], property.images_details[i].name, {type: property.images_details[i].type})})
         }
-        xhr.send();
-        // blob = xhr.response;//xhr.response is now a blob object
-        // files.push({src: property.images_details[i].url, id: i,name: property.images_details[i].name, file: new File([property.images_details[i].url], property.images_details[i].name, {type: property.images_details[i].type})})
+        this.setState({
+          property: {
+            ...this.state.property,
+            images: files,
+          }
+        });
       }
-      this.setState({
-        property: {
-          ...this.state.property,
-          images: files,
-        }
-      });
     }
   }
 
