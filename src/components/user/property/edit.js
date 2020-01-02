@@ -13,6 +13,7 @@ import { faExclamationTriangle, faTrash, faPlusCircle, faInfoCircle } from '@for
 import Select from 'react-select';
 
 const initial_state = {
+  checkBoxEnabled: false,
   isLoaded: false,
   estimated_cost_modal: false,
   terms_agreed: false,
@@ -484,7 +485,6 @@ export default class PropertyEdit extends Component{
             if (this.status >= 200 && this.status < 300) {
               var blob = null;
               blob = this.response
-              console.log(property.images_details[i].url);
               files.push({src: property.images_details[i].url, id: i,name: property.images_details[i].name, file: blob})
             }
           }
@@ -2321,6 +2321,16 @@ export default class PropertyEdit extends Component{
       return {label: "Select", value: ""}
     }
   }
+  enableCheckBox = () => {
+    if (document.getElementById('terms_agree-block')){
+      if (document.getElementById('terms_agree-block').scrollHeight <= document.getElementById('terms_agree-block').scrollTop + document.getElementById('terms_agree-block').clientHeight + 25)
+      {
+        this.setState({
+          checkBoxEnabled: true,
+        });
+      }
+    }
+  }
 
 	render() {
     const seller_pay_types_options = this.state.property_options.seller_pay_types.map((key, index) => ({
@@ -4031,7 +4041,7 @@ export default class PropertyEdit extends Component{
                             <Link to="#" onClick={this.submitStepFour} className="red-btn step-btn mx-1">Continue</Link>
                           </div>
                         </div>
-                        <div className="steps-parts d-none" id="step5">
+                        <div className="steps-parts " id="step5">
                           {this.state.isLoaded === true ?
                             null
                           :
@@ -4046,7 +4056,7 @@ export default class PropertyEdit extends Component{
                           </div>
                           <form className="row mx-0 creation-forms">
                             <div className="col-md-12">
-                              <div className="terms_agree">
+                              <div className="terms_agree" id="terms_agree-block" onScroll={this.enableCheckBox}>
                                 <p>In Order to post a property, you must check the appropriate box and upload proof you have a right to auction property.
                                 </p>
                                 <p>Then you must agree to the rest of the terms by checking the box before you can proceed to post a property</p>
@@ -4118,7 +4128,12 @@ export default class PropertyEdit extends Component{
                             </div>
                             <div className="col-md-12 text-center">
                               <div className="form-check">
-                                <input type="checkbox" name="terms_agreed" className="form-check-input" id="exampleCheck1" onChange={this.updateTermsAgreed}/>
+                                {
+                                  this.state.checkBoxEnabled === true ?
+                                    <input type="checkbox" name="terms_agreed" className="form-check-input" id="exampleCheck1" onChange={this.updateTermsAgreed}/>
+                                  :
+                                  <input type="checkbox" name="terms_agreed" disabled className="form-check-input" id="exampleCheck1" />
+                                }
                                 <label className="form-check-label" htmlFor="exampleCheck1">I agree to the website <Link to="#" className="font-blue">terms and coditions</Link></label>
                               </div>
                             </div>

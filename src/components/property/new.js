@@ -14,6 +14,7 @@ import { faExclamationTriangle, faTrash, faPlusCircle, faInfoCircle } from '@for
 import Select from 'react-select';
 
 const initial_state = {
+  checkBoxEnabled: false,
   estimated_cost_modal: false,
   terms_agreed: false,
   created: false,
@@ -1944,6 +1945,16 @@ export default class NewProperty extends Component{
       return {label: "Select", value: ""}
     }
   }
+  enableCheckBox = () => {
+    if (document.getElementById('terms_agree-block')){
+      if (document.getElementById('terms_agree-block').scrollHeight <= document.getElementById('terms_agree-block').scrollTop + document.getElementById('terms_agree-block').clientHeight + 25)
+      {
+        this.setState({
+          checkBoxEnabled: true,
+        });
+      }
+    }
+  }
 	render() {
     const seller_pay_types_options = this.state.property_options.seller_pay_types.map((key, index) => ({
       value: key.id,
@@ -3818,7 +3829,12 @@ export default class NewProperty extends Component{
                             </div>
                             <div className="col-md-12 text-center">
                               <div className="form-check">
-                                <input type="checkbox" name="terms_agreed" className="form-check-input" id="exampleCheck1" onChange={this.updateTermsAgreed}/>
+                                {
+                                  this.state.checkBoxEnabled === true ?
+                                    <input type="checkbox" name="terms_agreed" className="form-check-input" id="exampleCheck1" onChange={this.updateTermsAgreed}/>
+                                  :
+                                  <input type="checkbox" name="terms_agreed" disabled className="form-check-input" id="exampleCheck1" />
+                                }
                                 <label className="form-check-label" htmlFor="exampleCheck1">I agree to the website <Link to="#" className="font-blue">terms and coditions</Link></label>
                               </div>
                             </div>
