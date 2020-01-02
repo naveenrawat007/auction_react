@@ -9,6 +9,7 @@ export default class PropertyShow extends Component {
   constructor(props){
     super(props);
     this.state = {
+      checkBoxEnabled: false,
       terms_agreed: "",
       fund_proof: "",
       fund_proof_error: "",
@@ -154,6 +155,7 @@ export default class PropertyShow extends Component {
   closeRehabCostAttrModal = () => {
     this.setState({
       open_rehab_modal: false,
+      terms_agreed: false,
     });
   }
   calculateApproveTime = (time) => {
@@ -386,12 +388,14 @@ export default class PropertyShow extends Component {
   closeBestOfferModal = () => {
     this.setState({
       open_best_offer_modal: false,
+      terms_agreed: false,
     });
   }
 
   closeBiddingModal = () => {
     this.setState({
       open_bidding_modal: false,
+      terms_agreed: false,
     });
   }
 
@@ -404,6 +408,7 @@ export default class PropertyShow extends Component {
   closeBuyNowModal = () => {
     this.setState({
       open_buy_now_modal: false,
+      terms_agreed: false,
     });
   }
 
@@ -978,6 +983,17 @@ export default class PropertyShow extends Component {
     this.setState({
       [name]: checked
     });
+  }
+  enableCheckBox = (event) => {
+    let name = event.target.id
+    if (document.getElementById(name)){
+      if (document.getElementById(name).scrollHeight <= document.getElementById(name).scrollTop + document.getElementById(name).clientHeight + 25)
+      {
+        this.setState({
+          checkBoxEnabled: true,
+        });
+      }
+    }
   }
 
   render(){
@@ -1608,7 +1624,7 @@ export default class PropertyShow extends Component {
                   </div>
                 </div>
                 <div className="col-md-12 my-3 px-0">
-                  <div className="accept-terms">
+                  <div className="accept-terms" id="buy-terms_agree-block" onScroll={this.enableCheckBox}>
                     <ol className="list-unstyled mb-0">
                       <li>I agree to Buy this property As-is, where is with all faults.</li>
                       <li>I understand That the pictures, video arv proofs and rehab numbers are provided for informational purposes only and I have done my own duedilligence for this property I am bidding on.</li>
@@ -1664,7 +1680,7 @@ export default class PropertyShow extends Component {
                   </div>
                 </div>
                 <div className="col-md-12 my-3 px-0">
-                  <div className="accept-terms">
+                  <div className="accept-terms" id="best_offer-terms_agree-block" onScroll={this.enableCheckBox}>
                     <ol className="list-unstyled mb-0">
                       <li>I agree to Buy this property As-is, where is with all faults.</li>
                       <li>I understand That the pictures, video arv proofs and rehab numbers are provided for informational purposes only and I have done my own duedilligence for this property I am bidding on.</li>
@@ -1705,7 +1721,13 @@ export default class PropertyShow extends Component {
                   <form className="payment-form my-2 col-md-10 offset-md-1">
                     <div className="col-md-8 offset-md-2 text-center">
                       <div className="form-check agree-terms">
-                        <input className="form-check-input" name="terms_agreed" type="checkbox" id="best-offer-terms" onChange={this.updateTermsAgreed}/>
+                        {
+                          this.state.checkBoxEnabled === true ?
+                            <input className="form-check-input" name="terms_agreed" type="checkbox" id="best-offer-terms" onChange={this.updateTermsAgreed}/>
+                          :
+                          <input className="form-check-input" name="terms_agreed" type="checkbox" id="best-offer-terms" disabled/>
+                        }
+
                         <label className="form-check-label" htmlFor="best-offer-terms">
                           I Agree to the website best offer terms
                         </label>
@@ -1740,7 +1762,7 @@ export default class PropertyShow extends Component {
                   </div>
                 </div>
                 <div className="col-md-12 my-3 px-0">
-                  <div className="accept-terms">
+                  <div className="accept-terms" id="bidding-terms_agree-block" onScroll={this.enableCheckBox}>
                     <ol className="list-unstyled mb-0">
                       <li>I agree to Buy this property As-is, where is with all faults.</li>
                       <li>I understand That the pictures, video arv proofs and rehab numbers are provided for informational purposes only and I have done my own duedilligence for this property I am bidding on.</li>
@@ -1781,7 +1803,13 @@ export default class PropertyShow extends Component {
                   <form className="payment-form my-2 col-md-10 offset-md-1">
                     <div className="col-md-8 offset-md-2 text-center">
                       <div className="form-check agree-terms">
-                        <input className="form-check-input" name="terms_agreed" type="checkbox" id="bidding-terms" onChange={this.updateTermsAgreed}/>
+                        {
+                          this.state.checkBoxEnabled === true ?
+                            <input className="form-check-input" name="terms_agreed" type="checkbox" id="bidding-terms" onChange={this.updateTermsAgreed}/>
+                          :
+                          <input className="form-check-input" name="terms_agreed" type="checkbox" id="bidding-terms" disabled/>
+                        }
+
                         <label className="form-check-label" htmlFor="bidding-terms">
                           I Agree to the website bidding terms
                         </label>
