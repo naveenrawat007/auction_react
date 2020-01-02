@@ -986,13 +986,17 @@ export default class PropertyShow extends Component {
         if (index === 0){
           return (
             <div className="mySlides" style={{display: "block"}} key={index}>
-              <img src={image} style={{width:"100%", height: "500px"}} alt={index}/>
+              <div className="mySlides-image">
+                <img src={image} alt={index}/>
+              </div>
             </div>
           )
         }else{
           return (
             <div className="mySlides" style={{width:"100%", height: "500px"}} key={index}>
-              <img src={image} style={{width:"100%", height: "500px"}} alt={index}/>
+              <div className="mySlides-image">
+                <img src={image} alt={index}/>
+              </div>
             </div>
           )
         }
