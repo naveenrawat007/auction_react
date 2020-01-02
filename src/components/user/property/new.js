@@ -3841,7 +3841,7 @@ export default class UserNewProperty extends Component{
                                 <label>Showing Instructions</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <textarea className={"form-control textarea-resize" + this.addErrorClass(this.state.property_show_instructions_text_error) } rows="3" placeholder="Please give details where the combo box is located and what's the combo code." onChange={this.updateProperty} name="show_instructions_text"></textarea>
+                                <textarea className={"form-control textarea-resize " + this.addErrorClass(this.state.property_show_instructions_text_error) } rows="3" placeholder="Please give details where the combo box is located and what's the combo code." onChange={this.updateProperty} name="show_instructions_text"></textarea>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
