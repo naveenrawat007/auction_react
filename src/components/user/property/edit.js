@@ -3958,9 +3958,9 @@ export default class PropertyEdit extends Component{
                                           <>
                                             <div className="demo" ref={droppableProvided.innerRef} {...droppableProvided.droppableProps}>
                                               <div className="row mx-0">
-                                                <div className="upload-img-row">
+                                                <div className="upload-img-row col-md-7 offset-md-5">
                                                   {this.state.property.images.map((file,i) =>
-                                                    <div key={i} className="col-md-2 px-2 my-2">
+                                                    <div key={i} className="col-md-4 px-2 my-2">
                                                       <Draggable  draggableId={i.toString()} index={i}>
                                                         {(draggableProvided, draggableSnapshot) => (
                                                           <div
