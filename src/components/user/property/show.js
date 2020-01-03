@@ -10,6 +10,7 @@ export default class PropertyShow extends Component {
     super(props);
     this.state = {
       checkBoxEnabled: false,
+      best_offer: false,
       terms_agreed: "",
       fund_proof: "",
       fund_proof_error: "",
@@ -387,6 +388,7 @@ export default class PropertyShow extends Component {
 
   closeBestOfferModal = () => {
     this.setState({
+      checkBoxEnabled: false,
       open_best_offer_modal: false,
       terms_agreed: false,
     });
@@ -394,6 +396,7 @@ export default class PropertyShow extends Component {
 
   closeBiddingModal = () => {
     this.setState({
+      checkBoxEnabled: false,
       open_bidding_modal: false,
       terms_agreed: false,
     });
@@ -407,8 +410,10 @@ export default class PropertyShow extends Component {
 
   closeBuyNowModal = () => {
     this.setState({
+      checkBoxEnabled: false,
       open_buy_now_modal: false,
       terms_agreed: false,
+      best_offer: false,
     });
   }
 
@@ -954,6 +959,65 @@ export default class PropertyShow extends Component {
     if (formIsValid){
       this.submitBestOffer()
     }
+  }
+  submitBuyNowHandler = () => {
+    let formIsValid = this.biddingFormValidation()
+    if (formIsValid){
+      this.submitBuyNowOffer()
+    }
+  }
+  submitBuyNowOffer = () => {
+    this.setState({
+      isLoaded: false ,
+    });
+    const fd = new FormData();
+    fd.append('property[id]', this.state.property.id)
+    fd.append("best_offer", this.state.best_offer )
+    fd.append('buy_now[amount]', this.state.best_offer === true ? this.state.bidding_options.best_offer_buy_now_price : this.state.bidding_options.buy_now_price)
+    fd.append('buy_now[fund_proof]', this.state.fund_proof, this.state.fund_proof.name)
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/buy_now_offers"
+    fetch(url,{
+      method: 'POST',
+      headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "*",
+        "Access-Control-Expose-Headers": "*",
+        "Access-Control-Max-Age": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*"
+      },
+      body: fd
+    })
+    .then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        if (result.status === 201){
+          this.setState({
+            isLoaded: true,
+            open_buy_now_modal: false,
+            fund_proof: "",
+            terms_agreed: false,
+            property: result.property
+          });
+        }else if (result.status === 401) {
+          localStorage.removeItem("auction_user_token");
+          window.location.href = "/login"
+        }
+        else{
+        }
+      }
+    })
+    .catch(
+      (error) => {
+        if (this._isMounted){
+          this.setState({
+            // isLoaded: true,
+          });
+        }
+      }
+    )
   }
 
   biddingFormValidation = () => {
@@ -1612,7 +1676,7 @@ export default class PropertyShow extends Component {
           </div>
           <Modal className=" buy_modal" show={this.state.open_buy_now_modal} onHide={this.closeBuyNowModal}>
             <Modal.Header closeButton>
-              <div className="col-md-12 text-center">
+              <div className=" offset-md-1 col-md-10 text-center">
                 <h5 className="mb-0">BUY NOW at ${this.state.best_offer ?  this.state.bidding_options.best_offer_buy_now_price : this.state.bidding_options.buy_now_price} & You Win !!! </h5>
               </div>
             </Modal.Header>
@@ -1655,20 +1719,45 @@ export default class PropertyShow extends Component {
                 </div>
                 <div className="col-md-5 pr-0">
                   <div className="custom-file accept-file">
-                    <input type="file" className="custom-file-input" id="customFile"/>
-                    <label className="custom-file-label" htmlFor="customFile">Choose file</label>
+                    <input type="file" className="custom-file-input" name="fund_proof" onChange={this.handleFundProofSelector} id="customFile"/>
+                    <label className={"custom-file-label " + this.addErrorClass(this.state.fund_proof_error)} htmlFor="customFile">Choose file</label>
                   </div>
                 </div>
-              </div>
-              <div className="col-md-12 text-center mt-3">
-                <span className="error"></span>
-                <button type="button" className="btn btn-blue my-2 px-5" data-dismiss="modal" onClick={this.closeBuyNowModal}>Close</button>
+                <div className="col-md-12 px-0">
+                  <div className="payment-body">
+                    <form className="payment-form my-2 col-md-10 offset-md-1">
+                      <div className="col-md-8 offset-md-2 text-center">
+                        <div className="form-check agree-terms">
+                          {
+                            this.state.checkBoxEnabled === true ?
+                              <input className="form-check-input" name="terms_agreed" type="checkbox" id="buy-now-terms" onChange={this.updateTermsAgreed}/>
+                            :
+                            <input className="form-check-input" name="terms_agreed" type="checkbox" id="buy-now-terms" disabled/>
+                          }
+
+                          <label className="form-check-label" htmlFor="buy-now-terms">
+                            I Agree to the website Buy now terms
+                          </label>
+                        </div>
+                      </div>
+                      <div className="col-md-12 text-center mt-3">
+                        <span className="error"></span>
+                        {
+                          this.state.terms_agreed === true ?
+                            <button type="button" className="btn btn-blue my-2 px-5" data-dismiss="modal" onClick={this.submitBuyNowHandler}>Submit</button>
+                          :
+                          <button type="button" className=" disabled btn btn-blue my-2 px-5" data-dismiss="modal" >Submit</button>
+                        }
+                      </div>
+                    </form>
+                  </div>
+                </div>
               </div>
             </div>
           </Modal>
           <Modal className=" buy_modal" show={this.state.open_best_offer_modal} onHide={this.closeBestOfferModal}>
             <Modal.Header closeButton>
-              <div className="col-md-12 text-center">
+              <div className=" offset-md-1 col-md-10 text-center">
                 <h5 className="mb-0">Your Best Offer for ${this.state.property.address}  </h5>
               </div>
             </Modal.Header>
