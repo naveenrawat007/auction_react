@@ -280,7 +280,16 @@ export default class UnderReview extends Component{
           <td>{property.submitted_at}</td>
           <td>{property.auction_started_at}</td>
           <td>{property.auction_length}</td>
-          <td> <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.submitted_at_timer, property.id)}</td>
+          <td>
+            {
+              property.status === "Approve" ?
+                "Approved"
+              :
+              <>
+                <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.submitted_at_timer, property.id)}
+              </>
+            }
+          </td>
         </tr>
       );
     })
