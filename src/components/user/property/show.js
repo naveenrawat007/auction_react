@@ -1101,7 +1101,7 @@ export default class PropertyShow extends Component {
               <div className="wrap_property">
                 <div className="property-head">
                   <div className="head_address">
-                    <h3 className="font-blue">{this.state.property.address}</h3>
+                    <h3 className="font-blue">{this.state.property.headliner}</h3>
                     <h5>Property Type: {this.state.property.p_type}</h5>
                   </div>
                   {this.state.property.category === "Residential" ?

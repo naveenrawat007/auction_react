@@ -151,7 +151,7 @@ export default class PropertyPostAuction extends Component{
               <div className="property-biding px-3">
                 <h5>
                   <Link className="admin_table_links" to={"/user/property/"+property.unique_address}>
-                    {property.address}
+                    {property.headliner}
                   </Link>
                 </h5>
                 <div className="mb-1 property-details">
