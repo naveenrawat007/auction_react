@@ -30,7 +30,7 @@ export default class PropertyBestOffer extends Component{
     this.setState({
       isLoaded: false,
     });
-    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties?status=Approve / Best Offer&search_str=" + this.state.search_str + "&page=" + this.state.page
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties?status=Best Offer&search_str=" + this.state.search_str + "&page=" + this.state.page
     fetch(url, {
       method: "GET",
       headers: {
