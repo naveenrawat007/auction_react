@@ -200,12 +200,13 @@ export default class Sold extends Component{
 
   editProperty = () => {
     if (this.state.selected_property){
-      window.location.href = "/user/property/"+ this.state.properties[this.state.selected_property].unique_address +"/edit"
+      window.open("/user/property/"+ this.state.properties[this.state.selected_property].unique_address +"/edit", "_blank")
     }
   }
+
   viewProperty = () => {
     if (this.state.selected_property){
-      window.location.href = "/user/property/"+ this.state.properties[this.state.selected_property].unique_address
+      window.open("/user/property/"+ this.state.properties[this.state.selected_property].unique_address, "_blank")
     }
   }
 
