@@ -203,27 +203,27 @@ export default class PropertyLiveBidding extends Component{
                   <p>
                     {property.category === "Residential" ?
                       <>
-                        <span>Beds: </span> {property.residential_attributes.bedrooms}|
-                        <span>Baths: </span> {property.residential_attributes.bathrooms}|
-                        <span>Garage: </span> {property.residential_attributes.garage}|
-                        <span>Sqft: </span> {property.residential_attributes.area}|
-                        <span>Lot Size: </span> {property.residential_attributes.lot_size}|
+                        <span>Beds: </span> {property.residential_attributes.bedrooms}&nbsp;|&nbsp;
+                        <span>Baths: </span> {property.residential_attributes.bathrooms}&nbsp;|&nbsp;
+                        <span>Garage: </span> {property.residential_attributes.garage}&nbsp;|&nbsp;
+                        <span>Sqft: </span> {property.residential_attributes.area}&nbsp;|&nbsp;
+                        <span>Lot Size: </span> {property.residential_attributes.lot_size}&nbsp;|&nbsp;
                         <span>Built: </span> {property.residential_attributes.year_built}
                       </>
                     : null }
                     {property.category === "Commercial" ?
                       <>
-                        <span>Units: </span> {property.commercial_attributes.units}|
-                        <span>Stories: </span> {property.commercial_attributes.stories}|
-                        <span>Cap Rate: </span> {property.commercial_attributes.cap_rate}|
-                        <span>Sqft: </span> {property.commercial_attributes.area}|
-                        <span>Lot Size: </span> {property.commercial_attributes.lot_size}|
+                        <span>Units: </span> {property.commercial_attributes.units}&nbsp;|&nbsp;
+                        <span>Stories: </span> {property.commercial_attributes.stories}&nbsp;|&nbsp;
+                        <span>Cap Rate: </span> {property.commercial_attributes.cap_rate}&nbsp;|&nbsp;
+                        <span>Sqft: </span> {property.commercial_attributes.area}&nbsp;|&nbsp;
+                        <span>Lot Size: </span> {property.commercial_attributes.lot_size}&nbsp;|&nbsp;
                         <span>Built: </span> {property.commercial_attributes.year_built}
                       </>
                     : null }
                     {property.category === "Land" ?
                       <>
-                        <span>Lot Size: </span> {property.land_attributes.lot_size}|
+                        <span>Lot Size: </span> {property.land_attributes.lot_size}&nbsp;|&nbsp;
                         <span>Price per SqFt: </span> {property.land_attributes.price_per_sq_ft}
                       </>
                     : null }
@@ -234,7 +234,7 @@ export default class PropertyLiveBidding extends Component{
                   {property.description.length > 20 ?
                     <>
 
-                      {property.description.substring(0, 20)}...&nbsp;<Link to={"/user/property/"+property.unique_address}>read more</Link>
+                      {property.description.substring(0, 90)}...&nbsp;<Link to={"/user/property/"+property.unique_address}>read more</Link>
                     </>
                   :
                   <>

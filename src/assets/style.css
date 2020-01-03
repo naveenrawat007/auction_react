@@ -1177,7 +1177,8 @@ span.badge {
 }
 
 .biding_row .property-biding h5 {
-  font-size: 16px;
+  font-size: 20px;
+  margin-bottom: 15px;
   font-weight: 600;
 }
 
@@ -1185,9 +1186,13 @@ span.badge {
   margin-bottom: 4px;
 }
 
+.biding_row .property-details {
+  margin-bottom: 20px !important;
+}
+
 .type-family {
-  font-size: 14px !important;
-  color: #3e7e5b;
+  font-size: 15px !important;
+  color: #376f48;
   font-weight: 600;
   text-transform: capitalize;
 }
@@ -1200,13 +1205,15 @@ span.badge {
 }
 
 .biding_row .pay-detail h5 {
-  font-size: 18px;
+  font-size: 20px;
   text-transform: capitalize;
   text-align: center;
   font-weight: 500;
   color: #369bcf;
 }
-
+.time-detail .btn-biding{
+  padding: 5px 20px !important;
+}
 .biding_row .pay-detail ul {
   display: flex;
   align-items: center;
@@ -1256,7 +1263,7 @@ span.badge {
   color: #000 !important;
 }
 .time-span.property-timing ul li:first-child {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 500;
 }
 .time-span.property-timing ul li:last-child {
@@ -1271,7 +1278,7 @@ span.badge {
 
 .time-detail h4 {
   margin: 12px 0;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 500;
 }
 
@@ -1430,7 +1437,7 @@ span.badge {
   margin-bottom: 0;
 }
 .font-blue {
-  color: #3989df !important;
+  color: #0c76a8 !important;
 }
 .head_address h5 {
   font-size: 14px;
@@ -3958,9 +3965,17 @@ input::-webkit-inner-spin-button {
   margin-bottom: 2%;
   color: #b82f1e;
   font-size: 1.7rem;
+  font-weight: 600;
 }
 
 a.admin_table_links{
   color: #000;
   text-decoration: none;
+}
+
+.biding-img{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
