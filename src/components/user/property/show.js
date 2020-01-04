@@ -6,6 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 
 export default class PropertyShow extends Component {
   _isMounted = false
+  _timerArray = []
   constructor(props){
     super(props);
     this.state = {
@@ -35,6 +36,9 @@ export default class PropertyShow extends Component {
   };
   componentWillUnmount() {
     this._isMounted = false;
+    for (let i=0; i < this._timerArray.length; i++ ){
+      clearInterval(this._timerArray[i]);
+    }
   }
   getProperty = () => {
     // console.log(this.props.match.params.id); //  params.id == this.props.match.params.id
@@ -197,6 +201,7 @@ export default class PropertyShow extends Component {
           // document.getElementById("seconds-timer-item").innerHTML = "--"
         }
       }, 1000)
+      this._timerArray.push(this.timer_interval)
     }else {
     }
   }

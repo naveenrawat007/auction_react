@@ -6,10 +6,14 @@ import {Link} from 'react-router-dom';
 
 export default class PropertyLiveBidding extends Component{
   _isMounted = false
+  _timerArray = []
   componentWillUnmount() {
     this._isMounted = false;
     clearTimeout(this.clearMessageTimeout);
     clearTimeout(this.getPropertiesListTimeout);
+    for (let i=0; i < this._timerArray.length; i++ ){
+      clearInterval(this._timerArray[i]);
+    }
   }
 	constructor(props){
     super(props);
@@ -163,6 +167,7 @@ export default class PropertyLiveBidding extends Component{
           }
         }
       }, 1000)
+      this._timerArray.push(this.timer_interval)
     }else {
       if (document.getElementById("days-timer"+id)){
         document.getElementById("days-timer"+id).innerHTML = "--"
