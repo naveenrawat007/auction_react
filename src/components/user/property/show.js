@@ -1206,14 +1206,31 @@ export default class PropertyShow extends Component {
                       <p><span>Title Status: </span> {this.state.property.title_status}</p>
                       {this.state.property.category === "Residential" ?
                         <ul className="list-inline">
-                          <li className="list-inline-item"><span>Beds:</span> {this.state.property.residential_attributes.bedrooms}</li>|
-                          <li className="list-inline-item"><span>Baths:</span> {this.state.property.residential_attributes.bathrooms}</li>|
-                          <li className="list-inline-item"><span>Garage:</span> {this.state.property.residential_attributes.garage}</li>|
-                          <li className="list-inline-item"><span>Sqft:</span> {this.state.property.residential_attributes.area}</li>|
-                          <li className="list-inline-item"><span>Lot Size:</span> {this.state.property.residential_attributes.lot_size}</li>|
+                          <li className="list-inline-item"><span>Beds:</span> {this.state.property.residential_attributes.bedrooms}</li>&nbsp;|&nbsp;
+                          <li className="list-inline-item"><span>Baths:</span> {this.state.property.residential_attributes.bathrooms}</li>&nbsp;|&nbsp;
+                          <li className="list-inline-item"><span>Garage:</span> {this.state.property.residential_attributes.garage}</li>&nbsp;|&nbsp;
+                          <li className="list-inline-item"><span>Sqft:</span> {this.state.property.residential_attributes.area}</li>&nbsp;|&nbsp;
+                          <li className="list-inline-item"><span>Lot Size:</span> {this.state.property.residential_attributes.lot_size}</li>&nbsp;|&nbsp;
                           <li className="list-inline-item"><span>Built:</span> {this.state.property.residential_attributes.year_built}</li>
                         </ul>
                       : null }
+                      {this.state.property.category === "Commercial" ?
+                        <ul className="list-inline">
+                          <li className="list-inline-item"><span>Units: </span> {this.state.property.commercial_attributes.units}</li>|&nbsp;
+                          <li className="list-inline-item"><span>Stories: </span> {this.state.property.commercial_attributes.stories}</li>|&nbsp;
+                          <li className="list-inline-item"><span>Cap Rate: </span> {this.state.property.commercial_attributes.cap_rate}</li>|&nbsp;
+                          <li className="list-inline-item"><span>Sqft: </span> {this.state.property.commercial_attributes.area}</li>|&nbsp;
+                          <li className="list-inline-item"><span>Lot Size: </span> {this.state.property.commercial_attributes.lot_size}</li>|&nbsp;
+                          <li className="list-inline-item"><span>Built: </span> {this.state.property.commercial_attributes.year_built}</li>
+                        </ul>
+                      : null }
+                      {this.state.property.category === "Land" ?
+                        <ul className="list-inline">
+                          <li className="list-inline-item"><span>Lot Size: </span> {this.state.property.land_attributes.lot_size}</li>|&nbsp;
+                          <li className="list-inline-item"><span>Price per SqFt: </span> {this.state.property.land_attributes.price_per_sq_ft}</li>&nbsp;
+                        </ul>
+                      : null }
+
                       <p className="mt-2">{this.state.property.description}</p>
                     </div>
                   </div>
