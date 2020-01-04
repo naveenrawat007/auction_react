@@ -241,7 +241,7 @@ export default class PostAuction extends Component{
               <p>{property.first_name }</p>
             </div>
           </td>
-          <td>{property.user_type}</td>
+          <td>{property.owner_category}</td>
           <td>{property.address}</td>
           <td>{Object.keys(property.bids).length}</td>
           <td>{property.highest_bid_detail.user_name ? property.highest_bid_detail.user_name : "N/A"}</td>

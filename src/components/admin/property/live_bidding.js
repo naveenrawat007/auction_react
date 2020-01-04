@@ -277,7 +277,7 @@ export default class LiveBidding extends Component{
               <p>{property.first_name }</p>
             </div>
           </td>
-          <td>{property.user_type}</td>
+          <td>{property.owner_category}</td>
           <td>{property.address}</td>
           <td>{property.submitted_date}</td>
           <td>{Object.keys(property.bids).length}</td>

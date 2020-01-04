@@ -242,7 +242,7 @@ export default class Sold extends Component{
               <p>{property.first_name }</p>
             </div>
           </td>
-          <td>{property.user_type}</td>
+          <td>{property.owner_category}</td>
           <td>{property.address}</td>
           <td>{property.termination_date}</td>
           <td>{property.termination_reason}</td>
