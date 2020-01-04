@@ -275,8 +275,8 @@ export default class Sold extends Component{
           </td>
           <td>{property.owner_category}</td>
           <td>{property.address}</td>
-          <td>{property.termination_date}</td>
-          <td>{property.termination_reason}</td>
+          <td>{property.sold_to}</td>
+          <td>{property.sold_amount}</td>
         </tr>
       );
     })
@@ -317,8 +317,8 @@ export default class Sold extends Component{
                     <th>Name</th>
                     <th>User Type</th>
                     <th>Property Address</th>
-                    <th>Termination Date</th>
-                    <th>Reason</th>
+                    <th>Sold To</th>
+                    <th>Amount</th>
                   </tr>
                 </thead>
               </table>
