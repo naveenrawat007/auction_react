@@ -19,6 +19,8 @@ export default class BestOffer extends Component{
 	constructor(props){
     super(props);
     this.state = {
+      best_offer_modal: false,
+      best_offer_selected_property: "",
       status_modal: false,
       path: props.path,
       selected_property: "",
@@ -275,6 +277,31 @@ export default class BestOffer extends Component{
       })
     }
   }
+  openBestOfferModal = (id) => {
+    this.setState({
+      best_offer_modal: true,
+      best_offer_selected_property: id,
+    });
+  }
+  closeBestOfferModal = () => {
+    this.setState({
+      best_offer_modal: false,
+    });
+  }
+  bestOffersList = (object) => {
+    const bestOffersList = object.map((bid, index) => {
+      return (
+        <tr key={index}>
+          <td>{bid.user_name}</td>
+          <td>{bid.user_type}</td>
+          <td>${bid.amount}</td>
+          <td>{bid.time}</td>
+          <td>Active</td>
+        </tr>
+      )
+    })
+    return bestOffersList
+  }
 
 	render() {
     const auction_lengths = this.state.auction_length_options.map((value, index) => {
@@ -316,7 +343,7 @@ export default class BestOffer extends Component{
           <td>{property.address}</td>
           <td>{property.submitted_at}</td>
           <td>{property.auction_started_at}</td>
-          <td>{Object.keys(property.best_offers).length}</td>
+          <td> <p onClick={() =>{this.openBestOfferModal(index)}}>{Object.keys(property.best_offers).length}</p></td>
           <td> <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.best_offer_auction_ending_at, property.id)}</td>
         </tr>
       );
@@ -448,6 +475,33 @@ export default class BestOffer extends Component{
             <div className="col-md-12 text-center mt-3">
               <span className="error"></span>
               <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.updateStatus}>Save</button>
+            </div>
+          </div>
+        </Modal>
+        <Modal className="bid_modal" show={this.state.best_offer_modal} onHide={this.closeBestOfferModal}>
+          <Modal.Header closeButton>
+            <div className=" offset-md-1 col-md-10 text-center">
+              <h5 className="mb-0 "> Best Offers For {this.state.properties[this.state.best_offer_selected_property] ? this.state.properties[this.state.best_offer_selected_property].address : null}</h5>
+            </div>
+          </Modal.Header>
+          <div className="modal-body">
+            <table class="table table-hover table-bordered review_table modalbid_table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>User Type</th>
+                  <th>Submitted Best Offers</th>
+                  <th>Date & Time</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.bestOffersList(this.state.properties[this.state.best_offer_selected_property] ? this.state.properties[this.state.best_offer_selected_property].best_offers : [])}
+              </tbody>
+            </table>
+            <div className="col-md-12 text-center mt-3">
+              <span className="error"></span>
+              <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.closeBestOfferModal}>Close</button>
             </div>
           </div>
         </Modal>
