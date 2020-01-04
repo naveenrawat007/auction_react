@@ -282,7 +282,7 @@ export default class BestOffer extends Component{
           </td>
           <td>{property.owner_category}</td>
           <td>{property.address}</td>
-          <td>{property.submitted_date}</td>
+          <td>{property.submitted_at}</td>
           <td>{property.auction_started_at}</td>
           <td>{property.auction_length}</td>
           <td> <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.best_offer_auction_ending_at, property.id)}</td>
