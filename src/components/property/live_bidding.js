@@ -187,9 +187,9 @@ export default class PropertyLiveBidding extends Component{
           <div className="col-md-3 px-0">
             <div className="biding-img">
               <Link to={"/user/property/"+property.unique_address}>
-                {property.images.length > 0
+                {property.thumbnail_img
                   ?
-                    <img src={property.images[0]} alt=""/>
+                    <img src={property.thumbnail_img} alt=""/>
                   :
                   <img src="/images/home1.png" alt=""/>
                 }

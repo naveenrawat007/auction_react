@@ -172,7 +172,7 @@ export default class ListProperty extends Component{
           <div className="row mx-0 properties-list" >
             <div className="col-md-2 px-2 properties-img py-2">
               <div className="img-box py-4">
-                <Link to={"/user/property/" + property.unique_address}><img src={property.images[0] ? property.images[0] : "/images/home1.png" } alt="" />
+                <Link to={"/user/property/" + property.unique_address}><img src={property.thumbnail_img ? property.thumbnail_img : "/images/home1.png" } alt="" />
                 </Link>
               </div>
             </div>
