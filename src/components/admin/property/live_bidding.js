@@ -295,7 +295,7 @@ export default class LiveBidding extends Component{
       return (
         <tr key={index}>
           <td>{bid.user_name}</td>
-          <td>Realtor</td>
+          <td>{bid.user_type}</td>
           <td>${bid.amount}</td>
           <td>{bid.time}</td>
           <td>Active</td>
