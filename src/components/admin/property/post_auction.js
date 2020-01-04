@@ -15,6 +15,8 @@ export default class PostAuction extends Component{
 	constructor(props){
     super(props);
     this.state = {
+      offers_modal: false,
+      offers_selected_property: "",
       status_modal: false,
       path: props.path,
       selected_property: "",
@@ -236,6 +238,31 @@ export default class PostAuction extends Component{
       })
     }
   }
+  openOffersModal = (id) => {
+    this.setState({
+      offers_modal: true,
+      offers_selected_property: id,
+    });
+  }
+  closeOffersModal = () => {
+    this.setState({
+      offers_modal: false,
+    });
+  }
+  offersList = (object) => {
+    const offersList = object.map((offer, index) => {
+      return (
+        <tr key={index}>
+          <td>{offer.user_name}</td>
+          <td>{offer.type}</td>
+          <td>${offer.amount}</td>
+          <td>{offer.time}</td>
+          <td>Active</td>
+        </tr>
+      )
+    })
+    return offersList
+  }
 
 	render() {
     const auction_lengths = this.state.auction_length_options.map((value, index) => {
@@ -275,7 +302,7 @@ export default class PostAuction extends Component{
           </td>
           <td>{property.owner_category}</td>
           <td>{property.address}</td>
-          <td>{Object.keys(property.bids).length}</td>
+          <td><p onClick={() =>{this.openOffersModal(index)}}>{Object.keys(property.bids).length + Object.keys(property.best_offers).length}</p></td>
           <td>{property.highest_bid_detail.user_name ? property.highest_bid_detail.user_name : "N/A"}</td>
           <td>{property.highest_bid_detail.amount ? `$${property.highest_bid_detail.amount}` : "N/A"}</td>
           <td>{property.highest_bid_detail.fund_proof ? <a className="admin_table_links" href={property.highest_bid_detail.fund_proof} target="_blank" rel="noopener noreferrer">Attachment <FontAwesomeIcon icon={faDownload} /></a> : ""}</td>
@@ -409,6 +436,34 @@ export default class PostAuction extends Component{
             <div className="col-md-12 text-center mt-3">
               <span className="error"></span>
               <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.updateStatus}>Save</button>
+            </div>
+          </div>
+        </Modal>
+        <Modal className="bid_modal" show={this.state.offers_modal} onHide={this.closeOffersModal}>
+          <Modal.Header closeButton>
+            <div className=" offset-md-1 col-md-10 text-center">
+              <h5 className="mb-0 "> Offers For {this.state.properties[this.state.offers_selected_property] ? this.state.properties[this.state.offers_selected_property].address : null}</h5>
+            </div>
+          </Modal.Header>
+          <div className="modal-body">
+            <table class="table table-hover table-bordered review_table modalbid_table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Offer Type</th>
+                  <th>Submitted Best Offers/ Bids</th>
+                  <th>Date & Time</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.offersList(this.state.properties[this.state.offers_selected_property] ? this.state.properties[this.state.offers_selected_property].best_offers : [])}
+                {this.offersList(this.state.properties[this.state.offers_selected_property] ? this.state.properties[this.state.offers_selected_property].bids : [])}
+              </tbody>
+            </table>
+            <div className="col-md-12 text-center mt-3">
+              <span className="error"></span>
+              <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.closeOffersModal}>Close</button>
             </div>
           </div>
         </Modal>
