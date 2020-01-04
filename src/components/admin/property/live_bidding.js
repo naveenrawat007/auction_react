@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Modal from 'react-bootstrap/Modal'
+import Modal from 'react-bootstrap/Modal';
+import DatePicker from "react-datepicker";
 // import {Link} from 'react-router-dom';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
@@ -22,6 +23,7 @@ export default class LiveBidding extends Component{
       path: props.path,
       selected_property: "",
       selected_status: "",
+      termination_reason: "",
       error: "",
       message: "",
       isLoaded: false,
@@ -32,6 +34,9 @@ export default class LiveBidding extends Component{
       page: 1,
       total_pages_array:[],
       property_status_options: [],
+      auction_length_options: [],
+      auction_started_at: "",
+      auction_length: "",
     }
   }
 
@@ -63,6 +68,7 @@ export default class LiveBidding extends Component{
             selected_property: "",
             properties: result.properties,
             property_status_options: result.property_statuses,
+            auction_length_options: result.auction_lengths,
             current_page : result.meta.current_page,
             total_pages : result.meta.total_pages,
           });
@@ -104,6 +110,13 @@ export default class LiveBidding extends Component{
       this.getPropertiesListTimeout = setTimeout(() => {
         this.getPropertiesList();
       }, 500);
+    });
+  }
+  updateStatusFields = (event) =>{
+    const{ name, value } = event.target;
+    console.log(value);
+    this.setState({
+      [name]: value
     });
   }
   refreshList = (event) => {
@@ -148,6 +161,9 @@ export default class LiveBidding extends Component{
     const fd = new FormData();
     fd.append('property[id]', this.state.properties[this.state.selected_property].id)
     fd.append('property[status]', this.state.selected_status)
+    fd.append('property[termination_reason]', this.state.termination_reason)
+    fd.append('property[auction_started_at]', this.state.auction_started_at)
+    fd.append('property[auction_length]', this.state.auction_length)
     fetch(url, {
       method: "PUT",
       headers: {
@@ -175,7 +191,9 @@ export default class LiveBidding extends Component{
       [name]: value
     }, function () {
       this.setState({
-        selected_status: this.state.properties[this.state.selected_property].status
+        selected_status: this.state.properties[this.state.selected_property].status,
+        auction_started_at: this.state.properties[this.state.selected_property].auction_started_at,
+        auction_length:  this.state.properties[this.state.selected_property].auction_length,
       });
     });
   }
@@ -189,7 +207,9 @@ export default class LiveBidding extends Component{
 
   hideModal = () => {
     this.setState({
-      status_modal: false
+      status_modal: false,
+      auction_started_at: "",
+      auction_length: "",
     });
     if (this.state.selected_property !== ""){
       // this.updateStatus();
@@ -250,8 +270,20 @@ export default class LiveBidding extends Component{
       window.open("/user/property/"+ this.state.properties[this.state.selected_property].unique_address, "_blank")
     }
   }
+  updatePropertyAuctionStart = (date) =>{
+    if (this._isMounted){
+      this.setState({
+        auction_started_at: date,
+      })
+    }
+  }
 
 	render() {
+    const auction_lengths = this.state.auction_length_options.map((value, index) => {
+      return(
+        <option key={index} value={value} >{value} days</option>
+      )
+    })
     const status_array = this.state.property_status_options.map((status, index) => {
       return(
         <li className="list-inline-item" key={index}>
@@ -379,6 +411,40 @@ export default class LiveBidding extends Component{
                     </ul>
                   </div>
                 </div>
+                {this.state.selected_status === "Terminated" ?
+                  <div className="col-md-6 pr-0">
+                    <form className="status-form">
+                      <div className="form-group">
+                        <label >Reason</label>
+                        <input type="text" name="termination_reason" onChange={this.updateStatusFields} className="form-control"/>
+                      </div>
+                    </form>
+                  </div>
+                :
+                  null
+                }
+                {this.state.selected_status === "Live Online Bidding" ?
+                  <div className="col-md-6 pr-0">
+                    <form className="status-form">
+                      <div className="form-group">
+                        <label >Auction Start date</label>
+                        <DatePicker className="form-control "
+                          selected={this.state.auction_started_at ? new Date(this.state.auction_started_at) : ""} minDate={new Date()}
+                          name="auction_started_at" onChange={this.updatePropertyAuctionStart}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label >Auction Length</label>
+                        <select className={"form-control"} name="auction_length"  onChange={this.updateStatusFields} defaultValue={this.state.auction_length}>
+                          <option>Please select</option>
+                          {auction_lengths}
+                        </select>
+                      </div>
+                    </form>
+                  </div>
+                :
+                  null
+                }
               </div>
             }
             <div className="col-md-12 text-center mt-3">
