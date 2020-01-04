@@ -241,7 +241,7 @@ export default class BestOffer extends Component{
             if (t<0){
               document.getElementById("timer"+id).innerHTML = "--:--:--"
             }else {
-              document.getElementById("timer"+id).innerHTML = `-${days}:${hours}:${minutes}:${seconds}`
+              document.getElementById("timer"+id).innerHTML = `-${days}:${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
             }
           }
         }else {

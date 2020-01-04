@@ -114,8 +114,8 @@ export default class PropertyBestOffer extends Component{
               // document.getElementById("timer"+id).innerHTML = `${days}:${hours}:${minutes}:${seconds}`
               if (document.getElementById("days-timer"+id)){
                 document.getElementById("days-timer"+id).innerHTML = days
-                document.getElementById("hours-timer"+id).innerHTML = hours
-                document.getElementById("minutes-timer"+id).innerHTML = minutes
+                document.getElementById("hours-timer"+id).innerHTML = String(hours).padStart(2, '0')
+                document.getElementById("minutes-timer"+id).innerHTML = String(minutes).padStart(2, '0')
                 // document.getElementById("seconds-timer-item").innerHTML = seconds
               }
             }
