@@ -250,6 +250,7 @@ export default class ListProperty extends Component{
                   </tr>
                 </thead>
                 <tbody>
+                  {this.bidsList(property.best_offers)}
                   {this.bidsList(property.bids)}
                 </tbody>
               </table>
