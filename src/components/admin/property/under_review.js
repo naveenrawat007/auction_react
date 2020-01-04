@@ -6,10 +6,14 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 export default class UnderReview extends Component{
   _isMounted = false
+  _timerArray = []
   componentWillUnmount() {
     this._isMounted = false;
     clearTimeout(this.clearMessageTimeout);
     clearTimeout(this.getPropertiesListTimeout);
+    for (let i=0; i < this._timerArray.length; i++ ){
+      clearInterval(this._timerArray[i]);
+    }
   }
 	constructor(props){
     super(props);
@@ -200,7 +204,7 @@ export default class UnderReview extends Component{
 
   calculateApproveTime = (time, id) => {
     if (time){
-      setInterval(function () {
+      this.timer_interval = setInterval(function () {
         if (time){
           let now = new Date().getTime();
           let end = new Date(time).getTime();
@@ -217,13 +221,13 @@ export default class UnderReview extends Component{
               document.getElementById("timer"+id).innerHTML = `-${hours}:${minutes}:${seconds}`
             }
           }
-          // setInterval(this.calculateApproveTime(time,id), 1000)
         }else {
           if (document.getElementById("timer"+id)){
             document.getElementById("timer"+id).innerHTML = "--:--:--"
           }
         }
       }, 1000)
+      this._timerArray.push(this.timer_interval)
     }else {
       if (document.getElementById("timer"+id)){
         document.getElementById("timer"+id).innerHTML = "--:--:--"
