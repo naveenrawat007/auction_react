@@ -487,7 +487,7 @@ export default class LiveBidding extends Component{
             </div>
           </Modal.Header>
           <div className="modal-body">
-            <table class="table table-hover table-bordered review_table modalbid_table">
+            <table className="table table-hover table-bordered review_table modalbid_table">
               <thead>
                 <tr>
                   <th>Name</th>
