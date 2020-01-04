@@ -2403,7 +2403,7 @@ input:checked+.slider:before {
 }
 
 .table.modalbid_table td:nth-child(1), .table.modalbid_table th:nth-child(1) {
-  width: 21.5%;
+  width: 21%;
 }
 
 .table.modalbid_table td:nth-child(2), .table.modalbid_table th:nth-child(2) {
@@ -2411,15 +2411,15 @@ input:checked+.slider:before {
 }
 
 .table.modalbid_table td:nth-child(3), .table.modalbid_table th:nth-child(3) {
-  width: 21.5%;
+  width: 30%;
 }
 
 .table.modalbid_table td:nth-child(4), .table.modalbid_table th:nth-child(4) {
-  width: 21.5%;
+  width: 22%;
 }
 
 .table.modalbid_table td:nth-child(5), .table.modalbid_table th:nth-child(5) {
-  width: 15%;
+  width: 12%;
 }
 
 /* status Modal */
