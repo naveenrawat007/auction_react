@@ -19,6 +19,8 @@ export default class LiveBidding extends Component{
 	constructor(props){
     super(props);
     this.state = {
+      bid_modal: false,
+      bid_selected_property: "",
       status_modal: false,
       path: props.path,
       selected_property: "",
@@ -277,6 +279,31 @@ export default class LiveBidding extends Component{
       })
     }
   }
+  openBidModal = (id) => {
+    this.setState({
+      bid_modal: true,
+      bid_selected_property: id,
+    });
+  }
+  closeBidModal = () => {
+    this.setState({
+      bid_modal: false,
+    });
+  }
+  bidsList = (object) => {
+    const bidList = object.map((bid, index) => {
+      return (
+        <tr key={index}>
+          <td>{bid.user_name}</td>
+          <td>Realtor</td>
+          <td>${bid.amount}</td>
+          <td>{bid.time}</td>
+          <td>Active</td>
+        </tr>
+      )
+    })
+    return bidList
+  }
 
 	render() {
     const auction_lengths = this.state.auction_length_options.map((value, index) => {
@@ -317,7 +344,7 @@ export default class LiveBidding extends Component{
           <td>{property.owner_category}</td>
           <td>{property.address}</td>
           <td>{property.submitted_at}</td>
-          <td>{Object.keys(property.bids).length}</td>
+          <td> <p onClick={() =>{this.openBidModal(index)}}>{Object.keys(property.bids).length}</p></td>
           <td>{property.auction_length ? `${property.auction_length} Days` : "-"} </td>
           <td> <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.auction_bidding_ending_at, property.id)}</td>
         </tr>
@@ -450,6 +477,33 @@ export default class LiveBidding extends Component{
             <div className="col-md-12 text-center mt-3">
               <span className="error"></span>
               <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.updateStatus}>Save</button>
+            </div>
+          </div>
+        </Modal>
+        <Modal className="bid_modal" show={this.state.bid_modal} onHide={this.closeBidModal}>
+          <Modal.Header closeButton>
+            <div className=" offset-md-1 col-md-10 text-center">
+              <h5 className="mb-0 "> Bids For {this.state.properties[this.state.bid_selected_property] ? this.state.properties[this.state.bid_selected_property].address : null}</h5>
+            </div>
+          </Modal.Header>
+          <div className="modal-body">
+            <table class="table table-hover table-bordered review_table modalbid_table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>User Type</th>
+                  <th>Submitted Bids</th>
+                  <th>Date & Time</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.bidsList(this.state.properties[this.state.bid_selected_property] ? this.state.properties[this.state.bid_selected_property].bids : [])}
+              </tbody>
+            </table>
+            <div className="col-md-12 text-center mt-3">
+              <span className="error"></span>
+              <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.closeBidModal}>Close</button>
             </div>
           </div>
         </Modal>
