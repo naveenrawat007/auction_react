@@ -73,7 +73,7 @@ export default class PropertyShow extends Component {
               highest_bid: result.property.highest_bid,
               current_offer: result.property.highest_bid,
               buy_now_price: result.property.buy_now_price,
-              current_best_offer: result.property.best_offer_price,
+              current_best_offer: result.property.best_offer_price ? result.property.best_offer_price : 0 ,
               best_offer_price: result.property.best_offer_price,
               best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
             }
@@ -168,45 +168,50 @@ export default class PropertyShow extends Component {
   }
   calculateApproveTime = (time) => {
     if (time){
-      this.timer_interval = setInterval(() => {
-        if (time){
-          let now = new Date().getTime();
-          let end = new Date(time).getTime();
-          let t = (end/1000) - (now/1000);
-          let days = Math.floor(t/(60*60*24))
-          let hours = Math.floor((t%(60*60*24))/(60*60));
-          let minutes = Math.floor((t%(60*60))/60);
-          let seconds = Math.floor((t%(60)))
-          if (t<0){
-            if (document.getElementById("days-timer-item")){
-              document.getElementById("days-timer-item").innerHTML = "--"
-              document.getElementById("hours-timer-item").innerHTML = "--"
-              document.getElementById("minutes-timer-item").innerHTML = "--"
-              document.getElementById("seconds-timer-item").innerHTML = "--"
-              if (seconds === -1){
-                clearInterval(this.timer_interval);
-                this.setState({
-                  timer_complete: true ,
-                });
+      let now = new Date().getTime();
+      let end = new Date(time).getTime();
+      let t = (end/1000) - (now/1000);
+      if ((t%60) > 0){
+        this.timer_interval = setInterval(() => {
+          if (time){
+            let now = new Date().getTime();
+            let end = new Date(time).getTime();
+            let t = (end/1000) - (now/1000);
+            let days = Math.floor(t/(60*60*24))
+            let hours = Math.floor((t%(60*60*24))/(60*60));
+            let minutes = Math.floor((t%(60*60))/60);
+            let seconds = Math.floor((t%(60)))
+            if (t<0){
+              if (document.getElementById("days-timer-item")){
+                // document.getElementById("days-timer-item").innerHTML = "--"
+                // document.getElementById("hours-timer-item").innerHTML = "--"
+                // document.getElementById("minutes-timer-item").innerHTML = "--"
+                // document.getElementById("seconds-timer-item").innerHTML = "--"
+                if (seconds === -1){
+                  clearInterval(this.timer_interval);
+                  this.setState({
+                    timer_complete: true ,
+                  });
+                }
+              }
+            }else {
+              if (document.getElementById("days-timer-item")){
+                document.getElementById("days-timer-item").innerHTML = days
+                document.getElementById("hours-timer-item").innerHTML = hours
+                document.getElementById("minutes-timer-item").innerHTML = minutes
+                document.getElementById("seconds-timer-item").innerHTML = seconds
               }
             }
           }else {
-            if (document.getElementById("days-timer-item")){
-              document.getElementById("days-timer-item").innerHTML = days
-              document.getElementById("hours-timer-item").innerHTML = hours
-              document.getElementById("minutes-timer-item").innerHTML = minutes
-              document.getElementById("seconds-timer-item").innerHTML = seconds
-            }
+            clearInterval(this.timer_interval);
+            // document.getElementById("days-timer-item").innerHTML = "--"
+            // document.getElementById("hours-timer-item").innerHTML = "--"
+            // document.getElementById("minutes-timer-item").innerHTML = "--"
+            // document.getElementById("seconds-timer-item").innerHTML = "--"
           }
-        }else {
-          clearInterval(this.timer_interval);
-          // document.getElementById("days-timer-item").innerHTML = "--"
-          // document.getElementById("hours-timer-item").innerHTML = "--"
-          // document.getElementById("minutes-timer-item").innerHTML = "--"
-          // document.getElementById("seconds-timer-item").innerHTML = "--"
-        }
-      }, 1000)
-      this._timerArray.push(this.timer_interval)
+        }, 1000)
+        this._timerArray.push(this.timer_interval)
+      }
     }else {
     }
   }
@@ -501,7 +506,6 @@ export default class PropertyShow extends Component {
   decrementCurrentBestOffer = () => {
     let new_offer = this.state.bidding_options.current_best_offer
     new_offer = new_offer - 1000
-    console.log(this.state.bidding_options.best_offer_price);
     if ((new_offer > 0) && (new_offer >= this.state.bidding_options.best_offer_price) ){
       this.setState({
         bidding_options:{
