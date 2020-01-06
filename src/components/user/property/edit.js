@@ -15,6 +15,7 @@ import Select from 'react-select';
 const initial_state = {
   checkBoxEnabled: false,
   isLoaded: false,
+  is_admin: false,
   estimated_cost_modal: false,
   terms_agreed: false,
   error: "",
@@ -164,6 +165,7 @@ const initial_state = {
     auction_ending_at: "",
     buy_option: [],
     title_status: "",
+    status: "",
     seller_pay_type_id: "",
     show_instructions_type_id: "",
     youtube_url: "",
@@ -407,6 +409,7 @@ export default class PropertyEdit extends Component{
         dropbox_url: property.dropbox_url,
         id: property.id,
         title_status: property.title_status,
+        status: property.status,
         deal_analysis_type: property.deal_analysis_type ? property.deal_analysis_type : this.state.property.deal_analysis_type,
         after_rehab_value: property.after_rehab_value,
         asking_price: property.asking_price,
@@ -523,6 +526,7 @@ export default class PropertyEdit extends Component{
       if (result.status === 200) {
         if (this._isMounted){
           this.setState({
+            is_admin: result.is_admin,
             property_options: {
               ...this.state.property_options,
               types: result.residential_types,
@@ -3645,7 +3649,7 @@ export default class PropertyEdit extends Component{
                                 <label>Enable Best Offer Features</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className="form-control" onChange={this.updateProperty} value={String(this.state.property.best_offer)} name="best_offer" >
+                                <select className="form-control" disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false} onChange={this.updateProperty} value={String(this.state.property.best_offer)} name="best_offer" >
                                   <option value="false">No</option>
                                   <option value="true">Yes</option>
                                 </select>
@@ -3657,7 +3661,7 @@ export default class PropertyEdit extends Component{
                               </div>
                               <div className="col-md-6 px-1">
                                 <div className="input-group mb-0">
-                                  <DatePicker className={"form-control " + this.addErrorClass(this.state.property_auction_started_at_error) }
+                                  <DatePicker disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false} className={"form-control " + this.addErrorClass(this.state.property_auction_started_at_error) }
                                     selected={this.state.property.auction_started_at ? new Date(this.state.property.auction_started_at) : ""} minDate={new Date()}
                                     name="auction_started_at" onChange={this.updatePropertyAuctionStart}
                                   />
@@ -3680,7 +3684,9 @@ export default class PropertyEdit extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className={"form-control " + this.addErrorClass(this.state.property_best_offer_length_error) } value={this.state.property.best_offer_length ? this.state.property.best_offer_length : ""} name="best_offer_length" onChange={this.updateProperty}>
+                                <select className={"form-control " + this.addErrorClass(this.state.property_best_offer_length_error) }  value={this.state.property.best_offer_length ? this.state.property.best_offer_length : ""}
+                                  disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false}
+                                  name="best_offer_length" onChange={this.updateProperty}>
                                   <option>Please select</option>
                                   {best_offer_lengths}
                                 </select>
@@ -3702,7 +3708,8 @@ export default class PropertyEdit extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_minimum_price_error) } name="best_offer_sellers_minimum_price" value={this.state.property.best_offer_sellers_minimum_price ? this.state.property.best_offer_sellers_minimum_price : ""} onChange={this.updateProperty}/>
+                                <input type="number" disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false}
+                                  className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_minimum_price_error) } name="best_offer_sellers_minimum_price" value={this.state.property.best_offer_sellers_minimum_price ? this.state.property.best_offer_sellers_minimum_price : ""} onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
@@ -3721,7 +3728,8 @@ export default class PropertyEdit extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_reserve_price) } name="best_offer_sellers_reserve_price" value={this.state.property.best_offer_sellers_reserve_price ? this.state.property.best_offer_sellers_reserve_price : ""} onChange={this.updateProperty}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_reserve_price) } name="best_offer_sellers_reserve_price"
+                                  disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false} value={this.state.property.best_offer_sellers_reserve_price ? this.state.property.best_offer_sellers_reserve_price : ""} onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="col-md-12 text-center step_row mt-4">
@@ -3733,7 +3741,7 @@ export default class PropertyEdit extends Component{
                               </div>
                               <div className="col-md-6 px-1">
                                 <div className="input-group mb-0">
-                                  <DatePicker className={"form-control " + this.addErrorClass(this.state.property_auction_started_at_error) }
+                                  <DatePicker disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false} className={"form-control " + this.addErrorClass(this.state.property_auction_started_at_error) }
                                     selected={this.state.property.auction_started_at ? new Date(this.state.property.auction_started_at) : ""} minDate={new Date()}
                                     name="auction_started_at" onChange={this.updatePropertyAuctionStart}
                                   />
@@ -3756,7 +3764,8 @@ export default class PropertyEdit extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className={"form-control " + this.addErrorClass(this.state.property_auction_length_error) } value={this.state.property.auction_length} name="auction_length" onChange={this.updateProperty}>
+                                <select disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false}
+                                  className={"form-control " + this.addErrorClass(this.state.property_auction_length_error) } value={this.state.property.auction_length} name="auction_length" onChange={this.updateProperty}>
                                   <option>Please select</option>
                                   {auction_lengths}
                                 </select>
@@ -3778,7 +3787,8 @@ export default class PropertyEdit extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_seller_price_error) } name="seller_price"  value={this.state.property.seller_price} onChange={this.updateProperty}/>
+                                <input type="number" disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false}
+                                  className={"form-control " + this.addErrorClass(this.state.property_seller_price_error) } name="seller_price"  value={this.state.property.seller_price} onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -3799,7 +3809,8 @@ export default class PropertyEdit extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_buy_now_price_error) } name="buy_now_price" onChange={this.updateProperty} value={this.state.property.buy_now_price}/>
+                                <input type="number" disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false}
+                                  className={"form-control " + this.addErrorClass(this.state.property_buy_now_price_error) } name="buy_now_price" onChange={this.updateProperty} value={this.state.property.buy_now_price}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row mt-4">
