@@ -183,11 +183,13 @@ export default class PropertyShow extends Component {
               document.getElementById("hours-timer-item").innerHTML = "--"
               document.getElementById("minutes-timer-item").innerHTML = "--"
               document.getElementById("seconds-timer-item").innerHTML = "--"
-              this.setState({
-                timer_complete: true ,
-              });
+              if (seconds === -1){
+                clearInterval(this.timer_interval);
+                this.setState({
+                  timer_complete: true ,
+                });
+              }
             }
-            clearInterval(this.timer_interval);
           }else {
             if (document.getElementById("days-timer-item")){
               document.getElementById("days-timer-item").innerHTML = days
