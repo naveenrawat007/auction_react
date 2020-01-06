@@ -11,6 +11,7 @@ export default class PropertyShow extends Component {
   constructor(props){
     super(props);
     this.state = {
+      favourite: false,
       checkBoxEnabled: false,
       best_offer: false,
       terms_agreed: "",
@@ -64,6 +65,7 @@ export default class PropertyShow extends Component {
       if (this._isMounted){
         if (result.status === 200){
           this.setState({
+            favourite: result.favourite,
             isLoaded: true,
             property: result.property,
             bidding_options: {
@@ -894,6 +896,48 @@ export default class PropertyShow extends Component {
       }
     )
   }
+  updateFavourite = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/watch_properties"
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*"
+      },
+      body: JSON.stringify({property_id: this.state.property.id})
+    }).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        if (result.status === 201){
+          this.setState({
+            loaded: true,
+            favourite: true,
+          });
+        }else if (result.status === 202) {
+          this.setState({
+            loaded: true,
+            favourite: false,
+          });
+        }else {
+          this.setState({
+            loaded: true,
+            variant: "danger",
+            message: result.message
+          });
+          this.clearMessageTimeout = setTimeout(() => {
+            this.setState(() => ({message: ""}))
+          }, 2000);
+        }
+      }
+    })
+  }
   submitBestOffer = () => {
     this.setState({
       isLoaded: false ,
@@ -1147,9 +1191,16 @@ export default class PropertyShow extends Component {
               </div>
               <div className="wrap_property py-4 lock-region">
                 {this.renderBiddingBlock()}
-                <div className="watch-heart">
-                  <FontAwesomeIcon icon={faHeart}/>
-                </div>
+                {
+                  this.state.favourite === true ?
+                    <div className="fav-watch-heart" onClick={this.updateFavourite}>
+                      <FontAwesomeIcon icon={faHeart}/>
+                    </div>
+                  :
+                  <div className="watch-heart" onClick={this.updateFavourite}>
+                    <FontAwesomeIcon icon={faHeart}/>
+                  </div>
+                }
               </div>
               <div className="wrap_property py-3">
                 {

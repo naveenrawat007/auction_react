@@ -2975,6 +2975,26 @@ input:checked+.slider:before {
   color: #8c8686;
   /* vertical-align: 0; */
 }
+.fav-watch-heart {
+  width: 35px;
+  height: 35px;
+  color: #fff;
+  background-color: #b82f1e;
+  text-align: center;
+  line-height: 35px;
+  border-radius: 100%;
+  position: absolute;
+  border: 1px #8c8686;
+  box-shadow: 0px 0px 18px -6px #8c8686;
+  top: 15px;
+  right: 15px;
+}
+
+.fav-watch-heart svg {
+  font-size: 14px;
+  color: #fff;
+  /* vertical-align: 0; */
+}
 
 .lock-region {
   position: relative;
