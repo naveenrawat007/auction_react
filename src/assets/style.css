@@ -2955,36 +2955,42 @@ input:checked+.slider:before {
   text-decoration: none;
 }
 
-.login-lock {
+.watch-heart {
   width: 35px;
   height: 35px;
   color: #fff;
-  background-color: #b71c1c;
+  background-color: #fff;
   text-align: center;
-  line-height: 40px;
-  border-radius: 35px;
+  line-height: 35px;
+  border-radius: 100%;
   position: absolute;
+  border: 1px #8c8686;
+  box-shadow: 0px 0px 18px -6px #8c8686;
   top: 15px;
   right: 15px;
 }
 
-.login-lock i {
-  font-size: 24px;
+.watch-heart svg {
+  font-size: 14px;
+  color: #8c8686;
+  /* vertical-align: 0; */
 }
 
 .lock-region {
   position: relative;
 }
 
-.login-locks {
+/* .login-locks {
   width: 35px;
   height: 35px;
   color: #fff;
-  background-color: #b71c1c;
+  background-color: #fff !important;
+  border: 1px grey;
+  box-shadow: 20px 20px 50px 15px grey;
   text-align: center;
-  line-height: 40px;
-  border-radius: 35px;
-}
+  line-height: 35px;
+  border-radius: 100%;
+} */
 
 .login-locks i {
   font-size: 24px;

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf} from '@fortawesome/free-solid-svg-icons';
+import { faHeart} from '@fortawesome/free-regular-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 
 export default class PropertyShow extends Component {
@@ -1144,8 +1145,11 @@ export default class PropertyShow extends Component {
               <div className="wrap_property" id="property-timer-block">
                 {this.renderTimerBlock()}
               </div>
-              <div className="wrap_property py-4">
+              <div className="wrap_property py-4 lock-region">
                 {this.renderBiddingBlock()}
+                <div className="watch-heart">
+                  <FontAwesomeIcon icon={faHeart}/>
+                </div>
               </div>
               <div className="wrap_property py-3">
                 {
