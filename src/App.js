@@ -34,6 +34,7 @@ function App() {
           <Route exact path="/property/pending" component={PropertyPending}/>
           <Route exact path="/property/sold" component={PropertySold}/>
           <Route exact path="/user/property/" component={() => <Sidebar path='property_list'/>}/>
+          <Route exact path="/user/watch_properties/" component={() => <Sidebar path='watch_properties_list'/>}/>
           <Route exact path="/user/property/new" component={UserNewProperty}/>
           <Route exact path="/user/property/:id/edit" component={PropertyEdit}/>
           <Route exact path="/user/property/:id" component={PropertyShow}/>
