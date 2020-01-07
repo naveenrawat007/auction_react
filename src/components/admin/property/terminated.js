@@ -33,6 +33,7 @@ export default class Terminated extends Component{
       auction_length_options: [],
       auction_started_at: "",
       auction_length: "",
+      termination_reason_options: [],
     }
   }
 
@@ -65,6 +66,7 @@ export default class Terminated extends Component{
             properties: result.properties,
             property_status_options: result.property_statuses,
             auction_length_options: result.auction_lengths,
+            termination_reason_options: result.termination_reason,
             current_page : result.meta.current_page,
             total_pages : result.meta.total_pages,
           });
@@ -190,6 +192,7 @@ export default class Terminated extends Component{
         selected_status: this.state.properties[this.state.selected_property].status,
         auction_started_at: this.state.properties[this.state.selected_property].auction_started_at,
         auction_length:  this.state.properties[this.state.selected_property].auction_length,
+        termination_reason:  this.state.properties[this.state.selected_property].termination_reason,
       });
     });
   }
@@ -242,6 +245,11 @@ export default class Terminated extends Component{
     const auction_lengths = this.state.auction_length_options.map((value, index) => {
       return(
         <option key={index} value={value} >{value} days</option>
+      )
+    })
+    const termination_reason_opt = this.state.termination_reason_options.map((value, index) => {
+      return(
+        <option key={index} value={value} >{value}</option>
       )
     })
     const status_array = this.state.property_status_options.map((status, index) => {
@@ -372,7 +380,10 @@ export default class Terminated extends Component{
                     <form className="status-form">
                       <div className="form-group">
                         <label >Reason</label>
-                        <input type="text" name="termination_reason" onChange={this.updateStatusFields} className="form-control"/>
+                        <select className={"form-control"} name="termination_reason"  onChange={this.updateStatusFields} defaultValue={this.state.termination_reason}>
+                          <option>Please select</option>
+                          {termination_reason_opt}
+                        </select>
                       </div>
                     </form>
                   </div>
