@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelopeOpenText, faDownload, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faUpload } from '@fortawesome/free-solid-svg-icons';
 import Accordion from 'react-bootstrap/Accordion';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 const initial_state = {
+  docs_modal: false,
   status_modal: false,
   error: "",
   message: "",
@@ -130,6 +131,54 @@ export default class ListProperty extends Component{
       selected_property: index,
     });
   }
+  updateDocs = (index) => {
+    this.setState({
+      docs_modal: true,
+      selected_property: index,
+    });
+  }
+  fileSelectHandler = (event) => {
+    const{ name } = event.target;
+    this.setState({
+      [name]: event.target.files[0]
+    });
+  }
+  uploadDocs = () => {
+    const fd = new FormData();
+    fd.append('property[id]', this.state.properties[this.state.selected_property].id)
+    if (this.state.arv_proof){
+      fd.append('arv_proof', this.state.property.arv_proof, this.state.property.arv_proof.name)
+    }
+    if (this.state.rehab_cost_proof){
+      fd.append('rehab_cost_proof', this.state.property.rehab_cost_proof, this.state.property.rehab_cost_proof.name)
+    }
+    if (this.state.rental_proof){
+      fd.append('rental_proof', this.state.property.rental_proof, this.state.property.rental_proof.name)
+    }
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties"
+  	fetch(url ,{
+			method: "PUT",
+			headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			},
+			body: fd,
+		}).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        this.setState({
+          docs_modal: false ,
+        });
+        this.getPropertiesList();
+      }
+    })
+  }
 
   updateStatusFields = (event) =>{
     const{ name, value } = event.target;
@@ -236,6 +285,11 @@ export default class ListProperty extends Component{
       status_modal: false,
     });
   }
+  hideDocsModal = () => {
+    this.setState({
+      docs_modal: false,
+    });
+  }
 
 	render() {
     const current_page = this.state.current_page;
@@ -317,7 +371,7 @@ export default class ListProperty extends Component{
               <div className="properties-btn">
                 <Link to={"/user/property/" + property.unique_address + "/edit"} className="font-blue">Edit Property</Link>
                 <Link to="#" className="font-blue">Mark as Pending</Link>
-                <Link to="#" className="font-blue">Update Docs</Link>
+                <Link to="#" className="font-blue" onClick={() =>{this.updateDocs(index)}}>Update Docs</Link>
                 <Link to="#" className="font-blue" onClick={() =>{this.changeStatus(index)}}>Change status</Link>
               </div>
             </div>
@@ -432,6 +486,69 @@ export default class ListProperty extends Component{
               <div className="col-md-12 text-center mt-3">
                 <span className="error"></span>
                 <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.updateStatus}>Change</button>
+              </div>
+            </div>
+          </Modal>
+          <Modal className="user_property_modal" show={this.state.docs_modal} onHide={this.hideDocsModal}>
+            <Modal.Header closeButton>
+              <div className="px-0 col-md-11 ">
+                <h5 className="mb-0 "> Upload Attachments</h5>
+              </div>
+            </Modal.Header>
+            <div className="modal-body">
+              <div className="col-md-12 text-center px-0">
+                <div className="form-group row mx-0">
+                  <div className="change-label col-md-12 text-right pr-2 mb-2">
+                    <label className="mb-0">ARV Proof:</label>
+                    <input type="file" name="arv_proof" onChange={this.fileSelectHandler}/>
+                    { this.state.selected_property === ""
+                      ?
+                        <Link to="#" className="red-btn">Download</Link>
+                      :
+                      (this.state.properties[this.state.selected_property].arv_proof ?
+                        <a href={this.state.properties[this.state.selected_property].arv_proof} target="_blank" className="red-btn">Download</a>
+                      :
+                      <Link to="#" className="red-btn">Download</Link>
+                      )
+                    }
+                  </div>
+                  <br/>
+                  <div className="change-label col-md-12 text-right pr-2 mb-2">
+                    <label className="mb-0">Rehab Cost Proof:</label>
+                    <input type="file" name="rehab_cost_proof" onChange={this.fileSelectHandler}/>
+                    { this.state.selected_property === ""
+                      ?
+                        <Link to="#" className="red-btn">Download</Link>
+                      :
+                      (this.state.properties[this.state.selected_property].rehab_cost_proof ?
+                        <a href={this.state.properties[this.state.selected_property].rehab_cost_proof} target="_blank" className="red-btn">Download</a>
+                      :
+                      <Link to="#" className="red-btn">Download</Link>
+                      )
+                    }
+                  </div>
+                  <br/>
+                  <div className="change-label col-md-12 text-right pr-2 mb-2">
+                    <label className="mb-0">Rental Proof:</label>
+                    <input type="file" name="rental_proof" onChange={this.fileSelectHandler}/>
+                    { this.state.selected_property === ""
+                      ?
+                        <Link to="#" className="red-btn">Download</Link>
+                      :
+                      (this.state.properties[this.state.selected_property].rental_proof ?
+                        <a href={this.state.properties[this.state.selected_property].rental_proof} target="_blank" className="red-btn">Download</a>
+                      :
+                      <Link to="#" className="red-btn">Download</Link>
+                      )
+                    }
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 text-center mt-3">
+                <span className="error"></span>
+                <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.uploadDocs}><FontAwesomeIcon icon={faUpload} size="1x" /> Upload</button>
+                &nbsp;
+                <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.hideDocsModal}>Cancel</button>
               </div>
             </div>
           </Modal>

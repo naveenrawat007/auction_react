@@ -788,7 +788,7 @@ export default class UserNewProperty extends Component{
       fd.append('rehab_cost_proof', this.state.property.rehab_cost_proof, this.state.property.rehab_cost_proof.name)
     }
     if (this.state.property.rental_proof){
-      fd.append('rental_proof', this.state.property.rental_proof, this.state.property.rental_proof)
+      fd.append('rental_proof', this.state.property.rental_proof, this.state.property.rental_proof.name)
     }
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties"
   	fetch(url ,{

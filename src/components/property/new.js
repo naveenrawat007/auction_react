@@ -944,7 +944,7 @@ export default class NewProperty extends Component{
       fd.append("arv_proof", this.state.property.arv_proof, this.state.property.arv_proof.name )
     }
     if (this.state.property.rental_proof){
-      fd.append("arv_proof", this.state.property.rental_proof, this.state.rental_proof)
+      fd.append("rental_proof", this.state.property.rental_proof, this.state.rental_proof.name)
     }
     if (this.state.property.rehab_cost_proof){
       fd.append("rehab_cost_proof", this.state.property.rehab_cost_proof, this.state.property.rehab_cost_proof.name)
