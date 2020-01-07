@@ -1346,6 +1346,16 @@ export default class PropertyShow extends Component {
                           </a>
                         </div>
                       )}
+                      {this.state.property.rental_proof === "" ? null : (
+                        <div className="pdf_type">
+                          <a href={this.state.property.rental_proof} target="_blank" rel="noopener noreferrer">
+                            <div className="pdf-box">
+                              <FontAwesomeIcon icon={faFilePdf}/>
+                              <p>Rental proofs</p>
+                            </div>
+                          </a>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
