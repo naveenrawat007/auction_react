@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelopeOpenText, faDownload, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
-import { faSearch, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faUpload, faLink } from '@fortawesome/free-solid-svg-icons';
 import Accordion from 'react-bootstrap/Accordion';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 const initial_state = {
   docs_modal: false,
   status_modal: false,
+  share_modal: false,
   error: "",
   message: "",
   isLoaded: false,
@@ -131,6 +132,16 @@ export default class ListProperty extends Component{
       selected_property: index,
     });
   }
+  shareLink = (index) => {
+    this.setState({
+      share_modal: true,
+      selected_property: index,
+    }, function () {
+      this.setState({
+        share_link: this.state.selected_property === "" ? "" :  window.location.origin+"/user/property/"+this.state.properties[this.state.selected_property].unique_address,
+      });
+    });
+  }
   updateDocs = (index) => {
     this.setState({
       docs_modal: true,
@@ -229,6 +240,35 @@ export default class ListProperty extends Component{
       }
     })
   }
+  emailPropertyShare = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/share"
+    const fd = new FormData();
+    fd.append('property[id]', this.state.properties[this.state.selected_property].id)
+    fd.append('property[link]', this.state.share_link)
+    fd.append('property[email]', this.state.share_email)
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*"
+      },
+      body: fd,
+    }).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        this.setState({
+          share_modal: false ,
+        });
+        // this.getPropertiesList();
+      }
+    })
+  }
 
   checkActiveClass = (number, current_page) => {
     if (number === current_page ){
@@ -288,6 +328,11 @@ export default class ListProperty extends Component{
   hideDocsModal = () => {
     this.setState({
       docs_modal: false,
+    });
+  }
+  hideShareModal = () => {
+    this.setState({
+      share_modal: false,
     });
   }
 
@@ -373,6 +418,7 @@ export default class ListProperty extends Component{
                 <Link to="#" className="font-blue">Mark as Pending</Link>
                 <Link to="#" className="font-blue" onClick={() =>{this.updateDocs(index)}}>Update Docs</Link>
                 <Link to="#" className="font-blue" onClick={() =>{this.changeStatus(index)}}>Change status</Link>
+                <Link to="#" className="font-blue" onClick={() =>{this.shareLink(index)}}>Share Link</Link>
               </div>
             </div>
 
@@ -573,6 +619,47 @@ export default class ListProperty extends Component{
                 <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.uploadDocs}><FontAwesomeIcon icon={faUpload} size="1x" /> Upload</button>
                 &nbsp;
                 <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.hideDocsModal}>Cancel</button>
+              </div>
+            </div>
+          </Modal>
+          <Modal className="user_property_modal share_modal" show={this.state.share_modal} onHide={this.hideShareModal} centered>
+            <Modal.Header closeButton>
+              <div className="px-0 col-md-11 ">
+                <h5 className="mb-0 "> Share this property</h5>
+              </div>
+            </Modal.Header>
+            <div className="modal-body">
+              <div className="col-md-12 text-center px-0">
+                <div className="form-group row mx-0">
+                  <div className="col-md-6 mb-2 text-left">
+                    <label className="bold-label">Link</label>
+                    <div className="input-group ">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text group-box-chat" id="basic-addon1"><FontAwesomeIcon icon={faLink} size="1x" /></span>
+                      </div>
+                      <input className="form-control" readOnly={true} type="text" value={this.state.share_link}></input>
+                    </div>
+                  </div>
+                  {/* <div className="col-md-6 mb-2 text-left">
+                    <label className="bold-label">Social</label>
+                    <div className="social-img">
+                      <img/>
+                      <img/>
+                      <img/>
+                      <img/>
+                      <img/>
+                      <img/>
+                    </div>
+                  </div> */}
+                  <div className="col-md-12 text-left">
+                    <label className="bold-label">Email</label>
+                    <input className="form-control" type="email" name="share_email" onChange={this.updateStatusFields}></input>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 text-center mt-3">
+                <span className="error"></span>
+                <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.emailPropertyShare}>Share</button>
               </div>
             </div>
           </Modal>
