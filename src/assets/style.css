@@ -4020,3 +4020,13 @@ a.admin_table_links{
 .change-input{
   width: 72%;
 }
+.upload-label{
+  border: 1px solid #dee2e6;
+  padding: 10px 10px;
+}
+
+.upload-input input{
+  border: 1px dashed #dee2e6;
+  padding: 6.5px 20px;
+  margin-right: 15px;
+}

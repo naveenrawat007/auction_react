@@ -147,13 +147,13 @@ export default class ListProperty extends Component{
     const fd = new FormData();
     fd.append('property[id]', this.state.properties[this.state.selected_property].id)
     if (this.state.arv_proof){
-      fd.append('arv_proof', this.state.property.arv_proof, this.state.property.arv_proof.name)
+      fd.append('arv_proof', this.state.arv_proof, this.state.arv_proof.name)
     }
     if (this.state.rehab_cost_proof){
-      fd.append('rehab_cost_proof', this.state.property.rehab_cost_proof, this.state.property.rehab_cost_proof.name)
+      fd.append('rehab_cost_proof', this.state.rehab_cost_proof, this.state.rehab_cost_proof.name)
     }
     if (this.state.rental_proof){
-      fd.append('rental_proof', this.state.property.rental_proof, this.state.property.rental_proof.name)
+      fd.append('rental_proof', this.state.rental_proof, this.state.rental_proof.name)
     }
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties"
   	fetch(url ,{
@@ -454,7 +454,7 @@ export default class ListProperty extends Component{
               </div>
             </div>
           </div>
-          <Modal className="user_property_modal" show={this.state.status_modal} onHide={this.hideModal}>
+          <Modal className="user_property_modal" show={this.state.status_modal} onHide={this.hideModal} centered>
             <Modal.Header closeButton>
               <div className="px-0 col-md-11 ">
                 <h5 className="mb-0 "> { this.state.selected_property === "" ? "Please select Property" :  "Change status Request at " + this.state.properties[this.state.selected_property].headliner}</h5>
@@ -489,7 +489,7 @@ export default class ListProperty extends Component{
               </div>
             </div>
           </Modal>
-          <Modal className="user_property_modal" show={this.state.docs_modal} onHide={this.hideDocsModal}>
+          <Modal size="lg" className="user_property_modal" show={this.state.docs_modal} onHide={this.hideDocsModal} centered>
             <Modal.Header closeButton>
               <div className="px-0 col-md-11 ">
                 <h5 className="mb-0 "> Upload Attachments</h5>
@@ -498,49 +498,73 @@ export default class ListProperty extends Component{
             <div className="modal-body">
               <div className="col-md-12 text-center px-0">
                 <div className="form-group row mx-0">
-                  <div className="change-label col-md-12 text-right pr-2 mb-2">
-                    <label className="mb-0">ARV Proof:</label>
-                    <input type="file" name="arv_proof" onChange={this.fileSelectHandler}/>
-                    { this.state.selected_property === ""
-                      ?
-                        <Link to="#" className="red-btn">Download</Link>
-                      :
-                      (this.state.properties[this.state.selected_property].arv_proof ?
-                        <a href={this.state.properties[this.state.selected_property].arv_proof} target="_blank" className="red-btn">Download</a>
-                      :
-                      <Link to="#" className="red-btn">Download</Link>
-                      )
-                    }
+                  <div className="change-label col-md-12 row mx-0 px-0 mb-2">
+                    <div className="col-md-3 px-0 text-left">
+                      <div className="upload-label">
+                        <label className="mb-0">ARV Proof</label>
+                      </div>
+                    </div>
+                    <div className="col-md-9 px-0">
+                      <div className="upload-input">
+                        <input type="file" name="arv_proof" onChange={this.fileSelectHandler}/>
+                        { this.state.selected_property === ""
+                          ?
+                            <Link to="#" className="red-btn btn disabled">Download</Link>
+                          :
+                          (this.state.properties[this.state.selected_property].arv_proof ?
+                            <a href={this.state.properties[this.state.selected_property].arv_proof} target="_blank" className="red-btn btn" rel="noopener noreferrer">Download</a>
+                          :
+                          <Link to="#" className="red-btn btn disabled">Download</Link>
+                          )
+                        }
+                      </div>
+                    </div>
                   </div>
-                  <br/>
-                  <div className="change-label col-md-12 text-right pr-2 mb-2">
-                    <label className="mb-0">Rehab Cost Proof:</label>
-                    <input type="file" name="rehab_cost_proof" onChange={this.fileSelectHandler}/>
-                    { this.state.selected_property === ""
-                      ?
-                        <Link to="#" className="red-btn">Download</Link>
-                      :
-                      (this.state.properties[this.state.selected_property].rehab_cost_proof ?
-                        <a href={this.state.properties[this.state.selected_property].rehab_cost_proof} target="_blank" className="red-btn">Download</a>
-                      :
-                      <Link to="#" className="red-btn">Download</Link>
-                      )
-                    }
+
+                  <div className="change-label col-md-12 row mx-0 px-0 mb-2">
+                    <div className="col-md-3  px-0 text-left">
+                      <div className="upload-label">
+                        <label className="mb-0">Rehab Cost Proof</label>
+                      </div>
+                    </div>
+                    <div className="col-md-9 px-0">
+                      <div className="upload-input">
+                        <input type="file" name="rehab_cost_proof" onChange={this.fileSelectHandler}/>
+                        { this.state.selected_property === ""
+                          ?
+                            <Link to="#" className="red-btn btn disabled">Download</Link>
+                          :
+                          (this.state.properties[this.state.selected_property].rehab_cost_proof ?
+                            <a href={this.state.properties[this.state.selected_property].rehab_cost_proof} target="_blank" className="red-btn btn" rel="noopener noreferrer">Download</a>
+                          :
+                          <Link to="#" className="red-btn btn disabled">Download</Link>
+                          )
+                        }
+                      </div>
+                    </div>
                   </div>
-                  <br/>
-                  <div className="change-label col-md-12 text-right pr-2 mb-2">
-                    <label className="mb-0">Rental Proof:</label>
-                    <input type="file" name="rental_proof" onChange={this.fileSelectHandler}/>
-                    { this.state.selected_property === ""
-                      ?
-                        <Link to="#" className="red-btn">Download</Link>
-                      :
-                      (this.state.properties[this.state.selected_property].rental_proof ?
-                        <a href={this.state.properties[this.state.selected_property].rental_proof} target="_blank" className="red-btn">Download</a>
-                      :
-                      <Link to="#" className="red-btn">Download</Link>
-                      )
-                    }
+
+                  <div className="change-label col-md-12 row mx-0 px-0 mb-2">
+                    <div className="col-md-3 px-0 text-left">
+                      <div className="upload-label">
+                        <label className="mb-0">Rental Proof</label>
+                      </div>
+                    </div>
+                    <div className="col-md-9 px-0">
+                      <div className="upload-input">
+                        <input type="file" name="rental_proof" onChange={this.fileSelectHandler}/>
+                        { this.state.selected_property === ""
+                          ?
+                            <Link to="#" className="red-btn btn disabled">Download</Link>
+                          :
+                          (this.state.properties[this.state.selected_property].rental_proof ?
+                            <a href={this.state.properties[this.state.selected_property].rental_proof} target="_blank" className="red-btn btn" rel="noopener noreferrer">Download</a>
+                          :
+                          <Link to="#" className="red-btn btn disabled">Download</Link>
+                          )
+                        }
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
