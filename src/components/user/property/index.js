@@ -138,7 +138,7 @@ export default class ListProperty extends Component{
       [name]: value
     }, function () {
       if (name === "request_status"){
-        if (value === "Terminate"){
+        if (value === "Terminated"){
           this.setState({
             request_reasons_options: this.state.termination_reasons_options ,
           });
