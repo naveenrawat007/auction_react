@@ -4005,3 +4005,11 @@ a.admin_table_links{
   justify-content: center;
   height: 100%;
 }
+
+.user_property_modal .modal-dialog .modal-header {
+  background-color: #fff;
+  color: #b71c1c;
+}
+.user_property_modal .modal-body .form-group{
+  align-items: center
+}

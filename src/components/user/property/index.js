@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelopeOpenText, faDownload, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelopeOpenText, faDownload, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import Accordion from 'react-bootstrap/Accordion'
-import Button from 'react-bootstrap/Button'
+import Accordion from 'react-bootstrap/Accordion';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 const initial_state = {
+  status_modal: false,
   error: "",
   message: "",
   isLoaded: false,
@@ -14,7 +16,14 @@ const initial_state = {
   current_page: 1,
   total_pages: 1,
   page: 1,
-  total_pages_array:[]
+  total_pages_array:[],
+  selected_property: "",
+  request_status: "",
+  request_reason: "",
+  request_status_options: [],
+  request_reasons_options: [],
+  withdraw_reasons_options: [],
+  termination_reasons_options: [],
 }
 
 
@@ -54,6 +63,9 @@ export default class ListProperty extends Component{
             properties: result.properties,
             current_page : result.meta.current_page,
             total_pages : result.meta.total_pages,
+            request_status_options: result.request_statuses,
+            withdraw_reasons_options: result.withdraw_reasons,
+            termination_reasons_options: result.termination_reasons,
           });
           let items = []
           window.scrollTo(0,0)
@@ -112,6 +124,59 @@ export default class ListProperty extends Component{
       });
     }
   }
+  changeStatus = (index) => {
+    this.setState({
+      status_modal: true,
+      selected_property: index,
+    });
+  }
+
+  updateStatusFields = (event) =>{
+    const{ name, value } = event.target;
+    // console.log(this.state.termination_reasons_options );
+    this.setState({
+      [name]: value
+    }, function () {
+      if (name === "request_status"){
+        if (value === "Terminate"){
+          this.setState({
+            request_reasons_options: this.state.termination_reasons_options ,
+          });
+        }else if (value === "Withdraw / Draft") {
+          this.setState({
+            request_reasons_options: this.state.withdraw_reasons_options ,
+          });
+        }
+      }
+    });
+  }
+
+  updateStatus = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/request_status"
+    const fd = new FormData();
+    fd.append('property[id]', this.state.properties[this.state.selected_property].id)
+    fd.append('property[request_status]', this.state.request_status)
+    fd.append('property[request_reason]', this.state.request_reason)
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*"
+      },
+      body: fd,
+    }).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        this.getPropertiesList();
+      }
+    })
+  }
 
   checkActiveClass = (number, current_page) => {
     if (number === current_page ){
@@ -163,8 +228,24 @@ export default class ListProperty extends Component{
     return bidList
   }
 
+  hideModal = () => {
+    this.setState({
+      status_modal: false,
+    });
+  }
+
 	render() {
     const current_page = this.state.current_page;
+    const request_status_opt = this.state.request_status_options.map((value, index) => {
+      return(
+        <option key={index} value={value} >{value}</option>
+      )
+    })
+    const request_reasons_opt = this.state.request_reasons_options.map((value, index) => {
+      return(
+        <option key={index} value={value} >{value}</option>
+      )
+    })
     const total_pages = this.state.total_pages;
     const propertyList = this.state.properties.map((property, index) => {
       return (
@@ -234,6 +315,7 @@ export default class ListProperty extends Component{
                 <Link to={"/user/property/" + property.unique_address + "/edit"} className="font-blue">Edit Property</Link>
                 <Link to="#" className="font-blue">Mark as Pending</Link>
                 <Link to="#" className="font-blue">Update Docs</Link>
+                <Link to="#" className="font-blue" onClick={() =>{this.changeStatus(index)}}>Change status</Link>
               </div>
             </div>
 
@@ -315,6 +397,41 @@ export default class ListProperty extends Component{
               </div>
             </div>
           </div>
+          <Modal className="user_property_modal" show={this.state.status_modal} onHide={this.hideModal}>
+            <Modal.Header closeButton>
+              <div className=" col-md-11 ">
+                <h5 className="mb-0 "> { this.state.selected_property === "" ? "Please select Property" :  "Change status Request at " + this.state.properties[this.state.selected_property].headliner}</h5>
+              </div>
+            </Modal.Header>
+            <div className="modal-body">
+              <div className="col-md-12 text-center px-0">
+                <div className="form-group row mx-0">
+                  <div className="col-md-4 px-0">
+                    <label>Change Status</label>
+                  </div>
+                  <div className="col-md-8 px-0">
+                    <select className={"form-control"} name="request_status"  onChange={this.updateStatusFields} >
+                      <option>Please select</option>
+                      {request_status_opt}
+                    </select>
+                  </div>
+                  <div className="col-md-4 px-0">
+                    <label >Reason</label>
+                  </div>
+                  <div className="col-md-8 px-0">
+                    <select className={"form-control"} name="request_reason"  onChange={this.updateStatusFields} >
+                      <option>Please select</option>
+                      {request_reasons_opt}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 text-center mt-3">
+                <span className="error"></span>
+                <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.updateStatus}>Change</button>
+              </div>
+            </div>
+          </Modal>
         </div>
       </div>
     );
