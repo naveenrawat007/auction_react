@@ -173,6 +173,9 @@ export default class ListProperty extends Component{
     }).then(res => res.json())
     .then((result) => {
       if (this._isMounted){
+        this.setState({
+          status_modal: false ,
+        });
         this.getPropertiesList();
       }
     })
@@ -399,26 +402,26 @@ export default class ListProperty extends Component{
           </div>
           <Modal className="user_property_modal" show={this.state.status_modal} onHide={this.hideModal}>
             <Modal.Header closeButton>
-              <div className=" col-md-11 ">
+              <div className="px-0 col-md-11 ">
                 <h5 className="mb-0 "> { this.state.selected_property === "" ? "Please select Property" :  "Change status Request at " + this.state.properties[this.state.selected_property].headliner}</h5>
               </div>
             </Modal.Header>
             <div className="modal-body">
               <div className="col-md-12 text-center px-0">
                 <div className="form-group row mx-0">
-                  <div className="col-md-4 px-0">
-                    <label>Change Status</label>
+                  <div className="change-label text-right pr-2 mb-2">
+                    <label className="mb-0">Change Status:</label>
                   </div>
-                  <div className="col-md-8 px-0">
+                  <div className="change-input px-0 mb-2">
                     <select className={"form-control"} name="request_status"  onChange={this.updateStatusFields} >
                       <option>Please select</option>
                       {request_status_opt}
                     </select>
                   </div>
-                  <div className="col-md-4 px-0">
-                    <label >Reason</label>
+                  <div className="change-label text-right pr-2">
+                    <label className="mb-0" >Reason:</label>
                   </div>
-                  <div className="col-md-8 px-0">
+                  <div className="change-input px-0">
                     <select className={"form-control"} name="request_reason"  onChange={this.updateStatusFields} >
                       <option>Please select</option>
                       {request_reasons_opt}
