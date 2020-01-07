@@ -4013,3 +4013,10 @@ a.admin_table_links{
 .user_property_modal .modal-body .form-group{
   align-items: center
 }
+
+.change-label{
+  width: 28%;
+}
+.change-input{
+  width: 72%;
+}
