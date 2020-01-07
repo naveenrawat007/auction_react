@@ -47,6 +47,7 @@ function App() {
           <Route exact path="/admin/property/hold" component={() => <AdminSidebar path='hold_property_list'/>}/>
           <Route exact path="/admin/property/sold" component={() => <AdminSidebar path='sold_property_list'/>}/>
           <Route exact path="/admin/property/terminated" component={() => <AdminSidebar path='terminated_property_list'/>}/>
+          <Route exact path="/admin/termination_request" component={() => <AdminSidebar path='termination_request_list'/>}/>
           <Route exact path="/login" component={Login} />
           <Route exact path="/sign_up" component={SignUp} />
           <Route exact path="/forgot_password" component={ForgotPassword} />
