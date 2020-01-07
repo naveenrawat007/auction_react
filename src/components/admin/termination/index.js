@@ -125,6 +125,51 @@ export default class TerminationRequestList extends Component{
       return (total_pages);
     }
   }
+  terminateProperty = () => {
+    if (this.state.selected_property){
+      this.setState({
+        isLoaded: false,
+      });
+      let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties/status"
+      const fd = new FormData();
+      fd.append('property[id]', this.state.properties[this.state.selected_property].id)
+      fd.append('property[status]', this.state.properties[this.state.selected_property].requested_status)
+      fd.append('property[termination_reason]', this.state.properties[this.state.selected_property].request_reason)
+      fetch(url, {
+        method: "PUT",
+        headers: {
+          "Authorization": localStorage.getItem("auction_user_token"),
+          "Accept": "application/vnd.auction_backend.v1",
+          "Access-Control-Allow-Origin": "*",
+  				"Access-Control-Allow-Credentials": "*",
+  				"Access-Control-Expose-Headers": "*",
+  				"Access-Control-Max-Age": "*",
+  				"Access-Control-Allow-Methods": "*",
+  				"Access-Control-Allow-Headers": "*"
+        },
+        body: fd,
+      }).then(res => res.json())
+      .then((result) => {
+        if (this._isMounted){
+          this.getPropertiesList();
+        }
+      })
+    }
+  }
+  updateSelectedProperty = (event) => {
+    const{ name, value } = event.target;
+    this.setState({
+      [name]: value
+    }, function () {
+      this.setState({
+        selected_status: this.state.properties[this.state.selected_property].status,
+        auction_started_at: this.state.properties[this.state.selected_property].auction_started_at,
+        auction_length:  this.state.properties[this.state.selected_property].auction_length,
+        termination_reason:  this.state.properties[this.state.selected_property].termination_reason,
+      });
+    });
+  }
+
 
 	render() {
     const current_page = this.state.current_page;
@@ -173,7 +218,7 @@ export default class TerminationRequestList extends Component{
                       </div>
                     </div>
                     <div className="col-md-5 offset-md-3 px-0 text-right">
-                      <button className="btn red-btn admin-btns" type="button">Terminate</button>&nbsp;
+                      <button className="btn red-btn admin-btns" type="button" onClick={this.terminateProperty}>Terminate</button>&nbsp;
                     </div>
                   </div>
                   <div className="under_review admin-review loading-spinner-parent">
