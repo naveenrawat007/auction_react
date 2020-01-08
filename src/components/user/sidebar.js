@@ -6,6 +6,9 @@ import { faList, faCreditCard, faHome, faPlusCircle, faHeart, faEnvelopeOpenText
 // import NewProperty from './property/new'
 import ListProperty from './property/index'
 import WatchProperty from './property/watch_property.js'
+import ListOfferProperty from './property/offers.js'
+import ListBidProperty from './property/bids.js'
+import ListBuyNowProperty from './property/buy_now.js'
 
 export default class Sidebar extends Component{
   _isMounted = false
@@ -83,6 +86,12 @@ export default class Sidebar extends Component{
         return <ListProperty/>;
       case 'watch_properties_list':
         return <WatchProperty/>;
+      case 'offer_properties_list':
+        return <ListOfferProperty/>;
+      case 'bid_properties_list':
+        return <ListBidProperty/>;
+      case 'buy_now_properties_list':
+        return <ListBuyNowProperty/>;
       default:
     }
   }

@@ -469,16 +469,17 @@ export default class ListProperty extends Component{
           <div className="profile-form-in">
             <ul className="nav nav-pills nav-properties" role="tablist">
               <li className="nav-item">
-                <a className="nav-link active" data-toggle="pill" href="#propertyPosted">Properties Posted</a>
+                {/* <a className="nav-link active" data-toggle="pill" href="#propertyPosted">Properties Posted</a> */}
+                <Link to="/user/property" className="nav-link active" data-toggle="pill" href="#propertyPosted">Properties Posted</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" data-toggle="pill" href="#lof">List of Offers</a>
+                <Link to="/user/property/offers" className="nav-link " data-toggle="pill" href="#propertyPosted">List of Offers</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" data-toggle="pill" href="#lob">List of Bids</a>
+                <Link to="/user/property/bids" className="nav-link " data-toggle="pill" href="#propertyPosted">List of Bids</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" data-toggle="pill" href="#lobn">List of Buy Now</a>
+                <Link to="/user/property/buy_now" className="nav-link " data-toggle="pill" href="#propertyPosted">List of Buy Now</Link>
               </li>
             </ul>
             <div className="tab-content">
