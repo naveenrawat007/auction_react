@@ -1871,7 +1871,21 @@ input.form-control:focus {
   position: relative;
   overflow: hidden;
 }
-
+.arrow {
+  position: absolute;
+  bottom: 10%;
+  left: 48%;
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+}
+.arrow a {
+  background: url("/images/arrow_down.gif");
+  width: 50px;
+  height: 30px;
+  display: block;
+  background-size: cover;
+}
 #videobcg {
   min-width: 100%;
   min-height: 100%;
@@ -1923,8 +1937,9 @@ input.form-control:focus {
   margin: 35px 0 20px;
   color: #f00;
   text-align: center;
-  font-size: 18px;
+  font-size: 20px;
   text-transform: uppercase;
+  font-weight: 600;
 }
 
 .inner_info p {
@@ -1932,21 +1947,27 @@ input.form-control:focus {
   color: #7f8795;
   min-height: 70px;
   font-size: 14px;
+  font-weight: 500;
 }
 
 .learnmore {
   padding: 10px 0 0;
   margin-bottom: 20px;
 }
+.learnmore a:hover {
+  background: #f00;
+  color: #fff;
+}
 
 .learnmore a {
   display: inline-block;
-  padding: 5px 22px;
-  font-size: 14px;
+  padding: 10px 30px;
+  font-size: 1rem;
   color: #f00;
   border: 2px solid #f00;
   border-radius: 5px;
   text-decoration: none;
+  font-weight: 500;
 }
 
 .featured_col h2 {
@@ -1958,17 +1979,18 @@ input.form-control:focus {
   color: #515b69;
   font-weight: 700;
 }
-
-.flipping {
+/*old flip*/
+.flipping{
   padding: 12px;
-  background-color: transparent;
+  background-color: #eee;
+  height: 300px;
 }
-
 .flip-card {
   background-color: transparent;
-  width: 236px;
+  width: 230px;
   height: 250px;
-  perspective: 1000px;
+  perspective: 800;
+  -webkit-perspective: 800;
 }
 
 .flip-card-inner {
@@ -1978,11 +2000,10 @@ input.form-control:focus {
   text-align: center;
   transition: transform 0.6s;
   transform-style: preserve-3d;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
+  transform: rotateY(-180deg);
 }
 
 .flip-card-front, .flip-card-back {
@@ -1996,29 +2017,25 @@ input.form-control:focus {
   background-color: transparent;
   color: black;
 }
-
-.flip-card-front h5 {
+.flip-card-front h5{
   font-size: 1rem;
-  margin: 10px 5px;
+  margin: 20px 10px 10px;
 }
-
-.flip-card-front p {
+.flip-card-front p{
   font-size: 0.80rem;
-  margin: 10px 5px;
+  margin: 0px 10px 10px;
 }
-
 .flip-card-back {
   background-color: transparent;
   transform: rotateY(180deg);
-  padding: 10px;
+  padding-top: 10%;
 }
-
-.flip-card-back h5 {
+.flip-card-back h5{
   color: #000;
   font-size: 1rem;
+  font-weight: 600;
 }
-
-.flip-card-back .flip-data ul {
+.flip-card-back .flip-data ul{
   color: #000;
   font-size: 13px;
   font-weight: 400;
@@ -2026,66 +2043,172 @@ input.form-control:focus {
   justify-content: space-between;
   margin: 12px 0px;
 }
-
-.flip-card-back .flip-data {
+.flip-card-back .flip-data{
   border-bottom: 1px solid #ddd;
 }
-
-.flip-card-back ul {
+.flip-card-back ul{
   color: #000;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   display: flex;
-  margin: 12px 0px 36px 0px;
+  margin: 6px 0px 36px 0px;
   justify-content: space-between;
 }
-
-.flip-card-back p {
+.flip-card-back p{
   font-size: 13px;
   font-weight: 400;
 }
-
-.flip-card-back a {
-  padding: 8px 22px;
-  text-decoration: none;
+.details_btn{
+  display: block;
+  background: #03a9f4;
+  background-image: -webkit-gradient( linear, left bottom, left top, from( #0168bc ), to( #03a9f4 ) );
+  background-image: -webkit-linear-gradient( bottom, #0168bc, #03a9f4 );
+  background-image: -moz-linear-gradient( bottom, #0168bc, #03a9f4 );
+  background-image: -o-linear-gradient( bottom, #0168bc, #03a9f4 );
+  background-image: linear-gradient( to top, #0168bc, #03a9f4 );
   color: #fff;
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  width: 100%;
+  text-decoration: none;
 }
-
+.details_btn:hover{
+  color: #fff;
+  text-decoration: none;
+  background: #03a9f4;
+}
 .dealofweek {
   padding-top: 10px;
   padding-bottom: 50px;
 }
-
 .dealofweek p {
   font-size: 17px;
   line-height: 25px;
 }
-
-.apply-btn {
-  padding: 8px 22px;
+.apply-btn{
+  display: block;
+  margin: 0 auto;
+  margin-top: 25px;
+  margin-bottom: 20px;
+  width: 130px;
+  text-align: center;
+  background: #ff3019;
+  background: -moz-linear-gradient(top, #ff3019 0%, #cf0404 100%);
+  background: -webkit-linear-gradient(top, #ff3019 0%,#cf0404 100%);
+  background: linear-gradient(to bottom, #ff3019 0%,#cf0404 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', endColorstr='#cf0404',GradientType=0 );
+  color: #fff;
+  font-size: 16px;
+  padding: 8px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+.apply-btn:hover{
   text-decoration: none;
   color: #fff;
 }
-
 .dealofweek p.sbold {
+  text-align: center;
   font-weight: 600;
   font-size: 16px;
   color: #272727;
   margin-bottom: 0;
-  margin-top: 10px;
 }
-
 a.freems {
   display: block;
+  text-align: center;
   color: #428bca;
   font-size: 16px;
   text-decoration: underline;
+  font-weight: 500;
 }
-
 .pleft80 {
   padding-left: 80px;
 }
+.pleft80 h2{
+  margin: 0 0 20px 0;
+  color: #ff0000;
+}
+/*made easy */
+.invest_col {
+  padding: 50px 0;
+  background: #f9f9f9;
+}
+.invest_col h2 {
+  margin: 0 0 30px;
+  padding: 0 0 20px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+  font-size: 25px;
+  color: #515b69;
+  font-weight: 700;
+}
+/*old flip*/
+.invest_col .flipping{
+  height: auto;
+}
+.invest_col .flip-card {
+  background-color: transparent;
+  width: 230px;
+  height: 180px;
+  perspective: 800;
+  -webkit-perspective: 800;
+}
 
+.invest_col .flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.invest_col .flip-card:hover .invest_col .flip-card-inner {
+  transform: rotateY(-180deg);
+}
+
+.invest_col .flip-card-front, .invest_col .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.invest_col .flip-card-front {
+  background-color: rgb(33, 97, 140);
+  color: #fff;
+  min-height: 180px;
+}
+.invest_col .flip-card-front .inner{
+  margin: 0px !important;
+  padding: 0;
+  max-height: 160px;
+  overflow: hidden;
+}
+.invest_col .flip-card-front .inner svg{
+  font-size: 50px;
+  margin: 43px 0 0;
+}
+.invest_col .flip-card-front h5{
+  font-size: 1rem;
+  margin: 20px 10px 10px;
+}
+.invest_col .flip-card-front p{
+  font-size: 0.80rem;
+  margin: 0px 10px 10px;
+}
+.invest_col .flip-card-back {
+  background-color: rgba(0,0,0,0.6);
+  color: #fff;
+  min-height: 180px;
+  padding: 20px 15px;
+}
+.invest_col .flip-card-back p{
+  font-size: 14px;
+  font-weight: 400;
+}
 .profile-menu {
   left: -100px !important;
   right: 0px !important;
@@ -4044,5 +4167,5 @@ a.admin_table_links{
 }
 
 .share-btn-grp{
-  cursor: pointer; 
+  cursor: pointer;
 }
