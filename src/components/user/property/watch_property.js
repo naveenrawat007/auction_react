@@ -1,9 +1,17 @@
 import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Accordion from 'react-bootstrap/Accordion';
+import Button from 'react-bootstrap/Button';
 // import { faEnvelopeOpenText, faDownload, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons'
 import {Link} from 'react-router-dom';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faLink } from '@fortawesome/free-solid-svg-icons';
+import Modal from 'react-bootstrap/Modal';
+import { FacebookShareButton, TwitterShareButton, TumblrShareButton, PinterestShareButton, RedditShareButton} from "react-share";
+import {FacebookIcon, TwitterIcon, TumblrIcon, PinterestIcon, RedditIcon } from "react-share";
+
 const initial_state = {
+  share_link: "",
+  selected_property: "",
   error: "",
   message: "",
   isLoaded: false,
@@ -95,6 +103,21 @@ export default class WatchProperty extends Component{
       }, 500);
     });
   }
+  shareLink = (index) => {
+    this.setState({
+      share_modal: true,
+      selected_property: index,
+    }, function () {
+      this.setState({
+        share_link: this.state.selected_property === "" ? "" :  window.location.origin+"/property/"+this.state.properties[this.state.selected_property].unique_address,
+      });
+    });
+  }
+  hideShareModal = () => {
+    this.setState({
+      share_modal: false,
+    });
+  }
   refreshList = (event) => {
     let page_number = event.target.getAttribute("page_number")
     if (this._isMounted){
@@ -138,33 +161,71 @@ export default class WatchProperty extends Component{
     const total_pages = this.state.total_pages;
     const propertyList = this.state.properties.map((property, index) => {
       return (
-        <div key={index} class="row mx-0 properties-list">
-          <div class="col-md-2 properties-img">
-            <div class="img-box">
-              <img src={property.thumb_img ? property.thumb_img : "/images/home1.png"} alt="img" />
+        <Accordion key={index}>
+          <div className="row mx-0 properties-list" >
+            <div className="col-md-2 px-2 properties-img py-2">
+              <div className="img-box py-4">
+                <Link to={"/property/" + property.unique_address}><img src={property.thumbnail_img ? property.thumbnail_img : "/images/home1.png" } alt="" />
+                </Link>
+              </div>
+            </div>
+            <div className="col-md-5 px-2 py-2">
+              <div className=" properties-address">
+                <h5 className="font-blue"><Link to={"/property/" + property.unique_address}> {property.headliner} </Link></h5>
+                <div className="address-list mb-0">
+                  <div className="p-format">
+                    <p>Submitted Date</p>
+                    <p>:</p>
+                  </div>
+                  <p>{property.created_at}</p>
+                </div>
+                <div className="address-list mb-0">
+                  <div className="p-format">
+                    <p>Property Status</p>
+                    <p>:</p>
+                  </div>
+                  <p>{property.status}</p>
+                </div>
+                <div className="address-list mb-0">
+                  <div className="p-format">
+                    <p>Starting Bid</p>
+                    <p>:</p>
+                  </div>
+                  <p>${property.seller_price}</p>
+                </div>
+                <div className="address-list mb-0">
+                  <div className="p-format">
+                    <p>Buy Now Price</p>
+                    <p>:</p>
+                  </div>
+                  <p>${property.buy_now_price}</p>
+                </div>
+                <div className="address-list mb-0">
+                  <div className="p-format">
+                    <p>All Time Views</p>
+                    <p>:</p>
+                  </div>
+                  <p>{property.total_views}</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-3 px-2 text-center py-2">
+              <div className="properties-price">
+                <h5 className="font-red">${property.highest_bid}</h5>
+                <p>Current Highest Bid</p>
+                {/* <Accordion.Toggle eventKey={property.id}> */}
+                <Accordion.Toggle as={Button} className="btn red-btn"  eventKey={property.id}>List of Buy Now
+                  {/* <button className="btn red-btn" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">List of BIds/Offers</button> */}
+                </Accordion.Toggle>
+              </div>
+            </div>
+            <div className="col-md-2 pl-2 pr-3 py-2">
+              <div className="properties-btn">
+                <Link to="#" className="font-blue" onClick={() =>{this.shareLink(index)}}>Share Link</Link>
+              </div>
             </div>
           </div>
-          <div class="col-md-5 properties-address">
-            <h5 className="font-blue"><Link to={"/property/" + property.unique_address}> {property.headliner} </Link></h5>
-            <p>Time Left:-
-              <span>11 days</span>:
-              <span>14 hours</span>:
-              <span>15 minutes</span>
-            </p>
-            <p>Status:&nbsp;
-              <span>{property.status}</span>
-            </p>
-          </div>
-          <div class="col-md-3 properties-price text-center">
-            <h4>${property.highest_bid}</h4>
-            <p>highest current bid</p>
-            <p>starting price: <span>${property.asking_price}</span></p>
-            <p>starting date: <span>${property.bidding_starting_date}</span></p>
-          </div>
-          <div class="col-md-2 properties-btn text-center">
-            <Link class="btn red-btn" to={"/property/" + property.unique_address}>Place Bid</Link>
-          </div>
-        </div>
+        </Accordion>
       );
     })
     const pagination = this.state.total_pages_array.map((page, index) => {
@@ -208,6 +269,56 @@ export default class WatchProperty extends Component{
             </div>
           </div>
         </div>
+        <Modal className="user_property_modal share_modal" show={this.state.share_modal} onHide={this.hideShareModal} centered>
+          <Modal.Header closeButton>
+            <div className="px-0 col-md-11 ">
+              <h5 className="mb-0 "> Share this property</h5>
+            </div>
+          </Modal.Header>
+          <div className="modal-body">
+            <div className="col-md-12 text-center px-0">
+              <div className="form-group row mx-0">
+                <div className="col-md-6 mb-2 text-left">
+                  <label className="bold-label">Link</label>
+                  <div className="input-group ">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text group-box-chat share-btn-grp" id="basic-addon1" onClick={this.copyUrl}><FontAwesomeIcon icon={faLink} size="1x" /></span>
+                    </div>
+                    <input className="form-control" id="property-share-link" readOnly={true} type="text" value={this.state.share_link}></input>
+                  </div>
+                </div>
+                <div className="col-md-6 mb-2 text-left">
+                  <label className="bold-label">Social</label>
+                  <div className="social-img">
+                    <FacebookShareButton url={this.state.share_link}>
+                      <FacebookIcon size={32} round={false} />
+                    </FacebookShareButton>&nbsp;
+                    <TwitterShareButton url={this.state.share_link}>
+                      <TwitterIcon size={32} round={false} />
+                    </TwitterShareButton>&nbsp;
+                    <TumblrShareButton url={this.state.share_link}>
+                      <TumblrIcon size={32} round={false} />
+                    </TumblrShareButton>&nbsp;
+                    <PinterestShareButton url={this.state.share_link}>
+                      <PinterestIcon size={32} round={false} />
+                    </PinterestShareButton>&nbsp;
+                    <RedditShareButton url={this.state.share_link}>
+                      <RedditIcon size={32} round={false} />
+                    </RedditShareButton>
+                  </div>
+                </div>
+                <div className="col-md-12 text-left">
+                  <label className="bold-label">Email</label>
+                  <input className="form-control" type="email" name="share_email" onChange={this.updateStatusFields}></input>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-12 text-center mt-3">
+              <span className="error"></span>
+              <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.emailPropertyShare}>Share</button>
+            </div>
+          </div>
+        </Modal>
       </div>
     );
 	}
