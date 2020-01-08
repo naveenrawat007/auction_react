@@ -319,11 +319,11 @@ export default class UnderReview extends Component{
               <p>{property.first_name }</p>
             </div>
           </td>
-          <td>{property.owner_category}</td>
+          <td>{property.auction_type}</td>
           <td>{property.address}</td>
           <td>{property.submitted_at}</td>
           <td>{property.auction_started_at}</td>
-          <td>{property.auction_length}</td>
+          <td>{(property.best_offer === true) ? property.auction_started_at : "N/A"}</td>
           <td>
             {
               property.status === "Approve" ?
@@ -372,11 +372,11 @@ export default class UnderReview extends Component{
                   <tr>
                     <th></th>
                     <th>Name</th>
-                    <th>User Type</th>
+                    <th>Status</th>
                     <th>Property Address</th>
                     <th>Submitted Date</th>
                     <th>Auction Date</th>
-                    <th>Auction Length</th>
+                    <th>Best Offer Date</th>
                     <th>Approve Timer</th>
                   </tr>
                 </thead>
