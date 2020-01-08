@@ -46,14 +46,14 @@ export default class Navbar extends Component{
         }else if (path_name === "/new_password") {
         }
         else {
-          this.props.history.push('/login')
+          this.props.history.push('/')
         }
       }else {
         if (result.user.is_admin === true){
           let path_name = "";
           path_name = this.props.location.pathname
           if (path_name === "/"){
-            this.props.history.push('/admin')
+            this.props.history.push('/')
           }
           this.setState({
             is_admin: true
@@ -72,7 +72,7 @@ export default class Navbar extends Component{
             let path_name = "";
             path_name = this.props.location.pathname
             if (path_name === "/"){
-              this.props.history.push('/user')
+              this.props.history.push('/')
             }else if (path_name === "/property/new") {
               this.props.history.push('/user/property/new')
             }
