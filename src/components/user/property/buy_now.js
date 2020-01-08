@@ -406,19 +406,19 @@ export default class ListBuyNowProperty extends Component{
                   <div className="col-md-6 mb-2 text-left">
                     <label className="bold-label">Social</label>
                     <div className="social-img">
-                      <FacebookShareButton url={"https://facebook.com"}>
+                      <FacebookShareButton url={this.state.share_link}>
                         <FacebookIcon size={32} round={false} />
                       </FacebookShareButton>&nbsp;
-                      <TwitterShareButton url={"https://twitter.com"}>
+                      <TwitterShareButton url={this.state.share_link}>
                         <TwitterIcon size={32} round={false} />
                       </TwitterShareButton>&nbsp;
-                      <TumblrShareButton url={"https://tumblr.com"}>
+                      <TumblrShareButton url={this.state.share_link}>
                         <TumblrIcon size={32} round={false} />
                       </TumblrShareButton>&nbsp;
-                      <PinterestShareButton url={"https://www.pinterest.com/"}>
+                      <PinterestShareButton url={this.state.share_link}>
                         <PinterestIcon size={32} round={false} />
                       </PinterestShareButton>&nbsp;
-                      <RedditShareButton url={"http://reddit.com/"}>
+                      <RedditShareButton url={this.state.share_link}>
                         <RedditIcon size={32} round={false} />
                       </RedditShareButton>
                     </div>
