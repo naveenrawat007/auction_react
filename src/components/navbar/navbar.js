@@ -87,10 +87,14 @@ export default class Navbar extends Component{
   }
 
   navigateToProfile = () => {
-    if (this.state.is_admin){
-      this.props.history.push('/admin')
+    if (this.state.logged_in){
+      if (this.state.is_admin){
+        this.props.history.push('/admin')
+      }else {
+        this.props.history.push('/user')
+      }
     }else {
-      this.props.history.push('/user')
+      this.props.history.push('/')
     }
   }
   login_log_out_div = () => {
