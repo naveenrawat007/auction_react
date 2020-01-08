@@ -9,6 +9,10 @@ span.error-class {
   font-size: 12px !important;
 }
 
+.table th, .table td{
+  word-break: break-all;
+}
+
 body {
   font-family: 'Montserrat', sans-serif !important;
   margin: 0px;
