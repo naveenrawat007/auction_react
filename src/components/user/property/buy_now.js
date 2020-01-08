@@ -295,7 +295,7 @@ export default class ListBuyNowProperty extends Component{
                 <h5 className="font-red">${property.highest_bid}</h5>
                 <p>Current Highest Bid</p>
                 {/* <Accordion.Toggle eventKey={property.id}> */}
-                <Accordion.Toggle as={Button} className="btn red-btn"  eventKey={property.id}>List of BIds/Offers
+                <Accordion.Toggle as={Button} className="btn red-btn"  eventKey={property.id}>List of Buy Now
                   {/* <button className="btn red-btn" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">List of BIds/Offers</button> */}
                 </Accordion.Toggle>
               </div>
@@ -319,8 +319,7 @@ export default class ListBuyNowProperty extends Component{
                   </tr>
                 </thead>
                 <tbody>
-                  {this.bidsList(property.best_offers)}
-                  {this.bidsList(property.bids)}
+                  {this.bidsList(property.buy_now_offers)}
                 </tbody>
               </table>
               {/* </div> */}

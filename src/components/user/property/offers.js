@@ -266,17 +266,17 @@ export default class ListOfferProperty extends Component{
                 </div>
                 <div className="address-list mb-0">
                   <div className="p-format">
-                    <p>Starting Bid</p>
+                    <p>Best offer Price</p>
                     <p>:</p>
                   </div>
-                  <p>${property.seller_price}</p>
+                  <p>${property.best_offer_sellers_minimum_price}</p>
                 </div>
                 <div className="address-list mb-0">
                   <div className="p-format">
                     <p>Buy Now Price</p>
                     <p>:</p>
                   </div>
-                  <p>${property.buy_now_price}</p>
+                  <p>${property.best_offer_sellers_reserve_price}</p>
                 </div>
                 <div className="address-list mb-0">
                   <div className="p-format">
@@ -292,8 +292,8 @@ export default class ListOfferProperty extends Component{
 
             <div className="col-md-3 px-2 text-center py-2">
               <div className="properties-price">
-                <h5 className="font-red">${property.highest_bid}</h5>
-                <p>Current Highest Bid</p>
+                <h5 className="font-red">${property.best_offer_price}</h5>
+                <p>Current Highest Offer</p>
                 {/* <Accordion.Toggle eventKey={property.id}> */}
                 <Accordion.Toggle as={Button} className="btn red-btn"  eventKey={property.id}>List of BIds/Offers
                   {/* <button className="btn red-btn" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">List of BIds/Offers</button> */}
