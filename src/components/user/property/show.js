@@ -843,6 +843,9 @@ export default class PropertyShow extends Component {
     }
   }
   submitBiddingOffer = () => {
+    for (let i=0; i < this._timerArray.length; i++ ){
+      clearInterval(this._timerArray[i]);
+    }
     this.setState({
       isLoaded: false ,
     });
