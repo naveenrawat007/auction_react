@@ -145,7 +145,7 @@ export default class WatchProperty extends Component{
             </div>
           </div>
           <div class="col-md-5 properties-address">
-            <h5 className="font-blue"><Link to={"/user/property/" + property.unique_address}> {property.headliner} </Link></h5>
+            <h5 className="font-blue"><Link to={"/property/" + property.unique_address}> {property.headliner} </Link></h5>
             <p>Time Left:-
               <span>11 days</span>:
               <span>14 hours</span>:
@@ -162,7 +162,7 @@ export default class WatchProperty extends Component{
             <p>starting date: <span>${property.bidding_starting_date}</span></p>
           </div>
           <div class="col-md-2 properties-btn text-center">
-            <Link class="btn red-btn" to={"/user/property/" + property.unique_address}>Place Bid</Link>
+            <Link class="btn red-btn" to={"/property/" + property.unique_address}>Place Bid</Link>
           </div>
         </div>
       );

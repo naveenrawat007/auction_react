@@ -1249,7 +1249,7 @@ export default class UserNewProperty extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 200) {
-        window.location.href = "/user/property/" + this.state.property.unique_address
+        window.location.href = "/property/" + this.state.property.unique_address
       }else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
@@ -1265,7 +1265,7 @@ export default class UserNewProperty extends Component{
   }
 
   saveDraftProperty = () => {
-    window.location.href = "/user/property/" + this.state.property.unique_address
+    window.location.href = "/property/" + this.state.property.unique_address
   }
   updateYoutubeVideoKey = () => {
     if (this.state.property.youtube_url !== undefined || this.state.property.youtube_url !== '') {

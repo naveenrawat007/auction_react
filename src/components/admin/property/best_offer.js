@@ -270,7 +270,7 @@ export default class BestOffer extends Component{
   }
   viewProperty = () => {
     if (this.state.selected_property){
-      window.open("/user/property/"+ this.state.properties[this.state.selected_property].unique_address, "_blank")
+      window.open("/property/"+ this.state.properties[this.state.selected_property].unique_address, "_blank")
     }
   }
   updatePropertyAuctionStart = (date) =>{

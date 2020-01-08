@@ -136,7 +136,7 @@ export default class PropertySold extends Component{
         <div className="row mx-0 mb-3 biding_row p-3" key={index}>
           <div className="col-md-3 px-0">
             <div className="biding-img">
-              <Link to={"/user/property/"+property.unique_address}>
+              <Link to={"/property/"+property.unique_address}>
                 {property.thumbnail_img
                   ?
                     <img src={property.thumbnail_img} alt=""/>
@@ -150,7 +150,7 @@ export default class PropertySold extends Component{
             <div className="col-md-5 biding-border px-0">
               <div className="property-biding px-3">
                 <h5>
-                  <Link className="admin_table_links" to={"/user/property/"+property.unique_address}>
+                  <Link className="admin_table_links" to={"/property/"+property.unique_address}>
                     {property.headliner}
                   </Link>
                 </h5>
@@ -189,7 +189,7 @@ export default class PropertySold extends Component{
                   {property.description.length > 20 ?
                     <>
 
-                      {property.description.substring(0, 20)}...&nbsp;<Link to={"/user/property/"+property.unique_address}>read more</Link>
+                      {property.description.substring(0, 20)}...&nbsp;<Link to={"/property/"+property.unique_address}>read more</Link>
                     </>
                   :
                   <>
@@ -260,7 +260,7 @@ export default class PropertySold extends Component{
               <div className="time-detail pl-3">
                 <h4 className="text-center font-blue">${property.highest_bid}</h4>
                 <p>Sold Price</p>
-                <Link to={"/user/property/"+property.unique_address} className="blue-btn btn-biding">View Details</Link>
+                <Link to={"/property/"+property.unique_address} className="blue-btn btn-biding">View Details</Link>
               </div>
             </div>
           </div>

@@ -136,7 +136,7 @@ export default class ListBidProperty extends Component{
       selected_property: index,
     }, function () {
       this.setState({
-        share_link: this.state.selected_property === "" ? "" :  window.location.origin+"/user/property/"+this.state.properties[this.state.selected_property].unique_address,
+        share_link: this.state.selected_property === "" ? "" :  window.location.origin+"/property/"+this.state.properties[this.state.selected_property].unique_address,
       });
     });
   }
@@ -243,13 +243,13 @@ export default class ListBidProperty extends Component{
           <div className="row mx-0 properties-list" >
             <div className="col-md-2 px-2 properties-img py-2">
               <div className="img-box py-4">
-                <Link to={"/user/property/" + property.unique_address}><img src={property.thumbnail_img ? property.thumbnail_img : "/images/home1.png" } alt="" />
+                <Link to={"/property/" + property.unique_address}><img src={property.thumbnail_img ? property.thumbnail_img : "/images/home1.png" } alt="" />
                 </Link>
               </div>
             </div>
             <div className="col-md-5 px-2 py-2">
               <div className=" properties-address">
-                <h5 className="font-blue"><Link to={"/user/property/" + property.unique_address}> {property.headliner} </Link></h5>
+                <h5 className="font-blue"><Link to={"/property/" + property.unique_address}> {property.headliner} </Link></h5>
                 <div className="address-list mb-0">
                   <div className="p-format">
                     <p>Submitted Date</p>

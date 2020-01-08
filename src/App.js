@@ -40,7 +40,7 @@ function App() {
           <Route exact path="/user/watch_properties/" component={() => <Sidebar path='watch_properties_list'/>}/>
           <Route exact path="/user/property/new" component={UserNewProperty}/>
           <Route exact path="/user/property/:id/edit" component={PropertyEdit}/>
-          <Route exact path="/user/property/:id" component={PropertyShow}/>
+          <Route exact path="/property/:id" component={PropertyShow}/>
           <Route exact path="/admin" component={() => <AdminSidebar path='all_users_list'/>}/>
           <Route exact path="/admin/property/under_review" component={() => <AdminSidebar path='under_review_property_list'/>}/>
           <Route exact path="/admin/property/best_offer" component={() => <AdminSidebar path='best_offer_property_list'/>}/>
