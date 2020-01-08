@@ -6,10 +6,13 @@ import { faSearch, faUpload, faLink } from '@fortawesome/free-solid-svg-icons';
 import Accordion from 'react-bootstrap/Accordion';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { FacebookShareButton, TwitterShareButton, TumblrShareButton, PinterestShareButton, RedditShareButton} from "react-share";
+import {FacebookIcon, TwitterIcon, TumblrIcon, PinterestIcon, RedditIcon } from "react-share";
 const initial_state = {
   docs_modal: false,
   status_modal: false,
   share_modal: false,
+  share_link: "",
   error: "",
   message: "",
   isLoaded: false,
@@ -335,6 +338,14 @@ export default class ListProperty extends Component{
       share_modal: false,
     });
   }
+  copyUrl = () => {
+    const link_element = document.getElementById('property-share-link')
+    if (link_element){
+      link_element.setSelectionRange(0, 99999)
+      link_element.select();
+      document.execCommand('copy');
+    }
+  }
 
 	render() {
     const current_page = this.state.current_page;
@@ -635,22 +646,32 @@ export default class ListProperty extends Component{
                     <label className="bold-label">Link</label>
                     <div className="input-group ">
                       <div className="input-group-prepend">
-                        <span className="input-group-text group-box-chat" id="basic-addon1"><FontAwesomeIcon icon={faLink} size="1x" /></span>
+                        <span className="input-group-text group-box-chat share-btn-grp" id="basic-addon1" onClick={this.copyUrl}><FontAwesomeIcon icon={faLink} size="1x" /></span>
                       </div>
-                      <input className="form-control" readOnly={true} type="text" value={this.state.share_link}></input>
+                      <input className="form-control" id="property-share-link" readOnly={true} type="text" value={this.state.share_link}></input>
                     </div>
                   </div>
-                  {/* <div className="col-md-6 mb-2 text-left">
+                  <div className="col-md-6 mb-2 text-left">
                     <label className="bold-label">Social</label>
                     <div className="social-img">
-                      <img/>
-                      <img/>
-                      <img/>
-                      <img/>
-                      <img/>
-                      <img/>
+                      <FacebookShareButton url={"https://facebook.com"}>
+                        <FacebookIcon size={32} round={false} />
+                      </FacebookShareButton>&nbsp;
+                      <TwitterShareButton url={"https://twitter.com"}>
+                        <TwitterIcon size={32} round={false} />
+                      </TwitterShareButton>&nbsp;
+                      <TumblrShareButton url={"https://tumblr.com"}>
+                        <TumblrIcon size={32} round={false} />
+                      </TumblrShareButton>&nbsp;
+                      <PinterestShareButton url={"https://www.pinterest.com/"}>
+                        <PinterestIcon size={32} round={false} />
+                      </PinterestShareButton>&nbsp;
+                      <RedditShareButton url={"http://reddit.com/"}>
+                        <RedditIcon size={32} round={false} />
+                      </RedditShareButton>
+
                     </div>
-                  </div> */}
+                  </div>
                   <div className="col-md-12 text-left">
                     <label className="bold-label">Email</label>
                     <input className="form-control" type="email" name="share_email" onChange={this.updateStatusFields}></input>

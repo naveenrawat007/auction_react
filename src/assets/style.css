@@ -4042,3 +4042,7 @@ a.admin_table_links{
 .bold-label{
   font-weight: 600 !important;
 }
+
+.share-btn-grp{
+  cursor: pointer; 
+}
