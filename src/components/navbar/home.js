@@ -24,7 +24,7 @@ export default class Home extends Component{
                   <div className="inner_img"><img src="./images/home1.png" alt=""/></div>
                   <h5>TOP 15 REASONS</h5>
                   <p>Top 15 reasons to post your Wholesale/Fixer upper deals at AuctionMyDeal.com</p>
-                  <div className="learnmore"><a href="http://auctionmydeal.kaizenwebcraft.com/top-15-reasons">Learn More</a></div>
+                  <div className="learnmore"><Link to="#">Learn More</Link></div>
                 </div>
               </div>
               <div className="col-md-4 col-sm-4">
@@ -32,7 +32,7 @@ export default class Home extends Component{
                   <div className="inner_img"><img src="./images/home2.png" alt=""/></div>
                   <h5>LANDLORD ANALYSER</h5>
                   <p>Landlord Analyser is used to show landlords how to levergae Short Term Financing to get a Better Return on their Money</p>
-                  <div className="learnmore"><a href="http://auctionmydeal.kaizenwebcraft.com/landlord-analyser">Get Started</a></div>
+                  <div className="learnmore"><Link to="#">Get Started</Link></div>
                 </div>
               </div>
               <div className="col-md-4 col-sm-4">
@@ -40,7 +40,7 @@ export default class Home extends Component{
                   <div className="inner_img"><img src="./images/home3.png" alt=""/></div>
                   <h5>GUARANTY SALE PROGRAM</h5>
                   <p>Auction Your Wholesale Deal to the Highest Bidder or Angel Investors, LLC will make you an offer!</p>
-                  <div className="learnmore"><a href="http://auctionmydeal.kaizenwebcraft.com/guaranty-sale-program">Learn More</a></div>
+                  <div className="learnmore"><Link to="#">Learn More</Link></div>
                 </div>
               </div>
             </div>
@@ -50,7 +50,7 @@ export default class Home extends Component{
                   <div className="inner_img"><img src="./images/home4.png" alt=""/></div>
                   <h5>FREE EXPERT DEAL ANALYSIS</h5>
                   <p>Great for New Investors or ones wanting a 2nd opinion. Our Experts provide you with the following:</p>
-                  <div className="learnmore"><a href="http://auctionmydeal.kaizenwebcraft.com/free-expert-deal-analysis">Free Expert Deal Analysis</a></div>
+                  <div className="learnmore"><Link to="#">Free Expert Deal Analysis</Link></div>
                 </div>
               </div>
               <div className="col-md-4 col-sm-4">
@@ -58,7 +58,7 @@ export default class Home extends Component{
                   <div className="inner_img"><img src="./images/home5.png" alt=""/></div>
                   <h5>Get Approved</h5>
                   <p>Get Approved with Houston’s #1 Hard Money Lender to qualify to buy our Best Auction Deals</p>
-                  <div className="learnmore"><a href="http://auctionmydeal.kaizenwebcraft.com/get-approved">Get Started</a></div>
+                  <div className="learnmore"><Link to="#">Get Started</Link></div>
                 </div>
               </div>
               <div className="col-md-4 col-sm-4">
@@ -66,7 +66,7 @@ export default class Home extends Component{
                   <div className="inner_img"><img src="./images/home6.png" alt=""/></div>
                   <h5>Bidders Blueprint</h5>
                   <p>Auctionmydeal.com Blueprint for Bidders</p>
-                  <div className="learnmore"><a href="/#">Bidders Blueprint</a></div>
+                  <div className="learnmore"><Link to="#">Bidders Blueprint</Link></div>
                 </div>
               </div>
             </div>
