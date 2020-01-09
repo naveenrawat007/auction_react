@@ -190,7 +190,7 @@ export default class Sold extends Component{
     }, function () {
       this.setState({
         selected_status: this.state.properties[this.state.selected_property].status,
-        auction_started_at: this.state.properties[this.state.selected_property].auction_started_at,
+        auction_started_at: this.state.properties[this.state.selected_property].auction_started_at_date,
         auction_length:  this.state.properties[this.state.selected_property].auction_length,
         termination_reason:  this.state.properties[this.state.selected_property].termination_reason,
       });
