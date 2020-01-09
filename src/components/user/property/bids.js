@@ -8,6 +8,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { FacebookShareButton, TwitterShareButton, TumblrShareButton, PinterestShareButton, RedditShareButton} from "react-share";
 import {FacebookIcon, TwitterIcon, TumblrIcon, PinterestIcon, RedditIcon } from "react-share";
+import Alert from 'react-bootstrap/Alert';
 const initial_state = {
   docs_modal: false,
   status_modal: false,
@@ -166,6 +167,13 @@ export default class ListBidProperty extends Component{
         this.setState({
           share_modal: false ,
         });
+        this.setState({
+          message: result.message,
+          variant: "success"
+        });
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
         // this.getPropertiesList();
       }
     })
@@ -340,6 +348,9 @@ export default class ListBidProperty extends Component{
       <div id="myproperties" className="container px-0 tab-pane active">
         <div className="profile-form">
           <div className="profile-form-in">
+            {
+              this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+            }
             <ul className="nav nav-pills nav-properties" role="tablist">
               <li className="nav-item">
                 {/* <a className="nav-link active" data-toggle="pill" href="#propertyPosted">Properties Posted</a> */}
