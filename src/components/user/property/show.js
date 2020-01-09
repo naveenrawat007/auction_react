@@ -26,6 +26,8 @@ export default class PropertyShow extends Component {
       isLoaded: false,
       message: "",
       currentImage: 0,
+      buy_option: [],
+      property_buy_options: [],
       bidding_options: {
         highest_bid: 0,
         current_offer: 0,
@@ -66,6 +68,7 @@ export default class PropertyShow extends Component {
         if (result.status === 200){
           this.setState({
             favourite: result.favourite,
+            property_buy_options: result.buy_options,
             isLoaded: true,
             property: result.property,
             bidding_options: {
@@ -97,6 +100,22 @@ export default class PropertyShow extends Component {
         }
       }
     )
+  }
+
+  handleBuyOption = (event) => {
+    const{ name, checked } = event.target;
+    let buy_option = this.state.buy_option
+    if (checked === true){
+      buy_option.push(name)
+    }else {
+      let index = buy_option.indexOf(name);
+      if (index > -1) {
+        buy_option.splice(index, 1);
+      }
+    }
+    this.setState({
+      buy_option: buy_option,
+    });
   }
 
 
@@ -384,12 +403,14 @@ export default class PropertyShow extends Component {
 
   buyNowHandler = () => {
     this.setState({
+      buy_option: [],
       open_buy_now_modal: true,
     });
   }
 
   buyNowBestOfferHandler = () => {
     this.setState({
+      buy_option: [],
       open_buy_now_modal: true,
       best_offer: true
     });
@@ -397,6 +418,7 @@ export default class PropertyShow extends Component {
 
   bestOfferHandler = () => {
     this.setState({
+      buy_option: [],
       open_best_offer_modal: true ,
     });
   }
@@ -419,6 +441,7 @@ export default class PropertyShow extends Component {
 
   biddingHandler = () => {
     this.setState({
+      buy_option: [],
       open_bidding_modal: true ,
     });
   }
@@ -853,6 +876,7 @@ export default class PropertyShow extends Component {
     fd.append('property[id]', this.state.property.id)
     fd.append('bid[amount]', this.state.bidding_options.current_offer)
     fd.append('bid[fund_proof]', this.state.fund_proof, this.state.fund_proof.name)
+    fd.append('bid[buy_option]', JSON.stringify(this.state.buy_option))
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/bids"
     fetch(url,{
       method: 'POST',
@@ -955,6 +979,7 @@ export default class PropertyShow extends Component {
     fd.append('property[id]', this.state.property.id)
     fd.append('best_offer[amount]', this.state.bidding_options.current_best_offer)
     fd.append('best_offer[fund_proof]', this.state.fund_proof, this.state.fund_proof.name)
+    fd.append('best_offer[buy_option]', JSON.stringify(this.state.buy_option))
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/best_offers"
     fetch(url,{
       method: 'POST',
@@ -1034,6 +1059,7 @@ export default class PropertyShow extends Component {
     fd.append("best_offer", this.state.best_offer )
     fd.append('buy_now[amount]', this.state.best_offer === true ? this.state.bidding_options.best_offer_buy_now_price : this.state.bidding_options.buy_now_price)
     fd.append('buy_now[fund_proof]', this.state.fund_proof, this.state.fund_proof.name)
+    fd.append('buy_now[buy_option]', JSON.stringify(this.state.buy_option))
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/buy_now_offers"
     fetch(url,{
       method: 'POST',
@@ -1153,6 +1179,14 @@ export default class PropertyShow extends Component {
       const title_string = this.state.property.title_status ? <li>{this.state.property.title_status}</li> : null
       const mls_string = String(this.state.property.mls_available) === "true" ? <li>Property is on MLS.</li> : <li>Property is not on MLS.</li>
       const flooded_string = String(this.state.property.flooded) === "true" ? <li>Seller discloses property has flooded with remarks.</li> : <li>Seller discloses property has not flooded.</li>
+      const buy_option_check_boxes = this.state.property_buy_options.map((option, index)=>{
+        return (
+          <div className="form-check" key={index}>
+            <input type="checkbox" className="form-check-input" name={option} onChange={this.handleBuyOption} id={option}/>
+            <label className="form-check-label" htmlFor={option}>{option}</label>
+          </div>
+        )
+      })
       return (
         <div className="container custom_container">
           <div className="row">
@@ -1808,17 +1842,37 @@ export default class PropertyShow extends Component {
                     </ol>
                   </div>
                 </div>
-                <div className="col-md-7 px-0">
-                  <div className="accept-upload">
-                    <p>Upload a current proof of funds and/or preapproval letter from reliable Hard Money lender or Line of Credit</p>
-                  </div>
-                </div>
-                <div className="col-md-5 pr-0">
-                  <div className="custom-file accept-file">
-                    <input type="file" className="custom-file-input" name="fund_proof" onChange={this.handleFundProofSelector} id="customFile"/>
-                    <label className={"custom-file-label " + this.addErrorClass(this.state.fund_proof_error)} htmlFor="customFile">Choose file</label>
-                  </div>
-                </div>
+                <ul className="pl-3">
+                  <li >
+                    <div className="row mx-0 align-items-center">
+                      <div className="col-md-7 px-0">
+                        <div className="accept-upload">
+                          <p className="mb-0">Upload a current proof of funds and/or preapproval letter from reliable Hard Money lender or Line of Credit</p>
+                        </div>
+                      </div>
+                      <div className="col-md-5 pr-0">
+                        <div className="custom-file accept-file">
+                          <input type="file" className="custom-file-input" name="fund_proof" onChange={this.handleFundProofSelector} id="customFile"/>
+                          <label className={"custom-file-label " + this.addErrorClass(this.state.fund_proof_error)} htmlFor="customFile">Choose file</label>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="row mx-0">
+                      <div className="col-md-2 px-0">
+                        <div className="accept-upload options_buy">
+                          <p>Options to buy:</p>
+                        </div>
+                      </div>
+                      <div className="col-md-10 pr-0">
+                        <div className="custom-file accept-file ">
+                          {buy_option_check_boxes}
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
                 <div className="col-md-12 px-0">
                   <div className="payment-body">
                     <form className="payment-form my-2 col-md-10 offset-md-1">
@@ -1889,18 +1943,38 @@ export default class PropertyShow extends Component {
                     </ol>
                   </div>
                 </div>
-                <div className="col-md-7 px-0">
-                  <div className="accept-upload">
-                    <p>Upload a current proof of funds and/or preapproval letter from reliable Hard Money lender or Line of Credit</p>
-                  </div>
-                </div>
-                <div className="col-md-5 pr-0">
-                  <div className="custom-file accept-file">
-                    <input type="file" className="custom-file-input" name="fund_proof" onChange={this.handleFundProofSelector} id="customFile"/>
-                    <label className={"custom-file-label " + this.addErrorClass(this.state.fund_proof_error)} htmlFor="customFile">Choose file</label>
-                  </div>
-                </div>
               </div>
+              <ul className="pl-3">
+                <li >
+                  <div className="row mx-0 align-items-center">
+                    <div className="col-md-7 px-0">
+                      <div className="accept-upload">
+                        <p className="mb-0">Upload a current proof of funds and/or preapproval letter from reliable Hard Money lender or Line of Credit</p>
+                      </div>
+                    </div>
+                    <div className="col-md-5 pr-0">
+                      <div className="custom-file accept-file">
+                        <input type="file" className="custom-file-input" name="fund_proof" onChange={this.handleFundProofSelector} id="customFile"/>
+                        <label className={"custom-file-label " + this.addErrorClass(this.state.fund_proof_error)} htmlFor="customFile">Choose file</label>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div className="row mx-0">
+                    <div className="col-md-2 px-0">
+                      <div className="accept-upload options_buy">
+                        <p>Options to buy:</p>
+                      </div>
+                    </div>
+                    <div className="col-md-10 pr-0">
+                      <div className="custom-file accept-file ">
+                        {buy_option_check_boxes}
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
               <div className="col-md-12 px-0">
                 <div className="payment-body">
                   <form className="payment-form my-2 col-md-10 offset-md-1">
@@ -1971,18 +2045,38 @@ export default class PropertyShow extends Component {
                     </ol>
                   </div>
                 </div>
-                <div className="col-md-7 px-0">
-                  <div className="accept-upload">
-                    <p>Upload a current proof of funds and/or preapproval letter from reliable Hard Money lender or Line of Credit</p>
-                  </div>
-                </div>
-                <div className="col-md-5 pr-0">
-                  <div className="custom-file accept-file">
-                    <input type="file" className="custom-file-input" name="fund_proof" onChange={this.handleFundProofSelector} id="customFile"/>
-                    <label className={"custom-file-label " + this.addErrorClass(this.state.fund_proof_error)} htmlFor="customFile">Choose file</label>
-                  </div>
-                </div>
               </div>
+              <ul className="pl-3">
+                <li >
+                  <div className="row mx-0 align-items-center">
+                    <div className="col-md-7 px-0">
+                      <div className="accept-upload">
+                        <p className="mb-0">Upload a current proof of funds and/or preapproval letter from reliable Hard Money lender or Line of Credit</p>
+                      </div>
+                    </div>
+                    <div className="col-md-5 pr-0">
+                      <div className="custom-file accept-file">
+                        <input type="file" className="custom-file-input" name="fund_proof" onChange={this.handleFundProofSelector} id="customFile"/>
+                        <label className={"custom-file-label " + this.addErrorClass(this.state.fund_proof_error)} htmlFor="customFile">Choose file</label>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div className="row mx-0">
+                    <div className="col-md-2 px-0">
+                      <div className="accept-upload options_buy">
+                        <p>Options to buy:</p>
+                      </div>
+                    </div>
+                    <div className="col-md-10 pr-0">
+                      <div className="custom-file accept-file ">
+                        {buy_option_check_boxes}
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
               <div className="col-md-12 px-0">
                 <div className="payment-body">
                   <form className="payment-form my-2 col-md-10 offset-md-1">
