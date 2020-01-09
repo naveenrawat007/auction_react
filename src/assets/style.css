@@ -2914,13 +2914,16 @@ input:checked+.slider:before {
   background-color: #dee2e6;
 }
 
-.accept-upload p {
+.accept-upload p, .accept-file label {
   font-size: 13px;
   font-weight: 500;
 }
 
 .accept-upload {
   border-right: 2px solid #dee2e6;
+}
+.options_buy{
+  border-right: 0 !important;
 }
 
 .accept-file .custom-file-label {
