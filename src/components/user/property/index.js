@@ -425,7 +425,7 @@ export default class ListProperty extends Component{
             </div>
             <div className="col-md-2 pl-2 pr-3 py-2">
               <div className="properties-btn">
-                <Link to={"/property/" + property.unique_address + "/edit"} className="font-blue">Edit Property</Link>
+                <Link to={"/user/property/" + property.unique_address + "/edit"} className="font-blue">Edit Property</Link>
                 <Link to="#" className="font-blue">Mark as Pending</Link>
                 <Link to="#" className="font-blue" onClick={() =>{this.updateDocs(index)}}>Update Docs</Link>
                 <Link to="#" className="font-blue" onClick={() =>{this.changeStatus(index)}}>Change status</Link>
