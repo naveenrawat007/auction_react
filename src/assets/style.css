@@ -4173,3 +4173,10 @@ a.admin_table_links{
 .share-btn-grp{
   cursor: pointer;
 }
+
+.admin-alert{
+  position: absolute;
+  margin-left: -2px;
+  width: 96%;
+  top: -13.5%;
+}

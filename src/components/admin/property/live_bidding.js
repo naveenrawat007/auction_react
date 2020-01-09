@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-bootstrap/Modal';
 import DatePicker from "react-datepicker";
+import Alert from 'react-bootstrap/Alert';
 // import {Link} from 'react-router-dom';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
@@ -185,6 +186,15 @@ export default class LiveBidding extends Component{
     .then((result) => {
       if (this._isMounted){
         this.getPropertiesList();
+        if (result.status === 200){
+          this.setState({
+            message: result.message,
+            variant: "success"
+          });
+          this.clearMessageTimeout = setTimeout(() => {
+            this.setState(() => ({message: ""}))
+          }, 2000);
+        }
       }
     })
   }
@@ -367,6 +377,9 @@ export default class LiveBidding extends Component{
     const next_page = <> <button className="pagination-btn btn" onClick={this.refreshList} page_number={this.getNextPage(current_page, total_pages)}>Next</button> </>
 		return (
       <div id="underReview" className="container tab-container px-0 active">
+        {
+          this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+        }
         <div className="profile-form">
           <div className="profile-form-in prop-bind">
             <div className="search-box row mx-0 pb-3">
