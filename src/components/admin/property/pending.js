@@ -5,7 +5,11 @@ import DatePicker from "react-datepicker";
 import Alert from 'react-bootstrap/Alert';
 // import {Link} from 'react-router-dom';
 import { faSearch, faDownload } from '@fortawesome/free-solid-svg-icons';
-
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2
+})
 export default class Pending extends Component{
   _isMounted = false
   componentWillUnmount() {
@@ -268,7 +272,7 @@ export default class Pending extends Component{
         <tr key={index}>
           <td>{bid.user_name}</td>
           <td>{bid.user_type}</td>
-          <td>${bid.amount}</td>
+          <td>{formatter.format(bid.amount)}</td>
           <td>{bid.time}</td>
           <td>Active</td>
         </tr>
@@ -322,7 +326,7 @@ export default class Pending extends Component{
           <td>{property.address}</td>
           <td><p onClick={() =>{this.openBidModal(index)}}>{Object.keys(property.bids).length}</p></td>
           <td>{property.highest_bid_detail.user_name ? property.highest_bid_detail.user_name : "N/A"}</td>
-          <td>{property.highest_bid_detail.amount ? `$${property.highest_bid_detail.amount}` : "N/A"}</td>
+          <td>{property.highest_bid_detail.amount ? `${formatter.format(property.highest_bid_detail.amount)}` : "N/A"}</td>
           <td> {property.highest_bid_detail.fund_proof ? <a className="admin_table_links" href={property.highest_bid_detail.fund_proof} target="_blank" rel="noopener noreferrer">Attachment <FontAwesomeIcon icon={faDownload} /></a> : ""} </td>
         </tr>
       );

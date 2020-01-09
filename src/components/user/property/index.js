@@ -9,6 +9,11 @@ import Button from 'react-bootstrap/Button';
 import { FacebookShareButton, TwitterShareButton, TumblrShareButton, PinterestShareButton, RedditShareButton} from "react-share";
 import {FacebookIcon, TwitterIcon, TumblrIcon, PinterestIcon, RedditIcon } from "react-share";
 import Alert from 'react-bootstrap/Alert';
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2
+})
 const initial_state = {
   docs_modal: false,
   status_modal: false,
@@ -328,7 +333,7 @@ export default class ListProperty extends Component{
               <p>{bid.user}</p>
             </div>
           </td>
-          <td><p>${bid.amount}</p></td>
+          <td><p>{formatter.format(bid.amount)}</p></td>
           <td><p>{bid.type}</p></td>
           <td><p>{bid.time}</p></td>
           <td>
@@ -414,14 +419,14 @@ export default class ListProperty extends Component{
                     <p>Starting Bid</p>
                     <p>:</p>
                   </div>
-                  <p>${property.seller_price}</p>
+                  <p>{formatter.format(property.seller_price)}</p>
                 </div>
                 <div className="address-list mb-0">
                   <div className="p-format">
                     <p>Buy Now Price</p>
                     <p>:</p>
                   </div>
-                  <p>${property.buy_now_price}</p>
+                  <p>{(property.buy_now_price)}</p>
                 </div>
                 <div className="address-list mb-0">
                   <div className="p-format">
@@ -437,7 +442,7 @@ export default class ListProperty extends Component{
 
             <div className="col-md-3 px-2 text-center py-2">
               <div className="properties-price">
-                <h5 className="font-red">${property.highest_bid}</h5>
+                <h5 className="font-red">{formatter.format(property.highest_bid)}</h5>
                 <p>Current Highest Bid</p>
                 {/* <Accordion.Toggle eventKey={property.id}> */}
                 <Accordion.Toggle as={Button} className="btn red-btn"  eventKey={property.id}>List of BIds/Offers

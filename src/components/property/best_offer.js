@@ -3,7 +3,11 @@ import React, {Component} from 'react';
 // import Modal from 'react-bootstrap/Modal'
 import {Link} from 'react-router-dom';
 // import { faSearch } from '@fortawesome/free-solid-svg-icons';
-
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2
+})
 export default class PropertyBestOffer extends Component{
   _isMounted = false
   _timerArray = []
@@ -255,19 +259,19 @@ export default class PropertyBestOffer extends Component{
                     <>
                       <ul className="list-inline">
                         <li>After Repair Value:</li>
-                        <li>${property.after_rehab_value}</li>
+                        <li>{formatter.format(property.after_rehab_value)}</li>
                       </ul>
                       <ul className="list-inline">
                         <li>Seller Asking Price:</li>
-                        <li>${property.asking_price}</li>
+                        <li>{formatter.format(property.asking_price)}</li>
                       </ul>
                       <ul className="list-inline">
                         <li>Est Rehab Cost:</li>
-                        <li>${property.estimated_rehab_cost}</li>
+                        <li>{formatter.format(property.estimated_rehab_cost)}</li>
                       </ul>
                       <ul className="list-inline">
                         <li>Profit Potential:</li>
-                        <li>${property.profit_potential}</li>
+                        <li>{formatter.format(property.profit_potential)}</li>
                       </ul>
                     </>
                   :
@@ -276,7 +280,7 @@ export default class PropertyBestOffer extends Component{
                       <li>Monthly Cash Flow:</li>
                       {
                         property.landlord_deal ?
-                          <li>${property.landlord_deal.monthly_cash_flow}</li>
+                          <li>{formatter.format(property.landlord_deal.monthly_cash_flow)}</li>
                         :
                         <li></li>
                       }
@@ -285,7 +289,7 @@ export default class PropertyBestOffer extends Component{
                       <li>Total Out of Pocket:</li>
                       {
                         property.landlord_deal ?
-                          <li>${property.landlord_deal.total_out_of_pocket}</li>
+                          <li>{formatter.format(property.landlord_deal.total_out_of_pocket)}</li>
                         :
                         <li></li>
                       }
@@ -295,7 +299,7 @@ export default class PropertyBestOffer extends Component{
                       <li>ROI-Cash on Cash:</li>
                       {
                         property.landlord_deal ?
-                          <li>${property.landlord_deal.roi_cash_percentage}</li>
+                          <li>{formatter.format(property.landlord_deal.roi_cash_percentage)}</li>
                         :
                         <li></li>
                       }
@@ -327,7 +331,7 @@ export default class PropertyBestOffer extends Component{
                     </div>
                   </h5>
                 </div>
-                <h4 className="text-center font-blue">${property.best_offer_price}</h4>
+                <h4 className="text-center font-blue">{formatter.format(property.best_offer_price)}</h4>
                 <p>Seller Asking Price</p>
                 <Link to={"/property/"+property.unique_address} className="blue-btn btn-biding ">View Details</Link>
               </div>

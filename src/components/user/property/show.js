@@ -4,7 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf} from '@fortawesome/free-solid-svg-icons';
 import { faHeart} from '@fortawesome/free-regular-svg-icons';
 import Modal from 'react-bootstrap/Modal';
-
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2
+})
 export default class PropertyShow extends Component {
   _isMounted = false
   _timerArray = []
@@ -561,7 +565,7 @@ export default class PropertyShow extends Component {
     if (this.state.property.status === "Draft" || this.state.property.status === "Under Review"){
       block =
       <div className="property_rate text-center">
-        <h4>$ {this.state.property.highest_bid}</h4>
+        <h4> {formatter.format(this.state.property.highest_bid)}</h4>
         <p className="mb-0">Current Highest Bid.</p>
         <div className="input-group my-2 col-md-8 offset-md-2">
           <div className="input-group-prepend">
@@ -585,7 +589,7 @@ export default class PropertyShow extends Component {
             </span>
           </div>
         </Link>
-        <h4 className="rate-head">$ {this.state.property.buy_now_price}</h4>
+        <h4 className="rate-head"> {formatter.format(this.state.property.buy_now_price)}</h4>
       </div>
     }
     else if ((this.state.property.status === "Approve") || (this.state.property.status === "Best Offer") || this.state.property.status === "Live Online Bidding") {
@@ -599,7 +603,7 @@ export default class PropertyShow extends Component {
         const best_offer_ending_date = new Date(this.state.property.best_offer_auction_ending_at).getTime()
         if (now < best_offer_starting_date){
           block = <div className="property_rate text-center">
-            <h4>$ {this.state.property.best_offer_sellers_reserve_price}</h4>
+            <h4> {formatter.format(this.state.property.best_offer_sellers_reserve_price)}</h4>
             <Link to="#" className="blue-btn btn-biding my-2" onClick={this.buyNowBestOfferHandler}>
               <div className="tooltip">Buy Now
                 <span className="tooltiptext">
@@ -625,7 +629,7 @@ export default class PropertyShow extends Component {
         }
         else if (now < best_offer_ending_date){
           block = <div className="property_rate text-center">
-            <h4>$ {this.state.property.best_offer_sellers_reserve_price}</h4>
+            <h4>{formatter.format(this.state.property.best_offer_sellers_reserve_price)}</h4>
             <Link to="#" className="blue-btn btn-biding my-2" onClick={this.buyNowBestOfferHandler}>
               <div className="tooltip">Buy Now
                 <span className="tooltiptext">
@@ -650,7 +654,7 @@ export default class PropertyShow extends Component {
         }
         else if (now < bidding_starting_date){
           block = <div className="property_rate text-center">
-            <h4>$ {this.state.property.highest_bid}</h4>
+            <h4>{formatter.format(this.state.property.highest_bid)}</h4>
             <p className="mb-0">Current Highest Bid.</p>
             <div className="input-group my-2 col-md-8 offset-md-2">
               <div className="input-group-prepend">
@@ -673,12 +677,12 @@ export default class PropertyShow extends Component {
                 </span>
               </div>
             </Link>
-            <h4 className="rate-head">$ {this.state.property.buy_now_price}</h4>
+            <h4 className="rate-head">{formatter.format(this.state.property.buy_now_price)}</h4>
           </div>
         }
         else if (now < bidding_ending_date){
           block = <div className="property_rate text-center">
-            <h4>$ {this.state.property.highest_bid}</h4>
+            <h4>{formatter.format(this.state.property.highest_bid)}</h4>
             <p className="mb-0">Current Highest Bid.</p>
             <div className="input-group my-2 col-md-8 offset-md-2">
               <div className="input-group-prepend">
@@ -700,12 +704,12 @@ export default class PropertyShow extends Component {
                 </span>
               </div>
             </Link>
-            <h4 className="rate-head">$ {this.state.property.buy_now_price}</h4>
+            <h4 className="rate-head"> {formatter.format(this.state.property.buy_now_price)}</h4>
           </div>
         }
         else {
           block = <div className="property_rate text-center">
-            <h4>$ {this.state.property.highest_bid}</h4>
+            <h4>{formatter.format(this.state.property.highest_bid)}</h4>
             <p className="mb-0">Current Highest Bid.</p>
             <div className="input-group my-2 col-md-8 offset-md-2">
               <div className="input-group-prepend">
@@ -729,13 +733,13 @@ export default class PropertyShow extends Component {
                 </span>
               </div>
             </Link>
-            <h4 className="rate-head">$ {this.state.property.buy_now_price}</h4>
+            <h4 className="rate-head"> {formatter.format(this.state.property.buy_now_price)}</h4>
           </div>
         }
       }
       else if (now < bidding_starting_date){
         block = <div className="property_rate text-center">
-          <h4>$ {this.state.property.highest_bid}</h4>
+          <h4> {formatter.format(this.state.property.highest_bid)}</h4>
           <p className="mb-0">Current Highest Bid.</p>
           <div className="input-group my-2 col-md-8 offset-md-2">
             <div className="input-group-prepend">
@@ -757,12 +761,12 @@ export default class PropertyShow extends Component {
               </span>
             </div>
           </Link>
-          <h4 className="rate-head">$ {this.state.property.buy_now_price}</h4>
+          <h4 className="rate-head">{formatter.format(this.state.property.buy_now_price)}</h4>
         </div>
       }
       else if (now < bidding_ending_date){
         block = <div className="property_rate text-center">
-          <h4>$ {this.state.property.highest_bid}</h4>
+          <h4> {formatter.format(this.state.property.highest_bid)}</h4>
           <p className="mb-0">Current Highest Bid.</p>
           <div className="input-group my-2 col-md-8 offset-md-2">
             <div className="input-group-prepend">
@@ -784,12 +788,12 @@ export default class PropertyShow extends Component {
               </span>
             </div>
           </Link>
-          <h4 className="rate-head">$ {this.state.property.buy_now_price}</h4>
+          <h4 className="rate-head"> {formatter.format(this.state.property.buy_now_price)}</h4>
         </div>
       }
       else {
         block = <div className="property_rate text-center">
-          <h4>$ {this.state.property.highest_bid}</h4>
+          <h4> {formatter.format(this.state.property.highest_bid)}</h4>
           <p className="mb-0">Current Highest Bid.</p>
           <div className="input-group my-2 col-md-8 offset-md-2">
             <div className="input-group-prepend">
@@ -814,13 +818,13 @@ export default class PropertyShow extends Component {
               </span>
             </div>
           </Link>
-          <h4 className="rate-head">$ {this.state.property.buy_now_price}</h4>
+          <h4 className="rate-head">$ {formatter.format(this.state.property.buy_now_price)}</h4>
         </div>
       }
     }
     else {
       block = <div className="property_rate text-center">
-        <h4>$ {this.state.property.highest_bid}</h4>
+        <h4>{formatter.format(this.state.property.highest_bid)}</h4>
         <p className="mb-0">Current Highest Bid.</p>
         <div className="input-group my-2 col-md-8 offset-md-2">
           <div className="input-group-prepend">
@@ -845,7 +849,7 @@ export default class PropertyShow extends Component {
             </span>
           </div>
         </Link>
-        <h4 className="rate-head">$ {this.state.property.buy_now_price}</h4>
+        <h4 className="rate-head"> {formatter.format(this.state.property.buy_now_price)}</h4>
       </div>
     }
     return block
@@ -1253,20 +1257,20 @@ export default class PropertyShow extends Component {
                       <div className="price-box">
                         <ul className="list-inline mb-2">
                           <li className="list-inline-item">After Repaired Value:</li>
-                          <li className="list-inline-item">${this.state.property.after_rehab_value}</li>
+                          <li className="list-inline-item">{formatter.format(this.state.property.after_rehab_value)}</li>
                         </ul>
                         <ul className="list-inline mb-2">
                           <li className="list-inline-item">Sellers Asking Price:</li>
-                          <li className="list-inline-item">${this.state.property.asking_price}</li>
+                          <li className="list-inline-item">{formatter.format(this.state.property.asking_price)}</li>
                         </ul>
                         <ul className="list-inline mb-2">
                           <li className="list-inline-item">Estimated Rehab Cost:</li>
-                          <li className="list-inline-item">${this.state.property.estimated_rehab_cost}</li>
+                          <li className="list-inline-item">{formatter.format(this.state.property.estimated_rehab_cost)}</li>
                         </ul>
                       </div>
                       <ul className="list-inline my-2">
                         <li className="list-inline-item font-red">Potential Profit:</li>
-                        <li className="list-inline-item font-red">${this.state.property.profit_potential}</li>
+                        <li className="list-inline-item font-red">{formatter.format(this.state.property.profit_potential)}</li>
                       </ul>
                       <p className="mb-0 mt-5"><span>Note:</span>&nbsp;These are ballpark estimates so please do your own dillgence for ARV and Estimated Rehab Costs.</p>
                     </div> :
@@ -1278,15 +1282,15 @@ export default class PropertyShow extends Component {
                     <div className="price-box">
                       <ul className="list-inline mb-2">
                         <li className="list-inline-item">Monthly Cash Flow:</li>
-                        <li className="list-inline-item">${this.state.property.landlord_deal.monthly_cash_flow}</li>
+                        <li className="list-inline-item">{formatter.format(this.state.property.landlord_deal.monthly_cash_flow)}</li>
                       </ul>
                       <ul className="list-inline mb-2">
                         <li className="list-inline-item">Annual Cash Flow:</li>
-                        <li className="list-inline-item">${this.state.property.landlord_deal.annual_cash_flow}</li>
+                        <li className="list-inline-item">{formatter.format(this.state.property.landlord_deal.annual_cash_flow)}</li>
                       </ul>
                       <ul className="list-inline mb-2">
                         <li className="list-inline-item">Total Out of Pocket:</li>
-                        <li className="list-inline-item">${this.state.property.landlord_deal.total_out_of_pocket}</li>
+                        <li className="list-inline-item">{formatter.format(this.state.property.landlord_deal.total_out_of_pocket)}</li>
                       </ul>
                     </div>
                     <ul className="list-inline my-2">

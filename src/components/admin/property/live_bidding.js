@@ -5,7 +5,11 @@ import DatePicker from "react-datepicker";
 import Alert from 'react-bootstrap/Alert';
 // import {Link} from 'react-router-dom';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2
+})
 export default class LiveBidding extends Component{
   _isMounted = false
   _timerArray = []
@@ -309,7 +313,7 @@ export default class LiveBidding extends Component{
         <tr key={index}>
           <td>{bid.user_name}</td>
           <td>{bid.user_type}</td>
-          <td>${bid.amount}</td>
+          <td>{formatter.format(bid.amount)}</td>
           <td>{bid.time}</td>
           <td>Active</td>
         </tr>
