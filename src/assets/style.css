@@ -1871,7 +1871,6 @@ input.form-control:focus {
 }
 
 .video_col {
-  height: calc(100vh - 75px);
   position: relative;
   overflow: hidden;
 }
@@ -1891,10 +1890,8 @@ input.form-control:focus {
   background-size: cover;
 }
 #videobcg {
-  min-width: 100%;
-  min-height: 100%;
   width: 100%;
-  height: auto;
+  margin-top: -60px;
   z-index: -1000;
   overflow: hidden;
 }
