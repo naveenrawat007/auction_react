@@ -326,12 +326,17 @@ export default class UnderReview extends Component{
           <td>{(property.best_offer === true) ? property.auction_started_at : "N/A"}</td>
           <td>
             {
-              property.status === "Approve" ?
-                "Approved"
+              property.requested ?
+                <>
+                  <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.requested_timer, property.id)}
+                </>
+              :
+              (property.status === "Approve" ?
+                  "Approved"
               :
               <>
                 <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.submitted_at_timer, property.id)}
-              </>
+              </>)
             }
           </td>
         </tr>
