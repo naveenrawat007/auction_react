@@ -5,11 +5,6 @@ import DatePicker from "react-datepicker";
 // import {Link} from 'react-router-dom';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Alert from 'react-bootstrap/Alert';
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2
-})
 
 export default class BestOffer extends Component{
   _isMounted = false
@@ -312,7 +307,7 @@ export default class BestOffer extends Component{
         <tr key={index}>
           <td>{bid.user_name}</td>
           <td>{bid.user_type}</td>
-          <td>{formatter.format(bid.amount)}</td>
+          <td>{window.format_currency(bid.amount)}</td>
           <td>{bid.time}</td>
           <td>Active</td>
         </tr>

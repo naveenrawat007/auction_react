@@ -8,11 +8,6 @@ import { faSearch, faLink } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import { FacebookShareButton, TwitterShareButton, TumblrShareButton, PinterestShareButton, RedditShareButton} from "react-share";
 import {FacebookIcon, TwitterIcon, TumblrIcon, PinterestIcon, RedditIcon } from "react-share";
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2
-})
 
 const initial_state = {
   share_link: "",
@@ -196,14 +191,14 @@ export default class WatchProperty extends Component{
                     <p>Starting Bid</p>
                     <p>:</p>
                   </div>
-                  <p>{formatter.format(property.seller_price)}</p>
+                  <p>{window.format_currency(property.seller_price)}</p>
                 </div>
                 <div className="address-list mb-0">
                   <div className="p-format">
                     <p>Buy Now Price</p>
                     <p>:</p>
                   </div>
-                  <p>{formatter.format(property.buy_now_price)}</p>
+                  <p>{window.format_currency(property.buy_now_price)}</p>
                 </div>
                 <div className="address-list mb-0">
                   <div className="p-format">
@@ -216,7 +211,7 @@ export default class WatchProperty extends Component{
             </div>
             <div className="col-md-3 px-2 text-center py-2">
               <div className="properties-price">
-                <h5 className="font-red">{formatter.format(property.highest_bid)}</h5>
+                <h5 className="font-red">{window.format_currency(property.highest_bid)}</h5>
                 <p>Current Highest Bid</p>
                 {/* <Accordion.Toggle eventKey={property.id}> */}
                 <Accordion.Toggle as={Button} className="btn red-btn"  eventKey={property.id}>List of Buy Now
