@@ -318,8 +318,42 @@ export default class ListProperty extends Component{
       return (total_pages);
     }
   }
+  acceptOffer = (property_id, bid_id, bid_type) => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/accept_offer"
+    const fd = new FormData();
+    fd.append('property_id', property_id)
+    fd.append('offer_type', bid_type)
+    fd.append('offer_id', bid_id)
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*"
+      },
+      body: fd,
+    }).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        if (result.status === 200){
+          this.setState({
+            message: result.message,
+            variant: "success",
+          });
+          this.clearMessageTimeout = setTimeout(() => {
+            this.setState(() => ({message: ""}))
+          }, 2000);
+        }
+      }
+    })
+  }
 
-  bidsList = (object) => {
+  bidsList = (object, property_id) => {
     const bidList = object.map((bid, index) => {
       return (
         <tr key={index}>
@@ -336,7 +370,7 @@ export default class ListProperty extends Component{
             <div className="order-actions">
               <Link to="#"><FontAwesomeIcon icon={faEnvelopeOpenText} /></Link>
               <a href={bid.fund_proof} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faDownload}  /></a>
-              <Link to="#"><FontAwesomeIcon icon={faThumbsUp}  /></Link>
+              <Link to="#" onClick={() => {this.acceptOffer(property_id, bid.id, bid.type)}}><FontAwesomeIcon icon={faThumbsUp} /></Link>
               <Link to="#"><FontAwesomeIcon icon={faThumbsDown}  /></Link>
             </div>
           </td>
@@ -468,8 +502,8 @@ export default class ListProperty extends Component{
                   </tr>
                 </thead>
                 <tbody>
-                  {this.bidsList(property.best_offers)}
-                  {this.bidsList(property.bids)}
+                  {this.bidsList(property.best_offers, property.id)}
+                  {this.bidsList(property.bids, property.id)}
                 </tbody>
               </table>
               {/* </div> */}
