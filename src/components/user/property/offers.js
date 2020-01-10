@@ -211,7 +211,7 @@ export default class ListOfferProperty extends Component{
           <td>
             <div className="order-actions">
               <Link to="#"><FontAwesomeIcon icon={faEnvelopeOpenText}  /></Link>
-              <Link to="#"><FontAwesomeIcon icon={faDownload}  /></Link>
+              <a href={bid.fund_proof} target="_blank"><FontAwesomeIcon icon={faDownload}  /></a>
               <Link to="#"><FontAwesomeIcon icon={faThumbsUp}  /></Link>
               <Link to="#"><FontAwesomeIcon icon={faThumbsDown}  /></Link>
             </div>

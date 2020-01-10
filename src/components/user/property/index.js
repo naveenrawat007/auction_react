@@ -334,8 +334,8 @@ export default class ListProperty extends Component{
           <td><p>{bid.time}</p></td>
           <td>
             <div className="order-actions">
-              <Link to="#"><FontAwesomeIcon icon={faEnvelopeOpenText}  /></Link>
-              <Link to="#"><FontAwesomeIcon icon={faDownload}  /></Link>
+              <Link to="#"><FontAwesomeIcon icon={faEnvelopeOpenText} /></Link>
+              <a href={bid.fund_proof} target="_blank"><FontAwesomeIcon icon={faDownload}  /></a>
               <Link to="#"><FontAwesomeIcon icon={faThumbsUp}  /></Link>
               <Link to="#"><FontAwesomeIcon icon={faThumbsDown}  /></Link>
             </div>
@@ -449,7 +449,6 @@ export default class ListProperty extends Component{
             <div className="col-md-2 pl-2 pr-3 py-2">
               <div className="properties-btn">
                 <Link to={"/user/property/" + property.unique_address + "/edit"} className="font-blue">Edit Property</Link>
-                <Link to="#" className="font-blue">Mark as Pending</Link>
                 <Link to="#" className="font-blue" onClick={() =>{this.updateDocs(index)}}>Update Docs</Link>
                 <Link to="#" className="font-blue" onClick={() =>{this.changeStatus(index)}}>Change status</Link>
                 <Link to="#" className="font-blue" onClick={() =>{this.shareLink(index)}}>Share Link</Link>
