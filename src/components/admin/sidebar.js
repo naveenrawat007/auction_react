@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronRight, faBell, faSearch } from '@fortawesome/free-solid-svg-icons'
-import UserList from './user/user_list.js'
-import PropertyList from './property/index.js'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight, faBell, faSearch } from '@fortawesome/free-solid-svg-icons';
+import UserList from './user/user_list.js';
+import PropertyList from './property/index.js';
+import TerminationRequestList from './termination/index.js';
+
 
 export default class AdminSidebar extends Component{
 
@@ -23,6 +25,20 @@ export default class AdminSidebar extends Component{
         return <PropertyList path="under_review_property_list"/>;
       case 'best_offer_property_list':
         return <PropertyList path="best_offer_property_list"/>;
+      case 'live_bidding_property_list':
+        return <PropertyList path="live_bidding_property_list"/>;
+      case 'post_auction_property_list':
+        return <PropertyList path="post_auction_property_list"/>;
+      case 'pending_property_list':
+        return <PropertyList path="pending_property_list"/>;
+      case 'hold_property_list':
+        return <PropertyList path="hold_property_list"/>;
+      case 'sold_property_list':
+        return <PropertyList path="sold_property_list"/>;
+      case 'terminated_property_list':
+        return <PropertyList path="terminated_property_list"/>;
+      case 'termination_request_list':
+        return <TerminationRequestList/>;
       default:
     }
   }
@@ -93,10 +109,11 @@ export default class AdminSidebar extends Component{
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link main-nav-link" data-toggle="pill" href="#terminationRequest">
+                  <Link to="/admin/termination_request" className={this.checkActive("termination_request_list")} >
+                    {/* <a className="nav-link main-nav-link" data-toggle="pill" href="#terminationRequest"> */}
                     <span>Termination Request</span>
                     <FontAwesomeIcon icon={faChevronRight} />
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link main-nav-link" data-toggle="pill" href="#subscriberList">

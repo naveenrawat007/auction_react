@@ -5,6 +5,10 @@ import Profile from './profile.js'
 import { faChevronCircleDown, faList, faCreditCard, faHome, faPlusCircle, faHeart, faEnvelopeOpenText, faSignOutAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 // import NewProperty from './property/new'
 import ListProperty from './property/index'
+import WatchProperty from './property/watch_property.js'
+import ListOfferProperty from './property/offers.js'
+import ListBidProperty from './property/bids.js'
+import ListBuyNowProperty from './property/buy_now.js'
 
 export default class Sidebar extends Component{
   _isMounted = false
@@ -80,6 +84,14 @@ export default class Sidebar extends Component{
         // return <NewProperty/>;
       case 'property_list':
         return <ListProperty/>;
+      case 'watch_properties_list':
+        return <WatchProperty/>;
+      case 'offer_properties_list':
+        return <ListOfferProperty/>;
+      case 'bid_properties_list':
+        return <ListBidProperty/>;
+      case 'buy_now_properties_list':
+        return <ListBuyNowProperty/>;
       default:
     }
   }
@@ -188,10 +200,10 @@ export default class Sidebar extends Component{
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" data-toggle="pill" href="#watchProperty">
+                  <Link to='/user/watch_properties' className={this.checkActive("watch_properties_list")} data-toggle="pill" href="#newproperty">
                     <span><FontAwesomeIcon icon={faHeart} />  Watch Property</span>
                     <FontAwesomeIcon icon={faChevronRight} />
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item">

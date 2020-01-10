@@ -13,13 +13,16 @@ import { faExclamationTriangle, faTrash, faPlusCircle, faInfoCircle } from '@for
 import Select from 'react-select';
 
 const initial_state = {
-  isloaded: false,
+  checkBoxEnabled: false,
+  isLoaded: false,
+  is_admin: false,
   estimated_cost_modal: false,
   terms_agreed: false,
   error: "",
   message: "",
 
   property: {
+    unique_address: "",
     bedrooms: "",
     bathrooms: "",
     garage: "",
@@ -162,6 +165,7 @@ const initial_state = {
     auction_ending_at: "",
     buy_option: [],
     title_status: "",
+    status: "",
     seller_pay_type_id: "",
     show_instructions_type_id: "",
     youtube_url: "",
@@ -405,6 +409,7 @@ export default class PropertyEdit extends Component{
         dropbox_url: property.dropbox_url,
         id: property.id,
         title_status: property.title_status,
+        status: property.status,
         deal_analysis_type: property.deal_analysis_type ? property.deal_analysis_type : this.state.property.deal_analysis_type,
         after_rehab_value: property.after_rehab_value,
         asking_price: property.asking_price,
@@ -413,6 +418,7 @@ export default class PropertyEdit extends Component{
         arv_analysis: property.arv_analysis,
         description_of_repairs: property.description_of_repairs,
         rental_description: property.rental_description,
+        unique_address: property.unique_address,
       }
     });
     if (property.category === "Residential"){
@@ -471,29 +477,31 @@ export default class PropertyEdit extends Component{
       });
     }
     this.updateLandlordDealCalculator();
-    if (property.images_details.length > 0){
-      let files = [];
-      for(let i = 0; i < property.images_details.length; i++){
-        var xhr = new XMLHttpRequest();
-        xhr.responseType = "blob";//force the HTTP response, response-type header to be blob
-        xhr.open("GET", property.images_details[i].url);
-        xhr.onload = function () {
-          if (this.status >= 200 && this.status < 300) {
-            var blob = null;
-            blob = this.response
-            files.push({src: property.images_details[i].url, id: i,name: property.images_details[i].name, file: blob})
+    if (this.state.property.images.length === 0){
+      if (property.images_details.length > 0){
+        let files = [];
+        for(let i = 0; i < property.images_details.length; i++){
+          var xhr = new XMLHttpRequest();
+          xhr.responseType = "blob";//force the HTTP response, response-type header to be blob
+          xhr.open("GET", property.images_details[i].url);
+          xhr.onload = function () {
+            if (this.status >= 200 && this.status < 300) {
+              var blob = null;
+              blob = this.response
+              files.push({src: property.images_details[i].url, id: i,name: property.images_details[i].name, file: blob})
+            }
           }
+          xhr.send();
+          // blob = xhr.response;//xhr.response is now a blob object
+          // files.push({src: property.images_details[i].url, id: i,name: property.images_details[i].name, file: new File([property.images_details[i].url], property.images_details[i].name, {type: property.images_details[i].type})})
         }
-        xhr.send();
-        // blob = xhr.response;//xhr.response is now a blob object
-        // files.push({src: property.images_details[i].url, id: i,name: property.images_details[i].name, file: new File([property.images_details[i].url], property.images_details[i].name, {type: property.images_details[i].type})})
+        this.setState({
+          property: {
+            ...this.state.property,
+            images: files,
+          }
+        });
       }
-      this.setState({
-        property: {
-          ...this.state.property,
-          images: files,
-        }
-      });
     }
   }
 
@@ -518,6 +526,7 @@ export default class PropertyEdit extends Component{
       if (result.status === 200) {
         if (this._isMounted){
           this.setState({
+            is_admin: result.is_admin,
             property_options: {
               ...this.state.property_options,
               types: result.residential_types,
@@ -816,7 +825,7 @@ export default class PropertyEdit extends Component{
       fd.append('rehab_cost_proof', this.state.property.rehab_cost_proof, this.state.property.rehab_cost_proof.name)
     }
     if (this.state.property.rental_proof){
-      fd.append('rental_proof', this.state.property.rental_proof, this.state.property.rental_proof)
+      fd.append('rental_proof', this.state.property.rental_proof, this.state.property.rental_proof.name)
     }
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties"
   	fetch(url ,{
@@ -1278,7 +1287,7 @@ export default class PropertyEdit extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 200) {
-        window.location.href = "/user/property/" + this.state.property.id
+        window.location.href = "/property/" + this.state.property.unique_address
       }else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
@@ -1294,7 +1303,7 @@ export default class PropertyEdit extends Component{
   }
 
   saveDraftProperty = () => {
-    window.location.href = "/user/property/" + this.state.property.id
+    window.location.href = "/property/" + this.state.property.unique_address
   }
 
   updateYoutubeVideoKey = () => {
@@ -1386,7 +1395,7 @@ export default class PropertyEdit extends Component{
             });
           }
         }else if (name === "auction_length") {
-          this.updatePropertyAuctionEnding();
+          // this.updatePropertyAuctionEnding();
         }
         else if ((name === "after_rehab_value")||(name === "asking_price")){
           if (this.state.property.deal_analysis_type === "Landlord Deal"){
@@ -1435,7 +1444,7 @@ export default class PropertyEdit extends Component{
         auction_started_at: date
         }
       }, function () {
-        this.updatePropertyAuctionEnding();
+        // this.updatePropertyAuctionEnding();
       })
     }
   }
@@ -2316,6 +2325,16 @@ export default class PropertyEdit extends Component{
       return {label: "Select", value: ""}
     }
   }
+  enableCheckBox = () => {
+    if (document.getElementById('terms_agree-block')){
+      if (document.getElementById('terms_agree-block').scrollHeight <= document.getElementById('terms_agree-block').scrollTop + document.getElementById('terms_agree-block').clientHeight + 25)
+      {
+        this.setState({
+          checkBoxEnabled: true,
+        });
+      }
+    }
+  }
 
 	render() {
     const seller_pay_types_options = this.state.property_options.seller_pay_types.map((key, index) => ({
@@ -2734,7 +2753,7 @@ export default class PropertyEdit extends Component{
                                   <div className="row mx-0 step_row">
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="text-uppercase">EST AFTER REHAB VALUE:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2755,11 +2774,11 @@ export default class PropertyEdit extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Asking/Purchase Price:&nbsp;
-                                              <OverlayTrigger trigger="click" placement="right"
+                                              <OverlayTrigger trigger="click" rootClose placement="right"
                                                 overlay={
                                                   <Popover>
                                                     <Popover.Content>
-                                                        <p className="mb-0">Typically your asking price is the price you would blast out to your email list or social media.</p>
+                                                      <p className="mb-0">Typically your asking price is the price you would blast out to your email list or social media.</p>
                                                     </Popover.Content>
                                                   </Popover>
                                                 }>
@@ -2772,11 +2791,11 @@ export default class PropertyEdit extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Est Rehab Cost:&nbsp;
-                                              <OverlayTrigger trigger="click" placement="right"
+                                              <OverlayTrigger trigger="click" rootClose placement="right"
                                                 overlay={
                                                   <Popover>
                                                     <Popover.Content>
-                                                        <p className="mb-0">Make your deal more credible by filling in the rehab calculator, or upload your rehab costs below.</p>
+                                                      <p className="mb-0">Make your deal more credible by filling in the rehab calculator, or upload your rehab costs below.</p>
                                                     </Popover.Content>
                                                   </Popover>
                                                 }>
@@ -2791,7 +2810,7 @@ export default class PropertyEdit extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Est Closing Cost:&nbsp;
-                                              <OverlayTrigger trigger="click" placement="right"
+                                              <OverlayTrigger trigger="click" rootClose placement="right"
                                                 overlay={
                                                   <Popover>
                                                     <Popover.Content>
@@ -2808,7 +2827,7 @@ export default class PropertyEdit extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Est Annual Insurance:&nbsp;
-                                              <OverlayTrigger trigger="click" placement="right"
+                                              <OverlayTrigger trigger="click" rootClose placement="right"
                                                 overlay={
                                                   <Popover>
                                                     <Popover.Content>
@@ -2825,7 +2844,7 @@ export default class PropertyEdit extends Component{
                                         <li className="my-2">
                                           <div className="est_list">
                                             <label className="labels_main">Est Hard Money or STF Cost:&nbsp;
-                                              <OverlayTrigger trigger="click" placement="right"
+                                              <OverlayTrigger trigger="click" rootClose placement="right"
                                                 overlay={
                                                   <Popover>
                                                     <Popover.Content>
@@ -2843,7 +2862,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 px-0">
                                       <label className="label-bold">Total Acquisition Costs:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2869,7 +2888,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="text-uppercase">amount financed&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2886,7 +2905,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Interest Rate APR&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2903,7 +2922,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Loan Term&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2920,7 +2939,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Monthly Principal &amp; Interest&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2937,7 +2956,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main">Annual Debt Service&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2956,7 +2975,7 @@ export default class PropertyEdit extends Component{
                                   <div className="row mx-0 step_row">
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual taxes:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -2973,11 +2992,11 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Insurance&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
-                                                <p className="mb-0">(auto-populated from above)</p>
+                                                <p className="mb-0">(Auto-populated from above)</p>
                                               </Popover.Content>
                                             </Popover>
                                           }>
@@ -2990,7 +3009,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Management Fees:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3007,7 +3026,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Maintentance:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3024,7 +3043,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Operating Costs:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3046,7 +3065,7 @@ export default class PropertyEdit extends Component{
                                   <div className="row mx-0 step_row">
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Total EST Monthly Rent:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3063,7 +3082,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Total Gross Yearly Income:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3080,7 +3099,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Vacancy Rate:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3097,7 +3116,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main label-bold">ADJ Gross Yearly Income:&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3116,7 +3135,7 @@ export default class PropertyEdit extends Component{
                                 </div>
                                 <div className="col-md-6 my-3 px-0">
                                   <h5 className="text-uppercase font-red step_heads step_fonts">Cash Flow Analysis&nbsp;
-                                    <OverlayTrigger trigger="click" placement="right"
+                                    <OverlayTrigger trigger="click" rootClose placement="right"
                                       overlay={
                                         <Popover>
                                           <Popover.Content>
@@ -3133,7 +3152,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main">(+)Adjusted Gross Yearly Income
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3150,7 +3169,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main">(-) Est Annual Operating Costs&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3167,7 +3186,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main label-bold">(=) Net Operating Income (NOI)&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3184,7 +3203,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main">(-) Annual Debt Service&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3201,7 +3220,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="labels_main label-bold">(=) Annual Cash Flow&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3223,7 +3242,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Monthly Cash Flow&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3240,7 +3259,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Total Out of Pocket&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3257,7 +3276,7 @@ export default class PropertyEdit extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="label-bold">ROI Cash On Cash&nbsp;
-                                        <OverlayTrigger trigger="click" placement="right"
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
                                             <Popover>
                                               <Popover.Content>
@@ -3630,7 +3649,7 @@ export default class PropertyEdit extends Component{
                                 <label>Enable Best Offer Features</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className="form-control" onChange={this.updateProperty} value={String(this.state.property.best_offer)} name="best_offer" >
+                                <select className="form-control" disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false} onChange={this.updateProperty} value={String(this.state.property.best_offer)} name="best_offer" >
                                   <option value="false">No</option>
                                   <option value="true">Yes</option>
                                 </select>
@@ -3642,7 +3661,7 @@ export default class PropertyEdit extends Component{
                               </div>
                               <div className="col-md-6 px-1">
                                 <div className="input-group mb-0">
-                                  <DatePicker className={"form-control " + this.addErrorClass(this.state.property_auction_started_at_error) }
+                                  <DatePicker disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false} className={"form-control " + this.addErrorClass(this.state.property_auction_started_at_error) }
                                     selected={this.state.property.auction_started_at ? new Date(this.state.property.auction_started_at) : ""} minDate={new Date()}
                                     name="auction_started_at" onChange={this.updatePropertyAuctionStart}
                                   />
@@ -3652,7 +3671,7 @@ export default class PropertyEdit extends Component{
                             <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
                               <div className="col-md-6 px-1 text-right">
                                 <label>Best Offer Time Frame&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
@@ -3665,7 +3684,9 @@ export default class PropertyEdit extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className={"form-control " + this.addErrorClass(this.state.property_best_offer_length_error) } value={this.state.property.best_offer_length ? this.state.property.best_offer_length : ""} name="best_offer_length" onChange={this.updateProperty}>
+                                <select className={"form-control " + this.addErrorClass(this.state.property_best_offer_length_error) }  value={this.state.property.best_offer_length ? this.state.property.best_offer_length : ""}
+                                  disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false}
+                                  name="best_offer_length" onChange={this.updateProperty}>
                                   <option>Please select</option>
                                   {best_offer_lengths}
                                 </select>
@@ -3674,7 +3695,7 @@ export default class PropertyEdit extends Component{
                             <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
                               <div className="col-md-6 px-1 text-right">
                                 <label>Sellers Asking Price&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
@@ -3687,13 +3708,14 @@ export default class PropertyEdit extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_minimum_price_error) } name="best_offer_sellers_minimum_price" value={this.state.property.best_offer_sellers_minimum_price ? this.state.property.best_offer_sellers_minimum_price : ""} onChange={this.updateProperty}/>
+                                <input type="number" disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false}
+                                  className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_minimum_price_error) } name="best_offer_sellers_minimum_price" value={this.state.property.best_offer_sellers_minimum_price ? this.state.property.best_offer_sellers_minimum_price : ""} onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
                               <div className="col-md-6 px-1 text-right">
                                 <label>Sellers Buy Now Price&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
@@ -3706,7 +3728,8 @@ export default class PropertyEdit extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_reserve_price) } name="best_offer_sellers_reserve_price" value={this.state.property.best_offer_sellers_reserve_price ? this.state.property.best_offer_sellers_reserve_price : ""} onChange={this.updateProperty}/>
+                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_reserve_price) } name="best_offer_sellers_reserve_price"
+                                  disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false} value={this.state.property.best_offer_sellers_reserve_price ? this.state.property.best_offer_sellers_reserve_price : ""} onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="col-md-12 text-center step_row mt-4">
@@ -3718,7 +3741,7 @@ export default class PropertyEdit extends Component{
                               </div>
                               <div className="col-md-6 px-1">
                                 <div className="input-group mb-0">
-                                  <DatePicker className={"form-control " + this.addErrorClass(this.state.property_auction_started_at_error) }
+                                  <DatePicker disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false} className={"form-control " + this.addErrorClass(this.state.property_auction_started_at_error) }
                                     selected={this.state.property.auction_started_at ? new Date(this.state.property.auction_started_at) : ""} minDate={new Date()}
                                     name="auction_started_at" onChange={this.updatePropertyAuctionStart}
                                   />
@@ -3728,7 +3751,7 @@ export default class PropertyEdit extends Component{
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Online Bidding/Auction Time Frame&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
@@ -3741,7 +3764,8 @@ export default class PropertyEdit extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className={"form-control " + this.addErrorClass(this.state.property_auction_length_error) } value={this.state.property.auction_length} name="auction_length" onChange={this.updateProperty}>
+                                <select disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false}
+                                  className={"form-control " + this.addErrorClass(this.state.property_auction_length_error) } value={this.state.property.auction_length} name="auction_length" onChange={this.updateProperty}>
                                   <option>Please select</option>
                                   {auction_lengths}
                                 </select>
@@ -3750,7 +3774,7 @@ export default class PropertyEdit extends Component{
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Sellers Asking Price&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
@@ -3763,19 +3787,20 @@ export default class PropertyEdit extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_seller_price_error) } name="seller_price"  value={this.state.property.seller_price} onChange={this.updateProperty}/>
+                                <input type="number" disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false}
+                                  className={"form-control " + this.addErrorClass(this.state.property_seller_price_error) } name="seller_price"  value={this.state.property.seller_price} onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Sellers Buy Now Price&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
                                           <p className="mb-0">(i) This should be an optimistic price you would accept immediately from any qualified buyer that will take the property off the market immediately.
-                                        <br/>
-                                        (ii)(Buyers can't make an offer less than 20% below your asking price and buyers offer will automatically be withdrawn if it's not accepted within 24 hours of when the offer was submitted)</p>
+                                            <br/>
+                                          (ii)(Buyers can't make an offer less than 20% below your asking price and buyers offer will automatically be withdrawn if it's not accepted within 24 hours of when the offer was submitted)</p>
                                         </Popover.Content>
                                       </Popover>
                                     }>
@@ -3784,13 +3809,14 @@ export default class PropertyEdit extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_buy_now_price_error) } name="buy_now_price" onChange={this.updateProperty} value={this.state.property.buy_now_price}/>
+                                <input type="number" disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false}
+                                  className={"form-control " + this.addErrorClass(this.state.property_buy_now_price_error) } name="buy_now_price" onChange={this.updateProperty} value={this.state.property.buy_now_price}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row mt-4">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Ideal Closing Date&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
@@ -3848,7 +3874,7 @@ export default class PropertyEdit extends Component{
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Showing Option&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
@@ -3884,7 +3910,7 @@ export default class PropertyEdit extends Component{
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row align-items-start">
                               <div className="col-md-6 px-1 text-right">
                                 <label>Open House Dates&nbsp;
-                                  <OverlayTrigger trigger="click" placement="right"
+                                  <OverlayTrigger trigger="click" rootClose placement="right"
                                     overlay={
                                       <Popover>
                                         <Popover.Content>
@@ -3956,9 +3982,9 @@ export default class PropertyEdit extends Component{
                                           <>
                                             <div className="demo" ref={droppableProvided.innerRef} {...droppableProvided.droppableProps}>
                                               <div className="row mx-0">
-                                                <div className="upload-img-row">
+                                                <div className="upload-img-row col-md-7 offset-md-5">
                                                   {this.state.property.images.map((file,i) =>
-                                                    <div key={i} className="col-md-2 px-2 my-2">
+                                                    <div key={i} className="col-md-4 px-2 my-2">
                                                       <Draggable  draggableId={i.toString()} index={i}>
                                                         {(draggableProvided, draggableSnapshot) => (
                                                           <div
@@ -4041,7 +4067,7 @@ export default class PropertyEdit extends Component{
                           </div>
                           <form className="row mx-0 creation-forms">
                             <div className="col-md-12">
-                              <div className="terms_agree">
+                              <div className="terms_agree" id="terms_agree-block" onScroll={this.enableCheckBox}>
                                 <p>In Order to post a property, you must check the appropriate box and upload proof you have a right to auction property.
                                 </p>
                                 <p>Then you must agree to the rest of the terms by checking the box before you can proceed to post a property</p>
@@ -4113,7 +4139,12 @@ export default class PropertyEdit extends Component{
                             </div>
                             <div className="col-md-12 text-center">
                               <div className="form-check">
-                                <input type="checkbox" name="terms_agreed" className="form-check-input" id="exampleCheck1" onChange={this.updateTermsAgreed}/>
+                                {
+                                  this.state.checkBoxEnabled === true ?
+                                    <input type="checkbox" name="terms_agreed" className="form-check-input" id="exampleCheck1" onChange={this.updateTermsAgreed}/>
+                                  :
+                                  <input type="checkbox" name="terms_agreed" disabled className="form-check-input" id="exampleCheck1" />
+                                }
                                 <label className="form-check-label" htmlFor="exampleCheck1">I agree to the website <Link to="#" className="font-blue">terms and coditions</Link></label>
                               </div>
                             </div>

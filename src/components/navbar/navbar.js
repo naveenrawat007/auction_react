@@ -46,14 +46,14 @@ export default class Navbar extends Component{
         }else if (path_name === "/new_password") {
         }
         else {
-          this.props.history.push('/login')
+          this.props.history.push('/')
         }
       }else {
         if (result.user.is_admin === true){
           let path_name = "";
           path_name = this.props.location.pathname
           if (path_name === "/"){
-            this.props.history.push('/admin')
+            this.props.history.push('/')
           }
           this.setState({
             is_admin: true
@@ -72,7 +72,7 @@ export default class Navbar extends Component{
             let path_name = "";
             path_name = this.props.location.pathname
             if (path_name === "/"){
-              this.props.history.push('/user')
+              this.props.history.push('/')
             }else if (path_name === "/property/new") {
               this.props.history.push('/user/property/new')
             }
@@ -87,10 +87,14 @@ export default class Navbar extends Component{
   }
 
   navigateToProfile = () => {
-    if (this.state.is_admin){
-      this.props.history.push('/admin')
+    if (this.state.logged_in){
+      if (this.state.is_admin){
+        this.props.history.push('/admin')
+      }else {
+        this.props.history.push('/user')
+      }
     }else {
-      this.props.history.push('/user')
+      this.props.history.push('/')
     }
   }
   login_log_out_div = () => {
@@ -134,6 +138,25 @@ export default class Navbar extends Component{
   mouseOverUserImageChange = (event) =>{
     event.target.src='/images/userhover.png'
   }
+  navigateToLiveBidding = () => {
+    this.props.history.push('/property/live_bidding')
+  }
+
+  navigateToBestOffer = () => {
+    this.props.history.push('/property/best_offer')
+  }
+  navigateToPostAuction = () => {
+    this.props.history.push('/property/post_auction')
+  }
+
+  navigateToPending = () => {
+    this.props.history.push('/property/pending')
+  }
+
+  navigateToSold = () => {
+    this.props.history.push('/property/sold')
+  }
+
 
 
   render(){
@@ -141,7 +164,7 @@ export default class Navbar extends Component{
       <div className="header">
         <div className="container custom_container px-0">
           <nav className="navbar navbar-expand-lg">
-            <Link to="/" className="logo">
+            <Link to="#" onClick={this.navigateToProfile} className="logo">
               <img src="/images/logo.png" alt="Logo"/>
             </Link>
             <button className="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
@@ -156,11 +179,16 @@ export default class Navbar extends Component{
                       Buy <FontAwesomeIcon icon={faChevronDown} />
                     </Dropdown.Toggle>
                     <Dropdown.Menu className="drop-menu">
-                      <Dropdown.Item href="#">Live Online Bidding</Dropdown.Item>
-                      <Dropdown.Item href="#">Coming Soon</Dropdown.Item>
-                      <Dropdown.Item href="#">Post Auction</Dropdown.Item>
-                      <Dropdown.Item href="#">Pending Property</Dropdown.Item>
-                      <Dropdown.Item href="#">Sold</Dropdown.Item>
+                      <Dropdown.Item onClick={this.navigateToBestOffer}>
+                        Best Offer
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={this.navigateToLiveBidding}>
+                        Live Online Auction
+                      </Dropdown.Item>
+                      {/* <Dropdown.Item onClick={this.navigateToBestOffer}>Coming Soon</Dropdown.Item> */}
+                      <Dropdown.Item onClick={this.navigateToPostAuction}>Post Auction</Dropdown.Item>
+                      <Dropdown.Item onClick={this.navigateToPending}>Pending Property</Dropdown.Item>
+                      <Dropdown.Item onClick={this.navigateToSold}>Sold</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </li>
@@ -176,7 +204,7 @@ export default class Navbar extends Component{
                 <li className="nav-item dropdown">
                   <a className="nav-link" href="/" data-toggle="dropdown">Help </a>
                 </li>
-                
+
                 <li className="nav-item">
                   <a className="nav-link" href="/">
                     About us

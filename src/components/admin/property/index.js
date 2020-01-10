@@ -1,7 +1,13 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import UnderReview from './under_review.js'
-import BestOffer from './best_offer.js'
+import UnderReview from './under_review.js';
+import BestOffer from './best_offer.js';
+import LiveBidding from './live_bidding.js';
+import PostAuction from './post_auction.js';
+import Pending from './pending.js';
+import Hold from './hold.js';
+import Sold from './sold.js';
+import Terminated from './terminated.js'
 
 export default class PropertyList extends Component{
   _isMounted = false
@@ -36,6 +42,18 @@ export default class PropertyList extends Component{
         return <UnderReview/>;
       case 'best_offer_property_list':
         return <BestOffer/>;
+      case 'live_bidding_property_list':
+        return <LiveBidding/>;
+      case 'post_auction_property_list':
+        return <PostAuction/>;
+      case 'pending_property_list':
+        return <Pending/>;
+      case 'hold_property_list':
+        return <Hold/>;
+      case 'sold_property_list':
+        return <Sold/>;
+      case 'terminated_property_list':
+        return <Terminated/>;
       default:
     }
   }
@@ -53,22 +71,23 @@ export default class PropertyList extends Component{
                 <Link to="/admin/property/best_offer" className={this.checkActive("best_offer_property_list")} >Best Offer</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" data-toggle="pill" href="#onlinebinding">Live Online Bidding</a>
+                <Link to="/admin/property/live_bidding" className={this.checkActive("live_bidding_property_list")}>Live Online Bidding</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" data-toggle="pill" href="#postAuction">Post Auction</a>
+                <Link to="/admin/property/post_auction" className={this.checkActive("post_auction_property_list")}>Post Auction</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" data-toggle="pill" href="#pending">Pending</a>
+                <Link to="/admin/property/pending" className={this.checkActive("pending_property_list")}>Pending</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" data-toggle="pill" href="#sold">Sold</a>
+                <Link to="/admin/property/sold" className={this.checkActive("sold_property_list")}>Sold</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" data-toggle="pill" href="#hold">Hold</a>
+                <Link to="/admin/property/hold" className={this.checkActive("hold_property_list")}>Hold</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" data-toggle="pill" href="#terminated">Terminated</a>
+                <Link to="/admin/property/terminated" className={this.checkActive("terminated_property_list")}>Terminated</Link>
+
               </li>
             </ul>
             <div className="tab-content">

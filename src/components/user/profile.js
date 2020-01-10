@@ -58,6 +58,14 @@ export default class Profile extends Component{
   }
   componentDidMount () {
     this._isMounted = true;
+    const google = window.google;
+    const input = document.getElementById("autocomplete-address");
+    this.autocomplete = new google.maps.places.Autocomplete(input, {
+      types: ["geocode"],
+      componentRestrictions: { country: "us" }
+    });
+    this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
+    window.scrollTo(0,0)
     click_image();
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/users/show"
     fetch(url, {
@@ -118,6 +126,49 @@ export default class Profile extends Component{
         this.checkBrokerRealtor()
       }
     })
+  }
+  handlePlaceChanged = () => {
+    const place = this.autocomplete.getPlace();
+    if (place.formatted_address && place.address_components){
+      let address = "";
+      let city = "";
+      let state = "";
+      let postal_code = "";
+      address = place.formatted_address
+      for (let i = 0; i < place.address_components.length; i++) {
+        for (let k = 0; k < place.address_components[i].types.length; k++) {
+          switch (place.address_components[i].types[k]) {
+            // case "street_number":
+            //   address = address + place.address_components[i].long_name;
+            //   break;
+            case "route":
+              address = address + ", " + place.address_components[i].long_name;
+              break;
+            case "locality":
+              city = place.address_components[i].long_name;
+              break;
+            case "administrative_area_level_1":
+              state = place.address_components[i].long_name;
+              break;
+            case "postal_code":
+              postal_code = place.address_components[i].long_name;
+              break;
+            default:
+          }
+        }
+      }
+      if (this._isMounted){
+        this.setState({
+          user: {
+            ...this.state.user,
+            address: address,
+            city: city,
+            state: state,
+            zip_code: postal_code,
+          },
+        });
+      }
+    }
   }
 
   submitForm = () => {
@@ -648,7 +699,7 @@ export default class Profile extends Component{
                     <div className="col-md-12">
                       <div className="form-group">
                         <label>Address</label>
-                        <textarea className="form-control" value={this.state.user.address ? this.state.user.address : ""} onChange={this.updateUser} name="address"></textarea>
+                        <input type="text" className="form-control" id="autocomplete-address" value={this.state.user.address ? this.state.user.address : ""} onChange={this.updateUser} name="address"/>
                       </div>
                     </div>
                     <div className="col-md-6">

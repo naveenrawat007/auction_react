@@ -1,15 +1,21 @@
 import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Modal from 'react-bootstrap/Modal'
+import Modal from 'react-bootstrap/Modal';
+import DatePicker from "react-datepicker";
+import Alert from 'react-bootstrap/Alert';
 // import {Link} from 'react-router-dom';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 export default class UnderReview extends Component{
   _isMounted = false
+  _timerArray = []
   componentWillUnmount() {
     this._isMounted = false;
     clearTimeout(this.clearMessageTimeout);
     clearTimeout(this.getPropertiesListTimeout);
+    for (let i=0; i < this._timerArray.length; i++ ){
+      clearInterval(this._timerArray[i]);
+    }
   }
 	constructor(props){
     super(props);
@@ -18,6 +24,7 @@ export default class UnderReview extends Component{
       path: props.path,
       selected_property: "",
       selected_status: "",
+      termination_reason: "",
       error: "",
       message: "",
       isLoaded: false,
@@ -28,11 +35,18 @@ export default class UnderReview extends Component{
       page: 1,
       total_pages_array:[],
       property_status_options: [],
+      auction_length_options: [],
+      auction_started_at: "",
+      auction_length: "",
+      termination_reason_options: [],
     }
   }
 
   getPropertiesList = () => {
-    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties?search_str=" + this.state.search_str + "&page=" + this.state.page
+    this.setState({
+      isLoaded: false,
+    });
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties?status=Under Review&search_str=" + this.state.search_str + "&page=" + this.state.page
     fetch(url, {
       method: "GET",
       headers: {
@@ -51,9 +65,13 @@ export default class UnderReview extends Component{
       if (this._isMounted){
         if (result.status === 200){
           this.setState({
+            status_modal: false,
+            selected_property: "",
             isLoaded: true,
             properties: result.properties,
             property_status_options: result.property_statuses,
+            auction_length_options: result.auction_lengths,
+            termination_reason_options: result.termination_reason,
             current_page : result.meta.current_page,
             total_pages : result.meta.total_pages,
           });
@@ -97,6 +115,13 @@ export default class UnderReview extends Component{
       }, 500);
     });
   }
+  updateStatusFields = (event) =>{
+    const{ name, value } = event.target;
+    console.log(value);
+    this.setState({
+      [name]: value
+    });
+  }
   refreshList = (event) => {
     let page_number = event.target.getAttribute("page_number")
     this.setState({
@@ -132,10 +157,16 @@ export default class UnderReview extends Component{
   }
 
   updateStatus = () => {
+    this.setState({
+      isLoaded: false,
+    });
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties/status"
     const fd = new FormData();
     fd.append('property[id]', this.state.properties[this.state.selected_property].id)
     fd.append('property[status]', this.state.selected_status)
+    fd.append('property[termination_reason]', this.state.termination_reason)
+    fd.append('property[auction_started_at]', this.state.auction_started_at)
+    fd.append('property[auction_length]', this.state.auction_length)
     fetch(url, {
       method: "PUT",
       headers: {
@@ -153,6 +184,15 @@ export default class UnderReview extends Component{
     .then((result) => {
       if (this._isMounted){
         this.getPropertiesList();
+        if (result.status === 200){
+          this.setState({
+            message: result.message,
+            variant: "success"
+          });
+          this.clearMessageTimeout = setTimeout(() => {
+            this.setState(() => ({message: ""}))
+          }, 2000);
+        }
       }
     })
   }
@@ -163,7 +203,10 @@ export default class UnderReview extends Component{
       [name]: value
     }, function () {
       this.setState({
-        selected_status: this.state.properties[this.state.selected_property].status
+        selected_status: this.state.properties[this.state.selected_property].status,
+        auction_started_at: this.state.properties[this.state.selected_property].auction_started_at_date,
+        auction_length:  this.state.properties[this.state.selected_property].auction_length,
+        termination_reason:  this.state.properties[this.state.selected_property].termination_reason,
       });
     });
   }
@@ -177,10 +220,12 @@ export default class UnderReview extends Component{
 
   hideModal = () => {
     this.setState({
-      status_modal: false
+      status_modal: false,
+      auction_started_at: "",
+      auction_length: "",
     });
     if (this.state.selected_property !== ""){
-      this.updateStatus();
+      // this.updateStatus();
     }
   }
 
@@ -192,7 +237,7 @@ export default class UnderReview extends Component{
 
   calculateApproveTime = (time, id) => {
     if (time){
-      setInterval(function () {
+      this.timer_interval = setInterval(function () {
         if (time){
           let now = new Date().getTime();
           let end = new Date(time).getTime();
@@ -206,16 +251,16 @@ export default class UnderReview extends Component{
             if (t<0){
               document.getElementById("timer"+id).innerHTML = "--:--:--"
             }else {
-              document.getElementById("timer"+id).innerHTML = `-${hours}:${minutes}:${seconds}`
+              document.getElementById("timer"+id).innerHTML = `-${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
             }
           }
-          // setInterval(this.calculateApproveTime(time,id), 1000)
         }else {
           if (document.getElementById("timer"+id)){
             document.getElementById("timer"+id).innerHTML = "--:--:--"
           }
         }
       }, 1000)
+      this._timerArray.push(this.timer_interval)
     }else {
       if (document.getElementById("timer"+id)){
         document.getElementById("timer"+id).innerHTML = "--:--:--"
@@ -226,11 +271,34 @@ export default class UnderReview extends Component{
 
   editProperty = () => {
     if (this.state.selected_property){
-      window.location.href = "/user/property/"+ this.state.properties[this.state.selected_property].id +"/edit"
+      window.open("/user/property/"+ this.state.properties[this.state.selected_property].unique_address +"/edit", "_blank")
+    }
+  }
+
+  viewProperty = () => {
+    if (this.state.selected_property){
+      window.open("/property/"+ this.state.properties[this.state.selected_property].unique_address, "_blank")
+    }
+  }
+  updatePropertyAuctionStart = (date) =>{
+    if (this._isMounted){
+      this.setState({
+        auction_started_at: date,
+      })
     }
   }
 
 	render() {
+    const auction_lengths = this.state.auction_length_options.map((value, index) => {
+      return(
+        <option key={index} value={value} >{value} days</option>
+      )
+    })
+    const termination_reason_opt = this.state.termination_reason_options.map((value, index) => {
+      return(
+        <option key={index} value={value} >{value}</option>
+      )
+    })
     const status_array = this.state.property_status_options.map((status, index) => {
       return(
         <li className="list-inline-item" key={index}>
@@ -254,19 +322,33 @@ export default class UnderReview extends Component{
     const propertyList = this.state.properties.map((property, index) => {
       return (
         <tr key={index}>
-          <td><input type="radio" value={index} id={index} name="selected_property" onChange={this.updateSelectedProperty}/></td>
+          <td><input type="radio" value={index} id={index} checked={this.state.selected_property === String(index) ? true : false} name="selected_property" onChange={this.updateSelectedProperty}/></td>
           <td>
             <div className="user_name_box">
               <span>{property.first_name[0].toUpperCase()}</span>
               <p>{property.first_name }</p>
             </div>
           </td>
-          <td>{property.user_type}</td>
+          <td>{property.auction_type}</td>
           <td>{property.address}</td>
           <td>{property.submitted_at}</td>
           <td>{property.auction_started_at}</td>
-          <td>{property.auction_length}</td>
-          <td> <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.submitted_at_timer, property.id)}</td>
+          <td>{(property.best_offer === true) ? property.auction_started_at : "N/A"}</td>
+          <td>
+            {
+              property.requested ?
+                <>
+                  <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.requested_timer, property.id)}
+                </>
+              :
+              (property.status === "Approve" ?
+                  "Approved"
+              :
+              <>
+                <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.submitted_at_timer, property.id)}
+              </>)
+            }
+          </td>
         </tr>
       );
     })
@@ -279,6 +361,9 @@ export default class UnderReview extends Component{
     const next_page = <> <button className="pagination-btn btn" onClick={this.refreshList} page_number={this.getNextPage(current_page, total_pages)}>Next</button> </>
 		return (
       <div id="underReview" className="container tab-container px-0 active">
+        {
+          this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+        }
         <div className="profile-form">
           <div className="profile-form-in prop-bind">
             <div className="search-box row mx-0 pb-3">
@@ -293,27 +378,36 @@ export default class UnderReview extends Component{
                 </div>
               </div>
               <div className="col-md-5 offset-md-3 px-0 text-right">
-                <button className="btn red-btn admin-btns" type="button">View</button>&nbsp;
+                <button className="btn red-btn admin-btns" onClick={this.viewProperty} type="button">View</button>&nbsp;
                 <button className="btn red-btn admin-btns" onClick={this.editProperty} type="button">Edit</button>&nbsp;
                 <button className="btn red-btn admin-btns" type="button">Message</button>&nbsp;
                 <button className="btn red-btn admin-btns" type="button" onClick={this.openStatusModal}>Change Status</button>
               </div>
             </div>
-            <div className="under_review admin-review">
+            <div className="under_review admin-review loading-spinner-parent">
               <table className="table table-bordered table-hover review_table property_table">
                 <thead>
                   <tr>
                     <th></th>
                     <th>Name</th>
-                    <th>User Type</th>
+                    <th>Status</th>
                     <th>Property Address</th>
                     <th>Submitted Date</th>
                     <th>Auction Date</th>
-                    <th>Auction Length</th>
+                    <th>Best Offer Date</th>
                     <th>Approve Timer</th>
                   </tr>
                 </thead>
               </table>
+              {this.state.isLoaded === true ?
+                null
+              :
+              <div className="spinner_main">
+                <div className="spinner-grow" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+              </div>
+              }
               <div className="under_review_list">
                 <table className="table table-bordered table-hover review_table property_table">
                   <tbody>
@@ -330,7 +424,7 @@ export default class UnderReview extends Component{
         <Modal className="status_modal" show={this.state.status_modal} onHide={this.hideModal}>
           <Modal.Header closeButton>
             <div className=" offset-md-1 col-md-10 text-center">
-              <h5 className="mb-0 text-uppercase"> { this.state.selected_property === "" ? "Please select Property" :  "Property Status for" + this.state.properties[this.state.selected_property].address}</h5>
+              <h5 className="mb-0 text-uppercase"> { this.state.selected_property === "" ? "Please select Property" :  "Property Status for " + this.state.properties[this.state.selected_property].address}</h5>
             </div>
           </Modal.Header>
           <div className="modal-body">
@@ -349,11 +443,48 @@ export default class UnderReview extends Component{
                     </ul>
                   </div>
                 </div>
+                {this.state.selected_status === "Terminated" ?
+                  <div className="col-md-6 pr-0">
+                    <form className="status-form">
+                      <div className="form-group">
+                        <label >Reason</label>
+                        <select className={"form-control"} name="termination_reason"  onChange={this.updateStatusFields} defaultValue={this.state.termination_reason}>
+                          <option>Please select</option>
+                          {termination_reason_opt}
+                        </select>
+                      </div>
+                    </form>
+                  </div>
+                :
+                  null
+                }
+                {this.state.selected_status === "Live Online Bidding" ?
+                  <div className="col-md-6 pr-0">
+                    <form className="status-form">
+                      <div className="form-group">
+                        <label >Auction Start date</label>
+                        <DatePicker className="form-control "
+                          selected={this.state.auction_started_at ? new Date(this.state.auction_started_at) : ""} minDate={new Date()}
+                          name="auction_started_at" onChange={this.updatePropertyAuctionStart}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label >Auction Length</label>
+                        <select className={"form-control"} name="auction_length"  onChange={this.updateStatusFields} defaultValue={this.state.auction_length}>
+                          <option>Please select</option>
+                          {auction_lengths}
+                        </select>
+                      </div>
+                    </form>
+                  </div>
+                :
+                  null
+                }
               </div>
             }
             <div className="col-md-12 text-center mt-3">
               <span className="error"></span>
-              <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.hideModal}>Save</button>
+              <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.updateStatus}>Save</button>
             </div>
           </div>
         </Modal>
