@@ -214,9 +214,9 @@ export default class WatchProperty extends Component{
                 <h5 className="font-red">{window.format_currency(property.highest_bid)}</h5>
                 <p>Current Highest Bid</p>
                 {/* <Accordion.Toggle eventKey={property.id}> */}
-                <Accordion.Toggle as={Button} className="btn red-btn"  eventKey={property.id}>List of Buy Now
-                  {/* <button className="btn red-btn" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">List of BIds/Offers</button> */}
-                </Accordion.Toggle>
+                {/* <Accordion.Toggle as={Button} className="btn red-btn"  eventKey={property.id}>List of Buy Now */}
+                {/* <button className="btn red-btn" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">List of BIds/Offers</button> */}
+                {/* </Accordion.Toggle> */}
               </div>
             </div>
             <div className="col-md-2 pl-2 pr-3 py-2">
