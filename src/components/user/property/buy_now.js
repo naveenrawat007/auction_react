@@ -203,9 +203,6 @@ export default class ListBuyNowProperty extends Component{
     }
   }
 
-  acceptOffer = (property_id, bid_id, bid_type) => {
-
-  }
 
   bidsList = (object) => {
     const bidList = object.map((bid, index) => {
@@ -224,8 +221,8 @@ export default class ListBuyNowProperty extends Component{
             <div className="order-actions">
               <Link to="#"><FontAwesomeIcon icon={faEnvelopeOpenText} /></Link>
               <a href={bid.fund_proof} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faDownload}  /></a>
-              <Link to="#" onClick={() => {this.acceptOffer(bid.id, bid.type)}}><FontAwesomeIcon icon={faThumbsUp}  /></Link>
-              <Link to="#"><FontAwesomeIcon icon={faThumbsDown}  /></Link>
+              {/* <Link to="#"><FontAwesomeIcon icon={faThumbsUp}  /></Link>
+              <Link to="#"><FontAwesomeIcon icon={faThumbsDown}  /></Link> */}
             </div>
           </td>
         </tr>
