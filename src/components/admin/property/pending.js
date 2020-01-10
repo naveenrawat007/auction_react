@@ -367,7 +367,7 @@ export default class Pending extends Component{
                     <th>Name</th>
                     <th>User Type</th>
                     <th>Property Address</th>
-                    <th>No. of bids</th>
+                    <th>No. of offers</th>
                     <th>Higest Bidder</th>
                     <th>Bid Amount</th>
                     <th>Proof of funds</th>
