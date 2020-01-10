@@ -311,7 +311,7 @@ export default class LiveBidding extends Component{
           <td>{bid.user_type}</td>
           <td>{window.format_currency(bid.amount)}</td>
           <td>{bid.time}</td>
-          <td>Active</td>
+          <td>{bid.accepted === true ? "Active" : "Deactive"}</td>
         </tr>
       )
     })
