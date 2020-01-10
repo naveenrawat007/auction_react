@@ -318,12 +318,13 @@ export default class ListProperty extends Component{
       return (total_pages);
     }
   }
-  acceptOffer = (property_id, bid_id, bid_type) => {
+  acceptOffer = (property_id, bid_id, bid_type, accepted=true) => {
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/accept_offer"
     const fd = new FormData();
     fd.append('property_id', property_id)
     fd.append('offer_type', bid_type)
     fd.append('offer_id', bid_id)
+    fd.append('accepted', accepted)
     fetch(url, {
       method: "PUT",
       headers: {
@@ -371,7 +372,7 @@ export default class ListProperty extends Component{
               <Link to="#"><FontAwesomeIcon icon={faEnvelopeOpenText} /></Link>
               <a href={bid.fund_proof} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faDownload}  /></a>
               <Link to="#" onClick={() => {this.acceptOffer(property_id, bid.id, bid.type)}}><FontAwesomeIcon icon={faThumbsUp} /></Link>
-              <Link to="#"><FontAwesomeIcon icon={faThumbsDown}  /></Link>
+              <Link to="#" onClick={() => {this.acceptOffer(property_id, bid.id, bid.type, false)}}><FontAwesomeIcon icon={faThumbsDown}  /></Link>
             </div>
           </td>
         </tr>
