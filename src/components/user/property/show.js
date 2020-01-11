@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf} from '@fortawesome/free-solid-svg-icons';
 import { faHeart} from '@fortawesome/free-regular-svg-icons';
 import Modal from 'react-bootstrap/Modal';
+import Alert from 'react-bootstrap/Alert';
 
 export default class PropertyShow extends Component {
   _isMounted = false
@@ -62,7 +63,7 @@ export default class PropertyShow extends Component {
   }
   getProperty = () => {
     // console.log(this.props.match.params.id); //  params.id == this.props.match.params.id
-    const { match: { params } } = this.props;
+    // const { match: { params } } = this.props;
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/ " + this.state.unique_address//params.id
     fetch(url,{
       method: 'GET',
@@ -917,6 +918,8 @@ export default class PropertyShow extends Component {
             isLoaded: true,
             open_bidding_modal: false,
             fund_proof: "",
+            message: result.message,
+            variant: "success",
             terms_agreed: false,
             property: result.property,
             bidding_options: {
@@ -928,12 +931,26 @@ export default class PropertyShow extends Component {
               best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
             }
           });
-        }else if (result.status === 401) {
+
+        }
+        else if (result.status === 400) {
+          this.setState({
+            message: result.message,
+            terms_agreed: false,
+            open_bidding_modal: false,
+            isLoaded: true,
+            variant: "danger",
+          });
+        }
+        else if (result.status === 401) {
           localStorage.removeItem("auction_user_token");
           window.location.href = "/login"
         }
         else{
         }
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
       }
     })
     .catch(
@@ -1020,6 +1037,7 @@ export default class PropertyShow extends Component {
             isLoaded: true,
             open_best_offer_modal: false,
             fund_proof: "",
+            message: result.message,
             terms_agreed: false,
             property: result.property,
             bidding_options: {
@@ -1031,12 +1049,25 @@ export default class PropertyShow extends Component {
               best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
             }
           });
-        }else if (result.status === 401) {
+        }
+        else if (result.status === 400) {
+          this.setState({
+            message: result.message,
+            terms_agreed: false,
+            open_best_offer_modal: false,
+            isLoaded: true,
+            variant: "danger",
+          });
+        }
+        else if (result.status === 401) {
           localStorage.removeItem("auction_user_token");
           window.location.href = "/login"
         }
         else{
         }
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
       }
     })
     .catch(
@@ -1100,15 +1131,29 @@ export default class PropertyShow extends Component {
             isLoaded: true,
             open_buy_now_modal: false,
             fund_proof: "",
+            message: result.message,
             terms_agreed: false,
             property: result.property
           });
-        }else if (result.status === 401) {
+        }
+        else if (result.status === 400) {
+          this.setState({
+            message: result.message,
+            terms_agreed: false,
+            open_buy_now_modal: false,
+            isLoaded: true,
+            variant: "danger",
+          });
+        }
+        else if (result.status === 401) {
           localStorage.removeItem("auction_user_token");
           window.location.href = "/login"
         }
         else{
         }
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
       }
     })
     .catch(
@@ -1286,6 +1331,11 @@ export default class PropertyShow extends Component {
       return (
         <div className="container custom_container">
           <div className="row">
+            <div className="col-md-12">
+              {
+                this.state.message ? <Alert className="mt-2 mb-0" variant={this.state.variant}>{this.state.message}</Alert> : null
+              }
+            </div>
             <div className="col-md-8 px-2">
               <div className="wrap_property">
                 <div className="property-head">
