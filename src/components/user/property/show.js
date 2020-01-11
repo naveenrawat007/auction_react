@@ -46,7 +46,7 @@ export default class PropertyShow extends Component {
       clearInterval(this._timerArray[i]);
     }
   }
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     for (let i=0; i < this._timerArray.length; i++ ){
       clearInterval(this._timerArray[i]);
     }
@@ -1822,24 +1822,12 @@ export default class PropertyShow extends Component {
                   <div className="accept-terms" id="buy-terms_agree-block" onScroll={this.enableCheckBox}>
                     <ol className="list-unstyled mb-0">
                       <li>I agree to Buy this property As-is, where is with all faults.</li>
-                      <li>I understand That the pictures, video arv proofs and rehab numbers are provided for informational purposes only and I have done my own duedilligence for this property I am bidding on.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                      cillum dolore eu fugiat nulla pariatur.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+                      <br/>
+                      <li>I understand That the pictures, video ARV proofs and rehab numbers are provided for informational purposes only and I have done my own due dilligence for this property I am bidding on.</li>
+                      <br/>
+                      <li>I agree to deliver $ 3,000 or 2% (whichever is higher) as nonrefundable earnest money to title company on Executed Contract if I am the winning bidder within 48 business hours or my winning bidder status can be cancelled.</li>
+                      <br/>
+                      <li>I (Buyer) agrees to pay for all standard buyer and seller closing cost including title policy. Seller will pay to remove all liens, taxes and HOA dues owed and prorated up until the day of closing.</li>
                     </ol>
                   </div>
                 </div>
@@ -1923,24 +1911,12 @@ export default class PropertyShow extends Component {
                   <div className="accept-terms" id="best_offer-terms_agree-block" onScroll={this.enableCheckBox}>
                     <ol className="list-unstyled mb-0">
                       <li>I agree to Buy this property As-is, where is with all faults.</li>
-                      <li>I understand That the pictures, video arv proofs and rehab numbers are provided for informational purposes only and I have done my own duedilligence for this property I am bidding on.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                      cillum dolore eu fugiat nulla pariatur.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+                      <br/>
+                      <li>I understand That the pictures, video ARV proofs and rehab numbers are provided for informational purposes only and I have done my own due dilligence for this property I am bidding on.</li>
+                      <br/>
+                      <li>I agree to deliver $ 3,000 or 2% (whichever is higher) as nonrefundable earnest money to title company on Executed Contract if I am the winning bidder within 48 business hours or my winning bidder status can be cancelled.</li>
+                      <br/>
+                      <li>I (Buyer) agrees to pay for all standard buyer and seller closing cost including title policy. Seller will pay to remove all liens, taxes and HOA dues owed and prorated up until the day of closing.</li>
                     </ol>
                   </div>
                 </div>
@@ -2025,24 +2001,12 @@ export default class PropertyShow extends Component {
                   <div className="accept-terms" id="bidding-terms_agree-block" onScroll={this.enableCheckBox}>
                     <ol className="list-unstyled mb-0">
                       <li>I agree to Buy this property As-is, where is with all faults.</li>
-                      <li>I understand That the pictures, video arv proofs and rehab numbers are provided for informational purposes only and I have done my own duedilligence for this property I am bidding on.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                      cillum dolore eu fugiat nulla pariatur.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+                      <br/>
+                      <li>I understand That the pictures, video ARV proofs and rehab numbers are provided for informational purposes only and I have done my own due dilligence for this property I am bidding on.</li>
+                      <br/>
+                      <li>I agree to deliver $ 3,000 or 2% (whichever is higher) as nonrefundable earnest money to title company on Executed Contract if I am the winning bidder within 48 business hours or my winning bidder status can be cancelled.</li>
+                      <br/>
+                      <li>I (Buyer) agrees to pay for all standard buyer and seller closing cost including title policy. Seller will pay to remove all liens, taxes and HOA dues owed and prorated up until the day of closing.</li>
                     </ol>
                   </div>
                 </div>
