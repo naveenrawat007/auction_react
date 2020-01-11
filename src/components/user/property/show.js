@@ -1310,7 +1310,7 @@ export default class PropertyShow extends Component {
       const prev_images = this.state.property.images.map((image, index) => {
         return (
           <div className="column_gallery" key={index}>
-            <img className={index === 0 ? "demo cursor active" : "demo cursor"} src={image} style={{width:"100%", height: "80px"}} onClick={() => {this.showCurrentSlide(index);}} alt={index}/>
+            <img className={index === 0 ? "demo_img cursor active" : "demo_img cursor"} src={image} style={{width:"100%", height: "80px"}} onClick={() => {this.showCurrentSlide(index);}} alt={index}/>
           </div>
         )
       })
@@ -1368,7 +1368,7 @@ export default class PropertyShow extends Component {
                   <Link to="#" className="next" onClick={this.plusSlide} >❯</Link>
                   <div className="row_gallery">
                     {this.state.property.images.length > 0 ? prev_images : <div className="column_gallery">
-                      <img className="demo cursor active" src="/images/homee1.png" style={{width:"100%", height: "80px"}} alt="The Woods"/>
+                      <img className="demo_img cursor active" src="/images/homee1.png" style={{width:"100%", height: "80px"}} alt="The Woods"/>
                     </div>}
                   </div>
                 </div>
