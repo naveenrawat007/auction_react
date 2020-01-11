@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelopeOpenText, faDownload } from '@fortawesome/free-solid-svg-icons';
+// import { faEnvelopeOpenText, faDownload } from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
 import { faSearch, faLink } from '@fortawesome/free-solid-svg-icons';
 import Accordion from 'react-bootstrap/Accordion';
@@ -210,20 +210,12 @@ export default class ListBidProperty extends Component{
           <td>
             <div className="user_name_box">
               <span>{bid.user[0]}</span>
-              <p>{bid.user}</p>
+              <p>{bid.user ? (bid.user[0]+"***"+bid.user[bid.user.length - 1]) : "***" }</p>
             </div>
           </td>
           <td><p>{window.format_currency(bid.amount)}</p></td>
           <td><p>{bid.type}</p></td>
           <td><p>{bid.time}</p></td>
-          <td>
-            <div className="order-actions">
-              <Link to="#"><FontAwesomeIcon icon={faEnvelopeOpenText} /></Link>
-              <a href={bid.fund_proof} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faDownload}  /></a>
-              {/* <Link to="#"><FontAwesomeIcon icon={faThumbsUp}  /></Link>
-              <Link to="#"><FontAwesomeIcon icon={faThumbsDown}  /></Link> */}
-            </div>
-          </td>
         </tr>
       )
     })
@@ -324,7 +316,6 @@ export default class ListBidProperty extends Component{
                     <th>Amount</th>
                     <th>Type</th>
                     <th>Date</th>
-                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
