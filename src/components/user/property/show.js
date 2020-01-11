@@ -23,6 +23,7 @@ export default class PropertyShow extends Component {
       timer_complete: false,
       open_rehab_modal: false,
       property: {},
+      near_by_properties: [],
       isLoaded: false,
       message: "",
       currentImage: 0,
@@ -43,6 +44,17 @@ export default class PropertyShow extends Component {
     for (let i=0; i < this._timerArray.length; i++ ){
       clearInterval(this._timerArray[i]);
     }
+  }
+  componentWillReceiveProps = () => {
+    for (let i=0; i < this._timerArray.length; i++ ){
+      clearInterval(this._timerArray[i]);
+    }
+    window.scrollTo(0,0)
+    this.setState({
+      isLoaded: false,
+    }, function () {
+      this.getProperty();
+    });
   }
   getProperty = () => {
     // console.log(this.props.match.params.id); //  params.id == this.props.match.params.id
@@ -71,6 +83,7 @@ export default class PropertyShow extends Component {
             property_buy_options: result.buy_options,
             isLoaded: true,
             property: result.property,
+            near_by_properties: result.near_properties,
             bidding_options: {
               ...this.state.bidding_options,
               highest_bid: result.property.highest_bid,
@@ -1144,9 +1157,89 @@ export default class PropertyShow extends Component {
       }
     }
   }
+  calculateBiddingTime = (time, id) => {
+    if (time){
+      this.timer_interval = setInterval( () => {
+        if (time){
+          let now = new Date().getTime();
+          let end = new Date(time).getTime();
+          let t = (end/1000) - (now/1000);
+          // let hours = Math.floor(t/(60*60));
+          // let minutes = Math.floor((t%(60*60))/60);
+          // let seconds = Math.floor((t%(60)))
+          let days = Math.floor(t/(60*60*24))
+          let hours = Math.floor((t%(60*60*24))/(60*60));
+          let minutes = Math.floor((t%(60*60))/60);
+          let seconds = Math.floor((t%(60)))
+
+          if (document.getElementById("timer"+id)){
+            if (t<0){
+              document.getElementById("timer"+id).innerHTML = "--:--:--"
+            }else {
+              document.getElementById("timer"+id).innerHTML = `0${String(days)}d:${String(hours).padStart(2, '0')}h:${String(minutes).padStart(2, '0')}m:${String(seconds).padStart(2, '0')}s`
+            }
+          }
+        }else {
+          if (document.getElementById("timer"+id)){
+            document.getElementById("timer"+id).innerHTML = "--:--:--"
+          }
+        }
+      }, 1000)
+      this._timerArray.push(this.timer_interval)
+    }else {
+      if (document.getElementById("timer"+id)){
+        document.getElementById("timer"+id).innerHTML = "--:--:--"
+      }
+    }
+  }
 
   render(){
+    console.log(this.props.match.params.id);
     if (this.state.isLoaded === true){
+      const near_properties = this.state.near_by_properties.map((property, index)=>{
+        return (
+          <div key={index} className="col-md-3 px-2 mb-3">
+            <div className="offer-box">
+              <div className="offer-head">
+                <img src={property.thumb_img ? property.thumb_img : "/images/home3.png"} alt=""/>
+                <div className="like-icon">
+                  <i className="fa fa-heart-o"></i>
+                </div>
+                <div className="time-box">
+                  <p id={"timer"+property.id}>00d:00h:00m:00s {this.calculateBiddingTime(property.auction_bidding_ending_at, property.id)} </p>
+                </div>
+              </div>
+              <div className="offer-body">
+                <div className="rate-row">
+                  <Link to={"/property/"+property.unique_address}>
+                    <h5 className="mb-0">{window.format_currency(property.highest_bid)}</h5>
+                  </Link>
+                  {this.state.property.category === "Residential" ?
+                    <p>{property.residential_attributes.bedrooms} bds | {property.residential_attributes.bathrooms}ba | {property.residential_attributes.area} sqft </p>
+                  :
+                    null
+                  }
+                  {this.state.property.category === "Commercial" ?
+                    <p>{property.commercial_attributes.units} unts | {property.commercial_attributes.lot_size} sqft </p>
+                  :
+                    null
+                  }
+                  {this.state.property.category === "Land" ?
+                    <p>{property.land_attributes.lot_size} sqft </p>
+                  :
+                    null
+                  }
+                </div>
+                <p className="mb-2">{property.headliner}</p>
+                <div className="status-row mb-2">
+                  <p className="offer-dot mb-0 mr-2"></p>
+                  <p className="mb-0">{property.best_offer ? "Best Offer" : "Live Online Bidding"}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      })
       const images = this.state.property.images.map((image, index) => {
         if (index === 0){
           return (
@@ -1707,102 +1800,7 @@ export default class PropertyShow extends Component {
                 </div>
               </div>
             </div>
-            <div className="col-md-3 px-2 mb-3">
-              <div className="offer-box">
-                <div className="offer-head">
-                  <img src="/images/home3.png" alt=""/>
-                  <div className="like-icon">
-                    <i className="fa fa-heart-o"></i>
-                  </div>
-                  <div className="time-box">
-                    <p>01d:12h:04m:03s</p>
-                  </div>
-                </div>
-                <div className="offer-body">
-                  <div className="rate-row">
-                    <h5 className="mb-0">$185,000</h5>
-                    <p>3 bds | 2ba | 1129 sqft</p>
-                  </div>
-                  <p className="mb-2">6001 Kiam st, Houston, TX 77007</p>
-                  <div className="status-row mb-2">
-                    <p className="offer-dot mb-0 mr-2"></p>
-                    <p className="mb-0">Live Online Bidding</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3 px-2 mb-3">
-              <div className="offer-box">
-                <div className="offer-head">
-                  <img src="/images/home4.png" alt=""/>
-                  <div className="like-icon">
-                    <i className="fa fa-heart-o"></i>
-                  </div>
-                  <div className="time-box">
-                    <p>01d:12h:04m:03s</p>
-                  </div>
-                </div>
-                <div className="offer-body">
-                  <div className="rate-row">
-                    <h5 className="mb-0">$185,000</h5>
-                    <p>3 bds | 2ba | 1129 sqft</p>
-                  </div>
-                  <p className="mb-2">6001 Kiam st, Houston, TX 77007</p>
-                  <div className="status-row mb-2">
-                    <p className="offer-dot mb-0 mr-2"></p>
-                    <p className="mb-0">Live Online Bidding</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3 px-2 mb-3">
-              <div className="offer-box">
-                <div className="offer-head">
-                  <img src="/images/home5.png" alt=""/>
-                  <div className="like-icon">
-                    <i className="fa fa-heart-o"></i>
-                  </div>
-                  <div className="time-box">
-                    <p>01d:12h:04m:03s</p>
-                  </div>
-                </div>
-                <div className="offer-body">
-                  <div className="rate-row">
-                    <h5 className="mb-0">$185,000</h5>
-                    <p>3 bds | 2ba | 1129 sqft</p>
-                  </div>
-                  <p className="mb-2">6001 Kiam st, Houston, TX 77007</p>
-                  <div className="status-row mb-2">
-                    <p className="offer-dot mb-0 mr-2"></p>
-                    <p className="mb-0">Offer</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3 px-2 mb-3">
-              <div className="offer-box">
-                <div className="offer-head">
-                  <img src="/images/home6.png" alt=""/>
-                  <div className="like-icon">
-                    <i className="fa fa-heart-o"></i>
-                  </div>
-                  <div className="time-box">
-                    <p>01d:12h:04m:03s</p>
-                  </div>
-                </div>
-                <div className="offer-body">
-                  <div className="rate-row">
-                    <h5 className="mb-0">$185,000</h5>
-                    <p>3 bds | 2ba | 1129 sqft</p>
-                  </div>
-                  <p className="mb-2">6001 Kiam st, Houston, TX 77007</p>
-                  <div className="status-row mb-2">
-                    <p className="offer-dot mb-0 mr-2"></p>
-                    <p className="mb-0">Offer</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {near_properties}
           </div>
           <Modal className=" buy_modal" show={this.state.open_buy_now_modal} onHide={this.closeBuyNowModal}>
             <Modal.Header closeButton>
