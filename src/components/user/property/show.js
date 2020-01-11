@@ -11,6 +11,7 @@ export default class PropertyShow extends Component {
   constructor(props){
     super(props);
     this.state = {
+      unique_address: this.props.match.params.id,
       favourite: false,
       checkBoxEnabled: false,
       best_offer: false,
@@ -45,21 +46,24 @@ export default class PropertyShow extends Component {
       clearInterval(this._timerArray[i]);
     }
   }
-  componentWillReceiveProps = () => {
+  componentWillReceiveProps = (nextProps) => {
     for (let i=0; i < this._timerArray.length; i++ ){
       clearInterval(this._timerArray[i]);
     }
     window.scrollTo(0,0)
-    this.setState({
-      isLoaded: false,
-    }, function () {
-      this.getProperty();
-    });
+    if (nextProps.match.params.id !== this.state.unique_address){
+      this.setState({
+        unique_address: nextProps.match.params.id,
+        isLoaded: false,
+      }, function () {
+        this.getProperty();
+      });
+    }
   }
   getProperty = () => {
     // console.log(this.props.match.params.id); //  params.id == this.props.match.params.id
     const { match: { params } } = this.props;
-    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/ " + params.id
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/ " + this.state.unique_address//params.id
     fetch(url,{
       method: 'GET',
       headers: {
@@ -1194,7 +1198,6 @@ export default class PropertyShow extends Component {
   }
 
   render(){
-    console.log(this.props.match.params.id);
     if (this.state.isLoaded === true){
       const near_properties = this.state.near_by_properties.map((property, index)=>{
         return (
