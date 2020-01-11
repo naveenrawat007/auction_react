@@ -1534,15 +1534,36 @@ span.badge {
 
 .row_gallery {
   display: flex;
+  overflow-x: auto;
+}
+.row_gallery::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+.row_gallery:hover::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+.row_gallery:hover::-webkit-scrollbar-track { 
+  border-radius: 0px;
+}
+.row_gallery:hover::-webkit-scrollbar-thumb {
+  background: rgba(183, 28, 28, 0.7); 
+  border-radius: 10px;
 }
 
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: transparent; 
+}
 .column_gallery {
-  float: left;
   width: 16.66%;
 }
 
 .demo {
   opacity: 0.6;
+  width: 100px !important;
+  height: 80px !important;
 }
 
 .active,
