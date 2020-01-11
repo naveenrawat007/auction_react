@@ -11,6 +11,7 @@ span.error-class {
 
 .table th, .table td{
   word-break: break-all;
+  vertical-align: middle !important;
 }
 
 body {
