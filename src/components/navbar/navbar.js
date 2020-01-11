@@ -56,7 +56,8 @@ export default class Navbar extends Component{
             this.props.history.push('/')
           }
           this.setState({
-            is_admin: true
+            is_admin: true,
+            logged_in: true,
           });
         }else {
           if (result.user.is_verified === false){
@@ -88,12 +89,14 @@ export default class Navbar extends Component{
 
   navigateToProfile = () => {
     if (this.state.logged_in){
+      console.log("logged_in");
       if (this.state.is_admin){
         this.props.history.push('/admin')
       }else {
         this.props.history.push('/user')
       }
     }else {
+      console.log("logged_out");
       this.props.history.push('/')
     }
   }
