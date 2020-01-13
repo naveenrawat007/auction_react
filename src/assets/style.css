@@ -1958,6 +1958,7 @@ input.form-control:focus {
 .learnmore a:hover {
   background: #f00;
   color: #fff;
+  transition: 0.3s all linear;
 }
 
 .learnmore a {

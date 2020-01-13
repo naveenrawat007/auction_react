@@ -23,7 +23,91 @@
 	.custom_container{
 		max-width: 540px;
 	}
-
+	#videobcg{
+		margin-top: 0px !important;
+	}
+	.dealofweek iframe{
+		width: 343px;
+		margin: 0 8px;
+	}
+	.help_col{
+		padding: 20px 0px 0px 0px !important;
+	}
+	.featured_col{
+		padding-bottom: 20px !important;
+	}
+	.featured_col .col-sm-3{
+		padding: 0 !important;
+	}
+	.featured_col h2{
+		margin: 0 0 20px !important;
+		padding: 0 0 10px !important;
+	}
+	.flipping{
+		margin-bottom: 10px;
+		height: 275px !important;
+	}
+	.flip-card{
+		width: 100% !important;
+	}
+	.flip-card-front img{
+		width: 100% !important;
+	}
+	.flip-card-front p{
+		margin: 0px 0px 10px !important;
+	}
+	.flip-card-front h5{
+		margin: 20px 0px 10px !important;
+	}
+	.flip-card-back{
+		padding-top: 2% !important;
+	}
+	.dealofweek{
+		padding: 0px 0px 20px 0px !important;
+	}
+	.dealofweek .pleft80{
+		padding: 10px 0px;
+		text-align: center;
+	}
+	.dealofweek .pleft80 p{
+		margin-bottom: 0 !important;
+	}
+	.invest_col{
+		padding: 20px 0px !important;
+	}
+	.invest_col .flipping{
+		height: 200px !important;
+	}
+	.invest_col .flip-card-back{
+		display: flex;
+		height: 100% !important;
+		justify-content: center;
+		align-items: center;
+	}
+	.invest_col .flip-card-back p{
+		margin-bottom: 0px !important;
+	}
+	.footer .footer-link .col-sm-6:nth-child(3){
+		width: 50% !important;
+	}
+	.footer .footer-link .col-sm-6:last-child{
+		width: 50% !important;
+	}
+	.inner_info{
+		padding-bottom: 0px !important;
+		min-height: 400px;
+	}
+	.inner_info h5{
+		margin: 20px 0px 10px 0px !important;
+	}
+	.learnmore{
+		padding: 0px !important;
+		margin-bottom: 15px !important; 
+	}
+	.apply-btn{
+		margin-top: 15px !important;
+		margin-bottom: 10px !important;
+	}
 }
 @media (min-width: 576px) and (max-width: 767.98px) {
 	.register_body{
@@ -96,3 +180,4 @@
 		padding: 1em;
 	}
 }
+/* home */
