@@ -51,8 +51,8 @@ export default class PropertyShow extends Component {
     for (let i=0; i < this._timerArray.length; i++ ){
       clearInterval(this._timerArray[i]);
     }
-    window.scrollTo(0,0)
     if (nextProps.match.params.id !== this.state.unique_address){
+      window.scrollTo(0,0)
       this.setState({
         unique_address: nextProps.match.params.id,
         isLoaded: false,
