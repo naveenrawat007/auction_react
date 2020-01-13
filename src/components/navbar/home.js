@@ -43,8 +43,6 @@ export default class Home extends Component{
                   <div className="learnmore"><Link to="#">Learn More</Link></div>
                 </div>
               </div>
-            </div>
-            <div className="row">
               <div className="col-md-4 col-sm-4">
                 <div className="inner_info">
                   <div className="inner_img"><img src="./images/home4.png" alt=""/></div>

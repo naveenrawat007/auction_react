@@ -109,12 +109,7 @@
 		margin-bottom: 10px !important;
 	}
 }
-@media (min-width: 576px) and (max-width: 767.98px) {
-	.register_body{
-		width: 450px;
-		margin: 0 auto;
-	}
-}
+
 @media (max-width: 767.98px) {
 	.registration{
 		width: 350px;
@@ -139,7 +134,6 @@
 	.info-box img{
 		width: 100%;
 	}
-
 }
 @media (max-width: 991.98px) {
 	.header	.responsive-nav{
@@ -180,4 +174,109 @@
 		padding: 1em;
 	}
 }
-/* home */
+@media (min-width: 576px) and (max-width: 991.98px) {
+	.help_col .container{
+		max-width: 675px;
+	}
+	.help_col .col-md-4{
+		flex: 0 0 50%;
+		max-width: 50%; 
+	}
+	.inner_info h5{
+		min-height: 50px;
+	}
+	.inner_info p{
+		min-height: 85px !important;
+	}
+	.featured_col{
+		padding-bottom: 20px !important;
+	}
+	.featured_col .row{
+		justify-content: center;
+	}
+	.featured_col .col-sm-3{
+		max-width: 50% !important;
+		padding: 0px 10px !important;
+		margin-bottom: 20px;
+	}
+	.flip-card-front img{
+		width: 227px !important;
+	}
+	.dealofweek .row{
+		justify-content: center !important;
+	}
+	.dealofweek .col-md-6{
+		max-width: 100% !important;
+		flex: 0 0 80% !important;
+	}
+	.dealofweek .pleft80{
+		padding: 0px !important;
+		text-align: center !important;
+	}
+	.invest_col .col-sm-3{
+		flex: 0 0 50%;
+		max-width: 50%;
+		margin-bottom: 20px;
+	}
+	.invest_col .flip-card{
+		width: 100% !important; 
+	}
+	.invest_col .flip-card-back{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+}
+@media (min-width: 576px) and (max-width: 767.98px) {
+	.register_body{
+		width: 450px;
+		margin: 0 auto;
+	}
+	.inner_info{
+		min-height: 525px !important
+	}
+	.dealofweek iframe{
+		width: 100% !important;
+	}
+	.flip-card{
+		width: 210px !important;
+	}
+	.flip-card-front img{
+		width: 100% !important; 
+	} 
+}
+@media (min-width: 992px) and (max-width: 1199.98px) {
+	.inner_info{
+		min-height: 485px !important
+	}
+	.inner_info h5{
+		min-height: 50px;
+	}
+	.learnmore a{
+		padding: 10px 25px !important;
+	}
+	.inner_info p{
+		min-height: 85px !important;
+	}
+	.flip-card{
+		width: 200px !important;
+	}
+	.flip-card-front img{
+		width: 100% !important; 
+	}
+	.flip-card-back .flip-data ul{
+		margin-bottom: 12px !important;
+	}
+	.flip-card-back ul{
+		margin-bottom: 10px !important;
+	}
+	.flip-card-back p{
+		margin-bottom: 4px !important;
+	}
+	.dealofweek iframe{
+		width: 500px !important;
+	}
+	.invest_col .flip-card{
+		width: 185px !important;
+	}
+}
