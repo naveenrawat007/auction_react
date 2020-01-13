@@ -19,6 +19,12 @@ export default class AdminSidebar extends Component{
   }
   renderSwitch = () => {
     switch (this.state.path) {
+      case 'free_users_list':
+        return <UserList path="free_users_list"/>;
+      case 'premium_users_list':
+        return <UserList path="premium_users_list"/>;
+      case 'ban_users_list':
+        return <UserList path="ban_users_list"/>;
       case 'all_users_list':
         return <UserList path="all_users_list"/>;
       case 'under_review_property_list':
