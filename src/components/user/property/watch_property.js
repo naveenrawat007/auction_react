@@ -7,10 +7,12 @@ import { faSearch, faLink } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import { FacebookShareButton, TwitterShareButton, TumblrShareButton, PinterestShareButton, RedditShareButton} from "react-share";
 import {FacebookIcon, TwitterIcon, TumblrIcon, PinterestIcon, RedditIcon } from "react-share";
+import Alert from 'react-bootstrap/Alert';
 
 const initial_state = {
   share_link: "",
   selected_property: "",
+  share_email: "",
   error: "",
   message: "",
   isLoaded: false,
@@ -19,7 +21,8 @@ const initial_state = {
   current_page: 1,
   total_pages: 1,
   page: 1,
-  total_pages_array:[]
+  total_pages_array:[],
+  share_email_error: "",
 }
 
 
@@ -111,6 +114,79 @@ export default class WatchProperty extends Component{
         share_link: this.state.selected_property === "" ? "" :  window.location.origin+"/property/"+this.state.properties[this.state.selected_property].unique_address,
       });
     });
+  }
+  emailPropertyShare = () => {
+    if (this.state.share_email_error){
+      return ;
+    }
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/share"
+    const fd = new FormData();
+    fd.append('property[id]', this.state.properties[this.state.selected_property].id)
+    fd.append('property[link]', this.state.share_link)
+    fd.append('property[email]', this.state.share_email)
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*"
+      },
+      body: fd,
+    }).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        this.setState({
+          share_modal: false ,
+        });
+        if (result.status === 200){
+          this.setState({
+            message: result.message,
+            variant: "success"
+          });
+        }
+        else if (result.status === 400){
+          this.setState({
+            message: result.message,
+            variant: "danger"
+          });
+        }
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
+        // this.getPropertiesList();
+      }
+    })
+  }
+  updateStatusFields = (event) =>{
+    const{ name, value } = event.target;
+    // console.log(this.state.termination_reasons_options );
+    this.setState({
+      [name]: value
+    }, function () {
+      if (name === "share_email"){
+        if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.share_email))){
+          this.setState({
+            share_email_error: "error",
+          });
+        }else {
+          this.setState({
+            share_email_error: "",
+          });
+        }
+      }
+    });
+  }
+  addErrorClass = (msg) => {
+    if (msg === ""){
+      return ""
+    }else {
+      return "error-class"
+    }
   }
   hideShareModal = () => {
     this.setState({
@@ -238,7 +314,9 @@ export default class WatchProperty extends Component{
       <div id="myproperties" className="container px-0 tab-pane active">
         <div className="profile-form">
           <div className="profile-form-in">
-
+            {
+              this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+            }
             <div id="propertyPosted" className="container px-0 tab-pane active">
               {this.state.isLoaded === true ?
                   null
@@ -308,7 +386,7 @@ export default class WatchProperty extends Component{
                 </div>
                 <div className="col-md-12 text-left">
                   <label className="bold-label">Email</label>
-                  <input className="form-control" type="email" name="share_email" onChange={this.updateStatusFields}></input>
+                  <input className={"form-control " + this.addErrorClass(this.state.share_email_error)} type="email" name="share_email" onChange={this.updateStatusFields}></input>
                 </div>
               </div>
             </div>

@@ -15,6 +15,7 @@ const initial_state = {
   status_modal: false,
   share_modal: false,
   share_link: "",
+  share_email: "",
   error: "",
   message: "",
   isLoaded: false,
@@ -31,6 +32,7 @@ const initial_state = {
   request_reasons_options: [],
   withdraw_reasons_options: [],
   termination_reasons_options: [],
+  share_email_error: "",
 }
 
 
@@ -209,6 +211,17 @@ export default class ListProperty extends Component{
     this.setState({
       [name]: value
     }, function () {
+      if (name === "share_email"){
+        if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.share_email))){
+          this.setState({
+            share_email_error: "error",
+          });
+        }else {
+          this.setState({
+            share_email_error: "",
+          });
+        }
+      }
       if (name === "request_status"){
         if (value === "Terminated"){
           this.setState({
@@ -221,6 +234,13 @@ export default class ListProperty extends Component{
         }
       }
     });
+  }
+  addErrorClass = (msg) => {
+    if (msg === ""){
+      return ""
+    }else {
+      return "error-class"
+    }
   }
 
   updateStatus = () => {
@@ -248,10 +268,18 @@ export default class ListProperty extends Component{
         this.setState({
           status_modal: false ,
         });
-        this.setState({
-          message: result.message,
-          variant: "success"
-        });
+        if (result.status === 200){
+          this.setState({
+            message: result.message,
+            variant: "success"
+          });
+        }
+        else if (result.status === 400){
+          this.setState({
+            message: result.message,
+            variant: "danger"
+          });
+        }
         this.clearMessageTimeout = setTimeout(() => {
           this.setState(() => ({message: ""}))
         }, 2000);
@@ -260,6 +288,9 @@ export default class ListProperty extends Component{
     })
   }
   emailPropertyShare = () => {
+    if (this.state.share_email_error){
+      return ;
+    }
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/share"
     const fd = new FormData();
     fd.append('property[id]', this.state.properties[this.state.selected_property].id)
@@ -284,10 +315,18 @@ export default class ListProperty extends Component{
         this.setState({
           share_modal: false ,
         });
-        this.setState({
-          message: result.message,
-          variant: "success"
-        });
+        if (result.status === 200){
+          this.setState({
+            message: result.message,
+            variant: "success"
+          });
+        }
+        else if (result.status === 400){
+          this.setState({
+            message: result.message,
+            variant: "danger"
+          });
+        }
         this.clearMessageTimeout = setTimeout(() => {
           this.setState(() => ({message: ""}))
         }, 2000);
@@ -736,7 +775,7 @@ export default class ListProperty extends Component{
                   </div>
                   <div className="col-md-12 text-left">
                     <label className="bold-label">Email</label>
-                    <input className="form-control" type="email" name="share_email" onChange={this.updateStatusFields}></input>
+                    <input className={"form-control " + this.addErrorClass(this.state.share_email_error)} type="email" name="share_email" onChange={this.updateStatusFields}></input>
                   </div>
                 </div>
               </div>
