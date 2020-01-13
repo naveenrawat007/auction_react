@@ -53,6 +53,7 @@ export default class Login extends Component{
         // window.location.href = "/"
         if (result.user.is_admin === true){
           // this.props.history.push('/admin')
+          localStorage.setItem("auction_admin_token", result.user.token);
           window.location.href = "/admin"
         }else {
           window.location.href = "/user"

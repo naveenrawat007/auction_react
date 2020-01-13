@@ -18,6 +18,7 @@ export default class Navbar extends Component{
       logged_in: false
     })
     localStorage.removeItem("auction_user_token");
+    localStorage.removeItem("auction_admin_token");
     this.props.history.push('/login')
   }
 
@@ -39,6 +40,8 @@ export default class Navbar extends Component{
     }).then(res => res.json())
     .then((result) => {
       if (result.status !== 100){
+        localStorage.removeItem("auction_user_token");
+        localStorage.removeItem("auction_admin_token");
         let path_name = ""
         path_name = this.props.location.pathname
         if ((path_name === "/sign_up") || (path_name === "/login") || (path_name === "/forgot_password") || (path_name === "/property/new") ){
@@ -52,6 +55,7 @@ export default class Navbar extends Component{
         if (result.user.is_admin === true){
           let path_name = "";
           path_name = this.props.location.pathname
+          localStorage.setItem("auction_admin_token", localStorage.getItem("auction_user_token"));
           if (path_name === "/"){
             this.props.history.push('/')
           }
@@ -89,14 +93,12 @@ export default class Navbar extends Component{
 
   navigateToProfile = () => {
     if (this.state.logged_in){
-      console.log("logged_in");
       if (this.state.is_admin){
         this.props.history.push('/admin')
       }else {
         this.props.history.push('/user')
       }
     }else {
-      console.log("logged_out");
       this.props.history.push('/')
     }
   }
