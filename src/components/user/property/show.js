@@ -92,9 +92,9 @@ export default class PropertyShow extends Component {
             bidding_options: {
               ...this.state.bidding_options,
               highest_bid: result.property.highest_bid,
-              current_offer: result.property.highest_bid,
+              current_offer: result.property.highest_bid ? (result.property.highest_bid + 1000) : 1000,
               buy_now_price: result.property.buy_now_price,
-              current_best_offer: result.property.best_offer_price ? result.property.best_offer_price : 0 ,
+              current_best_offer: result.property.best_offer_price ? (result.property.best_offer_price + 1000) : 1000 ,
               best_offer_price: result.property.best_offer_price,
               best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
             }
@@ -925,9 +925,9 @@ export default class PropertyShow extends Component {
             bidding_options: {
               ...this.state.bidding_options,
               highest_bid: result.property.highest_bid,
-              current_offer: result.property.highest_bid,
+              current_offer: result.property.highest_bid ? (result.property.highest_bid + 1000) : 1000 ,
               buy_now_price: result.property.buy_now_price,
-              best_offer_price: result.property.best_offer_price,
+              best_offer_price: result.property.best_offer_price ? result.property.best_offer_price : 0 ,
               best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
             }
           });
@@ -936,10 +936,10 @@ export default class PropertyShow extends Component {
         else if (result.status === 400) {
           this.setState({
             message: result.message,
+            variant: "danger",
             terms_agreed: false,
             open_bidding_modal: false,
             isLoaded: true,
-            variant: "danger",
           });
         }
         else if (result.status === 401) {
@@ -1038,14 +1038,16 @@ export default class PropertyShow extends Component {
             open_best_offer_modal: false,
             fund_proof: "",
             message: result.message,
+            variant:"success",
             terms_agreed: false,
             property: result.property,
             bidding_options: {
               ...this.state.bidding_options,
               highest_bid: result.property.highest_bid,
-              current_offer: result.property.highest_bid,
+              current_offer: result.property.highest_bid ? (result.property.highest_bid + 1000) : 1000 ,
               buy_now_price: result.property.buy_now_price,
-              best_offer_price: result.property.best_offer_price,
+              current_best_offer: result.property.best_offer_price ? (result.property.best_offer_price + 1000) : 1000 ,
+              best_offer_price: result.property.best_offer_price ? (result.property.best_offer_price ) : 0,
               best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
             }
           });
@@ -1132,6 +1134,7 @@ export default class PropertyShow extends Component {
             open_buy_now_modal: false,
             fund_proof: "",
             message: result.message,
+            variant: "success",
             terms_agreed: false,
             property: result.property
           });
