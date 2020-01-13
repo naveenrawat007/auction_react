@@ -73,7 +73,7 @@ export default class Home extends Component{
           </div>
         </div>
         <div className="featured_col pb-5">
-          <div className="container">
+          <div className="container px-0">
             <h2>Featured Properties</h2>
             <div className="row mx-0">
               <div className="col-sm-3 px-2">
