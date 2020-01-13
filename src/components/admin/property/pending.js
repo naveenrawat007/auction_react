@@ -49,7 +49,7 @@ export default class Pending extends Component{
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": localStorage.getItem("auction_user_token"),
+        "Authorization": localStorage.getItem("auction_admin_token"),
         "Accept": "application/vnd.auction_backend.v1",
         "Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Credentials": "*",
@@ -82,7 +82,7 @@ export default class Pending extends Component{
           });
           window.scroll(0,0);
         }else if (result.status === 401) {
-          localStorage.removeItem("auction_user_token");
+          localStorage.removeItem("auction_admin_token");
           window.location.href = "/login"
         }else {
           this.setState({
@@ -168,7 +168,7 @@ export default class Pending extends Component{
     fetch(url, {
       method: "PUT",
       headers: {
-        "Authorization": localStorage.getItem("auction_user_token"),
+        "Authorization": localStorage.getItem("auction_admin_token"),
         "Accept": "application/vnd.auction_backend.v1",
         "Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Credentials": "*",
