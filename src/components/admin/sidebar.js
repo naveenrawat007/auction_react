@@ -45,6 +45,7 @@ export default class AdminSidebar extends Component{
 
   handleLogout = () => {
     localStorage.removeItem("auction_user_token");
+    localStorage.removeItem("auction_admin_token");
     window.location.href = "/login"
   }
 
