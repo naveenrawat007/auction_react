@@ -6,6 +6,8 @@ const initial_state = {
   error: "",
   message: "",
   isLoaded: false,
+  selected_user: "",
+  selected_user_token: "",
   users: [],
   search_str: "",
   current_page: 1,
@@ -36,7 +38,7 @@ export default class AllUserList extends Component{
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": localStorage.getItem("auction_user_token"),
+        "Authorization": localStorage.getItem("auction_admin_token"),
         "Accept": "application/vnd.auction_backend.v1",
         "Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Credentials": "*",
@@ -63,7 +65,7 @@ export default class AllUserList extends Component{
             total_pages_array: items,
           });
         }else if (result.status === 401) {
-          localStorage.removeItem("auction_user_token");
+          localStorage.removeItem("auction_admin_token");
           window.location.href = "/login"
         }else {
           this.setState({
@@ -127,6 +129,22 @@ export default class AllUserList extends Component{
       return (total_pages);
     }
   }
+  viewUser = () => {
+    if (this.state.selected_user_token){
+      localStorage.setItem("auction_user_token", this.state.selected_user_token );
+      window.open("/user/", "_blank")
+    }
+  }
+  updateSelectedUser = (event) => {
+    const{ name, value } = event.target;
+    this.setState({
+      [name]: value
+    }, function () {
+      this.setState({
+        selected_user_token: this.state.users[this.state.selected_user].token ,
+      });
+    });
+  }
 
 	render() {
     const current_page = this.state.current_page;
@@ -134,7 +152,7 @@ export default class AllUserList extends Component{
     const userList = this.state.users.map((user, index) => {
       return (
         <tr key={index}>
-          <td><input type="checkbox" value="" id="defaultCheck1"/></td>
+          <td><input type="radio" value={index} id={index} checked={this.state.selected_user === String(index) ? true : false} name="selected_user" onChange={this.updateSelectedUser}/></td>
           <td>
             <div className="user_name_box">
               <span>{user.first_name[0].toUpperCase()}</span>
@@ -191,7 +209,7 @@ export default class AllUserList extends Component{
                         </div>
                       </div>
                       <div className="col-md-5 offset-md-2 px-0 text-right">
-                        <button className="btn red-btn admin-btns" type="button">View</button>
+                        <button className="btn red-btn admin-btns" type="button" onClick={this.viewUser}>View</button>
                         &nbsp;
                         <button className="btn red-btn admin-btns" type="button">Edit</button>
                         &nbsp;
