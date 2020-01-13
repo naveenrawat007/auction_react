@@ -457,7 +457,7 @@ export default class ListProperty extends Component{
                     <p>Buy Now Price</p>
                     <p>:</p>
                   </div>
-                  <p>{(property.buy_now_price)}</p>
+                  <p>{window.format_currency(property.buy_now_price)}</p>
                 </div>
                 <div className="address-list mb-0">
                   <div className="p-format">
