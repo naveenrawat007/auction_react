@@ -58,6 +58,7 @@ export default class AllUserList extends Component{
           this.setState({
             isLoaded: true,
             users: result.users,
+            status_modal: false,
             current_page : result.meta.current_page,
             total_pages : result.meta.total_pages,
             user_status_options: result.statuses,
@@ -155,13 +156,10 @@ export default class AllUserList extends Component{
     this.setState({
       isLoaded: false,
     });
-    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties/status"
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/users/status"
     const fd = new FormData();
-    fd.append('property[id]', this.state.properties[this.state.selected_property].id)
-    fd.append('property[status]', this.state.selected_status)
-    fd.append('property[termination_reason]', this.state.termination_reason)
-    fd.append('property[auction_started_at]', this.state.auction_started_at)
-    fd.append('property[auction_length]', this.state.auction_length)
+    fd.append('user[id]', this.state.users[this.state.selected_user].id)
+    fd.append('user[status]', this.state.selected_status)
     fetch(url, {
       method: "PUT",
       headers: {
@@ -178,7 +176,7 @@ export default class AllUserList extends Component{
     }).then(res => res.json())
     .then((result) => {
       if (this._isMounted){
-        this.getPropertiesList();
+        this.getUsersList();
         if (result.status === 200){
           this.setState({
             message: result.message,
