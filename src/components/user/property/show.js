@@ -933,7 +933,7 @@ export default class PropertyShow extends Component {
           });
 
         }
-        else if (result.status === 400) {
+        else if (result.status === 400 || result.status === 404) {
           this.setState({
             message: result.message,
             variant: "danger",
@@ -1052,7 +1052,7 @@ export default class PropertyShow extends Component {
             }
           });
         }
-        else if (result.status === 400) {
+        else if (result.status === 400 || result.status === 404 ) {
           this.setState({
             message: result.message,
             terms_agreed: false,
@@ -1139,7 +1139,7 @@ export default class PropertyShow extends Component {
             property: result.property
           });
         }
-        else if (result.status === 400) {
+        else if (result.status === 400 || result.status === 404 ) {
           this.setState({
             message: result.message,
             terms_agreed: false,
