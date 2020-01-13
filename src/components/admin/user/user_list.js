@@ -211,7 +211,7 @@ export default class AllUserList extends Component{
                       <div className="col-md-5 offset-md-2 px-0 text-right">
                         <button className="btn red-btn admin-btns" type="button" onClick={this.viewUser}>View</button>
                         &nbsp;
-                        <button className="btn red-btn admin-btns" type="button">Edit</button>
+                        <button className="btn red-btn admin-btns" type="button" onClick={this.viewUser}>Edit</button>
                         &nbsp;
                         <button className="btn red-btn admin-btns" type="button">Control</button>
                       </div>
