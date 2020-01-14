@@ -364,12 +364,35 @@ export default class Home extends Component{
   render(){
     return(
       <div className="container-fluid home_main px-0">
-        <div className="video_col">
-          <video id="videobcg" preload="auto" autoPlay={true} loop="loop" muted="muted" volume="0">
-            <source src="./videos/produce.mp4" type="video/mp4"/>
-          </video>
+        <div className="bg_banner px-0">
+          <div className="row col-md-10 offset-md-1 align-items-center">
+            <div className="col-md-6 px-0 text-center">
+              <div className="banner_home">
+                <h5>
+                  <span>post your deals for free </span>
+                  <br/>
+                  & Test drive this site to maximize
+                </h5>
+                <p>
+                  <span>Your real estate investment business </span>
+                  <br/>
+                  by getting priority access to the
+                  <br/>
+                  <span>Best deal and unlimited access to
+                    <br/>
+                    all
+                  </span> details about each Property!
+                </p>
+                <button className="btn blue-btn" onClick={this.openSignUpModal}> Start FREE 60 Days Trial Now</button>
+              </div>
+            </div>
+            <div className="col-md-6 px-0">
+              <div className="video_home">
+                <img src="/images/video-img.jpg"/>
+              </div>
+            </div>
+          </div>
         </div>
-        <button className="btn red-btn" onClick={this.openSignUpModal}> Start free 60 days trial</button>
         <div className="help_col">
           <div className="container">
             <div className="row">

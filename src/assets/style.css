@@ -4277,3 +4277,53 @@ a.admin_table_links{
 .modal-open{
   padding-right: 0px !important;
 }
+
+.bg_banner{
+  background-image: url('/images/bg_home.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+}
+
+.bg_banner .row{
+  padding: 65px 0px;
+}
+.video_home {
+  padding: 5px;
+  border-radius: 3px;
+  background-color: #ccc;
+}
+.video_home img{
+  width: 100%;
+  height: auto;
+}
+.banner_home{
+  padding: 20px 0px 10px 0px;
+}
+.banner_home h5{
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.banner_home h5 span{
+  font-weight: 600;
+  font-size: 27px;
+  text-transform: uppercase;
+}
+
+.banner_home p{
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 30px;
+}
+.banner_home p span{
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.banner_home .blue-btn{
+  background-color: #0054a5;
+  padding: 10px 45px;
+  font-size: 18px;
+}
