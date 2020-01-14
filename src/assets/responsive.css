@@ -108,6 +108,7 @@
 		margin-top: 15px !important;
 		margin-bottom: 10px !important;
 	}
+
 }
 
 @media (max-width: 767.98px) {
@@ -133,6 +134,60 @@
 	}
 	.info-box img{
 		width: 100%;
+	}
+	.creation-forms .form-group.step_row{
+		margin: 6px 0px !important;
+	}
+	.creation-forms .form-group.step_row .col-md-6{
+		text-align: left !important;
+	}
+	form .form-group.step_row{
+		margin: 6px 0px !important;
+	}
+	form .form-group.step_row .col-md-6{
+		text-align: left !important;
+		padding: 0px !important;
+	}
+	.step_row .col-md-6{
+		padding: 0px !important;
+	}
+	#step2 form.col-md-10{
+		padding: 0px;
+	}
+	#step2 .col-md-6{
+		margin: 5px 0px !important;
+	}
+	.est_box .est_list{
+		display: block !important;
+	}
+	.est_box .est_list label{
+		width: 100% !important;
+		margin-top: 0px !important;
+	}
+	.est_box .est_list input{
+		width: 100% !important;
+	}
+	.step_row .labels_main{
+		font-size: 15px !important;
+	}
+	.step_fonts{
+		padding: 0px !important;
+	}
+	.label_web{
+		display: none !important;
+	}
+	.label_mobile{
+		display: block !important;
+		margin: 0px !important;
+	}
+	.finance_inputs{
+		justify-content: space-between !important; 
+	}
+	.finance_inputs input{
+		width: 45% !important;
+	}
+	table.sell_steptable{
+	  white-space: nowrap;
 	}
 }
 @media (max-width: 991.98px) {
@@ -172,6 +227,20 @@
 	}
 	.price-gd-top h4{
 		padding: 1em;
+	}
+	.bs-wizard{
+		display: none !important;
+	}
+	#newproperty.container{
+		max-width: 810px !important;
+	}
+	#newproperty .profile-form-in{
+		padding: 20px 0px !important;
+	}
+	#step2 form.col-md-10{
+		max-width: 100% !important;
+		flex: 0 0 100% !important;
+		margin-left: 0 !important;
 	}
 }
 @media (min-width: 576px) and (max-width: 991.98px) {

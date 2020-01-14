@@ -2881,11 +2881,7 @@ export default class PropertyEdit extends Component{
                                 </div>
                                 <div className="col-md-6 my-3 px-0">
                                   <h5 className="text-uppercase font-red step_heads step_fonts">Financing Analysis After rehab</h5>
-                                  <div className="row mx-0 step_row">
-                                    <div className="col-md-6 my-2 row mx-0">
-                                      <input type="number" className={"form-control col-md-4 " + this.addErrorClass(this.state.property_amount_financed_percentage_error) } name="amount_financed_percentage" onChange={this.updateProperty} value={this.state.property.amount_financed_percentage} />
-                                      <input type="number" readOnly={true} value={this.state.property.amount_financed} className="form-control col-md-7 offset-md-1" name="amount_financed" />
-                                    </div>
+                                  <div className="row mx-0 step_row label_mobile">
                                     <div className="col-md-6 px-0 my-2">
                                       <label className="text-uppercase">amount financed&nbsp;
                                         <OverlayTrigger trigger="click" rootClose placement="right"
@@ -2900,10 +2896,25 @@ export default class PropertyEdit extends Component{
                                         </OverlayTrigger>
                                       </label>
                                     </div>
-                                    <div className="col-md-6 my-2">
-                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_interest_rate_error) } name="interest_rate" value={this.state.property.interest_rate} onChange={this.updateProperty}/>
+                                    <div className="col-md-6 my-2 row mx-0">
+                                      <input type="number" className={"form-control col-md-4 " + this.addErrorClass(this.state.property_amount_financed_percentage_error) } name="amount_financed_percentage" onChange={this.updateProperty} value={this.state.property.amount_financed_percentage} />
+                                      <input type="number" readOnly={true} value={this.state.property.amount_financed} className="form-control col-md-7 offset-md-1" name="amount_financed" />
                                     </div>
-                                    <div className="col-md-6 my-2 px-0">
+                                    <div className="col-md-6 px-0 my-2 label_web">
+                                      <label className="text-uppercase">amount financed&nbsp;
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">It is determined by the appraised value of the property by mortgage company x the percent buyer is putting down. Most mortgage companies require 20% to 25% of the sales price.  If the property doesn't appraise then the buyer will have to put down the difference.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
+                                      </label>
+                                    </div>
+                                    <div className="col-md-6 my-2 px-0 label_mobile">
                                       <label className="labels_main">Interest Rate APR&nbsp;
                                         <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
@@ -2918,9 +2929,23 @@ export default class PropertyEdit extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
-                                      <input type="number" value={this.state.property.loan_terms} className={"form-control " + this.addErrorClass(this.state.property_loan_terms_error) } name="loan_terms" onChange={this.updateProperty}/>
+                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_interest_rate_error) } name="interest_rate" value={this.state.property.interest_rate} onChange={this.updateProperty}/>
                                     </div>
-                                    <div className="col-md-6 my-2 px-0">
+                                    <div className="col-md-6 my-2 px-0 label_web">
+                                      <label className="labels_main">Interest Rate APR&nbsp;
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Current interest rates for landlord properties can range from 4.5% to 6%.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
+                                      </label>
+                                    </div>
+                                    <div className="col-md-6 my-2 px-0 label_mobile">
                                       <label className="labels_main">Loan Term&nbsp;
                                         <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
@@ -2935,9 +2960,23 @@ export default class PropertyEdit extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
-                                      <input type="number" readOnly={true} value={this.state.property.principal_interest} className="form-control" name="principal_interest" />
+                                      <input type="number" value={this.state.property.loan_terms} className={"form-control " + this.addErrorClass(this.state.property_loan_terms_error) } name="loan_terms" onChange={this.updateProperty}/>
                                     </div>
-                                    <div className="col-md-6 my-2 px-0">
+                                    <div className="col-md-6 my-2 px-0 label_web">
+                                      <label className="labels_main">Loan Term&nbsp;
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Most landlords do 15, 20 or 30-year loans.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
+                                      </label>
+                                    </div>
+                                    <div className="col-md-6 my-2 px-0 label_mobile">
                                       <label className="labels_main">Monthly Principal &amp; Interest&nbsp;
                                         <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
@@ -2952,9 +2991,40 @@ export default class PropertyEdit extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
+                                      <input type="number" readOnly={true} value={this.state.property.principal_interest} className="form-control" name="principal_interest" />
+                                    </div>
+                                    <div className="col-md-6 my-2 px-0 label_web">
+                                      <label className="labels_main">Monthly Principal &amp; Interest&nbsp;
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">This is the monthly Principal & Interest that will be paid on this loan based upon the Amount Financed, APR and amortized Loan Term.</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
+                                      </label>
+                                    </div>
+                                    <div className="col-md-6 px-0 my-2 label_mobile">
+                                      <label className="labels_main">Annual Debt Service&nbsp;
+                                        <OverlayTrigger trigger="click" rootClose placement="right"
+                                          overlay={
+                                            <Popover>
+                                              <Popover.Content>
+                                                <p className="mb-0">Monthly PI x 12 months</p>
+                                              </Popover.Content>
+                                            </Popover>
+                                          }>
+                                          <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
+                                        </OverlayTrigger>
+                                      </label>
+                                    </div>
+                                    <div className="col-md-6 my-2">
                                       <input type="number" readOnly={true} value={this.state.property.annual_debt} className="form-control" name="annual_debt"/>
                                     </div>
-                                    <div className="col-md-6 px-0 my-2">
+                                    <div className="col-md-6 px-0 my-2 label_web">
                                       <label className="labels_main">Annual Debt Service&nbsp;
                                         <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
@@ -3294,57 +3364,59 @@ export default class PropertyEdit extends Component{
                               </div>
                             </div>
                           </form>
-                          <table className={this.checkLandordDeal() + " table table-bordered mb-5 col-md-10 offset-md-1"} id="step_table">
-                            <thead>
-                              <tr>
-                                <th>Appreciation</th>
-                                <th>Equality Growth (Loan Term)</th>
-                                <th>Total Equality Growth</th>
-                                <th>Cash Flow (Loan Term)</th>
-                                <th>Total Cash Flow </th>
-                                <th>Vac/Maint</th>
-                                <th>Possible Profit (Loan Term)</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>1.00%</td>
-                                <td>$ {this.state.property.appreciation_value.eg1}</td>
-                                <td>$ {this.state.property.appreciation_value.t1}</td>
-                                <td>$ {this.state.property.appreciation_value.cf1}</td>
-                                <td>$ {this.state.property.appreciation_value.ta}</td>
-                                <td>$ {this.state.property.appreciation_value.vac1}</td>
-                                <td>$ {this.state.property.appreciation_value.ppy1}</td>
-                              </tr>
-                              <tr>
-                                <td>2.00%</td>
-                                <td>$ {this.state.property.appreciation_value.eg2}</td>
-                                <td>$ {this.state.property.appreciation_value.t2}</td>
-                                <td>$ {this.state.property.appreciation_value.cf2}</td>
-                                <td>$ {this.state.property.appreciation_value.tb}</td>
-                                <td>$ {this.state.property.appreciation_value.vac2}</td>
-                                <td>$ {this.state.property.appreciation_value.ppy2}</td>
-                              </tr>
-                              <tr>
-                                <td>3.00%</td>
-                                <td>$ {this.state.property.appreciation_value.eg3}</td>
-                                <td>$ {this.state.property.appreciation_value.t3}</td>
-                                <td>$ {this.state.property.appreciation_value.cf3}</td>
-                                <td>$ {this.state.property.appreciation_value.tc}</td>
-                                <td>$ {this.state.property.appreciation_value.vac3}</td>
-                                <td>$ {this.state.property.appreciation_value.ppy3}</td>
-                              </tr>
-                              <tr>
-                                <td>4.00%</td>
-                                <td>$ {this.state.property.appreciation_value.eg4}</td>
-                                <td>$ {this.state.property.appreciation_value.t4}</td>
-                                <td>$ {this.state.property.appreciation_value.cf4}</td>
-                                <td>$ {this.state.property.appreciation_value.td}</td>
-                                <td>$ {this.state.property.appreciation_value.vac4}</td>
-                                <td>$ {this.state.property.appreciation_value.ppy4}</td>
-                              </tr>
-                            </tbody>
-                          </table>
+                          <div className="table-responsive">
+                            <table className={this.checkLandordDeal() + " table table-bordered mb-5 col-md-10 offset-md-1"} id="step_table">
+                              <thead>
+                                <tr>
+                                  <th>Appreciation</th>
+                                  <th>Equality Growth (Loan Term)</th>
+                                  <th>Total Equality Growth</th>
+                                  <th>Cash Flow (Loan Term)</th>
+                                  <th>Total Cash Flow </th>
+                                  <th>Vac/Maint</th>
+                                  <th>Possible Profit (Loan Term)</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>1.00%</td>
+                                  <td>$ {this.state.property.appreciation_value.eg1}</td>
+                                  <td>$ {this.state.property.appreciation_value.t1}</td>
+                                  <td>$ {this.state.property.appreciation_value.cf1}</td>
+                                  <td>$ {this.state.property.appreciation_value.ta}</td>
+                                  <td>$ {this.state.property.appreciation_value.vac1}</td>
+                                  <td>$ {this.state.property.appreciation_value.ppy1}</td>
+                                </tr>
+                                <tr>
+                                  <td>2.00%</td>
+                                  <td>$ {this.state.property.appreciation_value.eg2}</td>
+                                  <td>$ {this.state.property.appreciation_value.t2}</td>
+                                  <td>$ {this.state.property.appreciation_value.cf2}</td>
+                                  <td>$ {this.state.property.appreciation_value.tb}</td>
+                                  <td>$ {this.state.property.appreciation_value.vac2}</td>
+                                  <td>$ {this.state.property.appreciation_value.ppy2}</td>
+                                </tr>
+                                <tr>
+                                  <td>3.00%</td>
+                                  <td>$ {this.state.property.appreciation_value.eg3}</td>
+                                  <td>$ {this.state.property.appreciation_value.t3}</td>
+                                  <td>$ {this.state.property.appreciation_value.cf3}</td>
+                                  <td>$ {this.state.property.appreciation_value.tc}</td>
+                                  <td>$ {this.state.property.appreciation_value.vac3}</td>
+                                  <td>$ {this.state.property.appreciation_value.ppy3}</td>
+                                </tr>
+                                <tr>
+                                  <td>4.00%</td>
+                                  <td>$ {this.state.property.appreciation_value.eg4}</td>
+                                  <td>$ {this.state.property.appreciation_value.t4}</td>
+                                  <td>$ {this.state.property.appreciation_value.cf4}</td>
+                                  <td>$ {this.state.property.appreciation_value.td}</td>
+                                  <td>$ {this.state.property.appreciation_value.vac4}</td>
+                                  <td>$ {this.state.property.appreciation_value.ppy4}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
                           <form className="creation-forms sell_forms">
                             <div className={ this.checkLandordDeal() + " form-group col-md-8 offset-md-2 px-0 row step_row align-items-start"}>
                               <div className="col-md-6 px-1 text-right">

@@ -29,7 +29,12 @@ body {
 .custom_container {
   max-width: 1200px !important;
 }
-
+.label_mobile{
+  display: none;
+}
+.label_web{
+  display: block;
+}
 /********** Login, Signup, Verfify Code ******/
 
 
