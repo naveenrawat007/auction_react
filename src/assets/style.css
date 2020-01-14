@@ -4273,3 +4273,7 @@ a.admin_table_links{
     width: 15px;
   }
 }
+
+.modal-open{
+  padding-right: 0px !important;
+}
