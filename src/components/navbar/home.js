@@ -673,89 +673,96 @@ export default class Home extends Component{
             </div>
           </div>
         </div>
-        <Modal className="status_modal" show={this.state.sign_up_modal} onHide={this.hideSignUpModal} centered>
-          <Modal.Header closeButton>
-            <div className=" offset-md-1 col-md-10 text-center">
-              <h5 className="mb-0 text-uppercase"> CREATE YOUR ACCOUNT</h5>
-            </div>
-          </Modal.Header>
+        <Modal className="status_modal register_modal" show={this.state.sign_up_modal} onHide={this.hideSignUpModal} centered>
           <div className="modal-body">
             {
               this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
             }
             {
               this.state.created === false ?
-                <div className="signup-code row mx-0">
-                  <div className="col-md-6">
-                    <div className="input-group ">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text group-box-chat" id="basic-addon1">
-                          <FontAwesomeIcon icon={faUser} />
-                        </span>
-                      </div>
-                      <input type="text" name="first_name" onChange={this.updateUser} placeholder="First Name" autoComplete="off" className="form-control" />
+                <div className="register_box">
+                  <div className="banner_text text-center">
+                    <h5><span className="yellow_font">test drive this auction site</span><br/>designed for local Real Estate Investors <br/><span className="para_modal1">for 60 Days for FREE to get</span><br/><span className="para_modal2">Priority Access to the Best Deals</span><br/><span className="yellow_font">& unlimited acess to</span><br/><i>ALL details about each Property!</i></h5>
+                    <h6>Start Free 60 Day trail now</h6>
+                    <p><i>& learn "5 Sneaky ways to promote</i></p>
+                    <p><i>your property to most senior investors</i></p> 
+                    <p><i>who will pay you MORE money"</i></p>
+                  </div>
+                  <div className="signup-code">
+                    <div className="col-md-12">
+                      <h6 className="font-red">Create Your account</h6>
                     </div>
-                    {this.addErrorMessage(this.state.user_first_name_error)}
-                  </div>
-                  <div className="col-md-6">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text group-box-chat" id="basic-addon1">
-                          <FontAwesomeIcon icon={faUser} />
-                        </span>
+                    <div className="col-md-12 mt-2">
+                      <div className="input-group ">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text group-box-chat" id="basic-addon1">
+                            <FontAwesomeIcon icon={faUser} />
+                          </span>
+                        </div>
+                        <input type="text" name="first_name" onChange={this.updateUser} placeholder="First Name" autoComplete="off" className="form-control" />
                       </div>
-                      <input type="text" className="form-control" name="last_name" placeholder="Last Name" onChange={this.updateUser} autoComplete="off" />
+                      {this.addErrorMessage(this.state.user_first_name_error)}
                     </div>
-                    {this.addErrorMessage(this.state.user_last_name_error)}
-                  </div>
-                  <div className="col-md-6 mt-2">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text group-box-chat" id="basic-addon1">
-                          <FontAwesomeIcon icon={faEnvelope} />
-                        </span>
+                    <div className="col-md-12 mt-2">
+                      <div className="input-group">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text group-box-chat" id="basic-addon1">
+                            <FontAwesomeIcon icon={faUser} />
+                          </span>
+                        </div>
+                        <input type="text" className="form-control" name="last_name" placeholder="Last Name" onChange={this.updateUser} autoComplete="off" />
                       </div>
-                      <input type="email" className="form-control" name="email" placeholder="Email" onChange={this.updateUser} autoComplete="off" />
+                      {this.addErrorMessage(this.state.user_last_name_error)}
                     </div>
-                    {this.addErrorMessage(this.state.user_email_error)}
-                  </div>
-                  <div className="col-md-6 mt-2">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text group-box-chat" id="basic-addon1">
-                          <FontAwesomeIcon icon={faMobileAlt} />
-                        </span>
+                    <div className="col-md-12 mt-2">
+                      <div className="input-group">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text group-box-chat" id="basic-addon1">
+                            <FontAwesomeIcon icon={faEnvelope} />
+                          </span>
+                        </div>
+                        <input type="email" className="form-control" name="email" placeholder="Email" onChange={this.updateUser} autoComplete="off" />
                       </div>
-                      <input type="text" className="form-control numeric" placeholder="Phone" name="phone_number" onChange={this.updateUser} maxLength="10" onKeyPress={this.checkNumeric}/>
+                      {this.addErrorMessage(this.state.user_email_error)}
                     </div>
-                    {this.addErrorMessage(this.state.user_phone_number_error)}
-                  </div>
-                  <div className="col-md-6 mt-2">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text group-box-chat" id="basic-addon1">
-                          <FontAwesomeIcon icon={faLock} />
-                        </span>
+                    <div className="col-md-12 mt-2">
+                      <div className="input-group">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text group-box-chat" id="basic-addon1">
+                            <FontAwesomeIcon icon={faMobileAlt} />
+                          </span>
+                        </div>
+                        <input type="text" className="form-control numeric" placeholder="Phone" name="phone_number" onChange={this.updateUser} maxLength="10" onKeyPress={this.checkNumeric}/>
                       </div>
-                      <input type="password" className="form-control" name="password" placeholder="Password" onChange={this.updateUser} autoComplete="false" />
+                      {this.addErrorMessage(this.state.user_phone_number_error)}
                     </div>
-                    {this.addErrorMessage(this.state.user_password_error)}
-                  </div>
-                  <div className="col-md-6 mt-2">
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <span className="input-group-text group-box-chat" id="basic-addon1">
-                          <FontAwesomeIcon icon={faLock} />
-                        </span>
+                    <div className="col-md-12 mt-2">
+                      <div className="input-group">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text group-box-chat" id="basic-addon1">
+                            <FontAwesomeIcon icon={faLock} />
+                          </span>
+                        </div>
+                        <input type="password" className="form-control" name="password" placeholder="Password" onChange={this.updateUser} autoComplete="false" />
                       </div>
-                      <input type="password" className="form-control" placeholder="Confirm Password" name="confirm_password" onChange={this.updateUser} autoComplete="off" />
+                      {this.addErrorMessage(this.state.user_password_error)}
                     </div>
-                    {this.addErrorMessage(this.state.user_confirm_password_error)}
+                    <div className="col-md-12 mt-2">
+                      <div className="input-group">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text group-box-chat" id="basic-addon1">
+                            <FontAwesomeIcon icon={faLock} />
+                          </span>
+                        </div>
+                        <input type="password" className="form-control" placeholder="Confirm Password" name="confirm_password" onChange={this.updateUser} autoComplete="off" />
+                      </div>
+                      {this.addErrorMessage(this.state.user_confirm_password_error)}
+                    </div>
+                    <div className="col-md-12 mt-3 text-center">
+                      <button className="btn red-btn submit-btn my-0 mx-auto" type="submit" onClick={this.submitHandler} >Start FREE 60 Day Trial Now</button>
+                    </div>
                   </div>
-                  <div className="col-md-12 mt-3 text-center">
-                    <button className="red-btn submit-btn my-0 mx-auto" type="submit" onClick={this.submitHandler} >Start FREE 60 Day Trial Now</button>
-                  </div>
-                </div>
+                </div>    
               :
               <div className="verify-code">
                 <div className="heading text-center">Verify</div>

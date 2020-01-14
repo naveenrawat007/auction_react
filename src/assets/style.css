@@ -4327,3 +4327,78 @@ a.admin_table_links{
   padding: 10px 45px;
   font-size: 18px;
 }
+.register_modal{
+  background-color: rgba(0,0,0,0.7);
+}
+.register_modal .modal-dialog{
+  max-width: 750px !important;
+}
+.register_modal .modal-body{
+  padding: 6px;
+}
+.register_modal .modal-body .register_box{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #0072bb;
+}
+.register_modal .modal-body .register_box .banner_text{
+  width: 60%; 
+  padding: 25px 35px;
+}
+.register_modal .modal-body .register_box .signup-code{
+  background-color: #ededed;
+  width: 40%;
+  position: absolute;
+  right: 17px;
+  top: -18%;
+  padding: 15px 10px;
+  border: 6px solid #fff;
+}
+.register_modal .modal-body .register_box .signup-code h6{
+  text-transform: uppercase;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  border-bottom: 2px solid #b71c1c;
+  padding-bottom: 3px; 
+}
+.yellow_font{
+  color: #faa20c;
+  font-weight: 700;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+.banner_text h5{
+  font-size: 13px;
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 35px;
+}
+.banner_text h5 .para_modal1{
+  font-size: 19px;
+  font-weight: 500;
+}
+.banner_text h5 .para_modal2{
+  font-size: 16px;
+  font-weight: 500;
+}
+.banner_text h5 i{
+  font-size: 15px;
+}
+.banner_text h6{
+  font-size: 17px;
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 0px;
+  text-transform: uppercase;
+}
+.banner_text p{
+  margin-bottom: 0px;
+  margin-top: -6px;
+}    
+.banner_text p i{
+  font-size: 13px;
+  color: #fff;
+  text-transform: capitalize;
+}
