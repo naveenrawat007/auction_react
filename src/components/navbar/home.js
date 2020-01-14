@@ -284,6 +284,7 @@ export default class Home extends Component{
 
   submitHandler = () => {
     let formIsValid = this.checkFormValidation();
+    console.log(formIsValid)
     if (formIsValid){
       this.submitForm()
     }
@@ -764,19 +765,30 @@ export default class Home extends Component{
                   </div>
                 </div>    
               :
-              <div className="verify-code">
-                <div className="heading text-center">Verify</div>
-                <p>Enter the Verification code sent on your Email.</p>
-                <div className="form-group">
-                  <input type="text" name="verification_code" className="enter-code form-control" onChange={this.updateUser} maxLength="6" onKeyPress={this.checkNumeric}/>
-                  {this.addErrorMessage(this.state.user_verification_error)}
+              <div className="register_box">
+                <div className="banner_text text-center">
+                  <h5><span className="yellow_font">test drive this auction site</span><br/>designed for local Real Estate Investors <br/><span className="para_modal1">for 60 Days for FREE to get</span><br/><span className="para_modal2">Priority Access to the Best Deals</span><br/><span className="yellow_font">& unlimited acess to</span><br/><i>ALL details about each Property!</i></h5>
+                  <h6>Start Free 60 Day trail now</h6>
+                  <p><i>& learn "5 Sneaky ways to promote</i></p>
+                  <p><i>your property to most senior investors</i></p> 
+                  <p><i>who will pay you MORE money"</i></p>
                 </div>
-                <div className="form-group">
-                  <button className="red-btn submit-btn" onClick={this.submitVerificationHandler}>Submit</button>
-                </div>
-                <div className="not-get-code text-center">
-                  <p>Didn't get Verification Code?</p>
-                  <Link to="#" onClick={this.resendVerificationCode} ><i className="fa fa-refresh" aria-hidden="true"></i> Resend Code</Link>
+                <div className="verify-code text-center">
+                  <div className="col-md-12">
+                    <h6 className="font-red">Account Verification</h6>
+                  </div>
+                  <p>Please enter the Verification code sent on your Email and Phone Number</p>
+                  <div className="form-group">
+                    <input type="text" name="verification_code" className="enter-code form-control" onChange={this.updateUser} maxLength="6" onKeyPress={this.checkNumeric}/>
+                    {this.addErrorMessage(this.state.user_verification_error)}
+                  </div>
+                  <div className="form-group">
+                    <button className="red-btn submit-btn" onClick={this.submitVerificationHandler}>Submit</button>
+                  </div>
+                  <div className="not-get-code text-center">
+                    <p className="mb-0">Didn't get Verification Code?</p>
+                    <Link to="#" onClick={this.resendVerificationCode} ><i className="fa fa-refresh" aria-hidden="true"></i> Resend Code</Link>
+                  </div>
                 </div>
               </div>
             }

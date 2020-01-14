@@ -203,6 +203,7 @@ body {
 
 .not-get-code p {
   color: #666;
+  font-weight: 400 !important;
 }
 
 .not-get-code i {
@@ -4328,10 +4329,10 @@ a.admin_table_links{
   font-size: 18px;
 }
 .register_modal{
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0,0,0,0.75);
 }
 .register_modal .modal-dialog{
-  max-width: 750px !important;
+  max-width: 740px !important;
 }
 .register_modal .modal-body{
   padding: 6px;
@@ -4343,16 +4344,25 @@ a.admin_table_links{
   background-color: #0072bb;
 }
 .register_modal .modal-body .register_box .banner_text{
-  width: 60%; 
-  padding: 25px 35px;
+  width: 58%; 
+  padding: 25px 45px 25px 25px;
 }
 .register_modal .modal-body .register_box .signup-code{
   background-color: #ededed;
-  width: 40%;
+  width: 42%;
   position: absolute;
   right: 17px;
   top: -18%;
   padding: 15px 10px;
+  border: 6px solid #fff;
+}
+.register_modal .modal-body .register_box .verify-code{
+  background-color: #ededed;
+  width: 42%;
+  position: absolute;
+  right: 17px;
+  top: -18%;
+  padding: 60px 18px;
   border: 6px solid #fff;
 }
 .register_modal .modal-body .register_box .signup-code h6{
@@ -4362,6 +4372,17 @@ a.admin_table_links{
   text-align: center;
   border-bottom: 2px solid #b71c1c;
   padding-bottom: 3px; 
+}
+.register_modal .modal-body .register_box .verify-code h6{
+  text-transform: uppercase;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  padding-bottom: 20px; 
+}
+.register_modal .modal-body .register_box .verify-code p{
+  font-size: 13px;
+  font-weight: 600;
 }
 .yellow_font{
   color: #faa20c;
