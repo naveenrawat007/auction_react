@@ -1784,7 +1784,12 @@ export default class PropertyShow extends Component {
                 <h5 className="mb-3 main_box_head">Property Video</h5>
                 <div className="video-box">
                   {
-                    this.state.property.youtube_video_key ?
+                    this.state.property.video_url ?
+                      <video width="552" height="350" controls>
+                        <source src= {this.state.property.video_url} />
+                      </video>
+                    :
+                    ((this.state.property.youtube_video_key && this.state.property.youtube_url) ?
                       <iframe title="youtube" height="350" src={ this.state.property.youtube_video_key ? `https://www.youtube.com/embed/${this.state.property.youtube_video_key}?controls=0` : "https://www.youtube.com/embed/X080gIJFE3M?controls=0"} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
                     :
                     (
@@ -1793,7 +1798,7 @@ export default class PropertyShow extends Component {
                         &fov=35`} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
                       :
                       <iframe title="youtube" height="350" src={ this.state.property.youtube_video_key ? `https://www.youtube.com/embed/${this.state.property.youtube_video_key}?controls=0` : "https://www.youtube.com/embed/X080gIJFE3M?controls=0"} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
-                    )
+                    ))
                   }
 
                 </div>
