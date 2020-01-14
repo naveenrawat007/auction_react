@@ -299,9 +299,10 @@ export default class PropertyEdit extends Component{
             // case "street_number":
             //   address = address + place.address_components[i].long_name;
             //   break;
-            case "route":
-              address = address + ", " + place.address_components[i].long_name;
-              break;
+            // case "route":
+            //   console.log(address);
+            //   address = address
+            //   break;
             case "locality":
               city = place.address_components[i].long_name;
               break;
