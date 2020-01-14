@@ -63,7 +63,7 @@ export default class Sidebar extends Component{
   }
   componentDidMount () {
     this._isMounted = true;
-    if (!(localStorage.getItem("auction_user_image")) || !(localStorage.getItem("auction_user_image"))){
+    if (!(localStorage.getItem("auction_user_name")) || !(localStorage.getItem("auction_user_image"))){
       this.changeImage()
     }
   }
