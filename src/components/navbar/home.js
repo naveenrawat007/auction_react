@@ -134,7 +134,7 @@ export default class Home extends Component{
         if (this._isMounted){
           this.setState({verified: result.user.is_verified});
         }
-        window.location.href = "/user"
+        window.location.href = "/plans"
       }else {
         if (this._isMounted){
           this.setState({message: result.message, variant: "danger"});
@@ -686,7 +686,7 @@ export default class Home extends Component{
                     <h5><span className="yellow_font">test drive this auction site</span><br/>designed for local Real Estate Investors <br/><span className="para_modal1">for 60 Days for FREE to get</span><br/><span className="para_modal2">Priority Access to the Best Deals</span><br/><span className="yellow_font">& unlimited acess to</span><br/><i>ALL details about each Property!</i></h5>
                     <h6>Start Free 60 Day trail now</h6>
                     <p><i>& learn "5 Sneaky ways to promote</i></p>
-                    <p><i>your property to most senior investors</i></p> 
+                    <p><i>your property to most senior investors</i></p>
                     <p><i>who will pay you MORE money"</i></p>
                   </div>
                   <div className="signup-code">
@@ -763,14 +763,14 @@ export default class Home extends Component{
                       <button className="btn red-btn submit-btn my-0 mx-auto" type="submit" onClick={this.submitHandler} >Start FREE 60 Day Trial Now</button>
                     </div>
                   </div>
-                </div>    
+                </div>
               :
               <div className="register_box">
                 <div className="banner_text text-center">
                   <h5><span className="yellow_font">test drive this auction site</span><br/>designed for local Real Estate Investors <br/><span className="para_modal1">for 60 Days for FREE to get</span><br/><span className="para_modal2">Priority Access to the Best Deals</span><br/><span className="yellow_font">& unlimited acess to</span><br/><i>ALL details about each Property!</i></h5>
                   <h6>Start Free 60 Day trail now</h6>
                   <p><i>& learn "5 Sneaky ways to promote</i></p>
-                  <p><i>your property to most senior investors</i></p> 
+                  <p><i>your property to most senior investors</i></p>
                   <p><i>who will pay you MORE money"</i></p>
                 </div>
                 <div className="verify-code text-center">

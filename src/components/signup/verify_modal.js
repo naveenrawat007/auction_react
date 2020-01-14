@@ -46,7 +46,7 @@ export default class VerificationModal extends Component{
         if (this._isMounted){
           this.setState({verified: result.user.is_verified});
         }
-        this.props.history.push('/user')
+        this.props.history.push('/plans')
       }else {
         if (this._isMounted){
           this.setState({message: result.message, variant: "danger"});
