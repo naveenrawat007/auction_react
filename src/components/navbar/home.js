@@ -10,6 +10,7 @@ const initial_state = {
   error: "",
   message: "",
   created: false,
+  verified: false,
   sign_up_modal: false,
   user: {
     first_name: "",
@@ -18,6 +19,7 @@ const initial_state = {
     email: "",
     password: "",
     confirm_password: "",
+    verification_code: "",
   },
   user_first_name_error: "",
   user_last_name_error: "",
@@ -25,12 +27,17 @@ const initial_state = {
   user_email_error: "",
   user_password_error: "",
   user_confirm_password_error: "",
+  user_verification_error: "",
 }
 export default class Home extends Component{
+  _isMounted = false
 
   constructor(props){
     super(props);
     this.state = initial_state;
+  }
+  componentDidMount () {
+    this._isMounted = true;
   }
 
   openSignUpModal = () => {
@@ -63,6 +70,111 @@ export default class Home extends Component{
     if (!regex.test(str)) {
       e.preventDefault();
       return false;
+    }
+  }
+
+  resendVerificationCode = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/users/resend_code"
+  	fetch(url ,{
+			method: "put",
+			headers: {
+				"Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_user_temp_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			}
+		}).then(res => res.json())
+    .then((result) => {
+      if (result.status === 208) {
+        if (this._isMounted){
+          this.setState({
+            message: result.message,
+            variant: "success"
+          });
+        }
+      }
+		}, (error) => {
+		});
+  }
+
+  submitVerificationHandler = () => {
+    if (this._isMounted){
+      let formIsValid = this.checkVerificationFormValidation();
+      if (formIsValid){
+        this.submitVerificationForm()
+      }
+    }
+  }
+  submitVerificationForm = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/users/verify"
+  	fetch(url ,{
+			method: "put",
+			headers: {
+				"Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_user_temp_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			},
+			body: JSON.stringify({verification_code: this.state.user.verification_code}),
+		}).then(res => res.json())
+    .then((result) => {
+      if (result.status === 201) {
+        localStorage.setItem("auction_user_token", result.user.token);
+        localStorage.removeItem("auction_user_name");
+        if (this._isMounted){
+          this.setState({verified: result.user.is_verified});
+        }
+        window.location.href = "/user"
+      }else {
+        if (this._isMounted){
+          this.setState({message: result.message, variant: "danger"});
+        }
+      }
+      if (this._isMounted){
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
+      }
+		}, (error) => {
+      if (this._isMounted){
+        this.setState({message: "server error"});
+      }
+		});
+  }
+
+  checkVerificationFormValidation = () => {
+    let user_verification_error = "";
+    if (this.state.user.verification_code === ""){
+      user_verification_error = "Code can't be blank!"
+    }else if (this.state.user.verification_code.length < 6) {
+      user_verification_error = "Too short!"
+    }
+    this.setState({
+      user_verification_error,
+    },function () {
+      if (user_verification_error !== "" ){
+        return false;
+      }else {
+        return true;
+      }
+    });
+    if (user_verification_error !== "" ){
+      this.setState({
+        user_verification_error
+      });
+      return false;
+    }else {
+      return true;
     }
   }
 
@@ -548,77 +660,96 @@ export default class Home extends Component{
             {
               this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
             }
-            <div className="signup-code row mx-0">
-              <div className="col-md-6">
-                <div className="input-group ">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text group-box-chat" id="basic-addon1">
-                      <FontAwesomeIcon icon={faUser} />
-                    </span>
+            {
+              this.state.created === false ?
+                <div className="signup-code row mx-0">
+                  <div className="col-md-6">
+                    <div className="input-group ">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text group-box-chat" id="basic-addon1">
+                          <FontAwesomeIcon icon={faUser} />
+                        </span>
+                      </div>
+                      <input type="text" name="first_name" onChange={this.updateUser} placeholder="First Name" autoComplete="off" className="form-control" />
+                    </div>
+                    {this.addErrorMessage(this.state.user_first_name_error)}
                   </div>
-                  <input type="text" name="first_name" onChange={this.updateUser} placeholder="First Name" autoComplete="off" className="form-control" />
-                </div>
-                {this.addErrorMessage(this.state.user_first_name_error)}
-              </div>
-              <div className="col-md-6">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text group-box-chat" id="basic-addon1">
-                      <FontAwesomeIcon icon={faUser} />
-                    </span>
+                  <div className="col-md-6">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text group-box-chat" id="basic-addon1">
+                          <FontAwesomeIcon icon={faUser} />
+                        </span>
+                      </div>
+                      <input type="text" className="form-control" name="last_name" placeholder="Last Name" onChange={this.updateUser} autoComplete="off" />
+                    </div>
+                    {this.addErrorMessage(this.state.user_last_name_error)}
                   </div>
-                  <input type="text" className="form-control" name="last_name" placeholder="Last Name" onChange={this.updateUser} autoComplete="off" />
-                </div>
-                {this.addErrorMessage(this.state.user_last_name_error)}
-              </div>
-              <div className="col-md-6 mt-2">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text group-box-chat" id="basic-addon1">
-                      <FontAwesomeIcon icon={faEnvelope} />
-                    </span>
+                  <div className="col-md-6 mt-2">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text group-box-chat" id="basic-addon1">
+                          <FontAwesomeIcon icon={faEnvelope} />
+                        </span>
+                      </div>
+                      <input type="email" className="form-control" name="email" placeholder="Email" onChange={this.updateUser} autoComplete="off" />
+                    </div>
+                    {this.addErrorMessage(this.state.user_email_error)}
                   </div>
-                  <input type="email" className="form-control" name="email" placeholder="Email" onChange={this.updateUser} autoComplete="off" />
-                </div>
-                {this.addErrorMessage(this.state.user_email_error)}
-              </div>
-              <div className="col-md-6 mt-2">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text group-box-chat" id="basic-addon1">
-                      <FontAwesomeIcon icon={faMobileAlt} />
-                    </span>
+                  <div className="col-md-6 mt-2">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text group-box-chat" id="basic-addon1">
+                          <FontAwesomeIcon icon={faMobileAlt} />
+                        </span>
+                      </div>
+                      <input type="text" className="form-control numeric" placeholder="Phone" name="phone_number" onChange={this.updateUser} maxLength="10" onKeyPress={this.checkNumeric}/>
+                    </div>
+                    {this.addErrorMessage(this.state.user_phone_number_error)}
                   </div>
-                  <input type="text" className="form-control numeric" placeholder="Phone" name="phone_number" onChange={this.updateUser} maxLength="10" onKeyPress={this.checkNumeric}/>
-                </div>
-                {this.addErrorMessage(this.state.user_phone_number_error)}
-              </div>
-              <div className="col-md-6 mt-2">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text group-box-chat" id="basic-addon1">
-                      <FontAwesomeIcon icon={faLock} />
-                    </span>
+                  <div className="col-md-6 mt-2">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text group-box-chat" id="basic-addon1">
+                          <FontAwesomeIcon icon={faLock} />
+                        </span>
+                      </div>
+                      <input type="password" className="form-control" name="password" placeholder="Password" onChange={this.updateUser} autoComplete="false" />
+                    </div>
+                    {this.addErrorMessage(this.state.user_password_error)}
                   </div>
-                  <input type="password" className="form-control" name="password" placeholder="Password" onChange={this.updateUser} autoComplete="false" />
-                </div>
-                {this.addErrorMessage(this.state.user_password_error)}
-              </div>
-              <div className="col-md-6 mt-2">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text group-box-chat" id="basic-addon1">
-                      <FontAwesomeIcon icon={faLock} />
-                    </span>
+                  <div className="col-md-6 mt-2">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text group-box-chat" id="basic-addon1">
+                          <FontAwesomeIcon icon={faLock} />
+                        </span>
+                      </div>
+                      <input type="password" className="form-control" placeholder="Confirm Password" name="confirm_password" onChange={this.updateUser} autoComplete="off" />
+                    </div>
+                    {this.addErrorMessage(this.state.user_confirm_password_error)}
                   </div>
-                  <input type="password" className="form-control" placeholder="Confirm Password" name="confirm_password" onChange={this.updateUser} autoComplete="off" />
+                  <div className="col-md-12 mt-3 text-center">
+                    <button className="red-btn submit-btn my-0 mx-auto" type="submit" onClick={this.submitHandler} >Start FREE 60 Day Trial Now</button>
+                  </div>
                 </div>
-                {this.addErrorMessage(this.state.user_confirm_password_error)}
+              :
+              <div className="verify-code">
+                <div className="heading text-center">Verify</div>
+                <p>Enter the Verification code sent on your Email.</p>
+                <div className="form-group">
+                  <input type="text" name="verification_code" className="enter-code form-control" onChange={this.updateUser} maxLength="6" onKeyPress={this.checkNumeric}/>
+                  {this.addErrorMessage(this.state.user_verification_error)}
+                </div>
+                <div className="form-group">
+                  <button className="red-btn submit-btn" onClick={this.submitVerificationHandler}>Submit</button>
+                </div>
+                <div className="not-get-code text-center">
+                  <p>Didn't get Verification Code?</p>
+                  <Link to="#" onClick={this.resendVerificationCode} ><i className="fa fa-refresh" aria-hidden="true"></i> Resend Code</Link>
+                </div>
               </div>
-              <div className="col-md-12 mt-3 text-center">
-                <button className="red-btn submit-btn my-0 mx-auto" type="submit" onClick={this.submitHandler} >Start FREE 60 Day Trial Now</button>
-              </div>
-            </div>
+            }
           </div>
         </Modal>
       </div>
