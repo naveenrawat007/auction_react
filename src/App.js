@@ -20,6 +20,7 @@ import PropertyPostAuction from './components/property/post_auction.js'
 import PropertyPending from './components/property/pending.js'
 import PropertySold from './components/property/sold.js'
 import Home from './components/navbar/home.js'
+import Plan from './components/user/plan/index.js'
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home}/>
           <Route exact path="/user" component={() => <Sidebar path='user_profile'/>}/>
+          <Route exact path="/plans" component={() => <Plan path=''/>}/>
           <Route exact path="/property/new" component={NewProperty}/>
           <Route exact path="/property/live_bidding" component={PropertyLiveBidding}/>
           <Route exact path="/property/best_offer" component={PropertyBestOffer}/>
