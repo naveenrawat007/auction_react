@@ -4423,3 +4423,68 @@ a.admin_table_links{
   color: #fff;
   text-transform: capitalize;
 }
+.works_head h3{
+  font-weight: 600;
+  font-size: 2.7rem;
+  text-transform: uppercase;
+  padding: 20px 0px;
+}
+.works_body .works_img img{
+  width: 650px;
+  border-style: outset;
+  border-width: 5px;
+  border-color: #ccc; 
+}
+.works_body .works_para h6{
+  font-size: 1.6rem;
+  font-weight: 600;
+  padding: 30px 0px;
+}
+.works_body .works_para h6 span{
+  font-weight: 500;
+}
+.works_body .works_para p{
+  font-size: 1.5rem;
+  padding-bottom: 30px;
+}
+.payments_row{
+  padding: 0px 70px;
+}
+.payments_box{
+  background-color: #fff;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+.payments_box .payments_head{
+  background-color: #b71c1c; 
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  color: #fff;
+  padding: 10px;
+}
+.payments_box .payments_body{
+  position: relative;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+.payments_box .payments_body button{
+  position: absolute;
+  border-radius: 8px;
+}
+.payments_box .payments_head p{
+  font-size: 16px;
+  margin-bottom: 0px;
+}
+.payments_box .payments_head h2{
+  font-size: 75px;
+  font-weight: 600; 
+  margin-bottom: 0px;
+}
+.payments_box .payments_head h5{
+  font-size: 15px;
+}
+.payments_box .payments_head h6{
+  font-size: 13px;
+}
