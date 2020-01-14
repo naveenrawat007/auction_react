@@ -1,21 +1,263 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faGavel, faHandPointRight} from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faGavel, faHandPointRight, faUser, faEnvelope, faMobileAlt, faLock } from '@fortawesome/free-solid-svg-icons';
 import { faCreditCard } from '@fortawesome/free-regular-svg-icons';
+import Modal from 'react-bootstrap/Modal';
+import Alert from 'react-bootstrap/Alert';
 
+const initial_state = {
+  error: "",
+  message: "",
+  created: false,
+  sign_up_modal: false,
+  user: {
+    first_name: "",
+    last_name: "",
+    phone_number: "",
+    email: "",
+    password: "",
+    confirm_password: "",
+  },
+  user_first_name_error: "",
+  user_last_name_error: "",
+  user_phone_number_error: "",
+  user_email_error: "",
+  user_password_error: "",
+  user_confirm_password_error: "",
+}
 export default class Home extends Component{
+
+  constructor(props){
+    super(props);
+    this.state = initial_state;
+  }
+
+  openSignUpModal = () => {
+    this.setState({
+      sign_up_modal: true,
+    });
+  }
+  hideSignUpModal = () => {
+    this.setState({
+      sign_up_modal: false,
+    });
+  }
+  updateUser = (event) => {
+    const{ name, value } = event.target;
+    this.setState({
+      user: {
+      ...this.state.user,
+      [name]: value
+      }
+    }, function () {
+      this.customCheckFormValidation(name);
+    });
+	}
+  checkNumeric = (e) => {
+    var regex = new RegExp("^[0-9]+$");
+    var str = String.fromCharCode(
+      !e.charCode
+      ? e.which
+      : e.charCode);
+    if (!regex.test(str)) {
+      e.preventDefault();
+      return false;
+    }
+  }
+
+  submitForm = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/users"
+  	fetch(url ,{
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			},
+			body: JSON.stringify({user: this.state.user}),
+		}).then(res => res.json())
+    .then((result) => {
+      if (result.status === 201) {
+        this.setState({message: ""})
+        localStorage.setItem("auction_user_temp_token", result.user.token);
+        this.setState({
+          created: true,
+        });
+      }else {
+        this.setState({message: result.message,
+        variant: "danger"});
+      }
+      this.clearMessageTimeout = setTimeout(() => {
+        this.setState(() => ({message: ""}))
+      }, 2000);
+		}, (error) => {
+      this.props.history.push('/sign_up')
+		});
+  }
+
+  checkFormValidation = () => {
+    let user_first_name_error = "";
+    let user_last_name_error = "";
+    let user_phone_number_error = "";
+    let user_email_error = "";
+    let user_password_error = "";
+    let user_confirm_password_error = "";
+    if (this.state.user.first_name === ""){
+      user_first_name_error = "First name can't be blank!"
+    }
+    if (this.state.user.last_name === ""){
+      user_last_name_error = "Last name can't be blank!"
+    }
+    if (this.state.user.phone_number === ""){
+      user_phone_number_error = "Phone number can't be blank!"
+    }else if (isNaN(this.state.user.phone_number)) {
+      user_phone_number_error = "Phone should be Numeric"
+    }else if (this.state.user.phone_number.length < 10){
+      user_phone_number_error = "Phone number length is small."
+    }else if (this.state.user.phone_number.length > 10) {
+      user_phone_number_error = "Phone number length is too large."
+    }
+    if (this.state.user.email === ""){
+      user_email_error = "Email can't be blank!"
+    }else if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.user.email)))
+    {
+      user_email_error = "Invalid email!"
+    }
+
+    if (this.state.user.password === ""){
+      user_password_error = "Password can't be blank!"
+    }else if (this.state.user.password.length < 6) {
+      user_password_error = "Password is too short!"
+    }
+    if (this.state.user.confirm_password === ""){
+      user_confirm_password_error = "Confirm Password can't be blank!"
+    }else if (this.state.user.confirm_password !== this.state.user.password) {
+      user_confirm_password_error = "Confirm Password is not matching password!"
+    }
+    this.setState({
+      user_first_name_error,
+      user_last_name_error,
+      user_phone_number_error,
+      user_email_error,
+      user_password_error,
+      user_confirm_password_error,
+    },function () {
+      if (user_first_name_error !== "" || user_last_name_error !== "" || user_phone_number_error !== "" || user_email_error !== "" || user_password_error !== "" || user_confirm_password_error !== "" ){
+        return false;
+      }else {
+        return true;
+      }
+    });
+
+    if (user_first_name_error !== "" || user_last_name_error !== "" || user_phone_number_error !=="" || user_email_error !== "" || user_password_error !== "" || user_confirm_password_error !== "" ){
+      this.setState({
+        user_first_name_error,
+        user_last_name_error,
+        user_phone_number_error,
+        user_email_error,
+        user_password_error,
+        user_confirm_password_error,
+      });
+      return false;
+    }else {
+      return true;
+    }
+  }
+
+  submitHandler = () => {
+    let formIsValid = this.checkFormValidation();
+    if (formIsValid){
+      this.submitForm()
+    }
+  }
+
+  customCheckFormValidation = (name) => {
+    let user_first_name_error = "";
+    let user_last_name_error = "";
+    let user_phone_number_error = "";
+    let user_email_error = "";
+    let user_password_error = "";
+    let user_confirm_password_error = "";
+    if (name === "first_name"){
+      if (this.state.user.first_name === ""){
+        user_first_name_error = "First name can't be blank!"
+      }
+      this.setState({
+        user_first_name_error
+      });
+    }else if (name === "last_name"){
+      if (this.state.user.last_name === ""){
+        user_last_name_error = "Last name can't be blank!"
+      }
+      this.setState({
+        user_last_name_error
+      });
+    }else if (name === "email") {
+      if (this.state.user.email === ""){
+        user_email_error = "Email can't be blank!"
+      }else if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.user.email)))
+      {
+        user_email_error = "Invalid email!"
+      }
+      this.setState({
+        user_email_error
+      });
+    }else if (name === "phone_number") {
+      if (this.state.user.phone_number === ""){
+        user_phone_number_error = "Phone number can't be blank!"
+      }else if (isNaN(this.state.user.phone_number)) {
+        user_phone_number_error = "Phone should be Numeric"
+      }else if (this.state.user.phone_number.length < 10){
+        user_phone_number_error = "Phone number length is small."
+      }else if (this.state.user.phone_number.length > 10) {
+        user_phone_number_error = "Phone number length is too large."
+      }
+      this.setState({
+        user_phone_number_error
+      });
+    }else if (name === "password") {
+      if (this.state.user.password === ""){
+        user_password_error = "Password can't be blank!"
+      }else if (this.state.user.password.length < 6) {
+        user_password_error = "Password is too short!"
+      }
+      this.setState({
+        user_password_error
+      });
+    }else if (name === "confirm_password") {
+      if (this.state.user.confirm_password === ""){
+        user_confirm_password_error = "Confirm Password can't be blank!"
+      }else if (this.state.user.confirm_password !== this.state.user.password) {
+        user_confirm_password_error = "Confirm Password is not matching password!"
+      }
+      this.setState({
+        user_confirm_password_error
+      });
+    }
+  }
+
+  addErrorMessage = (msg) => {
+    if (msg === ""){
+      return ;
+    }else{
+      return (<span className="error-class"> {msg} </span>);
+    }
+  }
   render(){
     return(
       <div className="container-fluid home_main px-0">
         <div className="video_col">
-          <div className="arrow">
-            <a href="/#"> </a>
-          </div>
           <video id="videobcg" preload="auto" autoPlay={true} loop="loop" muted="muted" volume="0">
             <source src="./videos/produce.mp4" type="video/mp4"/>
           </video>
         </div>
+        <button className="btn red-btn" onClick={this.openSignUpModal}> Start free 60 days trial</button>
         <div className="help_col">
           <div className="container">
             <div className="row">
@@ -296,6 +538,89 @@ export default class Home extends Component{
             </div>
           </div>
         </div>
+        <Modal className="status_modal" show={this.state.sign_up_modal} onHide={this.hideSignUpModal} centered>
+          <Modal.Header closeButton>
+            <div className=" offset-md-1 col-md-10 text-center">
+              <h5 className="mb-0 text-uppercase"> CREATE YOUR ACCOUNT</h5>
+            </div>
+          </Modal.Header>
+          <div className="modal-body">
+            {
+              this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+            }
+            <div className="signup-code row mx-0">
+              <div className="col-md-6">
+                <div className="input-group ">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text group-box-chat" id="basic-addon1">
+                      <FontAwesomeIcon icon={faUser} />
+                    </span>
+                  </div>
+                  <input type="text" name="first_name" onChange={this.updateUser} placeholder="First Name" autoComplete="off" className="form-control" />
+                </div>
+                {this.addErrorMessage(this.state.user_first_name_error)}
+              </div>
+              <div className="col-md-6">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text group-box-chat" id="basic-addon1">
+                      <FontAwesomeIcon icon={faUser} />
+                    </span>
+                  </div>
+                  <input type="text" className="form-control" name="last_name" placeholder="Last Name" onChange={this.updateUser} autoComplete="off" />
+                </div>
+                {this.addErrorMessage(this.state.user_last_name_error)}
+              </div>
+              <div className="col-md-6 mt-2">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text group-box-chat" id="basic-addon1">
+                      <FontAwesomeIcon icon={faEnvelope} />
+                    </span>
+                  </div>
+                  <input type="email" className="form-control" name="email" placeholder="Email" onChange={this.updateUser} autoComplete="off" />
+                </div>
+                {this.addErrorMessage(this.state.user_email_error)}
+              </div>
+              <div className="col-md-6 mt-2">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text group-box-chat" id="basic-addon1">
+                      <FontAwesomeIcon icon={faMobileAlt} />
+                    </span>
+                  </div>
+                  <input type="text" className="form-control numeric" placeholder="Phone" name="phone_number" onChange={this.updateUser} maxLength="10" onKeyPress={this.checkNumeric}/>
+                </div>
+                {this.addErrorMessage(this.state.user_phone_number_error)}
+              </div>
+              <div className="col-md-6 mt-2">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text group-box-chat" id="basic-addon1">
+                      <FontAwesomeIcon icon={faLock} />
+                    </span>
+                  </div>
+                  <input type="password" className="form-control" name="password" placeholder="Password" onChange={this.updateUser} autoComplete="false" />
+                </div>
+                {this.addErrorMessage(this.state.user_password_error)}
+              </div>
+              <div className="col-md-6 mt-2">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text group-box-chat" id="basic-addon1">
+                      <FontAwesomeIcon icon={faLock} />
+                    </span>
+                  </div>
+                  <input type="password" className="form-control" placeholder="Confirm Password" name="confirm_password" onChange={this.updateUser} autoComplete="off" />
+                </div>
+                {this.addErrorMessage(this.state.user_confirm_password_error)}
+              </div>
+              <div className="col-md-12 mt-3 text-center">
+                <button className="red-btn submit-btn my-0 mx-auto" type="submit" onClick={this.submitHandler} >Start FREE 60 Day Trial Now</button>
+              </div>
+            </div>
+          </div>
+        </Modal>
       </div>
     )
   }
