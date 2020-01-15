@@ -44,7 +44,7 @@ export default class Navbar extends Component{
         localStorage.removeItem("auction_admin_token");
         let path_name = ""
         path_name = this.props.location.pathname
-        if ((path_name === "/sign_up") || (path_name === "/login") || (path_name === "/forgot_password") || (path_name === "/property/new") ){
+        if ((path_name === "/sign_up") || (path_name === "/login") || (path_name === "/forgot_password") || (path_name === "/property/new") || (/^\/property\/[a-z_0-9]+/i.test(path_name) === true) ){
           this.props.history.push(this.props.location.pathname)
         }else if (path_name === "/new_password") {
         }
