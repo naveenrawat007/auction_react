@@ -58,6 +58,7 @@ export default class PremiumUserList extends Component{
           this.setState({
             isLoaded: true,
             users: result.users,
+            selected_user: "",
             status_modal: false,
             current_page : result.meta.current_page,
             total_pages : result.meta.total_pages,
