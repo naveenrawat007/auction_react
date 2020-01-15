@@ -422,25 +422,31 @@ export default class PropertyShow extends Component {
   }
 
   buyNowHandler = () => {
-    this.setState({
-      buy_option: [],
-      open_buy_now_modal: true,
-    });
+    if (this.state.is_premium){
+      this.setState({
+        buy_option: [],
+        open_buy_now_modal: true,
+      });
+    }
   }
 
   buyNowBestOfferHandler = () => {
-    this.setState({
-      buy_option: [],
-      open_buy_now_modal: true,
-      best_offer: true
-    });
+    if (this.state.is_premium){
+      this.setState({
+        buy_option: [],
+        open_buy_now_modal: true,
+        best_offer: true
+      });
+    }
   }
 
   bestOfferHandler = () => {
-    this.setState({
-      buy_option: [],
-      open_best_offer_modal: true ,
-    });
+    if (this.state.is_premium){
+      this.setState({
+        buy_option: [],
+        open_best_offer_modal: true ,
+      });
+    }
   }
 
   closeBestOfferModal = () => {
@@ -460,10 +466,12 @@ export default class PropertyShow extends Component {
   }
 
   biddingHandler = () => {
-    this.setState({
-      buy_option: [],
-      open_bidding_modal: true ,
-    });
+    if (this.state.is_premium){
+      this.setState({
+        buy_option: [],
+        open_bidding_modal: true ,
+      });
+    }
   }
 
   closeBuyNowModal = () => {
@@ -1408,7 +1416,7 @@ export default class PropertyShow extends Component {
                       <FontAwesomeIcon icon={faHeart}/>
                     </div>)
                   :
-                  <div className="fav-watch-heart" onClick={this.updateFavourite}>
+                  <div className="fav-watch-heart" >
                     <FontAwesomeIcon icon={faLock}/>
                   </div>
                 }
@@ -1524,41 +1532,102 @@ export default class PropertyShow extends Component {
                     <h5 className="mb-3 main_box_head">Property Documents</h5>
                     <div className="doc_content">
                       <div className="pdf_type">
-                        <Link to="#" onClick={this.openRehabCostAttrModal} rel="noopener noreferrer">
-                          <div className="pdf-box">
-                            <FontAwesomeIcon icon={faFilePdf} color="red"/>
-                            <p>Itemized Repairs</p>
-                          </div>
-                        </Link>
+                        {
+                          this.state.is_premium ?
+                            <Link to="#" onClick={this.openRehabCostAttrModal} rel="noopener noreferrer">
+                              <div className="pdf-box">
+                                <FontAwesomeIcon icon={faFilePdf} color="red"/>
+                                <p>Itemized Repairs</p>
+                              </div>
+                            </Link>
+                          :
+                          <>
+                            <Link to="#" rel="noopener noreferrer">
+                              <div className="pdf-box">
+                                <FontAwesomeIcon icon={faFilePdf} color="red"/>
+                                <p>Itemized Repairs</p>
+                              </div>
+                            </Link>
+                            <div className="fav-watch-heart" >
+                              <FontAwesomeIcon icon={faLock}/>
+                            </div>
+                          </>
+
+                        }
                       </div>
                       {this.state.property.arv_proof === "" ? null : (
                         <div className="pdf_type">
-                          <a href={this.state.property.arv_proof} target="_blank" rel="noopener noreferrer">
-                            <div className="pdf-box">
-                              <FontAwesomeIcon icon={faFilePdf} color="red"/>
-                              <p>Arv Proof</p>
-                            </div>
-                          </a>
+                          {
+                            this.state.is_premium ?
+                              <a href={this.state.property.arv_proof} target="_blank" rel="noopener noreferrer">
+                                <div className="pdf-box">
+                                  <FontAwesomeIcon icon={faFilePdf} color="red"/>
+                                  <p>Arv Proof</p>
+                                </div>
+                              </a>
+                            :
+                            <>
+                              <Link to="#" rel="noopener noreferrer">
+                                <div className="pdf-box">
+                                  <FontAwesomeIcon icon={faFilePdf} color="red"/>
+                                  <p>Arv Proof</p>
+                                </div>
+                              </Link>
+                              <div className="fav-watch-heart" >
+                                <FontAwesomeIcon icon={faLock}/>
+                              </div>
+                            </>
+                          }
                         </div>
                       ) }
                       {this.state.property.rehab_cost_proof === "" ? null : (
                         <div className="pdf_type">
-                          <a href={this.state.property.rehab_cost_proof} target="_blank" rel="noopener noreferrer">
-                            <div className="pdf-box">
-                              <FontAwesomeIcon icon={faFilePdf}/>
-                              <p>Rehab Cost proofs</p>
-                            </div>
-                          </a>
+                          {
+                            this.state.is_premium ?
+                              <a href={this.state.property.rehab_cost_proof} target="_blank" rel="noopener noreferrer">
+                                <div className="pdf-box">
+                                  <FontAwesomeIcon icon={faFilePdf}/>
+                                  <p>Rehab Cost proofs</p>
+                                </div>
+                              </a>
+                            :
+                            <>
+                              <Link to="#" rel="noopener noreferrer">
+                                <div className="pdf-box">
+                                  <FontAwesomeIcon icon={faFilePdf} color="red"/>
+                                  <p>Rehab Cost proofs</p>
+                                </div>
+                              </Link>
+                              <div className="fav-watch-heart" >
+                                <FontAwesomeIcon icon={faLock}/>
+                              </div>
+                            </>
+                          }
                         </div>
                       )}
                       {this.state.property.rental_proof === "" ? null : (
                         <div className="pdf_type">
-                          <a href={this.state.property.rental_proof} target="_blank" rel="noopener noreferrer">
-                            <div className="pdf-box">
-                              <FontAwesomeIcon icon={faFilePdf}/>
-                              <p>Rental proofs</p>
-                            </div>
-                          </a>
+                          {
+                            this.state.is_premium ?
+                              <a href={this.state.property.rental_proof} target="_blank" rel="noopener noreferrer">
+                                <div className="pdf-box">
+                                  <FontAwesomeIcon icon={faFilePdf}/>
+                                  <p>Rental proofs</p>
+                                </div>
+                              </a>
+                            :
+                            <>
+                              <Link to="#" rel="noopener noreferrer">
+                                <div className="pdf-box">
+                                  <FontAwesomeIcon icon={faFilePdf} color="red"/>
+                                  <p>Rental proofs</p>
+                                </div>
+                              </Link>
+                              <div className="fav-watch-heart" >
+                                <FontAwesomeIcon icon={faLock}/>
+                              </div>
+                            </>
+                          }
                         </div>
                       )}
                     </div>
