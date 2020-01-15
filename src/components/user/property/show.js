@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf} from '@fortawesome/free-solid-svg-icons';
+import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf, faLock} from '@fortawesome/free-solid-svg-icons';
 import { faHeart} from '@fortawesome/free-regular-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
@@ -12,6 +12,7 @@ export default class PropertyShow extends Component {
   constructor(props){
     super(props);
     this.state = {
+      is_premium: "",
       unique_address: this.props.match.params.id,
       favourite: false,
       checkBoxEnabled: false,
@@ -87,6 +88,7 @@ export default class PropertyShow extends Component {
             favourite: result.favourite,
             property_buy_options: result.buy_options,
             isLoaded: true,
+            is_premium: result.is_premium,
             property: result.property,
             near_by_properties: result.near_properties,
             bidding_options: {
@@ -1343,7 +1345,18 @@ export default class PropertyShow extends Component {
               <div className="wrap_property">
                 <div className="property-head">
                   <div className="head_address">
-                    <h3 className="font-blue">{this.state.property.address}</h3>
+                    <h3 className="font-blue">
+                      {this.state.is_premium ?
+                        this.state.property.address
+                      :
+                      (this.state.is_premium === false ?
+                        <span>Only Premium User can view address</span>
+                      :
+                      <span>
+                        <Link to="/sign_up">Register</Link> or <Link to="/login">Login</Link> to view address
+                      </span>
+                      )
+                      }</h3>
                     <h5>Property Type: {this.state.property.p_type}</h5>
                   </div>
                   {this.state.property.category === "Residential" ?
@@ -1384,13 +1397,19 @@ export default class PropertyShow extends Component {
               <div className="wrap_property py-4 lock-region">
                 {this.renderBiddingBlock()}
                 {
-                  this.state.favourite === true ?
-                    <div className="fav-watch-heart" onClick={this.updateFavourite}>
+                  this.state.is_premium ?
+
+                    (this.state.favourite === true ?
+                      <div className="fav-watch-heart" onClick={this.updateFavourite}>
+                        <FontAwesomeIcon icon={faHeart}/>
+                      </div>
+                    :
+                    <div className="watch-heart" onClick={this.updateFavourite}>
                       <FontAwesomeIcon icon={faHeart}/>
-                    </div>
+                    </div>)
                   :
-                  <div className="watch-heart" onClick={this.updateFavourite}>
-                    <FontAwesomeIcon icon={faHeart}/>
+                  <div className="fav-watch-heart" onClick={this.updateFavourite}>
+                    <FontAwesomeIcon icon={faLock}/>
                   </div>
                 }
               </div>
@@ -1782,34 +1801,55 @@ export default class PropertyShow extends Component {
             <div className="col-md-6 px-2">
               <div className="wrap_property">
                 <h5 className="mb-3 main_box_head">Property Video</h5>
-                <div className="video-box">
-                  {
-                    this.state.property.video_url ?
-                      <video width="552" height="350" controls>
-                        <source src= {this.state.property.video_url} />
-                      </video>
-                    :
-                    ((this.state.property.youtube_video_key && this.state.property.youtube_url) ?
-                      <iframe title="youtube" height="350" src={ this.state.property.youtube_video_key ? `https://www.youtube.com/embed/${this.state.property.youtube_video_key}?controls=0` : "https://www.youtube.com/embed/X080gIJFE3M?controls=0"} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
-                    :
-                    (
-                      (this.state.property.lat && this.state.property.long) ?
-                        <iframe title="map" height="350" src={`https://www.google.com/maps/embed/v1/streetview?key=AIzaSyBcFpWT7vu4mLXbEPmkr5GJDG5jWBI67x0&location=${this.state.property.lat},${this.state.property.long}&heading=210&pitch=10
-                        &fov=35`} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                {this.state.is_premium ?
+                  <div className="video-box">
+                    {
+                      this.state.property.video_url ?
+                        <video width="552" height="350" controls>
+                          <source src= {this.state.property.video_url} />
+                        </video>
                       :
-                      <iframe title="youtube" height="350" src={ this.state.property.youtube_video_key ? `https://www.youtube.com/embed/${this.state.property.youtube_video_key}?controls=0` : "https://www.youtube.com/embed/X080gIJFE3M?controls=0"} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
-                    ))
-                  }
-
-                </div>
+                      ((this.state.property.youtube_video_key && this.state.property.youtube_url) ?
+                        <iframe title="youtube" height="350" src={ this.state.property.youtube_video_key ? `https://www.youtube.com/embed/${this.state.property.youtube_video_key}?controls=0` : "https://www.youtube.com/embed/X080gIJFE3M?controls=0"} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                      :
+                      (
+                        (this.state.property.lat && this.state.property.long) ?
+                          <iframe title="map" height="350" src={`https://www.google.com/maps/embed/v1/streetview?key=AIzaSyBcFpWT7vu4mLXbEPmkr5GJDG5jWBI67x0&location=${this.state.property.lat},${this.state.property.long}&heading=210&pitch=10
+                        &fov=35`} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                        :
+                        <iframe title="youtube" height="350" src={ this.state.property.youtube_video_key ? `https://www.youtube.com/embed/${this.state.property.youtube_video_key}?controls=0` : "https://www.youtube.com/embed/X080gIJFE3M?controls=0"} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                      ))
+                    }
+                  </div>
+                :
+                <>
+                  <div className="video-box">
+                    <iframe title="youtube" height="350" src="https://www.youtube.com/embed/X080gIJFE3M?controls=0" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                  </div>
+                  <div className="video-login">
+                    <p><Link to="/sign_up" className="links-login">Register</Link> or <Link to="/login" className="links-login">Login</Link> to view address</p>
+                  </div>
+                </>
+                }
               </div>
             </div>
             <div className="col-md-6 px-2">
               <div className="wrap_property">
                 <h5 className="mb-3 main_box_head">Property Location</h5>
-                <div className="map-box">
-                  <iframe title="map" width="552" height="350" id="gmap_canvas" src={`https://maps.google.com/maps?q= ${this.state.property.address}&t=&z=13&ie=UTF8&iwloc=&output=embed`} frameBorder="0" scrolling="no" ></iframe>
-                </div>
+                {this.state.is_premium ?
+                  <div className="map-box">
+                    <iframe title="map" width="552" height="350" id="gmap_canvas" src={`https://maps.google.com/maps?q= ${this.state.property.address}&t=&z=13&ie=UTF8&iwloc=&output=embed`} frameBorder="0" scrolling="no" ></iframe>
+                  </div>
+                :
+                <>
+                  <div className="map-box">
+                    <iframe title="map" width="552" height="350" id="gmap_canvas" src={"https://maps.google.com/maps?q= usa&t=&z=13&ie=UTF8&iwloc=&output=embed"} frameBorder="0" scrolling="no" ></iframe>
+                  </div>
+                  <div className="video-login">
+                    <p><Link to="/sign_up" className="links-login">Register</Link> or <Link to="/login" className="links-login">Login</Link> to view address</p>
+                  </div>
+                </>
+                }
               </div>
             </div>
             <div className="col-md-8 mb-3 px-2">
