@@ -1897,6 +1897,9 @@ export default class PropertyShow extends Component {
                   </div>
                   <div className="video-login">
                     <p><Link to="/sign_up" className="links-login">Register</Link> or <Link to="/login" className="links-login">Login</Link> to view address</p>
+                    <div className="fav-watch-heart" >
+                      <FontAwesomeIcon icon={faLock}/>
+                    </div>
                   </div>
                 </>
                 }
@@ -1916,6 +1919,9 @@ export default class PropertyShow extends Component {
                   </div>
                   <div className="video-login">
                     <p><Link to="/sign_up" className="links-login">Register</Link> or <Link to="/login" className="links-login">Login</Link> to view address</p>
+                    <div className="fav-watch-heart" >
+                      <FontAwesomeIcon icon={faLock}/>
+                    </div>
                   </div>
                 </>
                 }

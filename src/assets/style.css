@@ -1690,6 +1690,7 @@ input.form-control:focus {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
+  position: relative;
 }
 
 .pdf_type svg {
@@ -3154,20 +3155,24 @@ input:checked+.slider:before {
   position: relative;
 }
 
-/* .login-locks {
+ .login-locks {
   width: 35px;
   height: 35px;
   color: #fff;
-  background-color: #fff !important;
+  background-color: #b82f1e;
   border: 1px grey;
-  box-shadow: 20px 20px 50px 15px grey;
+  box-shadow: 0px 0px 18px -6px #8c8686;
   text-align: center;
   line-height: 35px;
   border-radius: 100%;
-} */
+  position: absolute;
+  right: 14px;
+  top: 50px;
+} 
 
-.login-locks i {
-  font-size: 24px;
+.login-locks svg {
+  font-size: 14px;
+  color: #fff;
 }
 
 .video-login {
