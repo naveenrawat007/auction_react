@@ -20,6 +20,7 @@ export default class Login extends Component{
   }
 
   componentDidMount () {
+    window.scrollTo(0,0)
     if (localStorage.getItem("auction_user_token")){
 			this.props.history.push('/')
 		}
