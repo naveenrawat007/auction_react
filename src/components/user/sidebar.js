@@ -9,6 +9,7 @@ import WatchProperty from './property/watch_property.js'
 import ListOfferProperty from './property/offers.js'
 import ListBidProperty from './property/bids.js'
 import ListBuyNowProperty from './property/buy_now.js'
+import ChatList from './chat/index.js'
 
 export default class Sidebar extends Component{
   _isMounted = false
@@ -92,6 +93,8 @@ export default class Sidebar extends Component{
         return <ListBidProperty/>;
       case 'buy_now_properties_list':
         return <ListBuyNowProperty/>;
+      case 'user_chat':
+        return <ChatList/>;
       default:
     }
   }
@@ -141,7 +144,7 @@ export default class Sidebar extends Component{
                     <span><FontAwesomeIcon icon={faCreditCard} /> Available Plans</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
-                    {/* </a> */}
+                  {/* </a> */}
                 </li>
                 <li className="nav-item">
                   <Link to='/user/property' className={this.checkActive("property_list")} data-toggle="pill" >
@@ -163,10 +166,10 @@ export default class Sidebar extends Component{
                 </li>
 
                 <li className="nav-item">
-                  <a className="nav-link" href="chat.html">
+                  <Link className={this.checkActive("user_chat")} to="/user/chat">
                     <span><FontAwesomeIcon icon={faEnvelopeOpenText} />  Messages</span>
                     <FontAwesomeIcon icon={faChevronRight} />
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" data-toggle="pill" onClick={this.handleLogout} to="#">
