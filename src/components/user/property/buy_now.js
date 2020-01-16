@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelopeOpenText, faDownload, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+// import { faEnvelopeOpenText, faDownload } from '@fortawesome/free-solid-svg-icons';
 import {Link} from 'react-router-dom';
 import { faSearch, faLink } from '@fortawesome/free-solid-svg-icons';
 import Accordion from 'react-bootstrap/Accordion';
@@ -9,16 +9,13 @@ import Button from 'react-bootstrap/Button';
 import { FacebookShareButton, TwitterShareButton, TumblrShareButton, PinterestShareButton, RedditShareButton} from "react-share";
 import {FacebookIcon, TwitterIcon, TumblrIcon, PinterestIcon, RedditIcon } from "react-share";
 import Alert from 'react-bootstrap/Alert';
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2
-})
+
 const initial_state = {
   docs_modal: false,
   status_modal: false,
   share_modal: false,
   share_link: "",
+  share_email: "",
   error: "",
   message: "",
   isLoaded: false,
@@ -35,6 +32,7 @@ const initial_state = {
   request_reasons_options: [],
   withdraw_reasons_options: [],
   termination_reasons_options: [],
+  share_email_error: "",
 }
 
 
@@ -148,6 +146,9 @@ export default class ListBuyNowProperty extends Component{
   }
 
   emailPropertyShare = () => {
+    if (this.state.share_email_error){
+      return ;
+    }
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/share"
     const fd = new FormData();
     fd.append('property[id]', this.state.properties[this.state.selected_property].id)
@@ -172,16 +173,50 @@ export default class ListBuyNowProperty extends Component{
         this.setState({
           share_modal: false ,
         });
-        this.setState({
-          message: result.message,
-          variant: "success"
-        });
+        if (result.status === 200){
+          this.setState({
+            message: result.message,
+            variant: "success"
+          });
+        }
+        else if (result.status === 400){
+          this.setState({
+            message: result.message,
+            variant: "danger"
+          });
+        }
         this.clearMessageTimeout = setTimeout(() => {
           this.setState(() => ({message: ""}))
         }, 2000);
         // this.getPropertiesList();
       }
     })
+  }
+  updateStatusFields = (event) =>{
+    const{ name, value } = event.target;
+    // console.log(this.state.termination_reasons_options );
+    this.setState({
+      [name]: value
+    }, function () {
+      if (name === "share_email"){
+        if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.share_email))){
+          this.setState({
+            share_email_error: "error",
+          });
+        }else {
+          this.setState({
+            share_email_error: "",
+          });
+        }
+      }
+    });
+  }
+  addErrorClass = (msg) => {
+    if (msg === ""){
+      return ""
+    }else {
+      return "error-class"
+    }
   }
 
   checkActiveClass = (number, current_page) => {
@@ -207,6 +242,7 @@ export default class ListBuyNowProperty extends Component{
     }
   }
 
+
   bidsList = (object) => {
     const bidList = object.map((bid, index) => {
       return (
@@ -214,20 +250,12 @@ export default class ListBuyNowProperty extends Component{
           <td>
             <div className="user_name_box">
               <span>{bid.user[0]}</span>
-              <p>{bid.user}</p>
+              <p>{bid.user ? (bid.user[0]+"***"+bid.user[bid.user.length - 1]) : "***" }</p>
             </div>
           </td>
-          <td><p>{formatter.format(bid.amount)}</p></td>
+          <td><p>{window.format_currency(bid.amount)}</p></td>
           <td><p>{bid.type}</p></td>
           <td><p>{bid.time}</p></td>
-          <td>
-            <div className="order-actions">
-              <Link to="#"><FontAwesomeIcon icon={faEnvelopeOpenText}  /></Link>
-              <Link to="#"><FontAwesomeIcon icon={faDownload}  /></Link>
-              <Link to="#"><FontAwesomeIcon icon={faThumbsUp}  /></Link>
-              <Link to="#"><FontAwesomeIcon icon={faThumbsDown}  /></Link>
-            </div>
-          </td>
         </tr>
       )
     })
@@ -262,7 +290,7 @@ export default class ListBuyNowProperty extends Component{
             </div>
             <div className="col-md-5 px-2 py-2">
               <div className=" properties-address">
-                <h5 className="font-blue"><Link to={"/property/" + property.unique_address}> {property.headliner} </Link></h5>
+                <h5 className="font-blue"><Link to={"/property/" + property.unique_address}> {property.address} </Link></h5>
                 <div className="address-list mb-0">
                   <div className="p-format">
                     <p>Submitted Date</p>
@@ -282,14 +310,14 @@ export default class ListBuyNowProperty extends Component{
                     <p>Starting Bid</p>
                     <p>:</p>
                   </div>
-                  <p>{formatter.format(property.seller_price)}</p>
+                  <p>{window.format_currency(property.seller_price)}</p>
                 </div>
                 <div className="address-list mb-0">
                   <div className="p-format">
                     <p>Buy Now Price</p>
                     <p>:</p>
                   </div>
-                  <p>{formatter.format(property.buy_now_price)}</p>
+                  <p>{window.format_currency(property.buy_now_price)}</p>
                 </div>
                 <div className="address-list mb-0">
                   <div className="p-format">
@@ -305,7 +333,7 @@ export default class ListBuyNowProperty extends Component{
 
             <div className="col-md-3 px-2 text-center py-2">
               <div className="properties-price">
-                <h5 className="font-red">{formatter.format(property.highest_bid)}</h5>
+                <h5 className="font-red">{window.format_currency(property.highest_bid)}</h5>
                 <p>Current Highest Bid</p>
                 {/* <Accordion.Toggle eventKey={property.id}> */}
                 <Accordion.Toggle as={Button} className="btn red-btn"  eventKey={property.id}>List of Buy Now
@@ -328,7 +356,6 @@ export default class ListBuyNowProperty extends Component{
                     <th>Amount</th>
                     <th>Type</th>
                     <th>Date</th>
-                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -440,7 +467,7 @@ export default class ListBuyNowProperty extends Component{
                   </div>
                   <div className="col-md-12 text-left">
                     <label className="bold-label">Email</label>
-                    <input className="form-control" type="email" name="share_email" onChange={this.updateStatusFields}></input>
+                    <input className={"form-control " + this.addErrorClass(this.state.share_email_error)} type="email" name="share_email" onChange={this.updateStatusFields}></input>
                   </div>
                 </div>
               </div>

@@ -5,11 +5,7 @@ import DatePicker from "react-datepicker";
 import Alert from 'react-bootstrap/Alert';
 // import {Link} from 'react-router-dom';
 import { faSearch, faDownload } from '@fortawesome/free-solid-svg-icons';
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2
-})
+
 export default class Pending extends Component{
   _isMounted = false
   componentWillUnmount() {
@@ -53,7 +49,7 @@ export default class Pending extends Component{
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": localStorage.getItem("auction_user_token"),
+        "Authorization": localStorage.getItem("auction_admin_token"),
         "Accept": "application/vnd.auction_backend.v1",
         "Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Credentials": "*",
@@ -86,7 +82,7 @@ export default class Pending extends Component{
           });
           window.scroll(0,0);
         }else if (result.status === 401) {
-          localStorage.removeItem("auction_user_token");
+          localStorage.removeItem("auction_admin_token");
           window.location.href = "/login"
         }else {
           this.setState({
@@ -172,7 +168,7 @@ export default class Pending extends Component{
     fetch(url, {
       method: "PUT",
       headers: {
-        "Authorization": localStorage.getItem("auction_user_token"),
+        "Authorization": localStorage.getItem("auction_admin_token"),
         "Accept": "application/vnd.auction_backend.v1",
         "Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Credentials": "*",
@@ -271,10 +267,10 @@ export default class Pending extends Component{
       return (
         <tr key={index}>
           <td>{bid.user_name}</td>
-          <td>{bid.user_type}</td>
-          <td>{formatter.format(bid.amount)}</td>
+          <td>{bid.type}</td>
+          <td>{window.format_currency(bid.amount)}</td>
           <td>{bid.time}</td>
-          <td>Active</td>
+          <td>{bid.accepted === true ? "Active" : "Deactive"}</td>
         </tr>
       )
     })
@@ -324,9 +320,9 @@ export default class Pending extends Component{
           </td>
           <td>{property.owner_category}</td>
           <td>{property.address}</td>
-          <td><p onClick={() =>{this.openBidModal(index)}}>{Object.keys(property.bids).length}</p></td>
+          <td><p onClick={() =>{this.openBidModal(index)}}>{Object.keys(property.bids).length + Object.keys(property.buy_now_offers).length + Object.keys(property.best_offers).length}</p></td>
           <td>{property.highest_bid_detail.user_name ? property.highest_bid_detail.user_name : "N/A"}</td>
-          <td>{property.highest_bid_detail.amount ? `${formatter.format(property.highest_bid_detail.amount)}` : "N/A"}</td>
+          <td>{property.highest_bid_detail.amount ? `${window.format_currency(property.highest_bid_detail.amount)}` : "N/A"}</td>
           <td> {property.highest_bid_detail.fund_proof ? <a className="admin_table_links" href={property.highest_bid_detail.fund_proof} target="_blank" rel="noopener noreferrer">Attachment <FontAwesomeIcon icon={faDownload} /></a> : ""} </td>
         </tr>
       );
@@ -371,7 +367,7 @@ export default class Pending extends Component{
                     <th>Name</th>
                     <th>User Type</th>
                     <th>Property Address</th>
-                    <th>No. of bids</th>
+                    <th>No. of offers</th>
                     <th>Higest Bidder</th>
                     <th>Bid Amount</th>
                     <th>Proof of funds</th>
@@ -470,7 +466,7 @@ export default class Pending extends Component{
         <Modal className="bid_modal" show={this.state.bid_modal} onHide={this.closeBidModal}>
           <Modal.Header closeButton>
             <div className=" offset-md-1 col-md-10 text-center">
-              <h5 className="mb-0 "> Bids For {this.state.properties[this.state.bid_selected_property] ? this.state.properties[this.state.bid_selected_property].address : null}</h5>
+              <h5 className="mb-0 "> Offers For {this.state.properties[this.state.bid_selected_property] ? this.state.properties[this.state.bid_selected_property].address : null}</h5>
             </div>
           </Modal.Header>
           <div className="modal-body">
@@ -479,13 +475,15 @@ export default class Pending extends Component{
                 <tr>
                   <th>Name</th>
                   <th>User Type</th>
-                  <th>Submitted Bids</th>
+                  <th>Offers</th>
                   <th>Date & Time</th>
                   <th>Status</th>
                 </tr>
               </thead>
               <tbody>
                 {this.bidsList(this.state.properties[this.state.bid_selected_property] ? this.state.properties[this.state.bid_selected_property].bids : [])}
+                {this.bidsList(this.state.properties[this.state.bid_selected_property] ? this.state.properties[this.state.bid_selected_property].best_offers : [])}
+                {this.bidsList(this.state.properties[this.state.bid_selected_property] ? this.state.properties[this.state.bid_selected_property].buy_now_offers : [])}
               </tbody>
             </table>
             <div className="col-md-12 text-center mt-3">

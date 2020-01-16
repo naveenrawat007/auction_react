@@ -46,7 +46,7 @@ export default class VerificationModal extends Component{
         if (this._isMounted){
           this.setState({verified: result.user.is_verified});
         }
-        this.props.history.push('/user')
+        this.props.history.push('/plans')
       }else {
         if (this._isMounted){
           this.setState({message: result.message, variant: "danger"});
@@ -172,31 +172,37 @@ export default class VerificationModal extends Component{
 
   render(){
     return(
-      <Modal className="status_modal verify_modal" show={true} onHide={(e) => {}}>
-        { this.state.verified ? <Redirect to='/'/> : null }
-        <div className="modal-body">
-          <div className="verify-code">
-            <div className="heading text-center">Verify</div>
-            <p>Enter the Verification code sent on your Email.</p>
-            <form onSubmit = {this.submitHandler}>
-              {
-                this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
-              }
-              <div className="form-group">
-                <input type="text" name="verification_code" className="enter-code form-control" onChange={this.updateUserCode} maxLength="6" onKeyPress={this.checkNumeric}/>
-                {this.addErrorMessage(this.state.user_verification_error)}
+      <div className="profile-setting">
+        <div className="container custom_container buy_tab px-0 loading-spinner-parent">
+          <div className="no-items-div">
+            <Modal className="status_modal verify_modal pr-0" show={true} onHide={(e) => {}}>
+              { this.state.verified ? <Redirect to='/'/> : null }
+              <div className="modal-body">
+                <div className="verify-code">
+                  <div className="heading text-center">Verify</div>
+                  <p>Enter the Verification code sent on your Email.</p>
+                  <form onSubmit = {this.submitHandler}>
+                    {
+                      this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+                    }
+                    <div className="form-group">
+                      <input type="text" name="verification_code" className="enter-code form-control" onChange={this.updateUserCode} maxLength="6" onKeyPress={this.checkNumeric}/>
+                      {this.addErrorMessage(this.state.user_verification_error)}
+                    </div>
+                    <div className="form-group">
+                      <button className="red-btn submit-btn" type="submit">Submit</button>
+                    </div>
+                    <div className="not-get-code text-center">
+                      <p>Didn't get Verification Code?</p>
+                      <Link to="#" onClick={this.resendVerificationCode} ><i className="fa fa-refresh" aria-hidden="true"></i> Resend Code</Link>
+                    </div>
+                  </form>
+                </div>
               </div>
-              <div className="form-group">
-                <button className="red-btn submit-btn" type="submit">Submit</button>
-              </div>
-              <div className="not-get-code text-center">
-                <p>Didn't get Verification Code?</p>
-                <Link to="#" onClick={this.resendVerificationCode} ><i className="fa fa-refresh" aria-hidden="true"></i> Resend Code</Link>
-              </div>
-            </form>
+            </Modal>
           </div>
         </div>
-      </Modal>
+      </div>
     );
   }
 }

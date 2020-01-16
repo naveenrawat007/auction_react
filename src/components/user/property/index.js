@@ -9,16 +9,13 @@ import Button from 'react-bootstrap/Button';
 import { FacebookShareButton, TwitterShareButton, TumblrShareButton, PinterestShareButton, RedditShareButton} from "react-share";
 import {FacebookIcon, TwitterIcon, TumblrIcon, PinterestIcon, RedditIcon } from "react-share";
 import Alert from 'react-bootstrap/Alert';
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2
-})
+
 const initial_state = {
   docs_modal: false,
   status_modal: false,
   share_modal: false,
   share_link: "",
+  share_email: "",
   error: "",
   message: "",
   isLoaded: false,
@@ -35,6 +32,7 @@ const initial_state = {
   request_reasons_options: [],
   withdraw_reasons_options: [],
   termination_reasons_options: [],
+  share_email_error: "",
 }
 
 
@@ -213,6 +211,17 @@ export default class ListProperty extends Component{
     this.setState({
       [name]: value
     }, function () {
+      if (name === "share_email"){
+        if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.share_email))){
+          this.setState({
+            share_email_error: "error",
+          });
+        }else {
+          this.setState({
+            share_email_error: "",
+          });
+        }
+      }
       if (name === "request_status"){
         if (value === "Terminated"){
           this.setState({
@@ -225,6 +234,13 @@ export default class ListProperty extends Component{
         }
       }
     });
+  }
+  addErrorClass = (msg) => {
+    if (msg === ""){
+      return ""
+    }else {
+      return "error-class"
+    }
   }
 
   updateStatus = () => {
@@ -252,10 +268,18 @@ export default class ListProperty extends Component{
         this.setState({
           status_modal: false ,
         });
-        this.setState({
-          message: result.message,
-          variant: "success"
-        });
+        if (result.status === 200){
+          this.setState({
+            message: result.message,
+            variant: "success"
+          });
+        }
+        else if (result.status === 400){
+          this.setState({
+            message: result.message,
+            variant: "danger"
+          });
+        }
         this.clearMessageTimeout = setTimeout(() => {
           this.setState(() => ({message: ""}))
         }, 2000);
@@ -264,6 +288,9 @@ export default class ListProperty extends Component{
     })
   }
   emailPropertyShare = () => {
+    if (this.state.share_email_error){
+      return ;
+    }
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/share"
     const fd = new FormData();
     fd.append('property[id]', this.state.properties[this.state.selected_property].id)
@@ -288,10 +315,18 @@ export default class ListProperty extends Component{
         this.setState({
           share_modal: false ,
         });
-        this.setState({
-          message: result.message,
-          variant: "success"
-        });
+        if (result.status === 200){
+          this.setState({
+            message: result.message,
+            variant: "success"
+          });
+        }
+        else if (result.status === 400){
+          this.setState({
+            message: result.message,
+            variant: "danger"
+          });
+        }
         this.clearMessageTimeout = setTimeout(() => {
           this.setState(() => ({message: ""}))
         }, 2000);
@@ -322,8 +357,43 @@ export default class ListProperty extends Component{
       return (total_pages);
     }
   }
+  acceptOffer = (property_id, bid_id, bid_type, accepted=true) => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/accept_offer"
+    const fd = new FormData();
+    fd.append('property_id', property_id)
+    fd.append('offer_type', bid_type)
+    fd.append('offer_id', bid_id)
+    fd.append('accepted', accepted)
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*"
+      },
+      body: fd,
+    }).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        if (result.status === 200){
+          this.setState({
+            message: result.message,
+            variant: "success",
+          });
+          this.clearMessageTimeout = setTimeout(() => {
+            this.setState(() => ({message: ""}))
+          }, 2000);
+        }
+      }
+    })
+  }
 
-  bidsList = (object) => {
+  bidsList = (object, property_id) => {
     const bidList = object.map((bid, index) => {
       return (
         <tr key={index}>
@@ -333,15 +403,15 @@ export default class ListProperty extends Component{
               <p>{bid.user}</p>
             </div>
           </td>
-          <td><p>{formatter.format(bid.amount)}</p></td>
+          <td><p>{window.format_currency(bid.amount)}</p></td>
           <td><p>{bid.type}</p></td>
           <td><p>{bid.time}</p></td>
           <td>
             <div className="order-actions">
-              <Link to="#"><FontAwesomeIcon icon={faEnvelopeOpenText}  /></Link>
-              <Link to="#"><FontAwesomeIcon icon={faDownload}  /></Link>
-              <Link to="#"><FontAwesomeIcon icon={faThumbsUp}  /></Link>
-              <Link to="#"><FontAwesomeIcon icon={faThumbsDown}  /></Link>
+              <Link to="#"><FontAwesomeIcon icon={faEnvelopeOpenText} /></Link>
+              <a href={bid.fund_proof} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faDownload}  /></a>
+              <Link to="#" onClick={() => {this.acceptOffer(property_id, bid.id, bid.type)}}><FontAwesomeIcon icon={faThumbsUp} /></Link>
+              <Link to="#" onClick={() => {this.acceptOffer(property_id, bid.id, bid.type, false)}}><FontAwesomeIcon icon={faThumbsDown}  /></Link>
             </div>
           </td>
         </tr>
@@ -399,7 +469,7 @@ export default class ListProperty extends Component{
             </div>
             <div className="col-md-5 px-2 py-2">
               <div className=" properties-address">
-                <h5 className="font-blue"><Link to={"/property/" + property.unique_address}> {property.headliner} </Link></h5>
+                <h5 className="font-blue"><Link to={"/property/" + property.unique_address}> {property.address} </Link></h5>
                 <div className="address-list mb-0">
                   <div className="p-format">
                     <p>Submitted Date</p>
@@ -419,14 +489,14 @@ export default class ListProperty extends Component{
                     <p>Starting Bid</p>
                     <p>:</p>
                   </div>
-                  <p>{formatter.format(property.seller_price)}</p>
+                  <p>{window.format_currency(property.seller_price)}</p>
                 </div>
                 <div className="address-list mb-0">
                   <div className="p-format">
                     <p>Buy Now Price</p>
                     <p>:</p>
                   </div>
-                  <p>{(property.buy_now_price)}</p>
+                  <p>{window.format_currency(property.buy_now_price)}</p>
                 </div>
                 <div className="address-list mb-0">
                   <div className="p-format">
@@ -442,7 +512,7 @@ export default class ListProperty extends Component{
 
             <div className="col-md-3 px-2 text-center py-2">
               <div className="properties-price">
-                <h5 className="font-red">{formatter.format(property.highest_bid)}</h5>
+                <h5 className="font-red">{window.format_currency(property.highest_bid)}</h5>
                 <p>Current Highest Bid</p>
                 {/* <Accordion.Toggle eventKey={property.id}> */}
                 <Accordion.Toggle as={Button} className="btn red-btn"  eventKey={property.id}>List of BIds/Offers
@@ -453,7 +523,6 @@ export default class ListProperty extends Component{
             <div className="col-md-2 pl-2 pr-3 py-2">
               <div className="properties-btn">
                 <Link to={"/user/property/" + property.unique_address + "/edit"} className="font-blue">Edit Property</Link>
-                <Link to="#" className="font-blue">Mark as Pending</Link>
                 <Link to="#" className="font-blue" onClick={() =>{this.updateDocs(index)}}>Update Docs</Link>
                 <Link to="#" className="font-blue" onClick={() =>{this.changeStatus(index)}}>Change status</Link>
                 <Link to="#" className="font-blue" onClick={() =>{this.shareLink(index)}}>Share Link</Link>
@@ -473,8 +542,9 @@ export default class ListProperty extends Component{
                   </tr>
                 </thead>
                 <tbody>
-                  {this.bidsList(property.best_offers)}
-                  {this.bidsList(property.bids)}
+                  {this.bidsList(property.best_offers, property.id)}
+                  {this.bidsList(property.bids, property.id)}
+                  {this.bidsList(property.buy_now_offers, property.id)}
                 </tbody>
               </table>
               {/* </div> */}
@@ -705,7 +775,7 @@ export default class ListProperty extends Component{
                   </div>
                   <div className="col-md-12 text-left">
                     <label className="bold-label">Email</label>
-                    <input className="form-control" type="email" name="share_email" onChange={this.updateStatusFields}></input>
+                    <input className={"form-control " + this.addErrorClass(this.state.share_email_error)} type="email" name="share_email" onChange={this.updateStatusFields}></input>
                   </div>
                 </div>
               </div>

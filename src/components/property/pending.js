@@ -3,11 +3,7 @@ import React, {Component} from 'react';
 // import Modal from 'react-bootstrap/Modal'
 import {Link} from 'react-router-dom';
 // import { faSearch } from '@fortawesome/free-solid-svg-icons';
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2
-})
+
 export default class PropertyPending extends Component{
   _isMounted = false
   componentWillUnmount() {
@@ -211,19 +207,19 @@ export default class PropertyPending extends Component{
                     <>
                       <ul className="list-inline">
                         <li>After Repair Value:</li>
-                        <li>{formatter.format(property.after_rehab_value)}</li>
+                        <li>{window.format_currency(property.after_rehab_value)}</li>
                       </ul>
                       <ul className="list-inline">
                         <li>Seller Asking Price:</li>
-                        <li>{formatter.format(property.asking_price)}</li>
+                        <li>{window.format_currency(property.asking_price)}</li>
                       </ul>
                       <ul className="list-inline">
                         <li>Est Rehab Cost:</li>
-                        <li>{formatter.format(property.estimated_rehab_cost)}</li>
+                        <li>{window.format_currency(property.estimated_rehab_cost)}</li>
                       </ul>
                       <ul className="list-inline">
                         <li>Profit Potential:</li>
-                        <li>{formatter.format(property.profit_potential)}</li>
+                        <li>{window.format_currency(property.profit_potential)}</li>
                       </ul>
                     </>
                   :
@@ -232,7 +228,7 @@ export default class PropertyPending extends Component{
                       <li>Monthly Cash Flow:</li>
                       {
                         property.landlord_deal ?
-                          <li>{formatter.format(property.landlord_deal.monthly_cash_flow)}</li>
+                          <li>{window.format_currency(property.landlord_deal.monthly_cash_flow)}</li>
                         :
                         <li></li>
                       }
@@ -241,7 +237,7 @@ export default class PropertyPending extends Component{
                       <li>Total Out of Pocket:</li>
                       {
                         property.landlord_deal ?
-                          <li>{formatter.format(property.landlord_deal.total_out_of_pocket)}</li>
+                          <li>{window.format_currency(property.landlord_deal.total_out_of_pocket)}</li>
                         :
                         <li></li>
                       }
@@ -250,7 +246,7 @@ export default class PropertyPending extends Component{
                       <li>ROI-Cash on Cash:</li>
                       {
                         property.landlord_deal ?
-                          <li>{formatter.format(property.landlord_deal.roi_cash_percentage)}</li>
+                          <li>{window.format_currency(property.landlord_deal.roi_cash_percentage)}</li>
                         :
                         <li></li>
                       }
@@ -262,7 +258,7 @@ export default class PropertyPending extends Component{
             </div>
             <div className="col-md-3 time-border px-0">
               <div className="time-detail pl-3">
-                <h4 className="text-center font-blue">{formatter.format(property.highest_bid)}</h4>
+                <h4 className="text-center font-blue">{window.format_currency(property.highest_bid)}</h4>
                 <p>Pending Price</p>
                 <Link to={"/property/"+property.unique_address} className="blue-btn btn-biding">View Details</Link>
               </div>

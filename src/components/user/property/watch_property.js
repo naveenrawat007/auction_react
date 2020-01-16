@@ -1,22 +1,18 @@
 import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Accordion from 'react-bootstrap/Accordion';
-import Button from 'react-bootstrap/Button';
 // import { faEnvelopeOpenText, faDownload, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons'
 import {Link} from 'react-router-dom';
 import { faSearch, faLink } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import { FacebookShareButton, TwitterShareButton, TumblrShareButton, PinterestShareButton, RedditShareButton} from "react-share";
 import {FacebookIcon, TwitterIcon, TumblrIcon, PinterestIcon, RedditIcon } from "react-share";
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2
-})
+import Alert from 'react-bootstrap/Alert';
 
 const initial_state = {
   share_link: "",
   selected_property: "",
+  share_email: "",
   error: "",
   message: "",
   isLoaded: false,
@@ -25,7 +21,8 @@ const initial_state = {
   current_page: 1,
   total_pages: 1,
   page: 1,
-  total_pages_array:[]
+  total_pages_array:[],
+  share_email_error: "",
 }
 
 
@@ -118,6 +115,79 @@ export default class WatchProperty extends Component{
       });
     });
   }
+  emailPropertyShare = () => {
+    if (this.state.share_email_error){
+      return ;
+    }
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/share"
+    const fd = new FormData();
+    fd.append('property[id]', this.state.properties[this.state.selected_property].id)
+    fd.append('property[link]', this.state.share_link)
+    fd.append('property[email]', this.state.share_email)
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*"
+      },
+      body: fd,
+    }).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        this.setState({
+          share_modal: false ,
+        });
+        if (result.status === 200){
+          this.setState({
+            message: result.message,
+            variant: "success"
+          });
+        }
+        else if (result.status === 400){
+          this.setState({
+            message: result.message,
+            variant: "danger"
+          });
+        }
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
+        // this.getPropertiesList();
+      }
+    })
+  }
+  updateStatusFields = (event) =>{
+    const{ name, value } = event.target;
+    // console.log(this.state.termination_reasons_options );
+    this.setState({
+      [name]: value
+    }, function () {
+      if (name === "share_email"){
+        if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.share_email))){
+          this.setState({
+            share_email_error: "error",
+          });
+        }else {
+          this.setState({
+            share_email_error: "",
+          });
+        }
+      }
+    });
+  }
+  addErrorClass = (msg) => {
+    if (msg === ""){
+      return ""
+    }else {
+      return "error-class"
+    }
+  }
   hideShareModal = () => {
     this.setState({
       share_modal: false,
@@ -176,7 +246,7 @@ export default class WatchProperty extends Component{
             </div>
             <div className="col-md-5 px-2 py-2">
               <div className=" properties-address">
-                <h5 className="font-blue"><Link to={"/property/" + property.unique_address}> {property.headliner} </Link></h5>
+                <h5 className="font-blue"><Link to={"/property/" + property.unique_address}> {property.address} </Link></h5>
                 <div className="address-list mb-0">
                   <div className="p-format">
                     <p>Submitted Date</p>
@@ -196,14 +266,14 @@ export default class WatchProperty extends Component{
                     <p>Starting Bid</p>
                     <p>:</p>
                   </div>
-                  <p>{formatter.format(property.seller_price)}</p>
+                  <p>{window.format_currency(property.seller_price)}</p>
                 </div>
                 <div className="address-list mb-0">
                   <div className="p-format">
                     <p>Buy Now Price</p>
                     <p>:</p>
                   </div>
-                  <p>{formatter.format(property.buy_now_price)}</p>
+                  <p>{window.format_currency(property.buy_now_price)}</p>
                 </div>
                 <div className="address-list mb-0">
                   <div className="p-format">
@@ -216,12 +286,12 @@ export default class WatchProperty extends Component{
             </div>
             <div className="col-md-3 px-2 text-center py-2">
               <div className="properties-price">
-                <h5 className="font-red">{formatter.format(property.highest_bid)}</h5>
+                <h5 className="font-red">{window.format_currency(property.highest_bid)}</h5>
                 <p>Current Highest Bid</p>
                 {/* <Accordion.Toggle eventKey={property.id}> */}
-                <Accordion.Toggle as={Button} className="btn red-btn"  eventKey={property.id}>List of Buy Now
-                  {/* <button className="btn red-btn" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">List of BIds/Offers</button> */}
-                </Accordion.Toggle>
+                {/* <Accordion.Toggle as={Button} className="btn red-btn"  eventKey={property.id}>List of Buy Now */}
+                {/* <button className="btn red-btn" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">List of BIds/Offers</button> */}
+                {/* </Accordion.Toggle> */}
               </div>
             </div>
             <div className="col-md-2 pl-2 pr-3 py-2">
@@ -244,7 +314,9 @@ export default class WatchProperty extends Component{
       <div id="myproperties" className="container px-0 tab-pane active">
         <div className="profile-form">
           <div className="profile-form-in">
-
+            {
+              this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+            }
             <div id="propertyPosted" className="container px-0 tab-pane active">
               {this.state.isLoaded === true ?
                   null
@@ -314,7 +386,7 @@ export default class WatchProperty extends Component{
                 </div>
                 <div className="col-md-12 text-left">
                   <label className="bold-label">Email</label>
-                  <input className="form-control" type="email" name="share_email" onChange={this.updateStatusFields}></input>
+                  <input className={"form-control " + this.addErrorClass(this.state.share_email_error)} type="email" name="share_email" onChange={this.updateStatusFields}></input>
                 </div>
               </div>
             </div>

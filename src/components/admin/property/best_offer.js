@@ -5,11 +5,6 @@ import DatePicker from "react-datepicker";
 // import {Link} from 'react-router-dom';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Alert from 'react-bootstrap/Alert';
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2
-})
 
 export default class BestOffer extends Component{
   _isMounted = false
@@ -58,7 +53,7 @@ export default class BestOffer extends Component{
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": localStorage.getItem("auction_user_token"),
+        "Authorization": localStorage.getItem("auction_admin_token"),
         "Accept": "application/vnd.auction_backend.v1",
         "Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Credentials": "*",
@@ -91,7 +86,7 @@ export default class BestOffer extends Component{
           });
           window.scroll(0,0);
         }else if (result.status === 401) {
-          localStorage.removeItem("auction_user_token");
+          localStorage.removeItem("auction_admin_token");
           window.location.href = "/login"
         }else {
           this.setState({
@@ -177,7 +172,7 @@ export default class BestOffer extends Component{
     fetch(url, {
       method: "PUT",
       headers: {
-        "Authorization": localStorage.getItem("auction_user_token"),
+        "Authorization": localStorage.getItem("auction_admin_token"),
         "Accept": "application/vnd.auction_backend.v1",
         "Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Credentials": "*",
@@ -312,7 +307,7 @@ export default class BestOffer extends Component{
         <tr key={index}>
           <td>{bid.user_name}</td>
           <td>{bid.user_type}</td>
-          <td>{formatter.format(bid.amount)}</td>
+          <td>{window.format_currency(bid.amount)}</td>
           <td>{bid.time}</td>
           <td>Active</td>
         </tr>

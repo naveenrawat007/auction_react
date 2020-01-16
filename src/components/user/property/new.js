@@ -309,9 +309,9 @@ export default class UserNewProperty extends Component{
             // case "street_number":
             //   address = address + place.address_components[i].long_name;
             //   break;
-            case "route":
-              address = address + ", " + place.address_components[i].long_name;
-              break;
+            // case "route":
+            //   address = address + ", " + place.address_components[i].long_name;
+            //   break;
             case "locality":
               city = place.address_components[i].long_name;
               break;
@@ -1270,7 +1270,7 @@ export default class UserNewProperty extends Component{
   updateYoutubeVideoKey = () => {
     if (this.state.property.youtube_url !== undefined || this.state.property.youtube_url !== '') {
       let url = this.state.property.youtube_url
-      var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|v=|\?v=)([^#]*).*/;
+      var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
       var match = url.match(regExp);
       if (match && match[2].trim().length === 11) {
         let key = match[2].trim()
@@ -4085,9 +4085,10 @@ export default class UserNewProperty extends Component{
                             null
                           :
                           <div className="spinner_main">
-                            <div className="spinner-grow" role="status">
+                            {/* <div className="spinner-grow" role="status">
                               <span className="sr-only">Loading...</span>
-                            </div>
+                            </div> */}
+                            <div className="uploader">Uploading...</div>
                           </div>
                           }
                           <div className="col-md-12 text-center pb-4">

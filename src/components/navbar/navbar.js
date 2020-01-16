@@ -18,6 +18,7 @@ export default class Navbar extends Component{
       logged_in: false
     })
     localStorage.removeItem("auction_user_token");
+    localStorage.removeItem("auction_admin_token");
     this.props.history.push('/login')
   }
 
@@ -39,9 +40,11 @@ export default class Navbar extends Component{
     }).then(res => res.json())
     .then((result) => {
       if (result.status !== 100){
+        localStorage.removeItem("auction_user_token");
+        localStorage.removeItem("auction_admin_token");
         let path_name = ""
         path_name = this.props.location.pathname
-        if ((path_name === "/sign_up") || (path_name === "/login") || (path_name === "/forgot_password") || (path_name === "/property/new") ){
+        if ((path_name === "/sign_up") || (path_name === "/login") || (path_name === "/forgot_password") || (path_name === "/property/new") || (/^\/property\/[a-z_0-9]+/i.test(path_name) === true) ){
           this.props.history.push(this.props.location.pathname)
         }else if (path_name === "/new_password") {
         }
@@ -52,11 +55,13 @@ export default class Navbar extends Component{
         if (result.user.is_admin === true){
           let path_name = "";
           path_name = this.props.location.pathname
+          localStorage.setItem("auction_admin_token", localStorage.getItem("auction_user_token"));
           if (path_name === "/"){
             this.props.history.push('/')
           }
           this.setState({
-            is_admin: true
+            is_admin: true,
+            logged_in: true,
           });
         }else {
           if (result.user.is_verified === false){

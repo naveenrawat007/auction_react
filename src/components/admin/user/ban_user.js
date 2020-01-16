@@ -21,7 +21,7 @@ const initial_state = {
 }
 
 
-export default class AllUserList extends Component{
+export default class BanUserList extends Component{
   _isMounted = false
   componentWillUnmount() {
     this._isMounted = false;
@@ -37,7 +37,7 @@ export default class AllUserList extends Component{
     this.setState({
       isLoaded: false ,
     });
-    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/users?search_str=" + this.state.search_str + "&page=" + this.state.page
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/users?status=Ban&search_str=" + this.state.search_str + "&page=" + this.state.page
     fetch(url, {
       method: "GET",
       headers: {

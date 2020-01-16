@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import AllUserList from './user_list.js'
+import FreeUserList from './free_user.js'
+import PremiumUserList from './premium_user.js'
+import BanUserList from './ban_user.js'
 
 export default class UserList extends Component{
   _isMounted = false
@@ -32,6 +35,12 @@ export default class UserList extends Component{
     switch (this.state.path) {
       case 'all_users_list':
         return <AllUserList/>;
+      case 'free_users_list':
+        return <FreeUserList/>;
+      case 'premium_users_list':
+        return <PremiumUserList/>;
+      case 'ban_users_list':
+        return <BanUserList/>;
       default:
     }
   }
@@ -46,13 +55,14 @@ export default class UserList extends Component{
                 <Link className={this.checkActive("all_users_list")} data-toggle="pill" to="/admin">All User</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link sub-nav-link" data-toggle="pill" href="#freeUser">Free User</a>
+                {/* <a className="nav-link sub-nav-link" data-toggle="pill" href="#freeUser">Free User</a> */}
+                <Link className={this.checkActive("free_users_list")} data-toggle="pill" to="/admin/free_user">Free User</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link sub-nav-link" data-toggle="pill" href="#premiumUser">Premium User</a>
+                <Link className={this.checkActive("premium_users_list")} data-toggle="pill" to="/admin/premium_user">Premium User</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link sub-nav-link" data-toggle="pill" href="#banUser">Ban User</a>
+                <Link className={this.checkActive("ban_users_list")} data-toggle="pill" to="/admin/ban_user">Ban User</Link>
               </li>
             </ul>
             <div className="tab-content">

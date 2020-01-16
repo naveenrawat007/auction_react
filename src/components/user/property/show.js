@@ -1,20 +1,19 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf} from '@fortawesome/free-solid-svg-icons';
+import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf, faLock} from '@fortawesome/free-solid-svg-icons';
 import { faHeart} from '@fortawesome/free-regular-svg-icons';
 import Modal from 'react-bootstrap/Modal';
-const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2
-})
+import Alert from 'react-bootstrap/Alert';
+
 export default class PropertyShow extends Component {
   _isMounted = false
   _timerArray = []
   constructor(props){
     super(props);
     this.state = {
+      is_premium: "",
+      unique_address: this.props.match.params.id,
       favourite: false,
       checkBoxEnabled: false,
       best_offer: false,
@@ -27,6 +26,7 @@ export default class PropertyShow extends Component {
       timer_complete: false,
       open_rehab_modal: false,
       property: {},
+      near_by_properties: [],
       isLoaded: false,
       message: "",
       currentImage: 0,
@@ -48,10 +48,24 @@ export default class PropertyShow extends Component {
       clearInterval(this._timerArray[i]);
     }
   }
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
+    for (let i=0; i < this._timerArray.length; i++ ){
+      clearInterval(this._timerArray[i]);
+    }
+    if (nextProps.match.params.id !== this.state.unique_address){
+      window.scrollTo(0,0)
+      this.setState({
+        unique_address: nextProps.match.params.id,
+        isLoaded: false,
+      }, function () {
+        this.getProperty();
+      });
+    }
+  }
   getProperty = () => {
     // console.log(this.props.match.params.id); //  params.id == this.props.match.params.id
-    const { match: { params } } = this.props;
-    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/ " + params.id
+    // const { match: { params } } = this.props;
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/ " + this.state.unique_address//params.id
     fetch(url,{
       method: 'GET',
       headers: {
@@ -74,13 +88,15 @@ export default class PropertyShow extends Component {
             favourite: result.favourite,
             property_buy_options: result.buy_options,
             isLoaded: true,
+            is_premium: result.is_premium,
             property: result.property,
+            near_by_properties: result.near_properties,
             bidding_options: {
               ...this.state.bidding_options,
               highest_bid: result.property.highest_bid,
-              current_offer: result.property.highest_bid,
+              current_offer: result.property.highest_bid ? (result.property.highest_bid + 1000) : 1000,
               buy_now_price: result.property.buy_now_price,
-              current_best_offer: result.property.best_offer_price ? result.property.best_offer_price : 0 ,
+              current_best_offer: result.property.best_offer_price ? (result.property.best_offer_price + 1000) : 1000 ,
               best_offer_price: result.property.best_offer_price,
               best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
             }
@@ -406,25 +422,31 @@ export default class PropertyShow extends Component {
   }
 
   buyNowHandler = () => {
-    this.setState({
-      buy_option: [],
-      open_buy_now_modal: true,
-    });
+    if (this.state.is_premium){
+      this.setState({
+        buy_option: [],
+        open_buy_now_modal: true,
+      });
+    }
   }
 
   buyNowBestOfferHandler = () => {
-    this.setState({
-      buy_option: [],
-      open_buy_now_modal: true,
-      best_offer: true
-    });
+    if (this.state.is_premium){
+      this.setState({
+        buy_option: [],
+        open_buy_now_modal: true,
+        best_offer: true
+      });
+    }
   }
 
   bestOfferHandler = () => {
-    this.setState({
-      buy_option: [],
-      open_best_offer_modal: true ,
-    });
+    if (this.state.is_premium){
+      this.setState({
+        buy_option: [],
+        open_best_offer_modal: true ,
+      });
+    }
   }
 
   closeBestOfferModal = () => {
@@ -444,10 +466,12 @@ export default class PropertyShow extends Component {
   }
 
   biddingHandler = () => {
-    this.setState({
-      buy_option: [],
-      open_bidding_modal: true ,
-    });
+    if (this.state.is_premium){
+      this.setState({
+        buy_option: [],
+        open_bidding_modal: true ,
+      });
+    }
   }
 
   closeBuyNowModal = () => {
@@ -565,7 +589,7 @@ export default class PropertyShow extends Component {
     if (this.state.property.status === "Draft" || this.state.property.status === "Under Review"){
       block =
       <div className="property_rate text-center">
-        <h4> {formatter.format(this.state.property.highest_bid)}</h4>
+        <h4> {window.format_currency(this.state.property.highest_bid)}</h4>
         <p className="mb-0">Current Highest Bid.</p>
         <div className="input-group my-2 col-md-8 offset-md-2">
           <div className="input-group-prepend">
@@ -589,7 +613,7 @@ export default class PropertyShow extends Component {
             </span>
           </div>
         </Link>
-        <h4 className="rate-head"> {formatter.format(this.state.property.buy_now_price)}</h4>
+        <h4 className="rate-head"> {window.format_currency(this.state.property.buy_now_price)}</h4>
       </div>
     }
     else if ((this.state.property.status === "Approve") || (this.state.property.status === "Best Offer") || this.state.property.status === "Live Online Bidding") {
@@ -603,7 +627,7 @@ export default class PropertyShow extends Component {
         const best_offer_ending_date = new Date(this.state.property.best_offer_auction_ending_at).getTime()
         if (now < best_offer_starting_date){
           block = <div className="property_rate text-center">
-            <h4> {formatter.format(this.state.property.best_offer_sellers_reserve_price)}</h4>
+            <h4> {window.format_currency(this.state.property.best_offer_sellers_reserve_price)}</h4>
             <Link to="#" className="blue-btn btn-biding my-2" onClick={this.buyNowBestOfferHandler}>
               <div className="tooltip">Buy Now
                 <span className="tooltiptext">
@@ -629,7 +653,7 @@ export default class PropertyShow extends Component {
         }
         else if (now < best_offer_ending_date){
           block = <div className="property_rate text-center">
-            <h4>{formatter.format(this.state.property.best_offer_sellers_reserve_price)}</h4>
+            <h4>{window.format_currency(this.state.property.best_offer_sellers_reserve_price)}</h4>
             <Link to="#" className="blue-btn btn-biding my-2" onClick={this.buyNowBestOfferHandler}>
               <div className="tooltip">Buy Now
                 <span className="tooltiptext">
@@ -654,7 +678,7 @@ export default class PropertyShow extends Component {
         }
         else if (now < bidding_starting_date){
           block = <div className="property_rate text-center">
-            <h4>{formatter.format(this.state.property.highest_bid)}</h4>
+            <h4>{window.format_currency(this.state.property.highest_bid)}</h4>
             <p className="mb-0">Current Highest Bid.</p>
             <div className="input-group my-2 col-md-8 offset-md-2">
               <div className="input-group-prepend">
@@ -677,12 +701,12 @@ export default class PropertyShow extends Component {
                 </span>
               </div>
             </Link>
-            <h4 className="rate-head">{formatter.format(this.state.property.buy_now_price)}</h4>
+            <h4 className="rate-head">{window.format_currency(this.state.property.buy_now_price)}</h4>
           </div>
         }
         else if (now < bidding_ending_date){
           block = <div className="property_rate text-center">
-            <h4>{formatter.format(this.state.property.highest_bid)}</h4>
+            <h4>{window.format_currency(this.state.property.highest_bid)}</h4>
             <p className="mb-0">Current Highest Bid.</p>
             <div className="input-group my-2 col-md-8 offset-md-2">
               <div className="input-group-prepend">
@@ -704,12 +728,12 @@ export default class PropertyShow extends Component {
                 </span>
               </div>
             </Link>
-            <h4 className="rate-head"> {formatter.format(this.state.property.buy_now_price)}</h4>
+            <h4 className="rate-head"> {window.format_currency(this.state.property.buy_now_price)}</h4>
           </div>
         }
         else {
           block = <div className="property_rate text-center">
-            <h4>{formatter.format(this.state.property.highest_bid)}</h4>
+            <h4>{window.format_currency(this.state.property.highest_bid)}</h4>
             <p className="mb-0">Current Highest Bid.</p>
             <div className="input-group my-2 col-md-8 offset-md-2">
               <div className="input-group-prepend">
@@ -733,13 +757,13 @@ export default class PropertyShow extends Component {
                 </span>
               </div>
             </Link>
-            <h4 className="rate-head"> {formatter.format(this.state.property.buy_now_price)}</h4>
+            <h4 className="rate-head"> {window.format_currency(this.state.property.buy_now_price)}</h4>
           </div>
         }
       }
       else if (now < bidding_starting_date){
         block = <div className="property_rate text-center">
-          <h4> {formatter.format(this.state.property.highest_bid)}</h4>
+          <h4> {window.format_currency(this.state.property.highest_bid)}</h4>
           <p className="mb-0">Current Highest Bid.</p>
           <div className="input-group my-2 col-md-8 offset-md-2">
             <div className="input-group-prepend">
@@ -761,12 +785,12 @@ export default class PropertyShow extends Component {
               </span>
             </div>
           </Link>
-          <h4 className="rate-head">{formatter.format(this.state.property.buy_now_price)}</h4>
+          <h4 className="rate-head">{window.format_currency(this.state.property.buy_now_price)}</h4>
         </div>
       }
       else if (now < bidding_ending_date){
         block = <div className="property_rate text-center">
-          <h4> {formatter.format(this.state.property.highest_bid)}</h4>
+          <h4> {window.format_currency(this.state.property.highest_bid)}</h4>
           <p className="mb-0">Current Highest Bid.</p>
           <div className="input-group my-2 col-md-8 offset-md-2">
             <div className="input-group-prepend">
@@ -788,12 +812,12 @@ export default class PropertyShow extends Component {
               </span>
             </div>
           </Link>
-          <h4 className="rate-head"> {formatter.format(this.state.property.buy_now_price)}</h4>
+          <h4 className="rate-head"> {window.format_currency(this.state.property.buy_now_price)}</h4>
         </div>
       }
       else {
         block = <div className="property_rate text-center">
-          <h4> {formatter.format(this.state.property.highest_bid)}</h4>
+          <h4> {window.format_currency(this.state.property.highest_bid)}</h4>
           <p className="mb-0">Current Highest Bid.</p>
           <div className="input-group my-2 col-md-8 offset-md-2">
             <div className="input-group-prepend">
@@ -818,13 +842,13 @@ export default class PropertyShow extends Component {
               </span>
             </div>
           </Link>
-          <h4 className="rate-head">$ {formatter.format(this.state.property.buy_now_price)}</h4>
+          <h4 className="rate-head">$ {window.format_currency(this.state.property.buy_now_price)}</h4>
         </div>
       }
     }
     else {
       block = <div className="property_rate text-center">
-        <h4>{formatter.format(this.state.property.highest_bid)}</h4>
+        <h4>{window.format_currency(this.state.property.highest_bid)}</h4>
         <p className="mb-0">Current Highest Bid.</p>
         <div className="input-group my-2 col-md-8 offset-md-2">
           <div className="input-group-prepend">
@@ -849,7 +873,7 @@ export default class PropertyShow extends Component {
             </span>
           </div>
         </Link>
-        <h4 className="rate-head"> {formatter.format(this.state.property.buy_now_price)}</h4>
+        <h4 className="rate-head"> {window.format_currency(this.state.property.buy_now_price)}</h4>
       </div>
     }
     return block
@@ -904,23 +928,39 @@ export default class PropertyShow extends Component {
             isLoaded: true,
             open_bidding_modal: false,
             fund_proof: "",
+            message: result.message,
+            variant: "success",
             terms_agreed: false,
             property: result.property,
             bidding_options: {
               ...this.state.bidding_options,
               highest_bid: result.property.highest_bid,
-              current_offer: result.property.highest_bid,
+              current_offer: result.property.highest_bid ? (result.property.highest_bid + 1000) : 1000 ,
               buy_now_price: result.property.buy_now_price,
-              best_offer_price: result.property.best_offer_price,
+              best_offer_price: result.property.best_offer_price ? result.property.best_offer_price : 0 ,
               best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
             }
           });
-        }else if (result.status === 401) {
+
+        }
+        else if (result.status === 400 || result.status === 404) {
+          this.setState({
+            message: result.message,
+            variant: "danger",
+            terms_agreed: false,
+            open_bidding_modal: false,
+            isLoaded: true,
+          });
+        }
+        else if (result.status === 401) {
           localStorage.removeItem("auction_user_token");
           window.location.href = "/login"
         }
         else{
         }
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
       }
     })
     .catch(
@@ -1007,23 +1047,39 @@ export default class PropertyShow extends Component {
             isLoaded: true,
             open_best_offer_modal: false,
             fund_proof: "",
+            message: result.message,
+            variant:"success",
             terms_agreed: false,
             property: result.property,
             bidding_options: {
               ...this.state.bidding_options,
               highest_bid: result.property.highest_bid,
-              current_offer: result.property.highest_bid,
+              current_offer: result.property.highest_bid ? (result.property.highest_bid + 1000) : 1000 ,
               buy_now_price: result.property.buy_now_price,
-              best_offer_price: result.property.best_offer_price,
+              current_best_offer: result.property.best_offer_price ? (result.property.best_offer_price + 1000) : 1000 ,
+              best_offer_price: result.property.best_offer_price ? (result.property.best_offer_price ) : 0,
               best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
             }
           });
-        }else if (result.status === 401) {
+        }
+        else if (result.status === 400 || result.status === 404 ) {
+          this.setState({
+            message: result.message,
+            terms_agreed: false,
+            open_best_offer_modal: false,
+            isLoaded: true,
+            variant: "danger",
+          });
+        }
+        else if (result.status === 401) {
           localStorage.removeItem("auction_user_token");
           window.location.href = "/login"
         }
         else{
         }
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
       }
     })
     .catch(
@@ -1087,15 +1143,30 @@ export default class PropertyShow extends Component {
             isLoaded: true,
             open_buy_now_modal: false,
             fund_proof: "",
+            message: result.message,
+            variant: "success",
             terms_agreed: false,
             property: result.property
           });
-        }else if (result.status === 401) {
+        }
+        else if (result.status === 400 || result.status === 404 ) {
+          this.setState({
+            message: result.message,
+            terms_agreed: false,
+            open_buy_now_modal: false,
+            isLoaded: true,
+            variant: "danger",
+          });
+        }
+        else if (result.status === 401) {
           localStorage.removeItem("auction_user_token");
           window.location.href = "/login"
         }
         else{
         }
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
       }
     })
     .catch(
@@ -1148,9 +1219,88 @@ export default class PropertyShow extends Component {
       }
     }
   }
+  calculateBiddingTime = (time, id) => {
+    if (time){
+      this.timer_interval = setInterval( () => {
+        if (time){
+          let now = new Date().getTime();
+          let end = new Date(time).getTime();
+          let t = (end/1000) - (now/1000);
+          // let hours = Math.floor(t/(60*60));
+          // let minutes = Math.floor((t%(60*60))/60);
+          // let seconds = Math.floor((t%(60)))
+          let days = Math.floor(t/(60*60*24))
+          let hours = Math.floor((t%(60*60*24))/(60*60));
+          let minutes = Math.floor((t%(60*60))/60);
+          let seconds = Math.floor((t%(60)))
+
+          if (document.getElementById("timer"+id)){
+            if (t<0){
+              document.getElementById("timer"+id).innerHTML = "--:--:--"
+            }else {
+              document.getElementById("timer"+id).innerHTML = `0${String(days)}d:${String(hours).padStart(2, '0')}h:${String(minutes).padStart(2, '0')}m:${String(seconds).padStart(2, '0')}s`
+            }
+          }
+        }else {
+          if (document.getElementById("timer"+id)){
+            document.getElementById("timer"+id).innerHTML = "--:--:--"
+          }
+        }
+      }, 1000)
+      this._timerArray.push(this.timer_interval)
+    }else {
+      if (document.getElementById("timer"+id)){
+        document.getElementById("timer"+id).innerHTML = "--:--:--"
+      }
+    }
+  }
 
   render(){
     if (this.state.isLoaded === true){
+      const near_properties = this.state.near_by_properties.map((property, index)=>{
+        return (
+          <div key={index} className="col-md-3 px-2 mb-3">
+            <div className="offer-box">
+              <div className="offer-head">
+                <img src={property.thumb_img ? property.thumb_img : "/images/home3.png"} alt=""/>
+                <div className="like-icon">
+                  <i className="fa fa-heart-o"></i>
+                </div>
+                <div className="time-box">
+                  <p id={"timer"+property.id}>00d:00h:00m:00s {this.calculateBiddingTime(property.auction_bidding_ending_at, property.id)} </p>
+                </div>
+              </div>
+              <div className="offer-body">
+                <div className="rate-row">
+                  <Link to={"/property/"+property.unique_address}>
+                    <h5 className="mb-0">{window.format_currency(property.highest_bid)}</h5>
+                  </Link>
+                  {this.state.property.category === "Residential" ?
+                    <p>{property.residential_attributes.bedrooms} bds | {property.residential_attributes.bathrooms}ba | {property.residential_attributes.area} sqft </p>
+                  :
+                    null
+                  }
+                  {this.state.property.category === "Commercial" ?
+                    <p>{property.commercial_attributes.units} unts | {property.commercial_attributes.lot_size} sqft </p>
+                  :
+                    null
+                  }
+                  {this.state.property.category === "Land" ?
+                    <p>{property.land_attributes.lot_size} sqft </p>
+                  :
+                    null
+                  }
+                </div>
+                <p className="mb-2">{property.headliner}</p>
+                <div className="status-row mb-2">
+                  <p className="offer-dot mb-0 mr-2"></p>
+                  <p className="mb-0">{property.best_offer ? "Best Offer" : "Live Online Bidding"}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      })
       const images = this.state.property.images.map((image, index) => {
         if (index === 0){
           return (
@@ -1173,7 +1323,7 @@ export default class PropertyShow extends Component {
       const prev_images = this.state.property.images.map((image, index) => {
         return (
           <div className="column_gallery" key={index}>
-            <img className={index === 0 ? "demo cursor active" : "demo cursor"} src={image} style={{width:"100%", height: "80px"}} onClick={() => {this.showCurrentSlide(index);}} alt={index}/>
+            <img className={index === 0 ? "demo_img cursor active" : "demo_img cursor"} src={image} style={{width:"100%", height: "80px"}} onClick={() => {this.showCurrentSlide(index);}} alt={index}/>
           </div>
         )
       })
@@ -1194,11 +1344,27 @@ export default class PropertyShow extends Component {
       return (
         <div className="container custom_container">
           <div className="row">
+            <div className="col-md-12">
+              {
+                this.state.message ? <Alert className="mt-2 mb-0" variant={this.state.variant}>{this.state.message}</Alert> : null
+              }
+            </div>
             <div className="col-md-8 px-2">
               <div className="wrap_property">
                 <div className="property-head">
                   <div className="head_address">
-                    <h3 className="font-blue">{this.state.property.headliner}</h3>
+                    <h3 className="font-blue">
+                      {this.state.is_premium ?
+                        this.state.property.address
+                      :
+                      (this.state.is_premium === false ?
+                        <span>Only Premium User can view address</span>
+                      :
+                      <span>
+                        <Link to="/sign_up">Register</Link> or <Link to="/login">Login</Link> to view address
+                      </span>
+                      )
+                      }</h3>
                     <h5>Property Type: {this.state.property.p_type}</h5>
                   </div>
                   {this.state.property.category === "Residential" ?
@@ -1226,7 +1392,7 @@ export default class PropertyShow extends Component {
                   <Link to="#" className="next" onClick={this.plusSlide} >❯</Link>
                   <div className="row_gallery">
                     {this.state.property.images.length > 0 ? prev_images : <div className="column_gallery">
-                      <img className="demo cursor active" src="/images/homee1.png" style={{width:"100%", height: "80px"}} alt="The Woods"/>
+                      <img className="demo_img cursor active" src="/images/homee1.png" style={{width:"100%", height: "80px"}} alt="The Woods"/>
                     </div>}
                   </div>
                 </div>
@@ -1239,13 +1405,19 @@ export default class PropertyShow extends Component {
               <div className="wrap_property py-4 lock-region">
                 {this.renderBiddingBlock()}
                 {
-                  this.state.favourite === true ?
-                    <div className="fav-watch-heart" onClick={this.updateFavourite}>
+                  this.state.is_premium ?
+
+                    (this.state.favourite === true ?
+                      <div className="fav-watch-heart" onClick={this.updateFavourite}>
+                        <FontAwesomeIcon icon={faHeart}/>
+                      </div>
+                    :
+                    <div className="watch-heart" onClick={this.updateFavourite}>
                       <FontAwesomeIcon icon={faHeart}/>
-                    </div>
+                    </div>)
                   :
-                  <div className="watch-heart" onClick={this.updateFavourite}>
-                    <FontAwesomeIcon icon={faHeart}/>
+                  <div className="fav-watch-heart" >
+                    <FontAwesomeIcon icon={faLock}/>
                   </div>
                 }
               </div>
@@ -1257,20 +1429,20 @@ export default class PropertyShow extends Component {
                       <div className="price-box">
                         <ul className="list-inline mb-2">
                           <li className="list-inline-item">After Repaired Value:</li>
-                          <li className="list-inline-item">{formatter.format(this.state.property.after_rehab_value)}</li>
+                          <li className="list-inline-item">{window.format_currency(this.state.property.after_rehab_value)}</li>
                         </ul>
                         <ul className="list-inline mb-2">
                           <li className="list-inline-item">Sellers Asking Price:</li>
-                          <li className="list-inline-item">{formatter.format(this.state.property.asking_price)}</li>
+                          <li className="list-inline-item">{window.format_currency(this.state.property.asking_price)}</li>
                         </ul>
                         <ul className="list-inline mb-2">
                           <li className="list-inline-item">Estimated Rehab Cost:</li>
-                          <li className="list-inline-item">{formatter.format(this.state.property.estimated_rehab_cost)}</li>
+                          <li className="list-inline-item">{window.format_currency(this.state.property.estimated_rehab_cost)}</li>
                         </ul>
                       </div>
                       <ul className="list-inline my-2">
                         <li className="list-inline-item font-red">Potential Profit:</li>
-                        <li className="list-inline-item font-red">{formatter.format(this.state.property.profit_potential)}</li>
+                        <li className="list-inline-item font-red">{window.format_currency(this.state.property.profit_potential)}</li>
                       </ul>
                       <p className="mb-0 mt-5"><span>Note:</span>&nbsp;These are ballpark estimates so please do your own dillgence for ARV and Estimated Rehab Costs.</p>
                     </div> :
@@ -1282,15 +1454,15 @@ export default class PropertyShow extends Component {
                     <div className="price-box">
                       <ul className="list-inline mb-2">
                         <li className="list-inline-item">Monthly Cash Flow:</li>
-                        <li className="list-inline-item">{formatter.format(this.state.property.landlord_deal.monthly_cash_flow)}</li>
+                        <li className="list-inline-item">{window.format_currency(this.state.property.landlord_deal.monthly_cash_flow)}</li>
                       </ul>
                       <ul className="list-inline mb-2">
                         <li className="list-inline-item">Annual Cash Flow:</li>
-                        <li className="list-inline-item">{formatter.format(this.state.property.landlord_deal.annual_cash_flow)}</li>
+                        <li className="list-inline-item">{window.format_currency(this.state.property.landlord_deal.annual_cash_flow)}</li>
                       </ul>
                       <ul className="list-inline mb-2">
                         <li className="list-inline-item">Total Out of Pocket:</li>
-                        <li className="list-inline-item">{formatter.format(this.state.property.landlord_deal.total_out_of_pocket)}</li>
+                        <li className="list-inline-item">{window.format_currency(this.state.property.landlord_deal.total_out_of_pocket)}</li>
                       </ul>
                     </div>
                     <ul className="list-inline my-2">
@@ -1360,41 +1532,102 @@ export default class PropertyShow extends Component {
                     <h5 className="mb-3 main_box_head">Property Documents</h5>
                     <div className="doc_content">
                       <div className="pdf_type">
-                        <Link to="#" onClick={this.openRehabCostAttrModal} rel="noopener noreferrer">
-                          <div className="pdf-box">
-                            <FontAwesomeIcon icon={faFilePdf} color="red"/>
-                            <p>Itemized Repairs</p>
-                          </div>
-                        </Link>
+                        {
+                          this.state.is_premium ?
+                            <Link to="#" onClick={this.openRehabCostAttrModal} rel="noopener noreferrer">
+                              <div className="pdf-box">
+                                <FontAwesomeIcon icon={faFilePdf} color="red"/>
+                                <p>Itemized Repairs</p>
+                              </div>
+                            </Link>
+                          :
+                          <>
+                            <Link to="#" rel="noopener noreferrer">
+                              <div className="pdf-box">
+                                <FontAwesomeIcon icon={faFilePdf} color="red"/>
+                                <p>Itemized Repairs</p>
+                              </div>
+                            </Link>
+                            <div className="fav-watch-heart" >
+                              <FontAwesomeIcon icon={faLock}/>
+                            </div>
+                          </>
+
+                        }
                       </div>
                       {this.state.property.arv_proof === "" ? null : (
                         <div className="pdf_type">
-                          <a href={this.state.property.arv_proof} target="_blank" rel="noopener noreferrer">
-                            <div className="pdf-box">
-                              <FontAwesomeIcon icon={faFilePdf} color="red"/>
-                              <p>Arv Proof</p>
-                            </div>
-                          </a>
+                          {
+                            this.state.is_premium ?
+                              <a href={this.state.property.arv_proof} target="_blank" rel="noopener noreferrer">
+                                <div className="pdf-box">
+                                  <FontAwesomeIcon icon={faFilePdf} color="red"/>
+                                  <p>Arv Proof</p>
+                                </div>
+                              </a>
+                            :
+                            <>
+                              <Link to="#" rel="noopener noreferrer">
+                                <div className="pdf-box">
+                                  <FontAwesomeIcon icon={faFilePdf} color="red"/>
+                                  <p>Arv Proof</p>
+                                </div>
+                              </Link>
+                              <div className="fav-watch-heart" >
+                                <FontAwesomeIcon icon={faLock}/>
+                              </div>
+                            </>
+                          }
                         </div>
                       ) }
                       {this.state.property.rehab_cost_proof === "" ? null : (
                         <div className="pdf_type">
-                          <a href={this.state.property.rehab_cost_proof} target="_blank" rel="noopener noreferrer">
-                            <div className="pdf-box">
-                              <FontAwesomeIcon icon={faFilePdf}/>
-                              <p>Rehab Cost proofs</p>
-                            </div>
-                          </a>
+                          {
+                            this.state.is_premium ?
+                              <a href={this.state.property.rehab_cost_proof} target="_blank" rel="noopener noreferrer">
+                                <div className="pdf-box">
+                                  <FontAwesomeIcon icon={faFilePdf}/>
+                                  <p>Rehab Cost proofs</p>
+                                </div>
+                              </a>
+                            :
+                            <>
+                              <Link to="#" rel="noopener noreferrer">
+                                <div className="pdf-box">
+                                  <FontAwesomeIcon icon={faFilePdf} color="red"/>
+                                  <p>Rehab Cost proofs</p>
+                                </div>
+                              </Link>
+                              <div className="fav-watch-heart" >
+                                <FontAwesomeIcon icon={faLock}/>
+                              </div>
+                            </>
+                          }
                         </div>
                       )}
                       {this.state.property.rental_proof === "" ? null : (
                         <div className="pdf_type">
-                          <a href={this.state.property.rental_proof} target="_blank" rel="noopener noreferrer">
-                            <div className="pdf-box">
-                              <FontAwesomeIcon icon={faFilePdf}/>
-                              <p>Rental proofs</p>
-                            </div>
-                          </a>
+                          {
+                            this.state.is_premium ?
+                              <a href={this.state.property.rental_proof} target="_blank" rel="noopener noreferrer">
+                                <div className="pdf-box">
+                                  <FontAwesomeIcon icon={faFilePdf}/>
+                                  <p>Rental proofs</p>
+                                </div>
+                              </a>
+                            :
+                            <>
+                              <Link to="#" rel="noopener noreferrer">
+                                <div className="pdf-box">
+                                  <FontAwesomeIcon icon={faFilePdf} color="red"/>
+                                  <p>Rental proofs</p>
+                                </div>
+                              </Link>
+                              <div className="fav-watch-heart" >
+                                <FontAwesomeIcon icon={faLock}/>
+                              </div>
+                            </>
+                          }
                         </div>
                       )}
                     </div>
@@ -1637,29 +1870,61 @@ export default class PropertyShow extends Component {
             <div className="col-md-6 px-2">
               <div className="wrap_property">
                 <h5 className="mb-3 main_box_head">Property Video</h5>
-                <div className="video-box">
-                  {
-                    this.state.property.youtube_video_key ?
-                      <iframe title="youtube" height="350" src={ this.state.property.youtube_video_key ? `https://www.youtube.com/embed/${this.state.property.youtube_video_key}?controls=0` : "https://www.youtube.com/embed/X080gIJFE3M?controls=0"} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
-                    :
-                    (
-                      (this.state.property.lat && this.state.property.long) ?
-                        <iframe title="map" height="350" src={`https://www.google.com/maps/embed/v1/streetview?key=AIzaSyBcFpWT7vu4mLXbEPmkr5GJDG5jWBI67x0&location=${this.state.property.lat},${this.state.property.long}&heading=210&pitch=10
-                        &fov=35`} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                {this.state.is_premium ?
+                  <div className="video-box">
+                    {
+                      this.state.property.video_url ?
+                        <video width="552" height="350" controls>
+                          <source src= {this.state.property.video_url} />
+                        </video>
                       :
-                      <iframe title="youtube" height="350" src={ this.state.property.youtube_video_key ? `https://www.youtube.com/embed/${this.state.property.youtube_video_key}?controls=0` : "https://www.youtube.com/embed/X080gIJFE3M?controls=0"} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
-                    )
-                  }
-
-                </div>
+                      ((this.state.property.youtube_video_key && this.state.property.youtube_url) ?
+                        <iframe title="youtube" height="350" src={ this.state.property.youtube_video_key ? `https://www.youtube.com/embed/${this.state.property.youtube_video_key}?controls=0` : "https://www.youtube.com/embed/X080gIJFE3M?controls=0"} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                      :
+                      (
+                        (this.state.property.lat && this.state.property.long) ?
+                          <iframe title="map" height="350" src={`https://www.google.com/maps/embed/v1/streetview?key=AIzaSyBcFpWT7vu4mLXbEPmkr5GJDG5jWBI67x0&location=${this.state.property.lat},${this.state.property.long}&heading=210&pitch=10
+                        &fov=35`} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                        :
+                        <iframe title="youtube" height="350" src={ this.state.property.youtube_video_key ? `https://www.youtube.com/embed/${this.state.property.youtube_video_key}?controls=0` : "https://www.youtube.com/embed/X080gIJFE3M?controls=0"} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                      ))
+                    }
+                  </div>
+                :
+                <>
+                  <div className="video-box">
+                    <iframe title="youtube" height="350" src="https://www.youtube.com/embed/X080gIJFE3M?controls=0" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                  </div>
+                  <div className="video-login">
+                    <p><Link to="/sign_up" className="links-login">Register</Link> or <Link to="/login" className="links-login">Login</Link> to view address</p>
+                    <div className="fav-watch-heart" >
+                      <FontAwesomeIcon icon={faLock}/>
+                    </div>
+                  </div>
+                </>
+                }
               </div>
             </div>
             <div className="col-md-6 px-2">
               <div className="wrap_property">
                 <h5 className="mb-3 main_box_head">Property Location</h5>
-                <div className="map-box">
-                  <iframe title="map" width="552" height="350" id="gmap_canvas" src={`https://maps.google.com/maps?q= ${this.state.property.address}&t=&z=13&ie=UTF8&iwloc=&output=embed`} frameBorder="0" scrolling="no" ></iframe>
-                </div>
+                {this.state.is_premium ?
+                  <div className="map-box">
+                    <iframe title="map" width="552" height="350" id="gmap_canvas" src={`https://maps.google.com/maps?q= ${this.state.property.address}&t=&z=13&ie=UTF8&iwloc=&output=embed`} frameBorder="0" scrolling="no" ></iframe>
+                  </div>
+                :
+                <>
+                  <div className="map-box">
+                    <iframe title="map" width="552" height="350" id="gmap_canvas" src={"https://maps.google.com/maps?q= usa&t=&z=13&ie=UTF8&iwloc=&output=embed"} frameBorder="0" scrolling="no" ></iframe>
+                  </div>
+                  <div className="video-login">
+                    <p><Link to="/sign_up" className="links-login">Register</Link> or <Link to="/login" className="links-login">Login</Link> to view address</p>
+                    <div className="fav-watch-heart" >
+                      <FontAwesomeIcon icon={faLock}/>
+                    </div>
+                  </div>
+                </>
+                }
               </div>
             </div>
             <div className="col-md-8 mb-3 px-2">
@@ -1711,102 +1976,7 @@ export default class PropertyShow extends Component {
                 </div>
               </div>
             </div>
-            <div className="col-md-3 px-2 mb-3">
-              <div className="offer-box">
-                <div className="offer-head">
-                  <img src="/images/home3.png" alt=""/>
-                  <div className="like-icon">
-                    <i className="fa fa-heart-o"></i>
-                  </div>
-                  <div className="time-box">
-                    <p>01d:12h:04m:03s</p>
-                  </div>
-                </div>
-                <div className="offer-body">
-                  <div className="rate-row">
-                    <h5 className="mb-0">$185,000</h5>
-                    <p>3 bds | 2ba | 1129 sqft</p>
-                  </div>
-                  <p className="mb-2">6001 Kiam st, Houston, TX 77007</p>
-                  <div className="status-row mb-2">
-                    <p className="offer-dot mb-0 mr-2"></p>
-                    <p className="mb-0">Live Online Bidding</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3 px-2 mb-3">
-              <div className="offer-box">
-                <div className="offer-head">
-                  <img src="/images/home4.png" alt=""/>
-                  <div className="like-icon">
-                    <i className="fa fa-heart-o"></i>
-                  </div>
-                  <div className="time-box">
-                    <p>01d:12h:04m:03s</p>
-                  </div>
-                </div>
-                <div className="offer-body">
-                  <div className="rate-row">
-                    <h5 className="mb-0">$185,000</h5>
-                    <p>3 bds | 2ba | 1129 sqft</p>
-                  </div>
-                  <p className="mb-2">6001 Kiam st, Houston, TX 77007</p>
-                  <div className="status-row mb-2">
-                    <p className="offer-dot mb-0 mr-2"></p>
-                    <p className="mb-0">Live Online Bidding</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3 px-2 mb-3">
-              <div className="offer-box">
-                <div className="offer-head">
-                  <img src="/images/home5.png" alt=""/>
-                  <div className="like-icon">
-                    <i className="fa fa-heart-o"></i>
-                  </div>
-                  <div className="time-box">
-                    <p>01d:12h:04m:03s</p>
-                  </div>
-                </div>
-                <div className="offer-body">
-                  <div className="rate-row">
-                    <h5 className="mb-0">$185,000</h5>
-                    <p>3 bds | 2ba | 1129 sqft</p>
-                  </div>
-                  <p className="mb-2">6001 Kiam st, Houston, TX 77007</p>
-                  <div className="status-row mb-2">
-                    <p className="offer-dot mb-0 mr-2"></p>
-                    <p className="mb-0">Offer</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3 px-2 mb-3">
-              <div className="offer-box">
-                <div className="offer-head">
-                  <img src="/images/home6.png" alt=""/>
-                  <div className="like-icon">
-                    <i className="fa fa-heart-o"></i>
-                  </div>
-                  <div className="time-box">
-                    <p>01d:12h:04m:03s</p>
-                  </div>
-                </div>
-                <div className="offer-body">
-                  <div className="rate-row">
-                    <h5 className="mb-0">$185,000</h5>
-                    <p>3 bds | 2ba | 1129 sqft</p>
-                  </div>
-                  <p className="mb-2">6001 Kiam st, Houston, TX 77007</p>
-                  <div className="status-row mb-2">
-                    <p className="offer-dot mb-0 mr-2"></p>
-                    <p className="mb-0">Offer</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {near_properties}
           </div>
           <Modal className=" buy_modal" show={this.state.open_buy_now_modal} onHide={this.closeBuyNowModal}>
             <Modal.Header closeButton>
@@ -1825,24 +1995,12 @@ export default class PropertyShow extends Component {
                   <div className="accept-terms" id="buy-terms_agree-block" onScroll={this.enableCheckBox}>
                     <ol className="list-unstyled mb-0">
                       <li>I agree to Buy this property As-is, where is with all faults.</li>
-                      <li>I understand That the pictures, video arv proofs and rehab numbers are provided for informational purposes only and I have done my own duedilligence for this property I am bidding on.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                      cillum dolore eu fugiat nulla pariatur.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+                      <br/>
+                      <li>I understand That the pictures, video ARV proofs and rehab numbers are provided for informational purposes only and I have done my own due dilligence for this property I am bidding on.</li>
+                      <br/>
+                      <li>I agree to deliver $ 3,000 or 2% (whichever is higher) as nonrefundable earnest money to title company on Executed Contract if I am the winning bidder within 48 business hours or my winning bidder status can be cancelled.</li>
+                      <br/>
+                      <li>I (Buyer) agrees to pay for all standard buyer and seller closing cost including title policy. Seller will pay to remove all liens, taxes and HOA dues owed and prorated up until the day of closing.</li>
                     </ol>
                   </div>
                 </div>
@@ -1926,24 +2084,12 @@ export default class PropertyShow extends Component {
                   <div className="accept-terms" id="best_offer-terms_agree-block" onScroll={this.enableCheckBox}>
                     <ol className="list-unstyled mb-0">
                       <li>I agree to Buy this property As-is, where is with all faults.</li>
-                      <li>I understand That the pictures, video arv proofs and rehab numbers are provided for informational purposes only and I have done my own duedilligence for this property I am bidding on.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                      cillum dolore eu fugiat nulla pariatur.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+                      <br/>
+                      <li>I understand That the pictures, video ARV proofs and rehab numbers are provided for informational purposes only and I have done my own due dilligence for this property I am bidding on.</li>
+                      <br/>
+                      <li>I agree to deliver $ 3,000 or 2% (whichever is higher) as nonrefundable earnest money to title company on Executed Contract if I am the winning bidder within 48 business hours or my winning bidder status can be cancelled.</li>
+                      <br/>
+                      <li>I (Buyer) agrees to pay for all standard buyer and seller closing cost including title policy. Seller will pay to remove all liens, taxes and HOA dues owed and prorated up until the day of closing.</li>
                     </ol>
                   </div>
                 </div>
@@ -2028,24 +2174,12 @@ export default class PropertyShow extends Component {
                   <div className="accept-terms" id="bidding-terms_agree-block" onScroll={this.enableCheckBox}>
                     <ol className="list-unstyled mb-0">
                       <li>I agree to Buy this property As-is, where is with all faults.</li>
-                      <li>I understand That the pictures, video arv proofs and rehab numbers are provided for informational purposes only and I have done my own duedilligence for this property I am bidding on.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                      cillum dolore eu fugiat nulla pariatur.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
-                      <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+                      <br/>
+                      <li>I understand That the pictures, video ARV proofs and rehab numbers are provided for informational purposes only and I have done my own due dilligence for this property I am bidding on.</li>
+                      <br/>
+                      <li>I agree to deliver $ 3,000 or 2% (whichever is higher) as nonrefundable earnest money to title company on Executed Contract if I am the winning bidder within 48 business hours or my winning bidder status can be cancelled.</li>
+                      <br/>
+                      <li>I (Buyer) agrees to pay for all standard buyer and seller closing cost including title policy. Seller will pay to remove all liens, taxes and HOA dues owed and prorated up until the day of closing.</li>
                     </ol>
                   </div>
                 </div>

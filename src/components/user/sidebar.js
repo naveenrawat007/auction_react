@@ -63,7 +63,7 @@ export default class Sidebar extends Component{
   }
   componentDidMount () {
     this._isMounted = true;
-    if (!(localStorage.getItem("auction_user_image")) || !(localStorage.getItem("auction_user_image"))){
+    if (!(localStorage.getItem("auction_user_name")) || !(localStorage.getItem("auction_user_image"))){
       this.changeImage()
     }
   }
@@ -182,10 +182,12 @@ export default class Sidebar extends Component{
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link " data-toggle="pill" href="#availablePlans">
+                  {/* <a className="nav-link " data-toggle="pill" href="#availablePlans"> */}
+                  <Link to='/plans' className={this.checkActive("user_plans")} data-toggle="pill" >
                     <span><FontAwesomeIcon icon={faCreditCard} /> Available Plans</span>
                     <FontAwesomeIcon icon={faChevronRight} />
-                  </a>
+                  </Link>
+                    {/* </a> */}
                 </li>
                 <li className="nav-item">
                   <Link to='/user/property' className={this.checkActive("property_list")} data-toggle="pill" >

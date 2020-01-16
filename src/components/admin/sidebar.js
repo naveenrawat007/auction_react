@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faBell, faSearch } from '@fortawesome/free-solid-svg-icons';
-import UserList from './user/user_list.js';
+import UserList from './user/index.js';
 import PropertyList from './property/index.js';
 import TerminationRequestList from './termination/index.js';
 
@@ -19,8 +19,14 @@ export default class AdminSidebar extends Component{
   }
   renderSwitch = () => {
     switch (this.state.path) {
+      case 'free_users_list':
+        return <UserList path="free_users_list"/>;
+      case 'premium_users_list':
+        return <UserList path="premium_users_list"/>;
+      case 'ban_users_list':
+        return <UserList path="ban_users_list"/>;
       case 'all_users_list':
-        return <UserList/>;
+        return <UserList path="all_users_list"/>;
       case 'under_review_property_list':
         return <PropertyList path="under_review_property_list"/>;
       case 'best_offer_property_list':
@@ -45,6 +51,7 @@ export default class AdminSidebar extends Component{
 
   handleLogout = () => {
     localStorage.removeItem("auction_user_token");
+    localStorage.removeItem("auction_admin_token");
     window.location.href = "/login"
   }
 

@@ -141,9 +141,9 @@ export default class Profile extends Component{
             // case "street_number":
             //   address = address + place.address_components[i].long_name;
             //   break;
-            case "route":
-              address = address + ", " + place.address_components[i].long_name;
-              break;
+            // case "route":
+            //   address = address + ", " + place.address_components[i].long_name;
+            //   break;
             case "locality":
               city = place.address_components[i].long_name;
               break;
@@ -637,7 +637,7 @@ export default class Profile extends Component{
               <div className="row">
                 <div className="col-md-4">
                   <div className="upload-profile-pic">
-                    <img id="user_profile_image_placeholder" src={this.state.user_image ? this.state.user_image : "images/default-profile-img.png"} alt="user_image"/>
+                    <img id="user_profile_image_placeholder" src={this.state.user_image ? this.state.user_image : "/images/default-profile-img.png"} alt="user_image"/>
                     <div className="overlay-edit">
                       <div className="upload-edit-icon">
                         <FontAwesomeIcon icon={faPencilAlt} className="profile-update-icon" id= "user_profile_image"/>

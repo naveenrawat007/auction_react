@@ -153,6 +153,9 @@ const initial_state = {
     arv_analysis: "",
     description_of_repairs: "",
     arv_proof: null,
+    arv_proof_link: "",
+    rehab_cost_proof_link: "",
+    rental_proof_link: "",
     rehab_cost_proof: null,
     rental_description: "",
     rental_proof: null,
@@ -296,9 +299,10 @@ export default class PropertyEdit extends Component{
             // case "street_number":
             //   address = address + place.address_components[i].long_name;
             //   break;
-            case "route":
-              address = address + ", " + place.address_components[i].long_name;
-              break;
+            // case "route":
+            //   console.log(address);
+            //   address = address
+            //   break;
             case "locality":
               city = place.address_components[i].long_name;
               break;
@@ -415,6 +419,9 @@ export default class PropertyEdit extends Component{
         asking_price: property.asking_price,
         estimated_rehab_cost: property.estimated_rehab_cost,
         estimated_rehab_cost_attr: property.estimated_rehab_cost_attr,
+        arv_proof_link: property.arv_proof,
+        rehab_cost_proof_link: property.rehab_cost_proof,
+        rental_proof_link: property.rental_proof,
         arv_analysis: property.arv_analysis,
         description_of_repairs: property.description_of_repairs,
         rental_description: property.rental_description,
@@ -938,7 +945,7 @@ export default class PropertyEdit extends Component{
     }else if (isNaN(this.state.property.estimated_rehab_cost)) {
       property_estimated_rehab_cost_error = "error."
     }
-    if ((this.state.property.arv_proof === null) && (this.state.property.arv_analysis === "")){
+    if ((this.state.property.arv_proof === null) && (this.state.property.arv_analysis === "")&& (this.state.property.arv_proof_link === "")){
       property_arv_proof_error = "can't be blank."
       property_arv_analysis_error = "error"
     }
@@ -1003,7 +1010,7 @@ export default class PropertyEdit extends Component{
       }else if (isNaN(this.state.property.vacancy_rate)) {
         property_vacancy_rate_error = "error."
       }
-      if ((this.state.property.rental_proof === null) &&(this.state.property.rental_description === "")){
+      if ((this.state.property.rental_proof === null) &&(this.state.property.rental_description === "") && (this.state.property.rental_proof_link === "")){
         property_rental_proof_error = "can't be blank."
         property_rental_description_error = "error"
       }
@@ -1309,7 +1316,7 @@ export default class PropertyEdit extends Component{
   updateYoutubeVideoKey = () => {
     if (this.state.property.youtube_url !== undefined || this.state.property.youtube_url !== '') {
       let url = this.state.property.youtube_url
-      var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|v=|\?v=)([^#]*).*/;
+      var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
       var match = url.match(regExp);
       if (match && match[2].trim().length === 11) {
         let key = match[2].trim()
@@ -3428,7 +3435,7 @@ export default class PropertyEdit extends Component{
                               <div className="col-md-6 offset-md-6 px-1 mt-2">
                                 <div className="custom-file">
                                   <input type="file" className="custom-file-input" name="rental_proof" onChange={this.fileSelectHandler}/>
-                                  <label className={"custom-file-label " + this.addErrorClass(this.state.property_rental_proof_error) } htmlFor="customFile">Choose file</label>
+                                  <label className={"custom-file-label " + this.addErrorClass(this.state.property_rental_proof_error) } htmlFor="customFile">{this.state.property.rental_proof_link ? "Old Rental Proof or" : null } Choose file</label>
                                 </div>
                               </div>
                             </div>
@@ -3443,7 +3450,7 @@ export default class PropertyEdit extends Component{
                               <div className="col-md-6 offset-md-6 px-1 mt-2">
                                 <div className="custom-file">
                                   <input type="file" className="custom-file-input" name="arv_proof" onChange={this.fileSelectHandler} />
-                                  <label className={"custom-file-label " + this.addErrorClass(this.state.property_arv_proof_error) } htmlFor="customFile">Choose file</label>
+                                  <label className={"custom-file-label " + this.addErrorClass(this.state.property_arv_proof_error) } htmlFor="customFile">{this.state.property.arv_proof_link ? "Old Arv Proof or" : null } Choose file</label>
                                 </div>
                               </div>
                             </div>
@@ -3457,7 +3464,7 @@ export default class PropertyEdit extends Component{
                               <div className="col-md-6 offset-md-6 px-1 mt-2">
                                 <div className="custom-file">
                                   <input type="file" className="custom-file-input" name="rehab_cost_proof" onChange={this.fileSelectHandler} />
-                                  <label className={"custom-file-label " + this.addErrorClass(this.state.property_rehab_cost_proof_error) } htmlFor="customFile">Choose file</label>
+                                  <label className={"custom-file-label " + this.addErrorClass(this.state.property_rehab_cost_proof_error) } htmlFor="customFile">{this.state.property.rehab_cost_proof_link ? "Old Rehab Cost Proof or" : null } Choose file</label>
                                 </div>
                               </div>
                             </div>
@@ -4025,9 +4032,10 @@ export default class PropertyEdit extends Component{
                             null
                           :
                           <div className="spinner_main">
-                            <div className="spinner-grow" role="status">
+                            {/* <div className="spinner-grow" role="status">
                               <span className="sr-only">Loading...</span>
-                            </div>
+                            </div> */}
+                            <div className="uploader">Uploading...</div>
                           </div>
                           }
                           <div className="col-md-12 text-center pb-4">

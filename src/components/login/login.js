@@ -20,6 +20,7 @@ export default class Login extends Component{
   }
 
   componentDidMount () {
+    window.scrollTo(0,0)
     if (localStorage.getItem("auction_user_token")){
 			this.props.history.push('/')
 		}
@@ -53,6 +54,7 @@ export default class Login extends Component{
         // window.location.href = "/"
         if (result.user.is_admin === true){
           // this.props.history.push('/admin')
+          localStorage.setItem("auction_admin_token", result.user.token);
           window.location.href = "/admin"
         }else {
           window.location.href = "/user"

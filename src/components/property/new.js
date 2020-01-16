@@ -314,9 +314,9 @@ export default class NewProperty extends Component{
             // case "street_number":
             //   address = address + place.address_components[i].long_name;
             //   break;
-            case "route":
-              address = address + ", " + place.address_components[i].long_name;
-              break;
+            // case "route":
+            //   address = address + ", " + place.address_components[i].long_name;
+            //   break;
             case "locality":
               city = place.address_components[i].long_name;
               break;
@@ -353,7 +353,7 @@ export default class NewProperty extends Component{
   updateYoutubeVideoKey = () => {
     if (this.state.property.youtube_url !== undefined || this.state.property.youtube_url !== '') {
       let url = this.state.property.youtube_url
-      var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|v=|\?v=)([^#]*).*/;
+      var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
       var match = url.match(regExp);
       if (match && match[2].trim().length === 11) {
         let key = match[2].trim()
