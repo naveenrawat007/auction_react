@@ -3,12 +3,18 @@ import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faVideo, faPhone, faPlus, faMicrophone, faCamera} from '@fortawesome/free-solid-svg-icons'
 import { faPlayCircle, faSmile} from '@fortawesome/free-regular-svg-icons'
+import ChatConnection from './ChatConnection.js'
 export default class ChatList extends Component{
 	constructor(props){
     super(props);
   }
 
   componentDidMount () {
+    const ch = new ChatConnection("2", ()=>{console.log(1)})
+    ch.openNewRoom(1)
+    setTimeout(()=>{
+      ch.talk("new message", 1)
+    }, 3000)
   }
 	render() {
     return (
