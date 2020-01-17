@@ -8,6 +8,8 @@ export default class Message extends Component{
 	constructor(props){
     super(props);
     this.state = {
+      page: 1,
+      message: "",
       current_user_id: this.props.user_id,
       room_id: this.props.chat_room.id,
       name: this.props.chat_room.name,
@@ -25,11 +27,42 @@ export default class Message extends Component{
     // setTimeout(()=>{
     //   ch.talk("new message", 2)
     // }, 3000)
+    this.chatConnection = new ChatConnection(this.state.current_user_id, this.addUpdatedMessage)
+    this.chatConnection.openNewRoom(this.state.room_id)
     this.getMessages();
   }
 
-  getMessages = () => {
-    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/user/chat_rooms/"+this.state.room_id+"/messages"
+  updateCurrentMessage = (event) => {
+    const{ name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  }
+  submitMessage = (event) => {
+    event.preventDefault();
+    this.chatConnection.talk(this.state.message, this.state.room_id);
+    this.setState({
+      message: "",
+    });
+  }
+
+  addUpdatedMessage = (message) => {
+    let messages = this.state.messages
+    messages.push(message)
+    this.setState({
+      messages: messages,
+    }, function () {
+      this.adjustScroll();
+    });
+  }
+  adjustScroll = () => {
+    if (document.getElementById('chat-room-container')){
+      document.getElementById('chat-room-container').scrollTop = document.getElementById('chat-room-container').scrollHeight + document.getElementById('chat-room-container').clientHeight
+    }
+  }
+
+  getMessages = (old = false) => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/user/chat_rooms/"+this.state.room_id+"/messages" + "?page=" + this.state.page
     fetch(url, {
       method: "GET",
       headers: {
@@ -47,9 +80,15 @@ export default class Message extends Component{
     .then((result) => {
       if (this._isMounted){
         if (result.status === 200){
+          let messages = this.state.messages
+          messages.unshift(...result.messages.reverse())
           this.setState({
             isLoaded: true,
-            messages: result.messages
+            messages: messages,
+          }, function () {
+            if (old === false){
+              this.adjustScroll();
+            }
           });
         }else if (result.status === 401) {
           localStorage.removeItem("auction_user_token");
@@ -66,6 +105,17 @@ export default class Message extends Component{
         }
       }
     })
+  }
+  getOldMessages = () => {
+    if (document.getElementById('chat-room-container')){
+      if (document.getElementById('chat-room-container').scrollTop === 0){
+        this.setState({
+          page: (this.state.page+1)
+        }, function () {
+          this.getMessages(true);
+        });
+      }
+    }
   }
 
 	render() {
@@ -124,7 +174,7 @@ export default class Message extends Component{
               </div>
             </div>
           </div>
-          <div className="chat-data">
+          <div className="chat-data" id="chat-room-container" onScroll={this.getOldMessages}>
             {messages}
           </div>
           <div className="chat-footer">
@@ -135,7 +185,9 @@ export default class Message extends Component{
                 </div>
               </div>
               <div className="input-group main_form_input col-md-9 px-0">
-                <input type="text" className="form-control border-right-0" aria-label="" placeholder="Type a message.."/>
+                <form onSubmit={this.submitMessage}>
+                  <input type="text" value={this.state.message} className="form-control border-right-0" name="message"  onChange={this.updateCurrentMessage} aria-label="" placeholder="Type a message.."/>
+                </form>
                 <div className="input-group-append">
                   <span className="input-group-text group-box-chat border-left-0">
                     <a href="#">
