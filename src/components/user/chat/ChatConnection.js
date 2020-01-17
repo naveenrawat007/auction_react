@@ -11,6 +11,7 @@ function ChatConnection(senderId, callback) {
   this.connection = ActionCable.createConsumer(wsUrl)
   this.roomConnections = []
 }
+
 ChatConnection.prototype.talk = function(message, roomId) {
   let roomConnObj = this.roomConnections.find(conn => conn.roomId == roomId)
   if (roomConnObj) {
@@ -38,9 +39,8 @@ ChatConnection.prototype.createRoomConnection = function(room_code) {
     },
     disconnected: function() {},
     received: function(data) {
-      console.log(data);
+        return scope.callback(data)
       // if (data.participants.indexOf(scope.senderId) != -1) {
-      //   return scope.callback(data)
       // }
     },
     speak: function(message) {
