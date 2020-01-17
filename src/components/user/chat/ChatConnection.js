@@ -30,23 +30,22 @@ ChatConnection.prototype.disconnect = function() {
   this.roomConnections.forEach(c => c.conn.consumer.connection.close())
 }
 
-ChatConnection.prototype.createRoomConnection = function(group_code) {
+ChatConnection.prototype.createRoomConnection = function(room_code) {
   var scope = this
-  return this.connection.subscriptions.create({channel: 'GroupChannel', group_id: group_code, sender: scope.senderId}, {
+  return this.connection.subscriptions.create({channel: 'RoomChannel', room_id: room_code, sender: scope.senderId}, {
     connected: function() {
-      console.log('connected to GroupChannel. Room code: ' + group_code + '.')
+      console.log('connected to RoomChannel. Room code: ' + room_code + '.')
     },
     disconnected: function() {},
     received: function(data) {
       console.log(data);
-      if (data.participants.indexOf(scope.senderId) != -1) {
-        return scope.callback(data)
-      }
+      // if (data.participants.indexOf(scope.senderId) != -1) {
+      //   return scope.callback(data)
+      // }
     },
     speak: function(message) {
-      console.log(group_code);
       return this.perform('speak', {
-        group_id: group_code,
+        room_id: room_code,
         message: message,
         sender:  scope.senderId
       })
