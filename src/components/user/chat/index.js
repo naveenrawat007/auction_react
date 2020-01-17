@@ -4,19 +4,97 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faVideo, faPhone, faPlus, faMicrophone, faCamera} from '@fortawesome/free-solid-svg-icons'
 import { faPlayCircle, faSmile} from '@fortawesome/free-regular-svg-icons'
 import ChatConnection from './ChatConnection.js'
+import Message from './message.js';
+
+
+const initial_state = {
+  loaded: false,
+  error: "",
+  message: "",
+	chat_rooms: [],
+  search_str: "",
+  current_page: 1,
+  total_pages: 1,
+  page: 1,
+  total_pages_array:[],
+}
 export default class ChatList extends Component{
 	constructor(props){
     super(props);
+		this.state = initial_state;
   }
 
   componentDidMount () {
-    const ch = new ChatConnection("2", ()=>{console.log(1)})
-    ch.openNewRoom(1)
-    setTimeout(()=>{
-      ch.talk("new message", 1)
-    }, 3000)
+	  this._isMounted = true;
+		this.getChatRoomsList();
   }
+	getChatRoomsList = () => {
+		let url = process.env.REACT_APP_BACKEND_BASE_URL + "/user/chat_rooms?search_str=" + this.state.search_str + "&page=" + this.state.page
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*"
+      }
+    }).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        if (result.status === 200){
+					console.log(result.chat_rooms);
+          this.setState({
+            isLoaded: true,
+            chat_rooms: result.chat_rooms,
+            current_page : result.meta.current_page,
+            total_pages : result.meta.total_pages,
+          });
+          let items = []
+          window.scrollTo(0,0)
+          for (let number = 1; number <= this.state.total_pages; number++) {
+            items.push(number)
+          }
+          this.setState({
+            total_pages_array: items,
+          });
+        }else if (result.status === 401) {
+          localStorage.removeItem("auction_user_token");
+          window.location.href = "/login"
+        }else {
+          this.setState({
+            isLoaded: true,
+            variant: "danger",
+            message: result.message
+          });
+          this.clearMessageTimeout = setTimeout(() => {
+            this.setState(() => ({message: ""}))
+          }, 2000);
+        }
+      }
+    })
+	}
+
 	render() {
+		const chat_room_list = this.state.chat_rooms.map((chat_room, index)=>{
+			return (
+				<li key={index}>
+					<Link to="#" >
+						<div className="border_user">
+							<img src={chat_room.owner_img ? chat_room.owner_img : "/images/profile.png"} alt="profile"/>
+						</div>
+						<div className="active-main">
+							<h5>{chat_room.property_name}</h5>
+							<h6>{chat_room.owner_name}</h6>
+						</div>
+					</Link>
+				</li>
+			);
+		})
     return (
       <div className="profile-form">
         <div className="profile-form-in p-0">
@@ -36,191 +114,11 @@ export default class ChatList extends Component{
                       </div>
                     </div>
                     <ul className="list-unstyled users_list">
-                      <li>
-                        <a href="#">
-                          <div className="border_user">
-                            <img src="/images/profile.png" alt="profile"/>
-                          </div>
-                          <div className="active-main">
-                            <h5>4715 Brady St, Houston, Tx</h5>
-                            <h6>Vinay Mehta</h6>
-                          </div>
-                        </a>
-                      </li>
-                      <li className="active">
-                        <a href="#">
-                          <div className="border_user">
-                            <img src="/images/profile.png" alt="profile"/>
-                          </div>
-                          <div className="active-main">
-                            <h5>734 Magic Oaks Dr, Spring, Tx</h5>
-                            <h6>Tina Nguyen</h6>
-                          </div>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <div className="border_user">
-                            <img src="/images/profile.png" alt="profile"/>
-                          </div>
-                          <div className="active-main">
-                            <h5>734 Magic Oaks Dr, Spring, Tx</h5>
-                            <h6>Harley Hedgpeth</h6>
-                          </div>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <div className="border_user">
-                            <img src="/images/profile.png" alt="profile"/>
-                          </div>
-                          <div className="active-main">
-                            <h5>4818 Imogene St, Houston, Tx</h5>
-                            <h6>Richard Jr.</h6>
-                          </div>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <div className="border_user">
-                            <img src="/images/profile.png" alt="profile"/>
-                          </div>
-                          <div className="active-main">
-                            <h5>4818 Imogene St, Houston, Tx</h5>
-                            <h6>Dani Moris</h6>
-                          </div>
-                        </a>
-                      </li>
+											{chat_room_list}
                     </ul>
                   </div>
                 </div>
-                <div className="col-md-10 px-0 right-chatbox">
-                  <div className="chat-body">
-                    <div className="chat-head">
-                      <div className="heading_left">
-                        <h5 className="font-red">734 Magic Oaks Dr, Spring, Tx</h5>
-                        <p className="mb-0">Tina Nguyen</p>
-                      </div>
-                      <div className="chat-icon">
-                        <div className="icon_box">
-                          <a href="">
-                            <FontAwesomeIcon icon={faVideo} />
-                          </a>
-                        </div>
-                        <div className="icon_box">
-                          <a href="">
-                            <FontAwesomeIcon icon={faPhone} />
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="chat-data">
-                      <div className="col-md-12">
-                        <hr className="hr-text" data-content="Yesterday"/>
-                      </div>
-                      <div className="row user-row mx-0 py-2 px-3">
-                        <div className="col-md-1 px-0">
-                          <div className="user_img">
-                            <div className="border_img">
-                              <img src="/images/profile.png" alt="profile"/>
-                            </div>
-                            <p className="time_text">11:38 PM</p>
-                          </div>
-                        </div>
-                        <div className="col-md-11 px-0">
-                          <div className="user_data">
-                            <div className="user_time">
-                              <h6 className="mb-1">Helena Fishcher</h6>
-                            </div>
-                            <p className="mb-0">Tina Nguyen place a bid at  734 Magic Oaks Dr for $247,000</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row user-row mx-0 py-2 px-3">
-                        <div className="col-md-1 px-0">
-                          <div className="user_img">
-                            <div className="border_img">
-                              <img src="/images/profile.png" alt="profile"/>
-                            </div>
-                            <p className="time_text">11:38 PM</p>
-                          </div>
-                        </div>
-                        <div className="col-md-11 px-0">
-                          <div className="user_data">
-                            <div className="user_time">
-                              <h6 className="mb-1">Helena Fishcher</h6>
-                            </div>
-                            <div className="play_record mt-0">
-                              <FontAwesomeIcon icon={faPlayCircle} />
-                              <div className="sound_waves">
-                                <img src="/images/sound.png" alt="profile"/>
-                                <img src="/images/sound.png" alt="profile"/>
-                                <img src="/images/sound.png" alt="profile"/>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row user-row mx-0 py-2 px-3">
-                        <div className="col-md-12 text-right px-0">
-                          <div className="user_data admin_send">
-                            <p className="mb-0">Got your message. Did you arrive?</p>
-                          </div>
-                          <p className="time_text mt-0">11:39 PM</p>
-                        </div>
-                      </div>
-                      <div className="row user-row mx-0 py-2 px-3">
-                        <div className="col-md-1 px-0">
-                          <div className="user_img">
-                            <div className="border_img">
-                              <img src="/images/profile.png" alt="profile"/>
-                            </div>
-                            <p className="time_text">11:38 PM</p>
-                          </div>
-                        </div>
-                        <div className="col-md-11 px-0">
-                          <div className="user_data">
-                            <div className="user_time">
-                              <h6 className="mb-1">Helena Fishcher</h6>
-                            </div>
-                            <div className="col-md-5 px-0">
-                              <img src="/images/home1.png" alt="profile" className="chatimg_width"/>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="chat-footer">
-                      <div className="col-md-12 px-0 row mx-0 align-items-center">
-                        <div className="col-md-1 px-0 text-center">
-                          <div className="main_form_add">
-                            <a href="#"><FontAwesomeIcon icon={faPlus} /></a>
-                          </div>
-                        </div>
-                        <div className="input-group main_form_input col-md-9 px-0">
-                          <input type="text" className="form-control border-right-0" aria-label="" placeholder="Type a message.."/>
-                          <div className="input-group-append">
-                            <span className="input-group-text group-box-chat border-left-0">
-                              <a href="#">
-                                <i className="fa fa-smile-o"></i>
-                                <FontAwesomeIcon icon={faSmile} />
-                              </a>
-                            </span>
-                          </div>
-                        </div>
-                        <div className="col-md-1 pl-3 pr-1 text-center">
-                          <a href="">
-                            <i className="fa fa-microphone"></i>
-                            <FontAwesomeIcon icon={faMicrophone} color={"#818078"} />
-                          </a>
-                        </div>
-                        <div className="col-md-1 px-1 text-center">
-                          <a href=""><FontAwesomeIcon icon={faCamera} color={"#818078"} /></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+								<Message />
               </div>
             </div>
           </div>
