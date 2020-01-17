@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faVideo, faPhone, faPlus, faMicrophone, faCamera} from '@fortawesome/free-solid-svg-icons'
-import { faPlayCircle, faSmile} from '@fortawesome/free-regular-svg-icons'
-import ChatConnection from './ChatConnection.js'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Message from './message.js';
 
 
@@ -11,6 +9,8 @@ const initial_state = {
   loaded: false,
   error: "",
   message: "",
+	user_id: "",
+	selected_chat_room: null,
 	chat_rooms: [],
   search_str: "",
   current_page: 1,
@@ -47,8 +47,8 @@ export default class ChatList extends Component{
     .then((result) => {
       if (this._isMounted){
         if (result.status === 200){
-					console.log(result.chat_rooms);
           this.setState({
+						user_id: result.user_id,
             isLoaded: true,
             chat_rooms: result.chat_rooms,
             current_page : result.meta.current_page,
@@ -78,14 +78,19 @@ export default class ChatList extends Component{
       }
     })
 	}
+	updateSelectedChatRoom = (chat_room) => {
+		this.setState({
+		  selected_chat_room: chat_room,
+		});
+	}
 
 	render() {
 		const chat_room_list = this.state.chat_rooms.map((chat_room, index)=>{
 			return (
 				<li key={index}>
-					<Link to="#" >
+					<Link to="#" onClick={() => {this.updateSelectedChatRoom(chat_room)}} >
 						<div className="border_user">
-							<img src={chat_room.owner_img ? chat_room.owner_img : "/images/profile.png"} alt="profile"/>
+							<img src={chat_room.owner_image ? chat_room.owner_image : "/images/profile.png"} alt="profile"/>
 						</div>
 						<div className="active-main">
 							<h5>{chat_room.property_name}</h5>
@@ -118,8 +123,12 @@ export default class ChatList extends Component{
                     </ul>
                   </div>
                 </div>
-								<Message />
-              </div>
+								{this.state.selected_chat_room ?
+									<Message chat_room={this.state.selected_chat_room} user_id={this.state.user_id}/>
+								:
+									null
+								}
+							</div>
             </div>
           </div>
         </div>
