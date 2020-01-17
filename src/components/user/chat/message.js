@@ -55,9 +55,14 @@ export default class Message extends Component{
       this.adjustScroll();
     });
   }
-  adjustScroll = () => {
+  adjustScroll = (old = false) => {
     if (document.getElementById('chat-room-container')){
-      document.getElementById('chat-room-container').scrollTop = document.getElementById('chat-room-container').scrollHeight + document.getElementById('chat-room-container').clientHeight
+      if (old){
+        document.getElementById('chat-room-container').scrollTop = document.getElementById('chat-room-container').clientHeight
+      }
+      else {
+        document.getElementById('chat-room-container').scrollTop = document.getElementById('chat-room-container').scrollHeight + document.getElementById('chat-room-container').clientHeight
+      }
     }
   }
 
@@ -80,16 +85,21 @@ export default class Message extends Component{
     .then((result) => {
       if (this._isMounted){
         if (result.status === 200){
-          let messages = this.state.messages
-          messages.unshift(...result.messages.reverse())
-          this.setState({
-            isLoaded: true,
-            messages: messages,
-          }, function () {
-            if (old === false){
-              this.adjustScroll();
-            }
-          });
+          if (result.messages.length > 0){
+            let messages = this.state.messages
+            messages.unshift(...result.messages.reverse())
+            this.setState({
+              isLoaded: true,
+              messages: messages,
+            }, function () {
+              if (old === false){
+                this.adjustScroll();
+              }
+              else {
+                this.adjustScroll(old);
+              }
+            });
+          }
         }else if (result.status === 401) {
           localStorage.removeItem("auction_user_token");
           window.location.href = "/login"
