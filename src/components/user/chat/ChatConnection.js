@@ -17,7 +17,7 @@ ChatConnection.prototype.talk = function(message, roomId) {
   if (roomConnObj) {
     roomConnObj.conn.speak(message)
   } else {
-    console.log('Error: Cannot find room connection')
+    // console.log('Error: Cannot find room connection')
   }
 }
 
@@ -35,7 +35,7 @@ ChatConnection.prototype.createRoomConnection = function(room_code) {
   var scope = this
   return this.connection.subscriptions.create({channel: 'RoomChannel', room_id: room_code, sender: scope.senderId}, {
     connected: function() {
-      console.log('connected to RoomChannel. Room code: ' + room_code + '.')
+      // console.log('connected to RoomChannel. Room code: ' + room_code + '.')
     },
     disconnected: function() {},
     received: function(data) {

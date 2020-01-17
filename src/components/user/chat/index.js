@@ -51,6 +51,7 @@ export default class ChatList extends Component{
 						user_id: result.user_id,
             isLoaded: true,
             chat_rooms: result.chat_rooms,
+            selected_chat_room: result.chat_rooms[0],
             current_page : result.meta.current_page,
             total_pages : result.meta.total_pages,
           });
