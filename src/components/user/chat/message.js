@@ -195,17 +195,17 @@ export default class Message extends Component{
                 </div>
               </div>
               <div className="input-group main_form_input col-md-9 px-0">
-                <form onSubmit={this.submitMessage}>
+                <form className="chat_form" onSubmit={this.submitMessage}>
                   <input type="text" value={this.state.message} className="form-control border-right-0" name="message"  onChange={this.updateCurrentMessage} aria-label="" placeholder="Type a message.."/>
+                  <div className="input-group-append">
+                    <span className="input-group-text group-box-chat border-left-0">
+                      <a href="#">
+                        <i className="fa fa-smile-o"></i>
+                        <FontAwesomeIcon icon={faSmile} />
+                      </a>
+                    </span>
+                  </div>
                 </form>
-                <div className="input-group-append">
-                  <span className="input-group-text group-box-chat border-left-0">
-                    <a href="#">
-                      <i className="fa fa-smile-o"></i>
-                      <FontAwesomeIcon icon={faSmile} />
-                    </a>
-                  </span>
-                </div>
               </div>
               <div className="col-md-1 pl-3 pr-1 text-center">
                 <a href="">

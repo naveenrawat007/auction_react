@@ -928,6 +928,12 @@ button:focus {
   overflow-y: auto;
 }
 
+.chat_form{
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
 .chat-body {
   background-color: #fff;
   height: calc(100vh - 160px);
@@ -1255,7 +1261,7 @@ button:focus {
   color: #818078;
   font-weight: 500;
   font-size: 14px;
-  height: 38px;
+  height: 39px;
 }
 
 .chat-footer .main_form_input .input-group-text {
@@ -1264,7 +1270,8 @@ button:focus {
   border-top-right-radius: 50px;
   color: #818078;
   font-size: 20px;
-  padding: 0.20rem 0.75rem;
+  height: 39px;
+  /* padding: 0.20rem 0.75rem; */
 }
 
 .chat-footer .main_form_add a {
