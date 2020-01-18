@@ -26,6 +26,7 @@ export default class Message extends Component{
   UNSAFE_componentWillReceiveProps (nextProps) {
     if (nextProps.chat_room.id !== this.state.room_id){
       window.scrollTo(0,0)
+      this.chatConnection.disconnect()
       this.setState({
         room_id: nextProps.chat_room.id,
         current_user_id: nextProps.user_id,
@@ -35,7 +36,10 @@ export default class Message extends Component{
         owner_name: nextProps.chat_room.owner_name,
         owner_img: nextProps.chat_room.owner_img,
         messages: [],
+        page: 1,
       }, function () {
+        this.chatConnection = new ChatConnection(this.state.current_user_id, this.addUpdatedMessage)
+        this.chatConnection.openNewRoom(this.state.room_id)
         this.getMessages();
       });
     }
@@ -150,7 +154,6 @@ export default class Message extends Component{
   }
 
 	render() {
-    console.log(this.props);
     const messages = this.state.messages.map((message, index)=>{
       if (message.user_id !== this.state.current_user_id){
         return(
