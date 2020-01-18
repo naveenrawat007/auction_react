@@ -176,7 +176,7 @@ export default class Message extends Component{
       }
       else {
         return (
-          <div key={index} className="col-md-12 text-right px-0">
+          <div key={index} className="col-md-12 text-right py-2 px-3">
             <div className="user_data admin_send">
               <p className="mb-0">{message.content}</p>
             </div>
