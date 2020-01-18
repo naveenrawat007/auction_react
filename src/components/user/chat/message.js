@@ -19,6 +19,27 @@ export default class Message extends Component{
       messages: [],
     }
   }
+  componentWillUnmount () {
+    this.chatConnection.disconnect()
+  }
+
+  UNSAFE_componentWillReceiveProps (nextProps) {
+    if (nextProps.chat_room.id !== this.state.room_id){
+      window.scrollTo(0,0)
+      this.setState({
+        room_id: nextProps.chat_room.id,
+        current_user_id: nextProps.user_id,
+        room_id: nextProps.chat_room.id,
+        name: nextProps.chat_room.name,
+        property_name: nextProps.chat_room.property_name,
+        owner_name: nextProps.chat_room.owner_name,
+        owner_img: nextProps.chat_room.owner_img,
+        messages: [],
+      }, function () {
+        this.getMessages();
+      });
+    }
+  }
 
   componentDidMount () {
     this._isMounted = true
@@ -129,6 +150,7 @@ export default class Message extends Component{
   }
 
 	render() {
+    console.log(this.props);
     const messages = this.state.messages.map((message, index)=>{
       if (message.user_id !== this.state.current_user_id){
         return(
