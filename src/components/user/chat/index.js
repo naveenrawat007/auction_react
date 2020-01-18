@@ -107,7 +107,17 @@ export default class ChatList extends Component{
           <div className="profile-setting mt-0">
             <div className="container custom_container px-0">
               <div className="row mx-0 profile_row">
-                <div className="col-md-2 px-0 left-chatbox">
+								{
+									(this.state.chat_rooms.length > 0) ?
+										null
+									:
+									<div className="no-chatrooms">
+										<p>
+											No Chat Room Available.
+										</p>
+									</div>
+								}
+                <div className=" col-md-2 px-0 left-chatbox">
                   <div className="chat-side">
                     <div className="chat-side-head">
                       <div className="input-group mb-0">
