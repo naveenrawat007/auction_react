@@ -10,6 +10,7 @@ export default class ChatList extends Component{
     super(props);
 		this.state = {
       loaded: false,
+			chat_rooms_available: null,
       error: "",
       message: "",
     	user_id: "",
@@ -27,6 +28,9 @@ export default class ChatList extends Component{
 	  this._isMounted = true;
 		this.getChatRoomsList();
   }
+	componentWillUnmount () {
+		clearTimeout(this.getChatRoomListTimeout);
+	}
 	getChatRoomsList = () => {
 		let url = process.env.REACT_APP_BACKEND_BASE_URL + "/user/chat_rooms?search_str=" + this.state.search_str + "&page=" + this.state.page
     fetch(url, {
@@ -50,7 +54,8 @@ export default class ChatList extends Component{
 						user_id: result.user_id,
             isLoaded: true,
             chat_rooms: result.chat_rooms,
-            selected_chat_room: result.chat_rooms[0],
+						chat_rooms_available: ((this.state.chat_rooms_available == null) ? (result.chat_rooms.length > 0) : this.state.chat_rooms_available),
+            selected_chat_room: this.state.selected_chat_room ? this.state.selected_chat_room : result.chat_rooms[0],
             current_page : result.meta.current_page,
             total_pages : result.meta.total_pages,
           });
@@ -84,6 +89,17 @@ export default class ChatList extends Component{
 		  selected_chat_room: chat_room,
 		});
 	}
+	updateSearchField = (event) => {
+		const{ name, value } = event.target;
+    this.setState({
+      [name]: value
+    }, function functionName() {
+      clearTimeout(this.getChatRoomListTimeout);
+      this.getChatRoomListTimeout = setTimeout(() => {
+        this.getChatRoomsList();
+      }, 500);
+    });
+	}
 
 	render() {
 		const chat_room_list = this.state.chat_rooms.map((chat_room, index)=>{
@@ -108,14 +124,14 @@ export default class ChatList extends Component{
             <div className="container custom_container px-0">
               <div className="row mx-0 profile_row">
 								{
-									(this.state.chat_rooms.length > 0) ?
-										null
+									(this.state.chat_rooms_available === null) ?
+										<div className="no-chatrooms">
+											<p>
+												No Chat Room Available.
+											</p>
+										</div>
 									:
-									<div className="no-chatrooms">
-										<p>
-											No Chat Room Available.
-										</p>
-									</div>
+									null
 								}
                 <div className=" col-md-2 px-0 left-chatbox">
                   <div className="chat-side">
@@ -126,7 +142,7 @@ export default class ChatList extends Component{
                             <FontAwesomeIcon icon={faSearch} />
                           </div>
                         </div>
-                        <input type="text" className="form-control" id="inlineFormInputGroup" placeholder="Search"/>
+                        <input type="text" className="form-control" id="inlineFormInputGroup" name="search_str" placeholder="Search" onChange={this.updateSearchField}/>
                       </div>
                     </div>
                     <ul className="list-unstyled users_list">
