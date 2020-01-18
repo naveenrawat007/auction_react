@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf, faLock} from '@fortawesome/free-solid-svg-icons';
 import { faHeart} from '@fortawesome/free-regular-svg-icons';
@@ -12,6 +12,7 @@ export default class PropertyShow extends Component {
   constructor(props){
     super(props);
     this.state = {
+      chat_room: "",
       is_premium: "",
       unique_address: this.props.match.params.id,
       favourite: false,
@@ -925,6 +926,7 @@ export default class PropertyShow extends Component {
       if (this._isMounted){
         if (result.status === 201){
           this.setState({
+            chat_room: result.chat_room,
             isLoaded: true,
             open_bidding_modal: false,
             fund_proof: "",
@@ -1044,6 +1046,7 @@ export default class PropertyShow extends Component {
       if (this._isMounted){
         if (result.status === 201){
           this.setState({
+            chat_room: result.chat_room,
             isLoaded: true,
             open_best_offer_modal: false,
             fund_proof: "",
@@ -1140,6 +1143,7 @@ export default class PropertyShow extends Component {
       if (this._isMounted){
         if (result.status === 201){
           this.setState({
+            chat_room: result.chat_room,
             isLoaded: true,
             open_buy_now_modal: false,
             fund_proof: "",
@@ -1343,6 +1347,15 @@ export default class PropertyShow extends Component {
       })
       return (
         <div className="container custom_container">
+          {
+            ((Object.entries(this.state.chat_room).length > 0) && (this.state.chat_room.constructor === Object)) ?
+              <Redirect to={{
+                pathname: "/user/chat",
+                state: { chat_room_id: this.state.chat_room_id }
+              }}/>
+            :
+            null
+          }
           <div className="row">
             <div className="col-md-12">
               {
