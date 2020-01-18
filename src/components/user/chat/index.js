@@ -5,23 +5,22 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Message from './message.js';
 
 
-const initial_state = {
-  loaded: false,
-  error: "",
-  message: "",
-	user_id: "",
-	selected_chat_room: null,
-	chat_rooms: [],
-  search_str: "",
-  current_page: 1,
-  total_pages: 1,
-  page: 1,
-  total_pages_array:[],
-}
 export default class ChatList extends Component{
 	constructor(props){
     super(props);
-		this.state = initial_state;
+		this.state = {
+      loaded: false,
+      error: "",
+      message: "",
+    	user_id: "",
+    	selected_chat_room: this.props.location ? this.props.location.state.chat_room : "",
+    	chat_rooms: [],
+      search_str: "",
+      current_page: 1,
+      total_pages: 1,
+      page: 1,
+      total_pages_array:[],
+    };
   }
 
   componentDidMount () {
@@ -80,6 +79,7 @@ export default class ChatList extends Component{
     })
 	}
 	updateSelectedChatRoom = (chat_room) => {
+    // console.log(chat_room);
 		this.setState({
 		  selected_chat_room: chat_room,
 		});
