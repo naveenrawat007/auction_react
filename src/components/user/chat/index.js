@@ -54,7 +54,7 @@ export default class ChatList extends Component{
 						user_id: result.user_id,
             isLoaded: true,
             chat_rooms: result.chat_rooms,
-						chat_rooms_available: ((this.state.chat_rooms_available == null) ? (result.chat_rooms.length > 0) : this.state.chat_rooms_available),
+						chat_rooms_available: ((this.state.chat_rooms_available == null) ? ((result.chat_rooms.length > 0) ? true : null) : this.state.chat_rooms_available),
             selected_chat_room: this.state.selected_chat_room ? this.state.selected_chat_room : result.chat_rooms[0],
             current_page : result.meta.current_page,
             total_pages : result.meta.total_pages,
@@ -131,29 +131,30 @@ export default class ChatList extends Component{
 											</p>
 										</div>
 									:
-									null
-								}
-                <div className=" col-md-2 px-0 left-chatbox">
-                  <div className="chat-side">
-                    <div className="chat-side-head">
-                      <div className="input-group mb-0">
-                        <div className="input-group-prepend">
-                          <div className="input-group-text">
-                            <FontAwesomeIcon icon={faSearch} />
-                          </div>
-                        </div>
-                        <input type="text" className="form-control" id="inlineFormInputGroup" name="search_str" placeholder="Search" onChange={this.updateSearchField}/>
-                      </div>
-                    </div>
-                    <ul className="list-unstyled users_list">
-											{chat_room_list}
-                    </ul>
-                  </div>
-                </div>
-								{this.state.selected_chat_room ?
-									<Message chat_room={this.state.selected_chat_room} user_id={this.state.user_id}/>
-								:
-									null
+									<>
+										<div className=" col-md-2 px-0 left-chatbox">
+											<div className="chat-side">
+												<div className="chat-side-head">
+													<div className="input-group mb-0">
+														<div className="input-group-prepend">
+															<div className="input-group-text">
+																<FontAwesomeIcon icon={faSearch} />
+															</div>
+														</div>
+														<input type="text" className="form-control" id="inlineFormInputGroup" name="search_str" placeholder="Search" onChange={this.updateSearchField}/>
+													</div>
+												</div>
+												<ul className="list-unstyled users_list">
+													{chat_room_list}
+												</ul>
+											</div>
+										</div>
+										{this.state.selected_chat_room ?
+											<Message chat_room={this.state.selected_chat_room} user_id={this.state.user_id}/>
+											:
+											null
+										}
+									</>
 								}
 							</div>
             </div>
