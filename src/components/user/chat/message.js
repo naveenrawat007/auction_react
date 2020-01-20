@@ -13,6 +13,7 @@ export default class Message extends Component{
 	constructor(props){
     super(props);
     this.state = {
+      uploading: false,
       open_attachment_modal: false,
       attachments: [],
       page: 1,
@@ -83,7 +84,17 @@ export default class Message extends Component{
 
   addUpdatedMessage = (message) => {
     let messages = this.state.messages
-    messages.push(message)
+    let flag = false
+    for (let i = 0; i < messages.length; i++) {
+      if (messages[i].id === message.id){
+        messages[i] = message
+        flag = true
+        break
+      }
+    }
+    if (flag === false){
+      messages.push(message)
+    }
     this.setState({
       messages: messages,
     }, function () {
@@ -213,6 +224,61 @@ export default class Message extends Component{
       attachments: files ,
     });
   }
+  uploadDocs = () => {
+    this.setState({
+      uploading: true,
+    });
+    const fd = new FormData();
+    for (let i = 0 ; i < this.state.attachments.length ; i++) {
+      fd.append('attachments[]', this.state.attachments[i], this.state.attachments[i].name)
+    }
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/user/chat_rooms/"+this.state.room_id+"/messages"
+  	fetch(url ,{
+			method: "POST",
+			headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			},
+			body: fd,
+		}).then(res => res.json())
+    .then((result) => {
+      if (result.status === 200) {
+        this.setState({
+          uploading: false,
+          open_attachment_modal: false ,
+          attachments: [],
+        });
+      }else if (result.status === 401) {
+        localStorage.removeItem("auction_user_token");
+        window.location.href = "/login"
+      }
+		}, (error) => {
+		});
+  }
+  attachments_list = (object) =>{
+    const attachments_list = object.map((attachment, index) => {
+      return (
+        <div key={index} className="col-md-4 px-1">
+          <a href={attachment.file_url} target="_blank" rel="noopener noreferrer" className="chat_attachment">
+            <div className="chat_attachment_icon">
+              <FontAwesomeIcon icon={faFile} className="mr-2" />
+            </div>
+            <div className="chat_attachment_detail">
+              <h6>{attachment.file_name.substring(0, 10)}</h6>
+              <p>{attachment.file_content_type.split('/')[0]}</p>
+            </div>
+          </a>
+        </div>
+      );
+    })
+    return attachments_list;
+  }
 
 	render() {
     const messages = this.state.messages.map((message, index)=>{
@@ -232,8 +298,11 @@ export default class Message extends Component{
                 <div className="user_time">
                   <h6 className="mb-1">{message.user_name}</h6>
                 </div>
-                <div className="chat_sender_para">
-                  <p className="mb-0">{message.content}</p>
+                <div className="chat_sender_para row mx-0">
+                  <div className="col-md-12 px-0">
+                    <p className="mb-0">{message.content}</p>
+                  </div>
+                  {this.attachments_list(message.attachments)}
                 </div>
               </div>
             </div>
@@ -244,9 +313,14 @@ export default class Message extends Component{
         return (
           <div key={index} className="col-md-12 text-right py-2 px-3">
             <div className="user_data admin_send">
-              <div className="chat_reciever_para">
-                <p className="mb-0">{message.content}</p>
+              <div className="chat_reciever_para row mx-0">
+                <div className="col-md-12 px-0">
+                  <p className="mb-0">{message.content}</p>
+                </div>
               </div>
+            </div>
+            <div className="row mx-0 sender_file justify-content-end text-left">
+              {this.attachments_list(message.attachments)}
             </div>
             <p className="time_text mt-0">{message.created_at}</p>
           </div>
@@ -340,6 +414,16 @@ export default class Message extends Component{
             </div>
           </Modal.Header>
           <div className="modal-body">
+            {this.state.uploading === false ?
+              null
+            :
+            <div className="spinner_main">
+              {/* <div className="spinner-grow" role="status">
+                <span className="sr-only">Loading...</span>
+              </div> */}
+              <div className="uploader">Uploading...</div>
+            </div>
+            }
             <div className="col-md-12 text-center px-0">
               <div className="form-group row mx-0">
                 <div className="change-label col-md-12 row mx-0 px-0 mb-2 align-items-center">
