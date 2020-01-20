@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faVideo, faPhone, faPlus, faMicrophone, faCamera} from '@fortawesome/free-solid-svg-icons'
-import { faPlayCircle, faSmile} from '@fortawesome/free-regular-svg-icons'
-import ChatConnection from './ChatConnection.js'
+import {Link} from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faVideo, faPhone, faPlus, faMicrophone, faCamera, faUpload, faFile, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
+import { faPlayCircle, faSmile} from '@fortawesome/free-regular-svg-icons';
+import ChatConnection from './ChatConnection.js';
+import Modal from 'react-bootstrap/Modal';
 import 'emoji-mart/css/emoji-mart.css';
 import { Picker } from 'emoji-mart';
 
@@ -11,6 +13,8 @@ export default class Message extends Component{
 	constructor(props){
     super(props);
     this.state = {
+      open_attachment_modal: false,
+      attachments: [],
       page: 1,
       show_emoji_picker: false,
       message: "",
@@ -160,7 +164,10 @@ export default class Message extends Component{
   }
 
   addEmoji = (e) => {
-    let emoji = e.native;
+    let sym = e.unified.split('-')
+    let codesArray = []
+    sym.forEach(el => codesArray.push('0x' + el))
+    let emoji = String.fromCodePoint(...codesArray)
     this.setState({
       message: this.state.message + emoji
     });
@@ -169,6 +176,41 @@ export default class Message extends Component{
   toggleEmojiPicker = () => {
     this.setState({
       show_emoji_picker: (!this.state.show_emoji_picker) ,
+    });
+  }
+
+  openAttachmentModal = () => {
+    this.setState({
+      open_attachment_modal: true,
+    });
+  }
+  hideAttachmentModal = () => {
+    this.setState({
+      attachments: [],
+      open_attachment_modal: false,
+    });
+  }
+  fileSelectHandler = (event) => {
+    const name = event.target.name
+    var uploaded_files = event.target.files;
+    var files = this.state.attachments;
+    for (var i = 0; i < uploaded_files.length; i++) {
+      files.push(uploaded_files[i])
+    }
+    if (this._isMounted){
+      this.setState({
+        [name]: files,
+      });
+    }
+  }
+  removeAttachment = (index) => {
+
+    let files = this.state.attachments;
+    if (index > -1) {
+      files.splice(index, 1);
+    }
+    this.setState({
+      attachments: files ,
     });
   }
 
@@ -211,6 +253,23 @@ export default class Message extends Component{
         );
       }
     })
+    const added_attachments = this.state.attachments.map((attachment, index) => {
+      return(
+        <div className="col-md-6 px-1" key={index}>
+          <div className="p-2 msgfile-upload mb-2">
+            <div className="mr-5">
+              <FontAwesomeIcon icon={faFile} className="mr-2" />
+              <p>
+                {attachment.name}
+              </p>
+            </div>
+            <Link to="#">
+              <FontAwesomeIcon icon={faTimesCircle} className="mr-2" onClick={() => {this.removeAttachment(index)}} />
+            </Link>
+          </div>
+        </div>
+      )
+    })
     return (
       <div className="col-md-10 px-0 right-chatbox">
         <div className="chat-body">
@@ -249,7 +308,7 @@ export default class Message extends Component{
             <div className="col-md-12 px-0 row mx-0 align-items-center">
               <div className="col-md-1 px-0 text-center">
                 <div className="main_form_add">
-                  <a href="#"><FontAwesomeIcon icon={faPlus} /></a>
+                  <Link to="#" onClick={this.openAttachmentModal}><FontAwesomeIcon icon={faPlus} /></Link>
                 </div>
               </div>
               <div className="input-group main_form_input col-md-9 px-0">
@@ -274,7 +333,43 @@ export default class Message extends Component{
               </div>
             </div>
           </div>
-        </div>
+        </div><Modal size="lg" className="user_property_modal" show={this.state.open_attachment_modal} onHide={this.hideAttachmentModal} centered>
+          <Modal.Header closeButton>
+            <div className="px-0 col-md-11 ">
+              <h5 className="mb-0 "> Upload Attachments</h5>
+            </div>
+          </Modal.Header>
+          <div className="modal-body">
+            <div className="col-md-12 text-center px-0">
+              <div className="form-group row mx-0">
+                <div className="change-label col-md-12 row mx-0 px-0 mb-2 align-items-center">
+                  <div className="col-md-3 px-0 text-left">
+                    <div className="upload-label">
+                      <label className="mb-0">Add Attachments</label>
+                    </div>
+                  </div>
+                  <div className="col-md-9 ">
+                    <div className="upload-input">
+                      <div className="custom-file">
+                        <input type="file" multiple className="custom-file-input" name="attachments" onChange={this.fileSelectHandler} />
+                        <label className={"custom-file-label "} htmlFor="customFile"> Choose file</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row mx-0 text-left width-100">
+                    {added_attachments}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-12 text-center mt-3">
+              <span className="error"></span>
+              <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.uploadDocs}><FontAwesomeIcon icon={faUpload} size="1x" /> Upload</button>
+              &nbsp;
+              <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.hideAttachmentModal}>Cancel</button>
+            </div>
+          </div>
+        </Modal>
       </div>
     )
   }
