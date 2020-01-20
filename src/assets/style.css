@@ -1234,7 +1234,8 @@ button:focus {
   background-color: #1267b7;
   color: #fff;
   padding: 8px;
-  border-radius: 50px;
+  text-align: left;
+  border-radius: 20px;
   width: fit-content;
   font-weight: 500;
 }
@@ -4814,4 +4815,13 @@ a.admin_table_links {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.msgemoji-box{
+  position: relative;
+}
+.msgemoji-box .msgemoji-picker{
+  position: absolute;
+  top: -365px;
+  right: 0;
 }
