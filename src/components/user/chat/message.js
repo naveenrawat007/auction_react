@@ -73,6 +73,7 @@ export default class Message extends Component{
     this.chatConnection.talk(this.state.message, this.state.room_id);
     this.setState({
       message: "",
+      show_emoji_picker: false,
     });
   }
 
@@ -189,7 +190,9 @@ export default class Message extends Component{
                 <div className="user_time">
                   <h6 className="mb-1">{message.user_name}</h6>
                 </div>
-                <p className="mb-0">{message.content}</p>
+                <div className="chat_sender_para">
+                  <p className="mb-0">{message.content}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -199,7 +202,9 @@ export default class Message extends Component{
         return (
           <div key={index} className="col-md-12 text-right py-2 px-3">
             <div className="user_data admin_send">
-              <p className="mb-0">{message.content}</p>
+              <div className="chat_reciever_para">
+                <p className="mb-0">{message.content}</p>
+              </div>
             </div>
             <p className="time_text mt-0">{message.created_at}</p>
           </div>
@@ -231,8 +236,8 @@ export default class Message extends Component{
             {messages}
           </div>
           <div className="chat-footer">
-            <div>
-              <div className="messages-emoji-picker">
+            <div className="msgemoji-box">
+              <div className="msgemoji-picker">
                 {
                   this.state.show_emoji_picker ?
                     <Picker onSelect={this.addEmoji} showPreview={false} showSkinTones={false} color={"#ffff00"}/>
