@@ -3,12 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faVideo, faPhone, faPlus, faMicrophone, faCamera} from '@fortawesome/free-solid-svg-icons'
 import { faPlayCircle, faSmile} from '@fortawesome/free-regular-svg-icons'
 import ChatConnection from './ChatConnection.js'
+import 'emoji-mart/css/emoji-mart.css';
+import { Picker } from 'emoji-mart';
+
 export default class Message extends Component{
   _isMounted = false
 	constructor(props){
     super(props);
     this.state = {
       page: 1,
+      show_emoji_picker: false,
       message: "",
       current_user_id: this.props.user_id,
       room_id: this.props.chat_room.id,
@@ -28,6 +32,7 @@ export default class Message extends Component{
       window.scrollTo(0,0)
       this.chatConnection.disconnect()
       this.setState({
+        show_emoji_picker: false,
         room_id: nextProps.chat_room.id,
         current_user_id: nextProps.user_id,
         room_id: nextProps.chat_room.id,
@@ -153,6 +158,19 @@ export default class Message extends Component{
     }
   }
 
+  addEmoji = (e) => {
+    let emoji = e.native;
+    this.setState({
+      message: this.state.message + emoji
+    });
+  }
+
+  toggleEmojiPicker = () => {
+    this.setState({
+      show_emoji_picker: (!this.state.show_emoji_picker) ,
+    });
+  }
+
 	render() {
     const messages = this.state.messages.map((message, index)=>{
       if (message.user_id !== this.state.current_user_id){
@@ -213,6 +231,16 @@ export default class Message extends Component{
             {messages}
           </div>
           <div className="chat-footer">
+            <div>
+              <div className="messages-emoji-picker">
+                {
+                  this.state.show_emoji_picker ?
+                    <Picker onSelect={this.addEmoji} showPreview={false} showSkinTones={false} color={"#ffff00"}/>
+                  :
+                  null
+                }
+              </div>
+            </div>
             <div className="col-md-12 px-0 row mx-0 align-items-center">
               <div className="col-md-1 px-0 text-center">
                 <div className="main_form_add">
@@ -225,8 +253,7 @@ export default class Message extends Component{
                   <div className="input-group-append">
                     <span className="input-group-text group-box-chat border-left-0">
                       <a href="#">
-                        <i className="fa fa-smile-o"></i>
-                        <FontAwesomeIcon icon={faSmile} />
+                        <FontAwesomeIcon icon={faSmile} onClick={this.toggleEmojiPicker} />
                       </a>
                     </span>
                   </div>
@@ -234,7 +261,6 @@ export default class Message extends Component{
               </div>
               <div className="col-md-1 pl-3 pr-1 text-center">
                 <a href="">
-                  <i className="fa fa-microphone"></i>
                   <FontAwesomeIcon icon={faMicrophone} color={"#818078"} />
                 </a>
               </div>
