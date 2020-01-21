@@ -18,6 +18,9 @@ export default class Navbar extends Component{
       logged_in: false
     })
     localStorage.removeItem("auction_user_token");
+    localStorage.removeItem("auction_user_image");
+    localStorage.removeItem("auction_user_name");
+    localStorage.removeItem("auction_user_status");
     localStorage.removeItem("auction_admin_token");
     this.props.history.push('/login')
   }
