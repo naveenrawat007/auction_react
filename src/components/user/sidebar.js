@@ -46,9 +46,11 @@ export default class Sidebar extends Component{
             user_image: result.user.user_image,
             first_name: result.user.first_name,
             last_name: result.user.last_name,
+            status: result.user.status,
           }, function () {
             localStorage.setItem("auction_user_name", this.userFirstName() + " " + this.userLastName());
             localStorage.setItem("auction_user_image", this.state.user_image);
+            localStorage.setItem("auction_user_status", this.state.status);
             this.setState({
               loaded: true
             });
@@ -64,7 +66,7 @@ export default class Sidebar extends Component{
   }
   componentDidMount () {
     this._isMounted = true;
-    if (!(localStorage.getItem("auction_user_name")) || !(localStorage.getItem("auction_user_image"))){
+    if (!(localStorage.getItem("auction_user_name")) || !(localStorage.getItem("auction_user_image")) || !(localStorage.getItem("auction_user_status"))){
       this.changeImage()
     }
   }
@@ -73,6 +75,9 @@ export default class Sidebar extends Component{
   }
   handleLogout = () => {
     localStorage.removeItem("auction_user_token");
+    localStorage.removeItem("auction_user_image");
+    localStorage.removeItem("auction_user_name");
+    localStorage.removeItem("auction_user_status");
     window.location.href = "/login"
   }
   renderSwitch = () => {
@@ -128,7 +133,7 @@ export default class Sidebar extends Component{
                 </div>
                 <div className="account-data">
                   <h5>{localStorage.getItem("auction_user_name")}</h5>
-                  <p className="font-red text-uppercase">Premium User</p>
+                  <p className="font-red text-uppercase">{localStorage.getItem("auction_user_status")} User</p>
                 </div>
               </div>
               <ul className="nav nav-pills" role="tablist">

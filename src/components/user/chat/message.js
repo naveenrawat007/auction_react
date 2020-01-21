@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVideo, faPhone, faPlus, faMicrophone, faCamera, faUpload, faFile, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
-import { faPlayCircle, faSmile} from '@fortawesome/free-regular-svg-icons';
+import { faSmile} from '@fortawesome/free-regular-svg-icons';
 import ChatConnection from './ChatConnection.js';
 import Modal from 'react-bootstrap/Modal';
 import 'emoji-mart/css/emoji-mart.css';
