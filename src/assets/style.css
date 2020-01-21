@@ -4889,3 +4889,9 @@ a.chat_attachment {
 .sender_file p{
   font-size: 12px;
 }
+
+.chat-uploading {
+  z-index: 10;
+  top: 0;
+  left: 0;
+}
