@@ -14,7 +14,7 @@ export default class ChatList extends Component{
       error: "",
       message: "",
     	user_id: "",
-    	selected_chat_room: this.props.location ? this.props.location.state.chat_room : "",
+    	selected_chat_room: this.props.location ? (this.props.location.state ? this.props.location.state.chat_room : "") : "",
     	chat_rooms: [],
       search_str: "",
       current_page: 1,
@@ -151,7 +151,7 @@ export default class ChatList extends Component{
 										</div>
 										{this.state.selected_chat_room ?
 											<Message chat_room={this.state.selected_chat_room} user_id={this.state.user_id}/>
-											:
+										:
 											null
 										}
 									</>

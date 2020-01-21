@@ -40,7 +40,6 @@ export default class Message extends Component{
         show_emoji_picker: false,
         room_id: nextProps.chat_room.id,
         current_user_id: nextProps.user_id,
-        room_id: nextProps.chat_room.id,
         name: nextProps.chat_room.name,
         property_name: nextProps.chat_room.property_name,
         owner_name: nextProps.chat_room.owner_name,

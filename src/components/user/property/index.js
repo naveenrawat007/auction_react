@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelopeOpenText, faDownload, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import { faSearch, faUpload, faLink } from '@fortawesome/free-solid-svg-icons';
 import Accordion from 'react-bootstrap/Accordion';
 import Modal from 'react-bootstrap/Modal';
@@ -408,7 +408,12 @@ export default class ListProperty extends Component{
           <td><p>{bid.time}</p></td>
           <td>
             <div className="order-actions">
-              <Link to="#"><FontAwesomeIcon icon={faEnvelopeOpenText} /></Link>
+              <Link to={{
+                pathname: "/user/chat",
+                state: { chat_room: bid.chat_room }
+              }}>
+                <FontAwesomeIcon icon={faEnvelopeOpenText} />
+              </Link>
               <a href={bid.fund_proof} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faDownload}  /></a>
               <Link to="#" onClick={() => {this.acceptOffer(property_id, bid.id, bid.type)}}><FontAwesomeIcon icon={faThumbsUp} /></Link>
               <Link to="#" onClick={() => {this.acceptOffer(property_id, bid.id, bid.type, false)}}><FontAwesomeIcon icon={faThumbsDown}  /></Link>
