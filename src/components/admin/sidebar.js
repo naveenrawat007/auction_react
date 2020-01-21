@@ -5,6 +5,7 @@ import { faChevronRight, faBell, faSearch } from '@fortawesome/free-solid-svg-ic
 import UserList from './user/index.js';
 import PropertyList from './property/index.js';
 import TerminationRequestList from './termination/index.js';
+import AdminChatList from './chat/index.js';
 
 
 export default class AdminSidebar extends Component{
@@ -45,6 +46,8 @@ export default class AdminSidebar extends Component{
         return <PropertyList path="terminated_property_list"/>;
       case 'termination_request_list':
         return <TerminationRequestList/>;
+        case 'admin_chat':
+          return <AdminChatList/>;
       default:
     }
   }
@@ -142,10 +145,11 @@ export default class AdminSidebar extends Component{
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link main-nav-link " data-toggle="pill" href="#emailSystem">
+                  <Link className="nav-link main-nav-link" data-toggle="pill" to="/admin/chat" >
+                    {/* <a className="nav-link main-nav-link " data-toggle="pill" href="#emailSystem"> */}
                     <span>Text System</span>
                     <FontAwesomeIcon icon={faChevronRight} />
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link main-nav-link" data-toggle="pill" to="#" onClick={this.handleLogout}>

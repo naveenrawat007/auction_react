@@ -47,6 +47,7 @@ function App() {
           <Route exact path="/user/property/:id/edit" component={PropertyEdit}/>
           <Route exact path="/property/:id" component={PropertyShow}/>
           <Route exact path="/admin" component={() => <AdminSidebar path='all_users_list'/>}/>
+          <Route exact path="/admin/chat" component={() => <AdminSidebar path='admin_chat'/>}/>
           <Route exact path="/admin/free_user" component={() => <AdminSidebar path='free_users_list'/>}/>
           <Route exact path="/admin/premium_user" component={() => <AdminSidebar path='premium_users_list'/>}/>
           <Route exact path="/admin/ban_user" component={() => <AdminSidebar path='ban_users_list'/>}/>
