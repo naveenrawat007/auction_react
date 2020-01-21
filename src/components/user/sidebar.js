@@ -94,7 +94,7 @@ export default class Sidebar extends Component{
       case 'buy_now_properties_list':
         return <ListBuyNowProperty/>;
       case 'user_chat':
-        return <ChatList/>;
+        return <ChatList {...this.props}/>;
       default:
     }
   }

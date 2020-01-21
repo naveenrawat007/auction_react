@@ -30,7 +30,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home}/>
           <Route exact path="/user" component={() => <Sidebar path='user_profile'/>}/>
-          <Route exact path="/user/chat" component={() => <Sidebar path='user_chat'/>}/>
+          <Route exact path="/user/chat" component={(props) => <Sidebar {...props} path='user_chat'/>}/>
           <Route exact path="/plans" component={() => <Plan path=''/>}/>
           <Route exact path="/property/new" component={NewProperty}/>
           <Route exact path="/property/live_bidding" component={PropertyLiveBidding}/>
