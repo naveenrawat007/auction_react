@@ -104,7 +104,7 @@ export default class ChatList extends Component{
 	render() {
 		const chat_room_list = this.state.chat_rooms.map((chat_room, index)=>{
 			return (
-				<li key={index}>
+				<li key={index} className={(chat_room.id === this.state.selected_chat_room.id) ? "active" : null }>
 					<Link to="#" onClick={() => {this.updateSelectedChatRoom(chat_room)}} >
 						<div className="border_user">
 							<img src={chat_room.owner_image ? chat_room.owner_image : "/images/profile.png"} alt="profile"/>

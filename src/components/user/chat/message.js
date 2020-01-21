@@ -407,17 +407,17 @@ export default class Message extends Component{
               </div>
             </div>
           </div>
-        </div><Modal size="lg" className="user_property_modal steps-parts" show={this.state.open_attachment_modal} onHide={this.hideAttachmentModal} centered>
+        </div><Modal size="lg" className="user_property_modal" show={this.state.open_attachment_modal} onHide={this.hideAttachmentModal} centered>
           <Modal.Header closeButton>
             <div className="px-0 col-md-11 ">
               <h5 className="mb-0 "> Upload Attachments</h5>
             </div>
           </Modal.Header>
-          <div className="modal-body">
+          <div className="modal-body steps-parts">
             {this.state.uploading === false ?
               null
             :
-            <div className="spinner_main">
+            <div className="spinner_main chat-uploading">
               {/* <div className="spinner-grow" role="status">
                 <span className="sr-only">Loading...</span>
               </div> */}
