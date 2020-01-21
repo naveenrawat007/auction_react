@@ -1351,7 +1351,7 @@ export default class PropertyShow extends Component {
             ((Object.entries(this.state.chat_room).length > 0) && (this.state.chat_room.constructor === Object)) ?
               <Redirect to={{
                 pathname: "/user/chat",
-                state: { chat_room_id: this.state.chat_room_id }
+                state: { chat_room: this.state.chat_room }
               }}/>
             :
             null
