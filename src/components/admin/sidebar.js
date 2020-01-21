@@ -126,10 +126,10 @@ export default class AdminSidebar extends Component{
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link main-nav-link" data-toggle="pill" href="#subscriberList">
+                  <Link className="nav-link main-nav-link" data-toggle="pill" to="/admin/chat" >
                     <span>Messaging System</span>
                     <FontAwesomeIcon icon={faChevronRight} />
-                  </a>
+                  </Link>
                 </li>
 
                 <li className="nav-item">
