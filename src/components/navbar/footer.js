@@ -13,7 +13,7 @@ export default class Footer extends Component{
               <div className="col-md-3 col-sm-6">
                 <h5>company</h5>
                 <ul>
-                  <li><Link to="#">About us</Link></li>
+                  <li><Link to="/about">About us</Link></li>
                   <li><Link to="#">FAQs</Link></li>
                   <li><Link to="#">Terms & Conditions</Link></li>
                   <li><Link to="#">Contact Us</Link></li>
@@ -32,9 +32,9 @@ export default class Footer extends Component{
               <div className="col-md-3 col-sm-6">
                 <h5>Help center</h5>
                 <ul>
-                  <li><Link to="#">Seller</Link></li>
-                  <li><Link to="#">Buyer</Link></li>
-                  <li><Link to="#">realtor</Link></li>
+                  <li><Link to="/help">Seller</Link></li>
+                  <li><Link to="/help">Buyer</Link></li>
+                  <li><Link to="/help">realtor</Link></li>
                 </ul>
               </div>
               <div className="col-md-3 col-sm-6">
