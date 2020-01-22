@@ -91,7 +91,7 @@ export default class Navbar extends Component{
   }
 
   componentDidMount () {
-    this.checkTokenMethod()
+    // this.checkTokenMethod()
   }
 
   navigateToProfile = () => {
