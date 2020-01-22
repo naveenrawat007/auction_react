@@ -4059,7 +4059,7 @@ export default class UserNewProperty extends Component{
                                   {open_house_dates}
                                 </div>
                               </div>
-                              <div className="offset-md-6 col-md-6 px-2 row">
+                              <div className="offset-md-6 col-md-6 px-2 row mx-0">
                                 <div className="col-md-4 text-left px-0">
                                   <Link to="#" className="add_links" onClick={this.addOpenHouseDateFields}>
                                     <FontAwesomeIcon icon={faPlusCircle}/>

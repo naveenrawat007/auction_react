@@ -186,8 +186,8 @@
 	.finance_inputs input{
 		width: 45% !important;
 	}
-	table.sell_steptable{
-	  white-space: nowrap;
+	.creation-steps .step-btn{
+		padding: 5px 14px !important;
 	}
 }
 @media (max-width: 991.98px) {
@@ -235,12 +235,24 @@
 		max-width: 810px !important;
 	}
 	#newproperty .profile-form-in{
-		padding: 20px 0px !important;
+		padding: 20px 10px !important;
 	}
 	#step2 form.col-md-10{
 		max-width: 100% !important;
 		flex: 0 0 100% !important;
 		margin-left: 0 !important;
+	}
+	table.sell_steptable{
+	  white-space: nowrap;
+	  margin-top: 10px;
+	  margin-left: 0px;
+	}
+	.login_banner .col-md-8{
+		max-width: 100%;
+		margin: 2.2rem 0 !important;
+	}
+	.login_banner .registration{
+		width: 100%;
 	}
 }
 @media (min-width: 576px) and (max-width: 991.98px) {

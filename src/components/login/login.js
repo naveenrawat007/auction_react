@@ -162,61 +162,63 @@ export default class Login extends Component{
   }
 	render() {
 		return (
-      <div className="col-md-8 offset-md-2 my-4">
-        <div className="registration mx-auto">
-          <div className="registration-in">
-            <div className="left-side">
-              <Link to='/' className="logo">
-                <img src="images/logo.png" alt="Aution My Deal Logo"/>
-              </Link>
-              <div className="house">
-                <img src="images/house-lock.png" alt="house lock "/>
-              </div>
-              <ul>
-                <li>Find the best property for you</li>
-              </ul>
-            </div>
-            <div className="right-side">
-              <div className="heading">
-                <span>Please login in to your account below.</span>
-              </div>
-              <div className="registration-form">
-                {
-                  this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
-                }
-                <form onSubmit = {this.submitHandler}>
-                  <div className="form-group">
-                    <label>Email</label>
-                    <input type="email" name="email" onChange={this.updateUser} autoComplete="false" className="form-control"/>
-                    {this.addErrorMessage(this.state.user_email_error)}
-                  </div>
-                  <div className="form-group">
-                    <label>Password</label>
-                    <input type="password" name="password" onChange={this.updateUser} autoComplete="false" className="form-control"/>
-                    {this.addErrorMessage(this.state.user_password_error)}
-                  </div>
-                  <div className="form-group mb-0">
-                    <button className="red-btn submit-btn" type="submit">Login</button>
-                  </div>
-                </form>
-                <div className="forgot-pwd">
-                  <Link to="forgot_password">Forgot Password?</Link>
+      <div className="login_banner">  
+        <div className="col-md-8 offset-md-2 my-4">
+          <div className="registration mx-auto">
+            <div className="registration-in">
+              <div className="left-side">
+                <Link to='/' className="logo">
+                  <img src="images/logo.png" alt="Aution My Deal Logo"/>
+                </Link>
+                <div className="house">
+                  <img src="images/house-lock.png" alt="house lock "/>
                 </div>
-                <div className="already-user">
-                  Not a member?
-                  <Link to="sign_up"href="signup.html" title="Login Now">Get Stated for FREE</Link>
+                <ul>
+                  <li>Find the best property for you</li>
+                </ul>
+              </div>
+              <div className="right-side">
+                <div className="heading">
+                  <span>Please login in to your account below.</span>
                 </div>
-                <div className="imp-note text-center">
-                  <h3>Important:</h3>
-                  <p>By logging in you agree that we may use the contact information you previously provided to contact you by email,
-                    telephone or postal mail in connection with our services, including for marketing purposes, in accordance with our Privacy
-                  Statemen. You can change your communication preferences in your Profile.</p>
+                <div className="registration-form">
+                  {
+                    this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+                  }
+                  <form onSubmit = {this.submitHandler}>
+                    <div className="form-group">
+                      <label>Email</label>
+                      <input type="email" name="email" onChange={this.updateUser} autoComplete="false" className="form-control"/>
+                      {this.addErrorMessage(this.state.user_email_error)}
+                    </div>
+                    <div className="form-group">
+                      <label>Password</label>
+                      <input type="password" name="password" onChange={this.updateUser} autoComplete="false" className="form-control"/>
+                      {this.addErrorMessage(this.state.user_password_error)}
+                    </div>
+                    <div className="form-group mb-0">
+                      <button className="red-btn submit-btn" type="submit">Login</button>
+                    </div>
+                  </form>
+                  <div className="forgot-pwd">
+                    <Link to="forgot_password">Forgot Password?</Link>
+                  </div>
+                  <div className="already-user">
+                    Not a member?
+                    <Link to="sign_up"href="signup.html" title="Login Now">Get Stated for FREE</Link>
+                  </div>
+                  <div className="imp-note text-center">
+                    <h3>Important:</h3>
+                    <p>By logging in you agree that we may use the contact information you previously provided to contact you by email,
+                      telephone or postal mail in connection with our services, including for marketing purposes, in accordance with our Privacy
+                    Statemen. You can change your communication preferences in your Profile.</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div>  
 		);
 	}
 }
