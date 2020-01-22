@@ -14,6 +14,9 @@ export default class HelpSidebar extends Component{
       path: props.path
     }
   }
+  componentDidMount () {
+    window.scroll(0,0)
+  }
   checkActive = (current_path) => {
     if (this.state.path === (current_path)){
       return "nav-link active"
@@ -63,7 +66,7 @@ export default class HelpSidebar extends Component{
 						    <Link className={this.checkActive("highest_bidder")} id="deal-week" data-toggle="tab" to="/help/auction-your-wholesale-deal-to-the-highest-bidder-or-our-affiliate-partner-angel-investors-llc-will-buy-it/" role="tab" aria-controls="deal-week" aria-selected="false">Auction Your Wholesale deal to the Highest bidder of We will Buy it!</Link>
 						  </li>
 						  <li className="nav-item">
-						    <Link className="nav-link" id="about-us" data-toggle="tab" to="#" role="tab" aria-controls="about-us" aria-selected="false">About Us</Link>
+						    <Link className="nav-link" id="about-us" data-toggle="tab" to="/about" role="tab" aria-controls="about-us" aria-selected="false">About Us</Link>
 						  </li>
 						</ul>
 					</div>
