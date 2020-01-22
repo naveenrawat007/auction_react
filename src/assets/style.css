@@ -4945,7 +4945,7 @@ a.chat_attachment {
 }
 .help_us .nav-tabs h4{
   border-bottom: 2px solid #000;
-  margin-bottom: 0; 
+  margin-bottom: 0;
   padding: 20px 0 20px 0;
   font-size: 20px;
   font-weight: 600;
@@ -4970,7 +4970,7 @@ a.chat_attachment {
   border-left: 2px solid #b71c1c;
 }
 .help_us .nav-tabs li a:hover{
-  border: 1px solid transparent; 
+  border: 1px solid transparent;
   border-left: 2px solid transparent;
 }
 .help_us .tab-content{
@@ -5002,7 +5002,7 @@ a.chat_attachment {
   font-size: 24px;
 }
 .help_us h5{
-  color: #6b6b6b; 
+  color: #6b6b6b;
 }
 .help_us .text-weight{
   font-weight: 600 !important;
