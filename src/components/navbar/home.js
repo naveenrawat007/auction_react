@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom'
+import { Fragment } from 'react';
+import OwlCarousel from 'react-owl-carousel';
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faGavel, faHandPointRight, faUser, faEnvelope, faMobileAlt, faLock } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faGavel, faHandPointRight, faUser, faEnvelope, faMobileAlt, faLock, faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { faCreditCard } from '@fortawesome/free-regular-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
@@ -38,6 +43,10 @@ export default class Home extends Component{
   }
   componentDidMount () {
     this._isMounted = true;
+    if ((document.getElementById('left_arrow-owl')) && (document.getElementById('right_arrow-owl'))){
+      ReactDOM.render(<FontAwesomeIcon icon={faArrowLeft}/>, document.getElementById('left_arrow-owl'))
+      ReactDOM.render(<FontAwesomeIcon icon={faArrowRight}/>, document.getElementById('right_arrow-owl'))
+    }
   }
 
   openSignUpModal = () => {
@@ -365,89 +374,104 @@ export default class Home extends Component{
   render(){
     return(
       <div className="container-fluid home_main px-0">
-        <div className="bg_banner px-0">
+        {/* <div className="bg_banner px-0">
           <div className="row col-md-10 offset-md-1 align-items-center">
             <div className="col-md-6 px-0 text-center">
-              <div className="banner_home">
-                <h5>
-                  <span>post your deals for free </span>
-                  <br/>
-                  & Test drive this site to maximize
-                </h5>
-                <p>
-                  <span>Your real estate investment business </span>
-                  <br/>
-                  by getting priority access to the
-                  <br/>
-                  <span>Best deal and unlimited access to
-                    <br/>
-                    all
-                  </span> details about each Property!
-                </p>
-                <button className="btn blue-btn" onClick={this.openSignUpModal}> Start FREE 60 Days Trial Now</button>
-              </div>
+          <div className="banner_home">
+          <h5>
+          <span>post your deals for free </span>
+          <br/>
+          & Test drive this site to maximize
+          </h5>
+          <p>
+          <span>Your real estate investment business </span>
+          <br/>
+          by getting priority access to the
+          <br/>
+          <span>Best deal and unlimited access to
+          <br/>
+          all
+          </span> details about each Property!
+          </p>
+          <button className="btn blue-btn" onClick={this.openSignUpModal}> Start FREE 60 Days Trial Now</button>
+          </div>
             </div>
             <div className="col-md-6 px-0">
-              <div className="video_home">
-                <img src="/images/video-img.jpg"/>
-              </div>
+          <div className="video_home">
+          <img src="/images/video-img.jpg"/>
+          </div>
             </div>
           </div>
+        </div> */}
+        <div className="video_col">
+          <video id="videobcg" preload="auto" autoPlay={true} loop="loop" muted="muted" volume="0">
+            <source src="/videos/skyline.mp4" type="video/mp4"/>
+          </video>
         </div>
-        <div className="help_col">
+        <div className="sub_title">
           <div className="container">
-            <div className="row">
-              <div className="col-md-4 col-sm-4">
+            <h5 className="text-uppercase">join our marketplace</h5>
+            <span className="text-capitalize">get exclusive acess plus be the first to know about upcoming oppurtunities. <a href="/#" className="">click here</a></span>
+          </div>
+        </div>
+        <div className="owl_box">
+          <div className="container main-content">
+            <OwlCarousel
+              className="owl-theme py-3"
+              loop={true} margin={10} nav={true} dots={false} navText={['<div id="left_arrow-owl"></div>','<div id="right_arrow-owl"></div>']} navContainerClass='.custom-nav'
+            >
+              <div className="item">
                 <div className="inner_info">
-                  <div className="inner_img"><img src="./images/home1.png" alt=""/></div>
-                  <h5>TOP 15 REASONS</h5>
-                  <p>Top 15 reasons to post your Wholesale/Fixer upper deals at AuctionMyDeal.com</p>
-                  <div className="learnmore"><Link to="#">Learn More</Link></div>
+                  <div className="inner_img">
+                    <img src="images/home1.png" alt=""/>
+                  </div>
+                  <div className="inner_text">
+                    <h5>TOP 15 REASONS</h5>
+                    <p>Top 15 reasons to post your Wholesale/Fixer upper deals at AuctionMyDeal.com</p>
+                  </div>
                 </div>
               </div>
-              <div className="col-md-4 col-sm-4">
+              <div className="item">
                 <div className="inner_info">
-                  <div className="inner_img"><img src="./images/home2.png" alt=""/></div>
-                  <h5>LANDLORD ANALYSER</h5>
-                  <p>Landlord Analyser is used to show landlords how to levergae Short Term Financing to get a Better Return on their Money</p>
-                  <div className="learnmore"><Link to="#">Get Started</Link></div>
+                  <div className="inner_img"><img src="images/home2.png" alt=""/></div>
+                  <div className="inner_text">
+                    <h5>FREE LANDLORD ANALYSER</h5>
+                    <p>Landlord Analyser is used to show landlords how to levergae Short Term Financing to get a Better Return on their Money</p>
+                  </div>
                 </div>
               </div>
-              <div className="col-md-4 col-sm-4">
+              <div className="item">
                 <div className="inner_info">
-                  <div className="inner_img"><img src="./images/home3.png" alt=""/></div>
-                  <h5>GUARANTY SALE PROGRAM</h5>
-                  <p>Auction Your Wholesale Deal to the Highest Bidder or Angel Investors, LLC will make you an offer!</p>
-                  <div className="learnmore"><Link to="#">Learn More</Link></div>
+                  <div className="inner_img">
+                    <img src="images/home3.png" alt=""/>
+                  </div>
+                  <div className="inner_text">
+                    <h5>Auction you deal</h5>
+                    <p>Auction Your Wholesale Deal to the Highest Bidder</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="col-md-4 col-sm-4">
+              <div className="item">
                 <div className="inner_info">
-                  <div className="inner_img"><img src="./images/home4.png" alt=""/></div>
-                  <h5>FREE EXPERT DEAL ANALYSIS</h5>
-                  <p>Great for New Investors or ones wanting a 2nd opinion. Our Experts provide you with the following:</p>
-                  <div className="learnmore"><Link to="#">Free Expert Deal Analysis</Link></div>
+                  <div className="inner_img"><img src="images/home2.png" alt=""/></div>
+                  <div className="inner_text">
+                    <h5>FREE LANDLORD ANALYSER</h5>
+                    <p>Landlord Analyser is used to show landlords how to levergae Short Term Financing to get a Better Return on their Money</p>
+                  </div>
                 </div>
               </div>
-              <div className="col-md-4 col-sm-4">
+              <div className="item">
                 <div className="inner_info">
-                  <div className="inner_img"><img src="./images/home5.png" alt=""/></div>
-                  <h5>Get Approved</h5>
-                  <p>Get Approved with Houston’s #1 Hard Money Lender to qualify to buy our Best Auction Deals</p>
-                  <div className="learnmore"><Link to="#">Get Started</Link></div>
+                  <div className="inner_img">
+                    <img src="images/home3.png" alt=""/>
+                  </div>
+                  <div className="inner_text">
+                    <h5>Auction you deal</h5>
+                    <p>Auction Your Wholesale Deal to the Highest Bidder</p>
+                  </div>
                 </div>
               </div>
-              <div className="col-md-4 col-sm-4">
-                <div className="inner_info">
-                  <div className="inner_img"><img src="./images/home6.png" alt=""/></div>
-                  <h5>Bidders Blueprint</h5>
-                  <p>Auctionmydeal.com Blueprint for Bidders</p>
-                  <div className="learnmore"><Link to="#">Bidders Blueprint</Link></div>
-                </div>
-              </div>
-            </div>
+            </OwlCarousel>
           </div>
         </div>
         <div className="featured_col pb-5">
