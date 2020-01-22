@@ -2312,6 +2312,7 @@ input.form-control:focus {
 .dealofweek p {
   font-size: 17px;
   line-height: 25px;
+  font-weight: 500;
 }
 
 .apply-btn {
@@ -2356,12 +2357,19 @@ a.freems {
 }
 
 .pleft80 {
-  padding-left: 80px;
+  padding-left: 40px;
 }
-
+.pleft80 h4{
+    color: #b71c1c;
+    font-size: 20px;
+    font-weight: 500;
+}
 .pleft80 h2 {
   margin: 0 0 20px 0;
-  color: #ff0000;
+  color: #b71c1c;
+  font-size: 24px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 /*made easy */

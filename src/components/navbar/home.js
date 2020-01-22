@@ -616,15 +616,14 @@ export default class Home extends Component{
           <div className="container">
             <div className="row">
               <div className="col-md-6 px-2">
-                <iframe width="560" height="315" title="youtube" src="https://www.youtube.com/embed/X080gIJFE3M?controls=0" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                <iframe width="560" height="275" title="youtube" src="https://www.youtube.com/embed/X080gIJFE3M?controls=0" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
               </div>
               <div className="col-md-6 px-2 ">
                 <div className="pleft80">
-                  <h2>Deal of the Week</h2>
-                  <p>See if your Deal qualifies to be our next Deal of the Day and we will Help you Market Your Deal for FREE to over 20,000 investors.</p>
-                  <Link to="#" className=" apply-btn">Apply Here</Link>
-                  <p className="sbold">If your deal qualifies <span>YOU WIN</span> the following</p>
-                  <Link to="#" className="freems">FREE Marketing Services</Link>
+                  <h4>Why Auction are an excellent way to</h4>
+                  <h2>buy and sell real estate deals</h2>
+                  <p>Our ground breaking new platform streams Houston property auctions online and lets you bid from the comfort of your own couch. You never have to miss an auction because of time or distance again.</p>
+                  <p>What's more, our start-to-end service lets you research, watch and bid on auctions, as well as complete the purchase through electronic contract signing.</p>
                 </div>
               </div>
             </div>
