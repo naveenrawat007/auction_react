@@ -210,13 +210,13 @@ export default class Navbar extends Component{
                   }
                 </li>
                 <li className="nav-item dropdown">
-                  <a className="nav-link" href="/" data-toggle="dropdown">Help </a>
+                  <Link className="nav-link" to="/help" data-toggle="dropdown">Help </Link>
                 </li>
 
                 <li className="nav-item">
-                  <a className="nav-link" href="/">
+                  <Link className="nav-link" to="/about">
                     About us
-                  </a>
+                  </Link>
                 </li>
               </ul>
               <div className="header-reg">
