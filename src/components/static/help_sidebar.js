@@ -22,7 +22,6 @@ export default class HelpSidebar extends Component{
     }
   }
   renderSwitch = () => {
-    console.log(this.state.path);
     switch (this.state.path) {
       case 'confident_deal':
         return <ConfindentDeal/>;
