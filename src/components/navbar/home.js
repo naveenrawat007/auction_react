@@ -26,6 +26,7 @@ const initial_state = {
   created: false,
   verified: false,
   sign_up_modal: false,
+  properties: [],
   user: {
     first_name: "",
     last_name: "",
@@ -53,6 +54,7 @@ export default class Home extends Component {
   }
   componentDidMount() {
     this._isMounted = true;
+    this.getPropertiesList();
   }
 
   openSignUpModal = () => {
@@ -417,7 +419,101 @@ export default class Home extends Component {
       return <span className="error-class"> {msg} </span>;
     }
   };
+  getPropertiesList = () => {
+    this.setState({
+      isLoaded: false,
+    });
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties"
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*"
+      }
+    }).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        if (result.status === 200){
+          this.setState({
+            isLoaded: true,
+            properties: result.properties,
+          });
+        }else if (result.status === 401) {
+          localStorage.removeItem("auction_user_token");
+          window.location.href = "/login"
+        }else {
+          this.setState({
+            variant: "danger",
+            message: result.message
+          });
+          this.clearMessageTimeout = setTimeout(() => {
+            this.setState(() => ({message: ""}))
+          }, 2000);
+        }
+      }
+    })
+  }
   render() {
+    const featured_properties = this.state.properties.map((property, index) => {
+      return(
+        <div className="col-sm-3 px-2" key={index}>
+          <div className="flipping">
+            <div className="flip-card">
+              <div className="flip-card-inner">
+                <div className="flip-card-front">
+                  <div>
+                    <img
+                      src={property.thumbnail_img ? property.thumbnail_img : "./images/home4.png"}
+                      alt=""
+                      style={{ width: "236px", height: "140px" }}
+                    />
+                  </div>
+                  <h5>{property.address}</h5>
+                  <p>{property.headliner}</p>
+                </div>
+                <div className="flip-card-back">
+                  <h5>{property.category} {property.p_type}</h5>
+                  <div className="flip-data">
+                    <ul className="list-inline">
+                      <li className="list-inline-item">
+                        After Repaired Value
+                      </li>
+                      <li className="list-inline-item">{window.format_currency(property.after_rehab_value)}</li>
+                    </ul>
+                    <ul className="list-inline">
+                      <li className="list-inline-item">
+                        Sellers Asking Price
+                      </li>
+                      <li className="list-inline-item">{window.format_currency(property.asking_price)}</li>
+                    </ul>
+                    <ul className="list-inline">
+                      <li className="list-inline-item">
+                        Estimated Rehab Cost
+                      </li>
+                      <li className="list-inline-item">{window.format_currency(property.estimated_rehab_cost)}</li>
+                    </ul>
+                  </div>
+                  <ul className="list-inline">
+                    <li className="list-inline-item">Potential Profit</li>
+                    <li className="list-inline-item">{window.format_currency(property.profit_potential)}</li>
+                  </ul>
+                  <Link to={"/property/"+property.unique_address} className="details_btn">
+                    View Details
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    })
     return (
       <div className="container-fluid home_main px-0">
         {/* <div className="bg_banner px-0">
@@ -488,69 +584,79 @@ export default class Home extends Component {
               navContainerClass="custom-nav"
             >
               <div className="item">
-                <div className="inner_info">
-                  <div className="inner_img">
-                    <img src="images/home1.png" alt="" />
+                <Link to="/help/top-15-reasons-to-post-your-wholesale-fixer-upper-deals">
+                  <div className="inner_info">
+                    <div className="inner_img">
+                      <img src="images/home1.png" alt="" />
+                    </div>
+                    <div className="inner_text">
+                      <h5>TOP 15 REASONS</h5>
+                      <p>
+                        Top 15 reasons to post your Wholesale/Fixer upper deals at
+                        AuctionMyDeal.com
+                      </p>
+                    </div>
                   </div>
-                  <div className="inner_text">
-                    <h5>TOP 15 REASONS</h5>
-                    <p>
-                      Top 15 reasons to post your Wholesale/Fixer upper deals at
-                      AuctionMyDeal.com
-                    </p>
-                  </div>
-                </div>
+                </Link>
               </div>
               <div className="item">
-                <div className="inner_info">
-                  <div className="inner_img">
-                    <img src="images/home2.png" alt="" />
+                <Link to="/help/free-landlord-analyzer/">
+                  <div className="inner_info">
+                    <div className="inner_img">
+                      <img src="images/home2.png" alt="" />
+                    </div>
+                    <div className="inner_text">
+                      <h5> LANDLORD ANALYSER</h5>
+                      <p>
+                        Landlord Analyser is used to show landlords how to
+                        levergae Short Term Financing to get a Better Return on
+                        their Money
+                      </p>
+                    </div>
                   </div>
-                  <div className="inner_text">
-                    <h5> LANDLORD ANALYSER</h5>
-                    <p>
-                      Landlord Analyser is used to show landlords how to
-                      levergae Short Term Financing to get a Better Return on
-                      their Money
-                    </p>
-                  </div>
-                </div>
+                </Link>
               </div>
               <div className="item">
-                <div className="inner_info">
-                  <div className="inner_img">
-                    <img src="images/home3.png" alt="" />
+                <Link to="/help">
+                  <div className="inner_info">
+                    <div className="inner_img">
+                      <img src="images/home3.png" alt="" />
+                    </div>
+                    <div className="inner_text">
+                      <h5>Auction your deal</h5>
+                      <p>Does your Deal qualify to Auction?</p>
+                    </div>
                   </div>
-                  <div className="inner_text">
-                    <h5>Auction your deal</h5>
-                    <p>Does your Deal qualify to Auction?</p>
-                  </div>
-                </div>
+                </Link>
               </div>
               <div className="item">
-                <div className="inner_info">
-                  <div className="inner_img">
-                    <img src="images/home3.png" alt="" />
+                <Link to="/help/free-confidential-deal-analysis/">
+                  <div className="inner_info">
+                    <div className="inner_img">
+                      <img src="images/home3.png" alt="" />
+                    </div>
+                    <div className="inner_text">
+                      <h5> Confidential Deal Analysis </h5>
+                      <p>Free Confidential Deal Analysis </p>
+                    </div>
                   </div>
-                  <div className="inner_text">
-                    <h5> Confidential Deal Analysis </h5>
-                    <p>Free Confidential Deal Analysis </p>
-                  </div>
-                </div>
+                </Link>
               </div>
               <div className="item">
-                <div className="inner_info">
-                  <div className="inner_img">
-                    <img src="images/home2.png" alt="" />
+                <Link to="/help/auction-your-wholesale-deal-to-the-highest-bidder-or-our-affiliate-partner-angel-investors-llc-will-buy-it/">
+                  <div className="inner_info">
+                    <div className="inner_img">
+                      <img src="images/home2.png" alt="" />
+                    </div>
+                    <div className="inner_text">
+                      <h5>GUARANTY SALE PROGRAM</h5>
+                      <p>
+                        Auction Your Wholesale Deal to the Highest Bidder or Angel
+                        Investors, LLC will make you an offer!
+                      </p>
+                    </div>
                   </div>
-                  <div className="inner_text">
-                    <h5>GUARANTY SALE PROGRAM</h5>
-                    <p>
-                      Auction Your Wholesale Deal to the Highest Bidder or Angel
-                      Investors, LLC will make you an offer!
-                    </p>
-                  </div>
-                </div>
+                </Link>
               </div>
             </OwlCarousel>
           </div>
@@ -559,191 +665,7 @@ export default class Home extends Component {
           <div className="container">
             <h2>Featured Properties</h2>
             <div className="row mx-0">
-              <div className="col-sm-3 px-2">
-                <div className="flipping">
-                  <div className="flip-card">
-                    <div className="flip-card-inner">
-                      <div className="flip-card-front">
-                        <div>
-                          <img
-                            src="./images/home4.png"
-                            alt=""
-                            style={{ width: "236px", height: "140px" }}
-                          />
-                        </div>
-                        <h5>24566 Creekwood Drive, Splendora, TX</h5>
-                        <p>Great Landlord Opportunity in Splendora, Texas</p>
-                      </div>
-                      <div className="flip-card-back">
-                        <h5>Residential Single Family</h5>
-                        <div className="flip-data">
-                          <ul className="list-inline">
-                            <li className="list-inline-item">
-                              After Repaired Value
-                            </li>
-                            <li className="list-inline-item">$140,000</li>
-                          </ul>
-                          <ul className="list-inline">
-                            <li className="list-inline-item">
-                              Sellers Asking Price
-                            </li>
-                            <li className="list-inline-item">$49,900</li>
-                          </ul>
-                          <ul className="list-inline">
-                            <li className="list-inline-item">
-                              Estimated Rehab Cost
-                            </li>
-                            <li className="list-inline-item">$30,000</li>
-                          </ul>
-                        </div>
-                        <ul className="list-inline">
-                          <li className="list-inline-item">Potential Profit</li>
-                          <li className="list-inline-item">$60,100</li>
-                        </ul>
-                        <Link to="#" className="details_btn">
-                          View Details
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-sm-3 px-2">
-                <div className="flipping">
-                  <div className="flip-card">
-                    <div className="flip-card-inner">
-                      <div className="flip-card-front">
-                        <div>
-                          <img
-                            src="./images/home4.png"
-                            alt=""
-                            style={{ width: "236px", height: "140px" }}
-                          />
-                        </div>
-                        <h5>24414 Pine Canyon Dr, Spring</h5>
-                        <p>
-                          WOODLANDS/SPRING Landlord Opportunity with Great Cash
-                          Flow!
-                        </p>
-                      </div>
-                      <div className="flip-card-back">
-                        <h5>Residential Single Family</h5>
-                        <p>
-                          Great Home to Buy, Rehab & Rent for Excellent CASH
-                          Flow*Roof, AC, Heater & ducts less than 6 months old,
-                          2 Master suites, separate studio garage
-                          apartment*Property is vacant, text 713-553-1331 to
-                          schedule an appt
-                        </p>
-                        <Link to="#" className="details_btn">
-                          View Details
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-sm-3 px-2">
-                <div className="flipping">
-                  <div className="flip-card">
-                    <div className="flip-card-inner">
-                      <div className="flip-card-front">
-                        <div>
-                          <img
-                            src="./images/home4.png"
-                            alt=""
-                            style={{ width: "236px", height: "140px" }}
-                          />
-                        </div>
-                        <h5>3025 Sherwood Forest Drive, Dickinson</h5>
-                        <p>GREAT Landlord Opportunity to Buy & Hold!!!</p>
-                      </div>
-                      <div className="flip-card-back">
-                        <h5>Residential Single Family</h5>
-                        <div className="flip-data">
-                          <ul className="list-inline">
-                            <li className="list-inline-item">
-                              After Repaired Value
-                            </li>
-                            <li className="list-inline-item">$140,000</li>
-                          </ul>
-                          <ul className="list-inline">
-                            <li className="list-inline-item">
-                              Sellers Asking Price
-                            </li>
-                            <li className="list-inline-item">$49,900</li>
-                          </ul>
-                          <ul className="list-inline">
-                            <li className="list-inline-item">
-                              Estimated Rehab Cost
-                            </li>
-                            <li className="list-inline-item">$30,000</li>
-                          </ul>
-                        </div>
-                        <ul className="list-inline">
-                          <li className="list-inline-item">Potential Profit</li>
-                          <li className="list-inline-item">$60,100</li>
-                        </ul>
-                        <Link to="#" className="details_btn">
-                          View Details
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-sm-3 px-2">
-                <div className="flipping">
-                  <div className="flip-card">
-                    <div className="flip-card-inner">
-                      <div className="flip-card-front">
-                        <div>
-                          <img
-                            src="./images/home4.png"
-                            alt=""
-                            style={{ width: "236px", height: "140px" }}
-                          />
-                        </div>
-                        <h5>1611 Pannell St, Houston</h5>
-                        <p>
-                          Great Rehab & Flip or Landlord Property for Excellent
-                          Cash Flow
-                        </p>
-                      </div>
-                      <div className="flip-card-back">
-                        <h5>Residential Single Family</h5>
-                        <div className="flip-data">
-                          <ul className="list-inline">
-                            <li className="list-inline-item">
-                              After Repaired Value
-                            </li>
-                            <li className="list-inline-item">$140,000</li>
-                          </ul>
-                          <ul className="list-inline">
-                            <li className="list-inline-item">
-                              Sellers Asking Price
-                            </li>
-                            <li className="list-inline-item">$49,900</li>
-                          </ul>
-                          <ul className="list-inline">
-                            <li className="list-inline-item">
-                              Estimated Rehab Cost
-                            </li>
-                            <li className="list-inline-item">$30,000</li>
-                          </ul>
-                        </div>
-                        <ul className="list-inline">
-                          <li className="list-inline-item">Potential Profit</li>
-                          <li className="list-inline-item">$60,100</li>
-                        </ul>
-                        <Link to="#" className="details_btn">
-                          View Details
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {featured_properties}
             </div>
           </div>
         </div>
