@@ -36,6 +36,7 @@ const initial_state = {
 }
 export default class Home extends Component{
   _isMounted = false
+  _arrowSet = false
 
   constructor(props){
     super(props);
@@ -43,9 +44,10 @@ export default class Home extends Component{
   }
   componentDidMount () {
     this._isMounted = true;
-    if ((document.getElementById('left_arrow-owl')) && (document.getElementById('right_arrow-owl'))){
+    if ((document.getElementById('left_arrow-owl')) && (document.getElementById('right_arrow-owl')) && (this._arrowSet === false)){
       ReactDOM.render(<FontAwesomeIcon icon={faArrowLeft}/>, document.getElementById('left_arrow-owl'))
       ReactDOM.render(<FontAwesomeIcon icon={faArrowRight}/>, document.getElementById('right_arrow-owl'))
+      this._arrowSet = true
     }
   }
 
@@ -418,7 +420,7 @@ export default class Home extends Component{
           <div className="container main-content">
             <OwlCarousel
               className="owl-theme py-3"
-              loop={true} margin={10} nav={true} dots={false} navText={['<div id="left_arrow-owl"></div>','<div id="right_arrow-owl"></div>']} navContainerClass='.custom-nav'
+              loop={false} margin={10} nav={true} dots={false} navText={['<div id="left_arrow-owl"></div>','<div id="right_arrow-owl"></div>']} navContainerClass='.custom-nav'
             >
               <div className="item">
                 <div className="inner_info">
@@ -435,7 +437,7 @@ export default class Home extends Component{
                 <div className="inner_info">
                   <div className="inner_img"><img src="images/home2.png" alt=""/></div>
                   <div className="inner_text">
-                    <h5>FREE LANDLORD ANALYSER</h5>
+                    <h5> LANDLORD ANALYSER</h5>
                     <p>Landlord Analyser is used to show landlords how to levergae Short Term Financing to get a Better Return on their Money</p>
                   </div>
                 </div>
@@ -446,8 +448,19 @@ export default class Home extends Component{
                     <img src="images/home3.png" alt=""/>
                   </div>
                   <div className="inner_text">
-                    <h5>Auction you deal</h5>
-                    <p>Auction Your Wholesale Deal to the Highest Bidder</p>
+                    <h5>Auction your deal</h5>
+                    <p>Does your Deal qualify to Auction?</p>
+                  </div>
+                </div>
+              </div>
+              <div className="item">
+                <div className="inner_info">
+                  <div className="inner_img">
+                    <img src="images/home3.png" alt=""/>
+                  </div>
+                  <div className="inner_text">
+                    <h5> Confidential Deal Analysis </h5>
+                    <p>Free Confidential Deal Analysis </p>
                   </div>
                 </div>
               </div>
@@ -455,19 +468,8 @@ export default class Home extends Component{
                 <div className="inner_info">
                   <div className="inner_img"><img src="images/home2.png" alt=""/></div>
                   <div className="inner_text">
-                    <h5>FREE LANDLORD ANALYSER</h5>
-                    <p>Landlord Analyser is used to show landlords how to levergae Short Term Financing to get a Better Return on their Money</p>
-                  </div>
-                </div>
-              </div>
-              <div className="item">
-                <div className="inner_info">
-                  <div className="inner_img">
-                    <img src="images/home3.png" alt=""/>
-                  </div>
-                  <div className="inner_text">
-                    <h5>Auction you deal</h5>
-                    <p>Auction Your Wholesale Deal to the Highest Bidder</p>
+                    <h5>GUARANTY SALE PROGRAM</h5>
+                    <p>Auction Your Wholesale Deal to the Highest Bidder or Angel Investors, LLC will make you an offer!</p>
                   </div>
                 </div>
               </div>
