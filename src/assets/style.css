@@ -2101,8 +2101,8 @@ input.form-control:focus {
 .main-content .owl-theme .custom-nav {
     position: absolute;
     top: 40%;
-    left: -10px;
-    right: -10px;
+    left: -25px;
+    right: -25px;
 }
 .main-content .owl-theme .custom-nav .owl-prev, .main-content .owl-theme .custom-nav .owl-next {
     position: absolute;
@@ -5007,4 +5007,12 @@ a.chat_attachment {
 .help_us .text-weight{
   font-weight: 600 !important;
   color: #6b6b6b;
+}
+.owl_arrw{
+  font-weight: 700;
+  font-size: 21px
+}
+
+.landlord-analyzer img{
+  width: 100%;
 }
