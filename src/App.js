@@ -21,6 +21,8 @@ import PropertyPending from './components/property/pending.js'
 import PropertySold from './components/property/sold.js'
 import Home from './components/navbar/home.js'
 import Plan from './components/user/plan/index.js'
+import About from './components/static/about.js'
+import HelpSidebar from './components/static/help_sidebar.js'
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
         <Route path='/' component = {Navbar}/>
         <Switch>
           <Route exact path="/" component={Home}/>
+          <Route exact path="/about" component={About}/>
+          <Route exact path="/help" component={HelpSidebar}/>
           <Route exact path="/user" component={() => <Sidebar path='user_profile'/>}/>
           <Route exact path="/user/chat" component={(props) => <Sidebar {...props} path='user_chat'/>}/>
           <Route exact path="/plans" component={() => <Plan path=''/>}/>
