@@ -7,6 +7,9 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 export default class SellerOverview extends Component{
   _isMounted = false
   render(){
+    // componentDidMount () {
+    //
+    // }
     return(
       <div className="tab-pane show active landlord-analyzer" id="landlord-analyzer" role="tabpanel" aria-labelledby="landlord-analyzer">
         <h3 className="font-darkred">Sellers (How everything works)</h3>
@@ -21,7 +24,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="0">
-              <FontAwesomeIcon icon={faPlus} /> Right to sell property
+              <FontAwesomeIcon icon={faPlus} className="icon-toggle"/> Right to sell property
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="0">
