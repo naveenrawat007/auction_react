@@ -64,7 +64,7 @@ export default class TopSidebar extends Component{
                 <Link className={this.checkActive("how_works")} id="works_tab" data-toggle="tab" to="/how-everything-works/seller" role="tab" aria-controls="works_tab" aria-selected="true">How Everything Works</Link>
               </li>
               <li className="nav-item">
-                <Link className={this.checkActive("realtor_portal")} id="relator_portal" data-toggle="tab" to="/realtor-portal/realtor-marketing-platform" role="tab" aria-controls="relator_portal" aria-selected="false">Relator Portal</Link>
+                <Link className={this.checkActive("realtor_portal")} id="relator_portal" data-toggle="tab" to="/realtor-portal/realtor-marketing-platform" role="tab" aria-controls="relator_portal" aria-selected="false">Realtor Portal</Link>
               </li>
               <li className="nav-item">
                 <Link className={this.checkActive("faq")} id="faq" data-toggle="tab" to="/frequently-asked-questions" role="tab" aria-controls="faq" aria-selected="false">Frequently Asked Questions</Link>
