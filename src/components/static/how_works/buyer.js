@@ -9,9 +9,9 @@ export default class BuyerOverview extends Component{
   render(){
     return(
       <div className="tab-pane show active landlord-analyzer" id="landlord-analyzer" role="tabpanel" aria-labelledby="landlord-analyzer">
-        <h3>Buyers (How everything works)</h3>
-        <p>
-          How users bid on properties.
+        <h3 className="font-darkred mt-3">Buyers (How everything works)</h3>
+        <p className="font-darkred">
+          How users bid on properties:
         </p>
         <Accordion >
           <div>
@@ -83,8 +83,9 @@ export default class BuyerOverview extends Component{
             <div>
               <p>
                 Option 1. Submit Bid: Go to full property page, and press Place Bid to be the next Highest Bidder.
+              </p>
+              <p>  
                 Option 2. Buy Now: If your numbers work at the Buy Now price, then You can choose to Buy Now to secure the property without having to wait for the Auction to end.
-
               </p>
             </div>
           </Accordion.Collapse>
@@ -93,18 +94,15 @@ export default class BuyerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="5">
-              <FontAwesomeIcon icon={faPlus} /> When Auction Ends Bidders are either:
+              <FontAwesomeIcon icon={faPlus} /> When Auction Ends Bidders are either
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="5">
             <div>
-              <p>
-                Winning Bidder:
-                Our closing department will send you an email to re-verify your bid, and the terms of the contract.  If terms are accepted by Highest Bidder then Seller will be notified for acceptance.
-                Or Not the Winning Bidder:
-                Our closing department will notify bidders that they are not the winning bidder, but will ask if they would like to be a back up offer if property comes back on the market.  Back up offers will get the first option to buy properties that come back on the market before they get put back up for Auction.
-
-              </p>
+              <h5>Winning Bidder:</h5>
+              <p>Our closing department will send you an email to re-verify your bid, and the terms of the contract.  If terms are accepted by Highest Bidder then Seller will be notified for acceptance.</p>
+              <h5>Or Not the Winning Bidder:</h5>
+              <p>Our closing department will notify bidders that they are not the winning bidder, but will ask if they would like to be a back up offer if property comes back on the market.  Back up offers will get the first option to buy properties that come back on the market before they get put back up for Auction.</p>
             </div>
           </Accordion.Collapse>
         </Accordion>
@@ -195,16 +193,16 @@ export default class BuyerOverview extends Component{
           </div>
           <Accordion.Collapse eventKey="11">
             <div>
-              <p>
-                ✔ I agree to buy this property As-Is, Where-Is with all faults.
-                ✔ I agree there are no inspection or financing contingencies.
-                ✔ I understand that the pictures, video, ARV proof and rehab numbers are provided for informational purposes only and I have done my own due diligence for this property I’m bidding on.
-                ✔ I agree to deliver $2,000 or 2% (whichever is higher) as nonrefundable earnest money to Title Company on Executed Contract if I’m the winning bidder within 48 business hours or my winning bidder status can be canceled.
-                ✔ I agree to pay for all of my hard money loan costs, survey, insurance, and 1/2 of the title company fees & closing costs if I’m the winning bidder. Plus, I will pay my prorated share of property taxes and HOA fees up to the day of closing.
-                ✔ I will provide all required documentation requested, or I will not be allowed to auction off My Properties.
-                ✔ I understand that it could take up to 48 to 72 hours to get my offer approved & executed if I’m the winning bidder.
-                ✔ I understand the Seller has the right to accept or reject any offer before the contract has been executed for any reason, subject to paying a cancellation fee of $997.  This fee will be split with the Winning Bidder and AuctionMyDeal.com as a transaction fee
-              </p>
+              <ul>
+                <li> I agree to buy this property As-Is, Where-Is with all faults.</li>
+                <li> I agree there are no inspection or financing contingencies.</li>
+                <li> I understand that the pictures, video, ARV proof and rehab numbers are provided for informational purposes only and I have done my own due diligence for this property I’m bidding on.</li>
+                <li> I agree to deliver $2,000 or 2% (whichever is higher) as nonrefundable earnest money to Title Company on Executed Contract if I’m the winning bidder within 48 business hours or my winning bidder status can be canceled.</li>
+                <li> I agree to pay for all of my hard money loan costs, survey, insurance, and 1/2 of the title company fees & closing costs if I’m the winning bidder. Plus, I will pay my prorated share of property taxes and HOA fees up to the day of closing.</li>
+                <li> I will provide all required documentation requested, or I will not be allowed to auction off My Properties.</li>
+                <li> I understand that it could take up to 48 to 72 hours to get my offer approved & executed if I’m the winning bidder.</li>
+                <li> I understand the Seller has the right to accept or reject any offer before the contract has been executed for any reason, subject to paying a cancellation fee of $997.  This fee will be split with the Winning Bidder and AuctionMyDeal.com as a transaction fee.</li>
+              </ul>
             </div>
           </Accordion.Collapse>
         </Accordion>

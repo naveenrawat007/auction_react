@@ -237,7 +237,7 @@ export default class SellerOverview extends Component{
           </Accordion.Collapse>
         </Accordion>
 
-        <Accordion >
+        <Accordion>
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="14">
               <FontAwesomeIcon icon={faPlus} />Post Auction Status
@@ -253,19 +253,6 @@ export default class SellerOverview extends Component{
 
                 <li>If the property doesn’t have any bids at the end of the Auction countdown then the property will go into Post Auction Status. The Seller can withdraw their property from AuctionMyDeal.com without any costs after Auction ends and there’s no offers at or above the Minimum Bid, or they can relist it to Auction. If they want to relist to Auction, they need to reduce their Minimum Selling Price 7% in order to reapply to Auction off their Deal on this site.</li>
               </ol>
-            </div>
-          </Accordion.Collapse>
-        </Accordion>
-
-        <Accordion >
-          <div>
-            <Accordion.Toggle as={Button} variant="link" eventKey="0">
-            </Accordion.Toggle>
-          </div>
-          <Accordion.Collapse eventKey="0">
-            <div>
-              <p>
-              </p>
             </div>
           </Accordion.Collapse>
         </Accordion>
