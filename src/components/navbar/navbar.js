@@ -210,7 +210,7 @@ export default class Navbar extends Component{
                   }
                 </li>
                 <li className="nav-item dropdown">
-                  <Link className="nav-link" to="/help" data-toggle="dropdown">Help </Link>
+                  <Link className="nav-link" to="/how-everything-works/seller" data-toggle="dropdown">Help </Link>
                 </li>
 
                 <li className="nav-item">

@@ -32,8 +32,8 @@ export default class Footer extends Component{
               <div className="col-md-3 col-sm-6">
                 <h5>Help center</h5>
                 <ul>
-                  <li><Link to="/help">Seller</Link></li>
-                  <li><Link to="/help">Buyer</Link></li>
+                  <li><Link to="/how-everything-works/seller">Seller</Link></li>
+                  <li><Link to="/how-everything-works/buyer">Buyer</Link></li>
                   <li><Link to="/help">realtor</Link></li>
                 </ul>
               </div>
