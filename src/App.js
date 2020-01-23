@@ -37,6 +37,15 @@ function App() {
           <Route exact path="/help/free-landlord-analyzer/" component={() => <Topbar path='landlord_analyzer_help'/>}/>
           <Route exact path="/help/free-confidential-deal-analysis/" component={() => <Topbar path='confident_deal_help'/>}/>
           <Route exact path="/help/auction-your-wholesale-deal-to-the-highest-bidder-or-our-affiliate-partner-angel-investors-llc-will-buy-it/" component={() => <Topbar path='highest_bidder_help'/>}/>
+
+          <Route exact path="/how-everything-works/seller" component={() => <Topbar path='seller_how_works'/>}/>
+          <Route exact path="/how-everything-works/buyer" component={() => <Topbar path='buyer_how_works'/>}/>
+          <Route exact path="/how-everything-works/hardmoney" component={() => <Topbar path='hardmoney_how_works'/>}/>
+          <Route exact path="/how-everything-works/resources" component={() => <Topbar path='resources_how_works'/>}/>
+          <Route exact path="/how-everything-works/ask-a-question" component={() => <Topbar path='ask_question_how_works'/>}/>
+
+
+
           <Route exact path="/user" component={() => <Sidebar path='user_profile'/>}/>
           <Route exact path="/user/chat" component={(props) => <Sidebar {...props} path='user_chat'/>}/>
           <Route exact path="/plans" component={() => <Plan path=''/>}/>
