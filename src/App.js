@@ -44,6 +44,9 @@ function App() {
           <Route exact path="/how-everything-works/resources" component={() => <Topbar path='resources_how_works'/>}/>
           <Route exact path="/how-everything-works/ask-a-question" component={() => <Topbar path='ask_question_how_works'/>}/>
 
+          <Route exact path="/realtor-portal/realtor-marketing-platform" component={() => <Topbar path='realtor_marketing_platform_realtor_portal'/>}/>
+          <Route exact path="/realtor-portal/bidding-as-an-agent" component={() => <Topbar path='bidding_agent_realtor_portal'/>}/>
+
 
 
           <Route exact path="/user" component={() => <Sidebar path='user_profile'/>}/>
