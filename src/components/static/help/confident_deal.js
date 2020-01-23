@@ -28,7 +28,7 @@ export default class ConfindentDeal extends Component{
           <li> Post Your Deal on our Facebook, Twitter, YouTube, Instagram, Google+, and give you the link to post anywhere you deem appropriate.</li>
           <li> Provide LARGE Auction sign to put on your property when appropriate to attract MORE Bidders.</li>
         </ul>
-        <h3 className="text-center font-darkred">Our Goal is to be your #1 Marketing Partner to give Your deal Maximum Visibility to get your Highest & Best Price!</h3>
+        <h4 className="text-center font-darkred">Our Goal is to be your #1 Marketing Partner to give Your deal Maximum Visibility to get your Highest & Best Price!</h4>
         <p className="text-center">To Learn more, go to www.AuctionMyDeal.com/FreeInvestorMarketing</p>
       </div>
     )

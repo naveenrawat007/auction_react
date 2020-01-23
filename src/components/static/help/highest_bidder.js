@@ -5,9 +5,9 @@ export default class HighestBidder extends Component{
   render(){
     return(
       <div className="tab-pane active show" id="highest-bidder" role="tabpanel" aria-labelledby="highest-bidder">
-        <h3>Auction Your Wholesale Deal to the Highest Bidder or our Affiliate Partner Angel Investors, LLC will Buy It!</h3>
-        <h5 className="text-center text-weight mb-4">Our goal is to help real estate investors get your deals sold for the highest price other investors will pay or Angel Investors, LLC will Buy It! <br/>(restrictions apply).</h5>
-        <h5 className="mb-3">We will buy any property subject to the following restrictions such as:</h5>
+        <h3 className="font-darkred mt-3">Auction Your Wholesale Deal to the Highest Bidder or We will Buy It!</h3>
+        <h5 className="text-center text-weight mb-4 px-5">Our goal is to help real estate investors get their deals sold for the highest price other investors will pay or we will make them an offer.</h5>
+        <h5 className="mb-3 font-darkred">We will buy any property subject to the following restrictions such as:</h5>
         <ul className="mb-5">
           <li>We only guarantee single family homes.</li>
           <li>No mobile homes or properties made with 2″ x 2″ support walls.</li>
@@ -25,7 +25,7 @@ export default class HighestBidder extends Component{
           <li>AuctionMyDeal.com is an Angel Investors, LLC affiliate website, and the Members will determine the ARV (after rehab value) and repairs needed for all offers.</li>
           <li>All properties have to be sold by General Warranty Deed with clear title.<br/>Angel Investors, LLC will consider making offers on all properties, but will only guarantee the ones that pass the following restrictions.</li>
         </ul>
-        <p className="text-center">Post Your Deal Today to get Your Highest & Best Offer @ http://www.auctionmydeal.com/sell/</p>
+        <p className="text-center mb-5">Post Your Deal Today to get Your Highest & Best Offer @ http://www.auctionmydeal.com/sell/</p>
       </div>
     )
   }
