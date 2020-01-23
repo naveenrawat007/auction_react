@@ -9,11 +9,12 @@ export default class BiddingAgent extends Component{
   render(){
     return(
       <div className="tab-pane show active">
+        <h3 className="font-darkred">Bidding as an Agent</h3>
         <p>
           Auctionmydeal.com is a local Real Estate Investors Platform that helps Wholesalers, Agents & Motivated Sellers net More Money by auctioning off their deals to the highest Bidder while providing some of the most credible real estate opportunities online.
           If you’re Bidding as an Agent, you’re not always guaranteed to make a commission, unless there’s another Realtor who is offering a commission and/or it’s listed on MLS.  Check on the bottom left of the Full Property Profile under Property Auction Terms & Disclosures to see what properties are paying a commission to Realtors.  Most investor/buyers don’t expect for you to work for free, so make sure you sign them to a Buyers Rep that states they will pay a commission if there’s not one offered.
         </p>
-        <p>
+        <p className="font-darkred">
           Process of Bidding for your client:
         </p>
         <Accordion >

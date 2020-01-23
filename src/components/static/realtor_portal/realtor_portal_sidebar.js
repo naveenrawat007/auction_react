@@ -42,7 +42,7 @@ export default class RealtorPortalSidebar extends Component{
                   {/* <a className="nav-link active" id="deal-qualify" data-toggle="tab" href="#deal-qualify" role="tab" aria-controls="deal-qualify" aria-selected="true">Does your Deal qualify to Auction?</a> */}
                 </li>
                 <li className="nav-item">
-                  <Link className={this.checkActive("bidding_agent_realtor_portal")} id="upper-deals" data-toggle="tab" to="/realtor-portal/bidding-as-an-agent" role="tab" aria-controls="upper-deals" aria-selected="false">Bidding as an Agent:</Link>
+                  <Link className={this.checkActive("bidding_agent_realtor_portal")} id="upper-deals" data-toggle="tab" to="/realtor-portal/bidding-as-an-agent" role="tab" aria-controls="upper-deals" aria-selected="false">Bidding as an Agent</Link>
                 </li>
               </ul>
             </div>
