@@ -16,6 +16,9 @@ span.error-class {
 .bg_white{
   background-color: #fff;
 }
+.font-black{
+  color: #000 !important;
+}
 body {
   font-family: 'Montserrat', sans-serif !important;
   margin: 0px;
@@ -4942,9 +4945,12 @@ a.chat_attachment {
   left: 0;
 }
 /*help us*/
+.static_inner h2{
+  font-weight: 700;
+}
 .help_us .nav-tabs{
   background: #f8f8f8;
-  padding: 0 0 100px 0;
+  padding: 70px 0 100px 0;
   height: 100%;
 }
 .help_us .nav-tabs h4{
@@ -4984,11 +4990,9 @@ a.chat_attachment {
   padding: 15px 0 30px 0;
   text-align: center;
   font-weight: 600;
-  color: #6b6b6b;
 }
 .help_us .tab-content p{
   font-weight: 500;
-  color: #6b6b6b;
 }
 .help_us .tab-content ul{
   padding-inline-start: 18px;
@@ -4996,7 +5000,6 @@ a.chat_attachment {
 .help_us .tab-content ul li{
   font-weight: 500;
   margin-bottom: 10px;
-  color: #6b6b6b;
 }
 .font-darkred{
   color: #ff0000 !important;
@@ -5009,11 +5012,10 @@ a.chat_attachment {
   font-size: 24px;
 }
 .help_us h5{
-  color: #6b6b6b;
+  color: #000;
 }
 .help_us .text-weight{
   font-weight: 600 !important;
-  color: #6b6b6b;
 }
 .owl_arrw{
   font-weight: 700;
@@ -5049,4 +5051,22 @@ a.chat_attachment {
 }
 .about_main h2{
   font-size: 2.2rem;
+}
+.main_help .help_tabs{
+  padding-left: 30%;
+  border-bottom: 2px solid #ccc;
+}
+.main_help .help_tabs li a{
+  color: #000;
+  font-weight: 600;
+  border-bottom: 2px solid transparent;
+  border:0;
+}
+.main_help .help_tabs li a.active{
+  border: 0;
+  border-bottom: 2px solid #b71c1c;
+}
+.main_help .help_tabs li a:hover{
+  border: 0;
+  border-bottom: 2px solid #b71c1c;
 }
