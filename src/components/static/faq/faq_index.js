@@ -25,14 +25,14 @@ export default class FaqIndex extends Component{
             <div className="col-md-3 px-0">
               <ul className="nav nav-tabs flex-column" id="myTab" role="tablist">
                 <li className="nav-item">
-                  <Link to="/frequently-asked-questions" className="nav-link active"> Frequently Asked Questions</Link>
+                  <Link to="/frequently-asked-questions" className="nav-link active">Frequently Asked Questions</Link>
                 </li>
               </ul>
             </div>
             <div className="col-md-9 px-0">
               <div className="tab-content" id="myTabContent">
                 <div className="tab-pane show active">
-
+                  <h3 className="font-darkred">Frequently Asked Questions</h3>
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
@@ -191,14 +191,14 @@ export default class FaqIndex extends Component{
                     </div>
                     <Accordion.Collapse eventKey="0">
                       <div>
-                        <p>
-                          1 – Winning Bidder
-                          Our closing department will send you a email to re-verify your bid, and the term of the contract. If terms are accepted by Highest Bidder then the Seller will be notified for acceptance
-                          2 – Offer Accepted
-                          Our closing department will email you the accepted Purchase Agreement and Addendum’s to e-sign, and send your deposit
-                          3 – Cash or Hard Money
-                          You will be assigned to one of our closing managers if you have any questions, who will help you get this property closed
-                        </p>
+                        <ol>
+                          <li>Winning Bidder<br/>
+                          Our closing department will send you a email to re-verify your bid, and the term of the contract. If terms are accepted by Highest Bidder then the Seller will be notified for acceptance</li>
+                          <li>Offer Accepted<br/>
+                          Our closing department will email you the accepted Purchase Agreement and Addendum’s to e-sign, and send your deposit</li>
+                          <li>Cash or Hard Money<br/>
+                          You will be assigned to one of our closing managers if you have any questions, who will help you get this property closed</li>
+                        </ol>
                       </div>
                     </Accordion.Collapse>
                   </Accordion>

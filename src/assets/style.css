@@ -4947,6 +4947,7 @@ a.chat_attachment {
 /*help us*/
 .static_inner h2{
   font-weight: 700;
+  margin: 40px 0 55px 0;
 }
 .help_us .nav-tabs{
   background: #f8f8f8;
@@ -5103,8 +5104,10 @@ a.chat_attachment {
 .main_help .help_tabs li a.active{
   border: 0;
   border-bottom: 2px solid #b71c1c;
+  color: #000;
 }
 .main_help .help_tabs li a:hover{
   border: 0;
   border-bottom: 2px solid #b71c1c;
+  color: #000;
 }
