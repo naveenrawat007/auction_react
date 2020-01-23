@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import SellerOverview from './seller.js';
 import BuyerOverview from './buyer.js';
+import AskQuestion from './ask_question';
 
 export default class HowWorksSidebar extends Component{
   _isMounted = false
@@ -27,6 +28,8 @@ export default class HowWorksSidebar extends Component{
         return <BuyerOverview/>;
       case 'seller_how_works':
         return <SellerOverview/>;
+      case 'ask_question_how_works':
+        return <AskQuestion/>;
       default:
     }
   }
@@ -51,7 +54,7 @@ export default class HowWorksSidebar extends Component{
                   <Link className={this.checkActive("confident_deal")} id="deal-analysis" data-toggle="tab" to="#" role="tab" aria-controls="deal-analysis" aria-selected="false">Resources</Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" id="deal-week" data-toggle="tab" to="#" role="tab" aria-controls="deal-week" aria-selected="false">Ask us Question</Link>
+                  <Link className="nav-link" id="deal-week" data-toggle="tab" to="/how-everything-works/ask-us-question" role="tab" aria-controls="deal-week" aria-selected="false">Ask us Question</Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" id="about-us" data-toggle="tab" to="/about" role="tab" aria-controls="about-us" aria-selected="false">About Us</Link>
