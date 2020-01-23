@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {renderToStaticMarkup} from 'react-dom/server';
 import {
   faSearch,
   faGavel,
@@ -471,7 +471,7 @@ export default class Home extends Component {
                   <div>
                     <img
                       src={property.thumbnail_img ? property.thumbnail_img : "./images/home4.png"}
-                      alt=""
+                      alt="featured_property"
                       style={{ width: "236px", height: "140px" }}
                     />
                   </div>
@@ -577,9 +577,13 @@ export default class Home extends Component {
               margin={10}
               nav={true}
               dots={false}
+              // navText={[
+              //   '<div class="owl_arrw"><</div>',
+              //   '<div class="owl_arrw">></div>'
+              // ]}
               navText={[
-                '<div class="owl_arrw"><</div>',
-                '<div class="owl_arrw">></div>'
+                renderToStaticMarkup(<FontAwesomeIcon icon={faArrowLeft} />),
+                renderToStaticMarkup(<FontAwesomeIcon icon={faArrowRight} />)
               ]}
               navContainerClass="custom-nav"
             >
@@ -587,7 +591,7 @@ export default class Home extends Component {
                 <Link to="/help/top-15-reasons-to-post-your-wholesale-fixer-upper-deals">
                   <div className="inner_info">
                     <div className="inner_img">
-                      <img src="/images/top_reason.jpg" alt="" />
+                      <img src="/images/top_reason.jpg" alt="top_reason_img" />
                     </div>
                     <div className="inner_text">
                       <h5>TOP 15 REASONS</h5>
@@ -603,7 +607,7 @@ export default class Home extends Component {
                 <Link to="/help/free-landlord-analyzer/">
                   <div className="inner_info">
                     <div className="inner_img">
-                      <img src="/images/landlord_analyzer.jpg" alt="" />
+                      <img src="/images/landlord_analyzer.jpg" alt="landlord_analyzer_img" />
                     </div>
                     <div className="inner_text">
                       <h5>LANDLORD ANALYSER</h5>
@@ -620,7 +624,7 @@ export default class Home extends Component {
                 <Link to="/help">
                   <div className="inner_info">
                     <div className="inner_img">
-                      <img src="/images/get_approved.jpg" alt="" />
+                      <img src="/images/get_approved.jpg" alt="get_approved_img" />
                     </div>
                     <div className="inner_text">
                       <h5>Auction your deal</h5>
@@ -633,7 +637,7 @@ export default class Home extends Component {
                 <Link to="/help/free-confidential-deal-analysis/">
                   <div className="inner_info">
                     <div className="inner_img">
-                      <img src="/images/confident_deal.jpg" alt="" />
+                      <img src="/images/confident_deal.jpg" alt="confident_deal_img" />
                     </div>
                     <div className="inner_text">
                       <h5> Confidential Deal Analysis </h5>
@@ -646,7 +650,7 @@ export default class Home extends Component {
                 <Link to="/help/auction-your-wholesale-deal-to-the-highest-bidder-or-our-affiliate-partner-angel-investors-llc-will-buy-it/">
                   <div className="inner_info">
                     <div className="inner_img">
-                      <img src="/images/guaranty_sale.jpg" alt="" />
+                      <img src="/images/guaranty_sale.jpg" alt="guaranty_sale_img" />
                     </div>
                     <div className="inner_text">
                       <h5>GUARANTY SALE PROGRAM</h5>
