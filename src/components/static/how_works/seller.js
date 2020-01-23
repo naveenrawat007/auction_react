@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 export default class SellerOverview extends Component{
   _isMounted = false
   render(){
     return(
       <div className="tab-pane show active landlord-analyzer" id="landlord-analyzer" role="tabpanel" aria-labelledby="landlord-analyzer">
-        <h3>Sellers (How everything works)</h3>
+        <h3 className="font-darkred">Sellers (How everything works)</h3>
         <p>
           FREE Real Estate Investors Platform that helps Distressed Sellers, Wholesalers and Realtors
           auction off their property to the Highest Bidder. Let us help you create your own bidding war by
@@ -15,28 +17,29 @@ export default class SellerOverview extends Component{
           ensure you get your Highest &amp; Best Price. Plus, we will put your property in front of 1,000’s of
           investors to give it Maximum visibility to help you Net More Money.
         </p>
-        <p className="font-red">Requirements to post properties on website:</p>
+        <p className="font-darkred">Requirements to post properties on website:</p>
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="0">
-              Right to sell property
+              <FontAwesomeIcon icon={faPlus} /> Right to sell property
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="0">
-            <p>
-
-              You must:
-              a. Own the property or have legal right to sell it.
-              b. Have an Option to Buy the property with right to assign the contract to another buyer.
-              c. Be a real estate agent who is submitting a listing to auction.
-            </p>
+            <div>
+              <p>You must:</p>
+              <ol type="a">
+                <li> Own the property or have legal right to sell it.</li>
+                <li>Have an Option to Buy the property with right to assign the contract to another buyer.</li>
+                <li>Be a real estate agent who is submitting a listing to auction.</li>
+              </ol>
+            </div>
           </Accordion.Collapse>
         </Accordion>
 
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="0">
-              Must be a Deal
+              <FontAwesomeIcon icon={faPlus} /> Must be a Deal
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="0">
@@ -51,7 +54,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="2">
-              Fee Simple/Clear title
+             <FontAwesomeIcon icon={faPlus} /> Fee Simple/Clear title
 
             </Accordion.Toggle>
           </div>
@@ -67,7 +70,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="3">
-              Provide Credible Rehab #'s
+              <FontAwesomeIcon icon={faPlus} /> Provide Credible Rehab #'s
 
             </Accordion.Toggle>
           </div>
@@ -83,7 +86,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="4">
-              Minimum Bid Auction/ARV Guidelines
+              <FontAwesomeIcon icon={faPlus} /> Minimum Bid Auction/ARV Guidelines
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="4">
@@ -98,7 +101,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="5">
-              FREE Marketing Platform for Sellers, Wholesalers & Realtors
+              <FontAwesomeIcon icon={faPlus} /> FREE Marketing Platform for Sellers, Wholesalers & Realtors
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="5">
@@ -113,7 +116,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="6">
-              Condition to Post Property
+              <FontAwesomeIcon icon={faPlus} /> Condition to Post Property
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="6">
@@ -128,7 +131,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="7">
-              Right to Cancel Auction
+              <FontAwesomeIcon icon={faPlus} /> Right to Cancel Auction
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="7">
@@ -143,7 +146,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="8">
-              Live Online Bidding Restriction
+              <FontAwesomeIcon icon={faPlus} /> Live Online Bidding Restriction
 
             </Accordion.Toggle>
           </div>
@@ -160,7 +163,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="9">
-              Default Penalty
+              <FontAwesomeIcon icon={faPlus} /> Default Penalty
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="9">
@@ -175,7 +178,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="10">
-              MLS Terms
+              <FontAwesomeIcon icon={faPlus} /> MLS Terms
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="10">
@@ -190,7 +193,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="11">
-              Closing Costs paid by the Seller
+              <FontAwesomeIcon icon={faPlus} /> Closing Costs paid by the Seller
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="11">
@@ -205,7 +208,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="12">
-              Pictures & Videos
+              <FontAwesomeIcon icon={faPlus} /> Pictures & Videos
 
             </Accordion.Toggle>
           </div>
@@ -221,7 +224,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="13">
-              Inspections/Preview
+              <FontAwesomeIcon icon={faPlus} /> Inspections/Preview
 
             </Accordion.Toggle>
           </div>
@@ -237,19 +240,19 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="14">
-              Post Auction Status
+              <FontAwesomeIcon icon={faPlus} />Post Auction Status
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="14">
             <div>
-              <p>
-                1. “Buy Now” Buyers get priority VIP attention, because they are willing to pay the Sellers “Buy Now” Price. When a bidder choses to “Buy Now”, then the property will go into Post Auction Status until the Bidders offer gets verified and accepted by Seller.
+              <p>Post Auction is when property goes from Live Online Bidding to qualifying the “Buy Now” or Highest Bidders terms of offer. It is also where properties go when the countdown has ended and there’s no bidders. The Bid &amp; Buy Now button will be disabled unless property goes back to Live Online Bidding.</p>
+              <ol type="1">
+                <li>“Buy Now” Buyers get priority VIP attention, because they are willing to pay the Sellers “Buy Now” Price. When a bidder choses to “Buy Now”, then the property will go into Post Auction Status until the Bidders offer gets verified and accepted by Seller.</li>
 
-                2. If there’s a Winning Bidder at the end of the bidding countdown the property will go to Post Auction Status until the Seller approves an offer. The Seller has the right to accept or reject any offers if they fill the terms of another offer is better than the one with the highest price. No bidder should consider them the winning bidder until the Purchase Agreement is executed by the Seller.
+                <li>If there’s a Winning Bidder at the end of the bidding countdown the property will go to Post Auction Status until the Seller approves an offer. The Seller has the right to accept or reject any offers if they fill the terms of another offer is better than the one with the highest price. No bidder should consider them the winning bidder until the Purchase Agreement is executed by the Seller.</li>
 
-                3. If the property doesn’t have any bids at the end of the Auction countdown then the property will go into Post Auction Status. The Seller can withdraw their property from AuctionMyDeal.com without any costs after Auction ends and there’s no offers at or above the Minimum Bid, or they can relist it to Auction. If they want to relist to Auction, they need to reduce their Minimum Selling Price 7% in order to reapply to Auction off their Deal on this site.
-
-              </p>
+                <li>If the property doesn’t have any bids at the end of the Auction countdown then the property will go into Post Auction Status. The Seller can withdraw their property from AuctionMyDeal.com without any costs after Auction ends and there’s no offers at or above the Minimum Bid, or they can relist it to Auction. If they want to relist to Auction, they need to reduce their Minimum Selling Price 7% in order to reapply to Auction off their Deal on this site.</li>
+              </ol>
             </div>
           </Accordion.Collapse>
         </Accordion>

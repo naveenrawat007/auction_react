@@ -5009,7 +5009,40 @@ a.chat_attachment {
 .fw_500{
   font-weight: 500 !important;
 }
-
+.tab-content .accordion{
+  border: 1px solid #ccc;
+  border-right: 0;
+  border-left: 0;
+}
+.tab-content .accordion .btn{
+  font-weight: 600;
+  color: #000;
+  font-size: 14px;
+  padding: 11.5px 15px;
+  text-decoration: none;
+}
+.tab-content .accordion .collapse.show, .tab-content .accordion .collapsing{
+  margin-left: 50px;
+}
+.tab-content .accordion .collapse.show p, .tab-content .accordion .collapsing p{
+  margin-bottom: 10px;
+}
+.tab-content .accordion .collapse.show ol, .tab-content .accordion .collapsing ol, 
+.tab-content .accordion .collapse.show ul, .tab-content .accordion .collapsing ul{
+  padding-inline-start: 18px;
+} 
+.tab-content .accordion .collapse.show ol li, .tab-content .accordion .collapsing ol li, 
+.tab-content .accordion .collapsing ul li, .tab-content .accordion .collapsing ul li{
+  margin-bottom: 10px;
+}
+.tab-content .accordion .btn:hover{
+  text-decoration: none;
+}
+.tab-content .accordion .btn svg{
+  font-size: 10px;
+  margin-bottom: 1px;
+  margin-right: 20px; 
+}
 .owl_arrw{
   font-weight: 700;
   font-size: 21px
