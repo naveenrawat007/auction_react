@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import HelpSidebar from './help/help_sidebar.js';
+
+import FaqIndex from './faq/faq_index.js';
 import HowWorksSidebar from './how_works/how_works_sidebar.js';
 import RealtorPortalSidebar from './realtor_portal/realtor_portal_sidebar.js';
 
@@ -42,6 +44,8 @@ export default class TopSidebar extends Component{
         return <RealtorPortalSidebar path="realtor_marketing_platform_realtor_portal"/>;
       case 'bidding_agent_realtor_portal':
         return <RealtorPortalSidebar path="bidding_agent_realtor_portal"/>;
+      case 'faq':
+        return <FaqIndex path=""/>;
       default:
     }
   }
@@ -61,7 +65,7 @@ export default class TopSidebar extends Component{
                 <Link className={this.checkActive("realtor_portal")} id="relator_portal" data-toggle="tab" to="/realtor-portal/realtor-marketing-platform" role="tab" aria-controls="relator_portal" aria-selected="false">Relator Portal</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" id="faq" data-toggle="tab" href="#faq" role="tab" aria-controls="faq" aria-selected="false">Frequently Asked Questions</a>
+                <Link className={this.checkActive("faq")} id="faq" data-toggle="tab" to="/frequently-asked-questions" role="tab" aria-controls="faq" aria-selected="false">Frequently Asked Questions</Link>
               </li>
               <li className="nav-item">
                 <Link className={this.checkActive("help")} id="helpful_info" data-toggle="tab" to="/help" role="tab" aria-controls="helpful_info" aria-selected="false">Helpful Information</Link>
