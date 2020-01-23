@@ -6,3 +6,9 @@ function format_currency(number) {
   })
   return formatter.format(number)
 }
+
+function custom_accord() {
+  $("div.accordion  button").click(function() {
+    $(this).parent().parent().toggleClass("show_plus")
+  })
+}
