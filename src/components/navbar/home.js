@@ -573,7 +573,7 @@ export default class Home extends Component {
           <div className="container main-content">
             <OwlCarousel
               className="owl-theme py-3"
-              loop={false}
+              loop={true}
               margin={10}
               nav={true}
               dots={false}
