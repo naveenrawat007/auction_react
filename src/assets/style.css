@@ -5033,6 +5033,9 @@ a.chat_attachment {
   margin-bottom: 10px;
   font-size: 13.5px;
 }
+.tab-content .accordion .collapse.show p i, .tab-content .accordion .collapsing p i{
+  font-weight: 600;
+}
 .tab-content .accordion .collapse.show h5, .tab-content .accordion .collapsing h5{
   font-size: 13.5px;
   font-weight: 600; 
