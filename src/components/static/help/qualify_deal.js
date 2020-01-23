@@ -5,7 +5,7 @@ export default class QualifyDeal extends Component{
   render(){
     return(
       <div className="tab-pane show active" id="deal-qualify" role="tabpanel" aria-labelledby="deal-qualify">
-        <h3>Does Your Property Qualify to Auction?</h3>
+        <h3 className="font-darkred mt-3">Does Your Property Qualify to Auction?</h3>
         <p>Get a FREE Evaluation to see if your deal would be good enough for an Investor?</p>
         <p>We only let members post a deal if the property can be bought at or below 70% to 85% ARV (after rehab value).</p>
 

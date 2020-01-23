@@ -5,7 +5,7 @@ export default class ConfindentDeal extends Component{
   render(){
     return(
       <div className="tab-pane show active" id="deal-analysis" role="tabpanel" aria-labelledby="deal-analysis">
-        <h3>FREE Confidential Deal Analysis</h3>
+        <h3 className="font-darkred mt-3">FREE Confidential Deal Analysis</h3>
         <p className="font-darkred">FREE Confidential Deal Analysis by one of our Experts who will provide you with the following:</p>
         <p className="font-darkred">Within 24 hours:</p>
         <ul>

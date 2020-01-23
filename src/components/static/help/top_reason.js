@@ -5,7 +5,7 @@ export default class TopReason extends Component{
   render(){
     return(
       <div className="tab-pane show active" id="upper-deals" role="tabpanel" aria-labelledby="upper-deals">
-        <h3>Top 15 reasons to post your Wholesale/Fixer upper deals at at AuctionMyDeal.com</h3>
+        <h3 className="font-darkred mt-3">Top 15 reasons to post your Wholesale/Fixer upper deals at at AuctionMyDeal.com</h3>
         <ul className="mb-5">
           <li>FREE Auction platform link for all your Marketing when advertising Your Deals to get all of Your interested buyers to come up to their Highest and Best Price.</li>
           <li>Creates a sense of urgency & excitement for buyers who are looking for a good deal.</li>
