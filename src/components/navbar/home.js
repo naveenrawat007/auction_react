@@ -587,7 +587,7 @@ export default class Home extends Component {
                 <Link to="/help/top-15-reasons-to-post-your-wholesale-fixer-upper-deals">
                   <div className="inner_info">
                     <div className="inner_img">
-                      <img src="images/home1.png" alt="" />
+                      <img src="/images/top_reason.jpg" alt="" />
                     </div>
                     <div className="inner_text">
                       <h5>TOP 15 REASONS</h5>
@@ -603,10 +603,10 @@ export default class Home extends Component {
                 <Link to="/help/free-landlord-analyzer/">
                   <div className="inner_info">
                     <div className="inner_img">
-                      <img src="images/home2.png" alt="" />
+                      <img src="/images/landlord_analyzer.jpg" alt="" />
                     </div>
                     <div className="inner_text">
-                      <h5> LANDLORD ANALYSER</h5>
+                      <h5>LANDLORD ANALYSER</h5>
                       <p>
                         Landlord Analyser is used to show landlords how to
                         levergae Short Term Financing to get a Better Return on
@@ -620,7 +620,7 @@ export default class Home extends Component {
                 <Link to="/help">
                   <div className="inner_info">
                     <div className="inner_img">
-                      <img src="images/home3.png" alt="" />
+                      <img src="/images/get_approved.jpg" alt="" />
                     </div>
                     <div className="inner_text">
                       <h5>Auction your deal</h5>
@@ -633,7 +633,7 @@ export default class Home extends Component {
                 <Link to="/help/free-confidential-deal-analysis/">
                   <div className="inner_info">
                     <div className="inner_img">
-                      <img src="images/home3.png" alt="" />
+                      <img src="/images/confident_deal.jpg" alt="" />
                     </div>
                     <div className="inner_text">
                       <h5> Confidential Deal Analysis </h5>
@@ -646,7 +646,7 @@ export default class Home extends Component {
                 <Link to="/help/auction-your-wholesale-deal-to-the-highest-bidder-or-our-affiliate-partner-angel-investors-llc-will-buy-it/">
                   <div className="inner_info">
                     <div className="inner_img">
-                      <img src="images/home2.png" alt="" />
+                      <img src="/images/guaranty_sale.jpg" alt="" />
                     </div>
                     <div className="inner_text">
                       <h5>GUARANTY SALE PROGRAM</h5>
@@ -677,7 +677,7 @@ export default class Home extends Component {
                   width="560"
                   height="275"
                   title="youtube"
-                  src="https://www.youtube.com/embed/X080gIJFE3M?controls=0"
+                  src="https://www.youtube.com/embed/AGL_3AmIJd4?controls=0"
                   frameBorder="0"
                   allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen=""
