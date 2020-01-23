@@ -4,6 +4,10 @@ html, body {
   height: 100%;
 }
 
+.list-inline-box{
+  display: -webkit-inline-box !important;
+}
+
 .accordion.show_plus svg.icon-toggle-plus{
   display: block;
 }
