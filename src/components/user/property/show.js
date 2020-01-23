@@ -1266,7 +1266,7 @@ export default class PropertyShow extends Component {
           <div key={index} className="col-md-3 px-2 mb-3">
             <div className="offer-box">
               <div className="offer-head">
-                <img src={property.thumb_img ? property.thumb_img : "/images/home3.png"} alt=""/>
+                <img src={property.thumbnail_img ? property.thumbnail_img : "/images/home3.png"} alt=""/>
                 <div className="like-icon">
                   <i className="fa fa-heart-o"></i>
                 </div>
