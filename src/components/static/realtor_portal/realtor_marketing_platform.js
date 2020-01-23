@@ -36,11 +36,11 @@ export default class RealtorMarketingPlatform extends Component{
         </Accordion>
         <Accordion >
           <div>
-            <Accordion.Toggle as={Button} variant="link" eventKey="0">
+            <Accordion.Toggle as={Button} variant="link" eventKey="1">
               <FontAwesomeIcon icon={faPlus} /> Minimum Selling Price
             </Accordion.Toggle>
           </div>
-          <Accordion.Collapse eventKey="0">
+          <Accordion.Collapse eventKey="1">
             <div>
               <p>
                 In order for your property to get approved to auction, you must prove that your Minimum Selling Price is at or below 85% ARV (after rehab value) minus repairs.
@@ -51,11 +51,11 @@ export default class RealtorMarketingPlatform extends Component{
         </Accordion>
         <Accordion >
           <div>
-            <Accordion.Toggle as={Button} variant="link" eventKey="0">
+            <Accordion.Toggle as={Button} variant="link" eventKey="2">
               <FontAwesomeIcon icon={faPlus} /> Buy Now Price
             </Accordion.Toggle>
           </div>
-          <Accordion.Collapse eventKey="0">
+          <Accordion.Collapse eventKey="2">
             <div>
               <p>
                 Your Sellers “Buy Now” Price is the list price on MLS or a reasonable price that’s on the high end of what they would be happy to accept.
@@ -65,11 +65,11 @@ export default class RealtorMarketingPlatform extends Component{
         </Accordion>
         <Accordion >
           <div>
-            <Accordion.Toggle as={Button} variant="link" eventKey="0">
+            <Accordion.Toggle as={Button} variant="link" eventKey="3">
               <FontAwesomeIcon icon={faPlus} /> Investors Ideal Selling Price:
             </Accordion.Toggle>
           </div>
-          <Accordion.Collapse eventKey="0">
+          <Accordion.Collapse eventKey="3">
             <div>
               <p>
                 Most investors are looking for deals they can buy at 65% to 75% ARV – repairs, but some landlords will pay closer to 80% to 85% ARV if the property can still cash flow.
