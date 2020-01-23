@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import HelpSidebar from './help/help_sidebar.js';
 import HowWorksSidebar from './how_works/how_works_sidebar.js';
+import RealtorPortalSidebar from './realtor_portal/realtor_portal_sidebar.js';
 
 export default class TopSidebar extends Component{
   _isMounted = false
@@ -37,7 +38,10 @@ export default class TopSidebar extends Component{
         return <HowWorksSidebar path="seller_how_works"/>;
       case 'buyer_how_works':
         return <HowWorksSidebar path="buyer_how_works"/>;
-
+      case 'realtor_marketing_platform_realtor_portal':
+        return <RealtorPortalSidebar path="realtor_marketing_platform_realtor_portal"/>;
+      case 'bidding_agent_realtor_portal':
+        return <RealtorPortalSidebar path="bidding_agent_realtor_portal"/>;
       default:
     }
   }
@@ -54,7 +58,7 @@ export default class TopSidebar extends Component{
                 <Link className={this.checkActive("how_works")} id="works_tab" data-toggle="tab" to="/how-everything-works/seller" role="tab" aria-controls="works_tab" aria-selected="true">How Everything Works</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" id="relator_portal" data-toggle="tab" href="#relator_portal" role="tab" aria-controls="relator_portal" aria-selected="false">Relator Portal</a>
+                <Link className={this.checkActive("realtor_portal")} id="relator_portal" data-toggle="tab" to="/realtor-portal/realtor-marketing-platform" role="tab" aria-controls="relator_portal" aria-selected="false">Relator Portal</Link>
               </li>
               <li className="nav-item">
                 <a className="nav-link" id="faq" data-toggle="tab" href="#faq" role="tab" aria-controls="faq" aria-selected="false">Frequently Asked Questions</a>
