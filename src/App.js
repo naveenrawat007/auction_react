@@ -47,7 +47,7 @@ function App() {
           <Route exact path="/realtor-portal/realtor-marketing-platform" component={() => <Topbar path='realtor_marketing_platform_realtor_portal'/>}/>
           <Route exact path="/realtor-portal/bidding-as-an-agent" component={() => <Topbar path='bidding_agent_realtor_portal'/>}/>
 
-
+          <Route exact path="/frequently-asked-questions" component={() => <Topbar path='faq'/>}/>
 
           <Route exact path="/user" component={() => <Sidebar path='user_profile'/>}/>
           <Route exact path="/user/chat" component={(props) => <Sidebar {...props} path='user_chat'/>}/>
