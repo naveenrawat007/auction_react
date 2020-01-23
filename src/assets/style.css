@@ -13,7 +13,9 @@ span.error-class {
   word-break: break-all;
   vertical-align: middle !important;
 }
-
+.bg_white{
+  background-color: #fff;
+}
 body {
   font-family: 'Montserrat', sans-serif !important;
   margin: 0px;
@@ -21,7 +23,9 @@ body {
   color: #1d1d1d;
   background: #f3f3f3 !important;
 }
-
+.static_inner{
+  font-family: sans-serif !important;
+}
 .wrapper {
   background: #f3f3f3;
   height: 100%;
@@ -4994,6 +4998,9 @@ a.chat_attachment {
   margin-bottom: 10px;
   color: #6b6b6b;
 }
+.font-darkred{
+  color: #ff0000 !important;
+}
 .help_us .font-darkred{
   color: #ff0000 !important;
   font-weight: 600;
@@ -5022,4 +5029,24 @@ a.chat_attachment {
 }
 .about_main p{
   font-weight: 500;
+}
+.logo_about{
+  width: 100%;
+}
+.about_row .col-md-7{
+  flex: 0 0 62%;
+  max-width: 62%;
+}
+.about_row .col-md-5{
+  flex: 0 0 38%;
+  max-width: 38%; 
+}
+.about_row .col-md-6 p{
+  font-size: 15.5px;
+}
+.about_main h4{
+  font-size: 1.25rem;
+}
+.about_main h2{
+  font-size: 2.2rem;
 }
