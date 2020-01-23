@@ -5126,3 +5126,18 @@ a.chat_attachment {
   border-bottom: 2px solid #b71c1c;
   color: #000;
 }
+
+.ask_form{
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  border-radius: 10px;
+  padding: 20px;
+}
+.ask_form label{
+  font-weight: 600;
+}
+.ask_form button{
+  margin: 0 auto;
+}
+.ask_form textarea{
+  resize: none;
+}
