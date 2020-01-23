@@ -22,7 +22,7 @@ import PropertySold from './components/property/sold.js'
 import Home from './components/navbar/home.js'
 import Plan from './components/user/plan/index.js'
 import About from './components/static/about.js'
-import HelpSidebar from './components/static/help_sidebar.js'
+import Topbar from './components/static/topbar.js'
 
 function App() {
   return (
@@ -32,11 +32,11 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home}/>
           <Route exact path="/about" component={About}/>
-          <Route exact path="/help" component={() => <HelpSidebar path='qualify_deal'/>}/>
-          <Route exact path="/help/top-15-reasons-to-post-your-wholesale-fixer-upper-deals" component={() => <HelpSidebar path='top_reason'/>}/>
-          <Route exact path="/help/free-landlord-analyzer/" component={() => <HelpSidebar path='landlord_analyzer'/>}/>
-          <Route exact path="/help/free-confidential-deal-analysis/" component={() => <HelpSidebar path='confident_deal'/>}/>
-          <Route exact path="/help/auction-your-wholesale-deal-to-the-highest-bidder-or-our-affiliate-partner-angel-investors-llc-will-buy-it/" component={() => <HelpSidebar path='highest_bidder'/>}/>
+          <Route exact path="/help" component={() => <Topbar path='qualify_deal_help'/>}/>
+          <Route exact path="/help/top-15-reasons-to-post-your-wholesale-fixer-upper-deals" component={() => <Topbar path='top_reason_help'/>}/>
+          <Route exact path="/help/free-landlord-analyzer/" component={() => <Topbar path='landlord_analyzer_help'/>}/>
+          <Route exact path="/help/free-confidential-deal-analysis/" component={() => <Topbar path='confident_deal_help'/>}/>
+          <Route exact path="/help/auction-your-wholesale-deal-to-the-highest-bidder-or-our-affiliate-partner-angel-investors-llc-will-buy-it/" component={() => <Topbar path='highest_bidder_help'/>}/>
           <Route exact path="/user" component={() => <Sidebar path='user_profile'/>}/>
           <Route exact path="/user/chat" component={(props) => <Sidebar {...props} path='user_chat'/>}/>
           <Route exact path="/plans" component={() => <Plan path=''/>}/>
