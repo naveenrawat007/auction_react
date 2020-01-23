@@ -38,6 +38,8 @@ export default class TopSidebar extends Component{
         return <HelpSidebar path="top_reason"/>;
       case 'seller_how_works':
         return <HowWorksSidebar path="seller_how_works"/>;
+        case 'ask_question_how_works':
+        return <HowWorksSidebar path="ask_question_how_works"/>;
       case 'buyer_how_works':
         return <HowWorksSidebar path="buyer_how_works"/>;
       case 'realtor_marketing_platform_realtor_portal':
