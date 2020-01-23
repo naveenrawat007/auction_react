@@ -3,6 +3,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMinus } from '@fortawesome/free-solid-svg-icons';
 
 export default class SellerOverview extends Component{
   _isMounted = false
@@ -24,7 +25,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="0">
-              <FontAwesomeIcon icon={faPlus} className="icon-toggle"/> Right to sell property
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Right to sell property
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="0">
@@ -42,7 +43,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="0">
-              <FontAwesomeIcon icon={faPlus} /> Must be a Deal
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Must be a Deal
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="0">
@@ -57,7 +58,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="2">
-             <FontAwesomeIcon icon={faPlus} /> Fee Simple/Clear title
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Fee Simple/Clear title
 
             </Accordion.Toggle>
           </div>
@@ -73,7 +74,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="3">
-              <FontAwesomeIcon icon={faPlus} /> Provide Credible Rehab #'s
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Provide Credible Rehab #'s
 
             </Accordion.Toggle>
           </div>
@@ -89,7 +90,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="4">
-              <FontAwesomeIcon icon={faPlus} /> Minimum Bid Auction/ARV Guidelines
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Minimum Bid Auction/ARV Guidelines
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="4">
@@ -104,7 +105,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="5">
-              <FontAwesomeIcon icon={faPlus} /> FREE Marketing Platform for Sellers, Wholesalers & Realtors
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> FREE Marketing Platform for Sellers, Wholesalers & Realtors
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="5">
@@ -119,7 +120,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="6">
-              <FontAwesomeIcon icon={faPlus} /> Condition to Post Property
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Condition to Post Property
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="6">
@@ -134,7 +135,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="7">
-              <FontAwesomeIcon icon={faPlus} /> Right to Cancel Auction
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Right to Cancel Auction
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="7">
@@ -149,7 +150,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="8">
-              <FontAwesomeIcon icon={faPlus} /> Live Online Bidding Restriction
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Live Online Bidding Restriction
 
             </Accordion.Toggle>
           </div>
@@ -166,7 +167,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="9">
-              <FontAwesomeIcon icon={faPlus} /> Default Penalty
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Default Penalty
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="9">
@@ -181,7 +182,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="10">
-              <FontAwesomeIcon icon={faPlus} /> MLS Terms
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> MLS Terms
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="10">
@@ -196,7 +197,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="11">
-              <FontAwesomeIcon icon={faPlus} /> Closing Costs paid by the Seller
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Closing Costs paid by the Seller
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="11">
@@ -211,7 +212,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="12">
-              <FontAwesomeIcon icon={faPlus} /> Pictures & Videos
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Pictures & Videos
 
             </Accordion.Toggle>
           </div>
@@ -227,7 +228,7 @@ export default class SellerOverview extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="13">
-              <FontAwesomeIcon icon={faPlus} /> Inspections/Preview
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Inspections/Preview
 
             </Accordion.Toggle>
           </div>
@@ -243,7 +244,7 @@ export default class SellerOverview extends Component{
         <Accordion>
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="14">
-              <FontAwesomeIcon icon={faPlus} />Post Auction Status
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Post Auction Status
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="14">

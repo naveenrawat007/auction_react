@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 export default class BiddingAgent extends Component{
   _isMounted = false
@@ -20,7 +20,7 @@ export default class BiddingAgent extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="0">
-              <FontAwesomeIcon icon={faPlus} /> Register as a licensed Real Estate Agent
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Register as a licensed Real Estate Agent
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="0">
@@ -40,7 +40,7 @@ export default class BiddingAgent extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="1">
-              <FontAwesomeIcon icon={faPlus} /> Steps to Bidding for your client
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Steps to Bidding for your client
 
             </Accordion.Toggle>
           </div>
@@ -81,7 +81,7 @@ export default class BiddingAgent extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="2">
-              <FontAwesomeIcon icon={faPlus} /> What happens when a buyer wants to “Buy Now” or is the Winning Bidder at the end of the auction?
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> What happens when a buyer wants to “Buy Now” or is the Winning Bidder at the end of the auction?
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="2">
@@ -105,7 +105,7 @@ export default class BiddingAgent extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="3">
-              <FontAwesomeIcon icon={faPlus} /> Winning Bidder
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Winning Bidder
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="3">
@@ -130,7 +130,7 @@ export default class BiddingAgent extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="4">
-              <FontAwesomeIcon icon={faPlus} /> Closing Made Easy
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Closing Made Easy
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="4">
@@ -153,7 +153,7 @@ export default class BiddingAgent extends Component{
                 </li>
                 <li>
                   Then title company will provide Closing Disclosures to the Buyer, Seller, Investor and/or Real Estate Agent, and set up closing.
-                  
+
                 </li>
               </ol>
             </div>

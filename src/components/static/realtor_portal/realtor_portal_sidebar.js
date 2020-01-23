@@ -32,8 +32,8 @@ export default class RealtorPortalSidebar extends Component{
   }
   render(){
     return(
-      <div class="tab-content" id="myTabContent">
-        <div class="tab-pane show active" id="helpful_info" role="tabpanel" aria-labelledby="helpful_info">
+      <div className="tab-content" id="myTabContent">
+        <div className="tab-pane show active" id="helpful_info" role="tabpanel" aria-labelledby="helpful_info">
           <div className="help_us row mx-0">
             <div className="col-md-3 px-0">
               <ul className="nav nav-tabs flex-column" id="myTab" role="tablist">

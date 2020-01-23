@@ -15,6 +15,7 @@ export default class TopSidebar extends Component{
     }
   }
   componentDidMount () {
+    window.custom_accord();
     window.scroll(0,0)
   }
   checkActive = (current_path) => {

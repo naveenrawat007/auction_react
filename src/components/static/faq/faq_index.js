@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 export default class FaqIndex extends Component{
   _isMounted = false
@@ -19,8 +19,8 @@ export default class FaqIndex extends Component{
 
   render(){
     return(
-      <div class="tab-content" id="myTabContent">
-        <div class="tab-pane show active" id="helpful_info" role="tabpanel" aria-labelledby="helpful_info">
+      <div className="tab-content" id="myTabContent">
+        <div className="tab-pane show active" id="helpful_info" role="tabpanel" aria-labelledby="helpful_info">
           <div className="help_us row mx-0">
             <div className="col-md-3 px-0">
               <ul className="nav nav-tabs flex-column" id="myTab" role="tablist">
@@ -36,7 +36,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> What makes this website different from other sites?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> What makes this website different from other sites?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -51,7 +51,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> How do I register at Auctionmydeal.com and what are the requirements to be a member?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> How do I register at Auctionmydeal.com and what are the requirements to be a member?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -66,7 +66,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> Is it possible for a visitor to post a deal?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Is it possible for a visitor to post a deal?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -81,7 +81,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> Do I need to pay a fee to submit property deals?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Do I need to pay a fee to submit property deals?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -96,7 +96,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> How long is the average auction?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> How long is the average auction?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -111,7 +111,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> Do I need to register first to submit bid or Buy Now an on auction?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Do I need to register first to submit bid or Buy Now an on auction?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -126,7 +126,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> How do I know if I’m outbid?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> How do I know if I’m outbid?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -141,7 +141,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> What's the earliest a bidder can make a bid on a property?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> What's the earliest a bidder can make a bid on a property?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -156,7 +156,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> How will I know when the “active” bidding will end?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> How will I know when the “active” bidding will end?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -171,7 +171,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> Is there a Reserve price that has to be met?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Is there a Reserve price that has to be met?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -186,7 +186,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> If I am the Winning Bidder, what is the next step?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> If I am the Winning Bidder, what is the next step?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -206,7 +206,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> What are my Options if I'm NOT the Winning Bidder?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> What are my Options if I'm NOT the Winning Bidder?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -221,7 +221,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> Can I inspect the property I'm interested in bidding on?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Can I inspect the property I'm interested in bidding on?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -236,7 +236,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> Do I need a real estate license to buy and sell these properties?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Do I need a real estate license to buy and sell these properties?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -251,7 +251,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> Who pays closing costs?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Who pays closing costs?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -266,7 +266,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> What is the Watch feature?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> What is the Watch feature?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -281,7 +281,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> How does the Watch feature work?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> How does the Watch feature work?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -296,7 +296,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> Are the wholesalers truthful about the cost of repairs and the after-repaired value (ARV)?
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Are the wholesalers truthful about the cost of repairs and the after-repaired value (ARV)?
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">
@@ -311,7 +311,7 @@ export default class FaqIndex extends Component{
                   <Accordion >
                     <div>
                       <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <FontAwesomeIcon icon={faPlus} /> Post Auction Status
+                        <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Post Auction Status
                       </Accordion.Toggle>
                     </div>
                     <Accordion.Collapse eventKey="0">

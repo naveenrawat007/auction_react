@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 export default class RealtorMarketingPlatform extends Component{
   _isMounted = false
@@ -17,7 +17,7 @@ export default class RealtorMarketingPlatform extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="0">
-              <FontAwesomeIcon icon={faPlus} /> Ideal Properties to Auction
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Ideal Properties to Auction
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="0">
@@ -32,7 +32,7 @@ export default class RealtorMarketingPlatform extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="1">
-              <FontAwesomeIcon icon={faPlus} /> Minimum Selling Price
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Minimum Selling Price
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="1">
@@ -46,7 +46,7 @@ export default class RealtorMarketingPlatform extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="2">
-              <FontAwesomeIcon icon={faPlus} /> Buy Now Price
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Buy Now Price
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="2">
@@ -60,7 +60,7 @@ export default class RealtorMarketingPlatform extends Component{
         <Accordion >
           <div>
             <Accordion.Toggle as={Button} variant="link" eventKey="3">
-              <FontAwesomeIcon icon={faPlus} /> Investors Ideal Selling Price:
+              <FontAwesomeIcon icon={faMinus} className="icon-toggle-plus"/><FontAwesomeIcon icon={faPlus} className="icon-toggle-minus"/> Investors Ideal Selling Price:
             </Accordion.Toggle>
           </div>
           <Accordion.Collapse eventKey="3">
@@ -72,7 +72,7 @@ export default class RealtorMarketingPlatform extends Component{
               <p>Please read Bidding as an Agent and Selling as an Agent to learn more about how this FREE Platform can help You and Your client Net More Money?</p>
               <p>Selling as Agent:</p>
               <p>To post a property as a licensed Real Estate Agent you must:</p>
-              <ol type="1">   
+              <ol type="1">
                 <li>Have an active license with the Texas Real Estate Commission</li>
                 <li>Have your Seller execute a Listing Agreement with the Exclusive Right to Sell their property</li>
                 <li>Seller to execute an (Amendment to Listing) that gives you the right to Auction their property at AuctionMyDeal.com.</li>
@@ -80,7 +80,7 @@ export default class RealtorMarketingPlatform extends Component{
                 <li>Get contractor(s) or put together estimated rehab costs. Download FREE Excel Estimate of Rehab Costs)   This will make your deal more credible, unless it’s land or needs to be torn down.</li>
                 <li>Provide Market Comps, list of rehab #’s and Advise your client (Seller) what their Minimum Selling Price and Maximum (Buy Now Price) should be. The Buy Now Price can not be more than any listed price on MLS or other sites where advertised.</li>
                 <li>Once you and your Seller believe their property is a good candidate to Auction, then Register or login to your Free account at AuctionMyDeal.com.</li>
-                  <ol type="a">  
+                  <ol type="a">
                     <li>Go to SELL</li>
                     <li>Click Auction Participation Agreement, click that you are a real estate agent submitting listing, upload your Executed Listing Agreement, Listing Addendum, Sellers Disclosure, Lead Based Paint & HOA Addendum. Then check all other boxes to confirm your acceptance, and be able to submit your property.  (Click here if you have any Questions?)</li>
                     <li>Fill in Property Details, Deal Analysis estimated numbers, upload your estimated ARV proof (Top 3 Sold Comps), description of repairs (contractor estimate or Free Excel Estimate of Rehab Costs), auction details, upload at least 10 to 20 pictures and a video of the property.</li>
