@@ -172,7 +172,7 @@ export default class Navbar extends Component{
       <div className="header">
         <div className="container custom_container px-0">
           <nav className="navbar navbar-expand-lg">
-            <Link to="#" onClick={this.navigateToProfile} className="logo">
+            <Link to="/" className="logo">
               <img src="/images/logo.png" alt="Logo"/>
             </Link>
             <button className="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">

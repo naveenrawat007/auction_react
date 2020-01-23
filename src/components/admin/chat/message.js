@@ -112,7 +112,7 @@ export default class Message extends Component{
   }
 
   getMessages = (old = false) => {
-    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/chat_rooms/"+this.state.room_id+"/messages" + "?page=" + this.state.page
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/chat_rooms/"+this.state.room_id+"/messages?page=" + this.state.page
     fetch(url, {
       method: "GET",
       headers: {
@@ -353,14 +353,14 @@ export default class Message extends Component{
             </div>
             <div className="chat-icon">
               <div className="icon_box">
-                <a href="">
+                <Link to="#">
                   <FontAwesomeIcon icon={faVideo} />
-                </a>
+                </Link>
               </div>
               <div className="icon_box">
-                <a href="">
+                <Link to="#">
                   <FontAwesomeIcon icon={faPhone} />
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -389,20 +389,20 @@ export default class Message extends Component{
                   <input type="text" value={this.state.message} className="form-control border-right-0" name="message"  onChange={this.updateCurrentMessage} aria-label="" placeholder="Type a message.."/>
                   <div className="input-group-append">
                     <span className="input-group-text group-box-chat border-left-0">
-                      <a href="#">
+                      <Link to="#">
                         <FontAwesomeIcon icon={faSmile} onClick={this.toggleEmojiPicker} />
-                      </a>
+                      </Link>
                     </span>
                   </div>
                 </form>
               </div>
               <div className="col-md-1 pl-3 pr-1 text-center">
-                <a href="">
+                <Link to="#">
                   <FontAwesomeIcon icon={faMicrophone} color={"#818078"} />
-                </a>
+                </Link>
               </div>
               <div className="col-md-1 px-1 text-center">
-                <a href=""><FontAwesomeIcon icon={faCamera} color={"#818078"} /></a>
+                <Link to=""><FontAwesomeIcon icon={faCamera} color={"#818078"} /></Link>
               </div>
             </div>
           </div>

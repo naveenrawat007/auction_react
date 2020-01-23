@@ -13,7 +13,7 @@ function ChatConnection(senderId, callback) {
 }
 
 ChatConnection.prototype.talk = function(message, roomId) {
-  let roomConnObj = this.roomConnections.find(conn => conn.roomId == roomId)
+  let roomConnObj = this.roomConnections.find(conn => conn.roomId === roomId)
   if (roomConnObj) {
     roomConnObj.conn.speak(message)
   } else {
