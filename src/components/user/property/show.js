@@ -1279,7 +1279,7 @@ export default class PropertyShow extends Component {
           <div key={index} className="col-md-3 px-2 mb-3">
             <div className="offer-box">
               <div className="offer-head">
-                <img src={property.thumb_img ? property.thumb_img : "/images/home3.png"} alt=""/>
+                <img src={property.thumbnail_img ? property.thumbnail_img : "/images/home3.png"} alt=""/>
                 <div className="like-icon">
                   <i className="fa fa-heart-o"></i>
                 </div>
@@ -1510,7 +1510,7 @@ export default class PropertyShow extends Component {
                       <p><span>{this.state.property.category} | {this.state.property.p_type}</span></p>
                       <p><span>Title Status: </span> {this.state.property.title_status}</p>
                       {this.state.property.category === "Residential" ?
-                        <ul className="list-inline">
+                        <ul className="list-inline list-inline-box">
                           <li className="list-inline-item"><span>Beds:</span> {this.state.property.residential_attributes.bedrooms}</li>&nbsp;|&nbsp;
                           <li className="list-inline-item"><span>Baths:</span> {this.state.property.residential_attributes.bathrooms}</li>&nbsp;|&nbsp;
                           <li className="list-inline-item"><span>Garage:</span> {this.state.property.residential_attributes.garage}</li>&nbsp;|&nbsp;
@@ -1520,7 +1520,7 @@ export default class PropertyShow extends Component {
                         </ul>
                       : null }
                       {this.state.property.category === "Commercial" ?
-                        <ul className="list-inline">
+                        <ul className="list-inline list-inline-box">
                           <li className="list-inline-item"><span>Units: </span> {this.state.property.commercial_attributes.units}</li>|&nbsp;
                           <li className="list-inline-item"><span>Stories: </span> {this.state.property.commercial_attributes.stories}</li>|&nbsp;
                           <li className="list-inline-item"><span>Cap Rate: </span> {this.state.property.commercial_attributes.cap_rate}</li>|&nbsp;
@@ -1530,7 +1530,7 @@ export default class PropertyShow extends Component {
                         </ul>
                       : null }
                       {this.state.property.category === "Land" ?
-                        <ul className="list-inline">
+                        <ul className="list-inline ">
                           <li className="list-inline-item"><span>Lot Size: </span> {this.state.property.land_attributes.lot_size}</li>|&nbsp;
                           <li className="list-inline-item"><span>Price per SqFt: </span> {this.state.property.land_attributes.price_per_sq_ft}</li>&nbsp;
                         </ul>

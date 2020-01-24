@@ -90,9 +90,9 @@ export default class Navbar extends Component{
     })
   }
 
-  // componentDidMount () {
-  //   this.checkTokenMethod()
-  // }
+  componentDidMount () {
+    this.checkTokenMethod()
+  }
 
   navigateToProfile = () => {
     if (this.state.logged_in){
