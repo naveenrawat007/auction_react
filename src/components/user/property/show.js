@@ -1213,6 +1213,12 @@ export default class PropertyShow extends Component {
       [name]: checked
     });
   }
+
+  openShowInstructionModal = () => {
+    this.setState({
+    show_instructions: true ,
+    });
+  }
   enableCheckBox = (event) => {
     let name = event.target.id
     if (document.getElementById(name)){
@@ -1986,7 +1992,7 @@ export default class PropertyShow extends Component {
             </div>
             <div className="col-md-4 mb-3 px-2">
               <div className="wrap_property">
-                <h5 className="mb-3 main_box_head">Showing Information</h5>
+                <h5 className="mb-3 main_box_head" onClick={this.openShowInstructionModal}>Showing Information</h5>
                 <div className="info-box">
                   <img src="/images/openhouse.png" className="img-fluid" alt=""/>
                   <div className="info-content">
@@ -1996,9 +2002,7 @@ export default class PropertyShow extends Component {
                         <i className="fa fa-question"></i>
                         <h6>Ask a Question</h6>
                       </Link>
-                      <Link to="#" className="info_icon" onClick={() => {this.setState({
-                        show_instructions: true ,
-                      });}}>
+                      <Link to="#" className="info_icon" onClick={this.openShowInstructionModal}>
                         <i className="fa fa-calendar"></i>
                         <h6>Schedule a Visit</h6>
                       </Link>
