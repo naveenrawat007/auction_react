@@ -12,6 +12,7 @@ export default class PropertyShow extends Component {
   constructor(props){
     super(props);
     this.state = {
+      show_instructions: false,
       chat_room: "",
       is_premium: "",
       unique_address: this.props.match.params.id,
@@ -1258,9 +1259,21 @@ export default class PropertyShow extends Component {
       }
     }
   }
+  closeShowInstructionModal = () => {
+    this.setState({
+      show_instructions: false,
+    });
+  }
 
   render(){
     if (this.state.isLoaded === true){
+      const open_house_dates = this.state.property.open_house_dates.map((open_date, index)=>{
+        return(
+          <div>
+            {window.formatDate(open_date.date)}
+          </div>
+        )
+      })
       const near_properties = this.state.near_by_properties.map((property, index)=>{
         return (
           <div key={index} className="col-md-3 px-2 mb-3">
@@ -1976,7 +1989,9 @@ export default class PropertyShow extends Component {
                         <i className="fa fa-question"></i>
                         <h6>Ask a Question</h6>
                       </Link>
-                      <Link to="#" className="info_icon">
+                      <Link to="#" className="info_icon" onClick={() => {this.setState({
+                        show_instructions: true ,
+                      });}}>
                         <i className="fa fa-calendar"></i>
                         <h6>Schedule a Visit</h6>
                       </Link>
@@ -2256,6 +2271,35 @@ export default class PropertyShow extends Component {
                     </div>
                   </form>
                 </div>
+              </div>
+            </div>
+          </Modal>
+          <Modal className="bid_modal" show={this.state.show_instructions} onHide={this.closeShowInstructionModal}>
+            <Modal.Header closeButton>
+              <div className=" offset-md-1 col-md-10 text-center">
+                <h5 className="mb-0 "> Showing Information</h5>
+              </div>
+            </Modal.Header>
+            <div className="modal-body">
+              <div className="row mx-0">
+                <div className="col-md-6 px-0">
+                  <div className="status-list">
+                    <ul className="list-inline">
+                      {this.state.property.show_instructions}
+                    </ul>
+                  </div>
+                </div>
+                <div className="col-md-6 pr-0">
+                  <form className="status-form">
+                    <div className="form-group">
+                      {open_house_dates}
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div className="col-md-12 text-center mt-3">
+                <span className="error"></span>
+                <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.closeShowInstructionModal}>Close</button>
               </div>
             </div>
           </Modal>
