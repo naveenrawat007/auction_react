@@ -2864,7 +2864,7 @@ input:checked+.slider:before {
 
 /* property status */
 .property_tabs {
-  border-top: 1px solid #dee2e6;
+  /* border-top: 1px solid #dee2e6; */
 }
 
 .property_tabs .nav-link {
@@ -2934,6 +2934,7 @@ input:checked+.slider:before {
 
 .dashboard-logo {
   background-color: #fff;
+  border-bottom: 1px solid #eeeeee;
 }
 
 .dashboard-logo img {
@@ -5027,17 +5028,17 @@ a.chat_attachment {
 .fw_500{
   font-weight: 500 !important;
 }
-.tab-content .accordion{
+.tab-content.help-contents .accordion{
   border: 0;
   border-top: 1px solid #ccc;
 }
-.tab-content .accordion:last-child{
+.tab-content.help-contents .accordion:last-child{
   border: 0;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   margin-bottom: 48px;
 }
-.tab-content .accordion .btn{
+.tab-content.help-contents .accordion .btn{
   display: flex;
   align-items: center;
   font-weight: 600;
@@ -5046,31 +5047,31 @@ a.chat_attachment {
   padding: 11.5px 15px;
   text-decoration: none;
 }
-.tab-content .accordion .collapse.show, .tab-content .accordion .collapsing{
+.tab-content.help-contents .accordion .collapse.show, .tab-content.help-contents .accordion .collapsing{
   margin-left: 50px;
 }
-.tab-content .accordion .collapse.show p, .tab-content .accordion .collapsing p{
+.tab-content.help-contents .accordion .collapse.show p, .tab-content.help-contents .accordion .collapsing p{
   margin-bottom: 10px;
   font-size: 13.5px;
 }
-.tab-content .accordion .collapse.show h5, .tab-content .accordion .collapsing h5{
+.tab-content.help-contents .accordion .collapse.show h5, .tab-content.help-contents .accordion .collapsing h5{
   font-size: 13.5px;
   font-weight: 600;
 }
-.tab-content .accordion .collapse.show ol, .tab-content .accordion .collapsing ol,
-.tab-content .accordion .collapse.show ul, .tab-content .accordion .collapsing ul{
+.tab-content.help-contents .accordion .collapse.show ol, .tab-content.help-contents .accordion .collapsing ol,
+.tab-content.help-contents .accordion .collapse.show ul, .tab-content.help-contents .accordion .collapsing ul{
   padding-inline-start: 18px;
 }
-.tab-content .accordion .collapse.show ol li, .tab-content .accordion .collapsing ol li,
-.tab-content .accordion .collapse.show ul li, .tab-content .accordion .collapsing ul li{
+.tab-content.help-contents .accordion .collapse.show ol li, .tab-content.help-contents .accordion .collapsing ol li,
+.tab-content.help-contents .accordion .collapse.show ul li, .tab-content.help-contents .accordion .collapsing ul li{
   margin-bottom: 10px;
   font-size: 13.5px;
   font-weight: 500;
 }
-.tab-content .accordion .btn:hover{
+.tab-content.help-contents .accordion .btn:hover{
   text-decoration: none;
 }
-.tab-content .accordion .btn svg{
+.tab-content.help-contents .accordion .btn svg{
   font-size: 10px;
   margin-bottom: 1px;
   margin-right: 20px;
