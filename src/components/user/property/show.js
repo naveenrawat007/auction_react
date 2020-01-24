@@ -2281,27 +2281,27 @@ export default class PropertyShow extends Component {
               </div>
             </div>
           </Modal>
-          <Modal className="bid_modal" show={this.state.show_instructions} onHide={this.closeShowInstructionModal}>
+          <Modal className="bid_modal show_info_modal" show={this.state.show_instructions} onHide={this.closeShowInstructionModal}>
             <Modal.Header closeButton>
-              <div className=" offset-md-1 col-md-10 text-center">
+              <div className="col-md-11">
                 <h5 className="mb-0 "> Showing Information</h5>
               </div>
             </Modal.Header>
             <div className="modal-body">
               <div className="row mx-0">
                 <div className="col-md-6 px-0">
-                  <div className="status-list">
-                    <ul className="list-inline">
+                  <h5 className="font-darkred text-center">Showing Instructions</h5>
+                  <div className="showing_info px-2">
+                    <p>
                       {this.state.property.show_instructions}
-                    </ul>
+                    </p>
                   </div>
                 </div>
-                <div className="col-md-6 pr-0">
-                  <form className="status-form">
-                    <div className="form-group">
-                      {open_house_dates}
-                    </div>
-                  </form>
+                <div className="col-md-6 px-0">
+                  <h5 className="font-darkred text-center">Open House Dates</h5>
+                  <div className="showing_info border-0 px-2">
+                    {open_house_dates}
+                  </div>
                 </div>
               </div>
               <div className="col-md-12 text-center mt-3">
