@@ -1268,11 +1268,18 @@ export default class PropertyShow extends Component {
   render(){
     if (this.state.isLoaded === true){
       const open_house_dates = this.state.property.open_house_dates.map((open_date, index)=>{
-        return(
-          <div>
-            {window.formatDate(open_date.date)}
-          </div>
-        )
+        if (open_date.date && open_date.opens && open_date.closes){
+          return(
+            <p key={index} className="text-center">
+              {window.formatDate(open_date.date) +" | "+ window.formatTime(open_date.opens) +" to "+ window.formatTime(open_date.closes)}
+            </p>
+          )
+        }
+        else {
+          return(
+            null
+          )
+        }
       })
       const near_properties = this.state.near_by_properties.map((property, index)=>{
         return (
