@@ -2297,7 +2297,7 @@ export default class PropertyShow extends Component {
                   <h5 className="font-darkred text-center">Showing Instructions</h5>
                   <div className="showing_info px-2">
                     <p>
-                      {this.state.property.show_instructions}
+                      {this.state.property.show_instructions_text}
                     </p>
                   </div>
                 </div>
