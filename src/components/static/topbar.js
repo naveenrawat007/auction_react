@@ -74,7 +74,7 @@ export default class TopSidebar extends Component{
                 <Link className={this.checkActive("help")} id="helpful_info" data-toggle="tab" to="/help" role="tab" aria-controls="helpful_info" aria-selected="false">Helpful Information</Link>
               </li>
             </ul>
-            <div className="tab-content" id="myTabContent">
+            <div className="tab-content help-contents" id="myTabContent">
               {this.renderSwitch()}
             </div>
           </div>
