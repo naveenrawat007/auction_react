@@ -1428,7 +1428,7 @@ button:focus {
 }
 
 .time-span.property-timing ul li:first-child {
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 500;
 }
 
@@ -5152,4 +5152,12 @@ a.chat_attachment {
 }
 .show_info_modal .modal-body .showing_info{
   border-right: 2px solid #666;
+}
+.public_deal_list ul.font-red:last-child {
+    padding: 5px 0;
+    border-top: 1px solid #ddd;
+    margin-top: 4px;
+}
+.public_deal_list ul.font-red:last-child li{
+  font-size: 14px !important;
 }
