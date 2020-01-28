@@ -100,6 +100,13 @@ export default class ChatList extends Component{
       }, 500);
     });
 	}
+	getRecieverName = (chatroom) => {
+		for (let i = 0; i < (chatroom.users).length; i++ ){
+			if (this.state.user_id !== chatroom.users[i].id){
+				return chatroom.users[i].name
+			}
+		}
+	}
 
 	render() {
 		const chat_room_list = this.state.chat_rooms.map((chat_room, index)=>{
@@ -111,7 +118,7 @@ export default class ChatList extends Component{
 						</div>
 						<div className="active-main">
 							<h5>{chat_room.property_name}</h5>
-							<h6>{chat_room.owner_name}</h6>
+							<h6>{this.getRecieverName(chat_room)}</h6>
 						</div>
 					</Link>
 				</li>

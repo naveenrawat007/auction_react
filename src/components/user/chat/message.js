@@ -278,6 +278,13 @@ export default class Message extends Component{
     })
     return attachments_list;
   }
+  getRecieverName = (chatroom) => {
+		for (let i = 0; i < (chatroom.users).length; i++ ){
+			if (this.state.current_user_id !== chatroom.users[i].id){
+				return chatroom.users[i].name
+			}
+		}
+	}
 
 	render() {
     const messages = this.state.messages.map((message, index)=>{
@@ -349,7 +356,7 @@ export default class Message extends Component{
           <div className="chat-head">
             <div className="heading_left">
               <h5 className="font-red">{this.state.property_name}</h5>
-              <p className="mb-0">{this.state.owner_name}</p>
+              <p className="mb-0">{this.getRecieverName(this.props.chat_room)}</p>
             </div>
             <div className="chat-icon">
               <div className="icon_box">
