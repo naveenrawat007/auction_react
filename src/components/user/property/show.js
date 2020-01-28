@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Accordion from 'react-bootstrap/Accordion';
+import Button from 'react-bootstrap/Button';
 import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf, faLock, faQuestion, faCalendarAlt, faComments} from '@fortawesome/free-solid-svg-icons';
 import { faHeart} from '@fortawesome/free-regular-svg-icons';
 import Modal from 'react-bootstrap/Modal';
@@ -1422,28 +1424,44 @@ export default class PropertyShow extends Component {
     else if (attr === "price_per_sq_ft") {
       return "Price Per SqFt"
     }
+    else if (attr === "residential_attributes") {
+      return "Residential "
+    }
+    else if (attr === "commercial_attributes") {
+      return "Commercial"
+    }
+    else if (attr === "land_attributes") {
+      return "Land"
+    }
   }
   renderNestedChanges = (changes, attr) => {
     if (attr === "estimated_rehab_cost_attr" || attr === "commercial_attributes" || attr === "residential_attributes" || attr === "land_attributes"){
-      return (
-        <>
-          {
-            Object.keys(changes[0]).map((attr, index)=>{
-              if (JSON.stringify(changes[0][attr]) !==JSON.stringify(changes[1][attr])){
-                return (
-                  <React.Fragment key={index}>
-                    <b >{this.humanizeAttr(attr)} from {JSON.stringify(changes[0][attr])} to {JSON.stringify(changes[1][attr])}</b>
-                    <br/>
-                  </React.Fragment>
-                )
-              }
-              else {
-                return null;
-              }
-            })
-          }
-        </>
-      );
+      return <Accordion >
+        <div>
+          <Accordion.Toggle as={Button} variant="link" eventKey="0">
+            {this.humanizeAttr(attr)}
+          </Accordion.Toggle>
+        </div>
+        <Accordion.Collapse eventKey="0">
+          <div>
+            {
+              Object.keys(changes[0]).map((attr, index)=>{
+                if (JSON.stringify(changes[0][attr]) !==JSON.stringify(changes[1][attr])){
+                  return (
+                    <React.Fragment key={index}>
+                      <p>{this.humanizeAttr(attr)} from {JSON.stringify(changes[0][attr])} to {JSON.stringify(changes[1][attr])}</p>
+                    </React.Fragment>
+                  )
+                }
+                else {
+                    return null;
+                }
+              })
+            }
+          </div>
+        </Accordion.Collapse>
+      </Accordion>
+
     }
   }
   sellerPayDetail = (id) => {
@@ -1464,13 +1482,55 @@ export default class PropertyShow extends Component {
   renderChanges = (changes, attr) => {
     if (attr !== "estimated_rehab_cost_attr" && attr !== "commercial_attributes" && attr !== "residential_attributes" && attr !== "land_attributes"){
       if (attr === "show_instructions_type_id"){
-        return <span>{this.humanizeAttr(attr)} from "{this.showInstructionType(JSON.stringify(changes[attr][0]))}" to "{this.showInstructionType(JSON.stringify(changes[attr][1]))}" </span>
+        // return <span>{this.humanizeAttr(attr)} from "{this.showInstructionType(JSON.stringify(changes[attr][0]))}" to "{this.showInstructionType(JSON.stringify(changes[attr][1]))}" </span>
+        return <Accordion >
+          <div>
+            <Accordion.Toggle as={Button} variant="link" eventKey="0">
+              {this.humanizeAttr(attr)}
+            </Accordion.Toggle>
+          </div>
+          <Accordion.Collapse eventKey="0">
+            <div>
+              <p>
+                "{this.showInstructionType(JSON.stringify(changes[attr][0]))}" to "{this.showInstructionType(JSON.stringify(changes[attr][1]))}"
+              </p>
+            </div>
+          </Accordion.Collapse>
+        </Accordion>
       }
       else if (attr === "seller_pay_type_id") {
-        return <span>{this.humanizeAttr(attr)} from "{this.sellerPayDetail(JSON.stringify(changes[attr][0]))}" to "{this.sellerPayDetail(JSON.stringify(changes[attr][1]))}" </span>
+        // return <span>{this.humanizeAttr(attr)} from "{this.sellerPayDetail(JSON.stringify(changes[attr][0]))}" to "{this.sellerPayDetail(JSON.stringify(changes[attr][1]))}" </span>
+        return <Accordion >
+          <div>
+            <Accordion.Toggle as={Button} variant="link" eventKey="0">
+              {this.humanizeAttr(attr)}
+            </Accordion.Toggle>
+          </div>
+          <Accordion.Collapse eventKey="0">
+            <div>
+              <p>
+                "{this.sellerPayDetail(JSON.stringify(changes[attr][0]))}" to "{this.sellerPayDetail(JSON.stringify(changes[attr][1]))}"
+              </p>
+            </div>
+          </Accordion.Collapse>
+        </Accordion>
       }
       else {
-        return <span>{this.humanizeAttr(attr)} from {JSON.stringify(changes[attr][0])} to {JSON.stringify(changes[attr][1])} </span>
+        // return <span>{this.humanizeAttr(attr)} from {JSON.stringify(changes[attr][0])} to {JSON.stringify(changes[attr][1])} </span>
+        return <Accordion >
+          <div>
+            <Accordion.Toggle as={Button} variant="link" eventKey="0">
+              {this.humanizeAttr(attr)}
+            </Accordion.Toggle>
+          </div>
+          <Accordion.Collapse eventKey="0">
+            <div>
+              <p>
+                {JSON.stringify(changes[attr][0])} to {JSON.stringify(changes[attr][1])}
+              </p>
+            </div>
+          </Accordion.Collapse>
+        </Accordion>
       }
     }else {
       if (attr === "estimated_rehab_cost_attr" || attr === "commercial_attributes" || attr === "residential_attributes" || attr === "land_attributes"){
@@ -1611,22 +1671,22 @@ export default class PropertyShow extends Component {
             {
               (this.state.submitted && this.state.is_admin) ?
                 <div className="col-md-12 px-2">
-                  <div className="wrap_property">
-                    <ul className="audited-items">
+                  <div className="wrap_property py-4">
+                    <div className="audited-items">
                       {this.state.changes.map((change, index)=>{
                         return(
-                          <li key={index}>
+                          <div key={index} className="audited-subitem">
                             {Object.keys(change.audited_change).map((attr, index)=>{
                               return(
-                                <p key={index}>
+                                <div key={index} className="audited-subitem-2">
                                   {this.renderChanges(change.audited_change, attr)}
-                                </p>
+                                </div>
                               )
                             })}
-                          </li>
+                          </div>
                         )
                       })}
-                    </ul>
+                    </div>
                   </div>
                 </div>
               :
