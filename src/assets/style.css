@@ -1900,6 +1900,11 @@ input.form-control:focus {
 .info-content .info-icon-box .info_icon svg {
   color: #8e8e8e;
 }
+.info-content .info-icon-box .info_icon img {
+  height: 32px;
+  width: 32px;
+  margin-bottom: 7px;
+}
 
 .info_icon {
   text-decoration: none;

@@ -1517,7 +1517,7 @@ export default class PropertyShow extends Component {
                   <i className="fa fa-heart-o"></i>
                 </div>
                 <div className="time-box">
-                  <p id={"timer"+property.id}>00d:00h:00m:00s {this.calculateBiddingTime(property.auction_bidding_ending_at, property.id)} </p>
+                  <p id={"timer"+property.id}>00d:00h:00m:00s {(property.status === "Live Online Bidding") ? this.calculateBiddingTime(property.auction_bidding_ending_at, property.id) : this.calculateBiddingTime(property.best_offer_auction_ending_at, property.id)} </p>
                 </div>
               </div>
               <div className="offer-body">
@@ -1525,17 +1525,17 @@ export default class PropertyShow extends Component {
                   <Link to={"/property/"+property.unique_address}>
                     <h5 className="mb-0">{window.format_currency(property.highest_bid)}</h5>
                   </Link>
-                  {this.state.property.category === "Residential" ?
+                  {property.category === "Residential" ?
                     <p>{property.residential_attributes.bedrooms} bds | {property.residential_attributes.bathrooms}ba | {property.residential_attributes.area} sqft </p>
                   :
                     null
                   }
-                  {this.state.property.category === "Commercial" ?
+                  {property.category === "Commercial" ?
                     <p>{property.commercial_attributes.units} unts | {property.commercial_attributes.lot_size} sqft </p>
                   :
                     null
                   }
-                  {this.state.property.category === "Land" ?
+                  {property.category === "Land" ?
                     <p>{property.land_attributes.lot_size} sqft </p>
                   :
                     null
@@ -1544,7 +1544,7 @@ export default class PropertyShow extends Component {
                 <p className="mb-2">{property.headliner}</p>
                 <div className="status-row mb-2">
                   <p className="offer-dot mb-0 mr-2"></p>
-                  <p className="mb-0">{property.best_offer ? "Best Offer" : "Live Online Bidding"}</p>
+                  <p className="mb-0">{property.status}</p>
                 </div>
               </div>
             </div>
@@ -2254,7 +2254,8 @@ export default class PropertyShow extends Component {
                       </Link>
                       <Link to="/frequently-asked-questions" className="info_icon">
                         {/* <i className="fa fa-comments"></i> */}
-                        <FontAwesomeIcon icon={faComments}/>
+                        {/* <FontAwesomeIcon icon={faComments}/> */}
+                        <img src="/images/faq.png"/>
                         <h6>FAQ</h6>
                       </Link>
                     </div>
