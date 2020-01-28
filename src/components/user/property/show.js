@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf, faLock} from '@fortawesome/free-solid-svg-icons';
+import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf, faLock, faQuestion, faCalendarAlt, faComments} from '@fortawesome/free-solid-svg-icons';
 import { faHeart} from '@fortawesome/free-regular-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
@@ -2242,16 +2242,19 @@ export default class PropertyShow extends Component {
                   <div className="info-content">
                     <p>{this.state.property.show_instructions}</p>
                     <div className="info-icon-box">
-                      <Link to="#" className="info_icon">
-                        <i className="fa fa-question"></i>
+                      <Link to="/how-everything-works/ask-us-question" className="info_icon">
+                        {/* <i className="fa fa-question"></i> */}
+                        <FontAwesomeIcon icon={faQuestion}/>
                         <h6>Ask a Question</h6>
                       </Link>
                       <Link to="#" className="info_icon" onClick={this.openShowInstructionModal}>
-                        <i className="fa fa-calendar"></i>
+                        {/* <i className="fa fa-calendar"></i> */}
+                        <FontAwesomeIcon icon={faCalendarAlt}/>
                         <h6>Schedule a Visit</h6>
                       </Link>
-                      <Link to="#" className="info_icon">
-                        <i className="fa fa-comments"></i>
+                      <Link to="/frequently-asked-questions" className="info_icon">
+                        {/* <i className="fa fa-comments"></i> */}
+                        <FontAwesomeIcon icon={faComments}/>
                         <h6>FAQ</h6>
                       </Link>
                     </div>
