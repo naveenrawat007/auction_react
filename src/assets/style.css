@@ -1913,7 +1913,7 @@ input.form-control:focus {
   font-weight: 400;
 }
 
-.info_icon i {
+.info_icon svg {
   font-size: 32px;
   margin-bottom: 5px;
 }
