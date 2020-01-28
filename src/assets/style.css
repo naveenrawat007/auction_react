@@ -1897,6 +1897,9 @@ input.form-control:focus {
   text-align: center;
   width: 33%;
 }
+.info-content .info-icon-box .info_icon svg {
+  color: #8e8e8e;
+}
 
 .info_icon {
   text-decoration: none;
