@@ -14,6 +14,11 @@ export default class PropertyShow extends Component {
     this.state = {
       show_instructions: false,
       chat_room: "",
+      is_admin: false,
+      submitted: false,
+      changes: [],
+      seller_pay_types: [],
+      show_instructions_types: [],
       is_premium: "",
       unique_address: this.props.match.params.id,
       favourite: false,
@@ -90,8 +95,13 @@ export default class PropertyShow extends Component {
             favourite: result.favourite,
             property_buy_options: result.buy_options,
             isLoaded: true,
+            seller_pay_types: result.seller_pay_types,
+            show_instructions_types: result.show_instructions_types,
+            changes: result.changes,
             is_premium: result.is_premium,
             property: result.property,
+            is_admin: result.is_admin,
+            submitted: result.submitted,
             near_by_properties: result.near_properties,
             bidding_options: {
               ...this.state.bidding_options,
@@ -1270,6 +1280,211 @@ export default class PropertyShow extends Component {
       show_instructions: false,
     });
   }
+  humanizeAttr = ( attr) =>{
+    if (attr === "address"){
+      return "Address"
+    }
+    else if (attr === "city") {
+      return "City"
+    }
+    else if (attr === "state") {
+      return "State"
+    }
+    else if (attr === "zip_code") {
+      return "Zip Code"
+    }
+    else if (attr === "category") {
+      return "Category"
+    }
+    else if (attr === "p_type") {
+      return "Property Type"
+    }
+    else if (attr === "headliner") {
+      return "Property Headline"
+    }
+    else if (attr === "mls_available") {
+      return "MLS availablity"
+    }
+    else if (attr === "flooded") {
+      return "Flood status"
+    }
+    else if (attr === "flood_count") {
+      return "Flood Details"
+    }
+    else if (attr === "estimated_rehab_cost") {
+      return "Est. rehab cost"
+    }
+    else if (attr === "description") {
+      return "Description"
+    }
+    else if (attr === "seller_price") {
+      return "Seller asking price"
+    }
+    else if (attr === "after_rehab_value") {
+      return "After Rehab value"
+    }
+    else if (attr === "buy_now_price") {
+      return "Buy Now Price"
+    }
+    else if (attr === "auction_length") {
+      return "Auction Length"
+    }
+    else if (attr === "seller_pay_type_id") {
+      return "Seller Pay type"
+    }
+    else if (attr === "show_instructions_type_id") {
+      return "Show Type"
+    }
+    else if (attr === "youtube_url") {
+      return "Youtube Link"
+    }
+    else if (attr === "title_status") {
+      return "Title"
+    }
+    else if (attr === "asking_price") {
+      return "Asking Price"
+    }
+    else if (attr === "profit_potential") {
+      return "Profit Potential"
+    }
+    else if (attr === "arv_analysis") {
+      return "ARV Analysis"
+    }
+    else if (attr === "description_of_repairs") {
+      return "Repairs Description"
+    }
+    else if (attr === "deal_analysis_type") {
+      return "Deal Type"
+    }
+    else if (attr === "buy_option") {
+      return "Buy Options"
+    }
+    else if (attr === "additional_information") {
+      return "Additional Information"
+    }
+    else if (attr === "best_offer") {
+      return "Best Offer"
+    }
+    else if (attr === "best_offer_length") {
+      return "Best Offer days"
+    }
+    else if (attr === "best_offer_sellers_minimum_price") {
+      return "Best Offer/Sellers Asking Price "
+    }
+    else if (attr === "best_offer_sellers_reserve_price") {
+      return "Best Offer/Sellers Buy Now Price"
+    }
+    else if (attr === "show_instructions_text") {
+      return "Show Instructions"
+    }
+    else if (attr === "open_house_dates") {
+      return "Open houses dates"
+    }
+    else if (attr === "vimeo_url") {
+      return "Vimeo Url"
+    }
+    else if (attr === "dropbox_url") {
+      return "Drop Box url"
+    }
+    else if (attr === "owner_category") {
+      return "Owner "
+    }
+    else if (attr === "rental_description") {
+      return "Rental Description"
+    }
+    else if (attr === "bedrooms") {
+      return "Bedrooms"
+    }
+    else if (attr === "bathrooms") {
+      return "Bathrooms"
+    }
+    else if (attr === "garage") {
+      return "Garage"
+    }
+    else if (attr === "area") {
+      return "Square Footage"
+    }
+    else if (attr === "lot_size") {
+      return "Lot"
+    }
+    else if (attr === "year_built") {
+      return "Year Built"
+    }
+    else if (attr === "units") {
+      return "Units"
+    }
+    else if (attr === "stories") {
+      return "Stories"
+    }
+    else if (attr === "cap_rate") {
+      return "Cap Rate"
+    }
+    else if (attr === "price_per_sq_ft") {
+      return "Price Per SqFt"
+    }
+  }
+  renderNestedChanges = (changes, attr) => {
+    if (attr === "estimated_rehab_cost_attr" || attr === "commercial_attributes" || attr === "residential_attributes" || attr === "land_attributes"){
+      return (
+        <>
+          {
+            Object.keys(changes[0]).map((attr, index)=>{
+              if (JSON.stringify(changes[0][attr]) !==JSON.stringify(changes[1][attr])){
+                return (
+                  <p key={index}>{this.humanizeAttr(attr)} from {JSON.stringify(changes[0][attr])} to {JSON.stringify(changes[1][attr])}</p>
+                )
+              }
+            })
+          }
+        </>
+      );
+    }
+  }
+  sellerPayDetail = (id) => {
+    for (let index = 0; index < this.state.show_instructions_types.length; index++) {
+      if (id === String(this.state.show_instructions_types[index].id)){
+        return this.state.show_instructions_types[index].description
+      }
+    }
+  }
+  showInstructionType = (id) => {
+    for (let index = 0; index < this.state.show_instructions_types.length; index++) {
+      if (id === String(this.state.show_instructions_types[index].id)){
+        return this.state.show_instructions_types[index].description
+      }
+    }
+  }
+
+  renderChanges = (changes, attr) => {
+    if (attr !== "estimated_rehab_cost_attr" && attr !== "commercial_attributes" && attr !== "residential_attributes" && attr !== "land_attributes"){
+      if (attr === "show_instructions_type_id"){
+        return <li><p>{this.humanizeAttr(attr)} from "{this.showInstructionType(JSON.stringify(changes[attr][0]))}" to "{this.showInstructionType(JSON.stringify(changes[attr][1]))}" </p></li>
+      }
+      else if (attr === "seller_pay_type_id") {
+        return <li><p>{this.humanizeAttr(attr)} from "{this.sellerPayDetail(JSON.stringify(changes[attr][0]))}" to "{this.sellerPayDetail(JSON.stringify(changes[attr][1]))}" </p></li>
+      }
+      else {
+        console.log(attr)
+        return <li><p>{this.humanizeAttr(attr)} from {JSON.stringify(changes[attr][0])} to {JSON.stringify(changes[attr][1])} </p></li>
+      }
+    }else {
+      if (attr === "estimated_rehab_cost_attr" || attr === "commercial_attributes" || attr === "residential_attributes" || attr === "land_attributes"){
+        return (
+          <>
+            {
+              Object.keys(changes).map((attr, index)=>{
+                return (
+                  <li key={index}>
+                    {this.renderNestedChanges(changes[attr], attr)}
+                  </li>
+                )
+              })
+            }
+          </>
+        );
+      }
+    }
+  }
 
   render(){
     if (this.state.isLoaded === true){
@@ -1388,6 +1603,30 @@ export default class PropertyShow extends Component {
                 this.state.message ? <Alert className="mt-2 mb-0" variant={this.state.variant}>{this.state.message}</Alert> : null
               }
             </div>
+            {
+              (this.state.submitted && this.state.is_admin) ?
+                <div className="col-md-12 px-2">
+                  <div className="wrap_property">
+                    {this.state.changes.map((change, index)=>{
+                      return(
+                        <ul key={index}>
+                          <li>
+                            {Object.keys(change.audited_change).map((attr, index)=>{
+                              return(
+                                <ul key={index}>
+                                  {this.renderChanges(change.audited_change, attr)}
+                                </ul>
+                              )
+                            })}
+                          </li>
+                        </ul>
+                      )
+                    })}
+                  </div>
+                </div>
+              :
+              null
+            }
             <div className="col-md-8 px-2">
               <div className="wrap_property">
                 <div className="property-head">
