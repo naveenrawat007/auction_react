@@ -1669,7 +1669,7 @@ export default class PropertyShow extends Component {
               }
             </div>
             {
-              (this.state.submitted && this.state.is_admin) ?
+              (this.state.submitted && this.state.is_admin && (this.state.changes.length > 0)) ?
                 <div className="col-md-12 px-2">
                   <div className="wrap_property py-4">
                     <div className="audited-items">
