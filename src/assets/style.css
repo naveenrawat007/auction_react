@@ -1691,6 +1691,11 @@ button:focus {
   border-radius: 3px 0 0 3px;
 }
 
+.prev,
+.next {
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.8);
+}
 .prev:hover,
 .next:hover {
   color: #fff;
@@ -5170,7 +5175,7 @@ a.chat_attachment {
   font-size: 14px !important;
 }
 
-.audited-items li p span{
+/* .audited-items li p span{
   font-size: 14px;
   font-weight: 500;
 }
@@ -5182,4 +5187,26 @@ a.chat_attachment {
 }
 .audited-items li p{
   margin-bottom: 0.5rem;
+} */
+.audited-items .accordion{
+  border-bottom: 1px solid #ccc;
+  padding: 5px 0;
+}
+.audited-items:first-child> .audited-subitem-2 .accordion{
+  border-top: 1px solid #ccc;
+}
+.audited-items .accordion button{
+  color: #000;
+  text-decoration: none;
+  font-size: 14px;
+}
+.audited-items .accordion .collapse p, .audited-items .accordion .collapsing p{
+  padding: 10px 15px;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+.audited-items .accordion .collapse span p, .audited-items .accordion .collapsing span p{
+  padding: 10px 15px;
+  font-size: 14px;
+  margin-bottom: 0;
 }
