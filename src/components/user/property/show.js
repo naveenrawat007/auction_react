@@ -2176,10 +2176,10 @@ export default class PropertyShow extends Component {
                 :
                 <>
                   <div className="video-box">
-                    <iframe title="youtube" height="350" src="https://www.youtube.com/embed/X080gIJFE3M?controls=0" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                    <img src={this.state.property.video_thumb ? this.state.property.video_thumb : "/images/homee1.png" }/>
                   </div>
                   <div className="video-login">
-                    <p><Link to="/sign_up" className="links-login">Register</Link> or <Link to="/login" className="links-login">Login</Link> to view address</p>
+                    <p><Link to="/sign_up" className="links-login">Register</Link> or <Link to="/login" className="links-login">Login</Link> to view property video</p>
                     <div className="fav-watch-heart" >
                       <FontAwesomeIcon icon={faLock}/>
                     </div>
@@ -2201,7 +2201,7 @@ export default class PropertyShow extends Component {
                     <iframe title="map" width="552" height="350" id="gmap_canvas" src={"https://maps.google.com/maps?q= usa&t=&z=13&ie=UTF8&iwloc=&output=embed"} frameBorder="0" scrolling="no" ></iframe>
                   </div>
                   <div className="video-login">
-                    <p><Link to="/sign_up" className="links-login">Register</Link> or <Link to="/login" className="links-login">Login</Link> to view address</p>
+                    <p><Link to="/sign_up" className="links-login">Register</Link> or <Link to="/login" className="links-login">Login</Link> to view property map</p>
                     <div className="fav-watch-heart" >
                       <FontAwesomeIcon icon={faLock}/>
                     </div>
