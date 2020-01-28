@@ -5161,3 +5161,17 @@ a.chat_attachment {
 .public_deal_list ul.font-red:last-child li{
   font-size: 14px !important;
 }
+
+.audited-items li p span{
+  font-size: 14px;
+  font-weight: 500;
+}
+.audited-items{
+  margin-bottom: 0;
+}
+.audited-items li p span b{
+  font-weight: 500 !important;
+}
+.audited-items li p{
+  margin-bottom: 0.5rem;
+}

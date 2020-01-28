@@ -1431,8 +1431,14 @@ export default class PropertyShow extends Component {
             Object.keys(changes[0]).map((attr, index)=>{
               if (JSON.stringify(changes[0][attr]) !==JSON.stringify(changes[1][attr])){
                 return (
-                  <p key={index}>{this.humanizeAttr(attr)} from {JSON.stringify(changes[0][attr])} to {JSON.stringify(changes[1][attr])}</p>
+                  <React.Fragment key={index}>
+                    <b >{this.humanizeAttr(attr)} from {JSON.stringify(changes[0][attr])} to {JSON.stringify(changes[1][attr])}</b>
+                    <br/>
+                  </React.Fragment>
                 )
+              }
+              else {
+                return null;
               }
             })
           }
@@ -1458,14 +1464,13 @@ export default class PropertyShow extends Component {
   renderChanges = (changes, attr) => {
     if (attr !== "estimated_rehab_cost_attr" && attr !== "commercial_attributes" && attr !== "residential_attributes" && attr !== "land_attributes"){
       if (attr === "show_instructions_type_id"){
-        return <li><p>{this.humanizeAttr(attr)} from "{this.showInstructionType(JSON.stringify(changes[attr][0]))}" to "{this.showInstructionType(JSON.stringify(changes[attr][1]))}" </p></li>
+        return <span>{this.humanizeAttr(attr)} from "{this.showInstructionType(JSON.stringify(changes[attr][0]))}" to "{this.showInstructionType(JSON.stringify(changes[attr][1]))}" </span>
       }
       else if (attr === "seller_pay_type_id") {
-        return <li><p>{this.humanizeAttr(attr)} from "{this.sellerPayDetail(JSON.stringify(changes[attr][0]))}" to "{this.sellerPayDetail(JSON.stringify(changes[attr][1]))}" </p></li>
+        return <span>{this.humanizeAttr(attr)} from "{this.sellerPayDetail(JSON.stringify(changes[attr][0]))}" to "{this.sellerPayDetail(JSON.stringify(changes[attr][1]))}" </span>
       }
       else {
-        console.log(attr)
-        return <li><p>{this.humanizeAttr(attr)} from {JSON.stringify(changes[attr][0])} to {JSON.stringify(changes[attr][1])} </p></li>
+        return <span>{this.humanizeAttr(attr)} from {JSON.stringify(changes[attr][0])} to {JSON.stringify(changes[attr][1])} </span>
       }
     }else {
       if (attr === "estimated_rehab_cost_attr" || attr === "commercial_attributes" || attr === "residential_attributes" || attr === "land_attributes"){
@@ -1474,9 +1479,9 @@ export default class PropertyShow extends Component {
             {
               Object.keys(changes).map((attr, index)=>{
                 return (
-                  <li key={index}>
+                  <span key={index}>
                     {this.renderNestedChanges(changes[attr], attr)}
-                  </li>
+                  </span>
                 )
               })
             }
@@ -1607,21 +1612,21 @@ export default class PropertyShow extends Component {
               (this.state.submitted && this.state.is_admin) ?
                 <div className="col-md-12 px-2">
                   <div className="wrap_property">
-                    {this.state.changes.map((change, index)=>{
-                      return(
-                        <ul key={index}>
-                          <li>
+                    <ul className="audited-items">
+                      {this.state.changes.map((change, index)=>{
+                        return(
+                          <li key={index}>
                             {Object.keys(change.audited_change).map((attr, index)=>{
                               return(
-                                <ul key={index}>
+                                <p key={index}>
                                   {this.renderChanges(change.audited_change, attr)}
-                                </ul>
+                                </p>
                               )
                             })}
                           </li>
-                        </ul>
-                      )
-                    })}
+                        )
+                      })}
+                    </ul>
                   </div>
                 </div>
               :
