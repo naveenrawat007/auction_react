@@ -343,6 +343,12 @@ export default class ListOfferProperty extends Component{
             <div className="col-md-2 pl-2 pr-3 py-2">
               <div className="properties-btn">
                 <Link to="#" className="font-blue" onClick={() =>{this.shareLink(index)}}>Share Link</Link>
+                <Link to={{
+                  pathname: "/user/chat",
+                  state: { chat_room: property.chat_room }
+                }} className="font-blue">
+                  Message
+                </Link>
               </div>
             </div>
 
