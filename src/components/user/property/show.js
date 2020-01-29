@@ -1449,7 +1449,7 @@ export default class PropertyShow extends Component {
                 if (JSON.stringify(changes[0][attr]) !==JSON.stringify(changes[1][attr])){
                   return (
                     <React.Fragment key={index}>
-                      <p>{this.humanizeAttr(attr)} from {JSON.stringify(changes[0][attr])} to {JSON.stringify(changes[1][attr])}</p>
+                      <p>{this.humanizeAttr(attr)} from {JSON.stringify(changes[0][attr])} -> {JSON.stringify(changes[1][attr])}</p>
                     </React.Fragment>
                   )
                 }
@@ -1492,7 +1492,7 @@ export default class PropertyShow extends Component {
           <Accordion.Collapse eventKey="0">
             <div>
               <p>
-                "{this.showInstructionType(JSON.stringify(changes[attr][0]))}" to "{this.showInstructionType(JSON.stringify(changes[attr][1]))}"
+                "{this.showInstructionType(JSON.stringify(changes[attr][0]))}" -> "{this.showInstructionType(JSON.stringify(changes[attr][1]))}"
               </p>
             </div>
           </Accordion.Collapse>
@@ -1509,7 +1509,7 @@ export default class PropertyShow extends Component {
           <Accordion.Collapse eventKey="0">
             <div>
               <p>
-                "{this.sellerPayDetail(JSON.stringify(changes[attr][0]))}" to "{this.sellerPayDetail(JSON.stringify(changes[attr][1]))}"
+                "{this.sellerPayDetail(JSON.stringify(changes[attr][0]))}" -> "{this.sellerPayDetail(JSON.stringify(changes[attr][1]))}"
               </p>
             </div>
           </Accordion.Collapse>
@@ -1526,7 +1526,7 @@ export default class PropertyShow extends Component {
           <Accordion.Collapse eventKey="0">
             <div>
               <p>
-                {JSON.stringify(changes[attr][0])} to {JSON.stringify(changes[attr][1])}
+                {JSON.stringify(changes[attr][0])} -> {JSON.stringify(changes[attr][1])}
               </p>
             </div>
           </Accordion.Collapse>
