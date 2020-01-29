@@ -2847,11 +2847,11 @@ input:checked+.slider:before {
 }
 
 .table.modalbid_table.sold td:nth-child(3), .table.modalbid_table.sold th:nth-child(3) {
-  width: 24%;
+  width: 20%;
 }
 
 .table.modalbid_table.sold td:nth-child(4), .table.modalbid_table.sold th:nth-child(4) {
-  width: 20%;
+  width: 24%;
 }
 
 .table.modalbid_table.sold td:nth-child(5), .table.modalbid_table.sold th:nth-child(5) {
