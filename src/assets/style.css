@@ -2838,6 +2838,29 @@ input:checked+.slider:before {
   width: 12%;
 }
 
+.table.modalbid_table.sold td:nth-child(1), .table.modalbid_table.sold th:nth-child(1) {
+  width: 21%;
+}
+
+.table.modalbid_table.sold td:nth-child(2), .table.modalbid_table.sold th:nth-child(2) {
+  width: 15%;
+}
+
+.table.modalbid_table.sold td:nth-child(3), .table.modalbid_table.sold th:nth-child(3) {
+  width: 24%;
+}
+
+.table.modalbid_table.sold td:nth-child(4), .table.modalbid_table.sold th:nth-child(4) {
+  width: 20%;
+}
+
+.table.modalbid_table.sold td:nth-child(5), .table.modalbid_table.sold th:nth-child(5) {
+  width: 10%;
+}
+.table.modalbid_table.sold td:nth-child(6), .table.modalbid_table.sold th:nth-child(6) {
+  width: 10%;
+}
+
 /* status Modal */
 .status_modal .modal-dialog {
   max-width: 601px;
