@@ -50,7 +50,6 @@ export default class AdminChatList extends Component{
     .then((result) => {
       if (this._isMounted){
         if (result.status === 200){
-          console.log(result);
           this.setState({
 						user_id: result.user_id,
             isLoaded: true,
