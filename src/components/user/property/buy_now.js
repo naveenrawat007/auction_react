@@ -346,7 +346,7 @@ export default class ListBuyNowProperty extends Component{
                 <Link to="#" className="font-blue" onClick={() =>{this.shareLink(index)}}>Share Link</Link>
                 <Link to={{
                   pathname: "/user/chat",
-                  state: { chat_room: property.chat_room }
+                  state: { chat_room: property.chat_room.open_connection === true ? property.chat_room : "" }
                 }} className="font-blue">
                   Message
                 </Link>
