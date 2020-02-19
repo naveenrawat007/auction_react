@@ -16,6 +16,7 @@ export default class Message extends Component{
       uploading: false,
       open_attachment_modal: false,
       attachments: [],
+      can_reply: true,
       page: 1,
       show_emoji_picker: false,
       message: "",
@@ -74,11 +75,13 @@ export default class Message extends Component{
   }
   submitMessage = (event) => {
     event.preventDefault();
-    this.chatConnection.talk(this.state.message, this.state.room_id);
-    this.setState({
-      message: "",
-      show_emoji_picker: false,
-    });
+    if (this.state.can_reply === true){
+      this.chatConnection.talk(this.state.message, this.state.room_id);
+      this.setState({
+        message: "",
+        show_emoji_picker: false,
+      });
+    }
   }
 
   addUpdatedMessage = (message) => {
@@ -136,6 +139,7 @@ export default class Message extends Component{
             this.setState({
               isLoaded: true,
               messages: messages,
+              can_reply: result.can_reply,
             }, function () {
               if (old === false){
                 this.adjustScroll();
@@ -190,9 +194,11 @@ export default class Message extends Component{
   }
 
   openAttachmentModal = () => {
-    this.setState({
-      open_attachment_modal: true,
-    });
+    if (this.state.can_reply == true){
+      this.setState({
+        open_attachment_modal: true,
+      });
+    }
   }
   hideAttachmentModal = () => {
     this.setState({
@@ -393,7 +399,7 @@ export default class Message extends Component{
               </div>
               <div className="input-group main_form_input col-md-9 px-0">
                 <form className="chat_form" onSubmit={this.submitMessage}>
-                  <input type="text" value={this.state.message} className="form-control border-right-0" name="message"  onChange={this.updateCurrentMessage} aria-label="" placeholder="Type a message.."/>
+                  <input type="text" value={this.state.message} className="form-control border-right-0" name="message"  onChange={this.updateCurrentMessage} aria-label="" placeholder="Type a message.." disabled={!this.state.can_reply}/>
                   <div className="input-group-append">
                     <span className="input-group-text group-box-chat border-left-0">
                       <Link to="#">
