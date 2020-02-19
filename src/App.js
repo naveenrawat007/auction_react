@@ -21,6 +21,8 @@ import PropertyPending from './components/property/pending.js'
 import PropertySold from './components/property/sold.js'
 import Home from './components/navbar/home.js'
 import Plan from './components/user/plan/index.js'
+import About from './components/static/about.js'
+import Topbar from './components/static/topbar.js'
 
 function App() {
   return (
@@ -29,7 +31,26 @@ function App() {
         <Route path='/' component = {Navbar}/>
         <Switch>
           <Route exact path="/" component={Home}/>
+          <Route exact path="/about" component={About}/>
+          <Route exact path="/help" component={() => <Topbar path='qualify_deal_help'/>}/>
+          <Route exact path="/help/top-15-reasons-to-post-your-wholesale-fixer-upper-deals" component={() => <Topbar path='top_reason_help'/>}/>
+          <Route exact path="/help/free-landlord-analyzer/" component={() => <Topbar path='landlord_analyzer_help'/>}/>
+          <Route exact path="/help/free-confidential-deal-analysis/" component={() => <Topbar path='confident_deal_help'/>}/>
+          <Route exact path="/help/auction-your-wholesale-deal-to-the-highest-bidder-or-our-affiliate-partner-angel-investors-llc-will-buy-it/" component={() => <Topbar path='highest_bidder_help'/>}/>
+
+          <Route exact path="/how-everything-works/seller" component={() => <Topbar path='seller_how_works'/>}/>
+          <Route exact path="/how-everything-works/buyer" component={() => <Topbar path='buyer_how_works'/>}/>
+          <Route exact path="/how-everything-works/hardmoney" component={() => <Topbar path='hardmoney_how_works'/>}/>
+          <Route exact path="/how-everything-works/resources" component={() => <Topbar path='resources_how_works'/>}/>
+          <Route exact path="/how-everything-works/ask-us-question" component={() => <Topbar path='ask_question_how_works'/>}/>
+
+          <Route exact path="/realtor-portal/realtor-marketing-platform" component={() => <Topbar path='realtor_marketing_platform_realtor_portal'/>}/>
+          <Route exact path="/realtor-portal/bidding-as-an-agent" component={() => <Topbar path='bidding_agent_realtor_portal'/>}/>
+
+          <Route exact path="/frequently-asked-questions" component={() => <Topbar path='faq'/>}/>
+
           <Route exact path="/user" component={() => <Sidebar path='user_profile'/>}/>
+          <Route exact path="/user/chat" component={(props) => <Sidebar {...props} path='user_chat'/>}/>
           <Route exact path="/plans" component={() => <Plan path=''/>}/>
           <Route exact path="/property/new" component={NewProperty}/>
           <Route exact path="/property/live_bidding" component={PropertyLiveBidding}/>
@@ -46,6 +67,7 @@ function App() {
           <Route exact path="/user/property/:id/edit" component={PropertyEdit}/>
           <Route exact path="/property/:id" component={PropertyShow}/>
           <Route exact path="/admin" component={() => <AdminSidebar path='all_users_list'/>}/>
+          <Route exact path="/admin/chat" component={() => <AdminSidebar path='admin_chat'/>}/>
           <Route exact path="/admin/free_user" component={() => <AdminSidebar path='free_users_list'/>}/>
           <Route exact path="/admin/premium_user" component={() => <AdminSidebar path='premium_users_list'/>}/>
           <Route exact path="/admin/ban_user" component={() => <AdminSidebar path='ban_users_list'/>}/>

@@ -18,6 +18,9 @@ export default class Navbar extends Component{
       logged_in: false
     })
     localStorage.removeItem("auction_user_token");
+    localStorage.removeItem("auction_user_image");
+    localStorage.removeItem("auction_user_name");
+    localStorage.removeItem("auction_user_status");
     localStorage.removeItem("auction_admin_token");
     this.props.history.push('/login')
   }
@@ -169,7 +172,7 @@ export default class Navbar extends Component{
       <div className="header">
         <div className="container custom_container px-0">
           <nav className="navbar navbar-expand-lg">
-            <Link to="#" onClick={this.navigateToProfile} className="logo">
+            <Link to="/" className="logo">
               <img src="/images/logo.png" alt="Logo"/>
             </Link>
             <button className="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
@@ -207,13 +210,13 @@ export default class Navbar extends Component{
                   }
                 </li>
                 <li className="nav-item dropdown">
-                  <a className="nav-link" href="/" data-toggle="dropdown">Help </a>
+                  <Link className="nav-link" to="/how-everything-works/seller" data-toggle="dropdown">Help </Link>
                 </li>
 
                 <li className="nav-item">
-                  <a className="nav-link" href="/">
+                  <Link className="nav-link" to="/about">
                     About us
-                  </a>
+                  </Link>
                 </li>
               </ul>
               <div className="header-reg">

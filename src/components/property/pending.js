@@ -200,7 +200,7 @@ export default class PropertyPending extends Component{
               </div>
             </div>
             <div className="col-md-4 pay-border px-0">
-              <div className="pay-detail px-3">
+              <div className="pay-detail public_deal_list px-3">
                 <h5>{property.deal_analysis_type}</h5>
                 {
                   property.deal_analysis_type === "Rehab & Flip Deal" ?
@@ -217,7 +217,7 @@ export default class PropertyPending extends Component{
                         <li>Est Rehab Cost:</li>
                         <li>{window.format_currency(property.estimated_rehab_cost)}</li>
                       </ul>
-                      <ul className="list-inline">
+                      <ul className="list-inline font-red">
                         <li>Profit Potential:</li>
                         <li>{window.format_currency(property.profit_potential)}</li>
                       </ul>

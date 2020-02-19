@@ -294,7 +294,7 @@ export default class Sold extends Component{
           <td>{property.owner_category}</td>
           <td>{property.address}</td>
           <td>{property.sold_to}</td>
-          <td>{property.sold_amount}</td>
+          <td>{window.format_currency(property.sold_amount)}</td>
         </tr>
       );
     })

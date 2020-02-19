@@ -99,7 +99,7 @@ export default class PropertyBestOffer extends Component{
           let days = Math.floor(t/(60*60*24))
           let hours = Math.floor((t%(60*60*24))/(60*60));
           let minutes = Math.floor((t%(60*60))/60);
-          // let seconds = Math.floor((t%(60)))
+          let seconds = Math.floor((t%(60)))
 
           if (document.getElementById("days-timer"+id)){
             if (t<0){
@@ -107,7 +107,7 @@ export default class PropertyBestOffer extends Component{
                 document.getElementById("days-timer"+id).innerHTML = "--"
                 document.getElementById("hours-timer"+id).innerHTML = "--"
                 document.getElementById("minutes-timer"+id).innerHTML = "--"
-                // document.getElementById("seconds-timer-item").innerHTML = seconds
+                document.getElementById("seconds-timer"+id).innerHTML = "--"
               }
               clearInterval(this.timer_interval);
             }else {
@@ -116,6 +116,7 @@ export default class PropertyBestOffer extends Component{
                 document.getElementById("days-timer"+id).innerHTML = days
                 document.getElementById("hours-timer"+id).innerHTML = String(hours).padStart(2, '0')
                 document.getElementById("minutes-timer"+id).innerHTML = String(minutes).padStart(2, '0')
+                document.getElementById("seconds-timer"+id).innerHTML = String(seconds).padStart(2, '0')
                 // document.getElementById("seconds-timer-item").innerHTML = seconds
               }
             }
@@ -128,6 +129,7 @@ export default class PropertyBestOffer extends Component{
         document.getElementById("days-timer"+id).innerHTML = "--"
         document.getElementById("hours-timer"+id).innerHTML = "--"
         document.getElementById("minutes-timer"+id).innerHTML = "--"
+        document.getElementById("seconds-timer"+id).innerHTML = "--"
         // document.getElementById("seconds-timer-item").innerHTML = seconds
       }
     }
@@ -248,7 +250,7 @@ export default class PropertyBestOffer extends Component{
               </div>
             </div>
             <div className="col-md-4 pay-border px-0">
-              <div className="pay-detail px-3">
+              <div className="pay-detail public_deal_list px-3">
                 <h5>{property.deal_analysis_type}</h5>
                 {
                   property.deal_analysis_type === "Rehab & Flip Deal" ?
@@ -265,7 +267,7 @@ export default class PropertyBestOffer extends Component{
                         <li>Est Rehab Cost:</li>
                         <li>{window.format_currency(property.estimated_rehab_cost)}</li>
                       </ul>
-                      <ul className="list-inline">
+                      <ul className="list-inline font-red">
                         <li>Profit Potential:</li>
                         <li>{window.format_currency(property.profit_potential)}</li>
                       </ul>
@@ -323,6 +325,10 @@ export default class PropertyBestOffer extends Component{
                       <ul>
                         <li id={"minutes-timer"+property.id}>00</li>
                         <li>Minutes</li>
+                      </ul>
+                      <ul>
+                        <li id={"seconds-timer"+property.id}>00</li>
+                        <li>Seconds</li>
                       </ul>
                     </div>
                   </h5>

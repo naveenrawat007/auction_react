@@ -9,6 +9,7 @@ import WatchProperty from './property/watch_property.js'
 import ListOfferProperty from './property/offers.js'
 import ListBidProperty from './property/bids.js'
 import ListBuyNowProperty from './property/buy_now.js'
+import ChatList from './chat/index.js'
 
 export default class Sidebar extends Component{
   _isMounted = false
@@ -45,9 +46,11 @@ export default class Sidebar extends Component{
             user_image: result.user.user_image,
             first_name: result.user.first_name,
             last_name: result.user.last_name,
+            status: result.user.status,
           }, function () {
             localStorage.setItem("auction_user_name", this.userFirstName() + " " + this.userLastName());
             localStorage.setItem("auction_user_image", this.state.user_image);
+            localStorage.setItem("auction_user_status", this.state.status);
             this.setState({
               loaded: true
             });
@@ -63,7 +66,7 @@ export default class Sidebar extends Component{
   }
   componentDidMount () {
     this._isMounted = true;
-    if (!(localStorage.getItem("auction_user_name")) || !(localStorage.getItem("auction_user_image"))){
+    if (!(localStorage.getItem("auction_user_name")) || !(localStorage.getItem("auction_user_image")) || !(localStorage.getItem("auction_user_status"))){
       this.changeImage()
     }
   }
@@ -72,6 +75,9 @@ export default class Sidebar extends Component{
   }
   handleLogout = () => {
     localStorage.removeItem("auction_user_token");
+    localStorage.removeItem("auction_user_image");
+    localStorage.removeItem("auction_user_name");
+    localStorage.removeItem("auction_user_status");
     window.location.href = "/login"
   }
   renderSwitch = () => {
@@ -92,6 +98,8 @@ export default class Sidebar extends Component{
         return <ListBidProperty/>;
       case 'buy_now_properties_list':
         return <ListBuyNowProperty/>;
+      case 'user_chat':
+        return <ChatList {...this.props}/>;
       default:
     }
   }
@@ -125,7 +133,7 @@ export default class Sidebar extends Component{
                 </div>
                 <div className="account-data">
                   <h5>{localStorage.getItem("auction_user_name")}</h5>
-                  <p className="font-red text-uppercase">Premium User</p>
+                  <p className="font-red text-uppercase">{localStorage.getItem("auction_user_status")} User</p>
                   <button className="btn collapse_btn" data-toggle="collapse" data-target="#pills"><FontAwesomeIcon icon={faChevronCircleDown} /></button>
                 </div>
                 <ul className="nav nav-pills mobile-pills collapse" role="tablist" id="pills">
@@ -187,7 +195,7 @@ export default class Sidebar extends Component{
                     <span><FontAwesomeIcon icon={faCreditCard} /> Available Plans</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
-                    {/* </a> */}
+                  {/* </a> */}
                 </li>
                 <li className="nav-item">
                   <Link to='/user/property' className={this.checkActive("property_list")} data-toggle="pill" >
@@ -209,10 +217,10 @@ export default class Sidebar extends Component{
                 </li>
 
                 <li className="nav-item">
-                  <a className="nav-link" href="chat.html">
+                  <Link className={this.checkActive("user_chat")} to="/user/chat">
                     <span><FontAwesomeIcon icon={faEnvelopeOpenText} />  Messages</span>
                     <FontAwesomeIcon icon={faChevronRight} />
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" data-toggle="pill" onClick={this.handleLogout} to="#">

@@ -110,6 +110,7 @@ export default class ListProperty extends Component{
     const{ name, value } = event.target;
     this.setState({
       isLoaded: false,
+      page: 1,
       [name]: value
     }, function functionName() {
       clearTimeout(this.getPropertiesListTimeout);
@@ -408,7 +409,12 @@ export default class ListProperty extends Component{
           <td><p>{bid.time}</p></td>
           <td>
             <div className="order-actions">
-              <Link to="#"><FontAwesomeIcon icon={faEnvelopeOpenText} /></Link>
+              <Link to={{
+                pathname: "/user/chat",
+                state: { chat_room: bid.chat_room }
+              }}>
+                <FontAwesomeIcon icon={faEnvelopeOpenText} />
+              </Link>
               <a href={bid.fund_proof} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faDownload}  /></a>
               <Link to="#" onClick={() => {this.acceptOffer(property_id, bid.id, bid.type)}}><FontAwesomeIcon icon={faThumbsUp} /></Link>
               <Link to="#" onClick={() => {this.acceptOffer(property_id, bid.id, bid.type, false)}}><FontAwesomeIcon icon={faThumbsDown}  /></Link>

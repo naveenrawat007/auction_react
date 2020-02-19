@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-bootstrap/Modal';
 import DatePicker from "react-datepicker";
 import Alert from 'react-bootstrap/Alert';
-// import {Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import { faSearch, faDownload } from '@fortawesome/free-solid-svg-icons';
 
 export default class Pending extends Component{
@@ -262,6 +262,52 @@ export default class Pending extends Component{
       bid_modal: false,
     });
   }
+  soldProperty = (offer) => {
+    this.setState({
+      isLoaded: false ,
+    });
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties/sold"
+    const fd = new FormData();
+    fd.append('property[offer_id]', offer.id)
+    fd.append('property[offer_type]', offer.type)
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Authorization": localStorage.getItem("auction_admin_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*"
+      },
+      body: fd,
+    }).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        this.getPropertiesList();
+        if (result.status === 200){
+          this.setState({
+            bid_modal: false,
+            isLoaded: true ,
+            message: result.message,
+            variant: "success"
+          });
+        }else {
+          this.setState({
+            bid_modal: false,
+            isLoaded: true ,
+            message: result.message,
+            variant: "danger"
+          });
+        }
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
+      }
+    })
+  }
   bidsList = (object) => {
     const bidList = object.map((bid, index) => {
       return (
@@ -271,6 +317,7 @@ export default class Pending extends Component{
           <td>{window.format_currency(bid.amount)}</td>
           <td>{bid.time}</td>
           <td>{bid.accepted === true ? "Active" : "Deactive"}</td>
+          <td><Link to="#" onClick={() => {this.soldProperty(bid)}}>Sold</Link></td>
         </tr>
       )
     })
@@ -470,7 +517,7 @@ export default class Pending extends Component{
             </div>
           </Modal.Header>
           <div className="modal-body">
-            <table className="table table-hover table-bordered review_table modalbid_table">
+            <table className="table table-hover table-bordered review_table modalbid_table sold">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -478,6 +525,7 @@ export default class Pending extends Component{
                   <th>Offers</th>
                   <th>Date & Time</th>
                   <th>Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>

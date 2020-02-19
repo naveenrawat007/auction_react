@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf, faLock} from '@fortawesome/free-solid-svg-icons';
+import Accordion from 'react-bootstrap/Accordion';
+import Button from 'react-bootstrap/Button';
+import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf, faLock, faQuestion, faCalendarAlt, faComments} from '@fortawesome/free-solid-svg-icons';
 import { faHeart} from '@fortawesome/free-regular-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
@@ -12,6 +14,13 @@ export default class PropertyShow extends Component {
   constructor(props){
     super(props);
     this.state = {
+      show_instructions: false,
+      chat_room: "",
+      is_admin: false,
+      submitted: false,
+      changes: [],
+      seller_pay_types: [],
+      show_instructions_types: [],
       is_premium: "",
       unique_address: this.props.match.params.id,
       favourite: false,
@@ -88,8 +97,13 @@ export default class PropertyShow extends Component {
             favourite: result.favourite,
             property_buy_options: result.buy_options,
             isLoaded: true,
+            seller_pay_types: result.seller_pay_types,
+            show_instructions_types: result.show_instructions_types,
+            changes: result.changes,
             is_premium: result.is_premium,
             property: result.property,
+            is_admin: result.is_admin,
+            submitted: result.submitted,
             near_by_properties: result.near_properties,
             bidding_options: {
               ...this.state.bidding_options,
@@ -925,6 +939,7 @@ export default class PropertyShow extends Component {
       if (this._isMounted){
         if (result.status === 201){
           this.setState({
+            chat_room: result.chat_room,
             isLoaded: true,
             open_bidding_modal: false,
             fund_proof: "",
@@ -1044,6 +1059,7 @@ export default class PropertyShow extends Component {
       if (this._isMounted){
         if (result.status === 201){
           this.setState({
+            chat_room: result.chat_room,
             isLoaded: true,
             open_best_offer_modal: false,
             fund_proof: "",
@@ -1140,6 +1156,7 @@ export default class PropertyShow extends Component {
       if (this._isMounted){
         if (result.status === 201){
           this.setState({
+            chat_room: result.chat_room,
             isLoaded: true,
             open_buy_now_modal: false,
             fund_proof: "",
@@ -1208,6 +1225,12 @@ export default class PropertyShow extends Component {
       [name]: checked
     });
   }
+
+  openShowInstructionModal = () => {
+    this.setState({
+    show_instructions: true ,
+    });
+  }
   enableCheckBox = (event) => {
     let name = event.target.id
     if (document.getElementById(name)){
@@ -1254,20 +1277,307 @@ export default class PropertyShow extends Component {
       }
     }
   }
+  closeShowInstructionModal = () => {
+    this.setState({
+      show_instructions: false,
+    });
+  }
+  humanizeAttr = ( attr) =>{
+    if (attr === "address"){
+      return "Address"
+    }
+    else if (attr === "city") {
+      return "City"
+    }
+    else if (attr === "state") {
+      return "State"
+    }
+    else if (attr === "zip_code") {
+      return "Zip Code"
+    }
+    else if (attr === "category") {
+      return "Category"
+    }
+    else if (attr === "p_type") {
+      return "Property Type"
+    }
+    else if (attr === "headliner") {
+      return "Property Headline"
+    }
+    else if (attr === "mls_available") {
+      return "MLS availablity"
+    }
+    else if (attr === "flooded") {
+      return "Flood status"
+    }
+    else if (attr === "flood_count") {
+      return "Flood Details"
+    }
+    else if (attr === "estimated_rehab_cost") {
+      return "Est. rehab cost"
+    }
+    else if (attr === "description") {
+      return "Description"
+    }
+    else if (attr === "seller_price") {
+      return "Seller asking price"
+    }
+    else if (attr === "after_rehab_value") {
+      return "After Rehab value"
+    }
+    else if (attr === "buy_now_price") {
+      return "Buy Now Price"
+    }
+    else if (attr === "auction_length") {
+      return "Auction Length"
+    }
+    else if (attr === "seller_pay_type_id") {
+      return "Seller Pay type"
+    }
+    else if (attr === "show_instructions_type_id") {
+      return "Show Type"
+    }
+    else if (attr === "youtube_url") {
+      return "Youtube Link"
+    }
+    else if (attr === "title_status") {
+      return "Title"
+    }
+    else if (attr === "asking_price") {
+      return "Asking Price"
+    }
+    else if (attr === "profit_potential") {
+      return "Profit Potential"
+    }
+    else if (attr === "arv_analysis") {
+      return "ARV Analysis"
+    }
+    else if (attr === "description_of_repairs") {
+      return "Repairs Description"
+    }
+    else if (attr === "deal_analysis_type") {
+      return "Deal Type"
+    }
+    else if (attr === "buy_option") {
+      return "Buy Options"
+    }
+    else if (attr === "additional_information") {
+      return "Additional Information"
+    }
+    else if (attr === "best_offer") {
+      return "Best Offer"
+    }
+    else if (attr === "best_offer_length") {
+      return "Best Offer days"
+    }
+    else if (attr === "best_offer_sellers_minimum_price") {
+      return "Best Offer/Sellers Asking Price "
+    }
+    else if (attr === "best_offer_sellers_reserve_price") {
+      return "Best Offer/Sellers Buy Now Price"
+    }
+    else if (attr === "show_instructions_text") {
+      return "Show Instructions"
+    }
+    else if (attr === "open_house_dates") {
+      return "Open houses dates"
+    }
+    else if (attr === "vimeo_url") {
+      return "Vimeo Url"
+    }
+    else if (attr === "dropbox_url") {
+      return "Drop Box url"
+    }
+    else if (attr === "owner_category") {
+      return "Owner "
+    }
+    else if (attr === "rental_description") {
+      return "Rental Description"
+    }
+    else if (attr === "bedrooms") {
+      return "Bedrooms"
+    }
+    else if (attr === "bathrooms") {
+      return "Bathrooms"
+    }
+    else if (attr === "garage") {
+      return "Garage"
+    }
+    else if (attr === "area") {
+      return "Square Footage"
+    }
+    else if (attr === "lot_size") {
+      return "Lot"
+    }
+    else if (attr === "year_built") {
+      return "Year Built"
+    }
+    else if (attr === "units") {
+      return "Units"
+    }
+    else if (attr === "stories") {
+      return "Stories"
+    }
+    else if (attr === "cap_rate") {
+      return "Cap Rate"
+    }
+    else if (attr === "price_per_sq_ft") {
+      return "Price Per SqFt"
+    }
+    else if (attr === "residential_attributes") {
+      return "Residential "
+    }
+    else if (attr === "commercial_attributes") {
+      return "Commercial"
+    }
+    else if (attr === "land_attributes") {
+      return "Land"
+    }
+  }
+  renderNestedChanges = (changes, attr) => {
+    if (attr === "estimated_rehab_cost_attr" || attr === "commercial_attributes" || attr === "residential_attributes" || attr === "land_attributes"){
+      return <Accordion >
+        <div>
+          <Accordion.Toggle as={Button} variant="link" eventKey="0">
+            {this.humanizeAttr(attr)}
+          </Accordion.Toggle>
+        </div>
+        <Accordion.Collapse eventKey="0">
+          <div>
+            {
+              Object.keys(changes[0]).map((attr, index)=>{
+                if (JSON.stringify(changes[0][attr]) !==JSON.stringify(changes[1][attr])){
+                  return (
+                    <React.Fragment key={index}>
+                      <p>{this.humanizeAttr(attr)} from {JSON.stringify(changes[0][attr])} -> {JSON.stringify(changes[1][attr])}</p>
+                    </React.Fragment>
+                  )
+                }
+                else {
+                    return null;
+                }
+              })
+            }
+          </div>
+        </Accordion.Collapse>
+      </Accordion>
+
+    }
+  }
+  sellerPayDetail = (id) => {
+    for (let index = 0; index < this.state.show_instructions_types.length; index++) {
+      if (id === String(this.state.show_instructions_types[index].id)){
+        return this.state.show_instructions_types[index].description
+      }
+    }
+  }
+  showInstructionType = (id) => {
+    for (let index = 0; index < this.state.show_instructions_types.length; index++) {
+      if (id === String(this.state.show_instructions_types[index].id)){
+        return this.state.show_instructions_types[index].description
+      }
+    }
+  }
+
+  renderChanges = (changes, attr) => {
+    if (attr !== "estimated_rehab_cost_attr" && attr !== "commercial_attributes" && attr !== "residential_attributes" && attr !== "land_attributes"){
+      if (attr === "show_instructions_type_id"){
+        // return <span>{this.humanizeAttr(attr)} from "{this.showInstructionType(JSON.stringify(changes[attr][0]))}" to "{this.showInstructionType(JSON.stringify(changes[attr][1]))}" </span>
+        return <Accordion >
+          <div>
+            <Accordion.Toggle as={Button} variant="link" eventKey="0">
+              {this.humanizeAttr(attr)}
+            </Accordion.Toggle>
+          </div>
+          <Accordion.Collapse eventKey="0">
+            <div>
+              <p>
+                "{this.showInstructionType(JSON.stringify(changes[attr][0]))}" -> "{this.showInstructionType(JSON.stringify(changes[attr][1]))}"
+              </p>
+            </div>
+          </Accordion.Collapse>
+        </Accordion>
+      }
+      else if (attr === "seller_pay_type_id") {
+        // return <span>{this.humanizeAttr(attr)} from "{this.sellerPayDetail(JSON.stringify(changes[attr][0]))}" to "{this.sellerPayDetail(JSON.stringify(changes[attr][1]))}" </span>
+        return <Accordion >
+          <div>
+            <Accordion.Toggle as={Button} variant="link" eventKey="0">
+              {this.humanizeAttr(attr)}
+            </Accordion.Toggle>
+          </div>
+          <Accordion.Collapse eventKey="0">
+            <div>
+              <p>
+                "{this.sellerPayDetail(JSON.stringify(changes[attr][0]))}" -> "{this.sellerPayDetail(JSON.stringify(changes[attr][1]))}"
+              </p>
+            </div>
+          </Accordion.Collapse>
+        </Accordion>
+      }
+      else {
+        // return <span>{this.humanizeAttr(attr)} from {JSON.stringify(changes[attr][0])} to {JSON.stringify(changes[attr][1])} </span>
+        return <Accordion >
+          <div>
+            <Accordion.Toggle as={Button} variant="link" eventKey="0">
+              {this.humanizeAttr(attr)}
+            </Accordion.Toggle>
+          </div>
+          <Accordion.Collapse eventKey="0">
+            <div>
+              <p>
+                {JSON.stringify(changes[attr][0])} -> {JSON.stringify(changes[attr][1])}
+              </p>
+            </div>
+          </Accordion.Collapse>
+        </Accordion>
+      }
+    }else {
+      if (attr === "estimated_rehab_cost_attr" || attr === "commercial_attributes" || attr === "residential_attributes" || attr === "land_attributes"){
+        return (
+          <>
+            {
+              Object.keys(changes).map((attr, index)=>{
+                return (
+                  <span key={index}>
+                    {this.renderNestedChanges(changes[attr], attr)}
+                  </span>
+                )
+              })
+            }
+          </>
+        );
+      }
+    }
+  }
 
   render(){
     if (this.state.isLoaded === true){
+      const open_house_dates = this.state.property.open_house_dates.map((open_date, index)=>{
+        if (open_date.date && open_date.opens && open_date.closes){
+          return(
+            <p key={index} className="text-center">
+              {window.formatDate(open_date.date) +" | "+ window.formatTime(open_date.opens) +" to "+ window.formatTime(open_date.closes)}
+            </p>
+          )
+        }
+        else {
+          return(
+            null
+          )
+        }
+      })
       const near_properties = this.state.near_by_properties.map((property, index)=>{
         return (
           <div key={index} className="col-md-3 px-2 mb-3">
             <div className="offer-box">
               <div className="offer-head">
-                <img src={property.thumb_img ? property.thumb_img : "/images/home3.png"} alt=""/>
+                <img src={property.thumbnail_img ? property.thumbnail_img : "/images/home3.png"} alt=""/>
                 <div className="like-icon">
                   <i className="fa fa-heart-o"></i>
                 </div>
                 <div className="time-box">
-                  <p id={"timer"+property.id}>00d:00h:00m:00s {this.calculateBiddingTime(property.auction_bidding_ending_at, property.id)} </p>
+                  <p id={"timer"+property.id}>00d:00h:00m:00s {(property.status === "Live Online Bidding") ? this.calculateBiddingTime(property.auction_bidding_ending_at, property.id) : this.calculateBiddingTime(property.best_offer_auction_ending_at, property.id)} </p>
                 </div>
               </div>
               <div className="offer-body">
@@ -1275,17 +1585,17 @@ export default class PropertyShow extends Component {
                   <Link to={"/property/"+property.unique_address}>
                     <h5 className="mb-0">{window.format_currency(property.highest_bid)}</h5>
                   </Link>
-                  {this.state.property.category === "Residential" ?
+                  {property.category === "Residential" ?
                     <p>{property.residential_attributes.bedrooms} bds | {property.residential_attributes.bathrooms}ba | {property.residential_attributes.area} sqft </p>
                   :
                     null
                   }
-                  {this.state.property.category === "Commercial" ?
+                  {property.category === "Commercial" ?
                     <p>{property.commercial_attributes.units} unts | {property.commercial_attributes.lot_size} sqft </p>
                   :
                     null
                   }
-                  {this.state.property.category === "Land" ?
+                  {property.category === "Land" ?
                     <p>{property.land_attributes.lot_size} sqft </p>
                   :
                     null
@@ -1294,7 +1604,7 @@ export default class PropertyShow extends Component {
                 <p className="mb-2">{property.headliner}</p>
                 <div className="status-row mb-2">
                   <p className="offer-dot mb-0 mr-2"></p>
-                  <p className="mb-0">{property.best_offer ? "Best Offer" : "Live Online Bidding"}</p>
+                  <p className="mb-0">{property.status}</p>
                 </div>
               </div>
             </div>
@@ -1343,12 +1653,50 @@ export default class PropertyShow extends Component {
       })
       return (
         <div className="container custom_container">
+          {
+            this.state.chat_room ?
+              (
+                ((Object.entries(this.state.chat_room).length > 0) && (this.state.chat_room.constructor === Object)) ?
+                  <Redirect to={{
+                    pathname: "/user/chat",
+                    state: { chat_room: this.state.chat_room }
+                  }}/>
+                :
+                null
+              )
+            :
+              null
+          }
           <div className="row">
             <div className="col-md-12">
               {
                 this.state.message ? <Alert className="mt-2 mb-0" variant={this.state.variant}>{this.state.message}</Alert> : null
               }
             </div>
+            {
+              (this.state.submitted && this.state.is_admin && (this.state.changes.length > 0)) ?
+                <div className="col-md-12 px-2">
+                  <div className="wrap_property py-4">
+                    <div className="audited-items">
+                      {this.state.changes.map((change, index)=>{
+                        return(
+                          <div key={index} className="audited-subitem">
+                            {Object.keys(change.audited_change).map((attr, index)=>{
+                              return(
+                                <div key={index} className="audited-subitem-2">
+                                  {this.renderChanges(change.audited_change, attr)}
+                                </div>
+                              )
+                            })}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </div>
+              :
+              null
+            }
             <div className="col-md-8 px-2">
               <div className="wrap_property">
                 <div className="property-head">
@@ -1484,7 +1832,7 @@ export default class PropertyShow extends Component {
                       <p><span>{this.state.property.category} | {this.state.property.p_type}</span></p>
                       <p><span>Title Status: </span> {this.state.property.title_status}</p>
                       {this.state.property.category === "Residential" ?
-                        <ul className="list-inline">
+                        <ul className="list-inline list-inline-box">
                           <li className="list-inline-item"><span>Beds:</span> {this.state.property.residential_attributes.bedrooms}</li>&nbsp;|&nbsp;
                           <li className="list-inline-item"><span>Baths:</span> {this.state.property.residential_attributes.bathrooms}</li>&nbsp;|&nbsp;
                           <li className="list-inline-item"><span>Garage:</span> {this.state.property.residential_attributes.garage}</li>&nbsp;|&nbsp;
@@ -1494,7 +1842,7 @@ export default class PropertyShow extends Component {
                         </ul>
                       : null }
                       {this.state.property.category === "Commercial" ?
-                        <ul className="list-inline">
+                        <ul className="list-inline list-inline-box">
                           <li className="list-inline-item"><span>Units: </span> {this.state.property.commercial_attributes.units}</li>|&nbsp;
                           <li className="list-inline-item"><span>Stories: </span> {this.state.property.commercial_attributes.stories}</li>|&nbsp;
                           <li className="list-inline-item"><span>Cap Rate: </span> {this.state.property.commercial_attributes.cap_rate}</li>|&nbsp;
@@ -1504,7 +1852,7 @@ export default class PropertyShow extends Component {
                         </ul>
                       : null }
                       {this.state.property.category === "Land" ?
-                        <ul className="list-inline">
+                        <ul className="list-inline ">
                           <li className="list-inline-item"><span>Lot Size: </span> {this.state.property.land_attributes.lot_size}</li>|&nbsp;
                           <li className="list-inline-item"><span>Price per SqFt: </span> {this.state.property.land_attributes.price_per_sq_ft}</li>&nbsp;
                         </ul>
@@ -1893,10 +2241,10 @@ export default class PropertyShow extends Component {
                 :
                 <>
                   <div className="video-box">
-                    <iframe title="youtube" height="350" src="https://www.youtube.com/embed/X080gIJFE3M?controls=0" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
+                    <img src={this.state.property.video_thumb ? this.state.property.video_thumb : "/images/homee1.png" }/>
                   </div>
                   <div className="video-login">
-                    <p><Link to="/sign_up" className="links-login">Register</Link> or <Link to="/login" className="links-login">Login</Link> to view address</p>
+                    <p><Link to="/sign_up" className="links-login">Register</Link> or <Link to="/login" className="links-login">Login</Link> to view property video</p>
                     <div className="fav-watch-heart" >
                       <FontAwesomeIcon icon={faLock}/>
                     </div>
@@ -1918,7 +2266,7 @@ export default class PropertyShow extends Component {
                     <iframe title="map" width="552" height="350" id="gmap_canvas" src={"https://maps.google.com/maps?q= usa&t=&z=13&ie=UTF8&iwloc=&output=embed"} frameBorder="0" scrolling="no" ></iframe>
                   </div>
                   <div className="video-login">
-                    <p><Link to="/sign_up" className="links-login">Register</Link> or <Link to="/login" className="links-login">Login</Link> to view address</p>
+                    <p><Link to="/sign_up" className="links-login">Register</Link> or <Link to="/login" className="links-login">Login</Link> to view property map</p>
                     <div className="fav-watch-heart" >
                       <FontAwesomeIcon icon={faLock}/>
                     </div>
@@ -1953,22 +2301,26 @@ export default class PropertyShow extends Component {
             </div>
             <div className="col-md-4 mb-3 px-2">
               <div className="wrap_property">
-                <h5 className="mb-3 main_box_head">Showing Information</h5>
+                <h5 className="mb-3 main_box_head" onClick={this.openShowInstructionModal}>Showing Information</h5>
                 <div className="info-box">
                   <img src="/images/openhouse.png" className="img-fluid" alt=""/>
                   <div className="info-content">
                     <p>{this.state.property.show_instructions}</p>
                     <div className="info-icon-box">
-                      <Link to="#" className="info_icon">
-                        <i className="fa fa-question"></i>
+                      <Link to="/how-everything-works/ask-us-question" className="info_icon">
+                        {/* <i className="fa fa-question"></i> */}
+                        <FontAwesomeIcon icon={faQuestion}/>
                         <h6>Ask a Question</h6>
                       </Link>
-                      <Link to="#" className="info_icon">
-                        <i className="fa fa-calendar"></i>
+                      <Link to="#" className="info_icon" onClick={this.openShowInstructionModal}>
+                        {/* <i className="fa fa-calendar"></i> */}
+                        <FontAwesomeIcon icon={faCalendarAlt}/>
                         <h6>Schedule a Visit</h6>
                       </Link>
-                      <Link to="#" className="info_icon">
-                        <i className="fa fa-comments"></i>
+                      <Link to="/frequently-asked-questions" className="info_icon">
+                        {/* <i className="fa fa-comments"></i> */}
+                        {/* <FontAwesomeIcon icon={faComments}/> */}
+                        <img src="/images/faq.png"/>
                         <h6>FAQ</h6>
                       </Link>
                     </div>
@@ -2243,6 +2595,35 @@ export default class PropertyShow extends Component {
                     </div>
                   </form>
                 </div>
+              </div>
+            </div>
+          </Modal>
+          <Modal className="bid_modal show_info_modal" show={this.state.show_instructions} onHide={this.closeShowInstructionModal}>
+            <Modal.Header closeButton>
+              <div className="col-md-11">
+                <h5 className="mb-0 "> Showing Information</h5>
+              </div>
+            </Modal.Header>
+            <div className="modal-body">
+              <div className="row mx-0">
+                <div className="col-md-6 px-0">
+                  <h5 className="font-darkred text-center">Showing Instructions</h5>
+                  <div className="showing_info px-2">
+                    <p>
+                      {this.state.property.show_instructions_text}
+                    </p>
+                  </div>
+                </div>
+                <div className="col-md-6 px-0">
+                  <h5 className="font-darkred text-center">Open House Dates</h5>
+                  <div className="showing_info border-0 px-2">
+                    {open_house_dates}
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 text-center mt-3">
+                <span className="error"></span>
+                <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.closeShowInstructionModal}>Close</button>
               </div>
             </div>
           </Modal>
