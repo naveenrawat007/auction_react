@@ -1654,13 +1654,18 @@ export default class PropertyShow extends Component {
       return (
         <div className="container custom_container">
           {
-            ((Object.entries(this.state.chat_room).length > 0) && (this.state.chat_room.constructor === Object)) ?
-              <Redirect to={{
-                pathname: "/user/chat",
-                state: { chat_room: this.state.chat_room }
-              }}/>
+            this.state.chat_room ?
+              (
+                ((Object.entries(this.state.chat_room).length > 0) && (this.state.chat_room.constructor === Object)) ?
+                  <Redirect to={{
+                    pathname: "/user/chat",
+                    state: { chat_room: this.state.chat_room }
+                  }}/>
+                :
+                null
+              )
             :
-            null
+              null
           }
           <div className="row">
             <div className="col-md-12">
