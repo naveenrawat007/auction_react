@@ -50,10 +50,16 @@ export default class ChatList extends Component{
     .then((result) => {
       if (this._isMounted){
         if (result.status === 200){
+					let chat_rooms = result.chat_rooms;
+					if (this.state.selected_chat_room !== "") {
+						if (this.state.selected_chat_room.open_connection === false){
+							chat_rooms.push(this.state.selected_chat_room)
+						}
+					}
           this.setState({
 						user_id: result.user_id,
             isLoaded: true,
-            chat_rooms: result.chat_rooms,
+            chat_rooms: chat_rooms,
 						chat_rooms_available: ((this.state.chat_rooms_available == null) ? ((result.chat_rooms.length > 0) ? true : null) : this.state.chat_rooms_available),
             selected_chat_room: this.state.selected_chat_room ? this.state.selected_chat_room : result.chat_rooms[0],
             current_page : result.meta.current_page,
