@@ -110,6 +110,7 @@ export default class ListOfferProperty extends Component{
     const{ name, value } = event.target;
     this.setState({
       isLoaded: false,
+      page: 1,
       [name]: value
     }, function functionName() {
       clearTimeout(this.getPropertiesListTimeout);
