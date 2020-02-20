@@ -164,6 +164,8 @@ const initial_state = {
     seller_price: "",
     buy_now_price: "",
     auction_started_at: new Date(),
+    best_offer_auction_started_at: new Date,
+    best_offer_auction_ending_at: "",
     auction_length: "",
     auction_ending_at: "",
     buy_option: [],
@@ -253,6 +255,8 @@ const initial_state = {
   property_seller_pay_type_id_error: "",
   property_show_instructions_type_id_error: "",
   property_youtube_url_error: "",
+  property_best_offer_auction_started_at_error: "",
+  property_best_offer_auction_ending_at_error: "",
 
 }
 
@@ -426,6 +430,8 @@ export default class PropertyEdit extends Component{
         description_of_repairs: property.description_of_repairs,
         rental_description: property.rental_description,
         unique_address: property.unique_address,
+        best_offer_auction_ending_at: property.best_offer_auction_ending_at,
+        best_offer_auction_started_at: property.best_offer_auction_started_at,
       }
     });
     if (property.category === "Residential"){
@@ -1126,12 +1132,16 @@ export default class PropertyEdit extends Component{
     let property_seller_pay_type_id_error = "";
     let property_show_instructions_type_id_error = "";
     let property_show_instructions_text_error = "";
-    let property_best_offer_length_error = "";
+    let property_best_offer_auction_ending_at_error = "";
+    let property_best_offer_auction_started_at_error = "";
     let property_best_offer_sellers_minimum_price_error = "";
     let property_best_offer_sellers_reserve_price = "";
     if (this.state.property.best_offer === "true"){
-      if (this.state.property.best_offer_length === ""){
-        property_best_offer_length_error = "can't be blank."
+      if (this.state.property.best_offer_auction_started_at === "" || this.state.property.best_offer_auction_started_at === null){
+        property_best_offer_auction_started_at_error = "can't be blank."
+      }
+      if (this.state.property.best_offer_auction_ending_at === "" || this.state.property.best_offer_auction_ending_at === null){
+        property_best_offer_auction_ending_at_error = "can't be blank."
       }
       if (this.state.property.best_offer_sellers_minimum_price === ""){
         property_best_offer_sellers_minimum_price_error = "can't be blank."
@@ -1140,9 +1150,10 @@ export default class PropertyEdit extends Component{
         property_best_offer_sellers_reserve_price = "can't be blank."
       }
     }
-
-    if (this.state.property.auction_started_at === "" || this.state.property.auction_started_at === null){
-      property_auction_started_at_error = "can't be blank."
+    else{
+      if (this.state.property.auction_started_at === "" || this.state.property.auction_started_at === null){
+        property_auction_started_at_error = "can't be blank."
+      }
     }
     if (this.state.property.auction_length === ""){
       property_auction_length_error = "can't be blank."
@@ -1178,13 +1189,14 @@ export default class PropertyEdit extends Component{
       property_buy_option_error,
       property_show_instructions_type_id_error,
       property_show_instructions_text_error,
-      property_best_offer_length_error,
+      property_best_offer_auction_started_at_error,
+      property_best_offer_auction_ending_at_error,
       property_best_offer_sellers_reserve_price,
       property_best_offer_sellers_minimum_price_error,
       property_seller_pay_type_id_error,
     });
 
-    if (property_auction_started_at_error !== "" || property_auction_length_error !== "" || property_seller_price_error !== "" || property_buy_now_price_error !== "" || property_auction_ending_at_error !== "" || property_buy_option_error !== "" || property_show_instructions_type_id_error !== "" || property_show_instructions_text_error !== "" || property_best_offer_length_error !== "" || property_best_offer_sellers_reserve_price !== "" || property_best_offer_sellers_minimum_price_error !== "" || property_seller_pay_type_id_error !== ""){
+    if (property_auction_started_at_error !== "" || property_auction_length_error !== "" || property_seller_price_error !== "" || property_buy_now_price_error !== "" || property_auction_ending_at_error !== "" || property_buy_option_error !== "" || property_show_instructions_type_id_error !== "" || property_show_instructions_text_error !== "" || property_best_offer_auction_started_at_error !== "" || property_best_offer_auction_ending_at_error !== ""  || property_best_offer_sellers_reserve_price !== "" || property_best_offer_sellers_minimum_price_error !== "" || property_seller_pay_type_id_error !== ""){
       return false
     }else {
       return true
@@ -1195,10 +1207,11 @@ export default class PropertyEdit extends Component{
     const fd = new FormData();
     fd.append('property[id]', this.state.property.id)
     fd.append('property[best_offer]', this.state.property.best_offer)
-    fd.append('property[best_offer_length]', this.state.property.best_offer_length)
     fd.append('property[best_offer_sellers_minimum_price]', this.state.property.best_offer_sellers_minimum_price)
     fd.append('property[best_offer_sellers_reserve_price]', this.state.property.best_offer_sellers_reserve_price)
     fd.append('property[auction_started_at]', this.state.property.auction_started_at)
+    fd.append('property[best_offer_auction_started_at]', this.state.property.best_offer_auction_started_at)
+    fd.append('property[best_offer_auction_ending_at]', this.state.property.best_offer_auction_ending_at)
     fd.append('property[auction_length]', this.state.property.auction_length)
     fd.append('property[seller_price]', this.state.property.seller_price)
     fd.append('property[buy_now_price]', this.state.property.buy_now_price)
@@ -1452,6 +1465,26 @@ export default class PropertyEdit extends Component{
         }
       }, function () {
         // this.updatePropertyAuctionEnding();
+      })
+    }
+  }
+  updatePropertyBestOfferAuctionStart = (date) => {
+    if (this._isMounted){
+      this.setState({
+        property: {
+        ...this.state.property,
+        best_offer_auction_started_at: date
+        }
+      })
+    }
+  }
+  updatePropertyBestOfferAuctionEnd = (date) => {
+    if (this._isMounted){
+      this.setState({
+        property: {
+        ...this.state.property,
+        best_offer_auction_ending_at: date
+        }
       })
     }
   }
@@ -3740,9 +3773,9 @@ export default class PropertyEdit extends Component{
                               </div>
                               <div className="col-md-6 px-1">
                                 <div className="input-group mb-0">
-                                  <DatePicker disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false} className={"form-control " + this.addErrorClass(this.state.property_auction_started_at_error) }
-                                    selected={this.state.property.auction_started_at ? new Date(this.state.property.auction_started_at) : ""} minDate={new Date()}
-                                    name="auction_started_at" onChange={this.updatePropertyAuctionStart}
+                                  <DatePicker disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false} className={"form-control " + this.addErrorClass(this.state.property_best_offer_auction_started_at_error) }
+                                    selected={this.state.property.best_offer_auction_started_at ? new Date(this.state.property.best_offer_auction_started_at) : ""} minDate={new Date()}
+                                    name="best_offer_auction_started_at" onChange={this.updatePropertyBestOfferAuctionStart}
                                   />
                                 </div>
                               </div>
@@ -3763,12 +3796,10 @@ export default class PropertyEdit extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <select className={"form-control " + this.addErrorClass(this.state.property_best_offer_length_error) }  value={this.state.property.best_offer_length ? this.state.property.best_offer_length : ""}
-                                  disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false}
-                                  name="best_offer_length" onChange={this.updateProperty}>
-                                  <option>Please select</option>
-                                  {best_offer_lengths}
-                                </select>
+                                <DatePicker disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false} className={"form-control " + this.addErrorClass(this.state.property_best_offer_auction_ending_at_error) }
+                                  selected={this.state.property.best_offer_auction_ending_at ? new Date(this.state.property.best_offer_auction_ending_at) : ""} minDate={this.state.property.best_offer_auction_started_at}
+                                  name="best_offer_auction_ending_at" onChange={this.updatePropertyBestOfferAuctionEnd}
+                                />
                               </div>
                             </div>
                             <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
