@@ -3,7 +3,7 @@ import './App.css';
 import Login from './components/login/login.js'
 import SignUp from './components/signup/signup.js'
 import VerificationModal from './components/signup/verify_modal.js'
-import Navbar from './components/navbar/navbar.js'
+import TopNavbar from './components/navbar/navbar.js'
 import Footer from './components/navbar/footer.js'
 import ForgotPassword from './components/login/forgot_password.js'
 import Sidebar from './components/user/sidebar.js'
@@ -28,7 +28,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Route path='/' component = {Navbar}/>
+        <Route path='/' component = {TopNavbar}/>
         <Switch>
           <Route exact path="/" component={Home}/>
           <Route exact path="/about" component={About}/>
