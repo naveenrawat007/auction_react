@@ -318,7 +318,13 @@ body {
   display: flex;
   align-items: center;
 }
-
+.header .header-reg .dropdown .dropdown-menu{
+  right: 0;
+  left: auto;
+}
+.dropdown-item:active{
+  color: #212529 !important;
+}
 .header .header-reg .login-btn {
   padding: 5px 30px;
   color: #fff !important;
