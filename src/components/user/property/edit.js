@@ -2888,8 +2888,8 @@ export default class PropertyEdit extends Component{
                                 </div>
                                 <div className="col-md-6 my-3 px-0">
                                   <h5 className="text-uppercase font-red step_heads step_fonts">Financing Analysis After rehab</h5>
-                                  <div className="row mx-0 step_row label_mobile">
-                                    <div className="col-md-6 px-0 my-2">
+                                  <div className="row mx-0 step_row ">
+                                    <div className="col-md-6 px-0 my-2 label_mobile">
                                       <label className="text-uppercase">amount financed&nbsp;
                                         <OverlayTrigger trigger="click" rootClose placement="right"
                                           overlay={
