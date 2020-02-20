@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faBars } from '@fortawesome/free-solid-svg-icons'
 
 export default class Navbar extends Component{
   constructor(props){
@@ -175,8 +175,12 @@ export default class Navbar extends Component{
             <Link to="/" className="logo">
               <img src="/images/logo.png" alt="Logo"/>
             </Link>
+            <div className="mobile-header-reg">
+              <a href="/" className="mx-3"><img src="/images/help.png" onMouseOver={ (e) => {this.mouseOverImageChange(e)} } onMouseOut={ (e) => {this.mouseOutImageChange(e)} } border="0" alt=""/></a>
+              { this.login_log_out_div() }
+            </div>
             <button className="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"><i className="fa fa-indent"></i></span>
+              <span className="navbar-toggler-icon"><FontAwesomeIcon icon={faBars} /></span>
             </button>
 
             <div className="collapse navbar-collapse" id="navbarTogglerDemo03">

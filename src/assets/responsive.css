@@ -17,11 +17,14 @@
 		display: none;
 	}
 	.register_body{
-		width: 350px;
-		margin: 0 auto;
+		width: 350px !important;
+		margin: 0 auto !important;
 	}
 	.custom_container{
 		max-width: 540px;
+	}
+	.video_col{
+		height: 335px !important;
 	}
 	#videobcg{
 		margin-top: 0px !important;
@@ -42,6 +45,21 @@
 	.featured_col h2{
 		margin: 0 0 20px !important;
 		padding: 0 0 10px !important;
+	}
+	.pleft80 h4{
+		font-size: 17px !important;
+	}
+	.pleft80 h2{
+		font-size: 17px !important;
+	}
+	.inner_img img{
+		height: 285px !important;
+	}
+	.owl_box .main-content{
+		padding: 32px;
+	}
+	.owl_box .main-content .owl-carousel{
+		padding: 0px !important;
 	}
 	.flipping{
 		margin-bottom: 10px;
@@ -71,6 +89,7 @@
 	}
 	.dealofweek .pleft80 p{
 		margin-bottom: 0 !important;
+		font-size: 13px;
 	}
 	.invest_col{
 		padding: 20px 0px !important;
@@ -95,14 +114,14 @@
 	}
 	.inner_info{
 		padding-bottom: 0px !important;
-		min-height: 400px;
+		min-height: 288px;
 	}
 	.inner_info h5{
 		margin: 20px 0px 10px 0px !important;
 	}
 	.learnmore{
 		padding: 0px !important;
-		margin-bottom: 15px !important; 
+		margin-bottom: 15px !important;
 	}
 	.apply-btn{
 		margin-top: 15px !important;
@@ -181,7 +200,7 @@
 		margin: 0px !important;
 	}
 	.finance_inputs{
-		justify-content: space-between !important; 
+		justify-content: space-between !important;
 	}
 	.finance_inputs input{
 		width: 45% !important;
@@ -191,15 +210,39 @@
 	}
 }
 @media (max-width: 991.98px) {
+	.register_main .imp-box{
+		margin: 10px 0 0 0;
+	}
+	.header .mobile-header-reg{
+		display: flex !important;
+		margin-left: auto;
+		align-items: center;
+	}
+	.mobile-header-reg img {
+    width: 28px;
+	}
+	.mobile-header-reg .dropdown button {
+    font-size: 16px;
+    font-weight: 500;
+    background-color: transparent !important;
+    border-color: transparent !important;
+	}
+	.mobile-header-reg .login-btn, .mobile-header-reg .register-btn{
+		padding: 2px 10px;
+	}
+	.header .header-reg{
+		display: none !important;
+	}
 	.header	.responsive-nav{
-		flex-direction: row;
-		margin-left: 10px;
+		flex-direction: column;
+		margin-left: 10px !important;
 	}
 	nav .navbar-toggler{
-		padding: 1rem 0.75rem;
+		padding: 1rem 0.25rem;
 	}
-	nav .navbar-toggler i{
-		color: #a2a1a1;
+	nav .navbar-toggler svg{
+		color: #b71c1c;
+		height: 1.5em;
 	}
 	nav .navbar-toggler:focus{
 		outline: none;
@@ -261,7 +304,7 @@
 	}
 	.help_col .col-md-4{
 		flex: 0 0 50%;
-		max-width: 50%; 
+		max-width: 50%;
 	}
 	.inner_info h5{
 		min-height: 50px;
@@ -300,7 +343,7 @@
 		margin-bottom: 20px;
 	}
 	.invest_col .flip-card{
-		width: 100% !important; 
+		width: 100% !important;
 	}
 	.invest_col .flip-card-back{
 		display: flex;
@@ -323,8 +366,8 @@
 		width: 210px !important;
 	}
 	.flip-card-front img{
-		width: 100% !important; 
-	} 
+		width: 100% !important;
+	}
 }
 @media (min-width: 992px) and (max-width: 1199.98px) {
 	.inner_info{
@@ -343,7 +386,7 @@
 		width: 200px !important;
 	}
 	.flip-card-front img{
-		width: 100% !important; 
+		width: 100% !important;
 	}
 	.flip-card-back .flip-data ul{
 		margin-bottom: 12px !important;

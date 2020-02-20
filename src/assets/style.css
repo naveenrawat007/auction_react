@@ -314,7 +314,9 @@ body {
 .header .navbar-nav .nav-item {
   margin: 0 6px;
 }
-
+.header .mobile-header-reg{
+  display: none;
+}
 .header .header-reg {
   margin-left: auto;
   display: flex;

@@ -556,18 +556,18 @@ export default class Home extends Component {
           >
             <source src="/videos/skyline.mp4" type="video/mp4" />
           </video>
-        </div>
-        <div className="sub_title">
-          <div className="container">
+          <div className="sub_title">
+            <div className="container">
 
-            <h5 className="text-uppercase">join our marketplace</h5>
-            <span className="text-capitalize">
-              get exclusive acess plus be the first to know about upcoming
-              oppurtunities.{" "}
-              <a href="/#" className="">
-                click here
-              </a>
-            </span>
+              <h5 className="text-uppercase">join our marketplace</h5>
+              <span className="text-capitalize">
+                get exclusive acess plus be the first to know about upcoming
+                oppurtunities.{" "}
+                <a href="/#" className="">
+                  click here
+                </a>
+              </span>
+            </div>
           </div>
         </div>
         <div className="owl_box">
@@ -582,6 +582,22 @@ export default class Home extends Component {
               //   '<div class="owl_arrw"><</div>',
               //   '<div class="owl_arrw">></div>'
               // ]}
+              responsive={
+                {
+                  0: {
+                    items: 1,
+                    slideby: 1,
+                  },
+                  600: {
+                    items: 1,
+                    slideby: 1,
+                  },
+                  1000: {
+                    items: 3,
+                    slideby: 1,
+                  }
+                }
+              }
               navText={[
                 renderToStaticMarkup(<FontAwesomeIcon icon={faArrowLeft} />),
                 renderToStaticMarkup(<FontAwesomeIcon icon={faArrowRight} />)
