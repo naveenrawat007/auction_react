@@ -48,9 +48,10 @@ export default class TopNavbar extends Component{
       if (result.status !== 100){
         localStorage.removeItem("auction_user_token");
         localStorage.removeItem("auction_admin_token");
+        let static_links = ["/sign_up", "/login", "/forgot_password", "/property/new", "/about"]
         let path_name = ""
         path_name = this.props.location.pathname
-        if ((path_name === "/sign_up") || (path_name === "/login") || (path_name === "/forgot_password") || (path_name === "/property/new") || (/^\/property\/[a-z_0-9]+/i.test(path_name) === true) ){
+        if ((static_links.indexOf(path_name) !== -1 ) || (/^\/property\/[a-z_0-9]+/i.test(path_name) === true)|| (/^\/how-everything-works\.*/i.test(path_name) === true) || (/^\/frequently-asked-questions\.*/i.test(path_name) === true) || (/^\/help\.*/i.test(path_name) === true) || (/^\/realtor-portal\.*/i.test(path_name) === true)){
           this.props.history.push(this.props.location.pathname)
         }else if (path_name === "/new_password") {
         }
@@ -254,17 +255,22 @@ export default class TopNavbar extends Component{
                   <>
                     Buy <FontAwesomeIcon icon={faChevronDown} />
                   </>
-                  } id="collasible-nav-dropdown">
-                  <NavDropdown.Item href="#action/3.1">Best Offer</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">Live Online Auction</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">Coming Soon</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.4">Post Auction</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.4">Pending Property</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.4">Sold</NavDropdown.Item>
+                } id="collasible-nav-dropdown">
+                  <NavDropdown.Item href="/property/best_offer">Best Offer</NavDropdown.Item>
+                  <NavDropdown.Item href="/property/live_bidding">Live Online Auction</NavDropdown.Item>
+                  <NavDropdown.Item href="/property/post_auction">Post Auction</NavDropdown.Item>
+                  <NavDropdown.Item href="/property/pending">Pending Property</NavDropdown.Item>
+                  <NavDropdown.Item href="/property/sold">Sold</NavDropdown.Item>
                 </NavDropdown>
-                <Nav.Link href="#features">Sell</Nav.Link>
-                <Nav.Link href="#pricing">Help</Nav.Link>
-                <Nav.Link href="#pricing">About Us</Nav.Link>
+                {
+                  (this.state.logged_in === true && this.state.is_admin === false)
+                    ?
+                      <Nav.Link href='/user/property/new' className="nav-link" data-toggle="dropdown">Sell </Nav.Link>
+                    :
+                    <Nav.Link href='/property/new' className="nav-link" data-toggle="dropdown">Sell </Nav.Link>
+                }
+                <Nav.Link href="/how-everything-works/seller">Help</Nav.Link>
+                <Nav.Link href="/about">About Us</Nav.Link>
               </Nav>
               <Nav>
                 <Nav.Link href="#deets">More deets</Nav.Link>
