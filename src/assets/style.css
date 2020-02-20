@@ -265,13 +265,15 @@ body {
 }
 
 /********** Header ******/
-.header {
+.header{
   background: #fff;
   border-bottom: 1px solid #e9e9e9;
+}
+.header .custom_container{
   padding: 10px 0 5px 0;
 }
 
-.header .logo img {
+.header .navbar-brand img {
   width: 130px;
 }
 
@@ -294,25 +296,19 @@ body {
   background-color: transparent;
   border-color: transparent;
   color: #000;
+  margin: 0 6px;
 }
-
 .header .navbar-nav .nav-link:active {
   background-color: transparent;
   border-color: transparent;
   color: #000;
   box-shadow: none !important;
 }
-
 .header .navbar-nav .nav-link:focus {
   box-shadow: none;
 }
-
 .header .navbar-nav .dropdown-toggle::after {
   display: none;
-}
-
-.header .navbar-nav .nav-item {
-  margin: 0 6px;
 }
 .header .mobile-header-reg{
   display: none;

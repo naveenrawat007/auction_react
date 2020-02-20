@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom'
 import {Navbar, Nav, NavDropdown} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faBars } from '@fortawesome/free-solid-svg-icons'
+import {renderToStaticMarkup} from 'react-dom/server';
 
 export default class TopNavbar extends Component{
   constructor(props){
@@ -180,7 +181,7 @@ export default class TopNavbar extends Component{
     //     <div className="container custom_container px-0">
     //       <nav className="navbar navbar-expand-lg">
     //         <Link to="/" className="logo">
-    //           <img src="/images/logo.png" alt="Logo"/>
+    //           <img src="/images/logo.png" alt="Logo"/>|
     //         </Link>
     //         <div className="mobile-header-reg">
     //           <a href="/" className="mx-3"><img src="/images/help.png" onMouseOver={ (e) => {this.mouseOverImageChange(e)} } onMouseOut={ (e) => {this.mouseOutImageChange(e)} } border="0" alt=""/></a>
@@ -241,29 +242,39 @@ export default class TopNavbar extends Component{
     // )
     return (
       <div className="header">
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-          <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="mr-auto">
-              <Nav.Link href="#features">Features</Nav.Link>
-              <Nav.Link href="#pricing">Pricing</Nav.Link>
-              <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-            <Nav>
-              <Nav.Link href="#deets">More deets</Nav.Link>
-              <Nav.Link eventKey={2} href="#memes">
-                Dank memes
-              </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
+        <div className="container custom_container px-0">
+          <Navbar collapseOnSelect expand="lg">
+            <Navbar.Brand href="#home" className="p-0">
+              <img src="/images/logo.png" alt="Logo"/>
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="mr-auto">
+                <NavDropdown title={
+                  <>
+                    Buy <FontAwesomeIcon icon={faChevronDown} />
+                  </>
+                  } id="collasible-nav-dropdown">
+                  <NavDropdown.Item href="#action/3.1">Best Offer</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">Live Online Auction</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.3">Coming Soon</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.4">Post Auction</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.4">Pending Property</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.4">Sold</NavDropdown.Item>
+                </NavDropdown>
+                <Nav.Link href="#features">Sell</Nav.Link>
+                <Nav.Link href="#pricing">Help</Nav.Link>
+                <Nav.Link href="#pricing">About Us</Nav.Link>
+              </Nav>
+              <Nav>
+                <Nav.Link href="#deets">More deets</Nav.Link>
+                <Nav.Link eventKey={2} href="#memes">
+                  Dank memes
+                </Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
+        </div>
       </div>
     )
   }
