@@ -4,7 +4,7 @@ html, body {
   height: 100%;
 }
 
-header-reg .register-btn {
+.header .header-reg .register-btn {
   margin-left: 10px !important;
 }
 
