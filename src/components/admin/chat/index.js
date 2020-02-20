@@ -107,7 +107,7 @@ export default class AdminChatList extends Component{
 				<li key={index} className={(chat_room.id === this.state.selected_chat_room.id) ? "active" : null }>
 					<Link to="#" onClick={() => {this.updateSelectedChatRoom(chat_room)}} >
 						<div className="border_user">
-							<img src={chat_room.owner_image ? chat_room.owner_image : "/images/profile.png"} alt="profile"/>
+							<img src={chat_room.owner_image ? chat_room.owner_image : "/images/default-profile-img.png"} alt="profile"/>
 						</div>
 						<div className="active-main">
 							<h5>{chat_room.property_name}</h5>
