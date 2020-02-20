@@ -109,32 +109,38 @@ export default class TopNavbar extends Component{
       this.props.history.push('/')
     }
   }
-  // login_log_out_div = () => {
-  //   if (localStorage.getItem("auction_user_token")){
-  //     return(
-  //       <>
-  //         <Dropdown>
-  //           <Dropdown.Toggle className="nav-link" id="dropdown-basic2">
-  //             <img src="/images/user.png" onMouseOver={ (e) => {this.mouseOverUserImageChange(e)}} onMouseOut={ (e) => {this.mouseOutUserImageChange(e)}} border="0" alt=""/>
-  //           </Dropdown.Toggle>
-  //           <Dropdown.Menu className="drop-menu profile-menu" >
-  //             <Dropdown.Item onClick={this.navigateToProfile}>
-  //               My Profile
-  //             </Dropdown.Item>
-  //             <Dropdown.Item className="dropdown-item" onClick={this.handleLogout}>
-  //               Logout
-  //             </Dropdown.Item>
-  //           </Dropdown.Menu>
-  //         </Dropdown>
-  //       </>
-  //     )
-  //   }else {
-  //     return(
-  //       <> <Link to='/login' className="red-btn login-btn">Login</Link>&nbsp; <Link to="/sign_up" className="red-btn register-btn">Register</Link>
-  //       </>
-  //     )
-  //   }
-  // }
+  login_log_out_div = () => {
+    if (localStorage.getItem("auction_user_token")){
+      return(
+        <>
+          <NavDropdown title={
+            <>
+              <img src="/images/user.png" onMouseOver={ (e) => {this.mouseOverUserImageChange(e)}} onMouseOut={ (e) => {this.mouseOutUserImageChange(e)}} border="0" alt=""/>
+            </>
+          } id="collasible-nav-dropdown">
+            {
+              this.state.logged_in ?
+                (
+                  this.state.is_admin ?
+                    <NavDropdown.Item href="/admin">My Profile</NavDropdown.Item>
+                  :
+                  <NavDropdown.Item href="/user">My Profile</NavDropdown.Item>
+                )
+              :
+              <NavDropdown.Item href="/">My Profile</NavDropdown.Item>
+            }
+            {/* <NavDropdown.Item href="#">My Profile</NavDropdown.Item> */}
+            <NavDropdown.Item href="/" onClick={this.handleLogout}>Logout</NavDropdown.Item>
+          </NavDropdown>
+        </>
+      )
+    }else {
+      return(
+        <> <Link to='/login' className="red-btn login-btn">Login</Link>&nbsp; <Link to="/sign_up" className="red-btn register-btn">Register</Link>
+        </>
+      )
+    }
+  }
 
   mouseOutImageChange = (event) =>{
     event.target.src='/images/help.png'
@@ -169,78 +175,8 @@ export default class TopNavbar extends Component{
     this.props.history.push('/property/sold')
   }
 
-  // setNavbarVisible = () => {
-  //   this.setState({
-  //     display_mobile_nav: !this.state.display_mobile_nav,
-  //   });
-  // }
-
 
   render(){
-    // return(
-    //   <div className="header">
-    //     <div className="container custom_container px-0">
-    //       <nav className="navbar navbar-expand-lg">
-    //         <Link to="/" className="logo">
-    //           <img src="/images/logo.png" alt="Logo"/>|
-    //         </Link>
-    //         <div className="mobile-header-reg">
-    //           <a href="/" className="mx-3"><img src="/images/help.png" onMouseOver={ (e) => {this.mouseOverImageChange(e)} } onMouseOut={ (e) => {this.mouseOutImageChange(e)} } border="0" alt=""/></a>
-    //           { this.login_log_out_div() }
-    //         </div>
-    //         <button className="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-    //           <span className="navbar-toggler-icon" onClick={this.setNavbarVisible}><FontAwesomeIcon icon={faBars} /></span>
-    //         </button>
-    //
-    //         <div className="collapse navbar-collapse" id="navbarTogglerDemo03" style={ {display: (this.state.display_mobile_nav ? "block" : "none")}}>
-    //           <ul className="navbar-nav responsive-nav">
-    //             <li className="nav-item dropdown">
-    //               <Dropdown>
-    //                 <Dropdown.Toggle className="nav-link" id="dropdown-basic1">
-    //                   Buy <FontAwesomeIcon icon={faChevronDown} />
-    //                 </Dropdown.Toggle>
-    //                 <Dropdown.Menu className="drop-menu">
-    //                   <Dropdown.Item onClick={this.navigateToBestOffer}>
-    //                     Best Offer
-    //                   </Dropdown.Item>
-    //                   <Dropdown.Item onClick={this.navigateToLiveBidding}>
-    //                     Live Online Auction
-    //                   </Dropdown.Item>
-    //                   {/* <Dropdown.Item onClick={this.navigateToBestOffer}>Coming Soon</Dropdown.Item> */}
-    //                   <Dropdown.Item onClick={this.navigateToPostAuction}>Post Auction</Dropdown.Item>
-    //                   <Dropdown.Item onClick={this.navigateToPending}>Pending Property</Dropdown.Item>
-    //                   <Dropdown.Item onClick={this.navigateToSold}>Sold</Dropdown.Item>
-    //                 </Dropdown.Menu>
-    //               </Dropdown>
-    //             </li>
-    //             <li className="nav-item dropdown">
-    //               {
-    //                 (this.state.logged_in === true && this.state.is_admin === false)
-    //                   ?
-    //                     <Link to='/user/property/new' className="nav-link" data-toggle="dropdown">Sell </Link>
-    //                   :
-    //                   <Link to='/property/new' className="nav-link" data-toggle="dropdown">Sell </Link>
-    //               }
-    //             </li>
-    //             <li className="nav-item dropdown">
-    //               <Link className="nav-link" to="/how-everything-works/seller" data-toggle="dropdown">Help </Link>
-    //             </li>
-    //
-    //             <li className="nav-item">
-    //               <Link className="nav-link" to="/about">
-    //                 About us
-    //               </Link>
-    //             </li>
-    //           </ul>
-    //           <div className="header-reg">
-    //             <a href="/" className="mx-3"><img src="/images/help.png" onMouseOver={ (e) => {this.mouseOverImageChange(e)} } onMouseOut={ (e) => {this.mouseOutImageChange(e)} } border="0" alt=""/></a>
-    //             { this.login_log_out_div() }
-    //           </div>
-    //         </div>
-    //       </nav>
-    //     </div>
-    //   </div>
-    // )
     return (
       <div className="header">
         <div className="container custom_container px-0">
@@ -248,6 +184,12 @@ export default class TopNavbar extends Component{
             <Navbar.Brand href="#home" className="p-0">
               <img src="/images/logo.png" alt="Logo"/>
             </Navbar.Brand>
+            <Nav className="mobile-header-reg">
+              <Nav.Link>
+                <img src="/images/help.png" onMouseOver={ (e) => {this.mouseOverImageChange(e)} } onMouseOut={ (e) => {this.mouseOutImageChange(e)} } border="0" alt=""/>
+              </Nav.Link>
+              { this.login_log_out_div() }
+            </Nav>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="mr-auto">
@@ -272,11 +214,11 @@ export default class TopNavbar extends Component{
                 <Nav.Link href="/how-everything-works/seller">Help</Nav.Link>
                 <Nav.Link href="/about">About Us</Nav.Link>
               </Nav>
-              <Nav>
-                <Nav.Link href="#deets">More deets</Nav.Link>
-                <Nav.Link eventKey={2} href="#memes">
-                  Dank memes
+              <Nav className="header-reg">
+                <Nav.Link>
+                  <img src="/images/help.png" onMouseOver={ (e) => {this.mouseOverImageChange(e)} } onMouseOut={ (e) => {this.mouseOutImageChange(e)} } border="0" alt=""/>
                 </Nav.Link>
+                { this.login_log_out_div() }
               </Nav>
             </Navbar.Collapse>
           </Navbar>
