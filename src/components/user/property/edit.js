@@ -3797,7 +3797,7 @@ export default class PropertyEdit extends Component{
                               </div>
                               <div className="col-md-6 px-1">
                                 <DatePicker disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false} className={"form-control " + this.addErrorClass(this.state.property_best_offer_auction_ending_at_error) }
-                                  selected={this.state.property.best_offer_auction_ending_at ? new Date(this.state.property.best_offer_auction_ending_at) : ""} minDate={this.state.property.best_offer_auction_started_at}
+                                  selected={this.state.property.best_offer_auction_ending_at ? new Date(this.state.property.best_offer_auction_ending_at) : ""} minDate={new Date(this.state.property.best_offer_auction_started_at)}
                                   name="best_offer_auction_ending_at" onChange={this.updatePropertyBestOfferAuctionEnd}
                                 />
                               </div>
