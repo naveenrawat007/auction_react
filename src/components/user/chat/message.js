@@ -300,7 +300,7 @@ export default class Message extends Component{
             <div className="col-md-1 px-0">
               <div className="user_img">
                 <div className="border_img">
-                  <img src={message.user_image ? message.user_image : "/images/profile.png"} alt="profile"/>
+                  <img src={message.user_image ? message.user_image : "/images/default-profile-img.png"} alt="profile"/>
                 </div>
                 <p className="time_text">{message.created_at}</p>
               </div>

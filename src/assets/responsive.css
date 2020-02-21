@@ -11,7 +11,7 @@
 		margin-left: 0px;
 	}
 	.registration{
-		width: 350px;
+		width: 350px !important;
 	}
 	.registration-in .right-side .heading span{
 		font-size: 16px;
@@ -136,7 +136,7 @@
 
 @media (max-width: 767.98px) {
 	.registration{
-		width: 350px;
+		width: 350px !important;
 	}
 	.registration-in .left-side{
 		display: none;
@@ -219,8 +219,12 @@
 	}
 	.header .mobile-header-reg{
 		display: flex !important;
-		margin-left: auto;
+		margin-left: 0 !important;
+		flex-direction: row;
 		align-items: center;
+	}
+	.header .mobile-header-reg a{
+		margin: 0 6px !important;
 	}
 	.mobile-header-reg img {
     width: 28px;
@@ -241,8 +245,23 @@
 		flex-direction: column;
 		margin-left: 10px !important;
 	}
+	.navbar-nav .dropdown-menu{
+		position: absolute !important;
+		left: -113px !important;
+	}
+	.navbar-collapse .dropdown-menu{
+		left: 0 !important;
+	}
+	.navbar-light .navbar-brand{
+		margin-right: 0px !important;
+	}
+	.header .navbar-nav{
+		margin-left: 0px !important;
+	}
 	nav .navbar-toggler{
-		padding: 1rem 0.25rem;
+		padding: 1rem 0rem;
+		margin-right: 10px;
+		border: 0px;
 	}
 	nav .navbar-toggler svg{
 		color: #b71c1c;

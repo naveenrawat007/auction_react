@@ -4,6 +4,10 @@ html, body {
   height: 100%;
 }
 
+.header .header-reg .register-btn {
+  margin-left: 10px !important;
+}
+
 .list-inline-box{
   display: -webkit-inline-box !important;
 }
@@ -318,7 +322,13 @@ body {
   display: flex;
   align-items: center;
 }
-
+.header .header-reg .dropdown .dropdown-menu{
+  right: 0;
+  left: auto;
+}
+.dropdown-item:active{
+  color: #212529 !important;
+}
 .header .header-reg .login-btn {
   padding: 5px 30px;
   color: #fff !important;
