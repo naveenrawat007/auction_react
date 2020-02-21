@@ -4019,7 +4019,7 @@ export default class NewProperty extends Component{
                                   :
                                   <input type="checkbox" name="terms_agreed" disabled className="form-check-input" id="exampleCheck1" />
                                 }
-                                <label className="form-check-label" htmlFor="exampleCheck1">I agree to the website <Link to="#" className="font-blue">terms and coditions</Link></label>
+                                <label className="form-check-label" htmlFor="exampleCheck1">I agree to the website <Link to="#" className="font-blue">terms and conditions</Link></label>
                               </div>
                             </div>
                           </form>
