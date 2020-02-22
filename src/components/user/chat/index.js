@@ -52,7 +52,7 @@ export default class ChatList extends Component{
         if (result.status === 200){
 					let chat_rooms = result.chat_rooms;
 					if (this.state.selected_chat_room !== "") {
-						if (result.chat_room_ids.indexOf(this.state.selected_chat_room) === -1){
+						if (result.chat_room_ids.indexOf(this.state.selected_chat_room.id) === -1){
 							chat_rooms.push(this.state.selected_chat_room)
 						}
 					}
