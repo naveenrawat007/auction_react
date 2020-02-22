@@ -64,7 +64,7 @@ const initial_state = {
     additional_information: "",
     best_offer: "false",
     best_offer_length: "",
-    best_offer_auction_started_at: new Date,
+    best_offer_auction_started_at: new Date(),
     best_offer_auction_ending_at: "",
     best_offer_sellers_minimum_price: "",
     best_offer_sellers_reserve_price: "",
@@ -1432,7 +1432,7 @@ export default class NewProperty extends Component{
     let property_best_offer_auction_ending_at_error = "";
     let property_best_offer_auction_started_at_error = "";
     let property_show_instructions_text_error = "";
-    let property_best_offer_length_error = "";
+    // let property_best_offer_length_error = "";
     let property_best_offer_sellers_minimum_price_error = "";
     let property_best_offer_sellers_reserve_price = "";
     if (this.state.property.best_offer === "true"){
@@ -2023,11 +2023,11 @@ export default class NewProperty extends Component{
         <option key={index} value={value} >{value} days</option>
       )
     })
-    const best_offer_lengths = this.state.property_options.best_offer_lengths.map((value, index) => {
-      return(
-        <option key={index} value={value} >{value} days</option>
-      )
-    })
+    // const best_offer_lengths = this.state.property_options.best_offer_lengths.map((value, index) => {
+    //   return(
+    //     <option key={index} value={value} >{value} days</option>
+    //   )
+    // })
     const categories = this.state.property_options.categories.map((value, index) => {
       return(
         <option key={index} value={value} >{value}</option>

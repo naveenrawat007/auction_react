@@ -60,7 +60,7 @@ const initial_state = {
     additional_information: "",
     best_offer: "false",
     best_offer_length: "",
-    best_offer_auction_started_at: new Date,
+    best_offer_auction_started_at: new Date(),
     best_offer_auction_ending_at: "",
     best_offer_sellers_minimum_price: "",
     best_offer_sellers_reserve_price: "",
@@ -2335,11 +2335,11 @@ export default class UserNewProperty extends Component{
       value: key.id,
       label: key.description
     }));
-    const best_offer_lengths = this.state.property_options.best_offer_lengths.map((value, index) => {
-      return(
-        <option key={index} value={value} >{value} days</option>
-      )
-    })
+    // const best_offer_lengths = this.state.property_options.best_offer_lengths.map((value, index) => {
+    //   return(
+    //     <option key={index} value={value} >{value} days</option>
+    //   )
+    // })
     const open_house_dates = this.state.property.open_house_dates.map((value, index) => {
       return (
         <div key ={index} className="row mx-0">
