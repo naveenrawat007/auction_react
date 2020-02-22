@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelopeOpenText, faDownload, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import { faSearch, faUpload, faLink } from '@fortawesome/free-solid-svg-icons';
 import Accordion from 'react-bootstrap/Accordion';
 import Modal from 'react-bootstrap/Modal';
@@ -33,6 +33,7 @@ const initial_state = {
   withdraw_reasons_options: [],
   termination_reasons_options: [],
   share_email_error: "",
+  chat_room: "",
 }
 
 
@@ -388,6 +389,11 @@ export default class ListProperty extends Component{
           });
           this.clearMessageTimeout = setTimeout(() => {
             this.setState(() => ({message: ""}))
+            if (result.accepted === true){
+              this.setState({
+                chat_room: result.chat_room,
+              });
+            }
           }, 2000);
         }
       }
@@ -417,6 +423,15 @@ export default class ListProperty extends Component{
               </Link>
               <a href={bid.fund_proof} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faDownload}  /></a>
               <Link to="#" onClick={() => {this.acceptOffer(property_id, bid.id, bid.type)}}><FontAwesomeIcon icon={faThumbsUp} /></Link>
+              {
+                this.state.chat_room ?
+                  <Redirect to={{
+                    pathname: "/user/chat",
+                    state: { chat_room: this.state.chat_room }
+                  }}/>
+                :
+                  null
+              }
               <Link to="#" onClick={() => {this.acceptOffer(property_id, bid.id, bid.type, false)}}><FontAwesomeIcon icon={faThumbsDown}  /></Link>
             </div>
           </td>
