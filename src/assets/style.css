@@ -510,6 +510,7 @@ button:focus {
 }
 
 .profile_row .side_tab .nav {
+  display: flex !important;
   flex-direction: column;
   background-color: #f9f7f8;
 }
