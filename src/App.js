@@ -23,6 +23,7 @@ import Home from './components/navbar/home.js'
 import Plan from './components/user/plan/index.js'
 import About from './components/static/about.js'
 import Topbar from './components/static/topbar.js'
+import HelpAndFaq from './components/static_help/help_and_faq.js';
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
           <Route exact path="/realtor-portal/bidding-as-an-agent" component={() => <Topbar path='bidding_agent_realtor_portal'/>}/>
 
           <Route exact path="/frequently-asked-questions" component={() => <Topbar path='faq'/>}/>
+          <Route exact path="/help-and-faq" component={HelpAndFaq}/>
 
           <Route exact path="/user" component={() => <Sidebar path='user_profile'/>}/>
           <Route exact path="/user/chat" component={(props) => <Sidebar {...props} path='user_chat'/>}/>

@@ -137,7 +137,7 @@ export default class TopNavbar extends Component{
     }else {
       return(
         <>
-          <Link to='/login' className="red-btn login-btn">Login</Link> 
+          <Link to='/login' className="red-btn login-btn">Login</Link>
           <Link to="/sign_up" className="red-btn register-btn">Register</Link>
         </>
       )
@@ -213,7 +213,7 @@ export default class TopNavbar extends Component{
                     :
                     <Nav.Link href='/property/new' className="nav-link" data-toggle="dropdown">Sell </Nav.Link>
                 }
-                <Nav.Link href="/how-everything-works/seller">Help</Nav.Link>
+                <Nav.Link href="/help-and-faq">Help</Nav.Link>
                 <Nav.Link href="/about">About Us</Nav.Link>
               </Nav>
               <Nav className="header-reg">
