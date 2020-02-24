@@ -131,7 +131,201 @@
 		margin-top: 15px !important;
 		margin-bottom: 10px !important;
 	}
-
+	.profile-setting{
+		margin-top: 20px !important;
+	}
+	.container.custom_container.buy_tab h3{
+		font-size: 1.25rem !important;
+		text-align: center !important;
+	}
+	.biding_row{
+		padding: 10px 5px !important;
+		margin: 12px !important;
+	}
+	.biding_row .property-biding p{
+		font-size: 12px !important;
+	}
+	.biding_row .property-biding h5, .biding_row .pay-detail h5{
+		font-size: 16px !important;
+		margin-top: 8px !important;
+	}
+	.biding_row .property-biding{
+		padding: 0 10px !important;
+	}
+	.biding_row .biding-border{
+		margin-top: 10px !important
+	}
+	.biding_row .biding-border, .biding_row .pay-border{
+		border-right: 0px solid #ddd !important;
+		padding: 8px 0px !important
+	}
+	.biding_row .biding-img img{
+		width: 100% !important;
+		height: auto !important;
+	}
+	.pay-detail{
+		padding: 0 10px !important;
+	}
+	.time-detail{
+		padding: 0px !important;
+	}
+	.map-box iframe{
+		width: 100% !important;
+	}
+	.video-box video{
+		width: 100% !important;
+		height: 100% !important;
+	}
+	.doc_sec{
+		padding-left: 0px !important;
+	}
+	.detail_sec{
+		border-right: 0px !important;
+		padding: 0 !important;
+		margin-bottom: 15px;
+	}
+	.fees-content ul{
+		padding: 0 0 0 16px !important;
+	}
+	.time_status h4{
+		margin-bottom: 0 !important;
+	}
+	.property-head{
+		flex-direction: column !important;
+	}
+	.property-head .head_icon{
+		margin: 10px 0 !important;
+	}
+	.mySlides-image{
+		height: 200px !important;
+	}
+	.mySlides-image img{
+		max-height: 200px !important;
+	}
+	.column_gallery{
+		width: 30% !important;
+	}
+	.property_gallery{
+		padding-top: 0px !important;
+		background: rgba(0,0,0,0.2) !important;
+	}
+	.property_gallery .mySlides{
+		height: 200px !important;
+	}
+	.user_side_tab.side_tab{
+		margin: 0 10px 15px 10px !important;
+	}
+	.user_side_tab .account-head .account-image{
+		left: 40% !important;
+	}
+	.works_head h3{
+		font-size: 1.5rem !important;
+	}
+	.works_body .works_para, .works_body .works_img{
+		padding: 0px 10px !important;
+	}
+	.works_body .works_para h6{
+		font-size: 1.2rem !important;
+	}
+	.works_body .works_para p{
+		font-size: 1.1rem !important;
+	}
+	.works_body .works_img img{
+		width: 100% !important;
+	}
+	.payments_row{
+		padding: 0 0px !important;
+	}
+	.payments_box{
+		margin-bottom: 40px;
+	}
+	.collapse_btn{
+		display: block !important;
+		margin: 0 auto !important;
+	}
+	.user_side_tab .account-head .account-data{
+		padding: 60px 0 0 0 !important;
+	}
+	.upload-profile-pic{
+		margin: 10px 0 !important;
+	}
+	.update-pwd-btn{
+		margin: 20px 0px;
+	}
+	.about-option{
+		border-left: 0px !important;
+	}
+	.about-option ul{
+		margin: 0px !important;
+	}
+	.about-option ul:first-child{
+		float: left;
+	}
+	.about-option ul:last-child{
+		float: right;
+	}
+	.profile-form-in{
+		padding: 10px !important;
+	}
+	.overlay-edit{
+		left: 20% !important;
+	}
+	.nav-properties li.nav-item{
+		width: 50% !important;
+	}
+	.nav-properties li.nav-item a{
+		padding: .5rem 0 !important;
+	}
+	.properties-img .img-box img{
+		width: 100% !important;
+	}
+	.properties-img .img-box{
+		padding: 0 !important;
+	}
+	.properties-price{
+		border: 0px !important;
+		padding: 0 0 0 0 !important;
+	}
+	.properties-btn{
+		display: inline-block;
+		width: 100%;
+	}
+	.properties-btn a{
+		width: 50%;
+	}
+	.properties-btn a:first-child, .properties-btn a:nth-child(2){
+		float: left;
+	}
+	.properties-btn a:last-child, .properties-btn a:nth-child(3){
+		float: right;
+	}
+	.profile_row .left-chatbox{
+		display: none;
+	}
+	.profile_row .right-chatbox{
+		flex: 0 0 100% !important;
+    max-width: 100% !important;
+	}
+	.chat-body{
+		border-left: 0 !important;
+	}
+	.chat-head{
+		padding: 0 !important;
+	}
+	.chat-footer .col-md-12>div:first-child, .chat-footer .col-md-12>div:nth-child(3),
+	.chat-footer .col-md-12>div:last-child{
+		width: 10% !important;
+	}
+	.chat-footer .col-md-12>div:nth-child(2){
+		width: 70% !important;
+	}
+	.about_main{
+		padding: 0px !important;
+	}
+	.about_main h2{
+		font-size: 1.3rem !important;
+		text-align: center;
+	}
 }
 
 @media (max-width: 767.98px) {
@@ -140,14 +334,6 @@
 	}
 	.registration-in .left-side{
 		display: none;
-	}
-	.detail_sec{
-		border: 0px;
-		padding-left: 0.5rem !important;
-		margin-bottom: 15px;
-	}
-	.doc_sec{
-		padding-left: 0.5rem !important;
 	}
 	.video-box img{
 		width: 100%;
@@ -216,6 +402,28 @@
 @media (max-width: 991.98px) {
 	.register_main .imp-box{
 		margin: 10px 0 0 0;
+	}
+	#responsive-navbar-nav{
+		position: absolute;
+		width: 100%;
+		background: rgba(0,0,0,0.9);
+		z-index: 1;
+		top: 65px;
+		padding: 10px 15px;
+	}
+	#responsive-navbar-nav .nav-link{
+		color: #fff !important;
+	}
+	#responsive-navbar-nav .dropdown-menu{
+		position: relative !important;
+		padding: 0px !important;
+		background: rgba(0,0,0,0.9) !important;
+	}
+	#responsive-navbar-nav .dropdown-menu .dropdown-item{
+		color: #fff !important;
+	}
+	.header .navbar-nav .nav-link svg{
+		display: none;
 	}
 	.header .mobile-header-reg{
 		display: flex !important;
@@ -296,6 +504,9 @@
 	}
 	.bs-wizard{
 		display: none !important;
+	}
+	.profile-form{
+		margin: 0 10px !important;
 	}
 	#newproperty.container{
 		max-width: 810px !important;

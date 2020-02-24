@@ -134,55 +134,10 @@ export default class Sidebar extends Component{
                 <div className="account-data">
                   <h5>{localStorage.getItem("auction_user_name")}</h5>
                   <p className="font-red text-uppercase">{localStorage.getItem("auction_user_status")} User</p>
-                  <button className="btn collapse_btn" data-toggle="collapse" data-target="#pills"><FontAwesomeIcon icon={faChevronCircleDown} /></button>
+                  <button className="btn collapse_btn" data-toggle="collapse" data-target="#collapse_sidebar" aria-expanded="false" aria-controls="collapse_sidebar"><FontAwesomeIcon icon={faChevronCircleDown} /></button>
                 </div>
-                <ul className="nav nav-pills mobile-pills collapse" role="tablist" id="pills">
-                  <li className="nav-item">
-                    <Link to='/user' className={this.checkActive("user_profile")} data-toggle="pill" >
-                      <span><FontAwesomeIcon icon={faHome} /> Account Overview</span>
-                      <FontAwesomeIcon icon={faChevronRight} />
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link " data-toggle="pill" href="#availablePlans">
-                      <span><i className="fa fa-credit-card" aria-hidden="true"></i> Available Plans</span>
-                      <i className="fa fa-angle-right"></i>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <Link to='/user/property' className={this.checkActive("property_list")} data-toggle="pill" >
-                      <span><FontAwesomeIcon icon={faList} /> My Properties</span>
-                      <FontAwesomeIcon icon={faChevronRight} />
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to='/user/property/new' className={this.checkActive("new_property")} data-toggle="pill" href="#newproperty">
-                      <span><FontAwesomeIcon icon={faPlusCircle} />  Add New Property</span>
-                      <FontAwesomeIcon icon={faChevronRight} />
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" data-toggle="pill" href="#watchProperty">
-                      <span><i className="fa fa-search-plus" aria-hidden="true"></i> Watch Property</span>
-                      <i className="fa fa-angle-right"></i>
-                    </a>
-                  </li>
-
-                  <li className="nav-item">
-                    <a className="nav-link" data-toggle="pill" href="#messages">
-                      <span><i className="fa fa-comments" aria-hidden="true"></i> Messages</span>
-                      <i className="fa fa-angle-right"></i>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" data-toggle="pill" onClick={this.handleLogout} to="#">
-                      <span><FontAwesomeIcon icon={faSignOutAlt} />  Log out</span>
-                      <FontAwesomeIcon icon={faChevronRight} />
-                    </Link>
-                  </li>
-                </ul>
               </div>
-              <ul className="nav nav-pills profile-pills" role="tablist">
+              <ul className="nav nav-pills profile-pills collapse" role="tablist" id="collapse_sidebar">
                 <li className="nav-item" >
                   <Link to='/user' className={this.checkActive("user_profile")} data-toggle="pill" >
                     <span><FontAwesomeIcon icon={faHome} /> Account Overview</span>
