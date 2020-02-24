@@ -3150,7 +3150,12 @@ input:checked+.slider:before {
 .profile_row .user_side_tab .nav-pills .nav-link span svg {
   margin-right: 10px;
 }
-
+.profile_row .user_side_tab .nav-pills .nav-link svg.fa-chevron-down{
+  display: none;
+}
+.profile_row .user_side_tab .nav-pills .nav-link svg.fa-chevron-right{
+  display: block;
+}
 .profile_row .user_side_tab .nav-pills .nav-link.active, .user_side_tab .nav-pills .show>.nav-link {
   border-left: 3px solid #b71c1c;
   background-color: #000;

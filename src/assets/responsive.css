@@ -239,12 +239,8 @@
 	.payments_box{
 		margin-bottom: 40px;
 	}
-	.collapse_btn{
-		display: block !important;
-		margin: 0 auto !important;
-	}
 	.user_side_tab .account-head .account-data{
-		padding: 60px 0 0 0 !important;
+		padding: 60px 0 10px 0 !important;
 	}
 	.upload-profile-pic{
 		margin: 10px 0 !important;
@@ -325,6 +321,12 @@
 	.about_main h2{
 		font-size: 1.3rem !important;
 		text-align: center;
+	}
+	.profile_row .user_side_tab .nav-pills .nav-link svg.fa-chevron-down{
+	  display: block !important;
+	}
+	.profile_row .user_side_tab .nav-pills .nav-link svg.fa-chevron-right{
+	  display: none !important;
 	}
 }
 
@@ -411,13 +413,17 @@
 		top: 65px;
 		padding: 10px 15px;
 	}
+	#responsive-navbar-nav.collapsing{
+		padding: 10px 15px;
+	}
+
 	#responsive-navbar-nav .nav-link{
 		color: #fff !important;
 	}
 	#responsive-navbar-nav .dropdown-menu{
 		position: relative !important;
 		padding: 0px !important;
-		background: rgba(0,0,0,0.9) !important;
+		background: transparent !important;
 	}
 	#responsive-navbar-nav .dropdown-menu .dropdown-item{
 		color: #fff !important;
@@ -430,6 +436,8 @@
 		margin-left: 0 !important;
 		flex-direction: row;
 		align-items: center;
+		width: 30% !important;
+		justify-content: space-between !important;
 	}
 	.header .mobile-header-reg a{
 		margin: 0 6px !important;

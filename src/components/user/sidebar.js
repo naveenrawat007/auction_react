@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Profile from './profile.js'
-import { faChevronCircleDown, faList, faCreditCard, faHome, faPlusCircle, faHeart, faEnvelopeOpenText, faSignOutAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { faChevronCircleDown, faList, faCreditCard, faHome, faPlusCircle, faHeart, faEnvelopeOpenText, faSignOutAlt, faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 // import NewProperty from './property/new'
 import ListProperty from './property/index'
 import WatchProperty from './property/watch_property.js'
@@ -142,6 +142,7 @@ export default class Sidebar extends Component{
                   <Link to='/user' className={this.checkActive("user_profile")} data-toggle="pill" >
                     <span><FontAwesomeIcon icon={faHome} /> Account Overview</span>
                     <FontAwesomeIcon icon={faChevronRight} />
+                    <FontAwesomeIcon icon={faChevronDown} />
                   </Link>
                 </li>
                 <li className="nav-item">
@@ -149,6 +150,7 @@ export default class Sidebar extends Component{
                   <Link to='/plans' className={this.checkActive("user_plans")} data-toggle="pill" >
                     <span><FontAwesomeIcon icon={faCreditCard} /> Available Plans</span>
                     <FontAwesomeIcon icon={faChevronRight} />
+                    <FontAwesomeIcon icon={faChevronDown} />
                   </Link>
                   {/* </a> */}
                 </li>
@@ -156,18 +158,21 @@ export default class Sidebar extends Component{
                   <Link to='/user/property' className={this.checkActive("property_list")} data-toggle="pill" >
                     <span><FontAwesomeIcon icon={faList} /> My Properties</span>
                     <FontAwesomeIcon icon={faChevronRight} />
+                    <FontAwesomeIcon icon={faChevronDown} />
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link to='/user/property/new' className={this.checkActive("new_property")} data-toggle="pill" href="#newproperty">
                     <span><FontAwesomeIcon icon={faPlusCircle} />  Add New Property</span>
                     <FontAwesomeIcon icon={faChevronRight} />
+                    <FontAwesomeIcon icon={faChevronDown} />
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link to='/user/watch_properties' className={this.checkActive("watch_properties_list")} data-toggle="pill" href="#newproperty">
                     <span><FontAwesomeIcon icon={faHeart} />  Watch Property</span>
                     <FontAwesomeIcon icon={faChevronRight} />
+                    <FontAwesomeIcon icon={faChevronDown} />
                   </Link>
                 </li>
 
@@ -175,12 +180,14 @@ export default class Sidebar extends Component{
                   <Link className={this.checkActive("user_chat")} to="/user/chat">
                     <span><FontAwesomeIcon icon={faEnvelopeOpenText} />  Messages</span>
                     <FontAwesomeIcon icon={faChevronRight} />
+                    <FontAwesomeIcon icon={faChevronDown} />
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" data-toggle="pill" onClick={this.handleLogout} to="#">
                     <span><FontAwesomeIcon icon={faSignOutAlt} />  Log out</span>
                     <FontAwesomeIcon icon={faChevronRight} />
+                    <FontAwesomeIcon icon={faChevronDown} />
                   </Link>
                 </li>
               </ul>
