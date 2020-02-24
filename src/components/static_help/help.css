@@ -1,0 +1,69 @@
+.faq_navtabs .nav-tabs{
+  border-bottom: 0px;
+}
+.faq_navtabs .nav-tabs .nav-item.show .nav-link,
+.faq_navtabs .nav-tabs .nav-link.active{
+  color: #495057 !important;
+  background-color: #fff;
+  border-color: #fff;
+}
+.faq_navtabs .nav-tabs .nav-link{
+  font-weight: 500;
+  color: #5ba0ea !important;
+  padding: 0.5rem 0 !important;
+}
+.faq_navtabs .nav-tabs .nav-link:focus,
+.faq_navtabs .nav-tabs .nav-link:hover{
+  border-color: #fff;
+}
+.faq_heading h4{
+  font-size: 30px;
+  font-weight: 600;
+}
+.faq_rows h6:first-child{
+  margin-top: 0px;
+}
+.faq_rows h6{
+  font-size: 28px;
+  font-weight: 400;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #aaa;
+  margin-top: 40px;
+}
+.faq_rows .accordion button{
+  color: #000;
+  padding: .75rem 0 !important;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 17.5px;
+}
+.faq_rows .accordion .collapse p, .faq_rows .accordion .collapsing p{
+  font-weight: 400;
+  font-size: 17.5px;
+}
+.faq_rows .accordion .collapse p a, .faq_rows .accordion .collapsing p a{
+  color: #0c76a8 !important;
+  font-weight: 500;
+}
+.faq_rows .accordion .collapse ul, .faq_rows .accordion .collapsing ul{
+  padding-inline-start: 20px;
+}
+.faq_rows .accordion .collapse ul li, .faq_rows .accordion .collapsing ul li{
+  font-weight: 400;
+  font-size: 17.5px;
+}
+.faq_rows .accordion .collapse, .faq_rows .accordion .collapsing{
+  padding: 0 0 0 20px;
+}
+.faq_rows .accordion button svg{
+  color: #ff0000;
+  margin-right: 10px;
+}
+.faq_rows .accordion .font-blue{
+  font-weight: 600;
+}
+.faq_rows .accordion .font-red{
+  font-weight: 500;
+}
