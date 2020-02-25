@@ -11,7 +11,7 @@
 		margin-left: 0px;
 	}
 	.registration{
-		width: 350px !important;
+		width: 100% !important;
 	}
 	.registration-in .right-side .heading span{
 		font-size: 16px;
@@ -21,8 +21,7 @@
 		display: none;
 	}
 	.register_body{
-		width: 350px !important;
-		margin: 0 auto !important;
+		width: 100% !important;
 	}
 	.custom_container{
 		max-width: 540px;
@@ -332,7 +331,7 @@
 
 @media (max-width: 767.98px) {
 	.registration{
-		width: 350px !important;
+		width: 100% !important;
 	}
 	.registration-in .left-side{
 		display: none;
@@ -436,8 +435,8 @@
 		margin-left: 0 !important;
 		flex-direction: row;
 		align-items: center;
-		width: 30% !important;
-		justify-content: space-between !important;
+		width: 54% !important;
+		justify-content: flex-start !important;
 	}
 	.header .mobile-header-reg a{
 		margin: 0 6px !important;
@@ -537,7 +536,7 @@
 		margin: 2.2rem 0 !important;
 	}
 	.login_banner .registration{
-		width: 100%;
+		width: 100% !important;
 	}
 }
 @media (min-width: 576px) and (max-width: 991.98px) {
