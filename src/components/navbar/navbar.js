@@ -113,6 +113,9 @@ export default class TopNavbar extends Component{
     if (localStorage.getItem("auction_user_token")){
       return(
         <>
+          <Nav.Link>
+            <img src="/images/help.png" onMouseOver={ (e) => {this.mouseOverImageChange(e)} } onMouseOut={ (e) => {this.mouseOutImageChange(e)} } border="0" alt=""/>
+          </Nav.Link>
           <NavDropdown title={
             <>
               <img src="/images/user.png" onMouseOver={ (e) => {this.mouseOverUserImageChange(e)}} onMouseOut={ (e) => {this.mouseOutUserImageChange(e)}} border="0" alt=""/>
@@ -217,9 +220,7 @@ export default class TopNavbar extends Component{
                 <Nav.Link href="/about">About Us</Nav.Link>
               </Nav>
               <Nav className="header-reg">
-                <Nav.Link>
-                  <img src="/images/help.png" onMouseOver={ (e) => {this.mouseOverImageChange(e)} } onMouseOut={ (e) => {this.mouseOutImageChange(e)} } border="0" alt=""/>
-                </Nav.Link>
+
                 { this.login_log_out_div() }
               </Nav>
             </Navbar.Collapse>
