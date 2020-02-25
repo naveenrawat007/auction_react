@@ -190,9 +190,6 @@ export default class TopNavbar extends Component{
               <img src="/images/logo.png" alt="Logo"/>
             </Navbar.Brand>
             <Nav className="mobile-header-reg">
-              <Nav.Link>
-                <img src="/images/help.png" onMouseOver={ (e) => {this.mouseOverImageChange(e)} } onMouseOut={ (e) => {this.mouseOutImageChange(e)} } border="0" alt=""/>
-              </Nav.Link>
               { this.login_log_out_div() }
             </Nav>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
