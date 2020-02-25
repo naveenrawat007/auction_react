@@ -244,7 +244,7 @@ export default class Login extends Component{
   }
 	render() {
 		return (
-      <div className="container custom_container px-0">
+      <div className="col-md-8 offset-md-2 my-4">
         <div className="register_body">
           <div className="register_main my-4">
             <div className="register-head text-center">
