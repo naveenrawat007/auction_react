@@ -59,7 +59,7 @@ ChatConnection.prototype.createRoomConnection = function(room_code) {
       })
     },
     read: function(user_id, message_id) {
-      console.log("sended read");
+      // console.log("sended read");
       return this.perform('read', {
         message: message_id,
         sender:  user_id
