@@ -95,6 +95,9 @@ export default class Message extends Component{
       }
     }
     if (flag === false){
+      if (this.state.current_user_id !== message.user_id){
+        this.chatConnection.read(this.state.current_user_id, message.id, this.state.room_id)
+      }
       messages.push(message)
     }
     this.setState({

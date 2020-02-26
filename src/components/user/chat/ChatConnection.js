@@ -20,6 +20,14 @@ ChatConnection.prototype.talk = function(message, roomId) {
     // console.log('Error: Cannot find room connection')
   }
 }
+ChatConnection.prototype.read = function(user_id, message_id, roomId) {
+  let roomConnObj = this.roomConnections.find(conn => conn.roomId === roomId)
+  if (roomConnObj) {
+    roomConnObj.conn.read(user_id, message_id)
+  } else {
+    // console.log('Error: Cannot find room connection')
+  }
+}
 
 ChatConnection.prototype.openNewRoom = function(roomId) {
   if (roomId !== undefined) {
@@ -48,6 +56,13 @@ ChatConnection.prototype.createRoomConnection = function(room_code) {
         room_id: room_code,
         message: message,
         sender:  scope.senderId
+      })
+    },
+    read: function(user_id, message_id) {
+      console.log("sended read");
+      return this.perform('read', {
+        message: message_id,
+        sender:  user_id
       })
     }
   })
