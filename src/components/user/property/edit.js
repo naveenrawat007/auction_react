@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import MultiSelect from "@khanacademy/react-multi-select";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
+// import CurrencyInput from 'react-currency-input';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 // import Alert from 'react-bootstrap/Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -64,6 +65,7 @@ const initial_state = {
 
     deal_analysis_type: "Rehab & Flip Deal",
     after_rehab_value: "",
+    after_rehab_value_masked: "",
     asking_price: "",
     estimated_rehab_cost: "",
     profit_potential: "",
@@ -1341,6 +1343,22 @@ export default class PropertyEdit extends Component{
         }, function () {
         });
       }
+    }
+  }
+
+  updateMaskedPropertyAtrr = (event) => {
+    const{ name, value } = event.target;
+    console.log(name, value);
+    console.log(parseFloat(value.replace(/[$,.]/g,""))/100);
+    // console.log(name, parseFloat(floatvalue));
+    if (this._isMounted){
+      this.setState({
+        property: {
+        ...this.state.property,
+        [name]: parseFloat(value.replace(/[$,.]/g,""))/100,
+        }
+      }, function () {
+      })
     }
   }
 
@@ -2756,7 +2774,7 @@ export default class PropertyEdit extends Component{
                                   <label>Estimated After Rehab Value(ARV)</label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="number" name="after_rehab_value" className={"form-control " + this.addErrorClass(this.state.property_after_rehab_value_error) } onChange={this.updateProperty} value={this.state.property.after_rehab_value}/>
+                                  <input type="text" name="after_rehab_value" className={"form-control " + this.addErrorClass(this.state.property_after_rehab_value_error) } onChange={this.updateMaskedPropertyAtrr} value={window.format_currency(this.state.property.after_rehab_value)}/>
                                 </div>
                               </div>
                               <div className="form-group col-md-10 offset-md-1 px-0 row step_row">
