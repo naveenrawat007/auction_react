@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
 import MultiSelect from "@khanacademy/react-multi-select";
+import CurrencyInput from 'react-currency-input';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 // import Alert from 'react-bootstrap/Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -373,6 +374,26 @@ export default class NewProperty extends Component{
     }
   }
 
+  updateMaskedPropertyAtrr = (event, maskedvalue, floatvalue) => {
+    const{ name } = event.target;
+    // console.log(name, value);
+    // console.log(name, parseFloat(floatvalue));
+    if (this._isMounted){
+      this.setState({
+        property: {
+        ...this.state.property,
+        [name]: parseFloat(maskedvalue.replace(/[$,.]/g,""))/100,
+        }
+      }, function () {
+        if (this.state.property.deal_analysis_type === "Landlord Deal"){
+          this.updateLandlordDealCalculator();
+        }else {
+          this.updateProfitPotentialCalculator();
+        }
+      })
+    }
+  }
+
   updateProperty = (event) => {
     const{ name, value } = event.target;
     if (this._isMounted){
@@ -553,15 +574,15 @@ export default class NewProperty extends Component{
       })
     }
   }
-  updatePropertyRehabCostAttr = (event) => {
-    const{ name, value } = event.target;
+  updatePropertyRehabCostAttr = (event, maskedvalue, floatvalue) => {
+    const{ name } = event.target;
     if (this._isMounted){
       this.setState({
         property: {
         ...this.state.property,
           estimated_rehab_cost_attr:{
           ...this.state.property.estimated_rehab_cost_attr,
-            [name]: value,
+            [name]: parseFloat(maskedvalue.replace(/[$,.]/g,""))/100,
           }
         }
       }, function () {
@@ -2359,7 +2380,7 @@ export default class NewProperty extends Component{
                                   <label>Estimated After Rehab Value(ARV)</label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="number" name="after_rehab_value" className={"form-control " + this.addErrorClass(this.state.property_after_rehab_value_error) } onChange={this.updateProperty} value={this.state.property.after_rehab_value}/>
+                                  <CurrencyInput allowNegative={true} type="text" name="after_rehab_value" className={"form-control " + this.addErrorClass(this.state.property_after_rehab_value_error) } onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" value={this.state.property.after_rehab_value}/>
                                 </div>
                               </div>
                               <div className="form-group col-md-10 offset-md-1 px-0 row step_row">
@@ -2367,7 +2388,7 @@ export default class NewProperty extends Component{
                                   <label>Sellers Asking Price <span className="font-sign">(-)</span></label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="number" className={"form-control " + this.addErrorClass(this.state.property_asking_price_error) } id="temp_id" name="asking_price" value={this.state.property.asking_price} onChange={this.updateProperty} />
+                                  <CurrencyInput allowNegative={true} type="text" className={"form-control " + this.addErrorClass(this.state.property_asking_price_error) } id="temp_id" name="asking_price" value={this.state.property.asking_price} onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" />
                                 </div>
                               </div>
                               <div className="form-group col-md-10 offset-md-1 px-0 row step_row">
@@ -2375,7 +2396,7 @@ export default class NewProperty extends Component{
                                   <label>Estimated Rehab Cost <span className="font-sign">(-)</span></label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="number" readOnly={true} className={"form-control estimated-cost " + this.addErrorClass(this.state.property_estimated_rehab_cost_error) } name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} onClick={() => {this.setState({
+                                  <CurrencyInput allowNegative={true} type="text" readOnly={true} prefix="$" className={"form-control estimated-cost " + this.addErrorClass(this.state.property_estimated_rehab_cost_error) } name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} onClick={() => {this.setState({
                                     estimated_cost_modal: true
                                   });}}/>
                                 </div>
@@ -2385,7 +2406,7 @@ export default class NewProperty extends Component{
                                   <label>Estimated Profit Potential <span className="font-sign">(=)</span></label>
                                 </div>
                                 <div className="col-md-6 px-1">
-                                  <input type="number" name="profit_potential" className="form-control" onChange={this.updateProperty} value={this.state.property.profit_potential} readOnly={true} />
+                                  <CurrencyInput allowNegative={true} type="text" name="profit_potential" prefix="$" className="form-control" onChange={this.updateProperty} value={this.state.property.profit_potential} readOnly={true} />
                                 </div>
                               </div>
                             </div>
@@ -2409,7 +2430,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_after_rehab_value_error) } value={this.state.property.after_rehab_value} name="after_rehab_value" onChange={this.updateProperty} />
+                                      <CurrencyInput allowNegative={true} type="text" className={"form-control " + this.addErrorClass(this.state.property_after_rehab_value_error) } value={this.state.property.after_rehab_value} name="after_rehab_value" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" />
                                     </div>
                                     <div className="col-md-12 px-0">
                                       <h6 className="text-uppercase font-red font-600">Acquisition Cost</h6>
@@ -2428,7 +2449,7 @@ export default class NewProperty extends Component{
                                                 <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
                                               </OverlayTrigger>
                                             </label>
-                                            <input type="number" className={"form-control " + this.addErrorClass(this.state.property_asking_price_error) } value={this.state.property.asking_price} name="asking_price" onChange={this.updateProperty}/>
+                                            <CurrencyInput allowNegative={true} type="text" className={"form-control " + this.addErrorClass(this.state.property_asking_price_error) } value={this.state.property.asking_price} name="asking_price" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$"/>
                                           </div>
                                         </li>
                                         <li className="my-2">
@@ -2445,7 +2466,7 @@ export default class NewProperty extends Component{
                                                 <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
                                               </OverlayTrigger>
                                             </label>
-                                            <input type="number" readOnly={true} className={"form-control estimated-cost " + this.addErrorClass(this.state.property_asking_price_error) }  name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} onClick={() => {this.setState({
+                                            <CurrencyInput allowNegative={true} type="text" prefix="$" readOnly={true} className={"form-control estimated-cost " + this.addErrorClass(this.state.property_asking_price_error) }  name="estimated_rehab_cost" value={this.state.property.estimated_rehab_cost} onClick={() => {this.setState({
                                               estimated_cost_modal: true
                                             });}}/>
                                           </div>
@@ -2464,7 +2485,7 @@ export default class NewProperty extends Component{
                                                 <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
                                               </OverlayTrigger>
                                             </label>
-                                            <input type="number" className={"form-control " + this.addErrorClass(this.state.property_closing_cost_error) } name="closing_cost" onChange={this.updateProperty}/>
+                                            <CurrencyInput allowNegative={true} type="text" className={"form-control " + this.addErrorClass(this.state.property_closing_cost_error) } name="closing_cost" value={this.state.property.closing_cost} onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$"/>
                                           </div>
                                         </li>
                                         <li className="my-2">
@@ -2481,7 +2502,7 @@ export default class NewProperty extends Component{
                                                 <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
                                               </OverlayTrigger>
                                             </label>
-                                            <input type="number" onChange={this.updateProperty} className={"form-control " + this.addErrorClass(this.state.property_insurance_annually_error) } name="insurance_annually" value={this.state.property.insurance_annually} />
+                                            <CurrencyInput allowNegative={true} type="text" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" className={"form-control " + this.addErrorClass(this.state.property_insurance_annually_error) } name="insurance_annually" value={this.state.property.insurance_annually} />
                                           </div>
                                         </li>
                                         <li className="my-2">
@@ -2498,7 +2519,7 @@ export default class NewProperty extends Component{
                                                 <FontAwesomeIcon icon={faInfoCircle} size="xs"/>
                                               </OverlayTrigger>
                                             </label>
-                                            <input type="number" className={"form-control " + this.addErrorClass(this.state.property_short_term_financing_cost_error) } value={this.state.property.short_term_financing_cost} name="short_term_financing_cost" onChange={this.updateProperty}/>
+                                            <CurrencyInput allowNegative={true} type="text" className={"form-control " + this.addErrorClass(this.state.property_short_term_financing_cost_error) } value={this.state.property.short_term_financing_cost} name="short_term_financing_cost" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$"/>
                                           </div>
                                         </li>
                                       </ul>
@@ -2518,7 +2539,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 pl-0">
-                                      <input type="number" value={this.state.property.total_acquisition_cost} readOnly={true} className="form-control" name="total_acquisition_cost"/>
+                                      <CurrencyInput allowNegative={true} type="text" value={this.state.property.total_acquisition_cost} readOnly={true} className="form-control" name="total_acquisition_cost" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$"/>
                                     </div>
                                   </div>
                                 </div>
@@ -2541,7 +2562,7 @@ export default class NewProperty extends Component{
                                     </div>
                                     <div className="col-md-6 my-2 row mx-0 finance_inputs">
                                       <input type="number" className={"form-control col-md-4 " + this.addErrorClass(this.state.property_amount_financed_percentage_error) } name="amount_financed_percentage" onChange={this.updateProperty} value={this.state.property.amount_financed_percentage} />
-                                      <input type="number" readOnly={true} value={this.state.property.amount_financed} className="form-control col-md-7 offset-md-1" name="amount_financed" />
+                                      <CurrencyInput allowNegative={true} type="text" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" value={this.state.property.amount_financed} className="form-control col-md-7 offset-md-1" name="amount_financed" />
                                     </div>
                                     <div className="col-md-6 px-0 my-2 label_web">
                                       <label className="text-uppercase">amount financed&nbsp;
@@ -2634,7 +2655,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
-                                      <input type="number" readOnly={true} value={this.state.property.principal_interest} className="form-control" name="principal_interest" />
+                                      <CurrencyInput allowNegative={true} type="text" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" readOnly={true} value={this.state.property.principal_interest} className="form-control" name="principal_interest" />
                                     </div>
                                     <div className="col-md-6 my-2 px-0 label_web">
                                       <label className="labels_main">Monthly Principal &amp; Interest&nbsp;
@@ -2665,7 +2686,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
-                                      <input type="number" readOnly={true} value={this.state.property.annual_debt} className="form-control" name="annual_debt"/>
+                                      <CurrencyInput allowNegative={true} type="text" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" readOnly={true} value={this.state.property.annual_debt} className="form-control" name="annual_debt"/>
                                     </div>
                                     <div className="col-md-6 px-0 my-2 label_web">
                                       <label className="labels_main">Annual Debt Service&nbsp;
@@ -2701,7 +2722,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_taxes_annually_error) } name="taxes_annually" onChange={this.updateProperty}/>
+                                      <CurrencyInput allowNegative={true} type="text" className={"form-control " + this.addErrorClass(this.state.property_taxes_annually_error) } name="taxes_annually" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$"/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Insurance&nbsp;
@@ -2718,7 +2739,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" onChange={this.updateProperty} className={"form-control " + this.addErrorClass(this.state.property_insurance_annually_error) } name="insurance_annually" value={this.state.property.insurance_annually} />
+                                      <CurrencyInput allowNegative={true} type="text" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" className={"form-control " + this.addErrorClass(this.state.property_insurance_annually_error) } name="insurance_annually" value={this.state.property.insurance_annually} />
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Management Fees:&nbsp;
@@ -2735,7 +2756,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_est_annual_management_fees_error) } name="est_annual_management_fees" onChange={this.updateProperty}/>
+                                      <CurrencyInput allowNegative={true} type="text" className={"form-control " + this.addErrorClass(this.state.property_est_annual_management_fees_error) } name="est_annual_management_fees" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" value={this.state.property.est_annual_management_fees}/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Maintenance:&nbsp;
@@ -2752,7 +2773,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" value={this.state.property.est_annual_operating_fees_others} className={"form-control " + this.addErrorClass(this.state.property_est_annual_operating_fees_others_error) } name="est_annual_operating_fees_others" onChange={this.updateProperty}/>
+                                      <CurrencyInput allowNegative={true} type="text" value={this.state.property.est_annual_operating_fees_others} className={"form-control " + this.addErrorClass(this.state.property_est_annual_operating_fees_others_error) } name="est_annual_operating_fees_others" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$"/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Annual Operating Costs&nbsp;
@@ -2769,7 +2790,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" className="form-control" readOnly={true} value={this.state.property.est_annual_operating_fees} name="est_annual_operating_fees" onChange={this.updateProperty} />
+                                      <CurrencyInput allowNegative={true} type="text" className="form-control" readOnly={true} value={this.state.property.est_annual_operating_fees} name="est_annual_operating_fees" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" />
                                     </div>
                                   </div>
                                   <div className="col-md-12 mt-4 px-0">
@@ -2791,7 +2812,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_monthly_rent_error) } name="monthly_rent" onChange={this.updateProperty}/>
+                                      <CurrencyInput allowNegative={true} type="text" className={"form-control " + this.addErrorClass(this.state.property_monthly_rent_error) } name="monthly_rent" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$"/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Total Gross Yearly Income:&nbsp;
@@ -2808,7 +2829,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" readOnly={true} value={this.state.property.total_gross_yearly_income} className="form-control" name="total_gross_yearly_income"/>
+                                      <CurrencyInput allowNegative={true} type="text" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$"  readOnly={true} value={this.state.property.total_gross_yearly_income} className="form-control" name="total_gross_yearly_income"/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main">Est Vacancy Rate:&nbsp;
@@ -2842,7 +2863,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" readOnly={true} value={this.state.property.adjusted_gross_yearly_income} className="form-control" name="adjusted_gross_yearly_income"/>
+                                      <CurrencyInput allowNegative={true} type="text" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" readOnly={true} value={this.state.property.adjusted_gross_yearly_income} className="form-control" name="adjusted_gross_yearly_income"/>
                                     </div>
                                   </div>
                                 </div>
@@ -2875,7 +2896,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 row mx-0">
-                                      <input type="number" readOnly={true} value={this.state.property.adjusted_gross_yearly_income} className="form-control" name="adjusted_gross_yearly_income"/>
+                                      <CurrencyInput allowNegative={true} type="text" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" readOnly={true} value={this.state.property.adjusted_gross_yearly_income} className="form-control" name="adjusted_gross_yearly_income"/>
                                     </div>
                                     <div className="col-md-6 px-0 my-2 label_web">
                                       <label className="labels_main">(+) Adjusted Gross Yearly Income
@@ -2906,7 +2927,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
-                                      <input type="number" className="form-control " readOnly={true} value={this.state.property.est_annual_operating_fees} name="est_annual_operating_fees" onChange={this.updateProperty} />
+                                      <CurrencyInput allowNegative={true} type="text" className="form-control " onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" readOnly={true} value={this.state.property.est_annual_operating_fees} name="est_annual_operating_fees"  />
                                     </div>
                                     <div className="col-md-6 px-0 my-2 label_web">
                                       <label className="labels_main">(-) Est Annual Operating Costs&nbsp;
@@ -2937,7 +2958,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
-                                      <input type="number" readOnly={true} value={this.state.property.net_operating_income} className="form-control" name="net_operating_income" />
+                                      <CurrencyInput allowNegative={true} type="text" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" readOnly={true} value={this.state.property.net_operating_income} className="form-control" name="net_operating_income" />
                                     </div>
                                     <div className="col-md-6 px-0 my-2 label_web">
                                       <label className="labels_main label-bold">(=) Net Operating Income (NOI)&nbsp;
@@ -2968,7 +2989,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
-                                      <input type="number" readOnly={true} value={this.state.property.annual_debt} className="form-control" name="annual_debt"/>
+                                      <CurrencyInput allowNegative={true} type="text" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" readOnly={true} value={this.state.property.annual_debt} className="form-control" name="annual_debt"/>
                                     </div>
                                     <div className="col-md-6 px-0 my-2 label_web">
                                       <label className="labels_main">(-) Annual Debt Service&nbsp;
@@ -2999,7 +3020,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
-                                      <input type="number" readOnly={true} value={this.state.property.annual_cash_flow} className="form-control" name="annual_cash_flow"/>
+                                      <CurrencyInput allowNegative={true} type="text" readOnly={true} onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" value={this.state.property.annual_cash_flow} className="form-control" name="annual_cash_flow"/>
                                     </div>
                                     <div className="col-md-6 px-0 my-2 label_web">
                                       <label className="labels_main label-bold">(=) Annual Cash Flow&nbsp;
@@ -3035,7 +3056,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
-                                      <input type="number" readOnly={true} value={this.state.property.monthly_cash_flow} className="form-control" name="monthly_cash_flow"/>
+                                      <CurrencyInput allowNegative={true} type="text" readOnly={true} onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" value={this.state.property.monthly_cash_flow} className="form-control" name="monthly_cash_flow"/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0 label_web">
                                       <label className="labels_main">Monthly Cash Flow&nbsp;
@@ -3066,7 +3087,7 @@ export default class NewProperty extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
-                                      <input type="number" readOnly={true} className="form-control" value={this.state.property.total_out_of_pocket} name="total_out_of_pocket"/>
+                                      <CurrencyInput allowNegative={true} type="text" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" readOnly={true} className="form-control" value={this.state.property.total_out_of_pocket} name="total_out_of_pocket"/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0 label_web">
                                       <label className="labels_main">Total Out of Pocket&nbsp;
@@ -3135,39 +3156,39 @@ export default class NewProperty extends Component{
                               <tbody>
                                 <tr>
                                   <td>1.00%</td>
-                                  <td>$ {this.state.property.appreciation_value.eg1}</td>
-                                  <td>$ {this.state.property.appreciation_value.t1}</td>
-                                  <td>$ {this.state.property.appreciation_value.cf1}</td>
-                                  <td>$ {this.state.property.appreciation_value.ta}</td>
-                                  <td>$ {this.state.property.appreciation_value.vac1}</td>
-                                  <td>$ {this.state.property.appreciation_value.ppy1}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.eg1)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.t1)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.cf1)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.ta)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.vac1)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.ppy1)}</td>
                                 </tr>
                                 <tr>
                                   <td>2.00%</td>
-                                  <td>$ {this.state.property.appreciation_value.eg2}</td>
-                                  <td>$ {this.state.property.appreciation_value.t2}</td>
-                                  <td>$ {this.state.property.appreciation_value.cf2}</td>
-                                  <td>$ {this.state.property.appreciation_value.tb}</td>
-                                  <td>$ {this.state.property.appreciation_value.vac2}</td>
-                                  <td>$ {this.state.property.appreciation_value.ppy2}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.eg2)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.t2)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.cf2)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.tb)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.vac2)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.ppy2)}</td>
                                 </tr>
                                 <tr>
                                   <td>3.00%</td>
-                                  <td>$ {this.state.property.appreciation_value.eg3}</td>
-                                  <td>$ {this.state.property.appreciation_value.t3}</td>
-                                  <td>$ {this.state.property.appreciation_value.cf3}</td>
-                                  <td>$ {this.state.property.appreciation_value.tc}</td>
-                                  <td>$ {this.state.property.appreciation_value.vac3}</td>
-                                  <td>$ {this.state.property.appreciation_value.ppy3}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.eg3)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.t3)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.cf3)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.tc)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.vac3)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.ppy3)}</td>
                                 </tr>
                                 <tr>
                                   <td>4.00%</td>
-                                  <td>$ {this.state.property.appreciation_value.eg4}</td>
-                                  <td>$ {this.state.property.appreciation_value.t4}</td>
-                                  <td>$ {this.state.property.appreciation_value.cf4}</td>
-                                  <td>$ {this.state.property.appreciation_value.td}</td>
-                                  <td>$ {this.state.property.appreciation_value.vac4}</td>
-                                  <td>$ {this.state.property.appreciation_value.ppy4}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.eg4)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.t4)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.cf4)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.td)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.vac4)}</td>
+                                  <td> {window.format_currency(this.state.property.appreciation_value.ppy4)}</td>
                                 </tr>
                               </tbody>
                             </table>
@@ -3235,7 +3256,7 @@ export default class NewProperty extends Component{
                                       <label>Roof:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input value={this.state.property.estimated_rehab_cost_attr.roof} type="number" className="form-control" name="roof" onChange={this.updatePropertyRehabCostAttr} />
+                                      <CurrencyInput prefix="$" value={this.state.property.estimated_rehab_cost_attr.roof} type="text" className="form-control" name="roof" onChangeEvent={this.updatePropertyRehabCostAttr} />
                                     </div>
                                   </div>
                                 </div>
@@ -3245,7 +3266,7 @@ export default class NewProperty extends Component{
                                       <label>Foundation:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name="foundation" value={this.state.property.estimated_rehab_cost_attr.foundation} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name="foundation" value={this.state.property.estimated_rehab_cost_attr.foundation} className="form-control " onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3255,7 +3276,7 @@ export default class NewProperty extends Component{
                                       <label>Siding:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name="siding" value={this.state.property.estimated_rehab_cost_attr.siding} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name="siding" value={this.state.property.estimated_rehab_cost_attr.siding} className="form-control" onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3265,7 +3286,7 @@ export default class NewProperty extends Component{
                                       <label>Windows:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name="windows" value={this.state.property.estimated_rehab_cost_attr.windows}  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name="windows" value={this.state.property.estimated_rehab_cost_attr.windows}  className="form-control" onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3275,7 +3296,7 @@ export default class NewProperty extends Component{
                                       <label>Landscaping:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name="landscaping" value={this.state.property.estimated_rehab_cost_attr.landscaping} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name="landscaping" value={this.state.property.estimated_rehab_cost_attr.landscaping} className="form-control" onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3285,7 +3306,7 @@ export default class NewProperty extends Component{
                                       <label>Garage:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name= "garage" value={this.state.property.estimated_rehab_cost_attr.garage} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name= "garage" value={this.state.property.estimated_rehab_cost_attr.garage} className="form-control" onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3295,7 +3316,7 @@ export default class NewProperty extends Component{
                                       <label>Exterior Paint:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name="exterior_paint" value={this.state.property.estimated_rehab_cost_attr.exterior_paint} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name="exterior_paint" value={this.state.property.estimated_rehab_cost_attr.exterior_paint} className="form-control" onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3305,7 +3326,7 @@ export default class NewProperty extends Component{
                                       <label>Interior Paint:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name="interior_paint" value={this.state.property.estimated_rehab_cost_attr.interior_paint} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name="interior_paint" value={this.state.property.estimated_rehab_cost_attr.interior_paint} className="form-control" onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3315,7 +3336,7 @@ export default class NewProperty extends Component{
                                       <label>HVAC:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name="hvac" value={this.state.property.estimated_rehab_cost_attr.hvac} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name="hvac" value={this.state.property.estimated_rehab_cost_attr.hvac} className="form-control" onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3326,7 +3347,7 @@ export default class NewProperty extends Component{
                                       <label>Electrical:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name="electrical" className="form-control" value={this.state.property.estimated_rehab_cost_attr.electrical} onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name="electrical" className="form-control" value={this.state.property.estimated_rehab_cost_attr.electrical} onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3336,7 +3357,7 @@ export default class NewProperty extends Component{
                                       <label>Plumbing:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name="plumbing" className="form-control" value={this.state.property.estimated_rehab_cost_attr.plumbing} onChange={this.updatePropertyRehabCostAttr} />
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name="plumbing" className="form-control" value={this.state.property.estimated_rehab_cost_attr.plumbing} onChangeEvent={this.updatePropertyRehabCostAttr} />
                                     </div>
                                   </div>
                                 </div>
@@ -3346,7 +3367,7 @@ export default class NewProperty extends Component{
                                       <label>Kitchen:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name="kitchen" value={this.state.property.estimated_rehab_cost_attr.kitchen}  className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name="kitchen" value={this.state.property.estimated_rehab_cost_attr.kitchen}  className="form-control" onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3356,7 +3377,7 @@ export default class NewProperty extends Component{
                                       <label>Bathrooms:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="name" name="bathrooms" value={this.state.property.estimated_rehab_cost_attr.bathrooms} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name="bathrooms" value={this.state.property.estimated_rehab_cost_attr.bathrooms} className="form-control" onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3366,7 +3387,7 @@ export default class NewProperty extends Component{
                                       <label>Doors:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name="doors" value={this.state.property.estimated_rehab_cost_attr.doors} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name="doors" value={this.state.property.estimated_rehab_cost_attr.doors} className="form-control" onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3376,7 +3397,7 @@ export default class NewProperty extends Component{
                                       <label>Sheetrock:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name= "sheetrock" value={this.state.property.estimated_rehab_cost_attr.sheetrock} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name= "sheetrock" value={this.state.property.estimated_rehab_cost_attr.sheetrock} className="form-control " onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3386,7 +3407,7 @@ export default class NewProperty extends Component{
                                       <label>Trim:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name="trim" value={this.state.property.estimated_rehab_cost_attr.trim} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name="trim" value={this.state.property.estimated_rehab_cost_attr.trim} className="form-control" onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3396,7 +3417,7 @@ export default class NewProperty extends Component{
                                       <label>Flooring:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name="flooring" value={this.state.property.estimated_rehab_cost_attr.flooring} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name="flooring" value={this.state.property.estimated_rehab_cost_attr.flooring} className="form-control" onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3406,7 +3427,7 @@ export default class NewProperty extends Component{
                                       <label>Trash Removal:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name="trash" value={this.state.property.estimated_rehab_cost_attr.trash} className="form-control " onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name="trash" value={this.state.property.estimated_rehab_cost_attr.trash} className="form-control " onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3416,7 +3437,7 @@ export default class NewProperty extends Component{
                                       <label>Miscellaneous:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name="misc" value={this.state.property.estimated_rehab_cost_attr.misc} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name="misc" value={this.state.property.estimated_rehab_cost_attr.misc} className="form-control" onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3426,7 +3447,7 @@ export default class NewProperty extends Component{
                                       <label>Others:</label>
                                     </div>
                                     <div className="col-md-7 px-4">
-                                      <input type="number" name="others" className="form-control" value={this.state.property.estimated_rehab_cost_attr.others} onChange={this.updatePropertyRehabCostAttr}/>
+                                      <CurrencyInput prefix="$" allowNegative={true} type="text" name="others" className="form-control" value={this.state.property.estimated_rehab_cost_attr.others} onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                     </div>
                                   </div>
                                 </div>
@@ -3436,13 +3457,13 @@ export default class NewProperty extends Component{
                                 <div className="col-md-12 px-4">
                                   <div className="form-group">
                                     <label>Estimated Ballpak</label>
-                                    <input type="number" name="estimated_ballpark" value={this.state.property.estimated_rehab_cost_attr.estimated_ballpark} className="form-control" onChange={this.updatePropertyRehabCostAttr}/>
+                                    <CurrencyInput prefix="$" allowNegative={true} type="text" name="estimated_ballpark" value={this.state.property.estimated_rehab_cost_attr.estimated_ballpark} className="form-control" onChangeEvent={this.updatePropertyRehabCostAttr}/>
                                   </div>
                                 </div>
                                 <div className="col-md-12 px-4">
                                   <div className="form-group">
                                     <label>Repair Total</label>
-                                    <input type="number" value={this.state.property.estimated_rehab_cost_attr.repair_total} readOnly={true} name="repair_total" className="form-control" />
+                                    <CurrencyInput prefix="$" allowNegative={true} type="text" value={this.state.property.estimated_rehab_cost_attr.repair_total} readOnly={true} name="repair_total" className="form-control" />
                                   </div>
                                 </div>
 
@@ -3524,7 +3545,7 @@ export default class NewProperty extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_minimum_price_error) } name="best_offer_sellers_minimum_price" onChange={this.updateProperty}/>
+                                <CurrencyInput prefix="$" type="text" onChangeEvent={this.updateMaskedPropertyAtrr} className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_minimum_price_error) } name="best_offer_sellers_minimum_price"/>
                               </div>
                             </div>
                             <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
@@ -3543,7 +3564,7 @@ export default class NewProperty extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_reserve_price) } name="best_offer_sellers_reserve_price" onChange={this.updateProperty}/>
+                                <CurrencyInput prefix="$" type="text" onChangeEvent={this.updateMaskedPropertyAtrr} className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_reserve_price) } name="best_offer_sellers_reserve_price" />
                               </div>
                             </div>
                             <div className="col-md-12 text-center step_row mt-4">
@@ -3600,7 +3621,7 @@ export default class NewProperty extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_seller_price_error) } name="seller_price" onChange={this.updateProperty}/>
+                                <CurrencyInput prefix="$" type="text" onChangeEvent={this.updateMaskedPropertyAtrr} className={"form-control " + this.addErrorClass(this.state.property_seller_price_error) } name="seller_price" />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -3621,7 +3642,7 @@ export default class NewProperty extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_buy_now_price_error) } name="buy_now_price" onChange={this.updateProperty}/>
+                                <CurrencyInput prefix="$" type="text" onChangeEvent={this.updateMaskedPropertyAtrr} className={"form-control " + this.addErrorClass(this.state.property_buy_now_price_error) } name="buy_now_price" />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row mt-4">
