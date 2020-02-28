@@ -12,6 +12,7 @@ import Alert from 'react-bootstrap/Alert';
 
 const initial_state = {
   property_edit_modal: false,
+  request_property_edit: "",
   docs_modal: false,
   status_modal: false,
   share_modal: false,
@@ -477,6 +478,14 @@ export default class ListProperty extends Component{
       link_element.select();
       document.execCommand('copy');
     }
+  }
+
+  updateEditPropertyFields = (event) => {
+    const{ name, value } = event.target;
+    this.setState({
+      [name]: value
+    }, function () {
+    })
   }
 
 	render() {
