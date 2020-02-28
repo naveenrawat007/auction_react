@@ -33,8 +33,8 @@
 		margin-top: 0px !important;
 	}
 	.dealofweek iframe{
-		width: 343px;
-		margin: 0 8px;
+		width: 100% !important;
+		margin: 0px !important;
 	}
 	.help_col{
 		padding: 20px 0px 0px 0px !important;
@@ -427,6 +427,9 @@
 	#responsive-navbar-nav .dropdown-menu .dropdown-item{
 		color: #fff !important;
 	}
+	#responsive-navbar-nav .dropdown-menu .dropdown-item:focus, #responsive-navbar-nav .dropdown-menu .dropdown-item:hover{
+		background-color: transparent !important;
+	}
 	.header .navbar-nav .nav-link svg{
 		display: none;
 	}
@@ -435,11 +438,11 @@
 		margin-left: 0 !important;
 		flex-direction: row;
 		align-items: center;
-		width: 54% !important;
-		justify-content: flex-start !important;
+		width: 40% !important;
+		justify-content: space-around !important;
 	}
 	.header .mobile-header-reg a{
-		margin: 0 6px !important;
+		margin: 0 2px !important;
 	}
 	.mobile-header-reg img {
     width: 28px;
