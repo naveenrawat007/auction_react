@@ -21,6 +21,7 @@ export default class UnderReview extends Component{
     super(props);
     this.state = {
       status_modal: false,
+      history_modal: false,
       path: props.path,
       selected_property: "",
       selected_status: "",
@@ -102,6 +103,12 @@ export default class UnderReview extends Component{
     this._isMounted = true;
     this.getPropertiesList();
 
+  }
+
+  openHistoryModal = () => {
+    this.setState({
+      history_modal: true
+    });
   }
 
   searchHandler = (event) => {
@@ -220,6 +227,7 @@ export default class UnderReview extends Component{
 
   hideModal = () => {
     this.setState({
+      history_modal: false,
       status_modal: false,
       auction_started_at: "",
       auction_length: "",
@@ -381,6 +389,7 @@ export default class UnderReview extends Component{
                 <button className="btn red-btn admin-btns" onClick={this.viewProperty} type="button">View</button>&nbsp;
                 <button className="btn red-btn admin-btns" onClick={this.editProperty} type="button">Edit</button>&nbsp;
                 <button className="btn red-btn admin-btns" type="button">Message</button>&nbsp;
+                <button className="btn red-btn admin-btns" type="button" onClick={this.openHistoryModal}>View History</button>&nbsp;
                 <button className="btn red-btn admin-btns" type="button" onClick={this.openStatusModal}>Change Status</button>
               </div>
             </div>
@@ -421,6 +430,15 @@ export default class UnderReview extends Component{
             </div>
           </div>
         </div>
+        <Modal className="status_modal" show={this.state.history_modal} onHide={this.hideModal} centered>
+          <Modal.Header closeButton>
+            <div className=" offset-md-1 col-md-10 text-center">
+              <h5 className="mb-0 text-uppercase"> Property History Changes Logs</h5>
+            </div>
+          </Modal.Header>
+          <div className="modal-body">
+          </div>
+        </Modal>
         <Modal className="status_modal" show={this.state.status_modal} onHide={this.hideModal}>
           <Modal.Header closeButton>
             <div className=" offset-md-1 col-md-10 text-center">
