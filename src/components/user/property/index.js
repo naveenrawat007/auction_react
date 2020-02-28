@@ -481,6 +481,10 @@ export default class ListProperty extends Component{
     }
   }
 
+  goToPropertyEdit = () => {
+    
+  }
+
   updateEditPropertyFields = (event) => {
     const{ name, value } = event.target;
     this.setState({
@@ -799,7 +803,7 @@ export default class ListProperty extends Component{
               </div>
               <div className="col-md-12 text-center mt-3">
                 <span className="error"></span>
-                <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.updateStatus}>Change Details</button>
+                <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.goToPropertyEdit}>Change Details</button>
               </div>
             </div>
           </Modal>
