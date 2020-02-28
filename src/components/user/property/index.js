@@ -34,7 +34,7 @@ const initial_state = {
   request_reasons_options: [],
   withdraw_reasons_options: [],
   termination_reasons_options: [],
-  edit_property_options: ["Property Details", "Deal Analysis", "Online Bidding Options", "Photos And Videos"],
+  edit_property_options: ["Property Details", "Deal Analysis", "Online Bidding Options", "Update Photos And Videos"],
   share_email_error: "",
   chat_room: "",
 }
@@ -453,6 +453,7 @@ export default class ListProperty extends Component{
   hidePropertyEditModal = () => {
     this.setState({
       property_edit_modal: false,
+      request_property_edit: "",
     });
   }
 
@@ -721,27 +722,80 @@ export default class ListProperty extends Component{
                 </div>
               </div>
               <div className="col-md-9 offset-md-3 px-0">
-                <div className="edit_modal_list row ml-3 mr-0">
-                  <ul className="col-md-6 mb-0">
-                    <li>Address</li>
-                    <li>Category</li>
-                    <li>Property Type</li>
-                    <li>Bedrooms</li>
-                    <li>Bathrooms</li>
-                    <li>Garage</li>
-                    <li>Square Footage</li>
-                    <li>Year Built</li>
-                  </ul>
-                  <ul className="col-md-6 mb-0">
-                    <li>Headliner</li>
-                    <li>Description</li>
-                    <li>MLS Active?</li>
-                    <li>Property Flooded?</li>
-                    <li>Selling as?</li>
-                    <li>Title Status</li>
-                    <li>Title Information</li>
-                  </ul>
-                </div>
+                {
+                  this.state.request_property_edit === "Property Details" ?
+                    <div className="edit_modal_list row ml-3 mr-0">
+                      <ul className="col-md-6 mb-0">
+                        <li>Address</li>
+                        <li>Category</li>
+                        <li>Property Type</li>
+                        <li>Bedrooms</li>
+                        <li>Bathrooms</li>
+                        <li>Garage</li>
+                        <li>Square Footage</li>
+                        <li>Year Built</li>
+                      </ul>
+                      <ul className="col-md-6 mb-0">
+                        <li>Headliner</li>
+                        <li>Description</li>
+                        <li>MLS Active?</li>
+                        <li>Property Flooded?</li>
+                        <li>Selling as?</li>
+                        <li>Title Status</li>
+                        <li>Title Information</li>
+                      </ul>
+                    </div>
+                  :
+                  null
+                }
+                {
+                  this.state.request_property_edit === "Deal Analysis" ?
+                    <div className="edit_modal_list row ml-3 mr-0">
+                      <ul className="col-md-6 mb-0">
+                        <li>Type Of deal</li>
+                        <li>Estimated after rehab value (ARV)</li>
+                        <li>Seller Asking Price</li>
+                        <li>Estimated Rehab Cost</li>
+                        <li>Estimated Profit Potential</li>
+                        <li>ARV Proof</li>
+                        <li>Repairs Proof</li>
+                      </ul>
+                    </div>
+                  :
+                  null
+                }
+                {
+                  this.state.request_property_edit === "Online Bidding Options" ?
+                    <div className="edit_modal_list row ml-3 mr-0">
+                      <ul className="col-md-6 mb-0">
+                        <li>Best offer Start Date</li>
+                        <li>Best Offer End Date</li>
+                        <li>Seller Asking price</li>
+                        <li>Seller Buy now Price</li>
+                        <li>Auction Time Frame</li>
+                        <li>Ideal Closing Date</li>
+                        <li>Options To buy</li>
+                      </ul>
+                      <ul className="col-md-6 mb-0">
+                        <li>Showing Option</li>
+                        <li>Showing Instructions</li>
+                        <li>Open House Dates</li>
+                      </ul>
+                    </div>
+                  :
+                  null
+                }
+                {
+                  this.state.request_property_edit === "Update Photos And Videos" ?
+                    <div className="edit_modal_list row ml-3 mr-0">
+                      <ul className="col-md-6 mb-0">
+                        <li>Upload Photos</li>
+                        <li>Upload Videos</li>
+                      </ul>
+                    </div>
+                  :
+                  null
+                }
               </div>
               <div className="col-md-12 text-center mt-3">
                 <span className="error"></span>
