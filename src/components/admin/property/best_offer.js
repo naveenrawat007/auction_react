@@ -360,7 +360,7 @@ export default class BestOffer extends Component{
           <td>{property.owner_category}</td>
           <td>{property.address}</td>
           <td>{property.submitted_at}</td>
-          <td>{property.auction_started_at}</td>
+          <td>{property.best_offer_auction_ending_at}</td>
           <td> <p onClick={() =>{this.openBestOfferModal(index)}}>{Object.keys(property.best_offers).length}</p></td>
           <td> <p id={"timer"+property.id}></p> {this.calculateApproveTime(property.best_offer_auction_ending_at, property.id)}</td>
         </tr>
