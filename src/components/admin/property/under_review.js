@@ -333,7 +333,8 @@ export default class UnderReview extends Component{
           <td>{property.address}</td>
           <td>{property.submitted_at}</td>
           <td>{property.auction_started_at}</td>
-          <td>{(property.best_offer === true) ? property.auction_started_at : "N/A"}</td>
+          {console.log(property.best_offer)}
+          <td>{(property.best_offer === true) ? property.best_offer_auction_started_at : "N/A"}</td>
           <td>
             {
               property.requested ?
