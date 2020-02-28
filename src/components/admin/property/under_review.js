@@ -385,7 +385,7 @@ export default class UnderReview extends Component{
                   </div>
                 </div>
               </div>
-              <div className="col-md-5 offset-md-3 px-0 text-right">
+              <div className="col-md-6 offset-md-2 px-0 text-right">
                 <button className="btn red-btn admin-btns" onClick={this.viewProperty} type="button">View</button>&nbsp;
                 <button className="btn red-btn admin-btns" onClick={this.editProperty} type="button">Edit</button>&nbsp;
                 <button className="btn red-btn admin-btns" type="button">Message</button>&nbsp;
@@ -430,13 +430,54 @@ export default class UnderReview extends Component{
             </div>
           </div>
         </div>
-        <Modal className="status_modal" show={this.state.history_modal} onHide={this.hideModal} centered>
+        <Modal className="status_modal logs_table" show={this.state.history_modal} onHide={this.hideModal} centered>
           <Modal.Header closeButton>
             <div className=" offset-md-1 col-md-10 text-center">
               <h5 className="mb-0 text-uppercase"> Property History Changes Logs</h5>
             </div>
           </Modal.Header>
-          <div className="modal-body">
+          <div className="modal-body p-0">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Deatils</th>
+                  <th>New Value</th>
+                  <th>Old Value</th>
+                  <th>Control</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>02-24-2020</td>
+                  <td>Bedrooms</td>
+                  <td>4</td>
+                  <td>5</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>02-24-2020</td>
+                  <td>Year Built</td>
+                  <td>1994</td>
+                  <td>1990</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>02-24-2020</td>
+                  <td>Garage</td>
+                  <td>2</td>
+                  <td>n/a</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>02-24-2020</td>
+                  <td>Sellers Asking Price</td>
+                  <td>$187,000</td>
+                  <td>$200,200</td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </Modal>
         <Modal className="status_modal" show={this.state.status_modal} onHide={this.hideModal}>
