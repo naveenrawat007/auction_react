@@ -11,6 +11,7 @@ import {FacebookIcon, TwitterIcon, TumblrIcon, PinterestIcon, RedditIcon } from 
 import Alert from 'react-bootstrap/Alert';
 
 const initial_state = {
+  property_edit_modal: false,
   docs_modal: false,
   status_modal: false,
   share_modal: false,
@@ -32,6 +33,7 @@ const initial_state = {
   request_reasons_options: [],
   withdraw_reasons_options: [],
   termination_reasons_options: [],
+  edit_property_options: ["Property Details", "Deal Analysis", "Online Bidding Options", "Photos And Videos"],
   share_email_error: "",
   chat_room: "",
 }
@@ -154,6 +156,12 @@ export default class ListProperty extends Component{
   updateDocs = (index) => {
     this.setState({
       docs_modal: true,
+      selected_property: index,
+    });
+  }
+  editPropertyModal = (index) => {
+    this.setState({
+      property_edit_modal: true,
       selected_property: index,
     });
   }
@@ -441,6 +449,12 @@ export default class ListProperty extends Component{
     return bidList
   }
 
+  hidePropertyEditModal = () => {
+    this.setState({
+      property_edit_modal: false,
+    });
+  }
+
   hideModal = () => {
     this.setState({
       status_modal: false,
@@ -467,6 +481,11 @@ export default class ListProperty extends Component{
 
 	render() {
     const current_page = this.state.current_page;
+    const edit_property_opt = this.state.edit_property_options.map((value, index) => {
+      return(
+        <option key={index} value={value} >{value}</option>
+      )
+    })
     const request_status_opt = this.state.request_status_options.map((value, index) => {
       return(
         <option key={index} value={value} >{value}</option>
@@ -543,7 +562,11 @@ export default class ListProperty extends Component{
             </div>
             <div className="col-md-2 pl-2 pr-3 py-2">
               <div className="properties-btn">
-                <Link to={"/user/property/" + property.unique_address + "/edit"} className="font-blue">Edit Property</Link>
+                {property.status === "Draft" ?
+                  <Link to={"/user/property/" + property.unique_address + "/edit"} className="font-blue">Edit Property</Link>
+                :
+                <Link to="#" className="font-blue" onClick={() =>{this.editPropertyModal(index)}}>Edit Property</Link>
+                }
                 <Link to="#" className="font-blue" onClick={() =>{this.updateDocs(index)}}>Update Docs</Link>
                 <Link to="#" className="font-blue" onClick={() =>{this.changeStatus(index)}}>Change status</Link>
                 <Link to="#" className="font-blue" onClick={() =>{this.shareLink(index)}}>Share Link</Link>
@@ -649,6 +672,41 @@ export default class ListProperty extends Component{
                     <select className={"form-control"} name="request_status"  onChange={this.updateStatusFields} >
                       <option>Please select</option>
                       {request_status_opt}
+                    </select>
+                  </div>
+                  <div className="change-label text-right pr-2">
+                    <label className="mb-0" >Reason:</label>
+                  </div>
+                  <div className="change-input px-0">
+                    <select className={"form-control"} name="request_reason"  onChange={this.updateStatusFields} >
+                      <option>Please select</option>
+                      {request_reasons_opt}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 text-center mt-3">
+                <span className="error"></span>
+                <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.updateStatus}>Change</button>
+              </div>
+            </div>
+          </Modal>
+          <Modal className="user_property_modal" show={this.state.property_edit_modal} onHide={this.hidePropertyEditModal} centered>
+            <Modal.Header closeButton>
+              <div className="px-0 col-md-11 ">
+                <h5 className="mb-0 "> { this.state.selected_property === "" ? "Please select Property" :  "Edit Property " + this.state.properties[this.state.selected_property].headliner}</h5>
+              </div>
+            </Modal.Header>
+            <div className="modal-body">
+              <div className="col-md-12 text-center px-0">
+                <div className="form-group row mx-0">
+                  <div className="change-label text-right pr-2 mb-2">
+                    <label className="mb-0">Category:</label>
+                  </div>
+                  <div className="change-input px-0 mb-2">
+                    <select className={"form-control"} name="request_property_edit"  onChange={this.updateEditPropertyFields} >
+                      <option>Please select</option>
+                      {edit_property_opt}
                     </select>
                   </div>
                   <div className="change-label text-right pr-2">
