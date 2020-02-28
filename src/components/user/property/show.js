@@ -3,6 +3,7 @@ import {Link, Redirect} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
+import CurrencyInput from 'react-currency-input';
 import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf, faLock, faQuestion, faCalendarAlt, faComments} from '@fortawesome/free-solid-svg-icons';
 import { faHeart} from '@fortawesome/free-regular-svg-icons';
 import Modal from 'react-bootstrap/Modal';
@@ -497,9 +498,9 @@ export default class PropertyShow extends Component {
     });
   }
 
-  updateCurrentOffer = (event) => {
-    const{ value } = event.target;
-    let price = parseFloat(value ? value : 0)
+  updateCurrentOffer = (event, maskedvalue, floatvalue) => {
+    // const{ value } = event.target;
+    let price = parseFloat(maskedvalue.replace(/[$,.]/g,""))/100
     if (price > this.state.bidding_options.highest_bid){
       this.setState({
         bidding_options: {
@@ -517,9 +518,9 @@ export default class PropertyShow extends Component {
     }
   }
 
-  updateCurrentBestOffer = (event) => {
-    const{ value } = event.target;
-    let price = parseFloat(value ? value : 0)
+  updateCurrentBestOffer = (event, maskedvalue, floatvalue) => {
+    // const{ value } = event.target;
+    let price = parseFloat(maskedvalue.replace(/[$,.]/g,""))/100
     if (price > this.state.bidding_options.best_offer_price){
       this.setState({
         bidding_options: {
@@ -609,7 +610,7 @@ export default class PropertyShow extends Component {
           <div className="input-group-prepend">
             <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
           </div>
-          <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChange={this.updateCurrentOffer}/>
+          <CurrencyInput type="text" prefix="$" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChangeEvent={this.updateCurrentOffer}/>
           <div className="input-group-append">
             <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
           </div>
@@ -656,7 +657,7 @@ export default class PropertyShow extends Component {
               <div className="input-group-prepend">
                 <button className="input-group-text group-box btn" onClick={this.decrementCurrentBestOffer}><FontAwesomeIcon icon={faMinus}/></button>
               </div>
-              <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_best_offer} name="current_offer" onChange={this.updateCurrentBestOffer}/>
+              <CurrencyInput type="text" prefix="$" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_best_offer} name="current_offer" onChangeEvent={this.updateCurrentBestOffer}/>
               <div className="input-group-append">
                 <button className="input-group-text group-box btn" onClick={this.incrementCurrentBestOffer}><FontAwesomeIcon icon={faPlus}/></button>
               </div>
@@ -682,7 +683,7 @@ export default class PropertyShow extends Component {
               <div className="input-group-prepend">
                 <button className="input-group-text group-box btn" onClick={this.decrementCurrentBestOffer}><FontAwesomeIcon icon={faMinus}/></button>
               </div>
-              <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_best_offer} name="current_offer" onChange={this.updateCurrentBestOffer}/>
+              <CurrencyInput type="text" prefix="$" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_best_offer} name="current_offer" onChangeEvent={this.updateCurrentBestOffer}/>
               <div className="input-group-append">
                 <button className="input-group-text group-box btn" onClick={this.incrementCurrentBestOffer}><FontAwesomeIcon icon={faPlus}/></button>
               </div>
@@ -698,7 +699,7 @@ export default class PropertyShow extends Component {
               <div className="input-group-prepend">
                 <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
               </div>
-              <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChange={this.updateCurrentOffer}/>
+              <CurrencyInput type="text" prefix="$" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChangeEvent={this.updateCurrentOffer}/>
               <div className="input-group-append">
                 <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
               </div>
@@ -726,7 +727,7 @@ export default class PropertyShow extends Component {
               <div className="input-group-prepend">
                 <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
               </div>
-              <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChange={this.updateCurrentOffer}/>
+              <CurrencyInput type="text" prefix="$" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChangeEvent={this.updateCurrentOffer}/>
               <div className="input-group-append">
                 <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
               </div>
@@ -753,7 +754,7 @@ export default class PropertyShow extends Component {
               <div className="input-group-prepend">
                 <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
               </div>
-              <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChange={this.updateCurrentOffer}/>
+              <CurrencyInput type="text" prefix="$" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChangeEvent={this.updateCurrentOffer}/>
               <div className="input-group-append">
                 <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
               </div>
@@ -783,7 +784,7 @@ export default class PropertyShow extends Component {
             <div className="input-group-prepend">
               <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
             </div>
-            <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChange={this.updateCurrentOffer}/>
+            <CurrencyInput type="text" prefix="$" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChangeEvent={this.updateCurrentOffer}/>
             <div className="input-group-append">
               <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
             </div>
@@ -810,7 +811,7 @@ export default class PropertyShow extends Component {
             <div className="input-group-prepend">
               <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
             </div>
-            <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChange={this.updateCurrentOffer}/>
+            <CurrencyInput type="text" prefix="$" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChangeEvent={this.updateCurrentOffer}/>
             <div className="input-group-append">
               <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
             </div>
@@ -837,7 +838,7 @@ export default class PropertyShow extends Component {
             <div className="input-group-prepend">
               <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
             </div>
-            <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChange={this.updateCurrentOffer}/>
+            <CurrencyInput type="text" prefix="$" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChangeEvent={this.updateCurrentOffer}/>
             <div className="input-group-append">
               <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
             </div>
@@ -856,7 +857,7 @@ export default class PropertyShow extends Component {
               </span>
             </div>
           </Link>
-          <h4 className="rate-head">$ {window.format_currency(this.state.property.buy_now_price)}</h4>
+          <h4 className="rate-head">{window.format_currency(this.state.property.buy_now_price)}</h4>
         </div>
       }
     }
@@ -868,7 +869,7 @@ export default class PropertyShow extends Component {
           <div className="input-group-prepend">
             <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
           </div>
-          <input type="number" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChange={this.updateCurrentOffer}/>
+          <CurrencyInput type="text" prefix="$" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChangeEvent={this.updateCurrentOffer}/>
           <div className="input-group-append">
             <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
           </div>
@@ -2333,7 +2334,7 @@ export default class PropertyShow extends Component {
           <Modal className=" buy_modal" show={this.state.open_buy_now_modal} onHide={this.closeBuyNowModal}>
             <Modal.Header closeButton>
               <div className=" offset-md-1 col-md-10 text-center">
-                <h5 className="mb-0">BUY NOW at ${this.state.best_offer ?  this.state.bidding_options.best_offer_buy_now_price : this.state.bidding_options.buy_now_price} & You Win !!! </h5>
+                <h5 className="mb-0">BUY NOW at {this.state.best_offer ?  window.format_currency(this.state.bidding_options.best_offer_buy_now_price) : window.format_currency(this.state.bidding_options.buy_now_price)} & You Win !!! </h5>
               </div>
             </Modal.Header>
             <div className="modal-body">
@@ -2422,14 +2423,14 @@ export default class PropertyShow extends Component {
           <Modal className=" buy_modal" show={this.state.open_best_offer_modal} onHide={this.closeBestOfferModal}>
             <Modal.Header closeButton>
               <div className=" offset-md-1 col-md-10 text-center">
-                <h5 className="mb-0">Your Best Offer for ${this.state.property.address}  </h5>
+                <h5 className="mb-0">Your Best Offer for {this.state.property.address}  </h5>
               </div>
             </Modal.Header>
             <div className="modal-body">
               <div className="row mx-0">
                 <div className="buy-list text-center">
                   <div className="col-md-10 offset-md-1 px-0">
-                    <p>Congratulations! If You are about to offer $ {this.state.bidding_options.current_best_offer} for this property when you agrees  to the terms below.</p>
+                    <p>Congratulations! If You are about to offer  {window.format_currency(this.state.bidding_options.current_best_offer)} for this property when you agrees  to the terms below.</p>
                   </div>
                 </div>
                 <div className="col-md-12 my-3 px-0">
