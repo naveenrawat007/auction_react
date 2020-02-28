@@ -5253,3 +5253,13 @@ a.chat_attachment {
   font-size: 14px;
   margin-bottom: 0;
 }
+.edit_modal_new .modal-dialog{
+  max-width: 600px;
+}
+.edit_modal_list{
+  border: 1px solid #ccc;
+  padding: 16px;
+  color: #aaa;
+  font-size: 13px;
+  margin-bottom: 0;
+}

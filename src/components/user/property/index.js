@@ -700,10 +700,10 @@ export default class ListProperty extends Component{
               </div>
             </div>
           </Modal>
-          <Modal className="user_property_modal" show={this.state.property_edit_modal} onHide={this.hidePropertyEditModal} centered>
+          <Modal className="user_property_modal edit_modal_new" show={this.state.property_edit_modal} onHide={this.hidePropertyEditModal} centered>
             <Modal.Header closeButton>
               <div className="px-0 col-md-11 ">
-                <h5 className="mb-0 "> { this.state.selected_property === "" ? "Please select Property" :  "Edit Property " + this.state.properties[this.state.selected_property].headliner}</h5>
+                <h5 className="mb-0 "> { this.state.selected_property === "" ? "Please select Property" :  <><b>Edit Property</b> {this.state.properties[this.state.selected_property].headliner}</>}</h5>
               </div>
             </Modal.Header>
             <div className="modal-body">
@@ -718,15 +718,29 @@ export default class ListProperty extends Component{
                       {edit_property_opt}
                     </select>
                   </div>
-                  <div className="change-label text-right pr-2">
-                    <label className="mb-0" >Reason:</label>
-                  </div>
-                  <div className="change-input px-0">
-                    <select className={"form-control"} name="request_reason"  onChange={this.updateStatusFields} >
-                      <option>Please select</option>
-                      {request_reasons_opt}
-                    </select>
-                  </div>
+                </div>
+              </div>
+              <div className="col-md-9 offset-md-3 px-0">
+                <div className="edit_modal_list row ml-3 mr-0">
+                  <ul className="col-md-6 mb-0">
+                    <li>Address</li>
+                    <li>Category</li>
+                    <li>Property Type</li>
+                    <li>Bedrooms</li>
+                    <li>Bathrooms</li>
+                    <li>Garage</li>
+                    <li>Square Footage</li>
+                    <li>Year Built</li>
+                  </ul>
+                  <ul className="col-md-6 mb-0">
+                    <li>Headliner</li>
+                    <li>Description</li>
+                    <li>MLS Active?</li>
+                    <li>Property Flooded?</li>
+                    <li>Selling as?</li>
+                    <li>Title Status</li>
+                    <li>Title Information</li>
+                  </ul>
                 </div>
               </div>
               <div className="col-md-12 text-center mt-3">
