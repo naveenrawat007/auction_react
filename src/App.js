@@ -24,6 +24,10 @@ import Plan from './components/user/plan/index.js'
 import About from './components/static/about.js'
 import Topbar from './components/static/topbar.js'
 import HelpAndFaq from './components/static_help/help_and_faq.js';
+import PropertyDetails from './components/user/property_edit/property_details.js'
+import DealAnalysis from './components/user/property_edit/deal_analysis.js'
+import OnlineBiddingOptions from './components/user/property_edit/online_bidding_options.js'
+import PhotosAndVideos from './components/user/property_edit/photos_and_videos.js'
 
 function App() {
   return (
@@ -67,6 +71,11 @@ function App() {
           <Route exact path="/user/watch_properties/" component={() => <Sidebar path='watch_properties_list'/>}/>
           <Route exact path="/user/property/new" component={UserNewProperty}/>
           <Route exact path="/user/property/:id/edit" component={PropertyEdit}/>
+          <Route exact path="/user/property/:id/property_details" component={PropertyDetails}/>
+          <Route exact path="/user/property/:id/deal_analysis" component={DealAnalysis}/>
+          <Route exact path="/user/property/:id/online_bidding_options" component={OnlineBiddingOptions}/>
+          <Route exact path="/user/property/:id/photos_and_videos" component={PhotosAndVideos}/>
+
           <Route exact path="/property/:id" component={PropertyShow}/>
           <Route exact path="/admin" component={() => <AdminSidebar path='all_users_list'/>}/>
           <Route exact path="/admin/chat" component={() => <AdminSidebar path='admin_chat'/>}/>
