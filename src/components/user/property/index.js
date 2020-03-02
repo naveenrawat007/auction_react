@@ -482,7 +482,18 @@ export default class ListProperty extends Component{
   }
 
   goToPropertyEdit = () => {
-    
+    if (this.state.request_property_edit === "Property Details"){
+      window.location.href = "/user/property/" + this.state.properties[this.state.selected_property].unique_address + "/property_details"
+    }
+    else if (this.state.request_property_edit === "Deal Analysis" ) {
+      window.location.href = "/user/property/" + this.state.properties[this.state.selected_property].unique_address + "/deal_analysis"
+    }
+    else if (this.state.request_property_edit === "Online Bidding Options") {
+      window.location.href = "/user/property/" + this.state.properties[this.state.selected_property].unique_address + "/online_bidding_options"
+    }
+    else if (this.state.request_property_edit === "Update Photos And Videos") {
+      window.location.href = "/user/property/" + this.state.properties[this.state.selected_property].unique_address + "/photos_and_videos"
+    }
   }
 
   updateEditPropertyFields = (event) => {
