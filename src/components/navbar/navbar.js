@@ -186,7 +186,7 @@ export default class TopNavbar extends Component{
       <div className="header">
         <div className="container custom_container px-0">
           <Navbar collapseOnSelect expand="lg">
-            <Navbar.Brand href="#home" className="p-0">
+            <Navbar.Brand href="/" className="p-0">
               <img src="/images/logo.png" alt="Logo"/>
             </Navbar.Brand>
             <Nav className="mobile-header-reg">
