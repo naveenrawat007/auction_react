@@ -124,7 +124,6 @@ export default class UnderReview extends Component{
   }
   updateStatusFields = (event) =>{
     const{ name, value } = event.target;
-    console.log(value);
     this.setState({
       [name]: value
     });
@@ -241,6 +240,194 @@ export default class UnderReview extends Component{
     this.setState({
       status_modal: true
     });
+  }
+
+  humanizeAttr = ( attr) =>{
+    if (attr === "address"){
+      return "Address"
+    }
+    else if (attr === "city") {
+      return "City"
+    }
+    else if (attr === "state") {
+      return "State"
+    }
+    else if (attr === "zip_code") {
+      return "Zip Code"
+    }
+    else if (attr === "category") {
+      return "Category"
+    }
+    else if (attr === "p_type") {
+      return "Property Type"
+    }
+    else if (attr === "headliner") {
+      return "Property Headline"
+    }
+    else if (attr === "mls_available") {
+      return "MLS availablity"
+    }
+    else if (attr === "flooded") {
+      return "Flood status"
+    }
+    else if (attr === "flood_count") {
+      return "Flood Details"
+    }
+    else if (attr === "estimated_rehab_cost") {
+      return "Est. rehab cost"
+    }
+    else if (attr === "description") {
+      return "Description"
+    }
+    else if (attr === "seller_price") {
+      return "Seller asking price"
+    }
+    else if (attr === "after_rehab_value") {
+      return "After Rehab value"
+    }
+    else if (attr === "buy_now_price") {
+      return "Buy Now Price"
+    }
+    else if (attr === "auction_length") {
+      return "Auction Length"
+    }
+    else if (attr === "seller_pay_type_id") {
+      return "Seller Pay type"
+    }
+    else if (attr === "show_instructions_type_id") {
+      return "Show Type"
+    }
+    else if (attr === "youtube_url") {
+      return "Youtube Link"
+    }
+    else if (attr === "title_status") {
+      return "Title"
+    }
+    else if (attr === "asking_price") {
+      return "Asking Price"
+    }
+    else if (attr === "profit_potential") {
+      return "Profit Potential"
+    }
+    else if (attr === "arv_analysis") {
+      return "ARV Analysis"
+    }
+    else if (attr === "description_of_repairs") {
+      return "Repairs Description"
+    }
+    else if (attr === "deal_analysis_type") {
+      return "Deal Type"
+    }
+    else if (attr === "buy_option") {
+      return "Buy Options"
+    }
+    else if (attr === "additional_information") {
+      return "Additional Information"
+    }
+    else if (attr === "best_offer") {
+      return "Best Offer"
+    }
+    else if (attr === "best_offer_length") {
+      return "Best Offer days"
+    }
+    else if (attr === "best_offer_sellers_minimum_price") {
+      return "Best Offer/Sellers Asking Price "
+    }
+    else if (attr === "best_offer_sellers_reserve_price") {
+      return "Best Offer/Sellers Buy Now Price"
+    }
+    else if (attr === "show_instructions_text") {
+      return "Show Instructions"
+    }
+    else if (attr === "open_house_dates") {
+      return "Open houses dates"
+    }
+    else if (attr === "vimeo_url") {
+      return "Vimeo Url"
+    }
+    else if (attr === "dropbox_url") {
+      return "Drop Box url"
+    }
+    else if (attr === "owner_category") {
+      return "Owner "
+    }
+    else if (attr === "rental_description") {
+      return "Rental Description"
+    }
+    else if (attr === "bedrooms") {
+      return "Bedrooms"
+    }
+    else if (attr === "bathrooms") {
+      return "Bathrooms"
+    }
+    else if (attr === "garage") {
+      return "Garage"
+    }
+    else if (attr === "area") {
+      return "Square Footage"
+    }
+    else if (attr === "lot_size") {
+      return "Lot"
+    }
+    else if (attr === "year_built") {
+      return "Year Built"
+    }
+    else if (attr === "units") {
+      return "Units"
+    }
+    else if (attr === "stories") {
+      return "Stories"
+    }
+    else if (attr === "cap_rate") {
+      return "Cap Rate"
+    }
+    else if (attr === "price_per_sq_ft") {
+      return "Price Per SqFt"
+    }
+    else if (attr === "residential_attributes") {
+      return "Residential "
+    }
+    else if (attr === "commercial_attributes") {
+      return "Commercial"
+    }
+    else if (attr === "land_attributes") {
+      return "Land"
+    }
+    else if (attr === "best_offer_auction_started_at") {
+      return "Best Offer Start date"
+    }
+    else if (attr === "best_offer_auction_ending_at") {
+      return "Best Offer End date"
+    }
+    else if (attr === "auction_started_at") {
+      return "Bidding Start Date"
+    }
+    else if (attr === "auction_bidding_ending_at") {
+      return "Bidding Ending at"
+    }
+    else if (attr === "auction_ending_at") {
+      return "Ideal Closing Date"
+    }
+  }
+
+  renderNestedChanges = (changes, attr) => {
+    if (attr === "estimated_rehab_cost_attr" || attr === "commercial_attributes" || attr === "residential_attributes" || attr === "land_attributes"){
+      return (
+        Object.keys(changes[0]).map((key1, index1) => {
+          if (JSON.stringify(changes[0][key1]) !== JSON.stringify(changes[1][key1])){
+            return(
+              <tr key={index1+5}>
+                <td>{this.state.properties[this.state.selected_property].change_log.created_at}</td>
+                <td>{this.humanizeAttr(key1)}</td>
+                <td>{changes[0][key1]}</td>
+                <td>{changes[1][key1]}</td>
+                <td></td>
+              </tr>
+            )
+          }
+        })
+      )
+    }
   }
 
   calculateApproveTime = (time, id) => {
@@ -437,47 +624,65 @@ export default class UnderReview extends Component{
             </div>
           </Modal.Header>
           <div className="modal-body p-0">
-            <table class="table table-striped">
+            <table className="table table-striped mb-0">
               <thead>
                 <tr>
                   <th>Date</th>
-                  <th>Deatils</th>
+                  <th>Details</th>
                   <th>New Value</th>
                   <th>Old Value</th>
                   <th>Control</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>02-24-2020</td>
-                  <td>Bedrooms</td>
-                  <td>4</td>
-                  <td>5</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>02-24-2020</td>
-                  <td>Year Built</td>
-                  <td>1994</td>
-                  <td>1990</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>02-24-2020</td>
-                  <td>Garage</td>
-                  <td>2</td>
-                  <td>n/a</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>02-24-2020</td>
-                  <td>Sellers Asking Price</td>
-                  <td>$187,000</td>
-                  <td>$200,200</td>
-                  <td></td>
-                </tr>
-              </tbody>
             </table>
+            <div className="logs_table_scroll">
+              <table className="table table-striped">
+                <tbody>
+                  {
+                    this.state.selected_property ?
+                    (
+                      // console.log(this.state.properties[this.state.selected_property].change_log)
+                      Object.keys(this.state.properties[this.state.selected_property].change_log.details).map((key, index) => {
+                        if (key === "lat" || key === "long" ){
+                          return null
+                        }
+                        else if (key === "estimated_rehab_cost_attr" || key === "commercial_attributes" || key === "residential_attributes" || key === "land_attributes"){
+                          return (
+                            <>
+                              {this.renderNestedChanges(this.state.properties[this.state.selected_property].change_log.details[key], key)}
+                            </>
+                          )
+                        }
+                        else if (key === "best_offer_auction_started_at" || key === "best_offer_auction_ending_at" || key === "auction_started_at" || key === "auction_bidding_ending_at" || key === "auction_ending_at"){
+                          return (
+                            <tr key={index}>
+                              <td>{this.state.properties[this.state.selected_property].change_log.created_at}</td>
+                              <td>{this.humanizeAttr(key)}</td>
+                              <td>{window.formatDate(this.state.properties[this.state.selected_property].change_log.details[key][0])}</td>
+                              <td>{window.formatDate(this.state.properties[this.state.selected_property].change_log.details[key][1])}</td>
+                              <td></td>
+                            </tr>
+                          )
+                        }
+                        else{
+                          return (
+                            <tr key={index}>
+                              <td>{this.state.properties[this.state.selected_property].change_log.created_at}</td>
+                              <td>{this.humanizeAttr(key)}</td>
+                              <td>{this.state.properties[this.state.selected_property].change_log.details[key][0]}</td>
+                              <td>{this.state.properties[this.state.selected_property].change_log.details[key][1]}</td>
+                              <td></td>
+                            </tr>
+                          )
+                        }
+                      })
+                    )
+                    :
+                    null
+                  }
+                </tbody>
+              </table>
+            </div>
           </div>
         </Modal>
         <Modal className="status_modal" show={this.state.status_modal} onHide={this.hideModal}>
