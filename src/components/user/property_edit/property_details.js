@@ -12,6 +12,7 @@ import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExclamationTriangle, faTrash, faPlusCircle, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import Select from 'react-select';
+import Alert from 'react-bootstrap/Alert';
 
 const initial_state = {
   checkBoxEnabled: false,
@@ -687,10 +688,21 @@ export default class PropertyDetails extends Component{
     .then((result) => {
       if (result.status === 200) {
         if (this._isMounted){
+          this.setState({
+            message: result.message,
+            variant: "success",
+          })
           this.updateCurrentState(result.property);
         }
 
-      }else if (result.status === 401) {
+      }
+      else if (result.status === 400) {
+        this.setState({
+          message: result.message,
+          variant: "danger",
+        })
+      }
+      else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
       }else {
@@ -1520,6 +1532,9 @@ export default class PropertyDetails extends Component{
                 <div id="newproperty" className="container px-0">
                   <div className="profile-form">
                     <div className="profile-form-in">
+                    {
+                      this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+                    }
                       <div className="container creation-steps px-0">
                         <div className="steps-parts " id="step1" >
                           {this.state.isLoaded === true ?

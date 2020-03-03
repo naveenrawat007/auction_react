@@ -643,8 +643,18 @@ export default class OnlineBiddingOptions extends Component{
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 200) {
+        this.setState({
+          message: result.message,
+          variant: "success",
+        })
         this.updateCurrentState(result.property)
-      }else if (result.status === 401) {
+      }else if (result.status === 400) {
+        this.setState({
+          message: result.message,
+          variant: "danger",
+        })
+      }
+      else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
       }else {
