@@ -2120,7 +2120,7 @@ input.form-control:focus {
 
 #videobcg {
   width: 100%;
-  margin-top: -60px;
+  margin-top: -105px;
   z-index: -1000;
   overflow: hidden;
 }
@@ -5264,5 +5264,24 @@ a.chat_attachment {
   margin-bottom: 0;
 }
 .logs_table .modal-dialog{
-  max-width: 700px;
+  max-width: 975px;
+}
+.logs_table table tr td:nth-child(1), .logs_table table tr th:nth-child(1){
+  width: 12%;
+}
+.logs_table table tr td:nth-child(2), .logs_table table tr th:nth-child(2){
+  width: 18%;
+}
+.logs_table table tr td:nth-child(3), .logs_table table tr th:nth-child(3){
+  width: 30%;
+}
+.logs_table table tr td:nth-child(4), .logs_table table tr th:nth-child(4){
+  width: 30%;
+}
+.logs_table table tr td:nth-child(5), .logs_table table tr th:nth-child(5){
+  width: 10%;
+}
+.logs_table_scroll{
+  height: 240px;
+  overflow-y: auto;
 }
