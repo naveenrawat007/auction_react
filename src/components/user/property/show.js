@@ -1480,77 +1480,6 @@ export default class PropertyShow extends Component {
     }
   }
 
-  renderChanges = (changes, attr) => {
-    if (attr !== "estimated_rehab_cost_attr" && attr !== "commercial_attributes" && attr !== "residential_attributes" && attr !== "land_attributes"){
-      if (attr === "show_instructions_type_id"){
-        // return <span>{this.humanizeAttr(attr)} from "{this.showInstructionType(JSON.stringify(changes[attr][0]))}" to "{this.showInstructionType(JSON.stringify(changes[attr][1]))}" </span>
-        return <Accordion >
-          <div>
-            <Accordion.Toggle as={Button} variant="link" eventKey="0">
-              {this.humanizeAttr(attr)}
-            </Accordion.Toggle>
-          </div>
-          <Accordion.Collapse eventKey="0">
-            <div>
-              <p>
-                "{this.showInstructionType(JSON.stringify(changes[attr][0]))}" -> "{this.showInstructionType(JSON.stringify(changes[attr][1]))}"
-              </p>
-            </div>
-          </Accordion.Collapse>
-        </Accordion>
-      }
-      else if (attr === "seller_pay_type_id") {
-        // return <span>{this.humanizeAttr(attr)} from "{this.sellerPayDetail(JSON.stringify(changes[attr][0]))}" to "{this.sellerPayDetail(JSON.stringify(changes[attr][1]))}" </span>
-        return <Accordion >
-          <div>
-            <Accordion.Toggle as={Button} variant="link" eventKey="0">
-              {this.humanizeAttr(attr)}
-            </Accordion.Toggle>
-          </div>
-          <Accordion.Collapse eventKey="0">
-            <div>
-              <p>
-                "{this.sellerPayDetail(JSON.stringify(changes[attr][0]))}" -> "{this.sellerPayDetail(JSON.stringify(changes[attr][1]))}"
-              </p>
-            </div>
-          </Accordion.Collapse>
-        </Accordion>
-      }
-      else {
-        // return <span>{this.humanizeAttr(attr)} from {JSON.stringify(changes[attr][0])} to {JSON.stringify(changes[attr][1])} </span>
-        return <Accordion >
-          <div>
-            <Accordion.Toggle as={Button} variant="link" eventKey="0">
-              {this.humanizeAttr(attr)}
-            </Accordion.Toggle>
-          </div>
-          <Accordion.Collapse eventKey="0">
-            <div>
-              <p>
-                {JSON.stringify(changes[attr][0])} -> {JSON.stringify(changes[attr][1])}
-              </p>
-            </div>
-          </Accordion.Collapse>
-        </Accordion>
-      }
-    }else {
-      if (attr === "estimated_rehab_cost_attr" || attr === "commercial_attributes" || attr === "residential_attributes" || attr === "land_attributes"){
-        return (
-          <>
-            {
-              Object.keys(changes).map((attr, index)=>{
-                return (
-                  <span key={index}>
-                    {this.renderNestedChanges(changes[attr], attr)}
-                  </span>
-                )
-              })
-            }
-          </>
-        );
-      }
-    }
-  }
 
   render(){
     if (this.state.isLoaded === true){
@@ -1674,30 +1603,6 @@ export default class PropertyShow extends Component {
                 this.state.message ? <Alert className="mt-2 mb-0" variant={this.state.variant}>{this.state.message}</Alert> : null
               }
             </div>
-            {
-              (this.state.submitted && this.state.is_admin && (this.state.changes.length > 0)) ?
-                <div className="col-md-12 px-2">
-                  <div className="wrap_property py-4">
-                    <div className="audited-items">
-                      {this.state.changes.map((change, index)=>{
-                        return(
-                          <div key={index} className="audited-subitem">
-                            {Object.keys(change.audited_change).map((attr, index)=>{
-                              return(
-                                <div key={index} className="audited-subitem-2">
-                                  {this.renderChanges(change.audited_change, attr)}
-                                </div>
-                              )
-                            })}
-                          </div>
-                        )
-                      })}
-                    </div>
-                  </div>
-                </div>
-              :
-              null
-            }
             <div className="col-md-8 px-2">
               <div className="wrap_property">
                 <div className="property-head">
