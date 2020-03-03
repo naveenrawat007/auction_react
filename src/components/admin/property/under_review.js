@@ -620,7 +620,7 @@ export default class UnderReview extends Component{
         <Modal className="status_modal logs_table" show={this.state.history_modal} onHide={this.hideModal} centered>
           <Modal.Header closeButton>
             <div className=" offset-md-1 col-md-10 text-center">
-              <h5 className="mb-0 text-uppercase"> Property History Changes Logs</h5>
+              <h5 className="mb-0 text-uppercase"> { this.state.selected_property === "" ? "Please select Property" :  "Property History Changes Logs"}</h5>
             </div>
           </Modal.Header>
           <div className="modal-body p-0">
