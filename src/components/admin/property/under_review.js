@@ -410,7 +410,75 @@ export default class UnderReview extends Component{
     else if (attr === "auction_ending_at") {
       return "Ideal Closing Date"
     }
-
+    else if (attr === "closing_cost") {
+      return "Est Closing Cost:"
+    }
+    else if (attr === "short_term_financing_cost") {
+      return "Est Hard Money or STF Cost"
+    }
+    else if (attr === "total_acquisition_cost") {
+      return "Total Acquisition Costs"
+    }
+    else if (attr === "taxes_annually") {
+      return "Est Annual taxes"
+    }
+    else if (attr === "insurance_annually") {
+      return "Est Annual Insurance"
+    }
+    else if (attr === "amount_financed_percentage") {
+      return "AMOUNT FINANCED (%)"
+    }
+    else if (attr === "amount_financed") {
+      return "AMOUNT FINANCED "
+    }
+    else if (attr === "interest_rate") {
+      return "Interest Rate APR"
+    }
+    else if (attr === "loan_terms") {
+      return "Loan Term"
+    }
+    else if (attr === "principal_interest") {
+      return "Monthly Principal & Interest"
+    }
+    else if (attr === "piti_monthly_debt") {
+      return "Ideal Closing Date"
+    }
+    else if (attr === "monthly_rent") {
+      return "EST Monthly Rent"
+    }
+    else if (attr === "total_gross_yearly_income") {
+      return "Total Gross Yearly Income"
+    }
+    else if (attr === "vacancy_rate") {
+      return "Est Vacancy Rate"
+    }
+    else if (attr === "adjusted_gross_yearly_income") {
+      return "ADJ Gross Yearly Income"
+    }
+    else if (attr === "est_annual_management_fees") {
+      return "Est Annual Management Fees"
+    }
+    else if (attr === "est_annual_operating_fees_others") {
+      return "Est Annual Maintentance"
+    }
+    else if (attr === "annual_debt") {
+      return "Annual Debt Service "
+    }
+    else if (attr === "net_operating_income") {
+      return "Net Operating Income"
+    }
+    else if (attr === "annual_cash_flow") {
+      return "Annual Cash Flow"
+    }
+    else if (attr === "monthly_cash_flow") {
+      return "Monthly Cash Flow"
+    }
+    else if (attr === "total_out_of_pocket") {
+      return "Total Out of Pocket"
+    }
+    else if (attr === "roi_cash_percentage") {
+      return "ROI Cash On Cash"
+    }
   }
 
   renderNestedChanges = (changes, attr) => {
@@ -681,15 +749,17 @@ export default class UnderReview extends Component{
                           )
                         }
                         else{
-                          return (
-                            <tr key={index}>
+                          if (this.humanizeAttr(key) !== undefined){
+                            return (
+                              <tr key={index}>
                               <td>{this.state.properties[this.state.selected_property].change_log.created_at}</td>
                               <td>{this.humanizeAttr(key)}</td>
                               <td>{this.state.properties[this.state.selected_property].change_log.details[key][0] ? this.state.properties[this.state.selected_property].change_log.details[key][0] : ""}</td>
                               <td>{this.state.properties[this.state.selected_property].change_log.details[key][1] ? this.state.properties[this.state.selected_property].change_log.details[key][1] : ""}</td>
                               <td></td>
-                            </tr>
-                          )
+                              </tr>
+                            )
+                          }
                         }
                       })
                     )
