@@ -4,6 +4,18 @@ html, body {
   height: 100%;
 }
 
+span.green-check svg {
+  color: #00ff00;
+  font-size: 20px !important;
+  cursor: pointer;
+}
+
+span.red-check svg {
+  cursor: pointer;
+  color: #ff0000;
+  font-size: 20px !important;
+}
+
 .header .header-reg .register-btn {
   margin-left: 10px !important;
 }
@@ -5280,6 +5292,7 @@ a.chat_attachment {
 }
 .logs_table table tr td:nth-child(5), .logs_table table tr th:nth-child(5){
   width: 10%;
+  text-align: center;
 }
 .logs_table_scroll{
   height: 240px;
