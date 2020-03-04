@@ -8,7 +8,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
 import CurrencyInput from 'react-currency-input';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-// import Alert from 'react-bootstrap/Alert';
+import Alert from 'react-bootstrap/Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExclamationTriangle, faTrash, faPlusCircle, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import Select from 'react-select';
@@ -1212,6 +1212,9 @@ export default class DealAnalysis extends Component{
                 <div id="newproperty" className="container px-0">
                   <div className="profile-form">
                     <div className="profile-form-in">
+                    {
+                      this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+                    }
                       <div className="container creation-steps px-0">
                         <div className="steps-parts" id="step2">
                           {this.state.isLoaded === true ?
