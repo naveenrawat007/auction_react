@@ -643,6 +643,14 @@ export default class UnderReview extends Component{
     }
   }
 
+  renderDateTime = (key, val) => {
+    if (key === "date"){
+      return (window.formatDate(val))
+    }else {
+      return (window.formatTime(val))
+    }
+  }
+
   calculateApproveTime = (time, id) => {
     if (time){
       this.timer_interval = setInterval(function () {
@@ -860,6 +868,67 @@ export default class UnderReview extends Component{
                         Object.keys(this.state.changed_property.change_log.details).map((key, index) => {
                         if (key === "lat" || key === "long" ){
                           return null
+                        }else if (key === "open_house_dates"){
+                          return (
+                            <tr key={index}>
+                              <td>{this.state.changed_property.change_log.created_at}</td>
+                              <td>{this.humanizeAttr(key)}</td>
+                              <td>
+                              {//console.log(this.state.changed_property.change_log.details[key][0])
+                                (Object.keys(this.state.changed_property.change_log.details[key][0])).map((key1, index) =>{
+                                  return (
+                                    <div>
+                                    {
+                                      Object.keys(this.state.changed_property.change_log.details[key][0][key1]).map((key2, index) => {
+                                        return(
+                                          <span>
+                                          {
+                                            this.renderDateTime(key2, this.state.changed_property.change_log.details[key][0][key1][key2])
+                                          } &nbsp;
+                                          </span>
+                                        )
+                                      })
+                                    }
+                                    </div>
+                                  )
+                                })
+                              }
+                              </td>
+                              <td>
+                              {
+                                (Object.keys(this.state.changed_property.change_log.details[key][1])).map((key1, index) =>{
+                                  return (
+                                    <div>
+                                    {
+                                      Object.keys(this.state.changed_property.change_log.details[key][1][key1]).map((key2, index) => {
+                                        return(
+                                          <span>
+                                          {
+                                            this.renderDateTime(key2, this.state.changed_property.change_log.details[key][1][key1][key2])
+                                          } &nbsp;
+                                          </span>
+                                        )
+                                      })
+                                    }
+                                    </div>
+                                  )
+                                })
+                              }
+                              </td>
+                              <td>
+                              {
+                                JSON.stringify(this.state.changed_property[key]) === JSON.stringify(this.state.changed_property.change_log.details[key][1]) ?
+                                <span className="green-check">
+                                  <FontAwesomeIcon icon={faCheckCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key, JSON.stringify(this.state.changed_property.change_log.details[key][0]))}}/>
+                                </span>
+                                :
+                                <span className="red-check">
+                                  <FontAwesomeIcon icon={faTimesCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key, JSON.stringify(this.state.changed_property.change_log.details[key][1]))}}/>
+                                </span>
+                              }
+                              </td>
+                            </tr>
+                          )
                         }
                         else if (this._nestedAttributes.indexOf(key) !== -1){
                           return (
