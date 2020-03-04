@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import DatePicker from "react-datepicker";
 import Alert from 'react-bootstrap/Alert';
 // import {Link} from 'react-router-dom';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTimesCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 export default class UnderReview extends Component{
   _isMounted = false
@@ -24,6 +24,9 @@ export default class UnderReview extends Component{
       history_modal: false,
       path: props.path,
       selected_property: "",
+      changed_property: "",
+      seller_pay_types: [],
+      show_instructions_types: [],
       selected_status: "",
       termination_reason: "",
       error: "",
@@ -102,7 +105,7 @@ export default class UnderReview extends Component{
   componentDidMount () {
     this._isMounted = true;
     this._dateAttributes = ["best_offer_auction_started_at","best_offer_auction_ending_at","auction_started_at","auction_bidding_ending_at","auction_ending_at"]
-    this._nestedAttributes = ["estimated_rehab_cost_attr","commercial_attributes","residential_attributes","land_attributes"]
+    this._nestedAttributes = ["estimated_rehab_cost_attr","commercial_attributes","residential_attributes","land_attributes","landlord_deal"]
     this.getPropertiesList();
 
   }
@@ -111,6 +114,87 @@ export default class UnderReview extends Component{
     this.setState({
       history_modal: true
     });
+    this.getPropertyDetails();
+  }
+  getPropertyDetails = () => {
+    if (this.state.selected_property !== ""){
+      let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties/"+ this.state.properties[this.state.selected_property].id+"/change_logs"
+      fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": localStorage.getItem("auction_admin_token"),
+          "Accept": "application/vnd.auction_backend.v1",
+          "Access-Control-Allow-Origin": "*",
+  				"Access-Control-Allow-Credentials": "*",
+  				"Access-Control-Expose-Headers": "*",
+  				"Access-Control-Max-Age": "*",
+  				"Access-Control-Allow-Methods": "*",
+  				"Access-Control-Allow-Headers": "*"
+        }
+      }).then(res => res.json())
+      .then((result) => {
+        if (this._isMounted){
+          if (result.status === 200){
+            this.setState({
+              changed_property: result.property,
+              seller_pay_types: result.seller_pay_types,
+              show_instructions_types: result.show_instructions_types,
+            });
+          }else if (result.status === 401) {
+            localStorage.removeItem("auction_admin_token");
+            window.location.href = "/login"
+          }else {
+            this.setState({
+              variant: "danger",
+              message: result.message
+            });
+            this.clearMessageTimeout = setTimeout(() => {
+              this.setState(() => ({message: ""}))
+            }, 2000);
+          }
+        }
+      })
+    }
+  }
+
+  sendChangeRequest = (property_id, attr, value, root_attr) =>{
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties/"+ this.state.changed_property.id+"/change_logs"
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_admin_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "*",
+        "Access-Control-Expose-Headers": "*",
+        "Access-Control-Max-Age": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*"
+      },
+      body: (root_attr ? JSON.stringify({property: {[root_attr]: {[attr]: value}}}) : JSON.stringify({property: {[attr]: value}}))
+    }).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        if (result.status === 200){
+          this.setState({
+            changed_property: result.property
+          })
+        }else if (result.status === 401) {
+          localStorage.removeItem("auction_admin_token");
+          window.location.href = "/login"
+        }else {
+          this.setState({
+            variant: "danger",
+            message: result.message
+          });
+          this.clearMessageTimeout = setTimeout(() => {
+            this.setState(() => ({message: ""}))
+          }, 2000);
+        }
+      }
+    })
   }
 
   searchHandler = (event) => {
@@ -482,22 +566,80 @@ export default class UnderReview extends Component{
   }
 
   renderNestedChanges = (changes, attr) => {
+    // if (this._nestedAttributes.indexOf(attr) !== -1){
     if (attr === "estimated_rehab_cost_attr" || attr === "commercial_attributes" || attr === "residential_attributes" || attr === "land_attributes"){
       return (
         Object.keys(changes[0]).map((key1, index1) => {
           if (JSON.stringify(changes[0][key1]) !== JSON.stringify(changes[1][key1])){
             return(
-              <tr key={index1+5}>
-                <td>{this.state.properties[this.state.selected_property].change_log.created_at}</td>
+              <tr key={index1}>
+                <td>{this.state.changed_property.change_log.created_at}</td>
                 <td>{this.humanizeAttr(key1)}</td>
                 <td>{changes[0][key1]}</td>
                 <td>{changes[1][key1]}</td>
-                <td></td>
+                <td>
+                {
+                  this.state.changed_property[attr][key1] === changes[1][key1] ?
+                  <span className="green-check">
+                    <FontAwesomeIcon icon={faCheckCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key1, changes[0][key1], attr)}}/>
+                  </span>
+                  :
+                  <span className="red-check">
+                    <FontAwesomeIcon icon={faTimesCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key1, changes[1][key1], attr)}}/>
+                  </span>
+                }
+                </td>
               </tr>
             )
           }
         })
       )
+    }else if (attr === "landlord_deal") {
+      return(
+        Object.keys(changes).map((key, index) => {
+          if (this.humanizeAttr(key) !== undefined){
+            return (
+              <tr key={index}>
+                <td>{this.state.changed_property.change_log.created_at}</td>
+                <td>{this.humanizeAttr(key)}</td>
+                <td>{changes[key][0] ? changes[key][0] : ""}</td>
+                <td>{changes[key][1] ? changes[key][1] : ""}</td>
+                <td>
+                {
+                  this.state.changed_property[attr][key] === changes[key][1] ?
+                  <span className="green-check">
+                    <FontAwesomeIcon icon={faCheckCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key, changes[key][0])}}/>
+                  </span>
+                  :
+                  <span className="red-check">
+                    <FontAwesomeIcon icon={faTimesCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key, changes[key][1])}}/>
+                  </span>
+                }
+                </td>
+              </tr>
+            )
+          }
+        })
+      )
+    }
+  }
+  renderSellerPayOrShowInst = (id, key) =>{
+    if (key === "seller_pay_type_id"){
+      for(let i=0; i < this.state.seller_pay_types.length; i++){
+        if (this.state.seller_pay_types[i].id === id){
+          return(
+            this.state.seller_pay_types[i].description
+          )
+        }
+      }
+    }else if (key === "show_instructions_type_id") {
+      for(let i=0; i < this.state.show_instructions_types.length; i++){
+        if (this.state.show_instructions_types[i].id === id){
+          return(
+            this.state.show_instructions_types[i].description
+          )
+        }
+      }
     }
   }
 
@@ -710,41 +852,85 @@ export default class UnderReview extends Component{
               <table className="table table-striped">
                 <tbody>
                   {
-                    this.state.selected_property ?
+                    this.state.changed_property ?
                     (
-                      // console.log(this.state.properties[this.state.selected_property].change_log)
-                      this.state.properties[this.state.selected_property].change_log ?
+                      // console.log(this.state.changed_property.change_log)
+                      this.state.changed_property.change_log ?
                       (
-                        Object.keys(this.state.properties[this.state.selected_property].change_log.details).map((key, index) => {
+                        Object.keys(this.state.changed_property.change_log.details).map((key, index) => {
                         if (key === "lat" || key === "long" ){
                           return null
                         }
                         else if (this._nestedAttributes.indexOf(key) !== -1){
                           return (
                             <>
-                              {this.renderNestedChanges(this.state.properties[this.state.selected_property].change_log.details[key], key)}
+                              {this.renderNestedChanges(this.state.changed_property.change_log.details[key], key)}
                             </>
                           )
                         }
                         else if (this._dateAttributes.indexOf(key) !== -1){
                           return (
                             <tr key={index}>
-                              <td>{this.state.properties[this.state.selected_property].change_log.created_at}</td>
+                              <td>{this.state.changed_property.change_log.created_at}</td>
                               <td>{this.humanizeAttr(key)}</td>
-                              <td>{window.formatDate(this.state.properties[this.state.selected_property].change_log.details[key][0])}</td>
-                              <td>{window.formatDate(this.state.properties[this.state.selected_property].change_log.details[key][1])}</td>
-                              <td></td>
+                              <td>{window.formatDate(this.state.changed_property.change_log.details[key][0])}</td>
+                              <td>{window.formatDate(this.state.changed_property.change_log.details[key][1])}</td>
+                              <td>
+                              {
+                                this.state.changed_property[key] === this.state.changed_property.change_log.details[key][1] ?
+                                <span className="green-check">
+                                  <FontAwesomeIcon icon={faCheckCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key, this.state.changed_property.change_log.details[key][0])}}/>
+                                </span>
+                                :
+                                <span className="red-check">
+                                  <FontAwesomeIcon icon={faTimesCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key, this.state.changed_property.change_log.details[key][1])}}/>
+                                </span>
+                              }
+                              </td>
                             </tr>
                           )
                         }
                         else if (key === "flooded"){
                           return (
                             <tr key={index}>
-                              <td>{this.state.properties[this.state.selected_property].change_log.created_at}</td>
+                              <td>{this.state.changed_property.change_log.created_at}</td>
                               <td>{this.humanizeAttr(key)}</td>
-                              <td>{this.state.properties[this.state.selected_property].change_log.details[key][0] ? "Yes" : "No"}</td>
-                              <td>{this.state.properties[this.state.selected_property].change_log.details[key][1] ? "Yes" : "No"}</td>
-                              <td></td>
+                              <td>{this.state.changed_property.change_log.details[key][0] ? "Yes" : "No"}</td>
+                              <td>{this.state.changed_property.change_log.details[key][1] ? "Yes" : "No"}</td>
+                              <td>
+                              {
+                                this.state.changed_property[key] === this.state.changed_property.change_log.details[key][1] ?
+                                <span className="green-check">
+                                  <FontAwesomeIcon icon={faCheckCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key, this.state.changed_property.change_log.details[key][0])}}/>
+                                </span>
+                                :
+                                <span className="red-check">
+                                  <FontAwesomeIcon icon={faTimesCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key, this.state.changed_property.change_log.details[key][1])}}/>
+                                </span>
+                              }
+                              </td>
+                            </tr>
+                          )
+                        }
+                        else if (key === "seller_pay_type_id" || key === "show_instructions_type_id"){
+                          return (
+                            <tr key={index}>
+                              <td>{this.state.changed_property.change_log.created_at}</td>
+                              <td>{this.humanizeAttr(key)}</td>
+                              <td>{this.renderSellerPayOrShowInst(this.state.changed_property.change_log.details[key][0], key)}</td>
+                              <td>{this.renderSellerPayOrShowInst(this.state.changed_property.change_log.details[key][1], key)}</td>
+                              <td>
+                              {
+                                this.state.changed_property[key] === this.state.changed_property.change_log.details[key][1] ?
+                                <span className="green-check">
+                                  <FontAwesomeIcon icon={faCheckCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key, this.state.changed_property.change_log.details[key][0])}}/>
+                                </span>
+                                :
+                                <span className="red-check">
+                                  <FontAwesomeIcon icon={faTimesCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key, this.state.changed_property.change_log.details[key][1])}}/>
+                                </span>
+                              }
+                              </td>
                             </tr>
                           )
                         }
@@ -752,11 +938,22 @@ export default class UnderReview extends Component{
                           if (this.humanizeAttr(key) !== undefined){
                             return (
                               <tr key={index}>
-                              <td>{this.state.properties[this.state.selected_property].change_log.created_at}</td>
-                              <td>{this.humanizeAttr(key)}</td>
-                              <td>{this.state.properties[this.state.selected_property].change_log.details[key][0] ? this.state.properties[this.state.selected_property].change_log.details[key][0] : ""}</td>
-                              <td>{this.state.properties[this.state.selected_property].change_log.details[key][1] ? this.state.properties[this.state.selected_property].change_log.details[key][1] : ""}</td>
-                              <td></td>
+                                <td>{this.state.changed_property.change_log.created_at}</td>
+                                <td>{this.humanizeAttr(key)}</td>
+                                <td>{this.state.changed_property.change_log.details[key][0] ? this.state.changed_property.change_log.details[key][0] : ""}</td>
+                                <td>{this.state.changed_property.change_log.details[key][1] ? this.state.changed_property.change_log.details[key][1] : ""}</td>
+                                <td>
+                                {
+                                  this.state.changed_property[key] === this.state.changed_property.change_log.details[key][1] ?
+                                  <span className="green-check">
+                                    <FontAwesomeIcon icon={faCheckCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key, this.state.changed_property.change_log.details[key][0])}}/>
+                                  </span>
+                                  :
+                                  <span className="red-check">
+                                    <FontAwesomeIcon icon={faTimesCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key, this.state.changed_property.change_log.details[key][1])}}/>
+                                  </span>
+                                }
+                                </td>
                               </tr>
                             )
                           }
