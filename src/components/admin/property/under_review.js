@@ -101,6 +101,8 @@ export default class UnderReview extends Component{
   }
   componentDidMount () {
     this._isMounted = true;
+    this._dateAttributes = ["best_offer_auction_started_at","best_offer_auction_ending_at","auction_started_at","auction_bidding_ending_at","auction_ending_at"]
+    this._nestedAttributes = ["estimated_rehab_cost_attr","commercial_attributes","residential_attributes","land_attributes"]
     this.getPropertiesList();
 
   }
@@ -408,6 +410,7 @@ export default class UnderReview extends Component{
     else if (attr === "auction_ending_at") {
       return "Ideal Closing Date"
     }
+
   }
 
   renderNestedChanges = (changes, attr) => {
@@ -629,8 +632,8 @@ export default class UnderReview extends Component{
                 <tr>
                   <th>Date</th>
                   <th>Details</th>
-                  <th>New Value</th>
                   <th>Old Value</th>
+                  <th>New Value</th>
                   <th>Control</th>
                 </tr>
               </thead>
@@ -642,18 +645,20 @@ export default class UnderReview extends Component{
                     this.state.selected_property ?
                     (
                       // console.log(this.state.properties[this.state.selected_property].change_log)
-                      Object.keys(this.state.properties[this.state.selected_property].change_log.details).map((key, index) => {
+                      this.state.properties[this.state.selected_property].change_log ?
+                      (
+                        Object.keys(this.state.properties[this.state.selected_property].change_log.details).map((key, index) => {
                         if (key === "lat" || key === "long" ){
                           return null
                         }
-                        else if (key === "estimated_rehab_cost_attr" || key === "commercial_attributes" || key === "residential_attributes" || key === "land_attributes"){
+                        else if (this._nestedAttributes.indexOf(key) !== -1){
                           return (
                             <>
                               {this.renderNestedChanges(this.state.properties[this.state.selected_property].change_log.details[key], key)}
                             </>
                           )
                         }
-                        else if (key === "best_offer_auction_started_at" || key === "best_offer_auction_ending_at" || key === "auction_started_at" || key === "auction_bidding_ending_at" || key === "auction_ending_at"){
+                        else if (this._dateAttributes.indexOf(key) !== -1){
                           return (
                             <tr key={index}>
                               <td>{this.state.properties[this.state.selected_property].change_log.created_at}</td>
@@ -664,18 +669,32 @@ export default class UnderReview extends Component{
                             </tr>
                           )
                         }
+                        else if (key === "flooded"){
+                          return (
+                            <tr key={index}>
+                              <td>{this.state.properties[this.state.selected_property].change_log.created_at}</td>
+                              <td>{this.humanizeAttr(key)}</td>
+                              <td>{this.state.properties[this.state.selected_property].change_log.details[key][0] ? "Yes" : "No"}</td>
+                              <td>{this.state.properties[this.state.selected_property].change_log.details[key][1] ? "Yes" : "No"}</td>
+                              <td></td>
+                            </tr>
+                          )
+                        }
                         else{
                           return (
                             <tr key={index}>
                               <td>{this.state.properties[this.state.selected_property].change_log.created_at}</td>
                               <td>{this.humanizeAttr(key)}</td>
-                              <td>{this.state.properties[this.state.selected_property].change_log.details[key][0]}</td>
-                              <td>{this.state.properties[this.state.selected_property].change_log.details[key][1]}</td>
+                              <td>{this.state.properties[this.state.selected_property].change_log.details[key][0] ? this.state.properties[this.state.selected_property].change_log.details[key][0] : ""}</td>
+                              <td>{this.state.properties[this.state.selected_property].change_log.details[key][1] ? this.state.properties[this.state.selected_property].change_log.details[key][1] : ""}</td>
                               <td></td>
                             </tr>
                           )
                         }
                       })
+                    )
+                      :
+                      null
                     )
                     :
                     null
