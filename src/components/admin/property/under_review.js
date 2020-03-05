@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from 'react-bootstrap/Modal';
 import DatePicker from "react-datepicker";
 import Alert from 'react-bootstrap/Alert';
-// import {Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import { faSearch, faTimesCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 export default class UnderReview extends Component{
@@ -22,6 +22,8 @@ export default class UnderReview extends Component{
     this.state = {
       status_modal: false,
       history_modal: false,
+      temp_images_list: [],
+      show_images_list: false,
       path: props.path,
       selected_property: "",
       changed_property: "",
@@ -329,6 +331,18 @@ export default class UnderReview extends Component{
     });
   }
 
+  showImages = (images_list) => {
+    this.setState({
+      temp_images_list: images_list,
+      show_images_list: true
+    })
+  }
+  closeImages = () => {
+    this.setState({
+      temp_images_list: [],
+      show_images_list: false
+    })
+  }
   humanizeAttr = ( attr) =>{
     if (attr === "address"){
       return "Address"
@@ -563,6 +577,12 @@ export default class UnderReview extends Component{
     }
     else if (attr === "roi_cash_percentage") {
       return "ROI Cash On Cash"
+    }
+    else if (attr === "images") {
+      return "Images"
+    }
+    else if (attr === "video_url") {
+      return "Video"
     }
   }
 
@@ -1022,6 +1042,26 @@ export default class UnderReview extends Component{
                             </tr>
                           )
                         }
+                        else if (key === "images"){
+                          return (
+                            <tr key={index}>
+                              <td>{this.state.changed_property.change_log.created_at}</td>
+                              <td>{this.humanizeAttr(key)}</td>
+                              <td>
+                                <Link to="#" onClick={() => {this.showImages(this.state.changed_property.images)}}>Old Images</Link>
+                              </td>
+                              <td>
+                                <Link to="#" onClick={() => {this.showImages(this.state.changed_property.change_log.details["images"])}}>New Images</Link>
+                              </td>
+                              <td>
+                                <span className="green-check">
+                                  <FontAwesomeIcon icon={faCheckCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, "images", this.state.changed_property.change_log.details["images"])}}/>
+                                  approve
+                                </span>
+                              </td>
+                            </tr>
+                          )
+                        }
                         else if (key === "seller_pay_type_id" || key === "show_instructions_type_id"){
                           return (
                             <tr key={index}>
@@ -1030,16 +1070,10 @@ export default class UnderReview extends Component{
                               <td>{this.renderSellerPayOrShowInst(this.state.changed_property.change_log.details[key][0], key)}</td>
                               <td>{this.renderSellerPayOrShowInst(this.state.changed_property.change_log.details[key][1], key)}</td>
                               <td>
-                              {
-                                this.state.changed_property[key] === this.state.changed_property.change_log.details[key][1] ?
-                                <span className="green-check">
-                                  <FontAwesomeIcon icon={faCheckCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key, this.state.changed_property.change_log.details[key][0])}}/>
-                                </span>
-                                :
-                                <span className="red-check">
-                                  <FontAwesomeIcon icon={faTimesCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key, this.state.changed_property.change_log.details[key][1])}}/>
-                                </span>
-                              }
+                              <span className="green-check">
+                                <FontAwesomeIcon icon={faCheckCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, "images", this.state.changed_property.change_log.details["images"])}}/>
+                                approve
+                              </span>
                               </td>
                             </tr>
                           )
@@ -1079,6 +1113,19 @@ export default class UnderReview extends Component{
                 </tbody>
               </table>
             </div>
+            <Modal className="old_image_modal" backdropClassName="old_image_backdrop" size="lg" aria-labelledby="contained-modal-title-vcenter" centered show={this.state.show_images_list} onHide={this.closeImages}>
+              <Modal.Body>
+              <div className="old_image_content">
+                {
+                  this.state.temp_images_list.map((url, index)=> {
+                    return(
+                      <img src={url} className="img-thumbnail"/>
+                    )
+                  })
+                }
+              </div>
+              </Modal.Body>
+            </Modal>
           </div>
         </Modal>
         <Modal className="status_modal" show={this.state.status_modal} onHide={this.hideModal}>
