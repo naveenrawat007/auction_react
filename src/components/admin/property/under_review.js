@@ -105,7 +105,7 @@ export default class UnderReview extends Component{
   componentDidMount () {
     this._isMounted = true;
     this._dateAttributes = ["best_offer_auction_started_at","best_offer_auction_ending_at","auction_started_at","auction_bidding_ending_at","auction_ending_at"]
-    this._nestedAttributes = ["estimated_rehab_cost_attr","commercial_attributes","residential_attributes","land_attributes","landlord_deal"]
+    this._nestedAttributes = ["estimated_rehab_cost_attr","commercial_attributes","residential_attributes","land_attributes","landlord_deal","buy_option"]
     this.getPropertiesList();
 
   }
@@ -159,6 +159,7 @@ export default class UnderReview extends Component{
   }
 
   sendChangeRequest = (property_id, attr, value, root_attr) =>{
+    // console.log(JSON.stringify({property: {[attr]: value}}));
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties/"+ this.state.changed_property.id+"/change_logs"
     fetch(url, {
       method: "PUT",
@@ -621,6 +622,46 @@ export default class UnderReview extends Component{
           }
         })
       )
+    }
+    else if(attr === "buy_option") {
+      {
+        if (this.humanizeAttr(attr) !== undefined){
+          return (
+            <tr key={attr}>
+              <td>{this.state.changed_property.change_log.created_at}</td>
+              <td>{this.humanizeAttr(attr)}</td>
+              <td>{this.state.changed_property.change_log.details[attr][0] ? (this.state.changed_property.change_log.details[attr][0].map((value, index) => {
+                return(
+                  <span>
+                    {value},&nbsp;
+                  </span>
+                )
+              })) : ""}</td>
+              <td>{this.state.changed_property.change_log.details[attr][1] ? (this.state.changed_property.change_log.details[attr][1].map((value, index) => {
+                return(
+                  <span>
+                    {value},&nbsp;
+                  </span>
+                )
+              })) : ""}</td>
+              <td>
+              {
+                JSON.stringify(this.state.changed_property[attr]) === JSON.stringify(this.state.changed_property.change_log.details[attr][1]) ?
+                <span className="green-check">
+                  <FontAwesomeIcon icon={faCheckCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, attr, JSON.stringify(this.state.changed_property.change_log.details[attr][0]))}}/>
+                </span>
+                :
+                <span className="red-check">
+                  <FontAwesomeIcon icon={faTimesCircle} size="1x" onClick={() => {
+                    this.sendChangeRequest(this.state.changed_property.id, attr, JSON.stringify(this.state.changed_property.change_log.details[attr][1]))
+                  }}/>
+                </span>
+              }
+              </td>
+            </tr>
+          )
+        }
+      }
     }
   }
   renderSellerPayOrShowInst = (id, key) =>{
