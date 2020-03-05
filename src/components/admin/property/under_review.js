@@ -22,6 +22,8 @@ export default class UnderReview extends Component{
     this.state = {
       status_modal: false,
       history_modal: false,
+      temp_video: "",
+      show_video: false,
       temp_images_list: [],
       show_images_list: false,
       path: props.path,
@@ -341,6 +343,18 @@ export default class UnderReview extends Component{
     this.setState({
       temp_images_list: [],
       show_images_list: false
+    })
+  }
+  showVideo = (video) => {
+    this.setState({
+      show_video: true,
+      temp_video: video,
+    })
+  }
+  closeVideo = () => {
+    this.setState({
+      show_video: false,
+      temp_video: "",
     })
   }
   humanizeAttr = ( attr) =>{
@@ -1056,7 +1070,27 @@ export default class UnderReview extends Component{
                               <td>
                                 <span className="green-check">
                                   <FontAwesomeIcon icon={faCheckCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, "images", this.state.changed_property.change_log.details["images"])}}/>
-                                  approve
+
+                                </span>
+                              </td>
+                            </tr>
+                          )
+                        }
+                        else if (key === "video_url"){
+                          return (
+                            <tr key={index}>
+                              <td>{this.state.changed_property.change_log.created_at}</td>
+                              <td>{this.humanizeAttr(key)}</td>
+                              <td>
+                                <Link to="#" onClick={() => {this.showVideo(this.state.changed_property["video_url"])}}>Old Video</Link>
+                              </td>
+                              <td>
+                                <Link to="#" onClick={() => {this.showVideo(this.state.changed_property.change_log.details["video_url"])}}>New Video</Link>
+                              </td>
+                              <td>
+                                <span className="green-check">
+                                  <FontAwesomeIcon icon={faCheckCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, "video_url", this.state.changed_property.change_log.details["video_url"])}}/>
+
                                 </span>
                               </td>
                             </tr>
@@ -1113,15 +1147,32 @@ export default class UnderReview extends Component{
                 </tbody>
               </table>
             </div>
+            <Modal className="old_image_modal" backdropClassName="old_image_backdrop" size="lg" aria-labelledby="contained-modal-title-vcenter" centered show={this.state.show_video} onHide={this.closeVideo}>
+              <Modal.Body>
+              <div className="old_video_content">
+                {
+                  this.state.temp_video ?
+                  <video controls>
+                    <source src={this.state.temp_video} />
+                  </video>
+                  :
+                  "No video"
+                }
+              </div>
+              </Modal.Body>
+            </Modal>
             <Modal className="old_image_modal" backdropClassName="old_image_backdrop" size="lg" aria-labelledby="contained-modal-title-vcenter" centered show={this.state.show_images_list} onHide={this.closeImages}>
               <Modal.Body>
               <div className="old_image_content">
                 {
-                  this.state.temp_images_list.map((url, index)=> {
+                  (this.state.temp_images_list.length > 0) ?
+                  (this.state.temp_images_list.map((url, index)=> {
                     return(
                       <img src={url} className="img-thumbnail"/>
                     )
-                  })
+                  }))
+                  :
+                  "No Images "
                 }
               </div>
               </Modal.Body>
