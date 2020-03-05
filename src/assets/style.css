@@ -5298,3 +5298,29 @@ a.chat_attachment {
   height: 240px;
   overflow-y: auto;
 }
+.old_image_modal .modal-dialog{
+  max-width: 880px;
+}
+.old_image_backdrop{
+  z-index: 1050;
+}
+.old_image_modal .old_image_content{
+  width: 864px;
+  overflow-x: auto;
+  height: 200px;
+  display: flex;
+}
+.old_image_modal .modal-body{
+  padding: 1rem 0;
+}
+.old_image_modal .old_image_content img{
+  min-width: 200px;
+  height: 200px;
+  margin: 0px 8px 0 8px;
+}
+.old_image_modal .old_image_content img:first-child{
+  margin-left: 16px;
+}
+.old_image_modal .old_image_content img:last-child{
+  margin-right: 16px;
+}
