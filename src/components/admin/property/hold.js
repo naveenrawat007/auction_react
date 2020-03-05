@@ -34,6 +34,9 @@ export default class Hold extends Component{
       auction_length_options: [],
       auction_started_at: "",
       auction_length: "",
+      best_offer: "",
+      best_offer_auction_started_at: "",
+      best_offer_auction_ending_at: "",
       termination_reason_options: [],
     }
   }
@@ -163,6 +166,9 @@ export default class Hold extends Component{
     fd.append('property[termination_reason]', this.state.termination_reason)
     fd.append('property[auction_started_at]', this.state.auction_started_at)
     fd.append('property[auction_length]', this.state.auction_length)
+    fd.append('property[best_offer]', this.state.best_offer)
+    fd.append('property[best_offer_auction_started_at]', this.state.best_offer_auction_started_at)
+    fd.append('property[best_offer_auction_ending_at]', this.state.best_offer_auction_ending_at)
     fetch(url, {
       method: "PUT",
       headers: {
@@ -203,6 +209,9 @@ export default class Hold extends Component{
         auction_started_at: this.state.properties[this.state.selected_property].auction_started_at_date,
         auction_length:  this.state.properties[this.state.selected_property].auction_length,
         termination_reason:  this.state.properties[this.state.selected_property].termination_reason,
+        best_offer: this.state.properties[this.state.selected_property].best_offer,
+        best_offer_auction_started_at: this.state.properties[this.state.selected_property].best_offer_auction_started_at,
+        best_offer_auction_ending_at:this.state.properties[this.state.selected_property].best_offer_auction_ending_at,
       });
     });
   }
@@ -219,9 +228,33 @@ export default class Hold extends Component{
       status_modal: false,
       auction_started_at: "",
       auction_length: "",
+      best_offer: "",
+      best_offer_auction_started_at: "",
+      best_offer_auction_ending_at: "",
     });
     if (this.state.selected_property !== ""){
       // this.updateStatus();
+    }
+  }
+  updatePropertyBestOfferAuctionStart = (date) =>{
+    if (this._isMounted){
+      this.setState({
+        best_offer_auction_started_at: date,
+      })
+    }
+  }
+  updatePropertyBestOfferAuctionEnd = (date) =>{
+    if (this._isMounted){
+      this.setState({
+        best_offer_auction_ending_at: date,
+      })
+    }
+  }
+  checkBestOffer = () => {
+    if (String(this.state.best_offer) === "true"){
+      return "";
+    }else {
+      return "d-none";
     }
   }
 
@@ -324,8 +357,8 @@ export default class Hold extends Component{
           </td>
           <td>{property.owner_category}</td>
           <td>{property.address}</td>
-          <td>{property.submitted_at}</td>
-          <td>{property.auction_started_at}</td>
+          <td>{window.formatFullDate(property.submitted_at)}</td>
+          <td>{window.formatFullDate(property.auction_started_at)}</td>
           <td>{property.auction_length}</td>
           <td> -- </td>
         </tr>
@@ -443,7 +476,7 @@ export default class Hold extends Component{
                       <div className="form-group">
                         <label >Auction Start date</label>
                         <DatePicker className="form-control "
-                          selected={this.state.auction_started_at ? new Date(this.state.auction_started_at) : ""} minDate={new Date()}
+                          selected={this.state.auction_started_at ? new Date(this.state.auction_started_at) : ""} 
                           name="auction_started_at" onChange={this.updatePropertyAuctionStart}
                         />
                       </div>
@@ -453,6 +486,35 @@ export default class Hold extends Component{
                           <option>Please select</option>
                           {auction_lengths}
                         </select>
+                      </div>
+                    </form>
+                  </div>
+                :
+                  null
+                }
+                {this.state.selected_status === "Approve" ?
+                  <div className="col-md-6 pr-0">
+                    <form className="status-form">
+                      <div className="form-group ">
+                        <label >Best Offer </label>
+                        <select className="form-control" onChange={this.updateStatusFields} value={String(this.state.best_offer)} name="best_offer" >
+                          <option value="false">No</option>
+                          <option value="true">Yes</option>
+                        </select>
+                      </div>
+                      <div className={"form-group " + this.checkBestOffer()}>
+                        <label >Best Offer Start date</label>
+                        <DatePicker className="form-control "
+                          selected={this.state.best_offer_auction_started_at ? new Date(this.state.best_offer_auction_started_at) : ""}
+                          name="best_offer_auction_started_at" onChange={this.updatePropertyBestOfferAuctionStart}
+                        />
+                      </div>
+                      <div className={"form-group "+ this.checkBestOffer()}>
+                        <label >Best Offer End Date</label>
+                        <DatePicker className="form-control "
+                          selected={this.state.best_offer_auction_ending_at ? new Date(this.state.best_offer_auction_ending_at) : ""}
+                          name="best_offer_auction_ending_at" onChange={this.updatePropertyBestOfferAuctionEnd}
+                        />
                       </div>
                     </form>
                   </div>
