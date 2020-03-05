@@ -30,6 +30,18 @@ function formatDate(date) {
     return "";
   }
 }
+function formatFullDate(date) {
+  if (date !== ""){
+    date = new Date(date)
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+    return  monthIndex+1+ "/" + day + '/' + year;
+  }
+  else {
+    return "";
+  }
+}
 function formatTime(time) {
   if (time !== ""){
     time = new Date(time)

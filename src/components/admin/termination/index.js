@@ -186,7 +186,7 @@ export default class TerminationRequestList extends Component{
           </td>
           <td>{property.owner_category}</td>
           <td>{property.address}</td>
-          <td>{property.requested_at}</td>
+          <td>{window.formatFullDate(property.requested_at)}</td>
           <td>{property.request_reason}</td>
         </tr>
       );
