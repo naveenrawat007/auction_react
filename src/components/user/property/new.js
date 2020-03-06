@@ -3902,7 +3902,7 @@ export default class UserNewProperty extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <CurrencyInput prefix="$" type="text" onChangeEvent={this.updateMaskedPropertyAtrr} className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_minimum_price_error) } name="best_offer_sellers_minimum_price"/>
+                                <CurrencyInput prefix="$" type="text" value={this.state.property.best_offer_sellers_minimum_price} onChangeEvent={this.updateMaskedPropertyAtrr} className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_minimum_price_error) } name="best_offer_sellers_minimum_price"/>
                               </div>
                             </div>
                             <div className={"form-group col-md-8 offset-md-2 px-0 row step_row " + this.checkBestOffer()}>
@@ -3921,7 +3921,7 @@ export default class UserNewProperty extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <CurrencyInput prefix="$" type="text" onChangeEvent={this.updateMaskedPropertyAtrr} className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_reserve_price) } name="best_offer_sellers_reserve_price" />
+                                <CurrencyInput prefix="$" type="text" value={this.state.property.best_offer_sellers_reserve_price} onChangeEvent={this.updateMaskedPropertyAtrr} className={"form-control " + this.addErrorClass(this.state.property_best_offer_sellers_reserve_price) } name="best_offer_sellers_reserve_price" />
                               </div>
                             </div>
                             <div className="col-md-12 text-center step_row mt-4">
@@ -3978,7 +3978,7 @@ export default class UserNewProperty extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <CurrencyInput prefix="$" type="text" onChangeEvent={this.updateMaskedPropertyAtrr} className={"form-control " + this.addErrorClass(this.state.property_seller_price_error) } name="seller_price" />
+                                <CurrencyInput prefix="$" value={this.state.property.seller_price} type="text" onChangeEvent={this.updateMaskedPropertyAtrr} className={"form-control " + this.addErrorClass(this.state.property_seller_price_error) } name="seller_price" />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -3999,7 +3999,7 @@ export default class UserNewProperty extends Component{
                                 </label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <CurrencyInput prefix="$" type="text" onChangeEvent={this.updateMaskedPropertyAtrr} className={"form-control " + this.addErrorClass(this.state.property_buy_now_price_error) } name="buy_now_price" />
+                                <CurrencyInput prefix="$" type="text" value={this.state.property.buy_now_price} onChangeEvent={this.updateMaskedPropertyAtrr} className={"form-control " + this.addErrorClass(this.state.property_buy_now_price_error) } name="buy_now_price" />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row mt-4">
