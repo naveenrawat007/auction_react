@@ -115,7 +115,6 @@ export default class AdminActivityList extends Component{
       return (
         <tr key={index}>
           <td>
-            <input type="checkbox" value="" id="defaultCheck1"/>
           </td>
           <td>{activity.user}</td>
           <td>{activity.time}</td>
