@@ -6,6 +6,7 @@ import UserList from './user/index.js';
 import PropertyList from './property/index.js';
 import TerminationRequestList from './termination/index.js';
 import AdminChatList from './chat/index.js';
+import AdminActivityList from './activity/index.js';
 
 
 export default class AdminSidebar extends Component{
@@ -46,8 +47,10 @@ export default class AdminSidebar extends Component{
         return <PropertyList path="terminated_property_list"/>;
       case 'termination_request_list':
         return <TerminationRequestList/>;
-        case 'admin_chat':
-          return <AdminChatList/>;
+      case 'admin_chat':
+        return <AdminChatList/>;
+      case 'admin_activity_list':
+        return <AdminActivityList/>;
       default:
     }
   }
@@ -95,10 +98,10 @@ export default class AdminSidebar extends Component{
             <div className="col-md-3 side_tab left_tab px-0">
               <ul className="nav nav-pills" role="tablist">
                 <li className="nav-item">
-                  <a className="nav-link main-nav-link" data-toggle="pill" href="#siteActivity">
+                  <Link to="/admin/site-activity" className={this.checkActive("admin_activity_list")} >
                     <span>Site Activity Report</span>
                     <FontAwesomeIcon icon={faChevronRight} />
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item ">
                   <a className="nav-link main-nav-link" data-toggle="pill" href="#subscriberList">
