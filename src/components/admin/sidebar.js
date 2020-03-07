@@ -18,6 +18,7 @@ export default class AdminSidebar extends Component{
       path: props.path,
       notifications: [],
       current_page : 1,
+      notifications_count: 0,
       page: 1,
       total_pages : 1
     }
@@ -52,6 +53,7 @@ export default class AdminSidebar extends Component{
           this.setState({
             isLoaded: true,
             notifications: result.activities,
+            notifications_count: result.activities.length,
             current_page : result.meta.current_page,
             total_pages : result.meta.total_pages,
           });
@@ -123,6 +125,7 @@ export default class AdminSidebar extends Component{
       let notifications = this.state.notifications;
       notifications.unshift(data)
       this.setState({
+        notifications_count: (this.state.notifications_count+1),
         notifications: notifications
       })
     }
@@ -135,9 +138,48 @@ export default class AdminSidebar extends Component{
       return "nav-link";
     }
   }
+  sendReadReq = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/activities"
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_admin_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*"
+      }
+    }).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        if (result.status === 200){
+
+        }else if (result.status === 401) {
+          localStorage.removeItem("auction_admin_token");
+          window.location.href = "/login"
+        }else {
+          this.setState({
+            variant: "danger",
+            message: result.message
+          });
+          this.clearMessageTimeout = setTimeout(() => {
+            this.setState(() => ({message: ""}))
+          }, 2000);
+        }
+      }
+    })
+  }
   showNotificatioList = () => {
     if (document.getElementsByClassName('notificationContainer')[0]){
       document.getElementsByClassName('notificationContainer')[0].classList.toggle("d-none")
+      this.sendReadReq()
+      this.setState({
+        notifications_count: 0,
+      })
     }
   }
   render(){
@@ -167,14 +209,21 @@ export default class AdminSidebar extends Component{
             <div className="col-md-1 offset-md-3">
               <div className="notify-box" onClick={this.showNotificatioList}>
                 <FontAwesomeIcon icon={faBell} size="1x" style={{ color: 'white' }} />
-                <p>{this.state.notifications.length}</p>
+                <p>{this.state.notifications_count}</p>
               </div>
               <div className="notificationContainer d-none">
                 <div className="notificationTitle">Notifications</div>
                 <div>
+                {
+                  this.state.notifications.length > 0 ?
                   <ul className="px-2 mb-0">
-                    {notifications_list}
+                  {notifications_list}
                   </ul>
+                  :
+                  <div className="text-center">
+                  No any recent Notification
+                  </div>
+                }
                 </div>
                 <div className="notificationFooter"></div>
               </div>
