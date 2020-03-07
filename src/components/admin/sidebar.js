@@ -14,10 +14,66 @@ export default class AdminSidebar extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      path: props.path
+      path: props.path,
+      notifications: [],
+      current_page : 1,
+      page: 1,
+      total_pages : 1
     }
   }
   componentDidMount = () => {
+    this._isMounted = true
+  }
+  getNotificationList = () => {
+    this.setState({
+      isLoaded: false ,
+    });
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/activities?type=notification&page=" + this.state.page
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_admin_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*"
+      }
+    }).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        if (result.status === 200){
+          console.log(result);
+          this.setState({
+            isLoaded: true,
+            notifications: result.notifications,
+            current_page : result.meta.current_page,
+            total_pages : result.meta.total_pages,
+          });
+          let items = []
+          for (let number = 1; number <= this.state.total_pages; number++) {
+            items.push(number)
+          }
+          this.setState({
+            total_pages_array: items,
+          });
+        }else if (result.status === 401) {
+          localStorage.removeItem("auction_admin_token");
+          window.location.href = "/login"
+        }else {
+          this.setState({
+            variant: "danger",
+            message: result.message
+          });
+          this.clearMessageTimeout = setTimeout(() => {
+            this.setState(() => ({message: ""}))
+          }, 2000);
+        }
+      }
+    })
   }
   renderSwitch = () => {
     switch (this.state.path) {
@@ -68,7 +124,18 @@ export default class AdminSidebar extends Component{
       return "nav-link";
     }
   }
+  showNotificatioList = () => {
+    this.getNotificationList();
+    if (document.getElementsByClassName('notificationContainer')[0]){
+      document.getElementsByClassName('notificationContainer')[0].classList.toggle("d-none")
+    }
+  }
   render(){
+    const notifications_list = this.state.notifications.map((notification, index)=>{
+      return (
+        <li key={index}>{notification.description}</li>
+      );
+    })
     return (
       <div className="profile-setting mt-0">
         <div className="container-fluid admin_container">
@@ -88,9 +155,18 @@ export default class AdminSidebar extends Component{
               </div>
             </div>
             <div className="col-md-1 offset-md-3">
-              <div className="notify-box">
+              <div className="notify-box" onClick={this.showNotificatioList}>
                 <FontAwesomeIcon icon={faBell} size="1x" style={{ color: 'white' }} />
-                <p>45</p>
+                <p>{this.state.notifications.length}</p>
+              </div>
+              <div className="notificationContainer d-none">
+                <div className="notificationTitle">Notifications</div>
+                <div>
+                  <ul className="px-2 mb-0">
+                    {notifications_list}
+                  </ul>
+                </div>
+                <div className="notificationFooter"></div>
               </div>
             </div>
           </div>
