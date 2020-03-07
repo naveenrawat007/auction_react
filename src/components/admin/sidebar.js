@@ -7,6 +7,7 @@ import PropertyList from './property/index.js';
 import TerminationRequestList from './termination/index.js';
 import AdminChatList from './chat/index.js';
 import AdminActivityList from './activity/index.js';
+import NotificationConnection from './notification_connection.js';
 
 
 export default class AdminSidebar extends Component{
@@ -24,6 +25,7 @@ export default class AdminSidebar extends Component{
   componentDidMount = () => {
     this._isMounted = true
     this.getNotificationList();
+    this.chatConnection = new NotificationConnection(this.addNewNotification).createRoomConnection()
   }
   getNotificationList = () => {
     this.setState({
@@ -47,10 +49,9 @@ export default class AdminSidebar extends Component{
     .then((result) => {
       if (this._isMounted){
         if (result.status === 200){
-          console.log(result);
           this.setState({
             isLoaded: true,
-            notifications: result.notifications,
+            notifications: result.activities,
             current_page : result.meta.current_page,
             total_pages : result.meta.total_pages,
           });
@@ -116,6 +117,16 @@ export default class AdminSidebar extends Component{
     localStorage.removeItem("auction_user_token");
     localStorage.removeItem("auction_admin_token");
     window.location.href = "/login"
+  }
+  addNewNotification = (data) => {
+    console.log(data);
+    if (this._isMounted == true){
+      let notifications = this.state.notifications;
+      notifications.push(data)
+      this.setState({
+        notifications: notifications
+      })
+    }
   }
 
   checkActive = (current_path) => {
