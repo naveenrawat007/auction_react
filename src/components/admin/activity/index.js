@@ -118,7 +118,15 @@ export default class AdminActivityList extends Component{
           </td>
           <td>{activity.user}</td>
           <td>{activity.time}</td>
-          <td>{activity.description}</td>
+          <td>{
+            activity.property ?
+            (
+              <p>{activity.text_description} <a href={"/property/"+activity.property.unique_address} target="_blank">{activity.property.address}</a>
+              </p>
+            )
+            :
+            activity.description
+          }</td>
         </tr>
       );
     })
