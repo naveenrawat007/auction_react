@@ -23,6 +23,7 @@ export default class AdminSidebar extends Component{
   }
   componentDidMount = () => {
     this._isMounted = true
+    this.getNotificationList();
   }
   getNotificationList = () => {
     this.setState({
@@ -125,7 +126,6 @@ export default class AdminSidebar extends Component{
     }
   }
   showNotificatioList = () => {
-    this.getNotificationList();
     if (document.getElementsByClassName('notificationContainer')[0]){
       document.getElementsByClassName('notificationContainer')[0].classList.toggle("d-none")
     }
