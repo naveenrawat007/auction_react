@@ -119,10 +119,9 @@ export default class AdminSidebar extends Component{
     window.location.href = "/login"
   }
   addNewNotification = (data) => {
-    console.log(data);
     if (this._isMounted == true){
       let notifications = this.state.notifications;
-      notifications.push(data)
+      notifications.unshift(data)
       this.setState({
         notifications: notifications
       })
