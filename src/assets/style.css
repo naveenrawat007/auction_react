@@ -5386,3 +5386,7 @@ a.chat_attachment {
 .notify-box{
   cursor: pointer;
 }
+.notificationContainer > div#n_list_box{
+  overflow: auto;
+  max-height: 200px;
+}

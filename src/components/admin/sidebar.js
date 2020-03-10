@@ -50,20 +50,24 @@ export default class AdminSidebar extends Component{
     .then((result) => {
       if (this._isMounted){
         if (result.status === 200){
-          this.setState({
-            isLoaded: true,
-            notifications: result.activities,
-            notifications_count: result.activities.length,
-            current_page : result.meta.current_page,
-            total_pages : result.meta.total_pages,
-          });
-          let items = []
-          for (let number = 1; number <= this.state.total_pages; number++) {
-            items.push(number)
+          if (result.activities.length > 0){
+            let notifications = this.state.notifications
+            notifications.push(...result.activities)
+            this.setState({
+              isLoaded: true,
+              notifications: notifications,
+              notifications_count: result.activites_count,
+              current_page : result.meta.current_page,
+              total_pages : result.meta.total_pages,
+            });
+            let items = []
+            for (let number = 1; number <= this.state.total_pages; number++) {
+              items.push(number)
+            }
+            this.setState({
+              total_pages_array: items,
+            });
           }
-          this.setState({
-            total_pages_array: items,
-          });
         }else if (result.status === 401) {
           localStorage.removeItem("auction_admin_token");
           window.location.href = "/login"
@@ -182,7 +186,21 @@ export default class AdminSidebar extends Component{
       })
     }
   }
+  getOldNotifications = () => {
+    if (document.getElementById('n_list_box')){
+      if (document.getElementById('n_list_box').scrollTop !== 0){
+        if (document.getElementById("n_list_box").scrollTop + document.getElementById("n_list_box").clientHeight === document.getElementById("n_list_box").scrollHeight )
+        this.setState({
+          page: (this.state.page+1)
+        }, function () {
+          this.getNotificationList();
+        });
+      }
+    }
+  }
+
   render(){
+    console.log(this.state.notifications.length);
     const notifications_list = this.state.notifications.map((notification, index)=>{
       return (
         <li key={index}>{notification.description}</li>
@@ -211,9 +229,9 @@ export default class AdminSidebar extends Component{
                 <FontAwesomeIcon icon={faBell} size="1x" style={{ color: 'white' }} />
                 <p>{this.state.notifications_count}</p>
               </div>
-              <div className="notificationContainer d-none">
+              <div className="notificationContainer d-none" onScroll={this.getOldNotifications}>
                 <div className="notificationTitle">Notifications</div>
-                <div>
+                <div id="n_list_box">
                 {
                   this.state.notifications.length > 0 ?
                   <ul className="px-2 mb-0">
