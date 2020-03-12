@@ -8,7 +8,7 @@ import TerminationRequestList from './termination/index.js';
 import AdminChatList from './chat/index.js';
 import AdminActivityList from './activity/index.js';
 import NotificationConnection from './notification_connection.js';
-
+import EmailSystem from './email_system/index.js';
 
 export default class AdminSidebar extends Component{
 
@@ -115,6 +115,8 @@ export default class AdminSidebar extends Component{
         return <AdminChatList/>;
       case 'admin_activity_list':
         return <AdminActivityList/>;
+      case 'email_system':
+        return <EmailSystem/>;
       default:
     }
   }
@@ -295,10 +297,10 @@ export default class AdminSidebar extends Component{
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link main-nav-link" data-toggle="pill" href="#emailSystem">
+                  <Link className={this.checkActive("email_system")} data-toggle="pill" to="/admin/email-system" >
                     <span>Email System</span>
                     <FontAwesomeIcon icon={faChevronRight} />
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link main-nav-link" data-toggle="pill" to="/admin/chat" >
