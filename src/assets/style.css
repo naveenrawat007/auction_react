@@ -5390,3 +5390,31 @@ a.chat_attachment {
   overflow: auto;
   max-height: 200px;
 }
+.table.email_system_table td:nth-child(1), .table.email_system_table th:nth-child(1){
+    width: 4%;
+}
+.table.email_system_table td:nth-child(2), .table.email_system_table th:nth-child(2){
+    width: 41%;
+}
+.table.email_system_table td:nth-child(3), .table.email_system_table th:nth-child(3){
+    width: 55%;
+}
+.table.email_system_table{
+    margin-bottom: 0;
+}
+.table.email_system_table th{
+    font-size: 13px;
+    padding: 12px 10px;
+}
+.table.email_system_table td{
+    vertical-align: middle;
+    font-size: 13px;
+}
+.email_system_table td p{
+    font-size: 12px;
+    font-weight: 400;
+    margin-bottom: 0;
+}
+.email_system_table tr{
+    border-bottom: 1px solid #dee2e6;
+}
