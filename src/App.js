@@ -92,6 +92,7 @@ function App() {
           <Route exact path="/admin/property/terminated" component={() => <AdminSidebar path='terminated_property_list'/>}/>
           <Route exact path="/admin/termination_request" component={() => <AdminSidebar path='termination_request_list'/>}/>
           <Route exact path="/admin/site-activity" component={() => <AdminSidebar path='admin_activity_list'/>}/>
+          <Route exact path="/admin/email-system" component={() => <AdminSidebar path='email_system'/>}/>
           <Route exact path="/login" component={Login} />
           <Route exact path="/sign_up" component={SignUp} />
           <Route exact path="/forgot_password" component={ForgotPassword} />
