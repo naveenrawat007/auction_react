@@ -1,8 +1,17 @@
 import React, {Component} from 'react';
 // import {Link} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import jquery from 'jquery';
+import 'bootstrap'
+import ReactSummernote from 'react-summernote';
+import 'react-summernote/dist/react-summernote.css'; // import styles
+window.jQuery = jquery;
+window.jquery = jquery;
+window.$ = jquery;
+// import 'react-summernote/lang/summernote-ru-RU';
 
 export default class EmailSystem extends Component{
   _isMounted = false
@@ -19,6 +28,9 @@ export default class EmailSystem extends Component{
       selected_template: "",
       templates: [],
       search_str: "",
+      template_body: "",
+      template_title: "",
+      template_subject: "",
       editor_modal: false,
     }
   }
@@ -72,12 +84,23 @@ export default class EmailSystem extends Component{
     this.setState({
       [name]: value
     }, function () {
+      this.setState({
+        template_id: this.state.templates[this.state.selected_template].id,
+        template_body: this.state.templates[this.state.selected_template].body,
+        template_title: this.state.templates[this.state.selected_template].title,
+        template_subject: this.state.templates[this.state.selected_template].subject,
+      })
     });
   }
 
   hideModal =() => {
     this.setState({
       editor_modal: false,
+      selected_template: "",
+      template_id: "",
+      template_body: "",
+      template_title: "",
+      template_subject: "",
     })
   }
 
@@ -87,6 +110,55 @@ export default class EmailSystem extends Component{
         editor_modal: true ,
       })
     }
+  }
+
+  updateTemplateBody = (content) => {
+    console.log(content);
+    this.setState({
+      template_body: content,
+    })
+  }
+
+  updateMailerTemplate = () => {
+
+    this.setState({
+      isLoaded: false ,
+    });
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/mailer_templates/"+this.state.template_id
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_admin_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*"
+      },
+      body: JSON.stringify({template: {body: this.state.template_body}})
+    }).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        if (result.status === 200){
+          this.hideModal();
+          this.getTemplatesList();
+        }else if (result.status === 401) {
+          localStorage.removeItem("auction_admin_token");
+          window.location.href = "/login"
+        }else {
+          this.setState({
+            variant: "danger",
+            message: result.message
+          });
+          this.clearMessageTimeout = setTimeout(() => {
+            this.setState(() => ({message: ""}))
+          }, 2000);
+        }
+      }
+    })
   }
 
 	render() {
@@ -158,14 +230,35 @@ export default class EmailSystem extends Component{
                 </div>
               </Modal.Header>
               <div className="modal-body">
-
+                <input type="text" className="form-control" name="template_title" placeholder="Title" value={this.state.template_title} onChange={this.updateSelectedTemplate} readOnly/>
+                <input type="text" className="form-control mt-2" name="template_subject" placeholder="Subject" value={this.state.template_subject} readOnly/>
+                <div className="mt-2">
+                {console.log(this.state.template_body)}
+                  <ReactSummernote
+                    value={this.state.template_body}
+                    options={{
+                      lang: 'en-EN',
+                      height: 350,
+                      dialogsInBody: true,
+                      toolbar: [
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['fontname', ['fontname']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['insert', ['specialchars']],
+                        ['view', ['fullscreen', 'codeview']]
+                      ]
+                    }}
+                    onChange={this.updateTemplateBody}
+                  />
+                </div>
                 <div className="col-md-12 text-center mt-3">
                   <span className="error"></span>
-                  <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.updateTemplate}>Save</button>
+                  <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.updateMailerTemplate}>Save</button>
                 </div>
               </div>
             </Modal>
-
           </div>
         </div>
       </div>
