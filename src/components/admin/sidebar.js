@@ -202,7 +202,6 @@ export default class AdminSidebar extends Component{
   }
 
   render(){
-    console.log(this.state.notifications.length);
     const notifications_list = this.state.notifications.map((notification, index)=>{
       return (
         <li key={index}>{notification.description}</li>

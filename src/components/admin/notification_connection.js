@@ -19,10 +19,8 @@ NotificationConnection.prototype.createRoomConnection = function() {
   var scope = this
   return this.connection.subscriptions.create({channel: 'NotificationChannel'}, {
     connected: function() {
-      console.log('connected to NotificationChannel.')
     },
     disconnected: function() {
-      console.log("disconnect");
     },
     received: function(data) {
       return scope.callback(data)

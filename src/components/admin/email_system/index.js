@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 // import {Link} from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
@@ -18,6 +19,7 @@ export default class EmailSystem extends Component{
       selected_template: "",
       templates: [],
       search_str: "",
+      editor_modal: false,
     }
   }
   componentDidMount () {
@@ -65,12 +67,33 @@ export default class EmailSystem extends Component{
       }
     })
   }
+  updateSelectedTemplate = (event) => {
+    const{ name, value } = event.target;
+    this.setState({
+      [name]: value
+    }, function () {
+    });
+  }
+
+  hideModal =() => {
+    this.setState({
+      editor_modal: false,
+    })
+  }
+
+  openEditorModal = () => {
+    if (this.state.selected_template !== ""){
+      this.setState({
+        editor_modal: true ,
+      })
+    }
+  }
 
 	render() {
     const templates_list = this.state.templates.map((template, index)=>{
       return (<tr key={index}>
         <td>
-          <input type="radio" value="" id="defaultCheck1"/>
+          <input type="radio" value={index} id={index} checked={this.state.selected_template === String(index) ? true : false} name="selected_template" onChange={this.updateSelectedTemplate}/>
         </td>
         <td>
           {template.title}
@@ -99,7 +122,7 @@ export default class EmailSystem extends Component{
                       </div>
                     </div>
                     <div className="col-md-5 offset-md-3 px-0 text-right">
-                      <button className="btn red-btn admin-btns" type="button" data-toggle="modal" data-target="#viewEmail">View</button>&nbsp;
+                      <button className="btn red-btn admin-btns" type="button" onClick={this.openEditorModal}>View</button>&nbsp;
                       <button className="btn red-btn admin-btns" type="button">Edit</button>&nbsp;
                       <button className="btn red-btn admin-btns" type="button">Control</button>
                     </div>
@@ -128,6 +151,20 @@ export default class EmailSystem extends Component{
                 </div>
               </div>
             </div>
+            <Modal className="status_modal" show={this.state.editor_modal} onHide={this.hideModal}>
+              <Modal.Header closeButton>
+                <div className=" offset-md-1 col-md-10 text-center">
+                  <h5 className="mb-0 text-uppercase"> Edit Template</h5>
+                </div>
+              </Modal.Header>
+              <div className="modal-body">
+
+                <div className="col-md-12 text-center mt-3">
+                  <span className="error"></span>
+                  <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.updateTemplate}>Save</button>
+                </div>
+              </div>
+            </Modal>
 
           </div>
         </div>
