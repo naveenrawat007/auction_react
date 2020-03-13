@@ -264,7 +264,7 @@ export default class AdminSidebar extends Component{
                   </a>
                 </li>
                 <li className="nav-item">
-                  <Link className={this.checkActive("users_list")} data-toggle="pill" to="/admin">
+                  <Link to="/admin" className={this.checkActive("users_list")} data-toggle="pill">
                     <span>User List</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
@@ -283,7 +283,7 @@ export default class AdminSidebar extends Component{
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link main-nav-link" data-toggle="pill" to="/admin/chat" >
+                  <Link to="/admin/chat" className="nav-link main-nav-link" data-toggle="pill" >
                     <span>Messaging System</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
@@ -296,13 +296,13 @@ export default class AdminSidebar extends Component{
                   </a>
                 </li>
                 <li className="nav-item">
-                  <Link className={this.checkActive("email_system")} data-toggle="pill" to="/admin/email-system" >
+                  <Link to="/admin/email-system" className={this.checkActive("email_system")} data-toggle="pill" >
                     <span>Email System</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link main-nav-link" data-toggle="pill" to="/admin/chat" >
+                  <Link to="/admin/chat" className="nav-link main-nav-link" data-toggle="pill"  >
                     {/* <a className="nav-link main-nav-link " data-toggle="pill" href="#emailSystem"> */}
                     <span>Text System</span>
                     <FontAwesomeIcon icon={faChevronRight} />
