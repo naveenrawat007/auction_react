@@ -4,17 +4,20 @@ import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import jquery from 'jquery';
-import 'bootstrap'
-import ReactSummernote from 'react-summernote';
-import 'react-summernote/dist/react-summernote.css'; // import styles
-window.jQuery = jquery;
-window.jquery = jquery;
-window.$ = jquery;
-// import 'react-summernote/lang/summernote-ru-RU';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 export default class EmailSystem extends Component{
   _isMounted = false
+  modules = {
+    toolbar: [
+      [{ 'header': [1, 2, false] }],
+      ['bold', 'italic', 'underline','strike', 'blockquote'],
+      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+      ['link', {'color': []}, {'background': []}],
+      ['clean']
+    ],
+  }
   componentWillUnmount() {
     this._isMounted = false;
     clearTimeout(this.clearMessageTimeout);
@@ -244,24 +247,14 @@ export default class EmailSystem extends Component{
                 <input type="text" className="form-control" name="template_title" placeholder="Title" value={this.state.template_title} onChange={this.updateSelectedTemplate} readOnly/>
                 <input type="text" className="form-control mt-2" name="template_subject" placeholder="Subject" value={this.state.template_subject} readOnly/>
                 <div className="mt-2">
-                  <ReactSummernote
-                    value={this.state.template_body}
-                    options={{
-                      lang: 'en-EN',
-                      height: 350,
-                      dialogsInBody: true,
-                      toolbar: [
-                        ['style', ['style']],
-                        ['font', ['bold', 'underline', 'clear']],
-                        ['fontname', ['fontname']],
-                        ['para', ['ul', 'ol', 'paragraph']],
-                        ['table', ['table']],
-                        ['insert', ['specialchars']],
-                        ['view', ['fullscreen', 'codeview']]
-                      ]
-                    }}
-                    onChange={this.updateTemplateBody}
+                <ReactQuill
+                  theme="snow"
+                  value={this.state.template_body}
+                  onChange={this.updateTemplateBody}
+                  modules={this.modules}
+
                   />
+
                 </div>
                 <div className="col-md-12 text-center mt-3">
                   <span className="error"></span>
