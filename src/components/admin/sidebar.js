@@ -9,6 +9,7 @@ import AdminChatList from './chat/index.js';
 import AdminActivityList from './activity/index.js';
 import NotificationConnection from './notification_connection.js';
 import EmailSystem from './email_system/index.js';
+import TextSystem from './text_system/index.js';
 
 export default class AdminSidebar extends Component{
 
@@ -117,6 +118,8 @@ export default class AdminSidebar extends Component{
         return <AdminActivityList/>;
       case 'email_system':
         return <EmailSystem/>;
+      case 'text_system':
+        return <TextSystem/>;
       default:
     }
   }
@@ -258,13 +261,13 @@ export default class AdminSidebar extends Component{
                   </Link>
                 </li>
                 <li className="nav-item ">
-                  <a className="nav-link main-nav-link" data-toggle="pill" href="#subscriberList">
+                  <a className="nav-link main-nav-link" >
                     <span>Subscriber List</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </a>
                 </li>
                 <li className="nav-item">
-                  <Link to="/admin" className={this.checkActive("users_list")} data-toggle="pill">
+                  <Link to="/admin" className={this.checkActive("users_list")}>
                     <span>User List</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
@@ -283,33 +286,33 @@ export default class AdminSidebar extends Component{
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/admin/chat" className="nav-link main-nav-link" data-toggle="pill" >
+                  <Link to="/admin/chat" className="nav-link main-nav-link"  >
                     <span>Messaging System</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
                 </li>
 
                 <li className="nav-item">
-                  <a className="nav-link main-nav-link" data-toggle="pill" href="#scheduleVisit">
+                  <a className="nav-link main-nav-link" href="#scheduleVisit">
                     <span>Schedule a Visit: (Request)</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </a>
                 </li>
                 <li className="nav-item">
-                  <Link to="/admin/email-system" className={this.checkActive("email_system")} data-toggle="pill" >
+                  <Link to="/admin/email-system" className={this.checkActive("email_system")}  >
                     <span>Email System</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/admin/chat" className="nav-link main-nav-link" data-toggle="pill"  >
+                  <Link to="/admin/text-system" className={this.checkActive("text_system")}>
                     {/* <a className="nav-link main-nav-link " data-toggle="pill" href="#emailSystem"> */}
                     <span>Text System</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link main-nav-link" data-toggle="pill" to="#" onClick={this.handleLogout}>
+                  <Link className="nav-link main-nav-link" to="#" onClick={this.handleLogout}>
                     <span>Log Out</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
