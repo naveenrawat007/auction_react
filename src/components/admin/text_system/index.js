@@ -4,14 +4,6 @@ import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import jquery from 'jquery';
-import 'bootstrap'
-import ReactSummernote from 'react-summernote';
-import 'react-summernote/dist/react-summernote.css'; // import styles
-window.jQuery = jquery;
-window.jquery = jquery;
-window.$ = jquery;
-// import 'react-summernote/lang/summernote-ru-RU';
 
 export default class TextSystem extends Component{
   _isMounted = false
