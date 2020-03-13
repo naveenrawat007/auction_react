@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import ReactQuill from 'react-quill';
+import Alert from 'react-bootstrap/Alert';
 import 'react-quill/dist/quill.snow.css';
 
 export default class EmailSystem extends Component{
@@ -87,12 +88,14 @@ export default class EmailSystem extends Component{
     this.setState({
       [name]: value
     }, function () {
-      this.setState({
-        template_id: this.state.templates[this.state.selected_template].id,
-        template_body: this.state.templates[this.state.selected_template].body,
-        template_title: this.state.templates[this.state.selected_template].title,
-        template_subject: this.state.templates[this.state.selected_template].subject,
-      })
+      if(name === "selected_template"){
+        this.setState({
+          template_id: this.state.templates[this.state.selected_template].id,
+          template_body: this.state.templates[this.state.selected_template].body,
+          template_title: this.state.templates[this.state.selected_template].title,
+          template_subject: this.state.templates[this.state.selected_template].subject,
+        })
+      }
     });
   }
 
@@ -140,13 +143,19 @@ export default class EmailSystem extends Component{
 				"Access-Control-Allow-Methods": "*",
 				"Access-Control-Allow-Headers": "*"
       },
-      body: JSON.stringify({template: {body: this.state.template_body}})
+      body: JSON.stringify({template: {body: this.state.template_body, title: this.state.template_title}})
     }).then(res => res.json())
     .then((result) => {
       if (this._isMounted){
         if (result.status === 200){
-          this.hideModal();
-          this.getTemplatesList();
+          this.setState({
+            message: result.message,
+            variant: "success"
+          });
+          setTimeout(() => {
+            this.hideModal();
+            this.getTemplatesList();
+          }, 2000);
         }else if (result.status === 401) {
           localStorage.removeItem("auction_admin_token");
           window.location.href = "/login"
@@ -244,7 +253,10 @@ export default class EmailSystem extends Component{
                 </div>
               </Modal.Header>
               <div className="modal-body">
-                <input type="text" className="form-control" name="template_title" placeholder="Title" value={this.state.template_title} onChange={this.updateSelectedTemplate} readOnly/>
+                {
+                  this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+                }
+                <input type="text" className="form-control" name="template_title" placeholder="Title" value={this.state.template_title} onChange={this.updateSelectedTemplate}/>
                 <input type="text" className="form-control mt-2" name="template_subject" placeholder="Subject" value={this.state.template_subject} readOnly/>
                 <div className="mt-2">
                 <ReactQuill
