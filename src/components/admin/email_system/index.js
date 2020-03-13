@@ -113,7 +113,6 @@ export default class EmailSystem extends Component{
   }
 
   updateTemplateBody = (content) => {
-    console.log(content);
     this.setState({
       template_body: content,
     })
@@ -245,7 +244,6 @@ export default class EmailSystem extends Component{
                 <input type="text" className="form-control" name="template_title" placeholder="Title" value={this.state.template_title} onChange={this.updateSelectedTemplate} readOnly/>
                 <input type="text" className="form-control mt-2" name="template_subject" placeholder="Subject" value={this.state.template_subject} readOnly/>
                 <div className="mt-2">
-                {console.log(this.state.template_body)}
                   <ReactSummernote
                     value={this.state.template_body}
                     options={{
