@@ -42,7 +42,7 @@ export default class EmailSystem extends Component{
     this.setState({
       isLoaded: false ,
     });
-    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/mailer_templates"
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/mailer_templates?search_str=" + this.state.search_str
     fetch(url, {
       method: "GET",
       headers: {
@@ -159,6 +159,18 @@ export default class EmailSystem extends Component{
         }
       }
     })
+  }
+
+  searchHandler = (event) => {
+    const{ name, value } = event.target;
+    this.setState({
+      [name]: value
+    }, function functionName() {
+      clearTimeout(this.getTemplatesListTimeout);
+      this.getTemplatesListTimeout = setTimeout(() => {
+        this.getTemplatesList();
+      }, 500);
+    });
   }
 
 	render() {
