@@ -258,7 +258,7 @@ export default class PropertySold extends Component{
             </div>
             <div className="col-md-3 time-border px-0">
               <div className="time-detail pl-3">
-                <h4 className="text-center font-blue">{window.format_currency(property.highest_bid)}</h4>
+                <h4 className="text-center font-blue">{window.format_currency(property.sold_amount)}</h4>
                 <p>Sold Price</p>
                 <Link to={"/property/"+property.unique_address} className="blue-btn btn-biding">View Details</Link>
               </div>

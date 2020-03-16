@@ -23,7 +23,7 @@ export default class HelpAndFaq extends Component{
                 <div className="row mx-0">
                   <div className="col-md-9 pl-0">
                     <div className="tab-content" id="myTabContent">
-                      <div class="tab-pane show active">
+                      <div className="tab-pane show active">
                         <div className="faq_rows">
                           <h6>About AuctionMyDeal.com</h6>
                           <Accordion >
@@ -739,31 +739,31 @@ export default class HelpAndFaq extends Component{
                     <h5>Quick Links</h5>
                     <ul className="nav nav-tabs flex-column" id="myTab" role="tablist">
                       <li className="nav-item">
-                        <a class="nav-link active" href="#">Help / FAQ</a>
+                        <a className="nav-link active" href="#">Help / FAQ</a>
                       </li>
                       <li className="nav-item">
-                        <a class="nav-link" href="#">Terms & Conditions</a>
+                        <a className="nav-link" href="#">Terms & Conditions</a>
                       </li>
                       <li className="nav-item">
-                        <a class="nav-link" href="#">Auction Participation Agreement</a>
+                        <a className="nav-link" href="#">Auction Participation Agreement</a>
                       </li>
                       <li className="nav-item">
-                        <a class="nav-link" href="#">Privacy Policy</a>
+                        <a className="nav-link" href="#">Privacy Policy</a>
                       </li>
                       <li className="nav-item">
-                        <a class="nav-link" href="#">Resources</a>
+                        <a className="nav-link" href="#">Resources</a>
                       </li>
                       <li className="nav-item">
-                        <a class="nav-link" href="#">Financing Options</a>
+                        <a className="nav-link" href="#">Financing Options</a>
                       </li>
                       <li className="nav-item">
-                        <a class="nav-link" href="#">Marketing Toolbox</a>
+                        <a className="nav-link" href="#">Marketing Toolbox</a>
                       </li>
                       <li className="nav-item">
-                        <a class="nav-link" href="#">About Us</a>
+                        <Link to="/about" className="nav-link" >About Us</Link>
                       </li>
                       <li className="nav-item">
-                        <a class="nav-link" href="#">Feedbacks & Questions</a>
+                        <a className="nav-link" href="#">Feedbacks & Questions</a>
                       </li>
                     </ul>
                   </div>
