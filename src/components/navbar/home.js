@@ -548,11 +548,11 @@ export default class Home extends Component {
         <div className="video_col">
           <video
             id="videobcg"
-            preload="auto"
-            autoPlay={true}
-            loop="loop"
-            muted="muted"
-            volume="0"
+            preload="yes"
+            autoPlay
+            loop
+            muted
+            playsInline
           >
             <source src="/videos/skyline.mp4" type="video/mp4" />
           </video>
