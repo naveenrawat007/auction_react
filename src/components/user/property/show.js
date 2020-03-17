@@ -867,11 +867,11 @@ export default class PropertyShow extends Component {
         <p className="mb-0">Current Highest Bid.</p>
         <div className="input-group my-2 col-md-8 offset-md-2">
           <div className="input-group-prepend">
-            <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
+            <button className="input-group-text group-box btn" ><FontAwesomeIcon icon={faMinus}/></button>
           </div>
-          <CurrencyInput type="text" prefix="$" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChangeEvent={this.updateCurrentOffer}/>
+          <CurrencyInput type="text" prefix="$" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} readOnly name="current_offer" onChangeEvent={this.updateCurrentOffer}/>
           <div className="input-group-append">
-            <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
+            <button className="input-group-text group-box btn" ><FontAwesomeIcon icon={faPlus}/></button>
           </div>
         </div>
         {/* <Link to="#" className="blue-btn btn-biding" onClick={this.biddingHandler}>Place Bid</Link> */}
@@ -882,10 +882,6 @@ export default class PropertyShow extends Component {
         <Link to="#" className="blue-btn btn-biding my-2">
 
           <div className="tooltip">Buy Now
-            <span className="tooltiptext">
-              <h6>Buy Now!</h6>
-              <p>You don't have to wait for the binding to end, or compete with other offers if you are willing to buy this property at this price?</p>
-            </span>
           </div>
         </Link>
         <h4 className="rate-head"> {window.format_currency(this.state.property.buy_now_price)}</h4>
