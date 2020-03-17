@@ -279,12 +279,14 @@ export default class PropertyDetails extends Component{
     this.setUpStepOne();
     this.checkForCategoryFields();
     const google = window.google;
-    const input = document.getElementById("autocomplete-address");
-    this.autocomplete = new google.maps.places.Autocomplete(input, {
-      types: ["geocode"],
-      componentRestrictions: { country: "us" }
-    });
-    this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
+    if (google){
+      const input = document.getElementById("autocomplete-address");
+      this.autocomplete = new google.maps.places.Autocomplete(input, {
+        types: ["geocode"],
+        componentRestrictions: { country: "us" }
+      });
+      this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
+    }
     window.scrollTo(0,0)
   }
 

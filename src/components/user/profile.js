@@ -59,12 +59,14 @@ export default class Profile extends Component{
   componentDidMount () {
     this._isMounted = true;
     const google = window.google;
-    const input = document.getElementById("autocomplete-address");
-    this.autocomplete = new google.maps.places.Autocomplete(input, {
-      types: ["geocode"],
-      componentRestrictions: { country: "us" }
-    });
-    this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
+    if (google){
+      const input = document.getElementById("autocomplete-address");
+      this.autocomplete = new google.maps.places.Autocomplete(input, {
+        types: ["geocode"],
+        componentRestrictions: { country: "us" }
+      });
+      this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
+    }
     window.scrollTo(0,0)
     click_image();
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/users/show"
