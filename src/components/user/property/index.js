@@ -404,7 +404,15 @@ export default class ListProperty extends Component{
               });
             }
           }, 2000);
+        }if (result.status === 400){
+          this.setState({
+            message: result.message,
+            variant: "danger"
+          });
         }
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
       }
     })
   }
