@@ -12,13 +12,13 @@ export default class HelpAndFaq extends Component{
   }
   render(){
     return(
-    	<div className="bg_white">
+    	<div className="bg_white  help_white">
         <div className="container custom_container row about_main px-5 mx-auto py-5">
           <div className="col-md-12 px-0">
             <div className="faq_heading text-left">
               <h4 className="mb-4">Frequently Asked Questions</h4>
             </div>
-            <div className="tab-content py-5" id="myTabContent">
+            <div className="tab-content faq_tabcontent py-5" id="myTabContent">
               <div className="tab-pane show active faq_navtabs" id="helpful_info" role="tabpanel" aria-labelledby="helpful_info">
                 <div className="row mx-0">
                   <div className="col-md-9 pl-0">
@@ -739,7 +739,7 @@ export default class HelpAndFaq extends Component{
                     <h5>Quick Links</h5>
                     <ul className="nav nav-tabs flex-column" id="myTab" role="tablist">
                       <li className="nav-item">
-                        <a className="nav-link active" href="#">Help / FAQ</a>
+                        <Link className="nav-link active" to="/help-and-faq">Help / FAQ</Link>
                       </li>
                       <li className="nav-item">
                         <a className="nav-link" href="#">Terms & Conditions</a>
@@ -760,7 +760,7 @@ export default class HelpAndFaq extends Component{
                         <a className="nav-link" href="#">Marketing Toolbox</a>
                       </li>
                       <li className="nav-item">
-                        <Link to="/about" className="nav-link" >About Us</Link>
+                        <Link className="nav-link" to="/about">About Us</Link>
                       </li>
                       <li className="nav-item">
                         <a className="nav-link" href="#">Feedbacks & Questions</a>

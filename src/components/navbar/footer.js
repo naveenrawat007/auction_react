@@ -14,7 +14,7 @@ export default class Footer extends Component{
                 <h5>company</h5>
                 <ul>
                   <li><Link to="/about">About us</Link></li>
-                  <li><Link to="/frequently-asked-questions">FAQs</Link></li>
+                  <li><Link to="/help-and-faq">FAQs</Link></li>
                   <li><Link to="#">Terms & Conditions</Link></li>
                   <li><Link to="#">Contact Us</Link></li>
                 </ul>
