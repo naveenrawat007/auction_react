@@ -211,7 +211,6 @@ export default class ListProperty extends Component{
         this.clearMessageTimeout = setTimeout(() => {
           this.setState(() => ({message: ""}))
         }, 2000);
-        this.getPropertiesList();
       }
     })
   }
