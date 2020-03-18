@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import Message from './message.js';
 
 
@@ -113,7 +113,16 @@ export default class ChatList extends Component{
 			}
 		}
 	}
-
+	toggleSideChatList = () => {
+    if (document.getElementById('side-chat-list')){
+      if (document.getElementById('side-chat-list').classList.contains("d-chat")){
+        document.getElementById('side-chat-list').classList.remove("d-chat")
+      }
+      else {
+        document.getElementById('side-chat-list').classList.add("d-chat")
+      }
+    }
+  }
 	render() {
 		const chat_room_list = this.state.chat_rooms.map((chat_room, index)=>{
 			return (
@@ -145,7 +154,8 @@ export default class ChatList extends Component{
 										</div>
 									:
 									<>
-										<div className=" col-md-2 px-0 left-chatbox">
+										<div className=" col-md-2 px-0 left-chatbox" id="side-chat-list">
+										<button id="hide-side-chat" onClick={this.toggleSideChatList}><FontAwesomeIcon icon={faChevronLeft} /></button>
 											<div className="chat-side">
 												<div className="chat-side-head">
 													<div className="input-group mb-0">

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVideo, faPhone, faPlus, faMicrophone, faCamera, faUpload, faFile, faTimesCircle} from '@fortawesome/free-solid-svg-icons';
+import { faVideo, faPhone, faPlus, faMicrophone, faCamera, faUpload, faFile, faTimesCircle, faChevronRight} from '@fortawesome/free-solid-svg-icons';
 import { faSmile} from '@fortawesome/free-regular-svg-icons';
 import ChatConnection from './ChatConnection.js';
 import Modal from 'react-bootstrap/Modal';
@@ -292,6 +292,16 @@ export default class Message extends Component{
 			}
 		}
 	}
+  toggleSideChatList = () => {
+    if (document.getElementById('side-chat-list')){
+      if (document.getElementById('side-chat-list').classList.contains("d-chat")){
+        document.getElementById('side-chat-list').classList.remove("d-chat")
+      }
+      else {
+        document.getElementById('side-chat-list').classList.add("d-chat")
+      }
+    }
+  }
 
 	render() {
     const messages = this.state.messages.map((message, index)=>{
@@ -360,6 +370,7 @@ export default class Message extends Component{
     return (
       <div className="col-md-10 px-0 right-chatbox">
         <div className="chat-body">
+        <button id="show-side-chat" onClick={this.toggleSideChatList}><FontAwesomeIcon icon={faChevronRight} /></button>
           <div className="chat-head">
             <div className="heading_left">
               <h5 className="font-red">{this.state.property_name}</h5>
