@@ -12,7 +12,16 @@ import Alert from 'react-bootstrap/Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExclamationTriangle, faTrash, faPlusCircle, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import Select from 'react-select';
-
+let componentDidMount_super = CurrencyInput.prototype.componentDidMount;
+CurrencyInput.prototype.componentDidMount = function() {
+  this.theInput.setSelectionRange_super = this.theInput.setSelectionRange;
+  this.theInput.setSelectionRange = (start, end) => {
+    if (document.activeElement === this.theInput) {
+      this.theInput.setSelectionRange_super(start, end);
+    }
+  };
+  componentDidMount_super.call(this, ...arguments);
+}
 const initial_state = {
   checkBoxEnabled: false,
   isLoaded: false,
@@ -1154,8 +1163,19 @@ export default class DealAnalysis extends Component{
       return (<span className="error-class"> {msg} </span>);
     }
   }
-  checkNumeric = (e) => {
+  checkNumericInt = (e) => {
     var regex = new RegExp("^[0-9]+$");
+    var str = String.fromCharCode(
+      !e.charCode
+      ? e.which
+      : e.charCode);
+    if (!regex.test(str)) {
+      e.preventDefault();
+      return false;
+    }
+  }
+  checkNumeric = (e) => {
+    var regex = new RegExp("^[0-9.]+$");
     var str = String.fromCharCode(
       !e.charCode
       ? e.which
@@ -1428,7 +1448,7 @@ export default class DealAnalysis extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 row mx-0">
-                                      <input type="number" className={"form-control col-md-4 " + this.addErrorClass(this.state.property_amount_financed_percentage_error) } name="amount_financed_percentage" onChange={this.updateProperty} value={this.state.property.amount_financed_percentage} />
+                                      <input type="number" onKeyPress={this.checkNumeric} className={"form-control col-md-4 " + this.addErrorClass(this.state.property_amount_financed_percentage_error) } name="amount_financed_percentage" onChange={this.updateProperty} value={this.state.property.amount_financed_percentage} />
                                       <CurrencyInput allowNegative={true} type="text" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" readOnly={true} value={this.state.property.amount_financed} className="form-control col-md-7 offset-md-1" name="amount_financed" />
                                     </div>
                                     <div className="col-md-6 px-0 my-2 label_web">
@@ -1460,7 +1480,7 @@ export default class DealAnalysis extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
-                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_interest_rate_error) } name="interest_rate" value={this.state.property.interest_rate} onChange={this.updateProperty}/>
+                                      <input type="number" onKeyPress={this.checkNumeric} className={"form-control " + this.addErrorClass(this.state.property_interest_rate_error) } name="interest_rate" value={this.state.property.interest_rate} onChange={this.updateProperty}/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0 label_web">
                                       <label className="labels_main">Interest Rate APR&nbsp;
@@ -1491,7 +1511,7 @@ export default class DealAnalysis extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
-                                      <input type="number" value={this.state.property.loan_terms} className={"form-control " + this.addErrorClass(this.state.property_loan_terms_error) } name="loan_terms" onChange={this.updateProperty}/>
+                                      <input type="number" onKeyPress={this.checkNumeric} value={this.state.property.loan_terms} className={"form-control " + this.addErrorClass(this.state.property_loan_terms_error) } name="loan_terms" onChange={this.updateProperty}/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0 label_web">
                                       <label className="labels_main">Loan Term&nbsp;
@@ -1713,7 +1733,7 @@ export default class DealAnalysis extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_vacancy_rate_error) } name="vacancy_rate" value={this.state.property.vacancy_rate} onChange={this.updateProperty}/>
+                                      <input type="number" onKeyPress={this.checkNumeric} className={"form-control " + this.addErrorClass(this.state.property_vacancy_rate_error) } name="vacancy_rate" value={this.state.property.vacancy_rate} onChange={this.updateProperty}/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main label-bold">ADJ Gross Yearly Income:&nbsp;

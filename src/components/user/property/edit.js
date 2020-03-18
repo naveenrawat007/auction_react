@@ -12,6 +12,16 @@ import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExclamationTriangle, faTrash, faPlusCircle, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import Select from 'react-select';
+let componentDidMount_super = CurrencyInput.prototype.componentDidMount;
+CurrencyInput.prototype.componentDidMount = function() {
+  this.theInput.setSelectionRange_super = this.theInput.setSelectionRange;
+  this.theInput.setSelectionRange = (start, end) => {
+    if (document.activeElement === this.theInput) {
+      this.theInput.setSelectionRange_super(start, end);
+    }
+  };
+  componentDidMount_super.call(this, ...arguments);
+}
 
 const initial_state = {
   checkBoxEnabled: false,
@@ -2186,8 +2196,19 @@ export default class PropertyEdit extends Component{
       return (<span className="error-class"> {msg} </span>);
     }
   }
-  checkNumeric = (e) => {
+  checkNumericInt = (e) => {
     var regex = new RegExp("^[0-9]+$");
+    var str = String.fromCharCode(
+      !e.charCode
+      ? e.which
+      : e.charCode);
+    if (!regex.test(str)) {
+      e.preventDefault();
+      return false;
+    }
+  }
+  checkNumeric = (e) => {
+    var regex = new RegExp("^[0-9.]+$");
     var str = String.fromCharCode(
       !e.charCode
       ? e.which
@@ -2587,7 +2608,7 @@ export default class PropertyEdit extends Component{
                                 <label>Bedrooms</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_bedrooms_error) } name="bedrooms" value={this.state.property.bedrooms} onChange={this.updateProperty}/>
+                                <input type="number" onKeyPress={this.checkNumeric} className={"form-control " + this.addErrorClass(this.state.property_bedrooms_error) } name="bedrooms" value={this.state.property.bedrooms} onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="bathrooms-input">
@@ -2595,7 +2616,7 @@ export default class PropertyEdit extends Component{
                                 <label>Bathrooms</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_bathrooms_error) } name="bathrooms" value={this.state.property.bathrooms} onChange={this.updateProperty} />
+                                <input type="number" onKeyPress={this.checkNumeric} className={"form-control " + this.addErrorClass(this.state.property_bathrooms_error) } name="bathrooms" value={this.state.property.bathrooms} onChange={this.updateProperty} />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="garage-input">
@@ -2603,7 +2624,7 @@ export default class PropertyEdit extends Component{
                                 <label>Garage</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_garage_error) } name="garage" value={this.state.property.garage} onChange={this.updateProperty} />
+                                <input type="number" onKeyPress={this.checkNumeric} className={"form-control " + this.addErrorClass(this.state.property_garage_error) } name="garage" value={this.state.property.garage} onChange={this.updateProperty} />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="units-input">
@@ -2611,7 +2632,7 @@ export default class PropertyEdit extends Component{
                                 <label>Units</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_units_error) } name="units" value={this.state.property.units} onChange={this.updateProperty} />
+                                <input type="number" onKeyPress={this.checkNumeric} className={"form-control " + this.addErrorClass(this.state.property_units_error) } name="units" value={this.state.property.units} onChange={this.updateProperty} />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="stories-input">
@@ -2619,7 +2640,7 @@ export default class PropertyEdit extends Component{
                                 <label>Stories</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_stories_error) } name="stories" value={this.state.property.stories} onChange={this.updateProperty} />
+                                <input type="number" onKeyPress={this.checkNumeric} className={"form-control " + this.addErrorClass(this.state.property_stories_error) } name="stories" value={this.state.property.stories} onChange={this.updateProperty} />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="cap_rate-input">
@@ -2627,7 +2648,7 @@ export default class PropertyEdit extends Component{
                                 <label>Cap Rate</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_cap_rate_error) } name="cap_rate" value={this.state.property.cap_rate} onChange={this.updateProperty} />
+                                <input type="number" onKeyPress={this.checkNumeric} className={"form-control " + this.addErrorClass(this.state.property_cap_rate_error) } name="cap_rate" value={this.state.property.cap_rate} onChange={this.updateProperty} />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="area-input">
@@ -2635,7 +2656,7 @@ export default class PropertyEdit extends Component{
                                 <label>Square Footage</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_area_error) } name="area" value={this.state.property.area} onChange={this.updateProperty}/>
+                                <input type="number" onKeyPress={this.checkNumeric} className={"form-control " + this.addErrorClass(this.state.property_area_error) } name="area" value={this.state.property.area} onChange={this.updateProperty}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="lot-input">
@@ -2643,7 +2664,7 @@ export default class PropertyEdit extends Component{
                                 <label>Lot</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_lot_size_error) } name="lot_size" onChange={this.updateProperty} value={this.state.property.lot_size} onKeyPress={this.checkDecimalNumeric}/>
+                                <input type="number" onKeyPress={this.checkNumeric} className={"form-control " + this.addErrorClass(this.state.property_lot_size_error) } name="lot_size" onChange={this.updateProperty} value={this.state.property.lot_size} onKeyPress={this.checkDecimalNumeric}/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="year-built-input">
@@ -2651,7 +2672,7 @@ export default class PropertyEdit extends Component{
                                 <label>Year Built</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_year_built_error) } name="year_built" onChange={this.updateProperty} value={this.state.property.year_built} onKeyPress={this.checkNumeric} maxLength="4"/>
+                                <input type="text" className={"form-control " + this.addErrorClass(this.state.property_year_built_error) } name="year_built" onChange={this.updateProperty} value={this.state.property.year_built} onKeyPress={this.checkNumericInt} maxLength="4"/>
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row" id="price_per_sq_ft-input">
@@ -2659,7 +2680,7 @@ export default class PropertyEdit extends Component{
                                 <label>Price Per SqFt</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <input type="number" className={"form-control " + this.addErrorClass(this.state.property_price_per_sq_ft_error) } name="price_per_sq_ft" onChange={this.updateProperty} value={this.state.property.price_per_sq_ft} />
+                                <input type="number" onKeyPress={this.checkNumeric} className={"form-control " + this.addErrorClass(this.state.property_price_per_sq_ft_error) } name="price_per_sq_ft" onChange={this.updateProperty} value={this.state.property.price_per_sq_ft} />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
@@ -2961,7 +2982,7 @@ export default class PropertyEdit extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 row mx-0">
-                                      <input type="number" className={"form-control col-md-4 " + this.addErrorClass(this.state.property_amount_financed_percentage_error) } name="amount_financed_percentage" onChange={this.updateProperty} value={this.state.property.amount_financed_percentage} />
+                                      <input type="number" onKeyPress={this.checkNumeric} className={"form-control col-md-4 " + this.addErrorClass(this.state.property_amount_financed_percentage_error) } name="amount_financed_percentage" onChange={this.updateProperty} value={this.state.property.amount_financed_percentage} />
                                       <CurrencyInput allowNegative={true} type="text" onChangeEvent={this.updateMaskedPropertyAtrr} prefix="$" readOnly={true} value={this.state.property.amount_financed} className="form-control col-md-7 offset-md-1" name="amount_financed" />
                                     </div>
                                     <div className="col-md-6 px-0 my-2 label_web">
@@ -2993,7 +3014,7 @@ export default class PropertyEdit extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
-                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_interest_rate_error) } name="interest_rate" value={this.state.property.interest_rate} onChange={this.updateProperty}/>
+                                      <input type="number" onKeyPress={this.checkNumeric} className={"form-control " + this.addErrorClass(this.state.property_interest_rate_error) } name="interest_rate" value={this.state.property.interest_rate} onChange={this.updateProperty}/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0 label_web">
                                       <label className="labels_main">Interest Rate APR&nbsp;
@@ -3024,7 +3045,7 @@ export default class PropertyEdit extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2">
-                                      <input type="number" value={this.state.property.loan_terms} className={"form-control " + this.addErrorClass(this.state.property_loan_terms_error) } name="loan_terms" onChange={this.updateProperty}/>
+                                      <input type="number" onKeyPress={this.checkNumeric} value={this.state.property.loan_terms} className={"form-control " + this.addErrorClass(this.state.property_loan_terms_error) } name="loan_terms" onChange={this.updateProperty}/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0 label_web">
                                       <label className="labels_main">Loan Term&nbsp;
@@ -3246,7 +3267,7 @@ export default class PropertyEdit extends Component{
                                       </label>
                                     </div>
                                     <div className="col-md-6 my-2 pl-0">
-                                      <input type="number" className={"form-control " + this.addErrorClass(this.state.property_vacancy_rate_error) } name="vacancy_rate" value={this.state.property.vacancy_rate} onChange={this.updateProperty}/>
+                                      <input type="number" onKeyPress={this.checkNumeric} className={"form-control " + this.addErrorClass(this.state.property_vacancy_rate_error) } name="vacancy_rate" value={this.state.property.vacancy_rate} onChange={this.updateProperty}/>
                                     </div>
                                     <div className="col-md-6 my-2 px-0">
                                       <label className="labels_main label-bold">ADJ Gross Yearly Income:&nbsp;
