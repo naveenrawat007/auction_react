@@ -35,7 +35,7 @@ export default class Message extends Component{
 
   UNSAFE_componentWillReceiveProps (nextProps) {
     if (nextProps.chat_room.id !== this.state.room_id){
-      window.scrollTo(0,0)
+      // window.scrollTo(0,0)
       this.chatConnection.disconnect()
       this.setState({
         show_emoji_picker: false,
