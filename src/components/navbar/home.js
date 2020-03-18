@@ -19,6 +19,7 @@ import {
 import { faCreditCard } from "@fortawesome/free-regular-svg-icons";
 import Modal from "react-bootstrap/Modal";
 import Alert from "react-bootstrap/Alert";
+window.fn = OwlCarousel;
 
 const initial_state = {
   error: "",
