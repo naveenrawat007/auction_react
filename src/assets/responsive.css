@@ -400,6 +400,18 @@
 	  border-bottom-left-radius: 0;
 		display: block !important;
 	}
+	.table th, .table td{
+		word-break: unset !important;
+	}
+	.table.offer_tables td:nth-child(5) .order-actions{
+		display: flex;
+	}
+	.offer_tables tbody td p{
+		white-space: nowrap;
+	}
+	#step_table th, #step_table td{
+		white-space: nowrap;
+	}
 }
 
 @media (max-width: 767.98px) {
