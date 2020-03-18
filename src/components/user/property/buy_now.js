@@ -334,7 +334,7 @@ export default class ListBuyNowProperty extends Component{
 
             <div className="col-md-3 px-2 text-center py-2">
               <div className="properties-price">
-                <h5 className="font-red">{window.format_currency(property.highest_bid)}</h5>
+                <h5 className="font-red">{window.format_currency(property.highest_buy_now)}</h5>
                 <p>Current Highest Bid</p>
                 {/* <Accordion.Toggle eventKey={property.id}> */}
                 <Accordion.Toggle as={Button} className="btn red-btn"  eventKey={property.id}>List of Buy Now
