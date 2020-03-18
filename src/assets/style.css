@@ -5418,3 +5418,6 @@ a.chat_attachment {
 .email_system_table tr{
     border-bottom: 1px solid #dee2e6;
 }
+#show-side-chat, #hide-side-chat{
+  display: none;
+}
