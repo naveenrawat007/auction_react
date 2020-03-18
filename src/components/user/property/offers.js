@@ -354,20 +354,22 @@ export default class ListOfferProperty extends Component{
             </div>
 
             <Accordion.Collapse className="col-md-12 px-0 " eventKey={property.id}>
-              <table className="table table-bordered table-hover offer_tables mb-0">
-                <thead>
-                  <tr>
-                    <th>Username</th>
-                    <th>Amount</th>
-                    <th>Type</th>
-                    <th>Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {this.bidsList(property.best_offers)}
-                  {this.bidsList(property.bids)}
-                </tbody>
-              </table>
+              <div className="table-responsive">
+                <table className="table table-bordered table-hover offer_tables mb-0">
+                  <thead>
+                    <tr>
+                      <th>Username</th>
+                      <th>Amount</th>
+                      <th>Type</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.bidsList(property.best_offers)}
+                    {this.bidsList(property.bids)}
+                  </tbody>
+                </table>
+              </div>
             </Accordion.Collapse>
           </div>
         </Accordion>

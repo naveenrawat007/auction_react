@@ -607,22 +607,24 @@ export default class ListProperty extends Component{
 
             <Accordion.Collapse className="col-md-12 px-0 " eventKey={property.id}>
               {/* <div className="col-md-12 px-0 " id="collapseExample2"> */}
-              <table className="table table-bordered table-hover offer_tables mb-0">
+              <div className="table-responsive">
+                <table className="table table-bordered table-hover offer_tables mb-0">
                 <thead>
-                  <tr>
-                    <th>Username</th>
-                    <th>Amount</th>
-                    <th>Type</th>
-                    <th>Date</th>
-                    <th>Action</th>
-                  </tr>
+                <tr>
+                <th>Username</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Date</th>
+                <th>Action</th>
+                </tr>
                 </thead>
                 <tbody>
-                  {this.bidsList(property.best_offers, property.id)}
-                  {this.bidsList(property.bids, property.id)}
-                  {this.bidsList(property.buy_now_offers, property.id)}
+                {this.bidsList(property.best_offers, property.id)}
+                {this.bidsList(property.bids, property.id)}
+                {this.bidsList(property.buy_now_offers, property.id)}
                 </tbody>
-              </table>
+                </table>
+              </div>
               {/* </div> */}
             </Accordion.Collapse>
           </div>
