@@ -28,7 +28,17 @@ import PropertyDetails from './components/user/property_edit/property_details.js
 import DealAnalysis from './components/user/property_edit/deal_analysis.js'
 import OnlineBiddingOptions from './components/user/property_edit/online_bidding_options.js'
 import PhotosAndVideos from './components/user/property_edit/photos_and_videos.js'
-
+import CurrencyInput from 'react-currency-input';
+let componentDidMount_super = CurrencyInput.prototype.componentDidMount;
+CurrencyInput.prototype.componentDidMount = function() {
+  this.theInput.setSelectionRange_super = this.theInput.setSelectionRange;
+  this.theInput.setSelectionRange = (start, end) => {
+    if (document.activeElement === this.theInput) {
+      this.theInput.setSelectionRange_super(start, end);
+    }
+  };
+  componentDidMount_super.call(this, ...arguments);
+}
 function App() {
   return (
     <div className="App">

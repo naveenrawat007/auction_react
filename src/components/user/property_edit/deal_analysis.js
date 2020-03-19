@@ -12,16 +12,16 @@ import Alert from 'react-bootstrap/Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExclamationTriangle, faTrash, faPlusCircle, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import Select from 'react-select';
-let componentDidMount_super = CurrencyInput.prototype.componentDidMount;
-CurrencyInput.prototype.componentDidMount = function() {
-  this.theInput.setSelectionRange_super = this.theInput.setSelectionRange;
-  this.theInput.setSelectionRange = (start, end) => {
-    if (document.activeElement === this.theInput) {
-      this.theInput.setSelectionRange_super(start, end);
-    }
-  };
-  componentDidMount_super.call(this, ...arguments);
-}
+// let componentDidMount_super = CurrencyInput.prototype.componentDidMount;
+// CurrencyInput.prototype.componentDidMount = function() {
+//   this.theInput.setSelectionRange_super = this.theInput.setSelectionRange;
+//   this.theInput.setSelectionRange = (start, end) => {
+//     if (document.activeElement === this.theInput) {
+//       this.theInput.setSelectionRange_super(start, end);
+//     }
+//   };
+//   componentDidMount_super.call(this, ...arguments);
+// }
 const initial_state = {
   checkBoxEnabled: false,
   isLoaded: false,
