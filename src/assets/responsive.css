@@ -211,11 +211,17 @@
 	.property_gallery .mySlides{
 		height: 200px !important;
 	}
+	.property_gallery .mySlides img{
+		height: 100% !important;
+	}
 	.user_side_tab.side_tab{
 		margin: 0 10px 15px 10px !important;
 	}
 	.user_side_tab .account-head .account-image{
 		left: 40% !important;
+	}
+	.head_address h5{
+		margin-bottom: 10px !important;
 	}
 	.works_head h3{
 		font-size: 1.5rem !important;
@@ -432,7 +438,10 @@
 		display: none;
 	}
 	.video-box img{
-		width: 100%;
+		width: 100% !important;
+	}
+	.video-login{
+		width: 87.5% !important;
 	}
 	.map-box img{
 		width: 100%;
