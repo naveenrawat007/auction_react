@@ -213,8 +213,7 @@ export default class TextSystem extends Component{
                       </div>
                     </div>
                     <div className="col-md-5 offset-md-3 px-0 text-right">
-                      <button className="btn red-btn admin-btns" type="button" onClick={this.openEditorModal}>View</button>&nbsp;
-                      <button className="btn red-btn admin-btns" type="button">Edit</button>&nbsp;
+                      <button className="btn red-btn admin-btns" type="button" onClick={this.openEditorModal}>Edit</button>&nbsp;
                       <button className="btn red-btn admin-btns" type="button">Control</button>
                     </div>
                   </div>
