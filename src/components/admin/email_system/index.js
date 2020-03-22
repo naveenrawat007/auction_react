@@ -27,6 +27,9 @@ export default class EmailSystem extends Component{
 	constructor(props){
     super(props);
     this.state = {
+      test_modal: false,
+      email_error: "",
+      test_email: "",
       message: "",
       isLoaded: false,
       selected_template: "",
@@ -96,17 +99,41 @@ export default class EmailSystem extends Component{
           template_subject: this.state.templates[this.state.selected_template].subject,
         })
       }
+      if(name === "test_email"){
+        if (this.state.test_email === "" || !(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.test_email))){
+          this.setState({
+            email_error: "Invalid email!"
+          })
+          return false
+        }else {
+          this.setState({
+            email_error: ""
+          })
+        }
+      }
     });
   }
 
+
   hideModal =() => {
     this.setState({
+      test_modal: false,
+      message: "",
+      variant: "",
+      test_email: "",
       editor_modal: false,
       selected_template: "",
       template_id: "",
       template_body: "",
       template_title: "",
       template_subject: "",
+    })
+  }
+
+  openTestEmailModal = () => {
+    this.setState({
+      test_modal: true,
+      test_email: "rajan.beryls@gmail.com",
     })
   }
 
@@ -121,6 +148,53 @@ export default class EmailSystem extends Component{
   updateTemplateBody = (content) => {
     this.setState({
       template_body: content,
+    })
+  }
+
+  sendMailerTemplate = () => {
+    if (this.state.email_error){
+      return false
+    }
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/test/mailer_templates/"+this.state.template_id
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_admin_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*"
+      },
+      body: JSON.stringify({email: this.state.test_email})
+    }).then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        if (result.status === 200){
+          this.setState({
+            message: result.message,
+            variant: "success"
+          });
+          setTimeout(() => {
+            this.hideModal();
+            this.getTemplatesList();
+          }, 2000);
+        }else if (result.status === 401) {
+          localStorage.removeItem("auction_admin_token");
+          window.location.href = "/login"
+        }else {
+          this.setState({
+            variant: "danger",
+            message: result.message
+          });
+          this.clearMessageTimeout = setTimeout(() => {
+            this.setState(() => ({message: ""}))
+          }, 2000);
+        }
+      }
     })
   }
 
@@ -171,6 +245,13 @@ export default class EmailSystem extends Component{
       }
     })
   }
+  addErrorClass = (msg) => {
+    if (msg === ""){
+      return ""
+    }else {
+      return "error-class"
+    }
+  }
 
   searchHandler = (event) => {
     const{ name, value } = event.target;
@@ -218,7 +299,7 @@ export default class EmailSystem extends Component{
                     </div>
                     <div className="col-md-5 offset-md-3 px-0 text-right">
                       <button className="btn red-btn admin-btns" type="button" onClick={this.openEditorModal}>Edit</button>&nbsp;
-                      <button className="btn red-btn admin-btns" type="button">Control</button>
+                      <button className="btn red-btn admin-btns" type="button" onClick={this.openTestEmailModal}>Test</button>
                     </div>
                   </div>
                   <div className="under_review admin-review loading-spinner-parent">
@@ -270,6 +351,24 @@ export default class EmailSystem extends Component{
                 <div className="col-md-12 text-center mt-3">
                   <span className="error"></span>
                   <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.updateMailerTemplate}>Save</button>
+                </div>
+              </div>
+            </Modal>
+            <Modal className="status_modal" show={this.state.test_modal} onHide={this.hideModal} centered>
+              <Modal.Header closeButton>
+                <div className=" offset-md-1 col-md-10 text-center">
+                  <h5 className="mb-0 text-uppercase"> Test Template</h5>
+                </div>
+              </Modal.Header>
+              <div className="modal-body">
+                {
+                  this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+                }
+                <input type="text" className={"form-control "+ this.addErrorClass(this.state.email_error)} name="test_email" placeholder="Test Email" value={this.state.test_email} onChange={this.updateSelectedTemplate}/>
+
+                <div className="col-md-12 text-center mt-3">
+                  <span className="error"></span>
+                  <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.sendMailerTemplate}>Send</button>
                 </div>
               </div>
             </Modal>
