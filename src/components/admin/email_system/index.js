@@ -133,7 +133,7 @@ export default class EmailSystem extends Component{
   openTestEmailModal = () => {
     this.setState({
       test_modal: true,
-      test_email: "rajan.beryls@gmail.com",
+      test_email: "",
     })
   }
 
@@ -357,19 +357,32 @@ export default class EmailSystem extends Component{
             <Modal className="status_modal" show={this.state.test_modal} onHide={this.hideModal} centered>
               <Modal.Header closeButton>
                 <div className=" offset-md-1 col-md-10 text-center">
-                  <h5 className="mb-0 text-uppercase"> Test Template</h5>
+                  <h5 className="mb-0 text-uppercase"> { this.state.template_id ? "Test Template" : "Please select Template"}</h5>
                 </div>
               </Modal.Header>
               <div className="modal-body">
                 {
                   this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
                 }
-                <input type="text" className={"form-control "+ this.addErrorClass(this.state.email_error)} name="test_email" placeholder="Test Email" value={this.state.test_email} onChange={this.updateSelectedTemplate}/>
-
-                <div className="col-md-12 text-center mt-3">
-                  <span className="error"></span>
-                  <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.sendMailerTemplate}>Send</button>
-                </div>
+                { this.state.template_id ? null : "Please select Template first."}
+                {
+                  this.state.template_id ?
+                  <input type="text" className={"form-control "+ this.addErrorClass(this.state.email_error)} name="test_email" placeholder="Enter Test Email" value={this.state.test_email} onChange={this.updateSelectedTemplate}/>
+                  :
+                  <input type="text" className={"form-control "+ this.addErrorClass(this.state.email_error)} name="test_email" placeholder="Test Email" value={this.state.test_email} onChange={this.updateSelectedTemplate} readOnly/>
+                }
+                {
+                  this.state.template_id ?
+                  <div className="col-md-12 text-center mt-3">
+                    <span className="error"></span>
+                    <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.sendMailerTemplate}>Send</button>
+                  </div>
+                  :
+                  <div className="col-md-12 text-center mt-3">
+                    <span className="error"></span>
+                    <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.hideModal}>Close</button>
+                  </div>
+                }
               </div>
             </Modal>
           </div>
