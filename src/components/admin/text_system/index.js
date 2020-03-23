@@ -16,7 +16,7 @@ export default class TextSystem extends Component{
 	constructor(props){
     super(props);
     this.state = {
-      test_modal: true,
+      test_modal: false,
       test_number: "",
       number_error: "",
       message: "",
@@ -134,7 +134,7 @@ export default class TextSystem extends Component{
   openTestMessageModal = () => {
     this.setState({
       test_modal: true,
-      test_number: "9654039655",
+      test_number: "",
     })
   }
 
