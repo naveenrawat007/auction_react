@@ -299,7 +299,7 @@ export default class EmailSystem extends Component{
                     </div>
                     <div className="col-md-5 offset-md-3 px-0 text-right">
                       <button className="btn red-btn admin-btns" type="button" onClick={this.openEditorModal}>Edit</button>&nbsp;
-                      <button className="btn red-btn admin-btns" type="button" onClick={this.openTestEmailModal}>Test</button>
+                      <button className="btn red-btn admin-btns" type="button" onClick={this.openTestEmailModal}>Test Email</button>
                     </div>
                   </div>
                   <div className="under_review admin-review loading-spinner-parent">
