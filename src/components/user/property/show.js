@@ -2160,12 +2160,12 @@ export default class PropertyShow extends Component {
                 <h5 className="mb-3 main_box_head">Property Location</h5>
                 {this.state.is_premium ?
                   <div className="map-box">
-                    <iframe title="map" width="552" height="350" id="gmap_canvas" src={`https://maps.google.com/maps?q= ${this.state.property.address}&t=&z=13&ie=UTF8&iwloc=&output=embed`} frameBorder="0" scrolling="no" ></iframe>
+                    <iframe title="map" width="552" height="350" id="gmap_canvas" src={`https://maps.google.com/maps?q= ${this.state.property.address}&t=k&z=13&ie=UTF8&iwloc=&output=embed`} frameBorder="0" scrolling="no" ></iframe>
                   </div>
                 :
                 <>
                   <div className="map-box">
-                    <iframe title="map" width="552" height="350" id="gmap_canvas" src={"https://maps.google.com/maps?q= usa&t=&z=13&ie=UTF8&iwloc=&output=embed"} frameBorder="0" scrolling="no" ></iframe>
+                    <iframe title="map" width="552" height="350" id="gmap_canvas" src={"https://maps.google.com/maps?q= usa&t=k&z=13&ie=UTF8&iwloc=&output=embed"} frameBorder="0" scrolling="no" ></iframe>
                   </div>
                   <div className="video-login">
                     <p><Link to="/sign_up" className="links-login">Register</Link> or <Link to="/login" className="links-login">Login</Link> to view property map</p>
