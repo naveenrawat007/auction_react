@@ -1650,35 +1650,41 @@ export default class PropertyShow extends Component {
             </div>
             <div className="col-md-4 px-2">
               <div className="wrap_property" id="property-timer-block">
-                <div className="favourite_box">
-                  <a href="#" className="fav_body">
-                    <img src="/images/stars.png" alt=""/>
-                    Favorite
-                  </a>
-                  <a href="#" className="fav_body">
-                    <img src="/images/share.png" alt=""/>
-                    Share
-                  </a>
-                  <a href="#" className="fav_body">
-                    <img src="/images/print.png" alt=""/>
-                    Print
-                  </a>
-                </div>
+                {
+                  this.state.is_premium ?
+                  <div className="favourite_box">
+                    {
+                      this.state.favourite === true ?
+                      <Link to="#" className="fav_body" onClick={this.updateFavourite}>
+                        <img src="/images/stars.png" alt="favourite"/>
+                        Favorite
+                      </Link>
+                      :
+                      <Link to="#" className="fav_body" onClick={this.updateFavourite}>
+                        <img src="/images/star_black.png" alt="not_favourite"/>
+                        Favorite
+                      </Link>
+                    }
+                    <Link to="#" className="fav_body">
+                      <img src="/images/share.png" alt=""/>
+                      Share
+                    </Link>
+                    <Link href="#" className="fav_body">
+                      <img src="/images/print.png" alt=""/>
+                      Print
+                    </Link>
+                  </div>
+                  :
+                  null
+                }
+
                 {this.renderTimerBlock()}
               </div>
               <div className="wrap_property py-4 lock-region">
                 {this.renderBiddingBlock()}
                 {
                   this.state.is_premium ?
-
-                    (this.state.favourite === true ?
-                      <div className="fav-watch-heart" onClick={this.updateFavourite}>
-                        <FontAwesomeIcon icon={faHeart}/>
-                      </div>
-                    :
-                    <div className="watch-heart" onClick={this.updateFavourite}>
-                      <FontAwesomeIcon icon={faHeart}/>
-                    </div>)
+                  null
                   :
                   <div className="fav-watch-heart" >
                     <FontAwesomeIcon icon={faLock}/>
