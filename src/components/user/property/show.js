@@ -1650,6 +1650,20 @@ export default class PropertyShow extends Component {
             </div>
             <div className="col-md-4 px-2">
               <div className="wrap_property" id="property-timer-block">
+                <div className="favourite_box">
+                  <a href="#" className="fav_body">
+                    <img src="/images/stars.png" alt=""/>
+                    Favorite
+                  </a>
+                  <a href="#" className="fav_body">
+                    <img src="/images/share.png" alt=""/>
+                    Share
+                  </a>
+                  <a href="#" className="fav_body">
+                    <img src="/images/print.png" alt=""/>
+                    Print
+                  </a>
+                </div>
                 {this.renderTimerBlock()}
               </div>
               <div className="wrap_property py-4 lock-region">

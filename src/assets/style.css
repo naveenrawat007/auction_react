@@ -1617,7 +1617,26 @@ button:focus {
   color: #3989df;
   font-weight: 600;
 }
-
+.favourite_box{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 0 0px 5px 0px;
+  padding: 0 10px 5px 10px;
+  border-bottom: 1px solid #ccc;
+}
+.favourite_box .fav_body{
+  color: #000;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+.favourite_box .fav_body img{
+  width: 14px;
+  height: 14px;
+  margin-right: 10px;
+}
 .property-head {
   display: flex;
   justify-content: space-between;
