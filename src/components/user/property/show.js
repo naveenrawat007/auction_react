@@ -4,7 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import CurrencyInput from 'react-currency-input';
-import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf, faLock, faQuestion, faCalendarAlt, faComments} from '@fortawesome/free-solid-svg-icons';
+import { faBed, faBath, faCar, faMinus, faPlus, faFilePdf, faLock, faQuestion, faCalendarAlt, faComments, faLink} from '@fortawesome/free-solid-svg-icons';
+import { FacebookShareButton, TwitterShareButton, TumblrShareButton, PinterestShareButton, RedditShareButton} from "react-share";
+import {FacebookIcon, TwitterIcon, TumblrIcon, PinterestIcon, RedditIcon } from "react-share";
 import { faHeart} from '@fortawesome/free-regular-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
@@ -15,6 +17,10 @@ export default class PropertyShow extends Component {
   constructor(props){
     super(props);
     this.state = {
+      share_modal: false,
+      share_email_error: "",
+      share_link: "",
+      share_email: "",
       show_instructions: false,
       chat_room: "",
       is_admin: false,
@@ -95,6 +101,7 @@ export default class PropertyShow extends Component {
       if (this._isMounted){
         if (result.status === 200){
           this.setState({
+            share_link: window.location.origin+"/property/"+result.property.unique_address,
             favourite: result.favourite,
             property_buy_options: result.buy_options,
             isLoaded: true,
@@ -153,6 +160,43 @@ export default class PropertyShow extends Component {
     });
   }
 
+  shareLink = () => {
+    this.setState({
+      share_modal: true
+    })
+  }
+  copyUrl = () => {
+    const link_element = document.getElementById('property-share-link')
+    if (link_element){
+      link_element.setSelectionRange(0, 99999)
+      link_element.select();
+      document.execCommand('copy');
+    }
+  }
+  updateShareEmailFields = (event) =>{
+    const{ name, value } = event.target;
+    // console.log(this.state.termination_reasons_options );
+    this.setState({
+      [name]: value
+    }, function () {
+      if (name === "share_email"){
+        if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.share_email))){
+          this.setState({
+            share_email_error: "error",
+          });
+        }else {
+          this.setState({
+            share_email_error: "",
+          });
+        }
+      }
+    });
+  }
+  hideShareModal = () => {
+    this.setState({
+      share_modal: false,
+    })
+  }
 
   componentDidMount = () => {
     this._isMounted = true;
@@ -1665,11 +1709,11 @@ export default class PropertyShow extends Component {
                         Favorite
                       </Link>
                     }
-                    <Link to="#" className="fav_body">
+                    <Link to="#" className="fav_body" onClick={this.shareLink}>
                       <img src="/images/share.png" alt=""/>
                       Share
                     </Link>
-                    <Link href="#" className="fav_body">
+                    <Link to="#" className="fav_body">
                       <img src="/images/print.png" alt=""/>
                       Print
                     </Link>
@@ -2546,6 +2590,57 @@ export default class PropertyShow extends Component {
               <div className="col-md-12 text-center mt-3">
                 <span className="error"></span>
                 <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.closeShowInstructionModal}>Close</button>
+              </div>
+            </div>
+          </Modal>
+          <Modal className="user_property_modal share_modal" show={this.state.share_modal} onHide={this.hideShareModal} centered>
+            <Modal.Header closeButton>
+              <div className="px-0 col-md-11 ">
+                <h5 className="mb-0 "> Share this property</h5>
+              </div>
+            </Modal.Header>
+            <div className="modal-body">
+              <div className="col-md-12 text-center px-0">
+                <div className="form-group row mx-0">
+                  <div className="col-md-6 mb-2 text-left">
+                    <label className="bold-label">Link</label>
+                    <div className="input-group ">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text group-box-chat share-btn-grp" id="basic-addon1" onClick={this.copyUrl}><FontAwesomeIcon icon={faLink} size="1x" /></span>
+                      </div>
+                      <input className="form-control" id="property-share-link" readOnly={true} type="text" value={this.state.share_link}></input>
+                    </div>
+                  </div>
+                  <div className="col-md-6 mb-2 text-left">
+                    <label className="bold-label">Social</label>
+                    <div className="social-img">
+                      <FacebookShareButton url={this.state.share_link}>
+                        <FacebookIcon size={32} round={false} />
+                      </FacebookShareButton>&nbsp;
+                      <TwitterShareButton url={this.state.share_link}>
+                        <TwitterIcon size={32} round={false} />
+                      </TwitterShareButton>&nbsp;
+                      <TumblrShareButton url={this.state.share_link}>
+                        <TumblrIcon size={32} round={false} />
+                      </TumblrShareButton>&nbsp;
+                      <PinterestShareButton url={this.state.share_link}>
+                        <PinterestIcon size={32} round={false} />
+                      </PinterestShareButton>&nbsp;
+                      <RedditShareButton url={this.state.share_link}>
+                        <RedditIcon size={32} round={false} />
+                      </RedditShareButton>
+
+                    </div>
+                  </div>
+                  <div className="col-md-12 text-left">
+                    <label className="bold-label">Email</label>
+                    <input className={"form-control " + this.addErrorClass(this.state.share_email_error)} type="email" name="share_email" onChange={this.updateShareEmailFields}></input>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 text-center mt-3">
+                <span className="error"></span>
+                <button type="button" className="btn red-btn btn-default" data-dismiss="modal" onClick={this.emailPropertyShare}>Share</button>
               </div>
             </div>
           </Modal>
