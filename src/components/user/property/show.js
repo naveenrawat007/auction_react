@@ -10,9 +10,6 @@ import {FacebookIcon, TwitterIcon, TumblrIcon, PinterestIcon, RedditIcon } from 
 import { faHeart} from '@fortawesome/free-regular-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
-import { PDFDownloadLink, Document, Page } from '@react-pdf/renderer'
-import jsPDF from 'jspdf'
-import html2canvas from 'html2canvas'
 
 export default class PropertyShow extends Component {
   _isMounted = false
@@ -170,17 +167,7 @@ export default class PropertyShow extends Component {
   }
 
   generatePdf = () => {
-
-    // const input = document.getElementsByTagName("body")[0];
-    const input = document.getElementById("root");
-    console.log(input);
-    html2canvas(input)
-        .then((canvas) => {
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF();
-            pdf.addImage(imgData, 'PNG',10, 10, 200, 200,'','FAST');
-            pdf.save('download.pdf');
-        });
+    window.print();
   }
 
   copyUrl = () => {
