@@ -10,6 +10,9 @@ import {FacebookIcon, TwitterIcon, TumblrIcon, PinterestIcon, RedditIcon } from 
 import { faHeart} from '@fortawesome/free-regular-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
+import { PDFDownloadLink, Document, Page } from '@react-pdf/renderer'
+import jsPDF from 'jspdf'
+import html2canvas from 'html2canvas'
 
 export default class PropertyShow extends Component {
   _isMounted = false
@@ -165,6 +168,21 @@ export default class PropertyShow extends Component {
       share_modal: true
     })
   }
+
+  generatePdf = () => {
+
+    // const input = document.getElementsByTagName("body")[0];
+    const input = document.getElementById("root");
+    console.log(input);
+    html2canvas(input)
+        .then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF();
+            pdf.addImage(imgData, 'PNG',10, 10, 200, 200,'','FAST');
+            pdf.save('download.pdf');
+        });
+  }
+
   copyUrl = () => {
     const link_element = document.getElementById('property-share-link')
     if (link_element){
@@ -1713,7 +1731,7 @@ export default class PropertyShow extends Component {
                       <img src="/images/share.png" alt=""/>
                       Share
                     </Link>
-                    <Link to="#" className="fav_body">
+                    <Link to="#" className="fav_body" onClick={this.generatePdf}>
                       <img src="/images/print.png" alt=""/>
                       Print
                     </Link>
