@@ -1254,10 +1254,15 @@ export default class UnderReview extends Component{
                     <form className="status-form">
                       <div className="form-group">
                         <label >Auction Start date</label>
+                        {this.state.properties[this.state.selected_property].best_offer ?
+                        <DatePicker className="form-control " disabled={true}
+                          selected={this.state.auction_started_at ? new Date(this.state.auction_started_at) : ""}
+                          name="auction_started_at" onChange={this.updatePropertyAuctionStart}
+                        /> :
                         <DatePicker className="form-control "
                           selected={this.state.auction_started_at ? new Date(this.state.auction_started_at) : ""}
                           name="auction_started_at" onChange={this.updatePropertyAuctionStart}
-                        />
+                        /> }
                       </div>
                       <div className="form-group">
                         <label >Auction Length</label>
