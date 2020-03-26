@@ -373,7 +373,7 @@ export default class LiveBidding extends Component{
                 :
                 <>
                   <input type="radio" name="selected_status" value={status} checked={this.state.selected_status === status} id={index+this.state.properties.length} className="custom-control-input" onChange={this.updateSelectedStatus} />
-                  <label className="custom-control-label" htmlFor={index+this.state.properties.length} >{status}</label>
+                  <label className="custom-control-label" htmlFor={index+this.state.properties.length} >{ status == "Approve" ? "Approve / Best Offer" : status }</label>
                 </>
             }
           </div>
@@ -512,10 +512,15 @@ export default class LiveBidding extends Component{
                     <form className="status-form">
                       <div className="form-group">
                         <label >Auction Start date</label>
-                        <DatePicker className="form-control "
-                          selected={this.state.auction_started_at ? new Date(this.state.auction_started_at) : ""} 
+                        {this.state.properties[this.state.selected_property].best_offer ?
+                        <DatePicker className="form-control " disabled={true}
+                          selected={this.state.auction_started_at ? new Date(this.state.auction_started_at) : ""}
                           name="auction_started_at" onChange={this.updatePropertyAuctionStart}
-                        />
+                        /> :
+                        <DatePicker className="form-control "
+                          selected={this.state.auction_started_at ? new Date(this.state.auction_started_at) : ""}
+                          name="auction_started_at" onChange={this.updatePropertyAuctionStart}
+                        /> }
                       </div>
                       <div className="form-group">
                         <label >Auction Length</label>
