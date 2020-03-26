@@ -306,7 +306,7 @@ export default class Terminated extends Component{
                 :
                 <>
                   <input type="radio" name="selected_status" value={status} checked={this.state.selected_status === status} id={index+this.state.properties.length} className="custom-control-input" onChange={this.updateSelectedStatus} />
-                  <label className="custom-control-label" htmlFor={index+this.state.properties.length} >{status}</label>
+                  <label className="custom-control-label" htmlFor={index+this.state.properties.length} >{ status == "Approve" ? "Approve / Best Offer" : status }</label>
                 </>
             }
           </div>
