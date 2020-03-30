@@ -48,7 +48,7 @@ export default class TopNavbar extends Component{
       if (result.status !== 100){
         localStorage.removeItem("auction_user_token");
         localStorage.removeItem("auction_admin_token");
-        let static_links = ["/sign_up", "/login", "/forgot_password", "/property/new", "/about"]
+        let static_links = ["/sign_up", "/login", "/forgot_password", "/property/new", "/about", "/template-one", "/template-two"]
         let path_name = ""
         path_name = this.props.location.pathname
         if ((static_links.indexOf(path_name) !== -1 ) || (/^\/property\/[a-z_0-9]+/i.test(path_name) === true)|| (/^\/how-everything-works\.*/i.test(path_name) === true) || (/^\/frequently-asked-questions\.*/i.test(path_name) === true) || (/^\/help\.*/i.test(path_name) === true) || (/^\/realtor-portal\.*/i.test(path_name) === true)){

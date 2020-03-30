@@ -29,6 +29,8 @@ import DealAnalysis from './components/user/property_edit/deal_analysis.js'
 import OnlineBiddingOptions from './components/user/property_edit/online_bidding_options.js'
 import PhotosAndVideos from './components/user/property_edit/photos_and_videos.js'
 import CurrencyInput from 'react-currency-input';
+import PropertyShowOne from './components/user/property/property_one.js';
+import PropertyShowTwo from './components/user/property/property_two.js';
 let componentDidMount_super = CurrencyInput.prototype.componentDidMount;
 CurrencyInput.prototype.componentDidMount = function() {
   this.theInput.setSelectionRange_super = this.theInput.setSelectionRange;
@@ -109,6 +111,8 @@ function App() {
           <Route exact path="/forgot_password" component={ForgotPassword} />
           <Route exact path="/new_password" component={NewPassword} />
           <Route exact path="/verify" component={VerificationModal} />
+          <Route exact path="/template-one" component={PropertyShowOne} />
+          <Route exact path="/template-two" component={PropertyShowTwo} />
         </Switch>
         <Route path='/' component = {Footer}/>
       </BrowserRouter>
