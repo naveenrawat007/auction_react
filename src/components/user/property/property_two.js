@@ -88,7 +88,7 @@ export default class PropertyShowTwo extends Component {
               <div className="bg_white">
                 <div className="register_bid_form py-3 px-5">
                   <form>
-                    <div className="register_bid_title col-md-8">
+                    <div className="register_bid_title mb-2 col-md-8">
                       <h4>A. Register to Bid</h4>
                     </div>
                     <div className="form-group row mx-0">
@@ -121,7 +121,7 @@ export default class PropertyShowTwo extends Component {
                         <input type="text" className="form-control"/>
                       </div>
                     </div>
-                    <div className="register_bid_title col-md-8 d-flex align-items-center justify-content-between">
+                    <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
                       <h4>B. Are you buying this property for yourself?</h4>
                       <select className="form-control">
                         <option>Yes</option>
@@ -168,7 +168,7 @@ export default class PropertyShowTwo extends Component {
                         <input type="text" className="form-control"/>
                       </div>
                     </div>
-                    <div className="register_bid_title col-md-8 d-flex align-items-center justify-content-between">
+                    <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
                       <h4>C. I want to purchase the property as:</h4>
                       <select className="form-control">
                         <option>Bussiness</option>
@@ -187,11 +187,11 @@ export default class PropertyShowTwo extends Component {
                         <input type="text" className="form-control"/>
                       </div>
                     </div>
-                    <div className="register_bid_title col-md-8 d-flex align-items-center justify-content-between">
+                    <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
                       <h4>D. Proof of funds and/or Preapproval Letter:</h4>
                     </div>
                     <div className="form-group row mx-0">
-                      <label for="inputPassword" className="col-sm-3 col-form-label">I plan on buying this property with</label>
+                      <label for="inputPassword" className="col-sm-4 col-form-label">I plan on buying this property with</label>
                       <div className="col-sm-4">
                         <select className="form-control">
                           <option>Cash</option>
@@ -200,7 +200,7 @@ export default class PropertyShowTwo extends Component {
                       </div>
                     </div>
                     <div className="form-group row mx-0">
-                      <label for="inputPassword" className="col-sm-2 col-form-label">Attach proof of funds</label>
+                      <label for="inputPassword" className="col-sm-4 col-form-label">Attach proof of funds</label>
                       <div className="col-sm-4">
                         <input type="text" className="form-control"/>
                       </div>

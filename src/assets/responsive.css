@@ -428,6 +428,38 @@
 	.user_property_modal{
 		padding-right: 0px !important;
 	}
+	.register_bid_detail .full_img img{
+		width: 100%;
+	}
+	.register_bid_detail .register_bid_head{
+		align-items: center;
+		height: auto;
+		margin: 10px 0;
+	}
+	.register_bid_price{
+		align-items: center;
+		padding: 0 10px !important;
+		height: auto !important;
+	}
+	.register_bid_price .time_status{
+		justify-content: center !important;
+	}
+	.register_pricing h4{
+		text-align: center !important;
+	}
+	.register_bid_form{
+		padding: 20px 10px !important;
+	}
+	.register_bid_form label{
+		text-align: left !important;
+	}
+	.register_bid_form .register_bid_title{
+		flex-direction: column;
+	}
+	.register_bid_form .register_bid_title select{
+		width: 100% !important;
+		margin: 10px 0;
+	}
 }
 
 @media (max-width: 767.98px) {

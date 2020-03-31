@@ -5446,9 +5446,11 @@ a.chat_attachment {
 }
 .register_bid_description p{
   font-size: 15px;
+  font-weight: 500;
 }
 .register_bid_form .register_bid_title h4{
-  font-size: 1.2rem;
+  font-size: 1.25rem;
+  margin-bottom: 0;
 }
 .register_bid_form .register_bid_title select{
   width: 25%;
@@ -5462,9 +5464,11 @@ a.chat_attachment {
 }
 .register_bid_form .relator_info p{
   font-size: 0.8rem;
+  font-style: italic;
 }
 .register_bid_form label{
-  font-size: 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 .warning_alert{
   background-color: #fff1ee;
