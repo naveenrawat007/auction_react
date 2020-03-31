@@ -5440,3 +5440,108 @@ a.chat_attachment {
 #show-side-chat, #hide-side-chat{
   display: none;
 }
+/* new page */
+.register_bids_new .bg_white{
+  border: 1px solid #ddd;
+}
+.register_bid_description p{
+  font-size: 15px;
+}
+.register_bid_form .register_bid_title h4{
+  font-size: 1.2rem;
+}
+.register_bid_form .register_bid_title select{
+  width: 25%;
+}
+.register_bid_form .relator_info{
+  margin-top: 10px;
+}
+.register_bid_form .relator_info h5{
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+.register_bid_form .relator_info p{
+  font-size: 0.8rem;
+}
+.register_bid_form label{
+  font-size: 0.85rem;
+}
+.warning_alert{
+  background-color: #fff1ee;
+  margin-bottom: 30px;
+}
+.warning_alert svg{
+  margin-right: 10px;
+  color: #f2a805;
+}
+.warning_alert p{
+  font-size: 0.7rem;
+  margin-bottom: 0;
+  font-weight: 500;
+  font-style: italic;
+}
+.register_bid_head h3{
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+.register_bid_head h4{
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+.register_bid_head{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 182px;
+}
+.register_bid_head .head_icon {
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: fit-content;
+}
+.register_bid_price{
+  padding-right: 8px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 182px;
+}
+.register_bid_price p{
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: right;
+}
+.register_bid_price .time_status ul{
+  margin: 0;
+}
+.register_bid_head .head_icon .head_icon_box {
+  border-right: 1px solid #ddd;
+}
+
+.register_bid_head .head_icon a {
+  text-align: center;
+  width: 75px;
+  height: 59px;
+  color: #646464;
+  text-decoration: none;
+}
+
+.register_bid_head .head_icon a svg {
+  font-size: 35px;
+  padding-top: 6px;
+}
+
+.register_bid_head .head_icon a p {
+  font-size: 12px;
+  margin-bottom: 0px;
+}
+.register_pricing p{
+  margin-bottom: 0;
+  font-size: 16px;
+}
+.register_pricing h4{
+  font-weight: 600;
+}
