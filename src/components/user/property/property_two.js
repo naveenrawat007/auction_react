@@ -168,11 +168,15 @@ export default class PropertyShowTwo extends Component {
                         <input type="text" className="form-control"/>
                       </div>
                     </div>
+                    <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-between">
+                      <FontAwesomeIcon icon={faExclamationCircle}/>
+                      <p>Buyer is not being represented bu a licensed Realtor and understand and acknowledges that they will not be getting any representation with respect to this property.</p>
+                    </div>
                     <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
                       <h4>C. I want to purchase the property as:</h4>
                       <select className="form-control">
                         <option>Bussiness</option>
-                        <option>No</option>
+                        <option>Individual</option>
                       </select>
                     </div>
                     <div className="form-group">
@@ -212,6 +216,9 @@ export default class PropertyShowTwo extends Component {
                     <div className="form-group form-check">
                       <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                       <label className="form-check-label" for="exampleCheck1">I hereby acknowledge that the contact information is true and correct. I understand the information i've provided will be used to prepare the transaction document for the purchase of the property if my bid is accepted by the seller to proceed toward closing of this property.</label>
+                    </div>
+                    <div className="col-md-12 text-center">
+                      <button class="btn red-btn" type="submit">Submit</button>
                     </div>
                   </form>
                 </div>
