@@ -5581,3 +5581,26 @@ a.chat_attachment {
   font-weight: 500 !important;
   font-size: 1.1rem !important;
 }
+.home_carousel .carousel-inner .carousel-item img{
+  object-fit: fill;
+  object-position: bottom;
+}
+.home_carousel a{
+  position: fixed;
+}
+.home_carousel .carousel-indicators li{
+  display: none;
+}
+.static_text{
+  position: absolute;
+  z-index: 100;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90%;
+  width: 100%;
+}
+.static_text h2{
+  font-size: 4rem;
+}

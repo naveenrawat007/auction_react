@@ -560,43 +560,37 @@ export default class Home extends Component {
           //   <source src="/videos/skyline.mp4" type="video/mp4" />
           // </video>
           }
-          <Carousel>
+          <div className="static_text">
+            <h2>Free Real Estate</h2>  
+          </div>
+          <Carousel className="home_carousel">
             <Carousel.Item>
               <img
                 className="d-block w-100"
-                src="/images/home1.png"
+                src="/images/carousel0.jpg"
                 alt="First slide"
               />
-              <Carousel.Caption>
-                <h3>First slide label</h3>
-                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-              </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
               <img
                 className="d-block w-100"
-                src="/images/home3.png"
+                src="/images/carousel1.jpg"
                 alt="Second slide"
               />
-
-              <Carousel.Caption>
-                <h3>Second slide label</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
               <img
                 className="d-block w-100"
-                src="/images/home2.png"
+                src="/images/carousel2.jpg"
                 alt="Third slide"
               />
-
-              <Carousel.Caption>
-                <h3>Third slide label</h3>
-                <p>
-                  Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-                </p>
-              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="/images/carousel3.jpg"
+                alt="Third slide"
+              />
             </Carousel.Item>
           </Carousel>
           <div className="sub_title">
