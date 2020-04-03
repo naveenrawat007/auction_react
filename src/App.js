@@ -31,6 +31,7 @@ import PhotosAndVideos from './components/user/property_edit/photos_and_videos.j
 import CurrencyInput from 'react-currency-input';
 import PropertyShowOne from './components/user/property/property_one.js';
 import PropertyShowTwo from './components/user/property/property_two.js';
+import PropertyShowThree from './components/user/property/property_three.js';
 let componentDidMount_super = CurrencyInput.prototype.componentDidMount;
 CurrencyInput.prototype.componentDidMount = function() {
   this.theInput.setSelectionRange_super = this.theInput.setSelectionRange;
@@ -113,6 +114,7 @@ function App() {
           <Route exact path="/verify" component={VerificationModal} />
           <Route exact path="/template-one" component={PropertyShowOne} />
           <Route exact path="/template-two" component={PropertyShowTwo} />
+          <Route exact path="/template-three" component={PropertyShowThree} />
         </Switch>
         <Route path='/' component = {Footer}/>
       </BrowserRouter>
