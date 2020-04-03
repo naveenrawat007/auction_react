@@ -37,7 +37,7 @@ export default class PropertyOfferSubmit extends Component {
         promo_code: "",
         property_closing_date: "",
         hold_bid_days: "",
-        self_buy_property: false,
+        self_buy_property: "false",
 
         highest_bid: 0,
         current_offer: 0,
@@ -350,8 +350,11 @@ export default class PropertyOfferSubmit extends Component {
     if (this._isMounted){
       this.setState({
         property: {
-        ...this.state.property,
-        [name]: value
+          ...this.state.property,
+          bidding_options:{
+            ...this.state.property.bidding_options,
+            [name]: value
+          }
         }
       })
     }
@@ -454,50 +457,60 @@ export default class PropertyOfferSubmit extends Component {
                           <option value="false">No</option>
                         </select>
                       </div>
-                      <div className="col-md-8 relator_info">
-                        <h5>Relator Information</h5>
-                        <p>There will be no fee or comission paid by AuctionMyDeal.com or any seller unless they are listed on the MLS and then you will recieve the comission offered on MLS by the sponsoring broker.</p>
-                      </div>
-                      <div className="form-group row mx-0">
-                        <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">First Name&nbsp;&nbsp;:</label>
-                        <div className="col-sm-6">
-                          <input type="text" className="form-control" name="realtor_first_name"/>
+                      {
+                        this.state.bidding_options.self_buy_property === "true"
+                        ?
+                        <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-between">
+                          <FontAwesomeIcon icon={faExclamationCircle}/>
+                          <p>Buyer is not being represented bu a licensed Realtor and understand and acknowledges that they will not be getting any representation with respect to this property.</p>
                         </div>
-                      </div>
-                      <div className="form-group row mx-0">
-                        <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">Last Name&nbsp;&nbsp;:</label>
-                        <div className="col-sm-6">
-                          <input type="text" className="form-control" name="realtor_last_name"/>
-                        </div>
-                      </div>
-                      <div className="form-group row mx-0">
-                        <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">License&nbsp;&nbsp;:</label>
-                        <div className="col-sm-6">
-                          <input type="text" className="form-control" name="realtor_license"/>
-                        </div>
-                      </div>
-                      <div className="form-group row mx-0">
-                        <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Company Name&nbsp;&nbsp;:</label>
-                        <div className="col-sm-6">
-                          <input type="text" className="form-control" name="realtor_company"/>
-                        </div>
-                      </div>
-                      <div className="form-group row mx-0">
-                        <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Mobile No.&nbsp;&nbsp;:</label>
-                        <div className="col-sm-6">
-                          <input type="text" className="form-control" name="realtor_phone_no"/>
-                        </div>
-                      </div>
-                      <div className="form-group row mx-0">
-                        <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Email Address&nbsp;&nbsp;:</label>
-                        <div className="col-sm-6">
-                          <input type="text" className="form-control" name="realtor_email"/>
-                        </div>
-                      </div>
-                      <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-between">
-                        <FontAwesomeIcon icon={faExclamationCircle}/>
-                        <p>Buyer is not being represented bu a licensed Realtor and understand and acknowledges that they will not be getting any representation with respect to this property.</p>
-                      </div>
+                        :
+                        <>
+                          <div className="col-md-8 relator_info">
+                            <h5>Relator Information</h5>
+                            <p>There will be no fee or comission paid by AuctionMyDeal.com or any seller unless they are listed on the MLS and then you will recieve the comission offered on MLS by the sponsoring broker.</p>
+                          </div>
+                          <div className="form-group row mx-0">
+                            <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">First Name&nbsp;&nbsp;:</label>
+                            <div className="col-sm-6">
+                              <input type="text" className="form-control" name="realtor_first_name"/>
+                            </div>
+                          </div>
+                          <div className="form-group row mx-0">
+                            <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">Last Name&nbsp;&nbsp;:</label>
+                            <div className="col-sm-6">
+                              <input type="text" className="form-control" name="realtor_last_name"/>
+                            </div>
+                          </div>
+                          <div className="form-group row mx-0">
+                            <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">License&nbsp;&nbsp;:</label>
+                            <div className="col-sm-6">
+                              <input type="text" className="form-control" name="realtor_license"/>
+                            </div>
+                          </div>
+                          <div className="form-group row mx-0">
+                            <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Company Name&nbsp;&nbsp;:</label>
+                            <div className="col-sm-6">
+                              <input type="text" className="form-control" name="realtor_company"/>
+                            </div>
+                          </div>
+                          <div className="form-group row mx-0">
+                            <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Mobile No.&nbsp;&nbsp;:</label>
+                            <div className="col-sm-6">
+                              <input type="text" className="form-control" name="realtor_phone_no"/>
+                            </div>
+                          </div>
+                          <div className="form-group row mx-0">
+                            <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Email Address&nbsp;&nbsp;:</label>
+                            <div className="col-sm-6">
+                              <input type="text" className="form-control" name="realtor_email"/>
+                            </div>
+                          </div>
+
+                        </>
+
+                      }
+
                       <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
                         <h4>C. I want to purchase the property as:</h4>
                         <select className="form-control" defaultValue="Business" name="purchase_property_as">
