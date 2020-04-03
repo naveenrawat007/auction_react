@@ -560,10 +560,20 @@ export default class Home extends Component {
           //   <source src="/videos/skyline.mp4" type="video/mp4" />
           // </video>
           }
-          <div className="static_text">
-            <h2>Free Real Estate</h2>  
+          <div className="static_text container-fluid">
+            <div className="col-md-10">
+              <h2>FREE Real Estate Investor Auction</h2>
+              <h2>Platform to Post Your Deals...</h2>
+              <a href="#">
+                <img
+                  className="d-block img-thumbnail"
+                  src="/images/fhome.jpg"
+                  alt="First slide"
+                />
+              </a>
+            </div>
           </div>
-          <Carousel className="home_carousel">
+          <Carousel className="home_carousel" interval={10000}>
             <Carousel.Item>
               <img
                 className="d-block w-100"

@@ -5587,6 +5587,7 @@ a.chat_attachment {
 }
 .home_carousel a{
   position: fixed;
+  z-index: 10000;
 }
 .home_carousel .carousel-indicators li{
   display: none;
@@ -5595,12 +5596,22 @@ a.chat_attachment {
   position: absolute;
   z-index: 100;
   color: #fff;
+  top: 10%;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 90%;
   width: 100%;
+  justify-content: center;
 }
 .static_text h2{
-  font-size: 4rem;
+  font-size: 3.5rem;
+  font-weight: 700;
+	background: linear-gradient(to bottom, #FFF 0%, #0b89f8 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+  text-align: center;
+  color: #0b89f8;
+  -webkit-text-stroke-width: thin;
+}
+.static_text img{
+  margin: 80px auto;
+  width: 640px;
 }
