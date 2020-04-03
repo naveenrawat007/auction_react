@@ -19,6 +19,7 @@ import {
 import { faCreditCard } from "@fortawesome/free-regular-svg-icons";
 import Modal from "react-bootstrap/Modal";
 import Alert from "react-bootstrap/Alert";
+import Carousel from 'react-bootstrap/Carousel'
 window.fn = OwlCarousel;
 
 const initial_state = {
@@ -547,16 +548,57 @@ export default class Home extends Component {
           </div>
         </div> */}
         <div className="video_col">
-          <video
-            id="videobcg"
-            preload="yes"
-            autoPlay
-            loop
-            muted
-            playsInline
-          >
-            <source src="/videos/skyline.mp4" type="video/mp4" />
-          </video>
+          {
+          //   <video
+          //   id="videobcg"
+          //   preload="yes"
+          //   autoPlay
+          //   loop
+          //   muted
+          //   playsInline
+          // >
+          //   <source src="/videos/skyline.mp4" type="video/mp4" />
+          // </video>
+          }
+          <Carousel>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="/images/home1.png"
+                alt="First slide"
+              />
+              <Carousel.Caption>
+                <h3>First slide label</h3>
+                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="/images/home3.png"
+                alt="Second slide"
+              />
+
+              <Carousel.Caption>
+                <h3>Second slide label</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="/images/home2.png"
+                alt="Third slide"
+              />
+
+              <Carousel.Caption>
+                <h3>Third slide label</h3>
+                <p>
+                  Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+                </p>
+              </Carousel.Caption>
+            </Carousel.Item>
+          </Carousel>
           <div className="sub_title">
             <div className="container">
 
