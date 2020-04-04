@@ -1132,15 +1132,35 @@ export default class Home extends Component {
           onHide={this.hideSignUpModal}
           centered
         >
-          <Modal.Header closeButton>
-            <div className=" offset-md-1 col-md-10 text-center">
-              <h5 className="mb-0 text-uppercase">Video</h5>
-            </div>
-          </Modal.Header>
           <div className="modal-body px-0">
             <div className="row mx-0">
-              <div className="col-md-12 ">
-              body
+              <div className="col-md-12 py-3">
+                <img
+                  className="d-block img-thumbnail mb-3"
+                  src="/images/fhome.jpg"
+                  alt="First slide"
+                />
+                <form>
+                  <h4 className="text-center font-red mb-3">Get Your FREE Marketing Guide</h4>
+                  <div class="row">
+                    <div class="col">
+                      <input type="text" class="form-control" placeholder="Name"/>
+                    </div>
+                    <div class="col">
+                      <input type="text" class="form-control" placeholder="Cell Number"/>
+                    </div>
+                    <div class="col">
+                      <input type="text" class="form-control" placeholder="Email"/>
+                    </div>
+                  </div>
+                  <a href="#" className="download_button">
+                    <img
+                    className="d-block mx-auto mt-3"
+                    src="/images/download_btn.png"
+                    alt="First slide"
+                    />
+                  </a>
+                </form>
               </div>
             </div>
           </div>

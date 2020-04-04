@@ -5677,3 +5677,6 @@ a.chat_attachment {
   width: 65%;
   padding-left: 15px;
 }
+.download_button img{
+  width: 200px;
+}
