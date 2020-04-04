@@ -19,6 +19,7 @@ import {
 import { faCreditCard } from "@fortawesome/free-regular-svg-icons";
 import Modal from "react-bootstrap/Modal";
 import Alert from "react-bootstrap/Alert";
+import Carousel from 'react-bootstrap/Carousel'
 window.fn = OwlCarousel;
 
 const initial_state = {
@@ -27,6 +28,7 @@ const initial_state = {
   created: false,
   verified: false,
   sign_up_modal: false,
+  video_modal: false,
   properties: [],
   user: {
     first_name: "",
@@ -65,9 +67,15 @@ export default class Home extends Component {
   };
   hideSignUpModal = () => {
     this.setState({
-      sign_up_modal: false
+      sign_up_modal: false,
+      video_modal: false,
     });
   };
+  openVideoModal = () => {
+    this.setState({
+      video_modal: true
+    })
+  }
   updateUser = event => {
     const { name, value } = event.target;
     this.setState(
@@ -547,16 +555,61 @@ export default class Home extends Component {
           </div>
         </div> */}
         <div className="video_col">
-          <video
-            id="videobcg"
-            preload="yes"
-            autoPlay
-            loop
-            muted
-            playsInline
-          >
-            <source src="/videos/skyline.mp4" type="video/mp4" />
-          </video>
+          {
+          //   <video
+          //   id="videobcg"
+          //   preload="yes"
+          //   autoPlay
+          //   loop
+          //   muted
+          //   playsInline
+          // >
+          //   <source src="/videos/skyline.mp4" type="video/mp4" />
+          // </video>
+          }
+          <div className="static_text container-fluid">
+            <div className="col-md-10">
+              <h2>FREE Real Estate Investor Auction</h2>
+              <h2>Platform to Post Your Deals...</h2>
+              <Link to="#" onClick={this.openVideoModal}>
+                <img
+                  className="d-block img-thumbnail"
+                  src="/images/fhome.jpg"
+                  alt="First slide"
+                />
+              </Link>
+            </div>
+          </div>
+          <Carousel className="home_carousel" interval={10000} controls={false}>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="/images/carousel0.jpg"
+                alt="First slide"
+              />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="/images/carousel1.jpg"
+                alt="Second slide"
+              />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="/images/carousel2.jpg"
+                alt="Third slide"
+              />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="/images/carousel3.jpg"
+                alt="Third slide"
+              />
+            </Carousel.Item>
+          </Carousel>
           <div className="sub_title">
             <div className="container">
 
@@ -1071,6 +1124,25 @@ export default class Home extends Component {
                 </div>
               </div>
             )}
+          </div>
+        </Modal>
+        <Modal
+          className="status_modal register_modal"
+          show={this.state.video_modal}
+          onHide={this.hideSignUpModal}
+          centered
+        >
+          <Modal.Header closeButton>
+            <div className=" offset-md-1 col-md-10 text-center">
+              <h5 className="mb-0 text-uppercase">Video</h5>
+            </div>
+          </Modal.Header>
+          <div className="modal-body px-0">
+            <div className="row mx-0">
+              <div className="col-md-12 ">
+              body
+              </div>
+            </div>
           </div>
         </Modal>
       </div>

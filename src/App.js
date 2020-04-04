@@ -32,6 +32,7 @@ import CurrencyInput from 'react-currency-input';
 import PropertyShowOne from './components/user/property/property_one.js';
 import PropertyShowTwo from './components/user/property/property_two.js';
 import PropertyOfferSubmit from './components/user/property/submit_offer.js';
+import PropertyShowThree from './components/user/property/property_three.js';
 let componentDidMount_super = CurrencyInput.prototype.componentDidMount;
 CurrencyInput.prototype.componentDidMount = function() {
   this.theInput.setSelectionRange_super = this.theInput.setSelectionRange;
@@ -78,6 +79,7 @@ function App() {
           <Route exact path="/property/pending" component={PropertyPending}/>
           <Route exact path="/property/sold" component={PropertySold}/>
           <Route exact path="/user/property/" component={() => <Sidebar path='property_list'/>}/>
+          <Route exact path="/user/billing/" component={() => <Sidebar path='billing'/>}/>
           <Route exact path="/user/property/offers" component={() => <Sidebar path='offer_properties_list'/>}/>
           <Route exact path="/user/property/bids" component={() => <Sidebar path='bid_properties_list'/>}/>
           <Route exact path="/user/property/buy_now" component={() => <Sidebar path='buy_now_properties_list'/>}/>
@@ -115,6 +117,7 @@ function App() {
           <Route exact path="/verify" component={VerificationModal} />
           <Route exact path="/template-one" component={PropertyShowOne} />
           <Route exact path="/template-two" component={PropertyShowTwo} />
+          <Route exact path="/template-three" component={PropertyShowThree} />
         </Switch>
         <Route path='/' component = {Footer}/>
       </BrowserRouter>

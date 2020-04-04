@@ -1652,7 +1652,10 @@ button:focus {
 .font-blue {
   color: #0c76a8 !important;
 }
-
+.font-blue-bold{
+  color: #0c76a8 !important;
+  font-weight: 600;
+}
 .head_address h5 {
   font-size: 14px;
   font-weight: 600;
@@ -5580,4 +5583,97 @@ a.chat_attachment {
 .place_your_bid .seller_request{
   font-weight: 500 !important;
   font-size: 1.1rem !important;
+}
+.home_carousel .carousel-inner .carousel-item img{
+  object-fit: fill;
+  object-position: bottom;
+}
+.home_carousel a{
+  position: fixed;
+  z-index: 10000;
+}
+.home_carousel .carousel-indicators li{
+  display: none;
+}
+.static_text{
+  position: absolute;
+  z-index: 100;
+  color: #fff;
+  top: 10%;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+.static_text h2{
+  font-size: 3.5rem;
+  font-weight: 700;
+	background: linear-gradient(to bottom, #FFF 0%, #0b89f8 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+  text-align: center;
+  color: #0b89f8;
+  -webkit-text-stroke-width: thin;
+}
+.static_text img{
+  margin: 80px auto;
+  width: 640px;
+}
+.history_details, .payment_details, .plan_details{
+  border: 1px solid #ccc;
+}
+.history_details table thead tr:first-child{
+  background-color: #eee;
+}
+.history_details table tbody tr{
+  border: 1px solid #ccc;
+}
+.payment_details_head{
+  border-bottom: 1px solid #ccc;
+  background-color: #eee;
+}
+.payment_details_body p{
+  font-weight: 500;
+}
+.payment_details_body p span{
+  font-weight: 400;
+}
+.payment_details_footer a{
+  text-decoration: underline;
+}
+.plan_details_body ul li:first-child{
+  font-weight: 600;
+  width: 43%;
+}
+.plan_details_body ul li span{
+  padding: 5px 15px;
+  border-radius: 15px;
+  background-color: #28a745;
+  color: #fff;
+  font-weight: 500;
+}
+.plan_details_body ul li a{
+  text-decoration: underline;
+  color: #007bff;
+  font-weight: 500;
+}
+.plan_details_text a{
+  text-decoration: underline;
+  color: #007bff;
+  font-weight: 500;
+}
+.plan_details_text h2{
+  font-size: 28px;
+}
+.plan_details_head{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 48px;
+}
+.plan_details_head .plan_details_img{
+  width: 35%;
+}
+.plan_details_head .plan_details_text{
+  width: 65%;
+  padding-left: 15px;
 }

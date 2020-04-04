@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Profile from './profile.js'
-import { faChevronCircleDown, faList, faCreditCard, faHome, faPlusCircle, faHeart, faEnvelopeOpenText, faSignOutAlt, faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faChevronCircleDown, faList, faCreditCard, faHome, faPlusCircle, faHeart, faEnvelopeOpenText, faSignOutAlt, faChevronRight, faChevronDown, faClipboardList } from '@fortawesome/free-solid-svg-icons'
 // import NewProperty from './property/new'
 import ListProperty from './property/index'
 import WatchProperty from './property/watch_property.js'
@@ -10,6 +10,7 @@ import ListOfferProperty from './property/offers.js'
 import ListBidProperty from './property/bids.js'
 import ListBuyNowProperty from './property/buy_now.js'
 import ChatList from './chat/index.js'
+import Billing from './billing/index.js'
 
 export default class Sidebar extends Component{
   _isMounted = false
@@ -100,6 +101,8 @@ export default class Sidebar extends Component{
         return <ListBuyNowProperty/>;
       case 'user_chat':
         return <ChatList {...this.props}/>;
+      case 'billing':
+        return <Billing/>;
       default:
     }
   }
@@ -179,6 +182,13 @@ export default class Sidebar extends Component{
                 <li className="nav-item">
                   <Link className={this.checkActive("user_chat")} to="/user/chat">
                     <span><FontAwesomeIcon icon={faEnvelopeOpenText} />  Messages</span>
+                    <FontAwesomeIcon icon={faChevronRight} />
+                    <FontAwesomeIcon icon={faChevronDown} />
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className={this.checkActive("billing")} to="/user/billing">
+                    <span><FontAwesomeIcon icon={faClipboardList} />  Billing</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                     <FontAwesomeIcon icon={faChevronDown} />
                   </Link>
