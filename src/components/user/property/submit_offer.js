@@ -94,6 +94,7 @@ export default class PropertyOfferSubmit extends Component {
             purchase_property_as_options: result.purchase_property_as_options,
             bidding_options: {
               ...this.state.bidding_options,
+              purchase_property_as: result.purchase_property_as_options[0],
               highest_bid: result.property.highest_bid,
               current_offer: result.property.highest_bid ? (result.property.highest_bid + 1000) : 1000,
               buy_now_price: result.property.buy_now_price,
@@ -375,10 +376,13 @@ export default class PropertyOfferSubmit extends Component {
     const{ name, value } = event.target;
     if (this._isMounted){
       this.setState({
+        ...this.state,
         bidding_options:{
-          ...this.state.property.bidding_options,
+          ...this.state.bidding_options,
           [name]: value
         }
+      }, function () {
+        console.log(this.state);
       })
     }
   }
@@ -552,7 +556,7 @@ export default class PropertyOfferSubmit extends Component {
 
                       <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
                         <h4>C. I want to purchase the property as:</h4>
-                        <select className="form-control" defaultValue="Business" name="purchase_property_as" onChange={this.updatePropertyOfferFields}>
+                        <select className="form-control" defaultValue={this.state.bidding_options.purchase_property_as} name="purchase_property_as" onChange={this.updatePropertyOfferFields}>
                           {purchase_property_as_options}
                         </select>
                       </div>
