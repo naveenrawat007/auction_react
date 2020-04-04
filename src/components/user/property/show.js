@@ -487,29 +487,32 @@ export default class PropertyShow extends Component {
 
   buyNowHandler = () => {
     if (this.state.is_premium){
-      this.setState({
-        buy_option: [],
-        open_buy_now_modal: true,
-      });
+      // this.setState({
+      //   buy_option: [],
+      //   open_buy_now_modal: true,
+      // });
+      window.open("/property/"+ this.state.property.unique_address +"/submit/buy_now", "_blank")
     }
   }
 
   buyNowBestOfferHandler = () => {
     if (this.state.is_premium){
-      this.setState({
-        buy_option: [],
-        open_buy_now_modal: true,
-        best_offer: true
-      });
+      // this.setState({
+      //   buy_option: [],
+      //   open_buy_now_modal: true,
+      //   best_offer: true
+      // });
+      window.open("/property/"+ this.state.property.unique_address +"/submit/best_buy_now", "_blank")
     }
   }
 
   bestOfferHandler = () => {
     if (this.state.is_premium){
-      this.setState({
-        buy_option: [],
-        open_best_offer_modal: true ,
-      });
+      // this.setState({
+      //   buy_option: [],
+      //   open_best_offer_modal: true ,
+      // });
+      window.open("/property/"+ this.state.property.unique_address +"/submit/best_offer", "_blank")
     }
   }
 
@@ -531,10 +534,11 @@ export default class PropertyShow extends Component {
 
   biddingHandler = () => {
     if (this.state.is_premium){
-      this.setState({
-        buy_option: [],
-        open_bidding_modal: true ,
-      });
+      // this.setState({
+      //   buy_option: [],
+      //   open_bidding_modal: true ,
+      // });
+      window.open("/property/"+ this.state.property.unique_address +"/submit/bid", "_blank")
     }
   }
 
