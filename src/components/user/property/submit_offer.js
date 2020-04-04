@@ -438,7 +438,6 @@ export default class PropertyOfferSubmit extends Component {
           [name]: value
         }
       }, function () {
-        console.log(this.state);
       })
     }
   }
@@ -484,13 +483,14 @@ export default class PropertyOfferSubmit extends Component {
     }else if (isNaN(this.state.bidding_options.user_phone_no)) {
       user_phone_number_error = "Phone should be Numeric!"
       validate = false
-    }else if (this.state.bidding_options.user_phone_no < 10){
+    }else if (this.state.bidding_options.user_phone_no.length < 10){
       user_phone_number_error = "Phone number length is small!"
       validate = false
-    }else if (this.state.bidding_options.user_phone_no > 10) {
+    }else if (this.state.bidding_options.user_phone_no.length > 10) {
       user_phone_number_error = "Phone number length is too large!"
       validate = false
     }
+    console.log(user_phone_number_error);
     if (this.state.fund_proof === ""){
       user_phone_number_error= "error"
       validate = false
@@ -522,10 +522,10 @@ export default class PropertyOfferSubmit extends Component {
       }else if (isNaN(this.state.bidding_options.realtor_phone_no)) {
         realtor_phone_no_error = "Phone should be Numeric!"
         validate = false
-      }else if (this.state.bidding_options.realtor_phone_no < 10){
+      }else if (this.state.bidding_options.realtor_phone_no.length < 10){
         realtor_phone_no_error = "Phone number length is small!"
         validate = false
-      }else if (this.state.bidding_options.realtor_phone_no > 10) {
+      }else if (this.state.bidding_options.realtor_phone_no.length > 10) {
         realtor_phone_no_error = "Phone number length is too large!"
         validate = false
       }
@@ -804,7 +804,9 @@ export default class PropertyOfferSubmit extends Component {
     fd.append('bid[realtor_email]', this.state.bidding_options.realtor_email)
     fd.append('bid[purchase_property_as]', this.state.bidding_options.purchase_property_as)
     fd.append('bid[business_document_text]', this.state.bidding_options.business_document_text)
-    fd.append('bid[business_documents][]', this.state.business_documents)
+    for (let i = 0 ; i < this.state.business_documents.length ; i++) {
+      fd.append('bid[business_documents][]', this.state.business_documents[i], this.state.business_documents[i].name)
+    }
     fd.append('bid[promo_code]', this.state.bidding_options.promo_code)
     fd.append('bid[property_closing_date]', this.state.bidding_options.property_closing_date)
     fd.append('bid[hold_bid_days]', this.state.bidding_options.hold_bid_days)
@@ -903,7 +905,9 @@ export default class PropertyOfferSubmit extends Component {
     fd.append('best_offer[realtor_email]', this.state.bidding_options.realtor_email)
     fd.append('best_offer[purchase_property_as]', this.state.bidding_options.purchase_property_as)
     fd.append('best_offer[business_document_text]', this.state.bidding_options.business_document_text)
-    fd.append('best_offer[business_documents][]', this.state.business_documents)
+    for (let i = 0 ; i < this.state.business_documents.length ; i++) {
+      fd.append('best_offer[business_documents][]', this.state.business_documents[i], this.state.business_documents[i].name)
+    }
     fd.append('best_offer[promo_code]', this.state.bidding_options.promo_code)
     fd.append('best_offer[property_closing_date]', this.state.bidding_options.property_closing_date)
     fd.append('best_offer[hold_bid_days]', this.state.bidding_options.hold_bid_days)
@@ -1002,7 +1006,9 @@ export default class PropertyOfferSubmit extends Component {
     fd.append('buy_now[realtor_email]', this.state.bidding_options.realtor_email)
     fd.append('buy_now[purchase_property_as]', this.state.bidding_options.purchase_property_as)
     fd.append('buy_now[business_document_text]', this.state.bidding_options.business_document_text)
-    fd.append('buy_now[business_documents][]', this.state.business_documents)
+    for (let i = 0 ; i < this.state.business_documents.length ; i++) {
+      fd.append('buy_now[business_documents][]', this.state.business_documents[i], this.state.business_documents[i].name)
+    }
     fd.append('buy_now[promo_code]', this.state.bidding_options.promo_code)
     fd.append('buy_now[property_closing_date]', this.state.bidding_options.property_closing_date)
     fd.append('buy_now[hold_bid_days]', this.state.bidding_options.hold_bid_days)
@@ -1199,37 +1205,37 @@ export default class PropertyOfferSubmit extends Component {
                               <div className="form-group row mx-0">
                                 <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">First Name&nbsp;&nbsp;:</label>
                                 <div className="col-sm-6">
-                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_first_name_error)} name="realtor_first_name"/>
+                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_first_name_error)} name="realtor_first_name" onChange={this.updatePropertyOfferFields}/>
                                 </div>
                               </div>
                               <div className="form-group row mx-0">
                                 <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">Last Name&nbsp;&nbsp;:</label>
                                 <div className="col-sm-6">
-                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_last_name_error)} name="realtor_last_name"/>
+                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_last_name_error)} name="realtor_last_name" onChange={this.updatePropertyOfferFields}/>
                                 </div>
                               </div>
                               <div className="form-group row mx-0">
                                 <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">License&nbsp;&nbsp;:</label>
                                 <div className="col-sm-6">
-                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_license_error)} name="realtor_license"/>
+                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_license_error)} name="realtor_license" onChange={this.updatePropertyOfferFields}/>
                                 </div>
                               </div>
                               <div className="form-group row mx-0">
                                 <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Company Name&nbsp;&nbsp;:</label>
                                 <div className="col-sm-6">
-                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_company_error)} name="realtor_company"/>
+                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_company_error)} name="realtor_company" onChange={this.updatePropertyOfferFields}/>
                                 </div>
                               </div>
                               <div className="form-group row mx-0">
                                 <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Mobile No.&nbsp;&nbsp;:</label>
                                 <div className="col-sm-6">
-                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_phone_no_error)} name="realtor_phone_no" onKeyPress={this.checkNumeric} maxLength={10}/>
+                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_phone_no_error)} name="realtor_phone_no" onKeyPress={this.checkNumeric} maxLength={10} onChange={this.updatePropertyOfferFields}/>
                                 </div>
                               </div>
                               <div className="form-group row mx-0">
                                 <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Email Address&nbsp;&nbsp;:</label>
                                 <div className="col-sm-6">
-                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_email_error)} name="realtor_email"/>
+                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_email_error)} name="realtor_email" onChange={this.updatePropertyOfferFields}/>
                                 </div>
                               </div>
 
@@ -1250,7 +1256,7 @@ export default class PropertyOfferSubmit extends Component {
                               <div className="form-group">
                                 <label htmlFor="inputPassword" className="col-sm-6 col-form-label">Please provide Bussiness Entity Formation Documents here</label>
                                 <div className="col-sm-6">
-                                  <input type="text" name="business_document_text" className={"form-control"+this.addErrorClass(this.state.business_document_text_error)} />
+                                  <input type="text" name="business_document_text" className={"form-control"+this.addErrorClass(this.state.business_document_text_error)} onChange={this.updatePropertyOfferFields} />
                                 </div>
                               </div>
                               <div className="form-group row mx-0">
