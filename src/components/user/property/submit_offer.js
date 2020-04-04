@@ -120,6 +120,10 @@ export default class PropertyOfferSubmit extends Component {
     });
   }
 
+  showProperty = () => {
+    window.open("/property/"+ this.state.property.unique_address, '_self')
+  }
+
   getProperty = () => {
     // console.log(this.props.match.params.id); //  params.id == this.props.match.params.id
     // const { match: { params } } = this.props;
@@ -1528,7 +1532,7 @@ export default class PropertyOfferSubmit extends Component {
                 <div className="col-md-12 py-3">
                   <div className="bg_white">
                     <div className="register_bid_form py-3 px-5">
-                      <form>
+                      <div>
                         <div className="register_bid_title mb-2 col-md-8">
                           <h4 className="mb-2">A. Register to {this.humanizeOfferType(this.state.offer_type)}</h4>
                           <div className="font-blue-bold px-3">
@@ -1579,9 +1583,9 @@ export default class PropertyOfferSubmit extends Component {
                           </h4>
                         </div>
                         <div className="col-md-12 mt-4 text-center">
-                          <button class="btn red-btn" type="submit">Submit</button>
+                          <button class="btn red-btn" type="button" onClick={this.showProperty}>Close</button>
                         </div>
-                      </form>
+                      </div>
                     </div>
                   </div>
                 </div>
