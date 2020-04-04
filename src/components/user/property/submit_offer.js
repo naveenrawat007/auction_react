@@ -873,7 +873,9 @@ export default class PropertyOfferSubmit extends Component {
               best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
             }
           });
-
+          this.showPropertyTimeout = setTimeout(() => {
+            this.showProperty();
+          }, 2000);
         }
         else if (result.status === 400 || result.status === 404) {
           this.setState({
@@ -977,6 +979,9 @@ export default class PropertyOfferSubmit extends Component {
               best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
             }
           });
+          this.showPropertyTimeout = setTimeout(() => {
+            this.showProperty();
+          }, 2000);
         }
         else if (result.status === 400 || result.status === 404 ) {
           this.setState({
@@ -1071,6 +1076,9 @@ export default class PropertyOfferSubmit extends Component {
             terms_agreed: false,
             property: result.property
           });
+          this.showPropertyTimeout = setTimeout(() => {
+            this.showProperty();
+          }, 2000);
         }
         else if (result.status === 400 || result.status === 404 ) {
           this.setState({
@@ -1348,7 +1356,7 @@ export default class PropertyOfferSubmit extends Component {
                   </div>
                 </>
                 :
-                ( this.state.step === 2 ?
+
                   <>
                   <div className="col-md-12 py-3">
                     <div className="bg_white">
@@ -1519,78 +1527,6 @@ export default class PropertyOfferSubmit extends Component {
                     </div>
                   </div>
                 </>
-                :
-                <>
-                <div className="col-md-12 py-3">
-                  <div className="bg_white">
-                    <div className="register_bid_description py-3 px-5">
-                      <h3 className="mb-1">Total Amount {this.humanizeOfferType(this.state.offer_type)}: {this.renderHighestOfferText()}</h3>
-                      <p className="mb-0">Buyer will close this property: {window.formatDate(this.state.bidding_options.property_closing_date)}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-12 py-3">
-                  <div className="bg_white">
-                    <div className="register_bid_form py-3 px-5">
-                      <div>
-                        <div className="register_bid_title mb-2 col-md-8">
-                          <h4 className="mb-2">A. Register to {this.humanizeOfferType(this.state.offer_type)}</h4>
-                          <div className="font-blue-bold px-3">
-                            <p className="mb-0">{this.state.bidding_options.user_first_name}</p>
-                            <p className="mb-0">{this.state.bidding_options.user_last_name}</p>
-                            <p className="mb-0">{this.state.bidding_options.user_email}</p>
-                            <p className="mb-0">{this.state.bidding_options.user_phone_no}</p>
-                          </div>
-                        </div>
-                        <div className="register_bid_title mb-2 col-md-8">
-                          <h4>B. Are you buying this property for yourself? <span className="font-blue-bold">{
-                            (this.state.bidding_options.self_buy_property === "true") ? "YES" : "NO"
-                          }</span></h4>
-                          {
-                            (this.state.bidding_options.self_buy_property === "true") ?
-                            null
-                            :
-                           <>
-                           <div className="col-md-10 relator_info">
-                             <h5>Relator Information</h5>
-                             <p className="mb-2">There will be no fee or comission paid by AuctionMyDeal.com or any seller unless they are listed on the MLS and then you will recieve the comission offered on MLS by the sponsoring broker.</p>
-                           </div>
-                           <div className="font-blue-bold px-3">
-                             <p className="mb-0">{this.state.bidding_options.realtor_first_name}</p>
-                             <p className="mb-0">{this.state.bidding_options.realtor_last_name}</p>
-                             <p className="mb-0">{this.state.bidding_options.realtor_license}</p>
-                             <p className="mb-0">{this.state.bidding_options.realtor_company}</p>
-                             <p className="mb-0">{this.state.bidding_options.realtor_email}</p>
-                             <p className="mb-0">{this.state.bidding_options.realtor_phone_no}</p>
-                           </div>
-                           </>
-                          }
-
-                        </div>
-                        <div className="register_bid_title mb-2 col-md-8">
-                          <h4 className="mb-2">C. I want to purchase the property as: <span className="font-blue-bold">{this.state.bidding_options.purchase_property_as}</span></h4>
-                          <p className="font-blue-bold px-3">{this.state.bidding_options.business_document_text}</p>
-                        </div>
-                        <div className="register_bid_title mb-2 col-md-8">
-                          <h4>D. Proof of funds and/or Preapproval Letter:
-                          {
-                            this.state.buy_option.map((val, index)=> {
-                              return (
-                                <span className="font-blue-bold" key={index}>{val} &nbsp;</span>
-                              );
-                            })
-                          }
-                          </h4>
-                        </div>
-                        <div className="col-md-12 mt-4 text-center">
-                          <button class="btn red-btn" type="button" onClick={this.showProperty}>Close</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                </>
-              )
               }
             </div>
           </div>
