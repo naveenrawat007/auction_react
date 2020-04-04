@@ -580,7 +580,7 @@ export default class Home extends Component {
               </Link>
             </div>
           </div>
-          <Carousel className="home_carousel" interval={10000}>
+          <Carousel className="home_carousel" interval={10000} controls={false}>
             <Carousel.Item>
               <img
                 className="d-block w-100"
