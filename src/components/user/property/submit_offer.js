@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import CurrencyInput from 'react-currency-input';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
-import { faExclamationCircle, faBed, faBath, faCar } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationCircle, faBed, faBath, faCar, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import MultiSelect from "@khanacademy/react-multi-select";
 
 export default class PropertyOfferSubmit extends Component {
@@ -15,6 +15,7 @@ export default class PropertyOfferSubmit extends Component {
   constructor(props){
     super(props);
     this.state = {
+      step: 1,
       terms_agreed: false,
       offer_type: this.props.match.params.offer_type,
       unique_address: this.props.match.params.id,
@@ -553,9 +554,14 @@ export default class PropertyOfferSubmit extends Component {
 
   goToStepTwo = (event) => {
     event.preventDefault();
-    if (this.stepOneValidation()){
-
-    }
+    console.log(this.state.step);
+    // if (this.stepOneValidation()){
+      this.setState({
+        step: 2
+      },function () {
+        window.scrollTo(0,0)
+      })
+    // }
   }
 
   render(){
@@ -613,183 +619,314 @@ export default class PropertyOfferSubmit extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-md-12 py-3">
-                <div className="bg_white">
-                  <div className="register_bid_description p-3">
-                    <p className="mb-0">Registering to bid on a property takes 3 easy steps. Step 1 is to: A. verify who is the buyer. B. are you being represented by an agent and if yes their name and contact information. C. Is buyer an individual or bussiness entity. D. Upload your proof of funds and/or preapproval status. This information will be used in the event that you are the winning bidder and to be able to provide the correct information to the seller. Without the correct information your offer could be rejected by the seller even if you are the highest offer.</p>
+              {
+                this.state.step === 1 ?
+                <>
+                  <div className="col-md-12 py-3">
+                    <div className="bg_white">
+                      <div className="register_bid_description p-3">
+                        <p className="mb-0">Registering to bid on a property takes 3 easy steps. Step 1 is to: A. verify who is the buyer. B. are you being represented by an agent and if yes their name and contact information. C. Is buyer an individual or bussiness entity. D. Upload your proof of funds and/or preapproval status. This information will be used in the event that you are the winning bidder and to be able to provide the correct information to the seller. Without the correct information your offer could be rejected by the seller even if you are the highest offer.</p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div className="col-md-12 py-3">
-                <div className="bg_white">
-                  <div className="register_bid_form py-3 px-5">
-                    <form>
-                      <div className="register_bid_title mb-2 col-md-8">
-                        <h4>A. Register to { this.humanizeOfferType(this.state.offer_type)}</h4>
-                      </div>
-                      <div className="form-group row mx-0">
-                        <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">First Name&nbsp;&nbsp;:</label>
-                        <div className="col-sm-6">
-                          <input type="text" className={"form-control"+ this.addErrorClass(this.state.user_first_name_error)} name="user_first_name" onChange={this.updatePropertyOfferFields} />
-                        </div>
-                      </div>
-                      <div className="form-group row mx-0">
-                        <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Middle Name&nbsp;&nbsp;:</label>
-                        <div className="col-sm-6">
-                          <input type="text" className={"form-control"+this.addErrorClass(this.state.user_middle_name_error)} name="user_middle_name" onChange={this.updatePropertyOfferFields}/>
-                        </div>
-                      </div>
-                      <div className="form-group row mx-0">
-                        <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">Last Name&nbsp;&nbsp;:</label>
-                        <div className="col-sm-6">
-                          <input type="text" className={"form-control"+this.addErrorClass(this.state.user_last_name_error)} name="user_last_name" onChange={this.updatePropertyOfferFields}/>
-                        </div>
-                      </div>
-                      <div className="form-group row mx-0">
-                        <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Email Address&nbsp;&nbsp;:</label>
-                        <div className="col-sm-6">
-                          <input type="text" className={"form-control"+this.addErrorClass(this.state.user_email_error)} name="user_email" onChange={this.updatePropertyOfferFields}/>
-                        </div>
-                      </div>
-                      <div className="form-group row mx-0">
-                        <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Mobile No.&nbsp;&nbsp;:</label>
-                        <div className="col-sm-6">
-                          <input type="text" className={"form-control"+this.addErrorClass(this.state.user_phone_number_error)} name="user_phone_no" onChange={this.updatePropertyOfferFields} onKeyPress={this.checkNumeric} maxLength={10}/>
-                        </div>
-                      </div>
-                      <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
-                        <h4>B. Are you buying this property for yourself?</h4>
-                        <select className="form-control" name="self_buy_property" defaultValue={false} onChange={this.updatePropertyOfferFields}>
-                          <option value={true}>Yes</option>
-                          <option value={false}>No</option>
-                        </select>
-                      </div>
-                      {
-                        (this.state.bidding_options.self_buy_property === "true")
-                        ?
-                        <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-between">
-                          <FontAwesomeIcon icon={faExclamationCircle}/>
-                          <p>Buyer is not being represented bu a licensed Realtor and understand and acknowledges that they will not be getting any representation with respect to this property.</p>
-                        </div>
-                        :
-                        <>
-                          <div className="col-md-8 relator_info">
-                            <h5>Relator Information</h5>
-                            <p>There will be no fee or comission paid by AuctionMyDeal.com or any seller unless they are listed on the MLS and then you will recieve the comission offered on MLS by the sponsoring broker.</p>
+                  <div className="col-md-12 py-3">
+                    <div className="bg_white">
+                      <div className="register_bid_form py-3 px-5">
+                        <form onSubmit={this.goToStepTwo}>
+                          <div className="register_bid_title mb-2 col-md-8">
+                            <h4>A. Register to { this.humanizeOfferType(this.state.offer_type)}</h4>
                           </div>
                           <div className="form-group row mx-0">
                             <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">First Name&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_first_name_error)} name="realtor_first_name"/>
+                              <input type="text" className={"form-control"+ this.addErrorClass(this.state.user_first_name_error)} name="user_first_name" onChange={this.updatePropertyOfferFields} />
+                            </div>
+                          </div>
+                          <div className="form-group row mx-0">
+                            <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Middle Name&nbsp;&nbsp;:</label>
+                            <div className="col-sm-6">
+                              <input type="text" className={"form-control"+this.addErrorClass(this.state.user_middle_name_error)} name="user_middle_name" onChange={this.updatePropertyOfferFields}/>
                             </div>
                           </div>
                           <div className="form-group row mx-0">
                             <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">Last Name&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_last_name_error)} name="realtor_last_name"/>
-                            </div>
-                          </div>
-                          <div className="form-group row mx-0">
-                            <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">License&nbsp;&nbsp;:</label>
-                            <div className="col-sm-6">
-                              <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_license_error)} name="realtor_license"/>
-                            </div>
-                          </div>
-                          <div className="form-group row mx-0">
-                            <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Company Name&nbsp;&nbsp;:</label>
-                            <div className="col-sm-6">
-                              <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_company_error)} name="realtor_company"/>
-                            </div>
-                          </div>
-                          <div className="form-group row mx-0">
-                            <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Mobile No.&nbsp;&nbsp;:</label>
-                            <div className="col-sm-6">
-                              <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_phone_no_error)} name="realtor_phone_no" onKeyPress={this.checkNumeric} maxLength={10}/>
+                              <input type="text" className={"form-control"+this.addErrorClass(this.state.user_last_name_error)} name="user_last_name" onChange={this.updatePropertyOfferFields}/>
                             </div>
                           </div>
                           <div className="form-group row mx-0">
                             <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Email Address&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_email_error)} name="realtor_email"/>
-                            </div>
-                          </div>
-
-                        </>
-
-                      }
-
-                      <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
-                        <h4>C. I want to purchase the property as:</h4>
-                        <select className="form-control" defaultValue={this.state.bidding_options.purchase_property_as} name="purchase_property_as" onChange={this.updatePropertyOfferFields}>
-                          {purchase_property_as_options}
-                        </select>
-                      </div>
-                      {
-                        (this.state.bidding_options.purchase_property_as === "Business")
-                        ?
-                        <>
-                          <div className="form-group">
-                            <label htmlFor="inputPassword" className="col-sm-6 col-form-label">Please provide Bussiness Entity Formation Documents here</label>
-                            <div className="col-sm-6">
-                              <input type="text" name="business_document_text" className={"form-control"+this.addErrorClass(this.state.business_document_text_error)} />
+                              <input type="text" className={"form-control"+this.addErrorClass(this.state.user_email_error)} name="user_email" onChange={this.updatePropertyOfferFields}/>
                             </div>
                           </div>
                           <div className="form-group row mx-0">
-                            <label htmlFor="inputPassword" className="col-sm-5 col-form-label">Upload Bussiness Entity Formation Documents</label>
-                            <div className="col-sm-3">
-                              <div className="custom-file accept-file">
-                                <input type="file" multiple={true} className="custom-file-input" name="business_documents" onChange={this.multipleFileSelector} id="customFile"/>
-                                <label className={"custom-file-label " + this.addErrorClass(this.state.business_documents_error)} htmlFor="customFile">Choose files</label>
+                            <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Mobile No.&nbsp;&nbsp;:</label>
+                            <div className="col-sm-6">
+                              <input type="text" className={"form-control"+this.addErrorClass(this.state.user_phone_number_error)} name="user_phone_no" onChange={this.updatePropertyOfferFields} onKeyPress={this.checkNumeric} maxLength={10}/>
+                            </div>
+                          </div>
+                          <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
+                            <h4>B. Are you buying this property for yourself?</h4>
+                            <select className="form-control" name="self_buy_property" defaultValue={false} onChange={this.updatePropertyOfferFields}>
+                              <option value={true}>Yes</option>
+                              <option value={false}>No</option>
+                            </select>
+                          </div>
+                          {
+                            (this.state.bidding_options.self_buy_property === "true")
+                            ?
+                            <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-between">
+                              <FontAwesomeIcon icon={faExclamationCircle}/>
+                              <p>Buyer is not being represented bu a licensed Realtor and understand and acknowledges that they will not be getting any representation with respect to this property.</p>
+                            </div>
+                            :
+                            <>
+                              <div className="col-md-8 relator_info">
+                                <h5>Relator Information</h5>
+                                <p>There will be no fee or comission paid by AuctionMyDeal.com or any seller unless they are listed on the MLS and then you will recieve the comission offered on MLS by the sponsoring broker.</p>
+                              </div>
+                              <div className="form-group row mx-0">
+                                <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">First Name&nbsp;&nbsp;:</label>
+                                <div className="col-sm-6">
+                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_first_name_error)} name="realtor_first_name"/>
+                                </div>
+                              </div>
+                              <div className="form-group row mx-0">
+                                <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">Last Name&nbsp;&nbsp;:</label>
+                                <div className="col-sm-6">
+                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_last_name_error)} name="realtor_last_name"/>
+                                </div>
+                              </div>
+                              <div className="form-group row mx-0">
+                                <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">License&nbsp;&nbsp;:</label>
+                                <div className="col-sm-6">
+                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_license_error)} name="realtor_license"/>
+                                </div>
+                              </div>
+                              <div className="form-group row mx-0">
+                                <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Company Name&nbsp;&nbsp;:</label>
+                                <div className="col-sm-6">
+                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_company_error)} name="realtor_company"/>
+                                </div>
+                              </div>
+                              <div className="form-group row mx-0">
+                                <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Mobile No.&nbsp;&nbsp;:</label>
+                                <div className="col-sm-6">
+                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_phone_no_error)} name="realtor_phone_no" onKeyPress={this.checkNumeric} maxLength={10}/>
+                                </div>
+                              </div>
+                              <div className="form-group row mx-0">
+                                <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Email Address&nbsp;&nbsp;:</label>
+                                <div className="col-sm-6">
+                                  <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_email_error)} name="realtor_email"/>
+                                </div>
+                              </div>
+
+                            </>
+
+                          }
+
+                          <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
+                            <h4>C. I want to purchase the property as:</h4>
+                            <select className="form-control" defaultValue={this.state.bidding_options.purchase_property_as} name="purchase_property_as" onChange={this.updatePropertyOfferFields}>
+                              {purchase_property_as_options}
+                            </select>
+                          </div>
+                          {
+                            (this.state.bidding_options.purchase_property_as === "Business")
+                            ?
+                            <>
+                              <div className="form-group">
+                                <label htmlFor="inputPassword" className="col-sm-6 col-form-label">Please provide Bussiness Entity Formation Documents here</label>
+                                <div className="col-sm-6">
+                                  <input type="text" name="business_document_text" className={"form-control"+this.addErrorClass(this.state.business_document_text_error)} />
+                                </div>
+                              </div>
+                              <div className="form-group row mx-0">
+                                <label htmlFor="inputPassword" className="col-sm-5 col-form-label">Upload Bussiness Entity Formation Documents</label>
+                                <div className="col-sm-3">
+                                  <div className="custom-file accept-file">
+                                    <input type="file" multiple={true} className="custom-file-input" name="business_documents" onChange={this.multipleFileSelector} id="customFile"/>
+                                    <label className={"custom-file-label " + this.addErrorClass(this.state.business_documents_error)} htmlFor="customFile">Choose files</label>
+                                  </div>
+                                </div>
+                              </div>
+                            </>
+                            :
+                            null
+                          }
+                          <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
+                            <h4>D. Proof of funds and/or Preapproval Letter:</h4>
+                          </div>
+                          <div className="form-group row mx-0">
+                            <label htmlFor="inputPassword" className="col-sm-4 col-form-label">I plan on buying this property with</label>
+                            <div className="col-sm-4">
+                            <MultiSelect
+                              options={buy_options}
+                              selectSomeItmes = "select"
+                              selected={this.state.buy_option}
+                              onSelectedChanged={selected => {this.setState({buy_option: selected})}}
+                            />
+                            </div>
+                          </div>
+                          <div className="form-group row mx-0">
+                            <label htmlFor="inputPassword" className="col-sm-4 col-form-label">Attach proof of funds</label>
+                            <div className="col-sm-4">
+                            <div className="custom-file accept-file">
+                              <input type="file" className="custom-file-input" name="fund_proof" onChange={this.handleFundProofSelector} id="customFile"/>
+                              <label className={"custom-file-label " + this.addErrorClass(this.state.fund_proof_error)} htmlFor="customFile">Choose file</label>
+                            </div>
+                            </div>
+                          </div>
+                          <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-between">
+                            <FontAwesomeIcon icon={faExclamationCircle}/>
+                            <p>The seller will require that any bids submitted must have proof of funds and/or preapproval letter before they will consider your offer. For cash purchases, please attch a recent bank statement, investment account statement, line of credit letter from your banker or letter from your private lender with their proof of funds. Financed purchases must attach a copy of your preapproval letter from your lender. A good phone number is highly recommended to be on any letters from lenders or the seller may disregard your bid and pursue another offer that is verifiable.</p>
+                          </div>
+                          <div className="form-group form-check">
+                            <input className="form-check-input" name="terms_agreed" type="checkbox" id="exampleCheck1" onChange={this.updateTermsAgreed}/>
+                            <label className="form-check-label" htmlFor="exampleCheck1">I hereby acknowledge that the contact information is true and correct. I understand the information i've provided will be used to prepare the transaction document for the purchase of the property if my bid is accepted by the seller to proceed toward closing of this property.</label>
+                          </div>
+                          <div className="col-md-12 text-center">
+                            {
+                              this.state.terms_agreed === true ?
+                                <button type="button" className="btn red-btn" onClick={this.goToStepTwo}>Submit</button>
+                              :
+                              <button className="btn red-btn" type="button" disabled>Submit</button>
+                            }
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </>
+                :
+                <>
+                  <div className="col-md-12 py-3">
+                    <div className="bg_white">
+                      <div className="register_bid_form py-3 px-5">
+                        <form>
+                          <div className="register_bid_title mb-2 col-md-8">
+                            <h4>Place Your Bid</h4>
+                          </div>
+                          <div className="form-group row mx-0 mb-0">
+                            <label className="col-sm-3 col-form-label text-right">Your amount offer is&nbsp;&nbsp;:</label>
+                            <div className="input-group col-md-3">
+                              <div className="input-group-prepend">
+                                <span className="input-group-text group-box"><FontAwesomeIcon icon={faMinus}/></span>
+                              </div>
+                              <input type="text" className="form-control" aria-label="Amount (to the nearest dollar)"/>
+                              <div className="input-group-append">
+                                <span className="input-group-text group-box"><FontAwesomeIcon icon={faPlus}/></span>
                               </div>
                             </div>
                           </div>
-                        </>
-                        :
-                        null
-                      }
-                      <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
-                        <h4>D. Proof of funds and/or Preapproval Letter:</h4>
+                          <div className="form-group row mx-0 align-items-center mb-0">
+                            <label className="col-sm-3 col-form-label text-right">Internet Transaction Fee&nbsp;&nbsp;:</label>
+                            <div className="col-sm-3 text-right font-weight-bold">
+                              <p className="values_input">$97</p>
+                            </div>
+                          </div>
+                          <div className="form-group row mx-0 align-items-center">
+                            <label className="col-sm-3 col-form-label text-right">Total Due&nbsp;&nbsp;:</label>
+                            <div className="col-sm-3 text-center font-weight-bold">
+                              <p className="values_input values_input_border">$378,097</p>
+                            </div>
+                          </div>
+                          <div className="form-group row mx-0">
+                            <label className="col-sm-3 col-form-label text-right">Enter Promo Code&nbsp;&nbsp;:</label>
+                            <div className="col-sm-3">
+                              <input type="text" className="form-control"/>
+                            </div>
+                          </div>
+                          <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-start">
+                            <FontAwesomeIcon icon={faExclamationCircle}/>
+                            <p>if your offer is accepted then the seller is requesting a deposit in the amount of $3,00.</p>
+                          </div>
+                          <p className="seller_request">Seller is requesting that you close by:</p>
+                          <div className="form-group row mx-0">
+                            <label className="col-sm-5 col-form-label text-left">How soon can you close on this property&nbsp;&nbsp;:</label>
+                            <div className="col-sm-3">
+                              <input type="text" className="form-control"/>
+                            </div>
+                          </div>
+                          <div className="form-group row mx-0 align-items-center">
+                            <label className="col-sm-5 col-form-label text-left">If my bid is not initially accepted by the seller then please hold my bid as backup offer for&nbsp;&nbsp;:</label>
+                            <div className="col-sm-3">
+                              <select className="form-control">
+                                <option>7 Days</option>
+                                <option>14 Days</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
+                            <h4>Payment Information</h4>
+                          </div>
+                          <div className="form-group row mx-0">
+                            <label className="col-sm-2 col-form-label text-right">Card Number&nbsp;&nbsp;:</label>
+                            <div className="col-sm-6">
+                              <input type="text" className="form-control"/>
+                            </div>
+                          </div>
+                          <div className="form-group row mx-0">
+                            <label className="col-sm-2 col-form-label text-right">Expiry Date&nbsp;&nbsp;:</label>
+                            <div className="col-sm-6">
+                              <input type="text" className="form-control"/>
+                            </div>
+                          </div>
+                          <div className="form-group row mx-0">
+                            <label className="col-sm-2 col-form-label text-right">CVV&nbsp;&nbsp;:</label>
+                            <div className="col-sm-6">
+                              <input type="text" className="form-control"/>
+                            </div>
+                          </div>
+                          <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-start">
+                            <FontAwesomeIcon icon={faExclamationCircle}/>
+                            <p><b>$97 Bid Deposit</b>(a hold on your credit card) will be assessed once you submit an offer or bid to the site.</p>
+                          </div>
+                          <p className="seller_request">Check the boxes to confirm the following:</p>
+                          <div className="form-group form-check">
+                            <input type="checkbox" className="form-check-input" id="exampleCheck11" />
+                            <label className="form-check-label" htmlFor="exampleCheck11">I understand and agree that the seller reserves the right to refuse any bid, highest or otherwise and final acceptance of a selected bid is expressly subject to the sellers signature on the purchase and sale agreement</label>
+                          </div>
+                          <div className="form-group form-check">
+                            <input type="checkbox" className="form-check-input" id="exampleCheck12" />
+                            <label className="form-check-label" htmlFor="exampleCheck12">I agree to buy this property As-is, where is with all faults.</label>
+                          </div>
+                          <div className="form-group form-check">
+                            <input type="checkbox" className="form-check-input" id="exampleCheck13" />
+                            <label className="form-check-label" htmlFor="exampleCheck13">I understand that the pictures, video ARV proof and rehab numbers are provided for informational purposes only and I have done my own due dilligence for this property i am bidding on.</label>
+                          </div>
+                          <div className="form-group form-check">
+                            <input type="checkbox" className="form-check-input" id="exampleCheck14" />
+                            <label className="form-check-label" htmlFor="exampleCheck14">I agree to sign and return the purchase documents within 1 bussiness day of receipt or my offer could be rejected.</label>
+                          </div>
+                          <div className="form-group form-check">
+                            <input type="checkbox" className="form-check-input" id="exampleCheck15" />
+                            <label className="form-check-label" htmlFor="exampleCheck15">I agree to deliver(whatever seller enters as required earnest money $) as nonrefundable earnest money to title company on Executed Contract if i am the winning bidder within the 48 bussiness hours or my winning bidder status can be cancelled.</label>
+                          </div>
+                          <div className="form-group form-check">
+                            <input type="checkbox" className="form-check-input" id="exampleCheck16" />
+                            <label className="form-check-label" htmlFor="exampleCheck16">I agree to respond to AuctionMyDeal.com inquires within 1 bussiness day of receipt.</label>
+                          </div>
+                          <div className="form-group form-check">
+                            <input type="checkbox" className="form-check-input" id="exampleCheck17" />
+                            <label className="form-check-label" htmlFor="exampleCheck17">I (Buyers) agrees to pay for all standaard buyer and seller closing cost including title policy. Seller will pay to remove all liens, taxes and HOA dues owed and prorated up until the day of closing.</label>
+                          </div>
+                          <div className="form-group form-check">
+                            <input type="checkbox" className="form-check-input" id="exampleCheck18" />
+                            <label className="form-check-label" htmlFor="exampleCheck18">I am the prospective buyer or an authorized representative of the prospective buyer for this transaction. I represent that on my own behalf and behalf of any prospective buyer I represent. I have read and agree with the participation terms for making this offer, and agree to AuctionMyDeal.com Terms and Conditions , Privacy Policy and any special terms that may apply.</label>
+                          </div>
+                          <div className="col-md-12 text-center">
+                            <button className="btn red-btn" type="submit">Submit</button>
+                          </div>
+                        </form>
                       </div>
-                      <div className="form-group row mx-0">
-                        <label htmlFor="inputPassword" className="col-sm-4 col-form-label">I plan on buying this property with</label>
-                        <div className="col-sm-4">
-                        <MultiSelect
-                          options={buy_options}
-                          selectSomeItmes = "select"
-                          selected={this.state.buy_option}
-                          onSelectedChanged={selected => {this.setState({buy_option: selected})}}
-                        />
-                        </div>
-                      </div>
-                      <div className="form-group row mx-0">
-                        <label htmlFor="inputPassword" className="col-sm-4 col-form-label">Attach proof of funds</label>
-                        <div className="col-sm-4">
-                        <div className="custom-file accept-file">
-                          <input type="file" className="custom-file-input" name="fund_proof" onChange={this.handleFundProofSelector} id="customFile"/>
-                          <label className={"custom-file-label " + this.addErrorClass(this.state.fund_proof_error)} htmlFor="customFile">Choose file</label>
-                        </div>
-                        </div>
-                      </div>
-                      <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-between">
-                        <FontAwesomeIcon icon={faExclamationCircle}/>
-                        <p>The seller will require that any bids submitted must have proof of funds and/or preapproval letter before they will consider your offer. For cash purchases, please attch a recent bank statement, investment account statement, line of credit letter from your banker or letter from your private lender with their proof of funds. Financed purchases must attach a copy of your preapproval letter from your lender. A good phone number is highly recommended to be on any letters from lenders or the seller may disregard your bid and pursue another offer that is verifiable.</p>
-                      </div>
-                      <div className="form-group form-check">
-                        <input className="form-check-input" name="terms_agreed" type="checkbox" id="exampleCheck1" onChange={this.updateTermsAgreed}/>
-                        <label className="form-check-label" htmlFor="exampleCheck1">I hereby acknowledge that the contact information is true and correct. I understand the information i've provided will be used to prepare the transaction document for the purchase of the property if my bid is accepted by the seller to proceed toward closing of this property.</label>
-                      </div>
-                      <div className="col-md-12 text-center">
-                        {
-                          this.state.terms_agreed === true ?
-                            <button type="button" className="btn red-btn" onClick={this.goToStepTwo}>Submit</button>
-                          :
-                          <button className="btn red-btn" type="button" disabled>Submit</button>
-                        }
-                      </div>
-                    </form>
+                    </div>
                   </div>
-                </div>
-              </div>
+                </>
+              }
+
             </div>
           </div>
         </div>
