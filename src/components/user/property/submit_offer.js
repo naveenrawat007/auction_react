@@ -40,7 +40,7 @@ export default class PropertyOfferSubmit extends Component {
         realtor_email: "",
         business_document_text: "",
         purchase_property_as: "Business",
-        internet_transaction_fee: "",
+        internet_transaction_fee: 97,
         total_due: "",
         promo_code: "",
         property_closing_date: "",
@@ -385,7 +385,7 @@ export default class PropertyOfferSubmit extends Component {
       return "Bid";
     }else if (offer_type === "best_offer") {
       return "Best Offer";
-    }else if (offer_type === "buy_now") {
+    }else if (offer_type === "buy_now" || offer_type === "best_buy_now") {
       return "Buy Now";
     }
   }
@@ -552,16 +552,141 @@ export default class PropertyOfferSubmit extends Component {
     }
   }
 
+  updateCurrentOffer = (event, maskedvalue, floatvalue) => {
+    // const{ value } = event.target;
+    let price = parseFloat(maskedvalue.replace(/[$,.]/g,""))/100
+    if (price > this.state.bidding_options.highest_bid){
+      this.setState({
+        bidding_options: {
+          ...this.state.bidding_options,
+          current_offer: price,
+        }
+      })
+    }else {
+      this.setState({
+        bidding_options: {
+          ...this.state.bidding_options,
+          current_offer: this.state.bidding_options.highest_bid,
+      },
+    });
+    }
+  }
+
+  updateCurrentBestOffer = (event, maskedvalue, floatvalue) => {
+    // const{ value } = event.target;
+    let price = parseFloat(maskedvalue.replace(/[$,.]/g,""))/100
+    if (price > this.state.bidding_options.best_offer_price){
+      this.setState({
+        bidding_options: {
+          ...this.state.bidding_options,
+          current_best_offer: price,
+        }
+      })
+    }else {
+      this.setState({
+        bidding_options: {
+          ...this.state.bidding_options,
+          current_best_offer: this.state.bidding_options.best_offer_price,
+      },
+    });
+    }
+  }
+
+  decrementCurrentOffer = () => {
+    let new_offer = this.state.bidding_options.current_offer
+    new_offer = new_offer - 1000
+    if ((new_offer > 0) && (new_offer >= this.state.bidding_options.highest_bid) ){
+      this.setState({
+        bidding_options:{
+          ...this.state.bidding_options,
+          current_offer: new_offer,
+        }
+      });
+    }
+    else {
+      this.setState({
+        bidding_options:{
+          ...this.state.bidding_options,
+          current_offer: this.state.bidding_options.highest_bid,
+        }
+      });
+    }
+  }
+  incrementCurrentOffer = () => {
+    let new_offer = this.state.bidding_options.current_offer
+    new_offer += 1000
+    this.setState({
+      bidding_options:{
+        ...this.state.bidding_options,
+        current_offer: new_offer,
+      }
+    });
+  }
+
+  decrementCurrentBestOffer = () => {
+    let new_offer = this.state.bidding_options.current_best_offer
+    new_offer = new_offer - 1000
+    if ((new_offer > 0) && (new_offer >= this.state.bidding_options.best_offer_price) ){
+      this.setState({
+        bidding_options:{
+          ...this.state.bidding_options,
+          current_best_offer: new_offer,
+        }
+      });
+    }
+    else {
+      this.setState({
+        bidding_options:{
+          ...this.state.bidding_options,
+          current_best_offer: this.state.bidding_options.current_best_offer,
+        }
+      });
+    }
+  }
+  incrementCurrentBestOffer = () => {
+    let new_offer = this.state.bidding_options.current_best_offer
+    new_offer += 1000
+    this.setState({
+      bidding_options:{
+        ...this.state.bidding_options,
+        current_best_offer: new_offer,
+      }
+    });
+  }
+
   goToStepTwo = (event) => {
     event.preventDefault();
-    console.log(this.state.step);
-    // if (this.stepOneValidation()){
+    if (this.stepOneValidation()){
       this.setState({
         step: 2
       },function () {
         window.scrollTo(0,0)
       })
-    // }
+    }
+  }
+
+  renderHighestOffer = () => {
+    if (this.state.offer_type === "bid"){
+      return (<h4 className="font-red text-right">{window.format_currency(this.state.bidding_options.highest_bid)}</h4>);
+    }else if (this.state.offer_type === "best_offer") {
+      return (<h4 className="font-red text-right">{window.format_currency(this.state.bidding_options.best_offer_price)}</h4>);
+    }else if (this.state.offer_type === "buy_now") {
+      return (<h4 className="font-red text-right">{window.format_currency(this.state.bidding_options.buy_now_price)}</h4>);
+    }else if (this.state.offer_type === "best_buy_now") {
+      return (<h4 className="font-red text-right">{window.format_currency(this.state.bidding_options.best_offer_buy_now_price)}</h4>);
+    }
+  }
+
+  renderTotalDue = () => {
+    if (this.state.offer_type === "bid"){
+      return (window.format_currency(this.state.bidding_options.current_offer + this.state.bidding_options.internet_transaction_fee));
+    }else if (this.state.offer_type === "best_offer") {
+      return (window.format_currency(this.state.bidding_options.current_best_offer + this.state.bidding_options.internet_transaction_fee));
+    }else if (this.state.offer_type === "buy_now") {
+      return (window.format_currency(this.state.bidding_options.buy_now_price + this.state.bidding_options.internet_transaction_fee));
+    }else if (this.state.offer_type === "best_buy_now") {
+      return (window.format_currency(this.state.bidding_options.best_offer_buy_now_price + this.state.bidding_options.internet_transaction_fee));
+    }
   }
 
   render(){
@@ -613,7 +738,7 @@ export default class PropertyOfferSubmit extends Component {
                       </div>
                       <div className="register_pricing">
                         <p>Current Highest Offer</p>
-                        <h4 className="font-red text-right">{window.format_currency(this.state.bidding_options.current_best_offer)}</h4>
+                        {this.renderHighestOffer()}
                       </div>
                     </div>
                   </div>
@@ -805,32 +930,71 @@ export default class PropertyOfferSubmit extends Component {
                   <div className="col-md-12 py-3">
                     <div className="bg_white">
                       <div className="register_bid_form py-3 px-5">
-                        <form>
+                        <div>
                           <div className="register_bid_title mb-2 col-md-8">
-                            <h4>Place Your Bid</h4>
+                            <h4>Place Your { this.humanizeOfferType(this.state.offer_type)}</h4>
                           </div>
                           <div className="form-group row mx-0 mb-0">
                             <label className="col-sm-3 col-form-label text-right">Your amount offer is&nbsp;&nbsp;:</label>
                             <div className="input-group col-md-3">
-                              <div className="input-group-prepend">
-                                <span className="input-group-text group-box"><FontAwesomeIcon icon={faMinus}/></span>
-                              </div>
-                              <input type="text" className="form-control" aria-label="Amount (to the nearest dollar)"/>
-                              <div className="input-group-append">
-                                <span className="input-group-text group-box"><FontAwesomeIcon icon={faPlus}/></span>
-                              </div>
+                              {
+                                this.state.offer_type == "bid" ?
+                                <>
+                                  <div className="input-group-prepend">
+                                    <button className="input-group-text group-box btn" onClick={this.decrementCurrentOffer}><FontAwesomeIcon icon={faMinus}/></button>
+                                  </div>
+                                  <CurrencyInput type="text" prefix="$" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_offer} name="current_offer" onChangeEvent={this.updateCurrentOffer}/>
+                                  <div className="input-group-append">
+                                    <button className="input-group-text group-box btn" onClick={this.incrementCurrentOffer}><FontAwesomeIcon icon={faPlus}/></button>
+                                  </div>
+                                </>
+                                :
+                                (this.state.offer_type == "best_offer" ?
+                                  <>
+                                    <div className="input-group-prepend">
+                                      <button className="input-group-text group-box btn" onClick={this.decrementCurrentBestOffer}><FontAwesomeIcon icon={faMinus}/></button>
+                                    </div>
+                                    <CurrencyInput type="text" prefix="$" className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.current_best_offer} name="current_best_offer" onChangeEvent={this.updateCurrentBestOffer}/>
+                                    <div className="input-group-append">
+                                      <button className="input-group-text group-box btn" onClick={this.incrementCurrentBestOffer}><FontAwesomeIcon icon={faPlus}/></button>
+                                    </div>
+                                  </>
+                                  :
+                                  (this.state.offer_type === "best_buy_now" ?
+                                  <>
+                                    <div className="input-group-prepend">
+                                      <span className="input-group-text group-box"><FontAwesomeIcon icon={faMinus}/></span>
+                                    </div>
+                                    <CurrencyInput type="text" prefix="$" readOnly={true} className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.buy_now_price}  name="best_offer_buy_now_price" onChangeEvent={this.updateCurrentOffer}/>
+                                    <div className="input-group-append">
+                                      <span className="input-group-text group-box"><FontAwesomeIcon icon={faPlus}/></span>
+                                    </div>
+                                  </>
+                                  :
+                                  <>
+                                    <div className="input-group-prepend">
+                                      <span className="input-group-text group-box"><FontAwesomeIcon icon={faMinus}/></span>
+                                    </div>
+                                    <CurrencyInput type="text" prefix="$" readOnly={true} className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.buy_now_price}  name="current_offer" onChangeEvent={this.updateCurrentOffer}/>
+                                    <div className="input-group-append">
+                                      <span className="input-group-text group-box"><FontAwesomeIcon icon={faPlus}/></span>
+                                    </div>
+                                  </>
+                                  )
+                                )
+                              }
                             </div>
                           </div>
                           <div className="form-group row mx-0 align-items-center mb-0">
                             <label className="col-sm-3 col-form-label text-right">Internet Transaction Fee&nbsp;&nbsp;:</label>
                             <div className="col-sm-3 text-right font-weight-bold">
-                              <p className="values_input">$97</p>
+                              <p className="values_input">{window.format_currency(this.state.bidding_options.internet_transaction_fee)}</p>
                             </div>
                           </div>
                           <div className="form-group row mx-0 align-items-center">
                             <label className="col-sm-3 col-form-label text-right">Total Due&nbsp;&nbsp;:</label>
                             <div className="col-sm-3 text-center font-weight-bold">
-                              <p className="values_input values_input_border">$378,097</p>
+                              <p className="values_input values_input_border">{this.renderTotalDue()}</p>
                             </div>
                           </div>
                           <div className="form-group row mx-0">
@@ -920,7 +1084,7 @@ export default class PropertyOfferSubmit extends Component {
                           <div className="col-md-12 text-center">
                             <button className="btn red-btn" type="submit">Submit</button>
                           </div>
-                        </form>
+                        </div>
                       </div>
                     </div>
                   </div>
