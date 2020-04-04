@@ -1388,7 +1388,7 @@ export default class PropertyOfferSubmit extends Component {
                                     <div className="input-group-prepend">
                                       <span className="input-group-text group-box"><FontAwesomeIcon icon={faMinus}/></span>
                                     </div>
-                                    <CurrencyInput type="text" prefix="$" readOnly={true} className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.buy_now_price}  name="best_offer_buy_now_price" onChangeEvent={this.updateCurrentOffer}/>
+                                    <CurrencyInput type="text" prefix="$" readOnly={true} className="form-control" aria-label="Amount (to the nearest dollar)" value={this.state.bidding_options.best_offer_buy_now_price}  name="best_offer_buy_now_price" onChangeEvent={this.updateCurrentOffer}/>
                                     <div className="input-group-append">
                                       <span className="input-group-text group-box"><FontAwesomeIcon icon={faPlus}/></span>
                                     </div>
