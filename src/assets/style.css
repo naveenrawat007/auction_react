@@ -5599,10 +5599,12 @@ a.chat_attachment {
   position: absolute;
   z-index: 100;
   color: #fff;
-  top: 10%;
+  top: 0;
   display: flex;
   width: 100%;
   justify-content: center;
+  height: 100%;
+  align-items: center;
 }
 .static_text h2{
   font-size: 3.5rem;
@@ -5616,7 +5618,7 @@ a.chat_attachment {
 }
 .static_text img{
   margin: 80px auto;
-  width: 640px;
+  width: 540px;
 }
 .history_details, .payment_details, .plan_details{
   border: 1px solid #ccc;
