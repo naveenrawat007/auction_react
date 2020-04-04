@@ -17,6 +17,9 @@ export default class PropertyOfferSubmit extends Component {
   constructor(props){
     super(props);
     this.state = {
+      message: "",
+      variant: "",
+      submitted: false,
       step: 1,
       terms_agreed: false,
       terms_agreed1: false,
@@ -147,6 +150,10 @@ export default class PropertyOfferSubmit extends Component {
             hold_bid_days_options: result.hold_bid_days_options,
             bidding_options: {
               ...this.state.bidding_options,
+              user_first_name: result.user.first_name,
+              user_last_name: result.user.last_name,
+              user_email: result.user.email,
+              user_phone_no: result.user.phone_number,
               purchase_property_as: result.purchase_property_as_options[0],
               hold_bid_days: result.hold_bid_days_options[0],
               highest_bid: result.property.highest_bid,
@@ -490,9 +497,8 @@ export default class PropertyOfferSubmit extends Component {
       user_phone_number_error = "Phone number length is too large!"
       validate = false
     }
-    console.log(user_phone_number_error);
     if (this.state.fund_proof === ""){
-      user_phone_number_error= "error"
+      fund_proof_error= "error"
       validate = false
     }
     if (this.state.bidding_options.self_buy_property === "false"){
@@ -726,6 +732,18 @@ export default class PropertyOfferSubmit extends Component {
     }
   }
 
+  renderHighestOfferText = () => {
+    if (this.state.offer_type === "bid"){
+      return (window.format_currency(this.state.bidding_options.highest_bid));
+    }else if (this.state.offer_type === "best_offer") {
+      return (window.format_currency(this.state.bidding_options.best_offer_price));
+    }else if (this.state.offer_type === "buy_now") {
+      return (window.format_currency(this.state.bidding_options.buy_now_price));
+    }else if (this.state.offer_type === "best_buy_now") {
+      return (window.format_currency(this.state.bidding_options.best_offer_buy_now_price));
+    }
+  }
+
   updateTotalDue = () => {
     if (this.state.offer_type === "bid"){
       this.setState({
@@ -832,6 +850,8 @@ export default class PropertyOfferSubmit extends Component {
       if (this._isMounted){
         if (result.status === 201){
           this.setState({
+            submitted: true,
+            step: 3,
             chat_room: result.chat_room,
             isLoaded: true,
             open_bidding_modal: false,
@@ -933,6 +953,8 @@ export default class PropertyOfferSubmit extends Component {
       if (this._isMounted){
         if (result.status === 201){
           this.setState({
+            submitted: true,
+            step: 3,
             chat_room: result.chat_room,
             isLoaded: true,
             open_best_offer_modal: false,
@@ -1034,6 +1056,8 @@ export default class PropertyOfferSubmit extends Component {
       if (this._isMounted){
         if (result.status === 201){
           this.setState({
+            step: 3,
+            submitted: true,
             chat_room: result.chat_room,
             isLoaded: true,
             open_buy_now_modal: false,
@@ -1094,6 +1118,9 @@ export default class PropertyOfferSubmit extends Component {
       return (
         <div className="profile-setting">
           <div className="container custom_container px-0">
+          {
+            this.state.message ? <Alert className="mt-0 mb-0" variant={this.state.variant}>{this.state.message}</Alert> : null
+          }
             <div className="row mx-0 profile_row my-5 register_bids_new">
               <div className="col-md-12 py-3">
                 <div className="bg_white">
@@ -1155,7 +1182,7 @@ export default class PropertyOfferSubmit extends Component {
                           <div className="form-group row mx-0">
                             <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">First Name&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className={"form-control"+ this.addErrorClass(this.state.user_first_name_error)} name="user_first_name" onChange={this.updatePropertyOfferFields} />
+                              <input type="text" className={"form-control"+ this.addErrorClass(this.state.user_first_name_error)} name="user_first_name" onChange={this.updatePropertyOfferFields} value={this.state.bidding_options.user_first_name}/>
                             </div>
                           </div>
                           <div className="form-group row mx-0">
@@ -1167,19 +1194,19 @@ export default class PropertyOfferSubmit extends Component {
                           <div className="form-group row mx-0">
                             <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">Last Name&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className={"form-control"+this.addErrorClass(this.state.user_last_name_error)} name="user_last_name" onChange={this.updatePropertyOfferFields}/>
+                              <input type="text" className={"form-control"+this.addErrorClass(this.state.user_last_name_error)} name="user_last_name" onChange={this.updatePropertyOfferFields} value={this.state.bidding_options.user_last_name}/>
                             </div>
                           </div>
                           <div className="form-group row mx-0">
                             <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Email Address&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className={"form-control"+this.addErrorClass(this.state.user_email_error)} name="user_email" onChange={this.updatePropertyOfferFields}/>
+                              <input type="text" className={"form-control"+this.addErrorClass(this.state.user_email_error)} name="user_email" onChange={this.updatePropertyOfferFields} value={this.state.bidding_options.user_email}/>
                             </div>
                           </div>
                           <div className="form-group row mx-0">
                             <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Mobile No.&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className={"form-control"+this.addErrorClass(this.state.user_phone_number_error)} name="user_phone_no" onChange={this.updatePropertyOfferFields} onKeyPress={this.checkNumeric} maxLength={10}/>
+                              <input type="text" className={"form-control"+this.addErrorClass(this.state.user_phone_number_error)} name="user_phone_no" onChange={this.updatePropertyOfferFields} onKeyPress={this.checkNumeric} maxLength={10} value={this.state.bidding_options.user_phone_no}/>
                             </div>
                           </div>
                           <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
@@ -1276,7 +1303,7 @@ export default class PropertyOfferSubmit extends Component {
                             <h4>D. Proof of funds and/or Preapproval Letter:</h4>
                           </div>
                           <div className="form-group row mx-0">
-                            <label htmlFor="inputPassword" className="col-sm-4 col-form-label">I plan on buying this property with</label>
+                            <label htmlFor="inputPassword" className="col-sm-4 col-form-label">I plan on buying this property with (*)</label>
                             <div className="col-sm-4">
                             <MultiSelect
                               options={buy_options}
@@ -1317,7 +1344,8 @@ export default class PropertyOfferSubmit extends Component {
                   </div>
                 </>
                 :
-                <>
+                ( this.state.step === 2 ?
+                  <>
                   <div className="col-md-12 py-3">
                     <div className="bg_white">
                       <div className="register_bid_form py-3 px-5">
@@ -1487,6 +1515,78 @@ export default class PropertyOfferSubmit extends Component {
                     </div>
                   </div>
                 </>
+                :
+                <>
+                <div className="col-md-12 py-3">
+                  <div className="bg_white">
+                    <div className="register_bid_description py-3 px-5">
+                      <h3 className="mb-1">Total Amount {this.humanizeOfferType(this.state.offer_type)}: {this.renderHighestOfferText()}</h3>
+                      <p className="mb-0">Buyer will close this property: {window.formatDate(this.state.bidding_options.property_closing_date)}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-12 py-3">
+                  <div className="bg_white">
+                    <div className="register_bid_form py-3 px-5">
+                      <form>
+                        <div className="register_bid_title mb-2 col-md-8">
+                          <h4 className="mb-2">A. Register to {this.humanizeOfferType(this.state.offer_type)}</h4>
+                          <div className="font-blue-bold px-3">
+                            <p className="mb-0">{this.state.bidding_options.user_first_name}</p>
+                            <p className="mb-0">{this.state.bidding_options.user_last_name}</p>
+                            <p className="mb-0">{this.state.bidding_options.user_email}</p>
+                            <p className="mb-0">{this.state.bidding_options.user_phone_no}</p>
+                          </div>
+                        </div>
+                        <div className="register_bid_title mb-2 col-md-8">
+                          <h4>B. Are you buying this property for yourself? <span className="font-blue-bold">{
+                            (this.state.bidding_options.self_buy_property === "true") ? "YES" : "NO"
+                          }</span></h4>
+                          {
+                            (this.state.bidding_options.self_buy_property === "true") ?
+                            null
+                            :
+                           <>
+                           <div className="col-md-10 relator_info">
+                             <h5>Relator Information</h5>
+                             <p className="mb-2">There will be no fee or comission paid by AuctionMyDeal.com or any seller unless they are listed on the MLS and then you will recieve the comission offered on MLS by the sponsoring broker.</p>
+                           </div>
+                           <div className="font-blue-bold px-3">
+                             <p className="mb-0">{this.state.bidding_options.realtor_first_name}</p>
+                             <p className="mb-0">{this.state.bidding_options.realtor_last_name}</p>
+                             <p className="mb-0">{this.state.bidding_options.realtor_license}</p>
+                             <p className="mb-0">{this.state.bidding_options.realtor_company}</p>
+                             <p className="mb-0">{this.state.bidding_options.realtor_email}</p>
+                             <p className="mb-0">{this.state.bidding_options.realtor_phone_no}</p>
+                           </div>
+                           </>
+                          }
+
+                        </div>
+                        <div className="register_bid_title mb-2 col-md-8">
+                          <h4 className="mb-2">C. I want to purchase the property as: <span className="font-blue-bold">{this.state.bidding_options.purchase_property_as}</span></h4>
+                          <p className="font-blue-bold px-3">{this.state.bidding_options.business_document_text}</p>
+                        </div>
+                        <div className="register_bid_title mb-2 col-md-8">
+                          <h4>D. Proof of funds and/or Preapproval Letter:
+                          {
+                            this.state.buy_option.map((val, index)=> {
+                              return (
+                                <span className="font-blue-bold" key={index}>{val} &nbsp;</span>
+                              );
+                            })
+                          }
+                          </h4>
+                        </div>
+                        <div className="col-md-12 mt-4 text-center">
+                          <button class="btn red-btn" type="submit">Submit</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                </>
+              )
               }
             </div>
           </div>
