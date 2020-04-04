@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import CurrencyInput from 'react-currency-input';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
 import { faExclamationCircle, faBed, faBath, faCar, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -15,13 +17,22 @@ export default class PropertyOfferSubmit extends Component {
   constructor(props){
     super(props);
     this.state = {
-      step: 1,
+      step: 2,
       terms_agreed: false,
+      terms_agreed1: false,
+      terms_agreed2: false,
+      terms_agreed3: false,
+      terms_agreed4: false,
+      terms_agreed5: false,
+      terms_agreed6: false,
+      terms_agreed7: false,
+      terms_agreed8: false,
       offer_type: this.props.match.params.offer_type,
       unique_address: this.props.match.params.id,
       buy_option: [],
       property_buy_options: [],
       purchase_property_as_options: [],
+      hold_bid_days_options: [],
       business_documents: [],
       fund_proof: "",
       fund_proof_error: "",
@@ -67,6 +78,7 @@ export default class PropertyOfferSubmit extends Component {
       realtor_phone_no_error: "",
       business_document_text_error: "",
       business_documents_error: "",
+      property_closing_date_error: ""
     }
   };
   componentWillUnmount() {
@@ -132,9 +144,11 @@ export default class PropertyOfferSubmit extends Component {
             property_buy_options: result.buy_options,
             property: result.property,
             purchase_property_as_options: result.purchase_property_as_options,
+            hold_bid_days_options: result.hold_bid_days_options,
             bidding_options: {
               ...this.state.bidding_options,
               purchase_property_as: result.purchase_property_as_options[0],
+              hold_bid_days: result.hold_bid_days_options[0],
               highest_bid: result.property.highest_bid,
               current_offer: result.property.highest_bid ? (result.property.highest_bid + 1000) : 1000,
               buy_now_price: result.property.buy_now_price,
@@ -689,6 +703,257 @@ export default class PropertyOfferSubmit extends Component {
     }
   }
 
+  isTermsAgreed = () => {
+    if (this.state.terms_agreed1 && this.state.terms_agreed2 && this.state.terms_agreed3 && this.state.terms_agreed4 && this.state.terms_agreed5 && this.state.terms_agreed6 && this.state.terms_agreed7 && this.state.terms_agreed8){
+      return true;
+    }
+    else {
+       return false;
+    }
+  }
+
+  updatePropertyClosingDate = (date) => {
+    if (this._isMounted){
+      this.setState({
+        bidding_options: {
+        ...this.state.bidding_options,
+        property_closing_date: date
+        }
+      })
+    }
+  }
+
+  submitBiddingOffer = () => {
+    for (let i=0; i < this._timerArray.length; i++ ){
+      clearInterval(this._timerArray[i]);
+    }
+    this.setState({
+      isLoaded: false ,
+    });
+    const fd = new FormData();
+    fd.append('property[id]', this.state.property.id)
+    fd.append('bid[amount]', this.state.bidding_options.current_offer)
+    fd.append('bid[fund_proof]', this.state.fund_proof, this.state.fund_proof.name)
+    fd.append('bid[buy_option]', JSON.stringify(this.state.buy_option))
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/bids"
+    fetch(url,{
+      method: 'POST',
+      headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "*",
+        "Access-Control-Expose-Headers": "*",
+        "Access-Control-Max-Age": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*"
+      },
+      body: fd
+    })
+    .then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        if (result.status === 201){
+          this.setState({
+            chat_room: result.chat_room,
+            isLoaded: true,
+            open_bidding_modal: false,
+            fund_proof: "",
+            message: result.message,
+            variant: "success",
+            terms_agreed: false,
+            property: result.property,
+            bidding_options: {
+              ...this.state.bidding_options,
+              highest_bid: result.property.highest_bid,
+              current_offer: result.property.highest_bid ? (result.property.highest_bid + 1000) : 1000 ,
+              buy_now_price: result.property.buy_now_price,
+              best_offer_price: result.property.best_offer_price ? result.property.best_offer_price : 0 ,
+              best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
+            }
+          });
+
+        }
+        else if (result.status === 400 || result.status === 404) {
+          this.setState({
+            message: result.message,
+            variant: "danger",
+            terms_agreed: false,
+            open_bidding_modal: false,
+            isLoaded: true,
+          });
+        }
+        else if (result.status === 401) {
+          localStorage.removeItem("auction_user_token");
+          window.location.href = "/login"
+        }
+        else{
+        }
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
+      }
+    })
+    .catch(
+      (error) => {
+        if (this._isMounted){
+          this.setState({
+            // isLoaded: true,
+          });
+        }
+      }
+    )
+  }
+
+  submitBestOffer = () => {
+    this.setState({
+      isLoaded: false ,
+    });
+    const fd = new FormData();
+    fd.append('property[id]', this.state.property.id)
+    fd.append('best_offer[amount]', this.state.bidding_options.current_best_offer)
+    fd.append('best_offer[fund_proof]', this.state.fund_proof, this.state.fund_proof.name)
+    fd.append('best_offer[buy_option]', JSON.stringify(this.state.buy_option))
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/best_offers"
+    fetch(url,{
+      method: 'POST',
+      headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "*",
+        "Access-Control-Expose-Headers": "*",
+        "Access-Control-Max-Age": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*"
+      },
+      body: fd
+    })
+    .then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        if (result.status === 201){
+          this.setState({
+            chat_room: result.chat_room,
+            isLoaded: true,
+            open_best_offer_modal: false,
+            fund_proof: "",
+            message: result.message,
+            variant:"success",
+            terms_agreed: false,
+            property: result.property,
+            bidding_options: {
+              ...this.state.bidding_options,
+              highest_bid: result.property.highest_bid,
+              current_offer: result.property.highest_bid ? (result.property.highest_bid + 1000) : 1000 ,
+              buy_now_price: result.property.buy_now_price,
+              current_best_offer: result.property.best_offer_price ? (result.property.best_offer_price + 1000) : 1000 ,
+              best_offer_price: result.property.best_offer_price ? (result.property.best_offer_price ) : 0,
+              best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
+            }
+          });
+        }
+        else if (result.status === 400 || result.status === 404 ) {
+          this.setState({
+            message: result.message,
+            terms_agreed: false,
+            open_best_offer_modal: false,
+            isLoaded: true,
+            variant: "danger",
+          });
+        }
+        else if (result.status === 401) {
+          localStorage.removeItem("auction_user_token");
+          window.location.href = "/login"
+        }
+        else{
+        }
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
+      }
+    })
+    .catch(
+      (error) => {
+        if (this._isMounted){
+          this.setState({
+            // isLoaded: true,
+          });
+        }
+      }
+    )
+  }
+  submitBuyNowOffer = () => {
+    this.setState({
+      isLoaded: false ,
+    });
+    const fd = new FormData();
+    fd.append('property[id]', this.state.property.id)
+    fd.append("best_offer", this.state.best_offer )
+    fd.append('buy_now[amount]', this.state.best_offer === true ? this.state.bidding_options.best_offer_buy_now_price : this.state.bidding_options.buy_now_price)
+    fd.append('buy_now[fund_proof]', this.state.fund_proof, this.state.fund_proof.name)
+    fd.append('buy_now[buy_option]', JSON.stringify(this.state.buy_option))
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/buy_now_offers"
+    fetch(url,{
+      method: 'POST',
+      headers: {
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "*",
+        "Access-Control-Expose-Headers": "*",
+        "Access-Control-Max-Age": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*"
+      },
+      body: fd
+    })
+    .then(res => res.json())
+    .then((result) => {
+      if (this._isMounted){
+        if (result.status === 201){
+          this.setState({
+            chat_room: result.chat_room,
+            isLoaded: true,
+            open_buy_now_modal: false,
+            fund_proof: "",
+            message: result.message,
+            variant: "success",
+            terms_agreed: false,
+            property: result.property
+          });
+        }
+        else if (result.status === 400 || result.status === 404 ) {
+          this.setState({
+            message: result.message,
+            terms_agreed: false,
+            open_buy_now_modal: false,
+            isLoaded: true,
+            variant: "danger",
+          });
+        }
+        else if (result.status === 401) {
+          localStorage.removeItem("auction_user_token");
+          window.location.href = "/login"
+        }
+        else{
+        }
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
+      }
+    })
+    .catch(
+      (error) => {
+        if (this._isMounted){
+          this.setState({
+            // isLoaded: true,
+          });
+        }
+      }
+    )
+  }
+
   render(){
     const purchase_property_as_options = this.state.purchase_property_as_options.map((value, index) => {
       return(
@@ -699,6 +964,11 @@ export default class PropertyOfferSubmit extends Component {
       value: value,
       label: value
     }))
+    const hold_bid_days_options = this.state.hold_bid_days_options.map((value, index) => {
+      return(
+        <option key={index} value={value} >{value}</option>
+      )
+    })
     if (this.state.isLoaded === true && (Object.keys(this.state.property).length > 0)){
       return (
         <div className="profile-setting">
@@ -1011,15 +1281,17 @@ export default class PropertyOfferSubmit extends Component {
                           <div className="form-group row mx-0">
                             <label className="col-sm-5 col-form-label text-left">How soon can you close on this property&nbsp;&nbsp;:</label>
                             <div className="col-sm-3">
-                              <input type="text" className="form-control"/>
+                            <DatePicker className={"form-control " + this.addErrorClass(this.state.property_closing_date_error) }
+                              selected={this.state.bidding_options.property_closing_date ? new Date(this.state.bidding_options.property_closing_date) : new Date} minDate={new Date()}
+                              name="property_closing_date" onChange={this.updatePropertyClosingDate}
+                            />
                             </div>
                           </div>
                           <div className="form-group row mx-0 align-items-center">
                             <label className="col-sm-5 col-form-label text-left">If my bid is not initially accepted by the seller then please hold my bid as backup offer for&nbsp;&nbsp;:</label>
                             <div className="col-sm-3">
-                              <select className="form-control">
-                                <option>7 Days</option>
-                                <option>14 Days</option>
+                              <select className="form-control" name="hold_bid_days" onChange={this.updatePropertyOfferFields}>
+                                {hold_bid_days_options}
                               </select>
                             </div>
                           </div>
@@ -1050,39 +1322,44 @@ export default class PropertyOfferSubmit extends Component {
                           </div>
                           <p className="seller_request">Check the boxes to confirm the following:</p>
                           <div className="form-group form-check">
-                            <input type="checkbox" className="form-check-input" id="exampleCheck11" />
+                            <input type="checkbox" name="terms_agreed1" onChange={this.updateTermsAgreed} className="form-check-input" id="exampleCheck11" />
                             <label className="form-check-label" htmlFor="exampleCheck11">I understand and agree that the seller reserves the right to refuse any bid, highest or otherwise and final acceptance of a selected bid is expressly subject to the sellers signature on the purchase and sale agreement</label>
                           </div>
                           <div className="form-group form-check">
-                            <input type="checkbox" className="form-check-input" id="exampleCheck12" />
+                            <input type="checkbox" name="terms_agreed2" onChange={this.updateTermsAgreed} className="form-check-input" id="exampleCheck12" />
                             <label className="form-check-label" htmlFor="exampleCheck12">I agree to buy this property As-is, where is with all faults.</label>
                           </div>
                           <div className="form-group form-check">
-                            <input type="checkbox" className="form-check-input" id="exampleCheck13" />
+                            <input type="checkbox" name="terms_agreed3" onChange={this.updateTermsAgreed} className="form-check-input" id="exampleCheck13" />
                             <label className="form-check-label" htmlFor="exampleCheck13">I understand that the pictures, video ARV proof and rehab numbers are provided for informational purposes only and I have done my own due dilligence for this property i am bidding on.</label>
                           </div>
                           <div className="form-group form-check">
-                            <input type="checkbox" className="form-check-input" id="exampleCheck14" />
+                            <input type="checkbox" name="terms_agreed4" onChange={this.updateTermsAgreed} className="form-check-input" id="exampleCheck14" />
                             <label className="form-check-label" htmlFor="exampleCheck14">I agree to sign and return the purchase documents within 1 bussiness day of receipt or my offer could be rejected.</label>
                           </div>
                           <div className="form-group form-check">
-                            <input type="checkbox" className="form-check-input" id="exampleCheck15" />
+                            <input type="checkbox" name="terms_agreed5" onChange={this.updateTermsAgreed} className="form-check-input" id="exampleCheck15" />
                             <label className="form-check-label" htmlFor="exampleCheck15">I agree to deliver(whatever seller enters as required earnest money $) as nonrefundable earnest money to title company on Executed Contract if i am the winning bidder within the 48 bussiness hours or my winning bidder status can be cancelled.</label>
                           </div>
                           <div className="form-group form-check">
-                            <input type="checkbox" className="form-check-input" id="exampleCheck16" />
+                            <input type="checkbox" name="terms_agreed6" onChange={this.updateTermsAgreed} className="form-check-input" id="exampleCheck16" />
                             <label className="form-check-label" htmlFor="exampleCheck16">I agree to respond to AuctionMyDeal.com inquires within 1 bussiness day of receipt.</label>
                           </div>
                           <div className="form-group form-check">
-                            <input type="checkbox" className="form-check-input" id="exampleCheck17" />
+                            <input type="checkbox" name="terms_agreed7" onChange={this.updateTermsAgreed} className="form-check-input" id="exampleCheck17" />
                             <label className="form-check-label" htmlFor="exampleCheck17">I (Buyers) agrees to pay for all standaard buyer and seller closing cost including title policy. Seller will pay to remove all liens, taxes and HOA dues owed and prorated up until the day of closing.</label>
                           </div>
                           <div className="form-group form-check">
-                            <input type="checkbox" className="form-check-input" id="exampleCheck18" />
+                            <input type="checkbox" name="terms_agreed8" onChange={this.updateTermsAgreed} className="form-check-input" id="exampleCheck18" />
                             <label className="form-check-label" htmlFor="exampleCheck18">I am the prospective buyer or an authorized representative of the prospective buyer for this transaction. I represent that on my own behalf and behalf of any prospective buyer I represent. I have read and agree with the participation terms for making this offer, and agree to AuctionMyDeal.com Terms and Conditions , Privacy Policy and any special terms that may apply.</label>
                           </div>
                           <div className="col-md-12 text-center">
-                            <button className="btn red-btn" type="submit">Submit</button>
+                            {
+                              this.isTermsAgreed() ?
+                              <button className="btn red-btn" type="submit">Submit</button>
+                              :
+                              <button className="btn red-btn" type="submit" disabled>Submit</button>
+                            }
                           </div>
                         </div>
                       </div>
