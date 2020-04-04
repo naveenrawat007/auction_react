@@ -17,7 +17,7 @@ export default class PropertyOfferSubmit extends Component {
   constructor(props){
     super(props);
     this.state = {
-      step: 2,
+      step: 1,
       terms_agreed: false,
       terms_agreed1: false,
       terms_agreed2: false,
@@ -54,7 +54,7 @@ export default class PropertyOfferSubmit extends Component {
         internet_transaction_fee: 97,
         total_due: "",
         promo_code: "",
-        property_closing_date: "",
+        property_closing_date: new Date(),
         hold_bid_days: "",
         self_buy_property: "false",
 
@@ -156,6 +156,8 @@ export default class PropertyOfferSubmit extends Component {
               best_offer_price: result.property.best_offer_price,
               best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
             }
+          }, function () {
+            this.updateTotalDue();
           });
           // console.log(result.property);
         }else if (result.status === 401) {
@@ -554,6 +556,31 @@ export default class PropertyOfferSubmit extends Component {
     })
     return validate;
   }
+  stepTwoValidation = () => {
+    let property_closing_date_error = "";
+    if (this.state.bidding_options.property_closing_date === ""){
+      property_closing_date_error = "error"
+    }
+    this.setState({
+      property_closing_date_error
+    })
+    if (property_closing_date_error === ""){
+      return true
+    }else {
+      return false
+    }
+  }
+  submitOffer = () => {
+    if (this.stepTwoValidation()){
+      if (this.state.offer_type === "bid"){
+        this.submitBiddingOffer()
+      }else if (this.state.offer_type === "best_offer") {
+        this.submitBestOffer()
+      }else {
+        this.submitBuyNowOffer()
+      }
+    }
+  }
   checkNumeric = (e) => {
     var regex = new RegExp("^[0-9]+$");
     var str = String.fromCharCode(
@@ -574,6 +601,7 @@ export default class PropertyOfferSubmit extends Component {
         bidding_options: {
           ...this.state.bidding_options,
           current_offer: price,
+          total_due: (price + this.state.bidding_options.internet_transaction_fee)
         }
       })
     }else {
@@ -581,6 +609,7 @@ export default class PropertyOfferSubmit extends Component {
         bidding_options: {
           ...this.state.bidding_options,
           current_offer: this.state.bidding_options.highest_bid,
+          total_due: (this.state.bidding_options.highest_bid + this.state.bidding_options.internet_transaction_fee)
       },
     });
     }
@@ -594,6 +623,7 @@ export default class PropertyOfferSubmit extends Component {
         bidding_options: {
           ...this.state.bidding_options,
           current_best_offer: price,
+          total_due: (price + this.state.bidding_options.internet_transaction_fee)
         }
       })
     }else {
@@ -601,6 +631,7 @@ export default class PropertyOfferSubmit extends Component {
         bidding_options: {
           ...this.state.bidding_options,
           current_best_offer: this.state.bidding_options.best_offer_price,
+          total_due: (this.state.bidding_options.best_offer_price + this.state.bidding_options.internet_transaction_fee)
       },
     });
     }
@@ -614,6 +645,7 @@ export default class PropertyOfferSubmit extends Component {
         bidding_options:{
           ...this.state.bidding_options,
           current_offer: new_offer,
+          total_due: (new_offer + this.state.bidding_options.internet_transaction_fee)
         }
       });
     }
@@ -633,6 +665,7 @@ export default class PropertyOfferSubmit extends Component {
       bidding_options:{
         ...this.state.bidding_options,
         current_offer: new_offer,
+        total_due: (new_offer + this.state.bidding_options.internet_transaction_fee)
       }
     });
   }
@@ -645,6 +678,7 @@ export default class PropertyOfferSubmit extends Component {
         bidding_options:{
           ...this.state.bidding_options,
           current_best_offer: new_offer,
+          total_due: (new_offer + this.state.bidding_options.internet_transaction_fee)
         }
       });
     }
@@ -664,6 +698,7 @@ export default class PropertyOfferSubmit extends Component {
       bidding_options:{
         ...this.state.bidding_options,
         current_best_offer: new_offer,
+        total_due: (new_offer + this.state.bidding_options.internet_transaction_fee)
       }
     });
   }
@@ -691,15 +726,35 @@ export default class PropertyOfferSubmit extends Component {
     }
   }
 
-  renderTotalDue = () => {
+  updateTotalDue = () => {
     if (this.state.offer_type === "bid"){
-      return (window.format_currency(this.state.bidding_options.current_offer + this.state.bidding_options.internet_transaction_fee));
+      this.setState({
+        bidding_options: {
+          ...this.state.bidding_options,
+          total_due: (this.state.bidding_options.current_offer + this.state.bidding_options.internet_transaction_fee)
+        }
+      })
     }else if (this.state.offer_type === "best_offer") {
-      return (window.format_currency(this.state.bidding_options.current_best_offer + this.state.bidding_options.internet_transaction_fee));
+      this.setState({
+        bidding_options: {
+          ...this.state.bidding_options,
+          total_due: (this.state.bidding_options.current_best_offer + this.state.bidding_options.internet_transaction_fee)
+        }
+      })
     }else if (this.state.offer_type === "buy_now") {
-      return (window.format_currency(this.state.bidding_options.buy_now_price + this.state.bidding_options.internet_transaction_fee));
+      this.setState({
+        bidding_options: {
+          ...this.state.bidding_options,
+          total_due: (this.state.bidding_options.buy_now_price + this.state.bidding_options.internet_transaction_fee)
+        }
+      })
     }else if (this.state.offer_type === "best_buy_now") {
-      return (window.format_currency(this.state.bidding_options.best_offer_buy_now_price + this.state.bidding_options.internet_transaction_fee));
+      this.setState({
+        bidding_options: {
+          ...this.state.bidding_options,
+          total_due: (this.state.bidding_options.best_offer_buy_now_price + this.state.bidding_options.internet_transaction_fee)
+        }
+      })
     }
   }
 
@@ -735,6 +790,26 @@ export default class PropertyOfferSubmit extends Component {
     fd.append('bid[amount]', this.state.bidding_options.current_offer)
     fd.append('bid[fund_proof]', this.state.fund_proof, this.state.fund_proof.name)
     fd.append('bid[buy_option]', JSON.stringify(this.state.buy_option))
+    fd.append('bid[user_first_name]', this.state.bidding_options.user_first_name)
+    fd.append('bid[user_middle_name]', this.state.bidding_options.user_middle_name)
+    fd.append('bid[user_last_name]', this.state.bidding_options.user_last_name)
+    fd.append('bid[user_email]', this.state.bidding_options.user_email)
+    fd.append('bid[user_phone_no]', this.state.bidding_options.user_phone_no)
+    fd.append('bid[self_buy_property]', this.state.bidding_options.self_buy_property)
+    fd.append('bid[realtor_first_name]', this.state.bidding_options.realtor_first_name)
+    fd.append('bid[realtor_last_name]', this.state.bidding_options.realtor_last_name)
+    fd.append('bid[realtor_license]', this.state.bidding_options.realtor_license)
+    fd.append('bid[realtor_company]', this.state.bidding_options.realtor_company)
+    fd.append('bid[realtor_phone_no]', this.state.bidding_options.realtor_phone_no)
+    fd.append('bid[realtor_email]', this.state.bidding_options.realtor_email)
+    fd.append('bid[purchase_property_as]', this.state.bidding_options.purchase_property_as)
+    fd.append('bid[business_document_text]', this.state.bidding_options.business_document_text)
+    fd.append('bid[business_documents][]', this.state.business_documents)
+    fd.append('bid[promo_code]', this.state.bidding_options.promo_code)
+    fd.append('bid[property_closing_date]', this.state.bidding_options.property_closing_date)
+    fd.append('bid[hold_bid_days]', this.state.bidding_options.hold_bid_days)
+    fd.append('bid[internet_transaction_fee]', this.state.bidding_options.internet_transaction_fee)
+    fd.append('bid[total_due]', this.state.bidding_options.total_due)
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/bids"
     fetch(url,{
       method: 'POST',
@@ -814,6 +889,26 @@ export default class PropertyOfferSubmit extends Component {
     fd.append('best_offer[amount]', this.state.bidding_options.current_best_offer)
     fd.append('best_offer[fund_proof]', this.state.fund_proof, this.state.fund_proof.name)
     fd.append('best_offer[buy_option]', JSON.stringify(this.state.buy_option))
+    fd.append('best_offer[user_first_name]', this.state.bidding_options.user_first_name)
+    fd.append('best_offer[user_middle_name]', this.state.bidding_options.user_middle_name)
+    fd.append('best_offer[user_last_name]', this.state.bidding_options.user_last_name)
+    fd.append('best_offer[user_email]', this.state.bidding_options.user_email)
+    fd.append('best_offer[user_phone_no]', this.state.bidding_options.user_phone_no)
+    fd.append('best_offer[self_buy_property]', this.state.bidding_options.self_buy_property)
+    fd.append('best_offer[realtor_first_name]', this.state.bidding_options.realtor_first_name)
+    fd.append('best_offer[realtor_last_name]', this.state.bidding_options.realtor_last_name)
+    fd.append('best_offer[realtor_license]', this.state.bidding_options.realtor_license)
+    fd.append('best_offer[realtor_company]', this.state.bidding_options.realtor_company)
+    fd.append('best_offer[realtor_phone_no]', this.state.bidding_options.realtor_phone_no)
+    fd.append('best_offer[realtor_email]', this.state.bidding_options.realtor_email)
+    fd.append('best_offer[purchase_property_as]', this.state.bidding_options.purchase_property_as)
+    fd.append('best_offer[business_document_text]', this.state.bidding_options.business_document_text)
+    fd.append('best_offer[business_documents][]', this.state.business_documents)
+    fd.append('best_offer[promo_code]', this.state.bidding_options.promo_code)
+    fd.append('best_offer[property_closing_date]', this.state.bidding_options.property_closing_date)
+    fd.append('best_offer[hold_bid_days]', this.state.bidding_options.hold_bid_days)
+    fd.append('best_offer[internet_transaction_fee]', this.state.bidding_options.internet_transaction_fee)
+    fd.append('best_offer[total_due]', this.state.bidding_options.total_due)
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/best_offers"
     fetch(url,{
       method: 'POST',
@@ -893,6 +988,26 @@ export default class PropertyOfferSubmit extends Component {
     fd.append('buy_now[amount]', this.state.best_offer === true ? this.state.bidding_options.best_offer_buy_now_price : this.state.bidding_options.buy_now_price)
     fd.append('buy_now[fund_proof]', this.state.fund_proof, this.state.fund_proof.name)
     fd.append('buy_now[buy_option]', JSON.stringify(this.state.buy_option))
+    fd.append('buy_now[user_first_name]', this.state.bidding_options.user_first_name)
+    fd.append('buy_now[user_middle_name]', this.state.bidding_options.user_middle_name)
+    fd.append('buy_now[user_last_name]', this.state.bidding_options.user_last_name)
+    fd.append('buy_now[user_email]', this.state.bidding_options.user_email)
+    fd.append('buy_now[user_phone_no]', this.state.bidding_options.user_phone_no)
+    fd.append('buy_now[self_buy_property]', this.state.bidding_options.self_buy_property)
+    fd.append('buy_now[realtor_first_name]', this.state.bidding_options.realtor_first_name)
+    fd.append('buy_now[realtor_last_name]', this.state.bidding_options.realtor_last_name)
+    fd.append('buy_now[realtor_license]', this.state.bidding_options.realtor_license)
+    fd.append('buy_now[realtor_company]', this.state.bidding_options.realtor_company)
+    fd.append('buy_now[realtor_phone_no]', this.state.bidding_options.realtor_phone_no)
+    fd.append('buy_now[realtor_email]', this.state.bidding_options.realtor_email)
+    fd.append('buy_now[purchase_property_as]', this.state.bidding_options.purchase_property_as)
+    fd.append('buy_now[business_document_text]', this.state.bidding_options.business_document_text)
+    fd.append('buy_now[business_documents][]', this.state.business_documents)
+    fd.append('buy_now[promo_code]', this.state.bidding_options.promo_code)
+    fd.append('buy_now[property_closing_date]', this.state.bidding_options.property_closing_date)
+    fd.append('buy_now[hold_bid_days]', this.state.bidding_options.hold_bid_days)
+    fd.append('buy_now[internet_transaction_fee]', this.state.bidding_options.internet_transaction_fee)
+    fd.append('buy_now[total_due]', this.state.bidding_options.total_due)
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/buy_now_offers"
     fetch(url,{
       method: 'POST',
@@ -966,7 +1081,7 @@ export default class PropertyOfferSubmit extends Component {
     }))
     const hold_bid_days_options = this.state.hold_bid_days_options.map((value, index) => {
       return(
-        <option key={index} value={value} >{value}</option>
+        <option key={index} value={value} >{value} days</option>
       )
     })
     if (this.state.isLoaded === true && (Object.keys(this.state.property).length > 0)){
@@ -1264,7 +1379,7 @@ export default class PropertyOfferSubmit extends Component {
                           <div className="form-group row mx-0 align-items-center">
                             <label className="col-sm-3 col-form-label text-right">Total Due&nbsp;&nbsp;:</label>
                             <div className="col-sm-3 text-center font-weight-bold">
-                              <p className="values_input values_input_border">{this.renderTotalDue()}</p>
+                              <p className="values_input values_input_border">{window.format_currency(this.state.bidding_options.total_due)}</p>
                             </div>
                           </div>
                           <div className="form-group row mx-0">
@@ -1282,7 +1397,7 @@ export default class PropertyOfferSubmit extends Component {
                             <label className="col-sm-5 col-form-label text-left">How soon can you close on this property&nbsp;&nbsp;:</label>
                             <div className="col-sm-3">
                             <DatePicker className={"form-control " + this.addErrorClass(this.state.property_closing_date_error) }
-                              selected={this.state.bidding_options.property_closing_date ? new Date(this.state.bidding_options.property_closing_date) : new Date} minDate={new Date()}
+                              selected={this.state.bidding_options.property_closing_date} minDate={new Date()}
                               name="property_closing_date" onChange={this.updatePropertyClosingDate}
                             />
                             </div>
@@ -1356,7 +1471,7 @@ export default class PropertyOfferSubmit extends Component {
                           <div className="col-md-12 text-center">
                             {
                               this.isTermsAgreed() ?
-                              <button className="btn red-btn" type="submit">Submit</button>
+                              <button className="btn red-btn" type="submit" onClick={this.submitOffer}>Submit</button>
                               :
                               <button className="btn red-btn" type="submit" disabled>Submit</button>
                             }
@@ -1367,7 +1482,6 @@ export default class PropertyOfferSubmit extends Component {
                   </div>
                 </>
               }
-
             </div>
           </div>
         </div>
