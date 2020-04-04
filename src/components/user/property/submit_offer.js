@@ -21,6 +21,9 @@ export default class PropertyOfferSubmit extends Component {
       buy_option: [],
       property_buy_options: [],
       purchase_property_as_options: [],
+      business_documents: [],
+      fund_proof: "",
+      fund_proof_error: "",
       property: {},
       bidding_options: {
         user_first_name: "",
@@ -48,7 +51,20 @@ export default class PropertyOfferSubmit extends Component {
         buy_now_price: "",
         best_offer_price: "",
         best_offer_buy_now_price: "",
-      }
+      },
+      user_first_name_error: "",
+      user_last_name_error: "",
+      user_phone_number_error: "",
+      user_email_error: "",
+      user_middle_name_error: "",
+      realtor_first_name_error: "",
+      realtor_last_name_error: "",
+      realtor_email_error: "",
+      realtor_company_error: "",
+      realtor_license_error: "",
+      realtor_phone_no_error: "",
+      business_document_text_error: "",
+      business_documents_error: "",
     }
   };
   componentWillUnmount() {
@@ -63,6 +79,28 @@ export default class PropertyOfferSubmit extends Component {
     this.getProperty();
     window.scrollTo(0,0)
     // this.showCurrentSlide(1);
+  }
+
+  handleFundProofSelector = (event) => {
+    const name = event.target.name
+    event.target.nextElementSibling.innerHTML = event.target.files[0].name
+    const value = event.target.files[0]
+    if (this._isMounted){
+      this.setState({
+        [name]: value
+      });
+      this.setState({
+        fund_proof_error: "",
+      });
+    }
+  }
+  multipleFileSelector = (event) => {
+    const name = event.target.name
+    const value = event.target.files
+    this.setState({
+      [name]: value,
+    }, function () {
+    });
   }
 
   getProperty = () => {
@@ -390,7 +428,7 @@ export default class PropertyOfferSubmit extends Component {
     if (msg === ""){
       return ""
     }else {
-      return "error-class"
+      return " error-class"
     }
   }
 
@@ -466,31 +504,31 @@ export default class PropertyOfferSubmit extends Component {
                       <div className="form-group row mx-0">
                         <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">First Name&nbsp;&nbsp;:</label>
                         <div className="col-sm-6">
-                          <input type="text" className="form-control" name="user_first_name" onChange={this.updatePropertyOfferFields}/>
+                          <input type="text" className={"form-control"+ this.addErrorClass(this.state.user_first_name_error)} name="user_first_name" onChange={this.updatePropertyOfferFields} />
                         </div>
                       </div>
                       <div className="form-group row mx-0">
                         <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Middle Name&nbsp;&nbsp;:</label>
                         <div className="col-sm-6">
-                          <input type="text" className="form-control" name="user_middle_name" onChange={this.updatePropertyOfferFields}/>
+                          <input type="text" className={"form-control"+this.addErrorClass(this.state.user_middle_name_error)} name="user_middle_name" onChange={this.updatePropertyOfferFields}/>
                         </div>
                       </div>
                       <div className="form-group row mx-0">
                         <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">Last Name&nbsp;&nbsp;:</label>
                         <div className="col-sm-6">
-                          <input type="text" className="form-control" name="user_last_name" onChange={this.updatePropertyOfferFields}/>
+                          <input type="text" className={"form-control"+this.addErrorClass(this.state.user_last_name_error)} name="user_last_name" onChange={this.updatePropertyOfferFields}/>
                         </div>
                       </div>
                       <div className="form-group row mx-0">
                         <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Email Address&nbsp;&nbsp;:</label>
                         <div className="col-sm-6">
-                          <input type="text" className="form-control" name="user_email" onChange={this.updatePropertyOfferFields}/>
+                          <input type="text" className={"form-control"+this.addErrorClass(this.state.user_email_error)} name="user_email" onChange={this.updatePropertyOfferFields}/>
                         </div>
                       </div>
                       <div className="form-group row mx-0">
                         <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Mobile No.&nbsp;&nbsp;:</label>
                         <div className="col-sm-6">
-                          <input type="text" className="form-control" name="user_phone_no" onChange={this.updatePropertyOfferFields}/>
+                          <input type="text" className={"form-control"+this.addErrorClass(this.state.user_phone_number_error)} name="user_phone_no" onChange={this.updatePropertyOfferFields}/>
                         </div>
                       </div>
                       <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
@@ -516,37 +554,37 @@ export default class PropertyOfferSubmit extends Component {
                           <div className="form-group row mx-0">
                             <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">First Name&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className="form-control" name="realtor_first_name"/>
+                              <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_first_name_error)} name="realtor_first_name"/>
                             </div>
                           </div>
                           <div className="form-group row mx-0">
                             <label htmlFor="staticEmail" className="col-sm-2 col-form-label text-right">Last Name&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className="form-control" name="realtor_last_name"/>
+                              <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_last_name_error)} name="realtor_last_name"/>
                             </div>
                           </div>
                           <div className="form-group row mx-0">
                             <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">License&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className="form-control" name="realtor_license"/>
+                              <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_license_error)} name="realtor_license"/>
                             </div>
                           </div>
                           <div className="form-group row mx-0">
                             <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Company Name&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className="form-control" name="realtor_company"/>
+                              <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_company_error)} name="realtor_company"/>
                             </div>
                           </div>
                           <div className="form-group row mx-0">
                             <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Mobile No.&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className="form-control" name="realtor_phone_no"/>
+                              <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_phone_no_error)} name="realtor_phone_no"/>
                             </div>
                           </div>
                           <div className="form-group row mx-0">
                             <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Email Address&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className="form-control" name="realtor_email"/>
+                              <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_email_error)} name="realtor_email"/>
                             </div>
                           </div>
 
@@ -567,15 +605,15 @@ export default class PropertyOfferSubmit extends Component {
                           <div className="form-group">
                             <label htmlFor="inputPassword" className="col-sm-6 col-form-label">Please provide Bussiness Entity Formation Documents here</label>
                             <div className="col-sm-6">
-                              <input type="text" className="form-control"/>
+                              <input type="text" name="business_document_text" className={"form-control"+this.addErrorClass(this.state.business_document_text_error)} />
                             </div>
                           </div>
                           <div className="form-group row mx-0">
                             <label htmlFor="inputPassword" className="col-sm-5 col-form-label">Upload Bussiness Entity Formation Documents</label>
                             <div className="col-sm-3">
                               <div className="custom-file accept-file">
-                                <input type="file" className="custom-file-input" name="fund_proof" onChange={this.handleFundProofSelector} id="customFile"/>
-                                <label className={"custom-file-label " + this.addErrorClass(this.state.fund_proof_error)} htmlFor="customFile">Choose files</label>
+                                <input type="file" multiple="true" className="custom-file-input" name="business_documents" onChange={this.multipleFileSelector} id="customFile"/>
+                                <label className={"custom-file-label " + this.addErrorClass(this.state.business_documents_error)} htmlFor="customFile">Choose files</label>
                               </div>
                             </div>
                           </div>
@@ -602,7 +640,7 @@ export default class PropertyOfferSubmit extends Component {
                         <div className="col-sm-4">
                         <div className="custom-file accept-file">
                           <input type="file" className="custom-file-input" name="fund_proof" onChange={this.handleFundProofSelector} id="customFile"/>
-                          <label className={"custom-file-label " + this.addErrorClass(this.state.fund_proof_error)} htmlFor="customFile">Choose files</label>
+                          <label className={"custom-file-label " + this.addErrorClass(this.state.fund_proof_error)} htmlFor="customFile">Choose file</label>
                         </div>
                         </div>
                       </div>
