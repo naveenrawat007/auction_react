@@ -33,6 +33,7 @@ import PropertyShowOne from './components/user/property/property_one.js';
 import PropertyShowTwo from './components/user/property/property_two.js';
 import PropertyOfferSubmit from './components/user/property/submit_offer.js';
 import PropertyShowThree from './components/user/property/property_three.js';
+import OfferDetail from './components/user/property/offer_detail.js';
 let componentDidMount_super = CurrencyInput.prototype.componentDidMount;
 CurrencyInput.prototype.componentDidMount = function() {
   this.theInput.setSelectionRange_super = this.theInput.setSelectionRange;
@@ -93,6 +94,7 @@ function App() {
 
           <Route exact path="/property/:id" component={PropertyShow}/>
           <Route exact path="/property/:id/submit/:offer_type" component={PropertyOfferSubmit}/>
+          <Route exact path="/property/:id/offer/:offer_type/:offer_id" component={OfferDetail}/>
           <Route exact path="/admin" component={() => <AdminSidebar path='all_users_list'/>}/>
           <Route exact path="/admin/chat" component={() => <AdminSidebar path='admin_chat'/>}/>
           <Route exact path="/admin/free_user" component={() => <AdminSidebar path='free_users_list'/>}/>
