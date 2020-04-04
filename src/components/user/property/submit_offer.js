@@ -7,6 +7,7 @@ import CurrencyInput from 'react-currency-input';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
 import { faExclamationCircle, faBed, faBath, faCar } from '@fortawesome/free-solid-svg-icons';
+import MultiSelect from "@khanacademy/react-multi-select";
 
 export default class PropertyOfferSubmit extends Component {
   _isMounted = false
@@ -14,10 +15,12 @@ export default class PropertyOfferSubmit extends Component {
   constructor(props){
     super(props);
     this.state = {
+      terms_agreed: false,
       offer_type: this.props.match.params.offer_type,
       unique_address: this.props.match.params.id,
       buy_option: [],
       property_buy_options: [],
+      purchase_property_as_options: [],
       property: {},
       bidding_options: {
         user_first_name: "",
@@ -31,7 +34,7 @@ export default class PropertyOfferSubmit extends Component {
         realtor_company: "",
         realtor_phone_no: "",
         realtor_email: "",
-        purchase_property_as: "",
+        purchase_property_as: "Business",
         internet_transaction_fee: "",
         total_due: "",
         promo_code: "",
@@ -88,6 +91,7 @@ export default class PropertyOfferSubmit extends Component {
             isLoaded: true,
             property_buy_options: result.buy_options,
             property: result.property,
+            purchase_property_as_options: result.purchase_property_as_options,
             bidding_options: {
               ...this.state.bidding_options,
               highest_bid: result.property.highest_bid,
@@ -345,22 +349,57 @@ export default class PropertyOfferSubmit extends Component {
     }
   }
 
+  handleBuyOption = (event) => {
+    const{ name, checked } = event.target;
+    let buy_option = this.state.buy_option
+    if (checked === true){
+      buy_option.push(name)
+    }else {
+      let index = buy_option.indexOf(name);
+      if (index > -1) {
+        buy_option.splice(index, 1);
+      }
+    }
+    this.setState({
+      buy_option: buy_option,
+    });
+  }
+  updateTermsAgreed = (event) => {
+    const{ name, checked } = event.target;
+    this.setState({
+      [name]: checked
+    });
+  }
+
   updatePropertyOfferFields = (event) => {
     const{ name, value } = event.target;
     if (this._isMounted){
       this.setState({
-        property: {
-          ...this.state.property,
-          bidding_options:{
-            ...this.state.property.bidding_options,
-            [name]: value
-          }
+        bidding_options:{
+          ...this.state.property.bidding_options,
+          [name]: value
         }
       })
     }
   }
+  addErrorClass = (msg) => {
+    if (msg === ""){
+      return ""
+    }else {
+      return "error-class"
+    }
+  }
 
   render(){
+    const purchase_property_as_options = this.state.purchase_property_as_options.map((value, index) => {
+      return(
+        <option key={index} value={value} >{value}</option>
+      )
+    })
+    const buy_options = this.state.property_buy_options.map((value, index) => ({
+      value: value,
+      label: value
+    }))
     if (this.state.isLoaded === true && (Object.keys(this.state.property).length > 0)){
       return (
         <div className="profile-setting">
@@ -458,7 +497,7 @@ export default class PropertyOfferSubmit extends Component {
                         </select>
                       </div>
                       {
-                        this.state.bidding_options.self_buy_property === "true"
+                        (this.state.bidding_options.self_buy_property === "true")
                         ?
                         <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-between">
                           <FontAwesomeIcon icon={faExclamationCircle}/>
@@ -513,39 +552,54 @@ export default class PropertyOfferSubmit extends Component {
 
                       <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
                         <h4>C. I want to purchase the property as:</h4>
-                        <select className="form-control" defaultValue="Business" name="purchase_property_as">
-                          <option>Bussiness</option>
-                          <option>Individual</option>
+                        <select className="form-control" defaultValue="Business" name="purchase_property_as" onChange={this.updatePropertyOfferFields}>
+                          {purchase_property_as_options}
                         </select>
                       </div>
-                      <div className="form-group">
-                        <label htmlFor="inputPassword" className="col-sm-6 col-form-label">Please provide Bussiness Entity Formation Documents here</label>
-                        <div className="col-sm-6">
-                          <input type="text" className="form-control"/>
-                        </div>
-                      </div>
-                      <div className="form-group row mx-0">
-                        <label htmlFor="inputPassword" className="col-sm-5 col-form-label">Upload Bussiness Entity Formation Documents</label>
-                        <div className="col-sm-3">
-                          <input type="text" className="form-control"/>
-                        </div>
-                      </div>
+                      {
+                        (this.state.bidding_options.purchase_property_as === "Business")
+                        ?
+                        <>
+                          <div className="form-group">
+                            <label htmlFor="inputPassword" className="col-sm-6 col-form-label">Please provide Bussiness Entity Formation Documents here</label>
+                            <div className="col-sm-6">
+                              <input type="text" className="form-control"/>
+                            </div>
+                          </div>
+                          <div className="form-group row mx-0">
+                            <label htmlFor="inputPassword" className="col-sm-5 col-form-label">Upload Bussiness Entity Formation Documents</label>
+                            <div className="col-sm-3">
+                              <div className="custom-file accept-file">
+                                <input type="file" className="custom-file-input" name="fund_proof" onChange={this.handleFundProofSelector} id="customFile"/>
+                                <label className={"custom-file-label " + this.addErrorClass(this.state.fund_proof_error)} htmlFor="customFile">Choose files</label>
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                        :
+                        null
+                      }
                       <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
                         <h4>D. Proof of funds and/or Preapproval Letter:</h4>
                       </div>
                       <div className="form-group row mx-0">
                         <label htmlFor="inputPassword" className="col-sm-4 col-form-label">I plan on buying this property with</label>
                         <div className="col-sm-4">
-                          <select className="form-control">
-                            <option>Cash</option>
-                            <option>No</option>
-                          </select>
+                        <MultiSelect
+                          options={buy_options}
+                          selectSomeItmes = "select"
+                          selected={this.state.buy_option}
+                          onSelectedChanged={selected => {this.setState({buy_option: selected})}}
+                        />
                         </div>
                       </div>
                       <div className="form-group row mx-0">
                         <label htmlFor="inputPassword" className="col-sm-4 col-form-label">Attach proof of funds</label>
                         <div className="col-sm-4">
-                          <input type="text" className="form-control"/>
+                        <div className="custom-file accept-file">
+                          <input type="file" className="custom-file-input" name="fund_proof" onChange={this.handleFundProofSelector} id="customFile"/>
+                          <label className={"custom-file-label " + this.addErrorClass(this.state.fund_proof_error)} htmlFor="customFile">Choose files</label>
+                        </div>
                         </div>
                       </div>
                       <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-between">
@@ -553,11 +607,16 @@ export default class PropertyOfferSubmit extends Component {
                         <p>The seller will require that any bids submitted must have proof of funds and/or preapproval letter before they will consider your offer. For cash purchases, please attch a recent bank statement, investment account statement, line of credit letter from your banker or letter from your private lender with their proof of funds. Financed purchases must attach a copy of your preapproval letter from your lender. A good phone number is highly recommended to be on any letters from lenders or the seller may disregard your bid and pursue another offer that is verifiable.</p>
                       </div>
                       <div className="form-group form-check">
-                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
+                        <input className="form-check-input" name="terms_agreed" type="checkbox" id="exampleCheck1" onChange={this.updateTermsAgreed}/>
                         <label className="form-check-label" htmlFor="exampleCheck1">I hereby acknowledge that the contact information is true and correct. I understand the information i've provided will be used to prepare the transaction document for the purchase of the property if my bid is accepted by the seller to proceed toward closing of this property.</label>
                       </div>
                       <div className="col-md-12 text-center">
-                        <button className="btn red-btn" type="submit">Submit</button>
+                        {
+                          this.state.terms_agreed === true ?
+                            <button type="button" className="btn red-btn" onClick={this.submitBiddingHandler}>Submit</button>
+                          :
+                          <button className="btn red-btn" type="button" disabled>Submit</button>
+                        }
                       </div>
                     </form>
                   </div>
