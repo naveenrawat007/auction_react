@@ -28,6 +28,7 @@ const initial_state = {
   created: false,
   verified: false,
   sign_up_modal: false,
+  video_modal: false,
   properties: [],
   user: {
     first_name: "",
@@ -66,9 +67,15 @@ export default class Home extends Component {
   };
   hideSignUpModal = () => {
     this.setState({
-      sign_up_modal: false
+      sign_up_modal: false,
+      video_modal: false,
     });
   };
+  openVideoModal = () => {
+    this.setState({
+      video_modal: true
+    })
+  }
   updateUser = event => {
     const { name, value } = event.target;
     this.setState(
@@ -564,13 +571,13 @@ export default class Home extends Component {
             <div className="col-md-10">
               <h2>FREE Real Estate Investor Auction</h2>
               <h2>Platform to Post Your Deals...</h2>
-              <a href="#">
+              <Link to="#" onClick={this.openVideoModal}>
                 <img
                   className="d-block img-thumbnail"
                   src="/images/fhome.jpg"
                   alt="First slide"
                 />
-              </a>
+              </Link>
             </div>
           </div>
           <Carousel className="home_carousel" interval={10000}>
@@ -1117,6 +1124,25 @@ export default class Home extends Component {
                 </div>
               </div>
             )}
+          </div>
+        </Modal>
+        <Modal
+          className="status_modal register_modal"
+          show={this.state.video_modal}
+          onHide={this.hideSignUpModal}
+          centered
+        >
+          <Modal.Header closeButton>
+            <div className=" offset-md-1 col-md-10 text-center">
+              <h5 className="mb-0 text-uppercase">Video</h5>
+            </div>
+          </Modal.Header>
+          <div className="modal-body px-0">
+            <div className="row mx-0">
+              <div className="col-md-12 ">
+              body
+              </div>
+            </div>
           </div>
         </Modal>
       </div>
