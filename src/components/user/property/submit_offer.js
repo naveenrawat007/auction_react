@@ -37,6 +37,7 @@ export default class PropertyOfferSubmit extends Component {
         realtor_company: "",
         realtor_phone_no: "",
         realtor_email: "",
+        business_document_text: "",
         purchase_property_as: "Business",
         internet_transaction_fee: "",
         total_due: "",
@@ -432,6 +433,131 @@ export default class PropertyOfferSubmit extends Component {
     }
   }
 
+  stepOneValidation = () => {
+    let validate = true;
+    let user_first_name_error = "";
+    let user_last_name_error = "";
+    let user_email_error = "";
+    let user_phone_number_error = "";
+    let realtor_first_name_error = "";
+    let realtor_last_name_error = "";
+    let realtor_email_error = "";
+    let realtor_license_error = "";
+    let realtor_company_error = "";
+    let realtor_phone_no_error = "";
+    let business_document_text_error = "";
+    let business_documents_error = "";
+    let fund_proof_error = "";
+
+    if (this.state.bidding_options.user_first_name === ""){
+      validate = false
+      user_first_name_error= "error"
+    }
+    if (this.state.bidding_options.user_last_name === ""){
+      user_last_name_error= "error"
+      validate = false
+    }
+    if ((this.state.bidding_options.user_email === "") || (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.bidding_options.user_email)))){
+      user_email_error= "error"
+      validate = false
+    }
+    if (this.state.bidding_options.user_phone_no === ""){
+      user_phone_number_error= "error"
+      validate = false
+    }else if (isNaN(this.state.bidding_options.user_phone_no)) {
+      user_phone_number_error = "Phone should be Numeric!"
+      validate = false
+    }else if (this.state.bidding_options.user_phone_no < 10){
+      user_phone_number_error = "Phone number length is small!"
+      validate = false
+    }else if (this.state.bidding_options.user_phone_no > 10) {
+      user_phone_number_error = "Phone number length is too large!"
+      validate = false
+    }
+    if (this.state.fund_proof === ""){
+      user_phone_number_error= "error"
+      validate = false
+    }
+    if (this.state.bidding_options.self_buy_property === "false"){
+      if (this.state.bidding_options.realtor_first_name === ""){
+        realtor_first_name_error= "error"
+        validate = false
+      }
+      if (this.state.bidding_options.realtor_last_name === ""){
+        realtor_last_name_error= "error"
+        validate = false
+      }
+      if ((this.state.bidding_options.realtor_email === "") || (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.bidding_options.realtor_email)))){
+        realtor_email_error= "error"
+        validate = false
+      }
+      if (this.state.bidding_options.realtor_license === ""){
+        realtor_license_error= "error"
+        validate = false
+      }
+      if (this.state.bidding_options.realtor_company === ""){
+        realtor_company_error= "error"
+        validate = false
+      }
+      if (this.state.bidding_options.realtor_phone_no === ""){
+        realtor_phone_no_error= "error"
+        validate = false
+      }else if (isNaN(this.state.bidding_options.realtor_phone_no)) {
+        realtor_phone_no_error = "Phone should be Numeric!"
+        validate = false
+      }else if (this.state.bidding_options.realtor_phone_no < 10){
+        realtor_phone_no_error = "Phone number length is small!"
+        validate = false
+      }else if (this.state.bidding_options.realtor_phone_no > 10) {
+        realtor_phone_no_error = "Phone number length is too large!"
+        validate = false
+      }
+      if (this.state.business_documents.length === 0){
+        business_documents_error = "error"
+        validate = false
+      }
+      if (this.state.bidding_options.business_document_text === ""){
+        business_document_text_error = "error"
+        validate = false
+      }
+    }
+    this.setState({
+      user_first_name_error,
+      user_last_name_error,
+      user_email_error,
+      user_phone_number_error,
+      realtor_first_name_error,
+      realtor_last_name_error,
+      realtor_email_error,
+      realtor_license_error,
+      realtor_company_error,
+      realtor_company_error,
+      realtor_phone_no_error,
+      business_documents_error,
+      business_document_text_error,
+      fund_proof_error,
+    })
+    return validate;
+  }
+  checkNumeric = (e) => {
+    var regex = new RegExp("^[0-9]+$");
+    var str = String.fromCharCode(
+      !e.charCode
+      ? e.which
+      : e.charCode);
+    if (!regex.test(str)) {
+      e.preventDefault();
+      return false;
+    }
+  }
+
+  goToStepTwo = (event) => {
+    event.preventDefault();
+    if (this.stepOneValidation()){
+
+    }
+  }
+
   render(){
     const purchase_property_as_options = this.state.purchase_property_as_options.map((value, index) => {
       return(
@@ -528,14 +654,14 @@ export default class PropertyOfferSubmit extends Component {
                       <div className="form-group row mx-0">
                         <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Mobile No.&nbsp;&nbsp;:</label>
                         <div className="col-sm-6">
-                          <input type="text" className={"form-control"+this.addErrorClass(this.state.user_phone_number_error)} name="user_phone_no" onChange={this.updatePropertyOfferFields}/>
+                          <input type="text" className={"form-control"+this.addErrorClass(this.state.user_phone_number_error)} name="user_phone_no" onChange={this.updatePropertyOfferFields} onKeyPress={this.checkNumeric} maxLength={10}/>
                         </div>
                       </div>
                       <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
                         <h4>B. Are you buying this property for yourself?</h4>
-                        <select className="form-control" name="self_buy_property" defaultValue="false" onChange={this.updatePropertyOfferFields}>
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                        <select className="form-control" name="self_buy_property" defaultValue={false} onChange={this.updatePropertyOfferFields}>
+                          <option value={true}>Yes</option>
+                          <option value={false}>No</option>
                         </select>
                       </div>
                       {
@@ -578,7 +704,7 @@ export default class PropertyOfferSubmit extends Component {
                           <div className="form-group row mx-0">
                             <label htmlFor="inputPassword" className="col-sm-2 col-form-label text-right">Mobile No.&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_phone_no_error)} name="realtor_phone_no"/>
+                              <input type="text" className={"form-control"+ this.addErrorClass(this.state.realtor_phone_no_error)} name="realtor_phone_no" onKeyPress={this.checkNumeric} maxLength={10}/>
                             </div>
                           </div>
                           <div className="form-group row mx-0">
@@ -612,7 +738,7 @@ export default class PropertyOfferSubmit extends Component {
                             <label htmlFor="inputPassword" className="col-sm-5 col-form-label">Upload Bussiness Entity Formation Documents</label>
                             <div className="col-sm-3">
                               <div className="custom-file accept-file">
-                                <input type="file" multiple="true" className="custom-file-input" name="business_documents" onChange={this.multipleFileSelector} id="customFile"/>
+                                <input type="file" multiple={true} className="custom-file-input" name="business_documents" onChange={this.multipleFileSelector} id="customFile"/>
                                 <label className={"custom-file-label " + this.addErrorClass(this.state.business_documents_error)} htmlFor="customFile">Choose files</label>
                               </div>
                             </div>
@@ -655,7 +781,7 @@ export default class PropertyOfferSubmit extends Component {
                       <div className="col-md-12 text-center">
                         {
                           this.state.terms_agreed === true ?
-                            <button type="button" className="btn red-btn" onClick={this.submitBiddingHandler}>Submit</button>
+                            <button type="button" className="btn red-btn" onClick={this.goToStepTwo}>Submit</button>
                           :
                           <button className="btn red-btn" type="button" disabled>Submit</button>
                         }
