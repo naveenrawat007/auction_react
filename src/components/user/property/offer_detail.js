@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import CurrencyInput from 'react-currency-input';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
-import { faExclamationCircle, faBed, faBath, faCar, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationCircle, faBed, faBath, faCar, faMinus, faPlus, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 
 export default class OfferDetail extends Component {
   _isMounted = false
@@ -422,8 +422,23 @@ export default class OfferDetail extends Component {
                               }
                         </div>
                         <div className="register_bid_title mb-2 col-md-8">
-                          <h4 className="mb-2">C. I want to purchase the property as: <span className="font-blue-bold">Bussiness</span></h4>
-                          <p className="font-blue-bold px-3">Angle Investor LLC</p>
+                          <h4 className="mb-2">C. I want to purchase the property as: <span className="font-blue-bold">{this.state.offer.offer_detail ? this.state.offer.offer_detail.purchase_property_as : ""}</span></h4>
+                          <p className="font-blue-bold px-3">{this.state.offer.offer_detail ? this.state.offer.offer_detail.business_document_text : ""}</p>
+                          {
+                            this.state.offer.offer_detail ?
+                              this.state.offer.offer_detail.business_documents.map((val, index)=> {
+                                return (
+                                  <a href={val} rel="noopener noreferrer" className= "mx-2 pdf_type" key={index}>
+                                    <FontAwesomeIcon icon={faFilePdf} color="red" size="lg"/> &nbsp;
+                                    <span> Download </span>
+                                  </a>
+                                );
+                              })
+                            :
+                              null
+                            }
+
+
                         </div>
                         <div className="register_bid_title mb-2 col-md-8">
                           <h4>D. Proof of funds and/or Preapproval Letter:
@@ -431,13 +446,17 @@ export default class OfferDetail extends Component {
                             this.state.offer.buy_option ?
                               this.state.offer.buy_option.map((val, index)=> {
                                 return (
-                                  <span className="font-blue-bold" key={index}>{val} &nbsp;</span>
+                                  <span className="font-blue-bold" key={index}>{index+1} {val}. &nbsp;</span>
                                 );
                               })
                             :
                               null
                             }
                           </h4>
+                          <a href={this.state.offer.fund_proof} rel="noopener noreferrer" className= "mx-2 pdf_type" >
+                            <FontAwesomeIcon icon={faFilePdf} color="red" size="lg"/> &nbsp;
+                            <span> Download </span>
+                          </a>
                         </div>
                         <div className="col-md-12 mt-4 text-center">
                           <button className="btn red-btn" type="button" onClick={this.showProperty}>Close</button>
