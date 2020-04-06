@@ -628,6 +628,13 @@ export default class Home extends Component {
       return <span className="error-class"> {msg} </span>;
     }
   };
+  addErrorClass = (msg) => {
+    if (msg === ""){
+      return ""
+    }else {
+      return " error-class"
+    }
+  }
   getPropertiesList = () => {
     this.setState({
       isLoaded: false,
@@ -1353,16 +1360,13 @@ export default class Home extends Component {
                   <h4 className="text-center font-red mb-3">Get Your FREE Marketing Guide</h4>
                   <div class="row">
                     <div class="col">
-                      <input type="text" class="form-control" placeholder="Name" name="name" autoComplete="off" onChange={this.updateSubscriber}/>
-                      {this.addErrorMessage(this.state.subscriber_name_error)}
+                      <input type="text" class={"form-control" + this.addErrorClass(this.state.subscriber_name_error)} placeholder="Name" name="name" autoComplete="off" onChange={this.updateSubscriber}/>
                     </div>
                     <div class="col">
-                      <input type="text" class="form-control" placeholder="Cell Number" name="phone_no" maxLength="10" autoComplete="off" onKeyPress={this.checkNumeric} onChange={this.updateSubscriber} />
-                      {this.addErrorMessage(this.state.subscriber_phone_number_error)}
+                      <input type="text" class={"form-control" + this.addErrorClass(this.state.subscriber_phone_number_error)} placeholder="Cell Number" name="phone_no" maxLength="10" autoComplete="off" onKeyPress={this.checkNumeric} onChange={this.updateSubscriber} />
                     </div>
                     <div class="col">
-                      <input type="text" class="form-control" placeholder="Email" name="email" autoComplete="off" onChange={this.updateSubscriber}/>
-                      {this.addErrorMessage(this.state.subscriber_email_error)}
+                      <input type="text" class={"form-control" + this.addErrorClass(this.state.subscriber_email_error)} placeholder="Email" name="email" autoComplete="off" onChange={this.updateSubscriber}/>
                     </div>
                   </div>
                   <a href="#" className="download_button">
