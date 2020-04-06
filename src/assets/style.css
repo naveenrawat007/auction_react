@@ -2130,7 +2130,7 @@ input.form-control:focus {
 }
 
 .video_col {
-  height: calc(100vh - 75px);
+  height: calc(100vh - 0px);
   position: relative;
   overflow: hidden;
 }
@@ -5620,6 +5620,18 @@ a.chat_attachment {
   margin: 80px auto;
   width: 540px;
 }
+@media screen and (max-width: 1440px){
+  .static_text{
+    top: -5%;
+  }
+  .static_text h2{
+    font-size: 2.8rem;
+  }
+  .static_text img{
+    margin: 30px auto;
+    width: 450px;
+  }
+}
 .history_details, .payment_details, .plan_details{
   border: 1px solid #ccc;
 }
@@ -5681,4 +5693,7 @@ a.chat_attachment {
 }
 .download_button img{
   width: 200px;
+}
+.video_home_modal #videobcg{
+  margin-top: 0px;
 }
