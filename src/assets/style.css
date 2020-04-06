@@ -2130,7 +2130,7 @@ input.form-control:focus {
 }
 
 .video_col {
-  height: calc(100vh - 75px);
+  height: calc(100vh - 0px);
   position: relative;
   overflow: hidden;
 }
