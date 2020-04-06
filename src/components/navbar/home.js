@@ -39,13 +39,21 @@ const initial_state = {
     confirm_password: "",
     verification_code: ""
   },
+  subscriber: {
+    name: "",
+    phone_number: "",
+    email: ""
+  },
   user_first_name_error: "",
   user_last_name_error: "",
   user_phone_number_error: "",
   user_email_error: "",
   user_password_error: "",
   user_confirm_password_error: "",
-  user_verification_error: ""
+  user_verification_error: "",
+  subscriber_name_error: "",
+  subscriber_phone_number_error: "",
+  subscriber_email_error: ""
 };
 export default class Home extends Component {
   _isMounted = false;
@@ -253,6 +261,203 @@ export default class Home extends Component {
         }
       );
   };
+
+  updateSubscriber = event => {
+    const { name, value } = event.target;
+    this.setState(
+      {
+        subscriber: {
+          ...this.state.subscriber,
+          [name]: value
+        }
+      },
+      function() {
+        this.subscriberFormValidation(name);
+      }
+    );
+  };
+
+  subscriberFormValidation = name => {
+    let subscriber_name_error = "";
+    let subscriber_phone_number_error = "";
+    let subscriber_email_error = "";
+    if (name === "name") {
+      if (this.state.subscriber.name === "") {
+        subscriber_name_error = "Name can't be blank!";
+      }
+      this.setState({
+        subscriber_name_error
+      });
+    } else if (name === "email") {
+      if (this.state.subscriber.email === "") {
+        subscriber_email_error = "Email can't be blank!";
+      } else if (
+        !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(
+          this.state.subscriber.email
+        )
+      ) {
+        subscriber_email_error = "Invalid email!";
+      }
+      this.setState({
+        subscriber_email_error
+      });
+    } else if (name === "phone_number") {
+      if (this.state.subscriber.phone_number === "") {
+        subscriber_phone_number_error = "Phone number can't be blank!";
+      } else if (isNaN(this.state.subscriber.phone_number)) {
+        subscriber_phone_number_error = "Phone should be Numeric";
+      } else if (this.state.subscriber.phone_number.length < 10) {
+        subscriber_phone_number_error = "Phone number length is small.";
+      } else if (this.state.subscriber.phone_number.length > 10) {
+        subscriber_phone_number_error = "Phone number length is too large.";
+      }
+      this.setState({
+        subscriber_phone_number_error
+      });
+
+      this.setState(
+        {
+          subscriber_name_error,
+          subscriber_phone_number_error,
+          subscriber_email_error
+        },
+        function() {
+          if (
+            subscriber_name_error !== "" ||
+            subscriber_phone_number_error !== "" ||
+            subscriber_email_error !== ""
+          ) {
+            return false;
+          } else {
+            return true;
+          }
+        }
+      );
+
+      if (
+        subscriber_name_error !== "" ||
+        subscriber_phone_number_error !== "" ||
+        subscriber_email_error !== ""
+      ) {
+        this.setState({
+          subscriber_name_error,
+          subscriber_phone_number_error,
+          subscriber_email_error
+        });
+        return false;
+      } else {
+        return true;
+      }
+
+    }
+  };
+
+  checkSubscriberValidation = () => {
+    let subscriber_name_error = "";
+    let subscriber_phone_number_error = "";
+    let subscriber_email_error = "";
+
+    if (this.state.subscriber.name === "") {
+      subscriber_name_error = "Name can't be blank!";
+    }
+    if (this.state.subscriber.phone_number === "") {
+      subscriber_phone_number_error = "Phone number can't be blank!";
+    } else if (isNaN(this.state.subscriber.phone_number)) {
+      subscriber_phone_number_error = "Phone should be Numeric";
+    } else if (this.state.subscriber.phone_number.length < 10) {
+      subscriber_phone_number_error = "Phone number length is small.";
+    } else if (this.state.subscriber.phone_number.length > 10) {
+      subscriber_phone_number_error = "Phone number length is too large.";
+    }
+    if (this.state.subscriber.email === "") {
+      subscriber_email_error = "Email can't be blank!";
+    } else if (
+      !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/.test(this.state.subscriber.email)
+    ) {
+      subscriber_email_error = "Invalid email!";
+    }
+
+    this.setState(
+      {
+        subscriber_name_error,
+        subscriber_phone_number_error,
+        subscriber_email_error
+      },
+      function() {
+        if (
+          subscriber_name_error !== "" ||
+          subscriber_phone_number_error !== "" ||
+          subscriber_email_error !== ""
+        ) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+    );
+
+    if (
+      subscriber_name_error !== "" ||
+      subscriber_phone_number_error !== "" ||
+      subscriber_email_error !== ""
+    ) {
+      this.setState({
+        subscriber_name_error,
+        subscriber_phone_number_error,
+        subscriber_email_error
+      });
+      return false;
+    } else {
+      return true;
+    }
+
+  }
+
+  submitSubscriberHandler = () => {
+    let formIsValid = this.checkSubscriberValidation();
+    console.log(formIsValid);
+    if (formIsValid) {
+      console.log("hello");
+    }
+  }
+
+  submitSubscriber = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/subscriber";
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/vnd.auction_backend.v1",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "*",
+        "Access-Control-Expose-Headers": "*",
+        "Access-Control-Max-Age": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*"
+      },
+      body: JSON.stringify({ user: this.state.user })
+    })
+      .then(res => res.json())
+      .then(
+        result => {
+          if (result.status === 201) {
+            this.setState({ message: "" });
+            localStorage.setItem("auction_user_temp_token", result.user.token);
+            this.setState({
+              created: true
+            });
+          } else {
+            this.setState({ message: result.message, variant: "danger" });
+          }
+          this.clearMessageTimeout = setTimeout(() => {
+            this.setState(() => ({ message: "" }));
+          }, 2000);
+        },
+        error => {
+          this.props.history.push("/sign_up");
+        }
+      );
+  }
 
   checkFormValidation = () => {
     let user_first_name_error = "";
@@ -1150,18 +1355,21 @@ export default class Home extends Component {
                   <h4 className="text-center font-red mb-3">Get Your FREE Marketing Guide</h4>
                   <div class="row">
                     <div class="col">
-                      <input type="text" class="form-control" placeholder="Name"/>
+                      <input type="text" class="form-control" placeholder="Name" name="name" autoComplete="off" onChange={this.updateSubscriber}/>
+                      {this.addErrorMessage(this.state.subscriber_name_error)}
                     </div>
                     <div class="col">
-                      <input type="text" class="form-control" placeholder="Cell Number"/>
+                      <input type="text" class="form-control" placeholder="Cell Number" name="phone_number" maxLength="10" autoComplete="off" onKeyPress={this.checkNumeric} onChange={this.updateSubscriber} />
+                      {this.addErrorMessage(this.state.subscriber_phone_number_error)}
                     </div>
                     <div class="col">
-                      <input type="text" class="form-control" placeholder="Email"/>
+                      <input type="text" class="form-control" placeholder="Email" name="email" autoComplete="off" onChange={this.updateSubscriber}/>
+                      {this.addErrorMessage(this.state.subscriber_email_error)}
                     </div>
                   </div>
                   <a href="#" className="download_button">
                     <img
-                    className="d-block mx-auto mt-3"
+                    className="d-block mx-auto mt-3" onClick={this.submitSubscriberHandler}
                     src="/images/download_btn.png"
                     alt="First slide"
                     />
