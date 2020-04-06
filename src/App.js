@@ -109,6 +109,7 @@ function App() {
           <Route exact path="/admin/property/sold" component={() => <AdminSidebar path='sold_property_list'/>}/>
           <Route exact path="/admin/property/terminated" component={() => <AdminSidebar path='terminated_property_list'/>}/>
           <Route exact path="/admin/termination_request" component={() => <AdminSidebar path='termination_request_list'/>}/>
+          <Route exact path="/admin/subscriber_list" component={() => <AdminSidebar path='subscriber_list'/>}/>
           <Route exact path="/admin/site-activity" component={() => <AdminSidebar path='admin_activity_list'/>}/>
           <Route exact path="/admin/email-system" component={() => <AdminSidebar path='email_system'/>}/>
           <Route exact path="/admin/text-system" component={() => <AdminSidebar path='text_system'/>}/>

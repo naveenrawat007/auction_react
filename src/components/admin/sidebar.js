@@ -10,6 +10,8 @@ import AdminActivityList from './activity/index.js';
 import NotificationConnection from './notification_connection.js';
 import EmailSystem from './email_system/index.js';
 import TextSystem from './text_system/index.js';
+import SubscriberList from './subscriber/index.js';
+
 
 export default class AdminSidebar extends Component{
 
@@ -116,6 +118,8 @@ export default class AdminSidebar extends Component{
         return <AdminChatList/>;
       case 'admin_activity_list':
         return <AdminActivityList/>;
+      case 'subscriber_list':
+        return <SubscriberList/>;
       case 'email_system':
         return <EmailSystem/>;
       case 'text_system':
@@ -261,10 +265,10 @@ export default class AdminSidebar extends Component{
                   </Link>
                 </li>
                 <li className="nav-item ">
-                  <a className="nav-link main-nav-link" >
+                  <Link to="/admin/subscriber_list" className={this.checkActive("subscriber_list")}>
                     <span>Subscriber List</span>
                     <FontAwesomeIcon icon={faChevronRight} />
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
                   <Link to="/admin" className={this.checkActive("users_list")}>
