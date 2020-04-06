@@ -5682,3 +5682,6 @@ a.chat_attachment {
 .download_button img{
   width: 200px;
 }
+.video_home_modal #videobcg{
+  margin-top: 0px;
+}

@@ -1127,7 +1127,7 @@ export default class Home extends Component {
           </div>
         </Modal>
         <Modal
-          className="status_modal register_modal"
+          className="status_modal register_modal video_home_modal"
           show={this.state.video_modal}
           onHide={this.hideSignUpModal}
           centered
@@ -1135,11 +1135,17 @@ export default class Home extends Component {
           <div className="modal-body px-0">
             <div className="row mx-0">
               <div className="col-md-12 py-3">
-                <img
-                  className="d-block img-thumbnail mb-3"
-                  src="/images/fhome.jpg"
-                  alt="First slide"
-                />
+                <video
+                  className="mb-3"
+                  id="videobcg"
+                  preload="yes"
+                  autoPlay
+                  loop
+                  playsInline
+                  controls
+                >
+                  <source src="/videos/Home_page.mp4" type="video/mp4" />
+                </video>
                 <form>
                   <h4 className="text-center font-red mb-3">Get Your FREE Marketing Guide</h4>
                   <div class="row">
