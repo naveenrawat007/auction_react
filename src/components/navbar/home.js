@@ -41,7 +41,7 @@ const initial_state = {
   },
   subscriber: {
     name: "",
-    phone_number: "",
+    phone_no: "",
     email: ""
   },
   user_first_name_error: "",
@@ -301,14 +301,14 @@ export default class Home extends Component {
       this.setState({
         subscriber_email_error
       });
-    } else if (name === "phone_number") {
-      if (this.state.subscriber.phone_number === "") {
+    } else if (name === "phone_no") {
+      if (this.state.subscriber.phone_no === "") {
         subscriber_phone_number_error = "Phone number can't be blank!";
-      } else if (isNaN(this.state.subscriber.phone_number)) {
+      } else if (isNaN(this.state.subscriber.phone_no)) {
         subscriber_phone_number_error = "Phone should be Numeric";
-      } else if (this.state.subscriber.phone_number.length < 10) {
+      } else if (this.state.subscriber.phone_no.length < 10) {
         subscriber_phone_number_error = "Phone number length is small.";
-      } else if (this.state.subscriber.phone_number.length > 10) {
+      } else if (this.state.subscriber.phone_no.length > 10) {
         subscriber_phone_number_error = "Phone number length is too large.";
       }
       this.setState({
@@ -360,13 +360,13 @@ export default class Home extends Component {
     if (this.state.subscriber.name === "") {
       subscriber_name_error = "Name can't be blank!";
     }
-    if (this.state.subscriber.phone_number === "") {
+    if (this.state.subscriber.phone_no=== "") {
       subscriber_phone_number_error = "Phone number can't be blank!";
-    } else if (isNaN(this.state.subscriber.phone_number)) {
+    } else if (isNaN(this.state.subscriber.phone_no)) {
       subscriber_phone_number_error = "Phone should be Numeric";
-    } else if (this.state.subscriber.phone_number.length < 10) {
+    } else if (this.state.subscriber.phone_no.length < 10) {
       subscriber_phone_number_error = "Phone number length is small.";
-    } else if (this.state.subscriber.phone_number.length > 10) {
+    } else if (this.state.subscriber.phone_no.length > 10) {
       subscriber_phone_number_error = "Phone number length is too large.";
     }
     if (this.state.subscriber.email === "") {
@@ -415,9 +415,8 @@ export default class Home extends Component {
 
   submitSubscriberHandler = () => {
     let formIsValid = this.checkSubscriberValidation();
-    console.log(formIsValid);
     if (formIsValid) {
-      console.log("hello");
+      this.submitSubscriber();
     }
   }
 
@@ -435,22 +434,18 @@ export default class Home extends Component {
         "Access-Control-Allow-Methods": "*",
         "Access-Control-Allow-Headers": "*"
       },
-      body: JSON.stringify({ user: this.state.user })
+      body: JSON.stringify({ subscriber: this.state.subscriber })
     })
       .then(res => res.json())
       .then(
         result => {
           if (result.status === 201) {
-            this.setState({ message: "" });
-            localStorage.setItem("auction_user_temp_token", result.user.token);
-            this.setState({
-              created: true
-            });
+            this.setState({ message: result.message, variant: "success" });
           } else {
             this.setState({ message: result.message, variant: "danger" });
           }
           this.clearMessageTimeout = setTimeout(() => {
-            this.setState(() => ({ message: "" }));
+            this.setState(() => ({ message: "" , video_modal: false}));
           }, 2000);
         },
         error => {
@@ -1340,6 +1335,9 @@ export default class Home extends Component {
           <div className="modal-body px-0">
             <div className="row mx-0">
               <div className="col-md-12 py-3">
+              {
+                this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
+              }
                 <video
                   className="mb-3"
                   id="videobcg"
@@ -1359,7 +1357,7 @@ export default class Home extends Component {
                       {this.addErrorMessage(this.state.subscriber_name_error)}
                     </div>
                     <div class="col">
-                      <input type="text" class="form-control" placeholder="Cell Number" name="phone_number" maxLength="10" autoComplete="off" onKeyPress={this.checkNumeric} onChange={this.updateSubscriber} />
+                      <input type="text" class="form-control" placeholder="Cell Number" name="phone_no" maxLength="10" autoComplete="off" onKeyPress={this.checkNumeric} onChange={this.updateSubscriber} />
                       {this.addErrorMessage(this.state.subscriber_phone_number_error)}
                     </div>
                     <div class="col">
