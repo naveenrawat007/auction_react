@@ -175,6 +175,7 @@ const initial_state = {
 
     seller_price: "",
     buy_now_price: "",
+    property_closing_amount: "",
     auction_started_at: new Date(),
     best_offer_auction_started_at: new Date(),
     best_offer_auction_ending_at: "",
@@ -260,6 +261,7 @@ const initial_state = {
 
   property_seller_price_error: "",
   property_buy_price_error: "",
+  property_closing_amount_error: "",
   property_auction_started_at_error: "",
   property_auction_ending_at_error: "",
   property_buy_option_error: "",
@@ -417,6 +419,7 @@ export default class PropertyEdit extends Component{
         best_offer_sellers_reserve_price: property.best_offer_sellers_reserve_price,
         seller_price: property.seller_price,
         buy_now_price: property.buy_now_price,
+        property_closing_amount: property.property_closing_amount,
         buy_option: property.buy_option,
         show_instructions_type_id: property.show_instructions_type_id,
         seller_pay_type_id: property.seller_pay_type_id,
@@ -1141,6 +1144,7 @@ export default class PropertyEdit extends Component{
     let property_auction_length_error = "";
     let property_seller_price_error = "";
     let property_buy_now_price_error = "";
+    let property_closing_amount_error = "";
     let property_auction_ending_at_error = "";
     let property_buy_option_error = "";
     let property_seller_pay_type_id_error = "";
@@ -1178,6 +1182,9 @@ export default class PropertyEdit extends Component{
     if (this.state.property.buy_now_price === ""){
       property_buy_now_price_error = "can't be blank."
     }
+    if (this.state.property.property_closing_amount === ""){
+      property_closing_amount_error = "can't be blank."
+    }
     if (this.state.property.auction_ending_at === "" || this.state.property.auction_ending_at === null){
       property_auction_ending_at_error = "can't be blank."
     }
@@ -1199,6 +1206,7 @@ export default class PropertyEdit extends Component{
       property_auction_length_error,
       property_seller_price_error,
       property_buy_now_price_error,
+      property_closing_amount_error,
       property_auction_ending_at_error,
       property_buy_option_error,
       property_show_instructions_type_id_error,
@@ -1210,7 +1218,7 @@ export default class PropertyEdit extends Component{
       property_seller_pay_type_id_error,
     });
 
-    if (property_auction_started_at_error !== "" || property_auction_length_error !== "" || property_seller_price_error !== "" || property_buy_now_price_error !== "" || property_auction_ending_at_error !== "" || property_buy_option_error !== "" || property_show_instructions_type_id_error !== "" || property_show_instructions_text_error !== "" || property_best_offer_auction_started_at_error !== "" || property_best_offer_auction_ending_at_error !== ""  || property_best_offer_sellers_reserve_price !== "" || property_best_offer_sellers_minimum_price_error !== "" || property_seller_pay_type_id_error !== ""){
+    if (property_auction_started_at_error !== "" || property_auction_length_error !== "" || property_seller_price_error !== "" || property_buy_now_price_error !== "" || property_closing_amount_error !== "" || property_auction_ending_at_error !== "" || property_buy_option_error !== "" || property_show_instructions_type_id_error !== "" || property_show_instructions_text_error !== "" || property_best_offer_auction_started_at_error !== "" || property_best_offer_auction_ending_at_error !== ""  || property_best_offer_sellers_reserve_price !== "" || property_best_offer_sellers_minimum_price_error !== "" || property_seller_pay_type_id_error !== ""){
       return false
     }else {
       return true
@@ -1229,6 +1237,7 @@ export default class PropertyEdit extends Component{
     fd.append('property[auction_length]', this.state.property.auction_length)
     fd.append('property[seller_price]', this.state.property.seller_price)
     fd.append('property[buy_now_price]', this.state.property.buy_now_price)
+    fd.append('property[property_closing_amount]', this.state.property.property_closing_amount)
     fd.append('property[auction_ending_at]', this.state.property.auction_ending_at)
     fd.append('property[buy_option]', JSON.stringify(this.state.property.buy_option))
     fd.append('property[show_instructions_type_id]', this.state.property.show_instructions_type_id)
@@ -4010,6 +4019,15 @@ export default class PropertyEdit extends Component{
                                   value={this.selected_seller_pay_type_options()}
                                   onChange={e => {this.setState({property: {...this.state.property, seller_pay_type_id: e.value}});}}
                                 />
+                              </div>
+                            </div>
+                            <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
+                              <div className="col-md-6 px-1 text-right">
+                                <label>Amount Deposit in Closing</label>
+                              </div>
+                              <div className="col-md-6 px-1">
+                                <CurrencyInput prefix="$" type="text" onChangeEvent={this.updateMaskedPropertyAtrr} disabled={((this.state.property.status === "Best Offer" || this.state.property.status === "Live Online Bidding") && this.state.is_admin === false) ? true : false}
+                                  className={"form-control " + this.addErrorClass(this.state.property_closing_amount_error) } name="property_closing_amount"  value={this.state.property.property_closing_amount} />
                               </div>
                             </div>
                             <div className="form-group col-md-8 offset-md-2 px-0 row step_row">
