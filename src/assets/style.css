@@ -5697,3 +5697,20 @@ a.chat_attachment {
 .video_home_modal #videobcg{
   margin-top: 0px;
 }
+
+.property_rate_sold{
+  height: 225px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.property_rate_sold h4{
+  font-size:2.3rem;
+}
+.property_rate_sold p{
+  font-size: 1.4rem;
+  color:#ccc;
+  font-weight: 500;
+}

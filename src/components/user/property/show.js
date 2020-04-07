@@ -914,6 +914,27 @@ export default class PropertyShow extends Component {
         </div>
       }
     }
+    else if ((this.state.property.status === "Sold") || (this.state.property.status === "Pending")){
+      block = <div className="property_rate property_rate_sold text-center">
+        <h4>
+        {
+          (this.state.property.status === "Sold") ?
+            window.format_currency(this.state.property.sold_amount)
+            :
+            window.format_currency(this.state.property.highest_bid)
+        }
+        </h4>
+        <br/>
+        <p>
+        {
+          (this.state.property.status === "Sold") ?
+            "Auction Sold Price"
+            :
+            "Pending Price"
+        }
+        </p>
+      </div>
+    }
     else {
       block = <div className="property_rate text-center">
         <h4>{window.format_currency(this.state.property.highest_bid)}</h4>
