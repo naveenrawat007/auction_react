@@ -443,7 +443,7 @@ export default class ListProperty extends Component{
                 <FontAwesomeIcon icon={faEnvelopeOpenText} />
               </Link>
               <a href={bid.fund_proof} target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faDownload}  /></a>
-              <Link to="#" onClick={() => {if(window.confirm('Confirm to accept')){this.acceptOffer(property_id, bid.id, bid.type)}}}><FontAwesomeIcon icon={faThumbsUp} /></Link>
+              <Link to="#" onClick={() => {if(window.confirm('Confirm to accept')){this.acceptOffer(property_id, bid.id, bid.type_code)}}}><FontAwesomeIcon icon={faThumbsUp} /></Link>
               {
                 this.state.chat_room ?
                   <Redirect to={{
@@ -453,7 +453,7 @@ export default class ListProperty extends Component{
                 :
                   null
               }
-              <Link to="#" onClick={() => {if(window.confirm('Confirm to reject')){this.acceptOffer(property_id, bid.id, bid.type, false)}}}><FontAwesomeIcon icon={faThumbsDown}  /></Link>
+              <Link to="#" onClick={() => {if(window.confirm('Confirm to reject')){this.acceptOffer(property_id, bid.id, bid.type_code, false)}}}><FontAwesomeIcon icon={faThumbsDown}  /></Link>
             </div>
           </td>
         </tr>

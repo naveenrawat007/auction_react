@@ -302,7 +302,7 @@ export default class Pending extends Component{
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties/sold"
     const fd = new FormData();
     fd.append('property[offer_id]', offer.id)
-    fd.append('property[offer_type]', offer.type)
+    fd.append('property[offer_type]', offer.type_code)
     fetch(url, {
       method: "POST",
       headers: {
