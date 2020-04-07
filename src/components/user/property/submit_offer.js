@@ -874,9 +874,7 @@ export default class PropertyOfferSubmit extends Component {
               best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
             }
           });
-          this.showPropertyTimeout = setTimeout(() => {
-            this.showProperty();
-          }, 2000);
+          this.showProperty();
         }
         else if (result.status === 400 || result.status === 404) {
           this.setState({
@@ -980,9 +978,7 @@ export default class PropertyOfferSubmit extends Component {
               best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
             }
           });
-          this.showPropertyTimeout = setTimeout(() => {
-            this.showProperty();
-          }, 2000);
+        
         }
         else if (result.status === 400 || result.status === 404 ) {
           this.setState({
@@ -1077,9 +1073,7 @@ export default class PropertyOfferSubmit extends Component {
             terms_agreed: false,
             property: result.property
           });
-          this.showPropertyTimeout = setTimeout(() => {
-            this.showProperty();
-          }, 2000);
+        
         }
         else if (result.status === 400 || result.status === 404 ) {
           this.setState({
