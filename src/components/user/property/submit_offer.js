@@ -1436,7 +1436,7 @@ export default class PropertyOfferSubmit extends Component {
                           </div>
                           <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-start">
                             <FontAwesomeIcon icon={faExclamationCircle}/>
-                            <p>if your offer is accepted then the seller is requesting a deposit in the amount of $3,00.</p>
+                            <p>if your offer is accepted then the seller is requesting a deposit in the amount of {window.format_currency(this.state.property.property_closing_amount)} .</p>
                           </div>
                           <p className="seller_request">Seller is requesting that you close by:</p>
                           <div className="form-group row mx-0">
