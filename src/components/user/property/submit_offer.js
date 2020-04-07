@@ -21,6 +21,7 @@ export default class PropertyOfferSubmit extends Component {
       variant: "",
       submitted: false,
       step: 1,
+      chat_room: "",
       terms_agreed: false,
       terms_agreed1: false,
       terms_agreed2: false,
@@ -1133,6 +1134,17 @@ export default class PropertyOfferSubmit extends Component {
           {
             this.state.message ? <Alert className="mt-0 mb-0" variant={this.state.variant}>{this.state.message}</Alert> : null
           }
+          {
+            this.state.chat_room ?
+            (
+              ((Object.entries(this.state.chat_room).length > 0) && (this.state.chat_room.constructor === Object)) ?
+                <Redirect to={{
+                  pathname: "/user/chat",
+                  state: { chat_room: this.state.chat_room }
+                }}/>
+              : null
+            ) : null
+          }
             <div className="row mx-0 profile_row my-5 register_bids_new">
               <div className="col-md-12 py-3">
                 <div className="bg_white">
@@ -1436,7 +1448,7 @@ export default class PropertyOfferSubmit extends Component {
                           </div>
                           <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-start">
                             <FontAwesomeIcon icon={faExclamationCircle}/>
-                            <p>if your offer is accepted then the seller is requesting a deposit in the amount of {window.format_currency(this.state.property.property_closing_amount)} .</p>
+                            <p>if your offer is accepted then the seller is requesting a deposit in the amount of {window.format_currency(this.state.property.property_closing_amount)}.</p>
                           </div>
                           <p className="seller_request">Seller is requesting that you close by:</p>
                           <div className="form-group row mx-0">
