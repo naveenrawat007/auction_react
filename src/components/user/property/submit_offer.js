@@ -19,6 +19,15 @@ export default class PropertyOfferSubmit extends Component {
     this.state = {
       message: "",
       variant: "",
+      payment:{
+        cvv: '',
+        expiryMonth: '',
+        expiryYear:'',
+        cardNumber: ''
+      },
+      paymentProcess: false,
+      card_token: '',
+      amount: '',
       submitted: false,
       step: 1,
       chat_room: "",
@@ -82,7 +91,11 @@ export default class PropertyOfferSubmit extends Component {
       realtor_phone_no_error: "",
       business_document_text_error: "",
       business_documents_error: "",
-      property_closing_date_error: ""
+      property_closing_date_error: "",
+      cardnumber_error: "",
+      cvv_error: "",
+      expirymonth_error: "",
+      expiryyear_error: ""
     }
   };
   componentWillUnmount() {
@@ -96,6 +109,7 @@ export default class PropertyOfferSubmit extends Component {
     this._isMounted = true;
     this.getProperty();
     window.scrollTo(0,0)
+    window.loadStripe()
     // this.showCurrentSlide(1);
   }
 
@@ -453,6 +467,45 @@ export default class PropertyOfferSubmit extends Component {
       })
     }
   }
+
+  updatePaymentFields = (event) => {
+    const{ name, value} = event.target;
+
+    this.setState({
+      ...this.state,
+      payment:{
+        ...this.state.payment,
+        [name]: value
+      }
+    }, function () {
+    })
+  }
+
+  createStripeToken = () => {
+    window.Stripe.card.createToken({
+      number: this.state.payment.cardNumber,
+      exp_month: this.state.payment.expiryMonth,
+      exp_year: this.state.payment.expiryYear,
+      cvc: this.state.payment.cvv
+    }, (status, response) => {
+      if (status === 200) {
+        this.setState({
+          paymentProcess: true,
+          card_token: response.card.id
+        });
+      } else {
+        this.setState({
+          message: response.error.message,
+          formProcess: false,
+          variant:"danger"
+        });
+      }
+    });
+    this.clearMessageTimeout = setTimeout(() => {
+      this.setState(() => ({message: ""}))
+    }, 2000);
+  }
+
   addErrorClass = (msg) => {
     if (msg === ""){
       return ""
@@ -569,13 +622,33 @@ export default class PropertyOfferSubmit extends Component {
   }
   stepTwoValidation = () => {
     let property_closing_date_error = "";
+    let cardnumber_error = "";
+    let cvv_error = "";
+    let expirymonth_error = "";
+    let expiryyear_error = "";
     if (this.state.bidding_options.property_closing_date === ""){
       property_closing_date_error = "error"
     }
+    if (this.state.payment.cardNumber === ""){
+      cardnumber_error = "error"
+    }
+    if (this.state.payment.cvv === ""){
+      cvv_error = "error"
+    }
+    if (this.state.payment.expiryMonth === ""){
+      expirymonth_error = "error"
+    }
+    if (this.state.payment.expiryYear === ""){
+      expiryyear_error = "error"
+    }
     this.setState({
-      property_closing_date_error
+      property_closing_date_error,
+      cardnumber_error,
+      cvv_error,
+      expirymonth_error,
+      expiryyear_error
     })
-    if (property_closing_date_error === ""){
+    if (property_closing_date_error === "" || cardnumber_error === "" || cvv_error === "" || expirymonth_error === "" || expiryyear_error === "" ){
       return true
     }else {
       return false
@@ -1468,19 +1541,20 @@ export default class PropertyOfferSubmit extends Component {
                           <div className="form-group row mx-0">
                             <label className="col-sm-2 col-form-label text-right">Card Number&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className="form-control"/>
+                              <input type="text" className={"form-control" + this.addErrorClass(this.state.cardnumber_error)} placeholder="card number" name="cardNumber" maxLength="18" onKeyPress={this.checkNumeric} onChange={this.updatePaymentFields} value={this.state.payment.cardNumber} />
                             </div>
                           </div>
                           <div className="form-group row mx-0">
                             <label className="col-sm-2 col-form-label text-right">Expiry Date&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className="form-control"/>
+                              <input type="text" className={"form-control" + this.addErrorClass(this.state.expirymonth_error)} placeholder="MM"  maxLength="2" name="expiryMonth" onChange={this.updatePaymentFields} onKeyPress={this.checkNumeric} value={this.state.payment.expiryMonth}/>
+                              <input type="text" className={"form-control" + this.addErrorClass(this.state.expiryyear_error)} placeholder="YY"  maxLength="2" name="expiryYear" onChange={this.updatePaymentFields} onKeyPress={this.checkNumeric} value={this.state.payment.expiryYear}/>
                             </div>
                           </div>
                           <div className="form-group row mx-0">
                             <label className="col-sm-2 col-form-label text-right">CVV&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className="form-control"/>
+                              <input type="text" className={"form-control" + this.addErrorClass(this.state.cvv_error)} placeholder="cvv" name="cvv" maxLength="4" onKeyPress={this.checkNumeric} onChange={this.updatePaymentFields} value={this.state.payment.cvv}/>
                             </div>
                           </div>
                           <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-start">
