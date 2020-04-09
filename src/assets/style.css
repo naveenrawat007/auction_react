@@ -5596,7 +5596,8 @@ a.chat_attachment {
   z-index: 10000;
 }
 .home_carousel .carousel-indicators{
-  bottom: 140px;
+  bottom: 170px;
+  z-index: 1000;
 }
 .static_text{
   position: absolute;

@@ -614,8 +614,8 @@ export default class Home extends Component {
         <div className="sub_title">
           <div className="container">
             <h5 className=""><span>AuctionMyDeal.com</span> makes it easy for you to sell & buy real estate investments using</h5>
-            <p className="text-capitalize mb-1">Smart Auction Technology</p>
-            <a href="/#" className="btn red-btn">Get Smart</a>
+            <p className="text-uppercase mb-1">Smart Auction Technology</p>
+            <a href="/#" className="text-uppercase btn red-btn">Get Smart</a>
           </div>
         </div>
         <div className="owl_box">
