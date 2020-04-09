@@ -817,18 +817,12 @@ export default class Home extends Component {
               />
             </Carousel.Item>
           </Carousel>
-          <div className="sub_title">
-            <div className="container">
-
-              <h5 className="text-uppercase">join our marketplace</h5>
-              <span className="text-capitalize">
-                get exclusive acess plus be the first to know about upcoming
-                oppurtunities.{" "}
-                <a href="/#" className="">
-                  click here
-                </a>
-              </span>
-            </div>
+        </div>
+        <div className="sub_title">
+          <div className="container">
+            <h5 className=""><span>AuctionMyDeal.com</span> makes it easy for you to sell & buy real estate investments using</h5>
+            <p className="text-uppercase mb-1">Smart Auction Technology</p>
+            <a href="/#" className="text-uppercase btn red-btn">Get Smart</a>
           </div>
         </div>
         <div className="owl_box">

@@ -2160,24 +2160,27 @@ input.form-control:focus {
 }
 
 .sub_title {
-  background-color: #b71c1c;
+  background-color: #fff;
   padding: 15px 0;
   color: #fff;
   position: absolute;
-  /* margin-top: -93px; */
-  bottom: 0;
+  bottom: -125px;
   width: 100%;
   text-align: center;
 }
 .sub_title h5{
-  font-size: 20px;
+  font-size: 24px;
+  font-weight: 500;
+  color: #0b89f8;
 }
-.sub_title span{
-  font-size: 16px;
+.sub_title h5 span{
+  font-size: 24px;
+  font-weight: 600;
 }
-.sub_title span a{
-  text-decoration: none;
-  color: #fff;
+.sub_title p{
+  font-size: 24px;
+  color: #b71c1c;
+  font-weight: 600;
 }
 .owl_box{
     background-color: #ededed;
@@ -5592,8 +5595,9 @@ a.chat_attachment {
   position: fixed;
   z-index: 10000;
 }
-.home_carousel .carousel-indicators li{
-  display: none;
+.home_carousel .carousel-indicators{
+  bottom: 170px;
+  z-index: 1000;
 }
 .static_text{
   position: absolute;
@@ -5630,6 +5634,9 @@ a.chat_attachment {
   .static_text img{
     margin: 30px auto;
     width: 450px;
+  }
+  .sub_title{
+    bottom: -80px;
   }
 }
 .history_details, .payment_details, .plan_details{
