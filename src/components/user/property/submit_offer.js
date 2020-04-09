@@ -496,7 +496,7 @@ export default class PropertyOfferSubmit extends Component {
       } else {
         this.setState({
           message: response.error.message,
-          formProcess: false,
+          paymentProcess: false,
           variant:"danger"
         });
       }
@@ -504,6 +504,8 @@ export default class PropertyOfferSubmit extends Component {
     this.clearMessageTimeout = setTimeout(() => {
       this.setState(() => ({message: ""}))
     }, 2000);
+    
+    return this.state.paymentProcess
   }
 
   addErrorClass = (msg) => {
@@ -656,12 +658,14 @@ export default class PropertyOfferSubmit extends Component {
   }
   submitOffer = () => {
     if (this.stepTwoValidation()){
-      if (this.state.offer_type === "bid"){
-        this.submitBiddingOffer()
-      }else if (this.state.offer_type === "best_offer") {
-        this.submitBestOffer()
-      }else {
-        this.submitBuyNowOffer()
+      if(this.createStripeToken()){
+        if (this.state.offer_type === "bid"){
+          this.submitBiddingOffer()
+        }else if (this.state.offer_type === "best_offer") {
+          this.submitBestOffer()
+        }else {
+          this.submitBuyNowOffer()
+        }
       }
     }
   }
