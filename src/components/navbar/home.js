@@ -611,7 +611,7 @@ export default class Home extends Component {
             </div>
           </div>
           <div>
-            <img src="/images/carousel0.jpg" alt=""/>
+            <img src="/images/carousel0.jpg" alt="" className="w-100"/>
           </div>
           <div className="sub_title">
             <div className="container">
