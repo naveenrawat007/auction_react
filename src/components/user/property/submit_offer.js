@@ -491,7 +491,7 @@ export default class PropertyOfferSubmit extends Component {
       if (status === 200) {
         this.setState({
           paymentProcess: true,
-          card_token: response.card.id
+          card_token: response.id
         });
       } else {
         this.setState({
@@ -499,7 +499,7 @@ export default class PropertyOfferSubmit extends Component {
           paymentProcess: false,
           variant:"danger"
         });
-      }
+      }    
     });
     this.clearMessageTimeout = setTimeout(() => {
       this.setState(() => ({message: ""}))
@@ -886,6 +886,7 @@ export default class PropertyOfferSubmit extends Component {
       isLoaded: false ,
     });
     const fd = new FormData();
+    fd.append('payment[card_token]', this.state.card_token)
     fd.append('property[id]', this.state.property.id)
     fd.append('bid[amount]', this.state.bidding_options.current_offer)
     fd.append('bid[fund_proof]', this.state.fund_proof, this.state.fund_proof.name)
@@ -990,6 +991,7 @@ export default class PropertyOfferSubmit extends Component {
     });
     const fd = new FormData();
     fd.append('property[id]', this.state.property.id)
+    fd.append('payment[card_token]', this.state.card_token)
     fd.append('best_offer[amount]', this.state.bidding_options.current_best_offer)
     fd.append('best_offer[fund_proof]', this.state.fund_proof, this.state.fund_proof.name)
     fd.append('best_offer[buy_option]', JSON.stringify(this.state.buy_option))
@@ -1093,6 +1095,7 @@ export default class PropertyOfferSubmit extends Component {
     });
     const fd = new FormData();
     fd.append('property[id]', this.state.property.id)
+    fd.append('payment[card_token]', this.state.card_token)
     fd.append("best_offer", this.state.best_offer )
     fd.append('buy_now[amount]', this.state.best_offer === true ? this.state.bidding_options.best_offer_buy_now_price : this.state.bidding_options.buy_now_price)
     fd.append('buy_now[fund_proof]', this.state.fund_proof, this.state.fund_proof.name)
@@ -1558,7 +1561,7 @@ export default class PropertyOfferSubmit extends Component {
                           <div className="form-group row mx-0">
                             <label className="col-sm-2 col-form-label text-right">CVV&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className={"form-control" + this.addErrorClass(this.state.cvv_error)} placeholder="cvv" name="cvv" maxLength="4" onKeyPress={this.checkNumeric} onChange={this.updatePaymentFields} value={this.state.payment.cvv}/>
+                              <input type="password" className={"form-control" + this.addErrorClass(this.state.cvv_error)} placeholder="cvv" name="cvv" maxLength="4" onKeyPress={this.checkNumeric} onChange={this.updatePaymentFields} value={this.state.payment.cvv}/>
                             </div>
                           </div>
                           <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-start">
