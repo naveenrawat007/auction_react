@@ -5636,7 +5636,7 @@ a.chat_attachment {
     width: 450px;
   }
   .sub_title{
-    bottom: -80px;
+    bottom: 0px;
   }
 }
 .history_details, .payment_details, .plan_details{
