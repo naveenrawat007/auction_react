@@ -566,6 +566,36 @@ export default class Home extends Component {
           // >
           //   <source src="/videos/skyline.mp4" type="video/mp4" />
           // </video>
+          // <Carousel className="home_carousel" interval={10000} controls={false}>
+          //   <Carousel.Item>
+          //     <img
+          //       className="d-block w-100"
+          //       src="/images/carousel0.jpg"
+          //       alt="First slide"
+          //     />
+          //   </Carousel.Item>
+          //   <Carousel.Item>
+          //     <img
+          //       className="d-block w-100"
+          //       src="/images/carousel1.jpg"
+          //       alt="Second slide"
+          //     />
+          //   </Carousel.Item>
+          //   <Carousel.Item>
+          //     <img
+          //       className="d-block w-100"
+          //       src="/images/carousel2.jpg"
+          //       alt="Third slide"
+          //     />
+          //   </Carousel.Item>
+          //   <Carousel.Item>
+          //     <img
+          //       className="d-block w-100"
+          //       src="/images/carousel3.jpg"
+          //       alt="Third slide"
+          //     />
+          //   </Carousel.Item>
+          // </Carousel>
           }
           <div className="static_text container-fluid">
             <div className="col-md-10">
@@ -580,42 +610,15 @@ export default class Home extends Component {
               </Link>
             </div>
           </div>
-          <Carousel className="home_carousel" interval={10000} controls={false}>
-            <Carousel.Item>
-              <img
-                className="d-block w-100"
-                src="/images/carousel0.jpg"
-                alt="First slide"
-              />
-            </Carousel.Item>
-            <Carousel.Item>
-              <img
-                className="d-block w-100"
-                src="/images/carousel1.jpg"
-                alt="Second slide"
-              />
-            </Carousel.Item>
-            <Carousel.Item>
-              <img
-                className="d-block w-100"
-                src="/images/carousel2.jpg"
-                alt="Third slide"
-              />
-            </Carousel.Item>
-            <Carousel.Item>
-              <img
-                className="d-block w-100"
-                src="/images/carousel3.jpg"
-                alt="Third slide"
-              />
-            </Carousel.Item>
-          </Carousel>
-        </div>
-        <div className="sub_title">
-          <div className="container">
-            <h5 className=""><span>AuctionMyDeal.com</span> makes it easy for you to sell & buy real estate investments using</h5>
-            <p className="text-capitalize mb-1">Smart Auction Technology</p>
-            <a href="/#" className="btn red-btn">Get Smart</a>
+          <div>
+            <img src="/images/carousel0.jpg" alt=""/>
+          </div>
+          <div className="sub_title">
+            <div className="container">
+              <h5 className=""><span>AuctionMyDeal.com</span> makes it easy for you to sell & buy real estate investments using</h5>
+              <p className="text-capitalize mb-1">Smart Auction Technology</p>
+              <a href="/#" className="btn red-btn">Get Smart</a>
+            </div>
           </div>
         </div>
         <div className="owl_box">

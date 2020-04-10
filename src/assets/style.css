@@ -2130,7 +2130,7 @@ input.form-control:focus {
 }
 
 .video_col {
-  height: calc(100vh - 0px);
+  height: calc(100vh - 78px);
   position: relative;
   overflow: hidden;
 }
@@ -2164,7 +2164,7 @@ input.form-control:focus {
   padding: 15px 0;
   color: #fff;
   position: absolute;
-  bottom: -125px;
+  bottom: 0px;
   width: 100%;
   text-align: center;
 }
@@ -2184,7 +2184,7 @@ input.form-control:focus {
 }
 .owl_box{
     background-color: #ededed;
-    margin: 75px 0;
+    margin: 40px 0 75px 0;
 }
 .main-content .owl-theme .custom-nav {
     position: absolute;
@@ -5606,7 +5606,7 @@ a.chat_attachment {
   display: flex;
   width: 100%;
   justify-content: center;
-  height: 100%;
+  height: 84%;
   align-items: center;
 }
 .static_text h2{
