@@ -2130,7 +2130,7 @@ input.form-control:focus {
 }
 
 .video_col {
-  height: calc(100vh - 0px);
+  height: calc(100vh - 78px);
   position: relative;
   overflow: hidden;
 }
@@ -2164,7 +2164,7 @@ input.form-control:focus {
   padding: 15px 0;
   color: #fff;
   position: absolute;
-  bottom: -125px;
+  bottom: 0px;
   width: 100%;
   text-align: center;
 }
@@ -2184,7 +2184,7 @@ input.form-control:focus {
 }
 .owl_box{
     background-color: #ededed;
-    margin: 75px 0;
+    margin: 40px 0 75px 0;
 }
 .main-content .owl-theme .custom-nav {
     position: absolute;
@@ -5607,7 +5607,7 @@ a.chat_attachment {
   display: flex;
   width: 100%;
   justify-content: center;
-  height: 100%;
+  height: 84%;
   align-items: center;
 }
 .static_text h2{
@@ -5636,7 +5636,88 @@ a.chat_attachment {
     width: 450px;
   }
   .sub_title{
-    bottom: -80px;
+    bottom: 0px;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .video_col{
+    height: auto;
+  }
+  .static_text{
+    top: -30px;
+    height: 80%;
+  }
+  .static_text h2{
+    font-size: 2.2rem;
+  }
+  .static_text img{
+    margin: 20px auto;
+    width: 350px;
+  }
+  .sub_title h5{
+    font-size: 20px;
+  }
+  .sub_title h5 span{
+    font-size: 20px;
+  }
+  .sub_title p{
+    font-size: 20px;
+  }
+  .inner_info{
+    min-height: 278px !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .video_col{
+    height: auto;
+  }
+  .static_text{
+    top: -30px;
+    height: 80%;
+  }
+  .static_text h2{
+    font-size: 1.8rem;
+  }
+  .static_text img{
+    margin: 10px auto;
+    width: 250px;
+  }
+  .sub_title h5{
+    font-size: 16px;
+  }
+  .sub_title p{
+    font-size: 16px;
+  }
+  .sub_title h5 span{
+    font-size: 16px;
+  }
+}
+@media (max-width: 575.98px) {
+  .video_col{
+    height: 320px !important;
+  }
+  .static_text{
+    top: 10px;
+    height: auto;
+  }
+  .static_text h2{
+    font-size: 1rem;
+  }
+  .static_text img{
+    margin: 10px auto;
+    width: 200px;
+  }
+  .sub_title h5{
+    font-size: 16px;
+  }
+  .sub_title{
+    padding: 5px 0;
+  }
+  .sub_title p{
+    font-size: 16px;
+  }
+  .sub_title h5 span{
+    font-size: 16px;
   }
 }
 .history_details, .payment_details, .plan_details{
