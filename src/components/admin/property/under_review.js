@@ -33,6 +33,7 @@ export default class UnderReview extends Component{
       show_instructions_types: [],
       selected_status: "",
       termination_reason: "",
+      sold_date: "",
       error: "",
       message: "",
       isLoaded: false,
@@ -257,21 +258,69 @@ export default class UnderReview extends Component{
   }
 
   updateStatus = () => {
+    if (this.state.selected_status === "Sold"){
+      if (this.state.sold_offer !== ""){
+        let offer = {}
+        offer.id = this.state.sold_offer.split(",")[0]
+        offer.type_code = this.state.sold_offer.split(",")[1]
+        this.soldProperty(offer)
+      }
+    }else {
+      this.setState({
+        isLoaded: false,
+      });
+      let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties/status"
+      const fd = new FormData();
+      fd.append('property[id]', this.state.properties[this.state.selected_property].id)
+      fd.append('property[status]', this.state.selected_status)
+      fd.append('property[termination_reason]', this.state.termination_reason)
+      fd.append('property[auction_started_at]', this.state.auction_started_at)
+      fd.append('property[auction_length]', this.state.auction_length)
+      fd.append('property[best_offer]', this.state.best_offer)
+      fd.append('property[best_offer_auction_started_at]', this.state.best_offer_auction_started_at)
+      fd.append('property[best_offer_auction_ending_at]', this.state.best_offer_auction_ending_at)
+      fetch(url, {
+        method: "PUT",
+        headers: {
+          "Authorization": localStorage.getItem("auction_admin_token"),
+          "Accept": "application/vnd.auction_backend.v1",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": "*",
+          "Access-Control-Expose-Headers": "*",
+          "Access-Control-Max-Age": "*",
+          "Access-Control-Allow-Methods": "*",
+          "Access-Control-Allow-Headers": "*"
+        },
+        body: fd,
+      }).then(res => res.json())
+      .then((result) => {
+        if (this._isMounted){
+          this.getPropertiesList();
+          if (result.status === 200){
+            this.setState({
+              message: result.message,
+              variant: "success"
+            });
+            this.clearMessageTimeout = setTimeout(() => {
+              this.setState(() => ({message: ""}))
+            }, 2000);
+          }
+        }
+      })
+    }
+  }
+
+  soldProperty = (offer) => {
     this.setState({
-      isLoaded: false,
+      isLoaded: false ,
     });
-    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties/status"
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/admin/properties/sold"
     const fd = new FormData();
-    fd.append('property[id]', this.state.properties[this.state.selected_property].id)
-    fd.append('property[status]', this.state.selected_status)
-    fd.append('property[termination_reason]', this.state.termination_reason)
-    fd.append('property[auction_started_at]', this.state.auction_started_at)
-    fd.append('property[auction_length]', this.state.auction_length)
-    fd.append('property[best_offer]', this.state.best_offer)
-    fd.append('property[best_offer_auction_started_at]', this.state.best_offer_auction_started_at)
-    fd.append('property[best_offer_auction_ending_at]', this.state.best_offer_auction_ending_at)
+    fd.append('property[sold_date]', this.state.sold_date)
+    fd.append('property[offer_id]', offer.id)
+    fd.append('property[offer_type]', offer.type_code)
     fetch(url, {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Authorization": localStorage.getItem("auction_admin_token"),
         "Accept": "application/vnd.auction_backend.v1",
@@ -289,13 +338,22 @@ export default class UnderReview extends Component{
         this.getPropertiesList();
         if (result.status === 200){
           this.setState({
+            isLoaded: true ,
             message: result.message,
             variant: "success"
           });
-          this.clearMessageTimeout = setTimeout(() => {
-            this.setState(() => ({message: ""}))
-          }, 2000);
+          this.getPropertiesList();
+        }else {
+          this.setState({
+            bid_modal: false,
+            isLoaded: true ,
+            message: result.message,
+            variant: "danger"
+          });
         }
+        this.clearMessageTimeout = setTimeout(() => {
+          this.setState(() => ({message: ""}))
+        }, 2000);
       }
     })
   }
@@ -313,6 +371,7 @@ export default class UnderReview extends Component{
         best_offer: this.state.properties[this.state.selected_property].best_offer,
         best_offer_auction_started_at: this.state.properties[this.state.selected_property].best_offer_auction_started_at,
         best_offer_auction_ending_at:this.state.properties[this.state.selected_property].best_offer_auction_ending_at,
+        sold_date: this.state.properties[this.state.selected_property].sold_date,
       });
     });
   }
@@ -801,6 +860,13 @@ export default class UnderReview extends Component{
     if (this._isMounted){
       this.setState({
         best_offer_auction_ending_at: date,
+      })
+    }
+  }
+  updatePropertySoldDate = (date) =>{
+    if (this._isMounted){
+      this.setState({
+        sold_date: date,
       })
     }
   }
@@ -1299,6 +1365,43 @@ export default class UnderReview extends Component{
                           selected={this.state.best_offer_auction_ending_at ? new Date(this.state.best_offer_auction_ending_at) : ""}
                           name="best_offer_auction_ending_at" onChange={this.updatePropertyBestOfferAuctionEnd}
                         />
+                      </div>
+                    </form>
+                  </div>
+                :
+                  null
+                }
+                {
+                  this.state.selected_status === "Sold" ?
+                  <div className="col-md-6 pr-0">
+                    <form className="status-form">
+                      <div className="form-group ">
+                        <label >Sold Date </label>
+                        <DatePicker className="form-control "
+                          selected={this.state.sold_date ? new Date(this.state.sold_date) : ""}
+                          name="sold_date" onChange={this.updatePropertySoldDate}
+                        />
+                      </div>
+                      <div className={"form-group "}>
+                        <label >Select Offer</label>
+                        <select className="form-control" onChange={this.updateStatusFields} name="sold_offer" >
+                          <option value="false">Select Offer</option>
+                          {
+                            this.state.properties[this.state.selected_property].bids.map((offer, index) => {
+                              return (<option value={offer.id+","+offer.type_code} key={index}>{offer.type} {window.format_currency(offer.amount)}</option>)
+                            })
+                          }
+                          {
+                            this.state.properties[this.state.selected_property].best_offers.map((offer, index) => {
+                              return (<option value={offer.id+","+offer.type_code} key={index}>{offer.type} {window.format_currency(offer.amount)}</option>)
+                            })
+                          }
+                          {
+                            this.state.properties[this.state.selected_property].buy_now_offers.map((offer, index) => {
+                              return (<option value={offer.id+","+offer.type_code} key={index}>{offer.type} {window.format_currency(offer.amount)}</option>)
+                            })
+                          }
+                        </select>
                       </div>
                     </form>
                   </div>
