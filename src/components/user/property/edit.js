@@ -359,7 +359,6 @@ export default class PropertyEdit extends Component{
   updateCurrentState = (property) => {
     if (property.category === "Residential"){
       this.setState({
-        isLoaded: true,
         property: {
         ...this.state.property,
         bedrooms: property.residential_attributes.bedrooms,
@@ -372,7 +371,6 @@ export default class PropertyEdit extends Component{
       });
     }else if (property.category === "Commercial") {
       this.setState({
-        isLoaded: true,
         property: {
         ...this.state.property,
         area: property.commercial_attributes.area,
@@ -385,7 +383,6 @@ export default class PropertyEdit extends Component{
       })
     }else if (property.category === "Land") {
       this.setState({
-        isLoaded: true,
         property: {
         ...this.state.property,
         lot_size: property.land_attributes.lot_size,
@@ -514,25 +511,27 @@ export default class PropertyEdit extends Component{
           var xhr = new XMLHttpRequest();
           xhr.images_length = property.images_details.length
           xhr.timeout = 100000;
+          xhr.tthis = this
           xhr.responseType = "blob";//force the HTTP response, response-type header to be blob
           xhr.open("GET", property.images_details[i].url);
-          xhr.onload = () => {
-            if (xhr.statusText == "OK") {
+          xhr.onload = function () {
+            if (this.statusText == "OK") {
               var blob = null;
-              blob = xhr.response
+              blob = this.response
               files.push({src: property.images_details[i].url, id: i,name: property.images_details[i].name, file: blob})
               files.sort((a, b) => (a.id > b.id) ? 1 : -1)
-              if (files.length === xhr.images_length){
+              if (files.length === this.images_length){
                 let list = new DataTransfer();
                 for(let j = 0; j < files.length; j++){
                   let file = new File([files[j].file], files[j].name);
                   list.items.add(file);
                 }
-                if (list.files.length === xhr.images_length){
+                if (list.files.length === this.images_length){
                   document.getElementById('property-images').files = list.files;
-                  this.setState({
+                  this.tthis.setState({
+                    isLoaded: true,
                     property: {
-                      ...this.state.property,
+                      ...this.tthis.state.property,
                       images: files,
                     }
                   });
@@ -544,6 +543,11 @@ export default class PropertyEdit extends Component{
           // blob = xhr.response;//xhr.response is now a blob object
           // files.push({src: property.images_details[i].url, id: i,name: property.images_details[i].name, file: new File([property.images_details[i].url], property.images_details[i].name, {type: property.images_details[i].type})})
         }
+      }
+      else {
+        this.setState({
+          isLoaded: true
+        })
       }
     }
   }
@@ -4134,7 +4138,7 @@ export default class PropertyEdit extends Component{
                             <Link to="#" onClick={this.submitStepThree} className="red-btn step-btn mx-1">Continue</Link>
                           </div>
                         </div>
-                        <div className="steps-parts " id="step4">
+                        <div className="steps-parts d-none" id="step4">
                           {this.state.isLoaded === true ?
                             null
                           :
@@ -4179,7 +4183,7 @@ export default class PropertyEdit extends Component{
                                                             {...draggableProvided.draggableProps}
                                                             {...draggableProvided.dragHandleProps}
                                                           >
-                                                            <img src={file.src} className="img-thumbnail" alt={file.src} /><Link to="#" onClick = {(e) => {this.removeFile(file.id)}}  >x</Link>
+                                                            <img src={URL.createObjectURL(file.file)} className="img-thumbnail" alt={file.src} /><Link to="#" onClick = {(e) => {this.removeFile(file.id)}}  >x</Link>
                                                           </div>
                                                         )}
                                                       </Draggable>
