@@ -693,8 +693,9 @@ export default class PropertyDetails extends Component{
             message: result.message,
             variant: "success",
           })
-          this.updateCurrentState(result.property);
+          // this.updateCurrentState(result.property);
         }
+        this.showProperty();
 
       }
       else if (result.status === 400) {
@@ -719,6 +720,10 @@ export default class PropertyDetails extends Component{
       }, 2000);
 		}, (error) => {
 		});
+  }
+
+  showProperty = () => {
+    window.open("/property/"+ this.state.property.unique_address, '_self')
   }
 
   updateProperty = (event) => {

@@ -14,7 +14,7 @@ import { faExclamationTriangle, faTrash, faPlusCircle, faInfoCircle } from '@for
 import Select from 'react-select';
 
 const initial_state = {
-  isUpploading: false,
+  isUploading: false,
   checkBoxEnabled: false,
   isLoaded: false,
   is_admin: false,
@@ -541,7 +541,7 @@ export default class OnlineBiddingOptions extends Component{
 
   sendStepFourData = () => {
     this.setState({
-      isUpploading: true
+      isUploading: true
     })
     const fd = new FormData();
     fd.append('property[id]', this.state.property.id)
@@ -573,14 +573,17 @@ export default class OnlineBiddingOptions extends Component{
     .then((result) => {
       if (result.status === 200) {
         this.setState({
-          isUpploading: false,
+          isUploading: false,
+          isLoaded: true,
           message: result.message,
           variant: "success",
         })
-        this.updateCurrentState(result.property);
+        // this.updateCurrentState(result.property);
+        this.showProperty();
       }else if (result.status === 400) {
         this.setState({
-          isUpploading: false,
+          isUploading: false,
+          isLoaded: true,
           message: result.message,
           variant: "danger",
         })
@@ -599,6 +602,10 @@ export default class OnlineBiddingOptions extends Component{
       }, 2000);
 		}, (error) => {
 		});
+  }
+
+  showProperty = () => {
+    window.open("/property/"+ this.state.property.unique_address, '_self')
   }
 
   submitStepFour =() => {
@@ -1055,7 +1062,7 @@ export default class OnlineBiddingOptions extends Component{
                               </div>
                               <div className="col-md-6 px-1">
                                 <div className="custom-file files_box">
-                                  <input type="file" className="custom-file-input" name="images" onChange={this.imageSelectHandler} multiple={true} accept="image/*"/>
+                                  <input type="file" id="property-images"  className="custom-file-input" name="images" onChange={this.imageSelectHandler} multiple={true} accept="image/*"/>
                                   <label className="custom-file-label" htmlFor="customFile">Drag & Drop Images Here</label>
                                 </div>
                               </div>

@@ -549,6 +549,10 @@ export default class PropertyEdit extends Component{
           isLoaded: true
         })
       }
+    }else {
+      this.setState({
+        isLoaded: true
+      })
     }
   }
 

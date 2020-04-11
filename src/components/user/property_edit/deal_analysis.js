@@ -595,7 +595,8 @@ export default class DealAnalysis extends Component{
           message: result.message,
           variant: "success",
         })
-        this.updateCurrentState(result.property);
+        // this.updateCurrentState(result.property);
+        this.showProperty();
       }else if (result.status === 400) {
         this.setState({
           message: result.message,
@@ -618,6 +619,10 @@ export default class DealAnalysis extends Component{
       }, 2000);
 		}, (error) => {
 		});
+  }
+
+  showProperty = () => {
+    window.open("/property/"+ this.state.property.unique_address, '_self')
   }
 
 

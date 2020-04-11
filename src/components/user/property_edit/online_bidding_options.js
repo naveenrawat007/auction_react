@@ -507,7 +507,7 @@ export default class OnlineBiddingOptions extends Component{
             }
           });
           console.log(this.state.property);
-          
+
           this.updateCurrentState(result.property);
         }
         // this.setState({
@@ -667,7 +667,8 @@ export default class OnlineBiddingOptions extends Component{
           message: result.message,
           variant: "success",
         })
-        this.updateCurrentState(result.property)
+        this.showProperty();
+        // this.updateCurrentState(result.property)
       }else if (result.status === 400) {
         this.setState({
           message: result.message,
@@ -690,6 +691,10 @@ export default class OnlineBiddingOptions extends Component{
       }, 2000);
 		}, (error) => {
 		});
+  }
+
+  showProperty = () => {
+    window.open("/property/"+ this.state.property.unique_address, '_self')
   }
 
   updateMaskedPropertyAtrr = (event, maskedvalue, floatvalue) => {
