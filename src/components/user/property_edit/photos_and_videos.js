@@ -14,6 +14,7 @@ import { faExclamationTriangle, faTrash, faPlusCircle, faInfoCircle } from '@for
 import Select from 'react-select';
 
 const initial_state = {
+  isUploading: false,
   checkBoxEnabled: false,
   isLoaded: false,
   is_admin: false,
@@ -284,7 +285,6 @@ export default class OnlineBiddingOptions extends Component{
   updateCurrentState = (property) => {
     if (property.category === "Residential"){
       this.setState({
-        isLoaded: true,
         property: {
         ...this.state.property,
         bedrooms: property.residential_attributes.bedrooms,
@@ -297,7 +297,6 @@ export default class OnlineBiddingOptions extends Component{
       });
     }else if (property.category === "Commercial") {
       this.setState({
-        isLoaded: true,
         property: {
         ...this.state.property,
         area: property.commercial_attributes.area,
@@ -310,7 +309,6 @@ export default class OnlineBiddingOptions extends Component{
       })
     }else if (property.category === "Land") {
       this.setState({
-        isLoaded: true,
         property: {
         ...this.state.property,
         lot_size: property.land_attributes.lot_size,
@@ -436,6 +434,9 @@ export default class OnlineBiddingOptions extends Component{
         let files = [];
         for(let i = 0; i < property.images_details.length; i++){
           var xhr = new XMLHttpRequest();
+          xhr.images_length = property.images_details.length
+          xhr.timeout = 100000;
+          xhr.tthis = this
           xhr.responseType = "blob";//force the HTTP response, response-type header to be blob
           xhr.open("GET", property.images_details[i].url);
           xhr.onload = function () {
@@ -443,18 +444,35 @@ export default class OnlineBiddingOptions extends Component{
               var blob = null;
               blob = this.response
               files.push({src: property.images_details[i].url, id: i,name: property.images_details[i].name, file: blob})
+              files.sort((a, b) => (a.id > b.id) ? 1 : -1)
+              if (files.length === this.images_length){
+                let list = new DataTransfer();
+                for(let j = 0; j < files.length; j++){
+                  let file = new File([files[j].file], files[j].name);
+                  list.items.add(file);
+                }
+                if (list.files.length === this.images_length){
+                  document.getElementById('property-images').files = list.files;
+                  this.tthis.setState({
+                    isLoaded: true,
+                    property: {
+                      ...this.tthis.state.property,
+                      images: files,
+                    }
+                  });
+                }
+              }
             }
           }
           xhr.send();
           // blob = xhr.response;//xhr.response is now a blob object
           // files.push({src: property.images_details[i].url, id: i,name: property.images_details[i].name, file: new File([property.images_details[i].url], property.images_details[i].name, {type: property.images_details[i].type})})
         }
+      }
+      else {
         this.setState({
-          property: {
-            ...this.state.property,
-            images: files,
-          }
-        });
+          isLoaded: true
+        })
       }
     }
   }
@@ -522,17 +540,28 @@ export default class OnlineBiddingOptions extends Component{
   }
 
   sendStepFourData = () => {
+    this.setState({
+      isUploading: true
+    })
     const fd = new FormData();
     fd.append('property[id]', this.state.property.id)
     fd.append('property[youtube_url]', this.state.property.youtube_url)
     fd.append('property[youtube_video_key]', this.state.property.youtube_video_key)
     fd.append('property[vimeo_url]', this.state.property.vimeo_url)
     fd.append('property[dropbox_url]', this.state.property.dropbox_url)
-    for (let i = 0 ; i < this.state.property.images.length ; i++) {
-      fd.append('images[]', this.state.property.images[i].file, this.state.property.images[i].name)
+    if (this.state.property.images.length > 0){
+      for (let i = 0 ; i < this.state.property.images.length ; i++) {
+        fd.append('images[]', this.state.property.images[i].file, this.state.property.images[i].name)
+      }
+    }
+    else {
+      fd.append('images', "")
     }
     if (this.state.property.video){
       fd.append("video", this.state.property.video, this.state.property.video.name)
+    }
+    else {
+      fd.append("video", "")
     }
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties"
   	fetch(url ,{
@@ -552,12 +581,17 @@ export default class OnlineBiddingOptions extends Component{
     .then((result) => {
       if (result.status === 200) {
         this.setState({
+          isUploading: false,
+          isLoaded: true,
           message: result.message,
           variant: "success",
         })
-        this.updateCurrentState(result.property);
+        // this.updateCurrentState(result.property);
+        this.showProperty();
       }else if (result.status === 400) {
         this.setState({
+          isUploading: false,
+          isLoaded: true,
           message: result.message,
           variant: "danger",
         })
@@ -576,6 +610,10 @@ export default class OnlineBiddingOptions extends Component{
       }, 2000);
 		}, (error) => {
 		});
+  }
+
+  showProperty = () => {
+    window.open("/property/"+ this.state.property.unique_address, '_self')
   }
 
   submitStepFour =() => {
@@ -1009,6 +1047,16 @@ export default class OnlineBiddingOptions extends Component{
                             {/* <div className="spinner-grow" role="status">
                               <span className="sr-only">Loading...</span>
                             </div> */}
+                            <div className="uploader">Loading...</div>
+                          </div>
+                          }
+                          {this.state.isUploading === false ?
+                            null
+                          :
+                          <div className="spinner_main">
+                            {/* <div className="spinner-grow" role="status">
+                              <span className="sr-only">Loading...</span>
+                            </div> */}
                             <div className="uploader">Uploading...</div>
                           </div>
                           }
@@ -1022,7 +1070,7 @@ export default class OnlineBiddingOptions extends Component{
                               </div>
                               <div className="col-md-6 px-1">
                                 <div className="custom-file files_box">
-                                  <input type="file" className="custom-file-input" name="images" onChange={this.imageSelectHandler} multiple={true} accept="image/*"/>
+                                  <input type="file" id="property-images"  className="custom-file-input" name="images" onChange={this.imageSelectHandler} multiple={true} accept="image/*"/>
                                   <label className="custom-file-label" htmlFor="customFile">Drag & Drop Images Here</label>
                                 </div>
                               </div>

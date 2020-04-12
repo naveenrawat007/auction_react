@@ -359,7 +359,6 @@ export default class PropertyEdit extends Component{
   updateCurrentState = (property) => {
     if (property.category === "Residential"){
       this.setState({
-        isLoaded: true,
         property: {
         ...this.state.property,
         bedrooms: property.residential_attributes.bedrooms,
@@ -372,7 +371,6 @@ export default class PropertyEdit extends Component{
       });
     }else if (property.category === "Commercial") {
       this.setState({
-        isLoaded: true,
         property: {
         ...this.state.property,
         area: property.commercial_attributes.area,
@@ -385,7 +383,6 @@ export default class PropertyEdit extends Component{
       })
     }else if (property.category === "Land") {
       this.setState({
-        isLoaded: true,
         property: {
         ...this.state.property,
         lot_size: property.land_attributes.lot_size,
@@ -512,26 +509,50 @@ export default class PropertyEdit extends Component{
         let files = [];
         for(let i = 0; i < property.images_details.length; i++){
           var xhr = new XMLHttpRequest();
+          xhr.images_length = property.images_details.length
+          xhr.timeout = 100000;
+          xhr.tthis = this
           xhr.responseType = "blob";//force the HTTP response, response-type header to be blob
           xhr.open("GET", property.images_details[i].url);
           xhr.onload = function () {
-            if (this.status >= 200 && this.status < 300) {
+            if (this.statusText == "OK") {
               var blob = null;
               blob = this.response
               files.push({src: property.images_details[i].url, id: i,name: property.images_details[i].name, file: blob})
+              files.sort((a, b) => (a.id > b.id) ? 1 : -1)
+              if (files.length === this.images_length){
+                let list = new DataTransfer();
+                for(let j = 0; j < files.length; j++){
+                  let file = new File([files[j].file], files[j].name);
+                  list.items.add(file);
+                }
+                if (list.files.length === this.images_length){
+                  document.getElementById('property-images').files = list.files;
+                  this.tthis.setState({
+                    isLoaded: true,
+                    property: {
+                      ...this.tthis.state.property,
+                      images: files,
+                    }
+                  });
+                }
+              }
             }
           }
           xhr.send();
           // blob = xhr.response;//xhr.response is now a blob object
           // files.push({src: property.images_details[i].url, id: i,name: property.images_details[i].name, file: new File([property.images_details[i].url], property.images_details[i].name, {type: property.images_details[i].type})})
         }
-        this.setState({
-          property: {
-            ...this.state.property,
-            images: files,
-          }
-        });
       }
+      else {
+        this.setState({
+          isLoaded: true
+        })
+      }
+    }else {
+      this.setState({
+        isLoaded: true
+      })
     }
   }
 
@@ -4142,7 +4163,7 @@ export default class PropertyEdit extends Component{
                               </div>
                               <div className="col-md-6 px-1">
                                 <div className="custom-file files_box">
-                                  <input type="file" className="custom-file-input" name="images" onChange={this.imageSelectHandler} multiple={true} accept="image/*"/>
+                                  <input type="file" id="property-images" className="custom-file-input" name="images" onChange={this.imageSelectHandler} multiple={true} accept="image/*"/>
                                   <label className="custom-file-label" htmlFor="customFile">Drag & Drop Images Here</label>
                                 </div>
                               </div>
@@ -4166,7 +4187,7 @@ export default class PropertyEdit extends Component{
                                                             {...draggableProvided.draggableProps}
                                                             {...draggableProvided.dragHandleProps}
                                                           >
-                                                            <img src={file.src} className="img-thumbnail" alt={file.src} /><Link to="#" onClick = {(e) => {this.removeFile(file.id)}}  >x</Link>
+                                                            <img src={URL.createObjectURL(file.file)} className="img-thumbnail" alt={file.src} /><Link to="#" onClick = {(e) => {this.removeFile(file.id)}}  >x</Link>
                                                           </div>
                                                         )}
                                                       </Draggable>

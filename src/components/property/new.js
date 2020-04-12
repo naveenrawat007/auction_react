@@ -25,6 +25,7 @@ import Select from 'react-select';
 // }
 
 const initial_state = {
+  isLoaded: true,
   checkBoxEnabled: false,
   estimated_cost_modal: false,
   terms_agreed: false,
@@ -501,6 +502,9 @@ export default class NewProperty extends Component{
   }
 
   submitProperty = () => {
+    this.setState({
+      isLoaded: false
+    })
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/submit"
   	fetch(url ,{
 			method: "PUT",
@@ -848,6 +852,9 @@ export default class NewProperty extends Component{
   }
 
   setUpStepOne = () => {
+    this.setState({
+      isLoaded: false
+    })
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties/new"
   	fetch(url ,{
 			method: "GET",
@@ -867,6 +874,7 @@ export default class NewProperty extends Component{
       if (result.status === 200) {
         if (this._isMounted){
           this.setState({
+            isLoaded: true,
             property_options: {
               ...this.state.property_options,
               types: result.residential_types,
@@ -970,6 +978,9 @@ export default class NewProperty extends Component{
   }
 
   sendData = (draft="false") => {
+    this.setState({
+      isLoaded: false
+    })
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/register/properties"
     const fd = new FormData();
     fd.append('submit_type', this.state.submit_type)
@@ -1017,6 +1028,7 @@ export default class NewProperty extends Component{
           window.location.href = "/property/"+result.property.unique_address
         }
         this.setState({
+          isLoaded: true,
           message: "",
           property: {
             ...this.state.property,
@@ -2164,7 +2176,16 @@ export default class NewProperty extends Component{
                             <Link to="#" className="bs-wizard-dot"></Link>
                           </div>
                         </div>
-                        <div className="" id="step1" >
+                        <div className="steps-parts" id="step1" >
+                        {this.state.isLoaded === true ?
+                          null
+                        :
+                        <div className="spinner_main">
+                          <div className="spinner-grow" role="status">
+                            <span className="sr-only">Loading...</span>
+                          </div>
+                        </div>
+                        }
                           <div className="col-md-12 text-center pb-4">
                             <h4 className="step-name">Property Details</h4>
                           </div>
@@ -3724,7 +3745,7 @@ export default class NewProperty extends Component{
                                 <label>Amount Deposit in Closing</label>
                               </div>
                               <div className="col-md-6 px-1">
-                                <CurrencyInput prefix="$" type="text" onChangeEvent={this.updateMaskedPropertyAtrr} 
+                                <CurrencyInput prefix="$" type="text" onChangeEvent={this.updateMaskedPropertyAtrr}
                                   className={"form-control " + this.addErrorClass(this.state.property_closing_amount_error) } name="property_closing_amount"  value={this.state.property.property_closing_amount} />
                               </div>
                             </div>
@@ -3914,7 +3935,16 @@ export default class NewProperty extends Component{
                             <Link to="#" onClick={this.goToStepFive} className="red-btn step-btn mx-1">Continue</Link>
                           </div>
                         </div>
-                        <div className="d-none" id="step5">
+                        <div className="steps-parts d-none" id="step5">
+                        {this.state.isLoaded === true ?
+                          null
+                        :
+                        <div className="spinner_main">
+                          <div className="spinner-grow" role="status">
+                            <span className="sr-only">Loading...</span>
+                          </div>
+                        </div>
+                        }
                           {
                             this.state.message ? <Alert variant={this.state.variant}>{this.state.message}</Alert> : null
                           }
