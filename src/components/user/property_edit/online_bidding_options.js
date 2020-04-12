@@ -506,7 +506,6 @@ export default class OnlineBiddingOptions extends Component{
               owner_categories: result.owner_categories,
             }
           });
-          console.log(this.state.property);
 
           this.updateCurrentState(result.property);
         }

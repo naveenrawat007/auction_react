@@ -549,11 +549,19 @@ export default class OnlineBiddingOptions extends Component{
     fd.append('property[youtube_video_key]', this.state.property.youtube_video_key)
     fd.append('property[vimeo_url]', this.state.property.vimeo_url)
     fd.append('property[dropbox_url]', this.state.property.dropbox_url)
-    for (let i = 0 ; i < this.state.property.images.length ; i++) {
-      fd.append('images[]', this.state.property.images[i].file, this.state.property.images[i].name)
+    if (this.state.property.images.length > 0){
+      for (let i = 0 ; i < this.state.property.images.length ; i++) {
+        fd.append('images[]', this.state.property.images[i].file, this.state.property.images[i].name)
+      }
+    }
+    else {
+      fd.append('images', "")
     }
     if (this.state.property.video){
       fd.append("video", this.state.property.video, this.state.property.video.name)
+    }
+    else {
+      fd.append("video", "")
     }
     let url = process.env.REACT_APP_BACKEND_BASE_URL + "/properties"
   	fetch(url ,{

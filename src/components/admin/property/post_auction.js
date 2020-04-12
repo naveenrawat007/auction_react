@@ -160,7 +160,6 @@ export default class PostAuction extends Component{
 
   updateStatus = () => {
     if (this.state.selected_status === "Sold"){
-      console.log(this.state.sold_offer);
       if (this.state.sold_offer !== "" && this.state.sold_offer !== undefined){
         let offer = {}
         offer.id = this.state.sold_offer.split(",")[0]
