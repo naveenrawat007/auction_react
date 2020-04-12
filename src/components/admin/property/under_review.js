@@ -669,6 +669,9 @@ export default class UnderReview extends Component{
     else if (attr === "video_url") {
       return "Video"
     }
+    else if (attr === "property_closing_amount") {
+      return "Property Closing amount"
+    }
   }
 
   renderNestedChanges = (changes, attr) => {
@@ -1161,16 +1164,23 @@ export default class UnderReview extends Component{
                               <td>{this.state.changed_property.change_log.created_at}</td>
                               <td>{this.humanizeAttr(key)}</td>
                               <td>
-                                <Link to="#" onClick={() => {this.showImages(this.state.changed_property.images)}}>Old Images</Link>
+                                <Link to="#" onClick={() => {this.showImages(this.state.changed_property.images)}}>Old Images({this.state.changed_property.images.length})</Link>
                               </td>
                               <td>
-                                <Link to="#" onClick={() => {this.showImages(this.state.changed_property.change_log.details["images"])}}>New Images</Link>
+                                <Link to="#" onClick={() => {this.showImages(this.state.changed_property.change_log.images)}}>New Images{this.state.changed_property.change_log.images.length}</Link>
                               </td>
                               <td>
+                              {
+                                this.state.changed_property.change_log.details[key] ===  "updated" ?
                                 <span className="green-check">
-                                  <FontAwesomeIcon icon={faCheckCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, "images", this.state.changed_property.change_log.details["images"])}}/>
+                                  <FontAwesomeIcon icon={faCheckCircle} size="1x"/>
+                                </span>
+                                :
+                                <span className="red-check">
+                                  <FontAwesomeIcon icon={faTimesCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, "images", this.state.changed_property.change_log.details["images"])}}/>
 
                                 </span>
+                              }
                               </td>
                             </tr>
                           )
@@ -1184,13 +1194,20 @@ export default class UnderReview extends Component{
                                 <Link to="#" onClick={() => {this.showVideo(this.state.changed_property["video_url"])}}>Old Video</Link>
                               </td>
                               <td>
-                                <Link to="#" onClick={() => {this.showVideo(this.state.changed_property.change_log.details["video_url"])}}>New Video</Link>
+                                <Link to="#" onClick={() => {this.showVideo(this.state.changed_property.change_log["video_url"])}}>New Video</Link>
                               </td>
                               <td>
+                              {
+                                this.state.changed_property.change_log.details[key] === "updated" ?
                                 <span className="green-check">
-                                  <FontAwesomeIcon icon={faCheckCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, "video_url", this.state.changed_property.change_log.details["video_url"])}}/>
+                                  <FontAwesomeIcon icon={faCheckCircle} size="1x"/>
+                                </span>
+                                :
+                                <span className="red-check">
+                                  <FontAwesomeIcon icon={faTimesCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, "video_url", this.state.changed_property.change_log.details["video_url"])}}/>
 
                                 </span>
+                              }
                               </td>
                             </tr>
                           )
@@ -1203,10 +1220,16 @@ export default class UnderReview extends Component{
                               <td>{this.renderSellerPayOrShowInst(this.state.changed_property.change_log.details[key][0], key)}</td>
                               <td>{this.renderSellerPayOrShowInst(this.state.changed_property.change_log.details[key][1], key)}</td>
                               <td>
-                              <span className="green-check">
-                                <FontAwesomeIcon icon={faCheckCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, "images", this.state.changed_property.change_log.details["images"])}}/>
-                                approve
-                              </span>
+                              {
+                                this.state.changed_property[key] === this.state.changed_property.change_log.details[key][1] ?
+                                <span className="green-check">
+                                  <FontAwesomeIcon icon={faCheckCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key, this.state.changed_property.change_log.details[key][0])}}/>
+                                </span>
+                                :
+                                <span className="red-check">
+                                  <FontAwesomeIcon icon={faTimesCircle} size="1x" onClick={() => {this.sendChangeRequest(this.state.changed_property.id, key, this.state.changed_property.change_log.details[key][1])}}/>
+                                </span>
+                              }
                               </td>
                             </tr>
                           )
