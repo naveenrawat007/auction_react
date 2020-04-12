@@ -102,6 +102,7 @@ export default class PropertyOfferSubmit extends Component {
     this._isMounted = false;
     for (let i=0; i < this._timerArray.length; i++ ){
       clearInterval(this._timerArray[i]);
+      clearTimeout(this.clearMessageTimeout);
     }
   }
 
@@ -109,7 +110,7 @@ export default class PropertyOfferSubmit extends Component {
     this._isMounted = true;
     this.getProperty();
     window.scrollTo(0,0)
-    window.loadStripe()
+    window.loadStripe(process.env.REACT_APP_STRIPE_PK)
     // this.showCurrentSlide(1);
   }
 
@@ -493,19 +494,27 @@ export default class PropertyOfferSubmit extends Component {
           paymentProcess: true,
           card_token: response.id
         });
+        if (this.state.offer_type === "bid"){
+          this.submitBiddingOffer()
+        }else if (this.state.offer_type === "best_offer") {
+          this.submitBestOffer()
+        }else {
+          this.submitBuyNowOffer()
+        }
       } else {
         this.setState({
           message: response.error.message,
           paymentProcess: false,
           variant:"danger"
         });
-      }    
+        return false
+      }
+      this.clearMessageTimeout = setTimeout(() => {
+        this.setState(() => ({message: ""}))
+      }, 2000);
     });
-    this.clearMessageTimeout = setTimeout(() => {
-      this.setState(() => ({message: ""}))
-    }, 2000);
-    
-    return this.state.paymentProcess
+
+
   }
 
   addErrorClass = (msg) => {
@@ -658,15 +667,7 @@ export default class PropertyOfferSubmit extends Component {
   }
   submitOffer = () => {
     if (this.stepTwoValidation()){
-      if(this.createStripeToken()){
-        if (this.state.offer_type === "bid"){
-          this.submitBiddingOffer()
-        }else if (this.state.offer_type === "best_offer") {
-          this.submitBestOffer()
-        }else {
-          this.submitBuyNowOffer()
-        }
-      }
+      this.createStripeToken();
     }
   }
   checkNumeric = (e) => {
@@ -1057,7 +1058,7 @@ export default class PropertyOfferSubmit extends Component {
               best_offer_buy_now_price: result.property.best_offer_sellers_reserve_price,
             }
           });
-        
+
         }
         else if (result.status === 400 || result.status === 404 ) {
           this.setState({
@@ -1153,7 +1154,7 @@ export default class PropertyOfferSubmit extends Component {
             terms_agreed: false,
             property: result.property
           });
-        
+
         }
         else if (result.status === 400 || result.status === 404 ) {
           this.setState({
@@ -1548,14 +1549,14 @@ export default class PropertyOfferSubmit extends Component {
                           <div className="form-group row mx-0">
                             <label className="col-sm-2 col-form-label text-right">Card Number&nbsp;&nbsp;:</label>
                             <div className="col-sm-6">
-                              <input type="text" className={"form-control" + this.addErrorClass(this.state.cardnumber_error)} placeholder="card number" name="cardNumber" maxLength="18" onKeyPress={this.checkNumeric} onChange={this.updatePaymentFields} value={this.state.payment.cardNumber} />
+                              <input type="text" className={"form-control" + this.addErrorClass(this.state.cardnumber_error)} placeholder="card number" name="cardNumber" maxLength="16" onKeyPress={this.checkNumeric} onChange={this.updatePaymentFields} value={this.state.payment.cardNumber} />
                             </div>
                           </div>
                           <div className="form-group row mx-0">
                             <label className="col-sm-2 col-form-label text-right">Expiry Date&nbsp;&nbsp;:</label>
-                            <div className="col-sm-6">
-                              <input type="text" className={"form-control" + this.addErrorClass(this.state.expirymonth_error)} placeholder="MM"  maxLength="2" name="expiryMonth" onChange={this.updatePaymentFields} onKeyPress={this.checkNumeric} value={this.state.payment.expiryMonth}/>
-                              <input type="text" className={"form-control" + this.addErrorClass(this.state.expiryyear_error)} placeholder="YY"  maxLength="2" name="expiryYear" onChange={this.updatePaymentFields} onKeyPress={this.checkNumeric} value={this.state.payment.expiryYear}/>
+                            <div className="col-sm-6 d-flex">
+                              <input type="text" className={"form-control col-sm-2" + this.addErrorClass(this.state.expirymonth_error)} placeholder="MM"  maxLength="2" name="expiryMonth" onChange={this.updatePaymentFields} onKeyPress={this.checkNumeric} value={this.state.payment.expiryMonth}/>
+                              <input type="text" className={"form-control ml-1 col-sm-4" + this.addErrorClass(this.state.expiryyear_error)} placeholder="YY"  maxLength="2" name="expiryYear" onChange={this.updatePaymentFields} onKeyPress={this.checkNumeric} value={this.state.payment.expiryYear}/>
                             </div>
                           </div>
                           <div className="form-group row mx-0">

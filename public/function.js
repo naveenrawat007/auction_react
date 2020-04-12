@@ -62,15 +62,15 @@ function formatTime(time) {
   }
 }
 
-loadStripe = () => {
-     
+loadStripe = (key) => {
+
   if(!window.document.getElementById('stripe-script')) {
     var s = window.document.createElement("script");
     s.id = "stripe-script";
     s.type = "text/javascript";
     s.src = "https://js.stripe.com/v2/";
     s.onload = () => {
-      window['Stripe'].setPublishableKey('pk_test_4sZnz5s0YULtXM1QlM7PNMKB00I1O8AU0m');
+      window['Stripe'].setPublishableKey(key);
     }
     window.document.body.appendChild(s);
   }
