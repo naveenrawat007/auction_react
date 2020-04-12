@@ -1164,10 +1164,10 @@ export default class UnderReview extends Component{
                               <td>{this.state.changed_property.change_log.created_at}</td>
                               <td>{this.humanizeAttr(key)}</td>
                               <td>
-                                <Link to="#" onClick={() => {this.showImages(this.state.changed_property.images)}}>Old Images({this.state.changed_property.images.length})</Link>
+                                <Link to="#" onClick={() => {this.showImages(this.state.changed_property.images)}}>Old Images</Link>
                               </td>
                               <td>
-                                <Link to="#" onClick={() => {this.showImages(this.state.changed_property.change_log.images)}}>New Images{this.state.changed_property.change_log.images.length}</Link>
+                                <Link to="#" onClick={() => {this.showImages(this.state.changed_property.change_log.images)}}>New Images</Link>
                               </td>
                               <td>
                               {
