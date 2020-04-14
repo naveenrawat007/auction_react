@@ -490,6 +490,7 @@ export default class PropertyOfferSubmit extends Component {
       cvc: this.state.payment.cvv
     }, (status, response) => {
       if (status === 200) {
+        this.btn.setAttribute("disabled", "disabled");
         this.setState({
           paymentProcess: true,
           card_token: response.id
@@ -502,6 +503,7 @@ export default class PropertyOfferSubmit extends Component {
           this.submitBuyNowOffer()
         }
       } else {
+        this.btn.removeAttribute("disabled");
         this.setState({
           message: response.error.message,
           paymentProcess: false,
@@ -667,7 +669,9 @@ export default class PropertyOfferSubmit extends Component {
   }
   submitOffer = () => {
     if (this.stepTwoValidation()){
+      this.btn.setAttribute("disabled", "disabled");
       this.createStripeToken();
+    }else {
     }
   }
   checkNumeric = (e) => {
@@ -963,6 +967,7 @@ export default class PropertyOfferSubmit extends Component {
             open_bidding_modal: false,
             isLoaded: true,
           });
+          this.btn.removeAttribute("disabled");
         }
         else if (result.status === 401) {
           localStorage.removeItem("auction_user_token");
@@ -1068,6 +1073,7 @@ export default class PropertyOfferSubmit extends Component {
             isLoaded: true,
             variant: "danger",
           });
+          this.btn.removeAttribute("disabled");
         }
         else if (result.status === 401) {
           localStorage.removeItem("auction_user_token");
@@ -1164,6 +1170,7 @@ export default class PropertyOfferSubmit extends Component {
             isLoaded: true,
             variant: "danger",
           });
+          this.btn.removeAttribute("disabled");
         }
         else if (result.status === 401) {
           localStorage.removeItem("auction_user_token");
@@ -1605,7 +1612,7 @@ export default class PropertyOfferSubmit extends Component {
                           <div className="col-md-12 text-center">
                             {
                               this.isTermsAgreed() ?
-                              <button className="btn red-btn" type="submit" onClick={this.submitOffer}>Submit</button>
+                              <button className="btn red-btn" ref={btn => { this.btn = btn; }}  type="submit" onClick={this.submitOffer}>Submit</button>
                               :
                               <button className="btn red-btn" type="submit" disabled>Submit</button>
                             }
