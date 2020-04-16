@@ -29,14 +29,13 @@ export default class PropertyOfferSubmit extends Component {
       card_token: '',
       amount: '',
       submitted: false,
-      step: 1,
-      internet_fee: 0,
-      promo_code_applied: false,
+      step: 2,
       generated_promo_code: '',
-      enter_promo_code: '',
+      // enter_promo_code: '',
+      // has_promo_code: false,
+      // user_promo_code: '',
       promo_modal: false,
-      has_promo_code: false,
-      user_promo_code: '',
+      promo_code_applied: false,
       promo_code_availed: false,
       chat_room: '',
       terms_agreed: false,
@@ -176,8 +175,6 @@ export default class PropertyOfferSubmit extends Component {
             property: result.property,
             purchase_property_as_options: result.purchase_property_as_options,
             hold_bid_days_options: result.hold_bid_days_options,
-            user_promo_code: result.user.promo_code,
-            has_promo_code: result.user.has_promo_code,
             promo_code_availed: result.user.code_availed,
             bidding_options: {
               ...this.state.bidding_options,
@@ -652,17 +649,19 @@ export default class PropertyOfferSubmit extends Component {
     if (this.state.bidding_options.property_closing_date === ""){
       property_closing_date_error = "error"
     }
-    if (this.state.payment.cardNumber === ""){
-      cardnumber_error = "error"
-    }
-    if (this.state.payment.cvv === ""){
-      cvv_error = "error"
-    }
-    if (this.state.payment.expiryMonth === ""){
-      expirymonth_error = "error"
-    }
-    if (this.state.payment.expiryYear === ""){
-      expiryyear_error = "error"
+    if (this.state.promo_code_applied === false){
+      if (this.state.payment.cardNumber === ""){
+        cardnumber_error = "error"
+      }
+      if (this.state.payment.cvv === ""){
+        cvv_error = "error"
+      }
+      if (this.state.payment.expiryMonth === ""){
+        expirymonth_error = "error"
+      }
+      if (this.state.payment.expiryYear === ""){
+        expiryyear_error = "error"
+      }
     }
     this.setState({
       property_closing_date_error,
@@ -680,7 +679,17 @@ export default class PropertyOfferSubmit extends Component {
   submitOffer = () => {
     if (this.stepTwoValidation()){
       this.btn.setAttribute("disabled", "disabled");
-      this.createStripeToken();
+      if (this.state.promo_code_applied === true){
+        this.createStripeToken();
+      }else {
+        if (this.state.offer_type === "bid"){
+          this.submitBiddingOffer()
+        }else if (this.state.offer_type === "best_offer") {
+          this.submitBestOffer()
+        }else {
+          this.submitBuyNowOffer()
+        }
+      }
     }else {
     }
   }
@@ -868,42 +877,6 @@ export default class PropertyOfferSubmit extends Component {
         bidding_options: {
           ...this.state.bidding_options,
           total_due: (this.state.bidding_options.best_offer_buy_now_price + this.state.bidding_options.internet_transaction_fee)
-        }
-      })
-    }
-  }
-
-  updateTotalDueNew = () => {
-    if (this.state.offer_type === "bid"){
-      this.setState({
-        bidding_options: {
-          ...this.state.bidding_options,
-          total_due: (this.state.bidding_options.current_offer + this.state.internet_fee),
-          internet_transaction_fee: 0
-        }
-      })
-    }else if (this.state.offer_type === "best_offer") {
-      this.setState({
-        bidding_options: {
-          ...this.state.bidding_options,
-          total_due: (this.state.bidding_options.current_best_offer + this.state.internet_fee),
-          internet_transaction_fee: 0
-        }
-      })
-    }else if (this.state.offer_type === "buy_now") {
-      this.setState({
-        bidding_options: {
-          ...this.state.bidding_options,
-          total_due: (this.state.bidding_options.buy_now_price + this.state.internet_fee),
-          internet_transaction_fee: 0
-        }
-      })
-    }else if (this.state.offer_type === "best_buy_now") {
-      this.setState({
-        bidding_options: {
-          ...this.state.bidding_options,
-          total_due: (this.state.bidding_options.best_offer_buy_now_price + this.state.internet_fee),
-          internet_transaction_fee: 0
         }
       })
     }
@@ -1239,23 +1212,80 @@ export default class PropertyOfferSubmit extends Component {
       }
     )
   }
-  generateCode = () => {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < 7; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  alphaNumeric = (e) => {
+    var keyCode = e.keyCode || e.which;
+    //Regex for Valid Characters i.e. Alphabets and Numbers.
+    var regex = /^[A-Za-z0-9]+$/;
+    //Validate TextBox value against the Regex.
+    var isValid = regex.test(String.fromCharCode(keyCode));
+    if (!isValid) {
+      e.preventDefault();
+      return false;
     }
+  }
+  generateCode = () => {
     this.setState({
-      generated_promo_code: result,
-      promo_modal: true
+      isLoaded: false
     })
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/promo_codes"
+  	fetch(url ,{
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			}
+		}).then(res => res.json())
+    .then((result) => {
+      if (result.status === 200) {
+        this.setState({
+          generated_promo_code: result,
+          promo_modal: true,
+          isLoaded: true,
+          generated_promo_code: result.promo_code,
+        });
+      }else if (result.status === 401) {
+        localStorage.removeItem("auction_user_token");
+        window.location.href = "/login"
+      }else {
+        this.setState({
+          isLoaded: true,
+          message: result.message,
+          variant: 'danger',
+        });
+      }
+      this.clearMessageTimeout = setTimeout(() => {
+        if (this._isMounted){
+          this.setState(() => ({message: ""}))
+        }
+      }, 2000);
+		}, (error) => {
+		});
+    // var result = '';
+    // var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    // var charactersLength = characters.length;
+    // for ( var i = 0; i < 7; i++ ) {
+    //   result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    // }
+    // this.setState({
+    //   generated_promo_code: result,
+    //   promo_modal: true
+    // })
   }
 
   updateCode = (event) => {
     const {name, value} = event.target;
     this.setState({
-      enter_promo_code: value
+      bidding_options: {
+        ...this.state.bidding_options,
+        [name]: value,
+      }
     })
   }
 
@@ -1274,20 +1304,36 @@ export default class PropertyOfferSubmit extends Component {
 				"Access-Control-Allow-Methods": "*",
 				"Access-Control-Allow-Headers": "*",
 			},
-			body: JSON.stringify({promo_code: {promo_code: this.state.enter_promo_code}}),
+			body: JSON.stringify({promo_code: this.state.bidding_options.promo_code}),
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 200) {
         this.setState({
+          isLoaded: true,
           promo_code_applied: true,
           message: result.message,
-          variant: 'success'
+          variant: 'success',
+          bidding_options: {
+            ...this.state.bidding_options,
+            internet_transaction_fee: 0
+          }
         })
-        this.updateTotalDueNew();
+        this.updateTotalDue();
       }else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
       }else {
+        this.setState({
+          isLoaded: true,
+          promo_code_applied: false,
+          message: result.message,
+          variant: 'danger',
+          bidding_options: {
+            ...this.state.bidding_options,
+            internet_transaction_fee: 97
+          }
+        })
+        this.updateTotalDue();
       }
       this.clearMessageTimeout = setTimeout(() => {
         if (this._isMounted){
@@ -1635,14 +1681,14 @@ export default class PropertyOfferSubmit extends Component {
                             </div>
                             <div className="col-sm-4 d-flex align-items-end justify-content-start promo_code_box">
                               <div className="promo_code">
-                                {this.state.has_promo_code ?
-                                  <a href="javascript:void(0)">Redeem Promo Code></a>
+                                {this.state.code_availed ?
+                                  <Link to="#">Redeem Promo Code></Link>
                                   :
-                                  <a href="#" onClick={this.generateCode}>Redeem Promo Code></a>
+                                  <Link to="#" onClick={this.generateCode}>Redeem Promo Code></Link>
                                 }
-                                <input type="text" className="form-control" name="promo_code" value={this.state.enter_promo_code} onChange={this.updateCode}/>
+                                <input type="text" className="form-control" maxLength={7} name="promo_code" value={this.state.bidding_options.promo_code} onChange={this.updateCode} onKeyPress = {this.alphaNumeric}/>
                               </div>
-                              { this.state.enter_promo_code ?
+                              { (this.state.bidding_options.promo_code.length == 7) ?
                                 <button className="btn red-btn promo_btn" onClick={this.applyCode}>Apply</button>
                                 :
                                 <button className="btn red-btn promo_btn" disabled>Apply</button>
@@ -1753,13 +1799,12 @@ export default class PropertyOfferSubmit extends Component {
                         <Modal.Title>REEDEM PROMO CODE</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                        <input type="text" className="form-control" ref={code => {this.code = code}} value={this.state.generated_promo_code} />
+                        <input type="text" readOnly className="form-control" ref={code => {this.code = code}} value={this.state.generated_promo_code} />
                         <div className="col-md-12 text-center">
                           <button className="btn red-btn my-3" onClick={this.copyPromo}>Copy</button>
                         </div>
                       </Modal.Body>
                     </Modal>
-
                   </div>
                 </>
               }
