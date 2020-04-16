@@ -1633,28 +1633,27 @@ export default class PropertyOfferSubmit extends Component {
                             <div className="col-sm-3 text-right font-weight-bold">
                               <p className="values_input">{window.format_currency(this.state.bidding_options.internet_transaction_fee)}</p>
                             </div>
+                            <div className="col-sm-4 d-flex align-items-end justify-content-start promo_code_box">
+                              <div className="promo_code">
+                                {this.state.has_promo_code ?
+                                  <a href="javascript:void(0)">Redeem Promo Code></a>
+                                  :
+                                  <a href="#" onClick={this.generateCode}>Redeem Promo Code></a>
+                                }
+                                <input type="text" className="form-control" name="promo_code" value={this.state.enter_promo_code} onChange={this.updateCode}/>
+                              </div>
+                              { this.state.enter_promo_code ?
+                                <button className="btn red-btn promo_btn" onClick={this.applyCode}>Apply</button>
+                                :
+                                <button className="btn red-btn promo_btn" disabled>Apply</button>
+                              }
+                            </div>
                           </div>
                           <div className="form-group row mx-0 align-items-center">
                             <label className="col-sm-3 col-form-label text-right">Total Due&nbsp;&nbsp;:</label>
                             <div className="col-sm-3 text-center font-weight-bold">
                               <p className="values_input values_input_border">{window.format_currency(this.state.bidding_options.total_due)}</p>
                             </div>
-                          </div>
-                          <div className="form-group row mx-0">
-                            <label className="col-sm-3 col-form-label text-right">Enter Promo Code&nbsp;&nbsp;:</label>
-                            <div className="col-sm-3">
-                              <input type="text" className="form-control" name="promo_code" value={this.state.enter_promo_code} onChange={this.updateCode}/>
-                            </div>
-                            {this.state.has_promo_code ?
-                              <a href="javascript:void(0)">Redeem Promo Code></a>
-                              :
-                              <a href="#" onClick={this.generateCode}>Redeem Promo Code></a>
-                            }
-                            { this.state.enter_promo_code ?
-                              <button className="btn red-btn" onClick={this.applyCode}>Apply</button>
-                              :
-                              <button className="btn red-btn" disabled>Apply</button>
-                            }
                           </div>
                           <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-start">
                             <FontAwesomeIcon icon={faExclamationCircle}/>
@@ -1748,15 +1747,17 @@ export default class PropertyOfferSubmit extends Component {
                         </div>
                       </div>
                     </div>
-                    
-                    <Modal show={this.state.promo_modal} onHide={this.hidePromo}>
-                      <Modal.Header closeButton>
+
+                    <Modal className="promo_copy" show={this.state.promo_modal} onHide={this.hidePromo}>
+                      <Modal.Header className="justify-content-center border-0">
                         <Modal.Title>REEDEM PROMO CODE</Modal.Title>
                       </Modal.Header>
-                          <Modal.Body>
-                          <input type="text" className="form-control" ref={code => {this.code = code}} value={this.state.generated_promo_code} />
-                          </Modal.Body>
-                          <button className="btn red-btn" onClick={this.copyPromo}>Copy</button>
+                      <Modal.Body>
+                        <input type="text" className="form-control" ref={code => {this.code = code}} value={this.state.generated_promo_code} />
+                        <div className="col-md-12 text-center">
+                          <button className="btn red-btn my-3" onClick={this.copyPromo}>Copy</button>
+                        </div>
+                      </Modal.Body>
                     </Modal>
 
                   </div>

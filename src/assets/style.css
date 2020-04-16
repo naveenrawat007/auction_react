@@ -5802,3 +5802,33 @@ a.chat_attachment {
   color:#ccc;
   font-weight: 500;
 }
+.promo_code a{
+  font-size: 12px;
+  color: #f2a805;
+  font-weight: 500;
+  text-decoration: underline;
+}
+.promo_code_box .promo_code{
+  width: 50%;
+}
+.promo_code_box .promo_btn{
+  margin-left: 15px;
+  margin-bottom: 2px;
+}
+.promo_copy .modal-dialog{
+  max-width: 430px;
+}
+.promo_copy .modal-title{
+  color: #f2a805;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.promo_copy input.form-control{
+  border: 2px dashed #000;
+  width: 60%;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #f2a805;
+}
