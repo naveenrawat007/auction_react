@@ -30,8 +30,10 @@ export default class PropertyOfferSubmit extends Component {
       amount: '',
       submitted: false,
       step: 1,
+      internet_fee: 0,
       promo_code_applied: false,
-      promo_code: '',
+      generated_promo_code: '',
+      enter_promo_code: '',
       promo_modal: false,
       has_promo_code: false,
       user_promo_code: '',
@@ -871,6 +873,42 @@ export default class PropertyOfferSubmit extends Component {
     }
   }
 
+  updateTotalDueNew = () => {
+    if (this.state.offer_type === "bid"){
+      this.setState({
+        bidding_options: {
+          ...this.state.bidding_options,
+          total_due: (this.state.bidding_options.current_offer + this.state.internet_fee),
+          internet_transaction_fee: 0
+        }
+      })
+    }else if (this.state.offer_type === "best_offer") {
+      this.setState({
+        bidding_options: {
+          ...this.state.bidding_options,
+          total_due: (this.state.bidding_options.current_best_offer + this.state.internet_fee),
+          internet_transaction_fee: 0
+        }
+      })
+    }else if (this.state.offer_type === "buy_now") {
+      this.setState({
+        bidding_options: {
+          ...this.state.bidding_options,
+          total_due: (this.state.bidding_options.buy_now_price + this.state.internet_fee),
+          internet_transaction_fee: 0
+        }
+      })
+    }else if (this.state.offer_type === "best_buy_now") {
+      this.setState({
+        bidding_options: {
+          ...this.state.bidding_options,
+          total_due: (this.state.bidding_options.best_offer_buy_now_price + this.state.internet_fee),
+          internet_transaction_fee: 0
+        }
+      })
+    }
+  }
+
   isTermsAgreed = () => {
     if (this.state.terms_agreed1 && this.state.terms_agreed2 && this.state.terms_agreed3 && this.state.terms_agreed4 && this.state.terms_agreed5 && this.state.terms_agreed6 && this.state.terms_agreed7 && this.state.terms_agreed8){
       return true;
@@ -1209,13 +1247,20 @@ export default class PropertyOfferSubmit extends Component {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     this.setState({
-      promo_code: result,
+      generated_promo_code: result,
       promo_modal: true
     })
   }
 
-  verifyCode = () => {
-    let url = process.env.REACT_APP_BACKEND_BASE_URL + "promo_codes/apply"
+  updateCode = (event) => {
+    const {name, value} = event.target;
+    this.setState({
+      enter_promo_code: value
+    })
+  }
+
+  applyCode = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "/promo_codes/apply"
   	fetch(url ,{
 			method: "POST",
 			headers: {
@@ -1229,11 +1274,16 @@ export default class PropertyOfferSubmit extends Component {
 				"Access-Control-Allow-Methods": "*",
 				"Access-Control-Allow-Headers": "*",
 			},
-			body: JSON.stringify({promo_code: {promo_code: this.state.promo_code}}),
+			body: JSON.stringify({promo_code: {promo_code: this.state.enter_promo_code}}),
 		}).then(res => res.json())
     .then((result) => {
       if (result.status === 200) {
-        
+        this.setState({
+          promo_code_applied: true,
+          message: result.message,
+          variant: 'success'
+        })
+        this.updateTotalDueNew();
       }else if (result.status === 401) {
         localStorage.removeItem("auction_user_token");
         window.location.href = "/login"
@@ -1593,14 +1643,18 @@ export default class PropertyOfferSubmit extends Component {
                           <div className="form-group row mx-0">
                             <label className="col-sm-3 col-form-label text-right">Enter Promo Code&nbsp;&nbsp;:</label>
                             <div className="col-sm-3">
-                              <input type="text" className="form-control"/>
+                              <input type="text" className="form-control" name="promo_code" value={this.state.enter_promo_code} onChange={this.updateCode}/>
                             </div>
                             {this.state.has_promo_code ?
                               <a href="javascript:void(0)">Redeem Promo Code></a>
                               :
                               <a href="#" onClick={this.generateCode}>Redeem Promo Code></a>
                             }
-                            <button className="btn red-btn" onClick={this.verifyCode}>Apply</button>
+                            { this.state.enter_promo_code ?
+                              <button className="btn red-btn" onClick={this.applyCode}>Apply</button>
+                              :
+                              <button className="btn red-btn" disabled>Apply</button>
+                            }
                           </div>
                           <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-start">
                             <FontAwesomeIcon icon={faExclamationCircle}/>
@@ -1700,7 +1754,7 @@ export default class PropertyOfferSubmit extends Component {
                         <Modal.Title>REEDEM PROMO CODE</Modal.Title>
                       </Modal.Header>
                           <Modal.Body>
-                          <input type="text" className="form-control" ref={code => {this.code = code}} value={this.state.promo_code} />
+                          <input type="text" className="form-control" ref={code => {this.code = code}} value={this.state.generated_promo_code} />
                           </Modal.Body>
                           <button className="btn red-btn" onClick={this.copyPromo}>Copy</button>
                     </Modal>
