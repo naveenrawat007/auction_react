@@ -29,7 +29,7 @@ export default class PropertyOfferSubmit extends Component {
       card_token: '',
       amount: '',
       submitted: false,
-      step: 2,
+      step: 1,
       generated_promo_code: '',
       // enter_promo_code: '',
       // has_promo_code: false,
@@ -1723,32 +1723,40 @@ export default class PropertyOfferSubmit extends Component {
                               </select>
                             </div>
                           </div>
-                          <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
-                            <h4>Payment Information</h4>
-                          </div>
-                          <div className="form-group row mx-0">
-                            <label className="col-sm-2 col-form-label text-right">Card Number&nbsp;&nbsp;:</label>
-                            <div className="col-sm-6">
-                              <input type="text" className={"form-control" + this.addErrorClass(this.state.cardnumber_error)} placeholder="card number" name="cardNumber" maxLength="16" onKeyPress={this.checkNumeric} onChange={this.updatePaymentFields} value={this.state.payment.cardNumber} />
+                          {
+                            this.state.promo_code_applied ?
+                            null
+                            :
+                            <>
+                            <div className="register_bid_title mb-2 col-md-8 d-flex align-items-center justify-content-between">
+                              <h4>Payment Information</h4>
                             </div>
-                          </div>
-                          <div className="form-group row mx-0">
-                            <label className="col-sm-2 col-form-label text-right">Expiry Date&nbsp;&nbsp;:</label>
-                            <div className="col-sm-6 d-flex">
-                              <input type="text" className={"form-control col-sm-2" + this.addErrorClass(this.state.expirymonth_error)} placeholder="MM"  maxLength="2" name="expiryMonth" onChange={this.updatePaymentFields} onKeyPress={this.checkNumeric} value={this.state.payment.expiryMonth}/>
-                              <input type="text" className={"form-control ml-1 col-sm-4" + this.addErrorClass(this.state.expiryyear_error)} placeholder="YY"  maxLength="2" name="expiryYear" onChange={this.updatePaymentFields} onKeyPress={this.checkNumeric} value={this.state.payment.expiryYear}/>
+                            <div className="form-group row mx-0">
+                              <label className="col-sm-2 col-form-label text-right">Card Number&nbsp;&nbsp;:</label>
+                              <div className="col-sm-6">
+                                <input type="text" className={"form-control" + this.addErrorClass(this.state.cardnumber_error)} placeholder="card number" name="cardNumber" maxLength="16" onKeyPress={this.checkNumeric} onChange={this.updatePaymentFields} value={this.state.payment.cardNumber} />
+                              </div>
                             </div>
-                          </div>
-                          <div className="form-group row mx-0">
-                            <label className="col-sm-2 col-form-label text-right">CVV&nbsp;&nbsp;:</label>
-                            <div className="col-sm-6">
-                              <input type="password" className={"form-control" + this.addErrorClass(this.state.cvv_error)} placeholder="cvv" name="cvv" maxLength="4" onKeyPress={this.checkNumeric} onChange={this.updatePaymentFields} value={this.state.payment.cvv}/>
+                            <div className="form-group row mx-0">
+                              <label className="col-sm-2 col-form-label text-right">Expiry Date&nbsp;&nbsp;:</label>
+                              <div className="col-sm-6 d-flex">
+                                <input type="text" className={"form-control col-sm-2" + this.addErrorClass(this.state.expirymonth_error)} placeholder="MM"  maxLength="2" name="expiryMonth" onChange={this.updatePaymentFields} onKeyPress={this.checkNumeric} value={this.state.payment.expiryMonth}/>
+                                <input type="text" className={"form-control ml-1 col-sm-4" + this.addErrorClass(this.state.expiryyear_error)} placeholder="YY"  maxLength="2" name="expiryYear" onChange={this.updatePaymentFields} onKeyPress={this.checkNumeric} value={this.state.payment.expiryYear}/>
+                              </div>
                             </div>
-                          </div>
-                          <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-start">
-                            <FontAwesomeIcon icon={faExclamationCircle}/>
-                            <p><b>$97 Bid Deposit</b>(a hold on your credit card) will be assessed once you submit an offer or bid to the site.</p>
-                          </div>
+                            <div className="form-group row mx-0">
+                              <label className="col-sm-2 col-form-label text-right">CVV&nbsp;&nbsp;:</label>
+                              <div className="col-sm-6">
+                                <input type="password" className={"form-control" + this.addErrorClass(this.state.cvv_error)} placeholder="cvv" name="cvv" maxLength="4" onKeyPress={this.checkNumeric} onChange={this.updatePaymentFields} value={this.state.payment.cvv}/>
+                              </div>
+                            </div>
+                            <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-start">
+                              <FontAwesomeIcon icon={faExclamationCircle}/>
+                              <p><b>$97 Bid Deposit</b>(a hold on your credit card) will be assessed once you submit an offer or bid to the site.</p>
+                            </div>
+                            </>
+                          }
+
                           <p className="seller_request">Check the boxes to confirm the following:</p>
                           <div className="form-group form-check">
                             <input type="checkbox" name="terms_agreed1" onChange={this.updateTermsAgreed} className="form-check-input" id="exampleCheck11" />
