@@ -30,7 +30,13 @@ export default class PropertyOfferSubmit extends Component {
       amount: '',
       submitted: false,
       step: 1,
-      chat_room: "",
+      promo_code_applied: false,
+      promo_code: '',
+      promo_modal: false,
+      has_promo_code: false,
+      user_promo_code: '',
+      promo_code_availed: false,
+      chat_room: '',
       terms_agreed: false,
       terms_agreed1: false,
       terms_agreed2: false,
@@ -168,6 +174,9 @@ export default class PropertyOfferSubmit extends Component {
             property: result.property,
             purchase_property_as_options: result.purchase_property_as_options,
             hold_bid_days_options: result.hold_bid_days_options,
+            user_promo_code: result.user.promo_code,
+            has_promo_code: result.user.has_promo_code,
+            promo_code_availed: result.user.code_availed,
             bidding_options: {
               ...this.state.bidding_options,
               user_first_name: result.user.first_name,
@@ -186,7 +195,6 @@ export default class PropertyOfferSubmit extends Component {
           }, function () {
             this.updateTotalDue();
           });
-          // console.log(result.property);
         }else if (result.status === 401) {
           localStorage.removeItem("auction_user_token");
           window.location.href = "/login"
@@ -1193,6 +1201,66 @@ export default class PropertyOfferSubmit extends Component {
       }
     )
   }
+  generateCode = () => {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < 7; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    this.setState({
+      promo_code: result,
+      promo_modal: true
+    })
+  }
+
+  verifyCode = () => {
+    let url = process.env.REACT_APP_BACKEND_BASE_URL + "promo_codes/apply"
+  	fetch(url ,{
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+        "Authorization": localStorage.getItem("auction_user_token"),
+        "Accept": "application/vnd.auction_backend.v1",
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Credentials": "*",
+				"Access-Control-Expose-Headers": "*",
+				"Access-Control-Max-Age": "*",
+				"Access-Control-Allow-Methods": "*",
+				"Access-Control-Allow-Headers": "*",
+			},
+			body: JSON.stringify({promo_code: {promo_code: this.state.promo_code}}),
+		}).then(res => res.json())
+    .then((result) => {
+      if (result.status === 200) {
+        
+      }else if (result.status === 401) {
+        localStorage.removeItem("auction_user_token");
+        window.location.href = "/login"
+      }else {
+      }
+      this.clearMessageTimeout = setTimeout(() => {
+        if (this._isMounted){
+          this.setState(() => ({message: ""}))
+        }
+      }, 2000);
+		}, (error) => {
+		});
+  }
+
+  copyPromo = () => {
+    this.code.select();
+    document.execCommand('copy');
+    this.setState({
+      promo_modal: false
+    })
+  }
+
+  hidePromo = () => {
+    this.setState({
+      promo_modal: false
+    })
+  }
 
   render(){
     const purchase_property_as_options = this.state.purchase_property_as_options.map((value, index) => {
@@ -1527,6 +1595,12 @@ export default class PropertyOfferSubmit extends Component {
                             <div className="col-sm-3">
                               <input type="text" className="form-control"/>
                             </div>
+                            {this.state.has_promo_code ?
+                              <a href="javascript:void(0)">Redeem Promo Code></a>
+                              :
+                              <a href="#" onClick={this.generateCode}>Redeem Promo Code></a>
+                            }
+                            <button className="btn red-btn" onClick={this.verifyCode}>Apply</button>
                           </div>
                           <div className="col-md-8 warning_alert p-2 d-flex align-items-center justify-content-start">
                             <FontAwesomeIcon icon={faExclamationCircle}/>
@@ -1620,6 +1694,17 @@ export default class PropertyOfferSubmit extends Component {
                         </div>
                       </div>
                     </div>
+                    
+                    <Modal show={this.state.promo_modal} onHide={this.hidePromo}>
+                      <Modal.Header closeButton>
+                        <Modal.Title>REEDEM PROMO CODE</Modal.Title>
+                      </Modal.Header>
+                          <Modal.Body>
+                          <input type="text" className="form-control" ref={code => {this.code = code}} value={this.state.promo_code} />
+                          </Modal.Body>
+                          <button className="btn red-btn" onClick={this.copyPromo}>Copy</button>
+                    </Modal>
+
                   </div>
                 </>
               }
