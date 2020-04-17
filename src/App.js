@@ -96,6 +96,9 @@ function App() {
           <Route exact path="/property/:id/submit/:offer_type" component={PropertyOfferSubmit}/>
           <Route exact path="/property/:id/offer/:offer_type/:offer_id" component={OfferDetail}/>
           <Route exact path="/admin" component={() => <AdminSidebar path='all_users_list'/>}/>
+          <Route exact path="/admin/promo_code" component={() => <AdminSidebar path='promo_code'/>}/>
+          <Route exact path="/admin/availed_promo_code" component={() => <AdminSidebar path='availed_promo_code'/>}/>
+          <Route exact path="/admin/unavailed_promo_code" component={() => <AdminSidebar path='unavailed_promo_code'/>}/>
           <Route exact path="/admin/chat" component={() => <AdminSidebar path='admin_chat'/>}/>
           <Route exact path="/admin/free_user" component={() => <AdminSidebar path='free_users_list'/>}/>
           <Route exact path="/admin/premium_user" component={() => <AdminSidebar path='premium_users_list'/>}/>
@@ -121,6 +124,7 @@ function App() {
           <Route exact path="/template-one" component={PropertyShowOne} />
           <Route exact path="/template-two" component={PropertyShowTwo} />
           <Route exact path="/template-three" component={PropertyShowThree} />
+          
         </Switch>
         <Route path='/' component = {Footer}/>
       </BrowserRouter>

@@ -11,6 +11,7 @@ import NotificationConnection from './notification_connection.js';
 import EmailSystem from './email_system/index.js';
 import TextSystem from './text_system/index.js';
 import SubscriberList from './subscriber/index.js';
+import PromoCodeList from './promo_code/index.js';
 
 
 export default class AdminSidebar extends Component{
@@ -124,6 +125,12 @@ export default class AdminSidebar extends Component{
         return <EmailSystem/>;
       case 'text_system':
         return <TextSystem/>;
+      case 'promo_code':
+        return <PromoCodeList path="promo_code"/>;
+      case 'availed_promo_code':
+        return <PromoCodeList path="availed_promo_code"/>;
+      case 'unavailed_promo_code':
+        return <PromoCodeList path="unavailed_promo_code"/>;
       default:
     }
   }
@@ -273,6 +280,12 @@ export default class AdminSidebar extends Component{
                 <li className="nav-item">
                   <Link to="/admin" className={this.checkActive("users_list")}>
                     <span>User List</span>
+                    <FontAwesomeIcon icon={faChevronRight} />
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/admin/promo_code" className={this.checkActive("promo_code")}>
+                    <span>Promo Codes</span>
                     <FontAwesomeIcon icon={faChevronRight} />
                   </Link>
                 </li>
