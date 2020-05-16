@@ -16,6 +16,7 @@ export default class AllCodeList extends Component{
       error: "",
       message: "",
       selected_promo_code: "",
+      selected_promo_code_value: '',
       generated_promo_code: '',
       isLoaded: false,
       promo_codes: [],
@@ -126,9 +127,14 @@ export default class AllCodeList extends Component{
   }
   updateSelectedPromo = (event) => {
     const{ name, value } = event.target;
+    console.log(value);
     this.setState({
       [name]: value
     }, function () {
+      this.setState({
+        selected_promo_code_value: this.state.promo_codes[this.state.selected_promo_code].promo_code,
+        generated_promo_code: ''
+      })
     });
   }
   generateCode = () => {
@@ -180,13 +186,19 @@ export default class AllCodeList extends Component{
     this.code.select();
     document.execCommand('copy');
     this.setState({
-      promo_modal: false
+      promo_modal: false,
+      generated_promo_code: ''
     })
   }
-
+  showPromo = () => {
+    this.setState({
+      promo_modal: true
+    })
+  }
   hidePromo = () => {
     this.setState({
-      promo_modal: false
+      promo_modal: false,
+      generated_promo_code: ''
     })
   }
 
@@ -229,7 +241,7 @@ export default class AllCodeList extends Component{
                       </div>
                     </div>
                     <div className="col-md-5 offset-md-2 px-0 text-right">
-                      <button className="btn red-btn admin-btns" type="button" >View</button>
+                      <button className="btn red-btn admin-btns" type="button" onClick={this.showPromo}>View</button>
                       &nbsp;
                       <button className="btn red-btn admin-btns" type="button" onClick={this.generateCode}>Generate Promo Code</button>
                     </div>
@@ -272,7 +284,13 @@ export default class AllCodeList extends Component{
                   <Modal.Title>REEDEM PROMO CODE</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  <input type="text" readOnly className="form-control" ref={code => {this.code = code}} value={this.state.generated_promo_code} />
+                  {
+                    this.state.generated_promo_code != '' ?
+                    <input type="text" readOnly className="form-control" ref={code => {this.code = code}} value={this.state.generated_promo_code} />
+                    :
+                    <input type="text" readOnly className="form-control" ref={code => {this.code = code}} value={this.state.selected_promo_code_value} />
+                  }
+                  
                   <div className="col-md-12 text-center">
                     <button className="btn red-btn my-3" onClick={this.copyPromo}>Copy</button>
                   </div>
